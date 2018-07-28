@@ -30,27 +30,41 @@ class App extends Component {
     console.log(`Render, position: ${position}, locations: [${locations}]`);
 
     return (
-      <Map
-        center={position}
-        zoom={zoom}
-        onClick={this.handleClick}
-        style={{ width: '100vw', height: '100vh' }}
-      >
-        <TileLayer
-          attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {
-          locations.map((location, index) => (
-            <Marker
-              key={location.toString()}
-              position={location}
-            >
-              <Popup>{`${index}: ${location.toString()}`}</Popup>
-            </Marker>
-          ))
-        }
-      </Map>
+      <div>
+        <div className={'leaflet-top leaflet-right leaflet-touch '}>
+          <div
+            className={'leaflet-control leaflet-bar'}
+            style={{ backgroundColor: 'white' }}
+          >
+            {
+              locations.map((location, index) => (
+                <div key={location.toString()}>{`Location ${index}: ${location}`}</div>
+              ))
+            }
+          </div>
+        </div>
+        <Map
+          center={position}
+          zoom={zoom}
+          onClick={this.handleClick}
+          style={{ width: '100vw', height: '100vh' }}
+        >
+          <TileLayer
+            attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {
+            locations.map((location, index) => (
+              <Marker
+                key={location.toString()}
+                position={location}
+              >
+                <Popup>{`${index}: ${location.toString()}`}</Popup>
+              </Marker>
+            ))
+          }
+        </Map>
+      </div>
     );
   }
 }
