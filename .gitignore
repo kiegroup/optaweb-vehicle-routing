@@ -7,6 +7,7 @@
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+.idea/codeStyles
 
 # Sensitive or high-churn files
 .idea/**/dataSources/
