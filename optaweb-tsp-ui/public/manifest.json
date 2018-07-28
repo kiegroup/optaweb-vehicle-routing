@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "OptaWeb TSP",
+  "name": "OptaWeb Traveling Salesman",
   "icons": [
     {
       "src": "favicon.ico",
