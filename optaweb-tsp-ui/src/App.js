@@ -1,33 +1,55 @@
-import 'leaflet/dist/leaflet.css';
 import React, { Component } from 'react';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import './App.css';
 
 class App extends Component {
-
   constructor() {
     super();
 
     this.state = {
-      lat: 51.505,
-      lng: -0.09,
+      position: {
+        lat: 51.505,
+        lng: -0.09,
+      },
       zoom: 13,
+      locations: [],
     };
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick(e) {
+    console.log(e.latlng);
+    this.setState({
+      locations: [...this.state.locations, e.latlng],
+    });
+    console.log(`Locations: ${this.state.locations}`);
   }
 
   render() {
-    const position = [this.state.lat, this.state.lng];
+    const { position, zoom, locations } = this.state;
+    console.log(`Render, position: ${position}, locations: [${locations}]`);
+
     return (
-      <Map center={position} zoom={this.state.zoom}>
+      <Map
+        center={position}
+        zoom={zoom}
+        onClick={this.handleClick}
+        style={{ width: '100vw', height: '100vh' }}
+      >
         <TileLayer
           attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={position}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
-        </Marker>
+        {
+          locations.map((location, index) => (
+            <Marker
+              key={location.toString()}
+              position={location}
+            >
+              <Popup>{`${index}: ${location.toString()}`}</Popup>
+            </Marker>
+          ))
+        }
       </Map>
     );
   }
