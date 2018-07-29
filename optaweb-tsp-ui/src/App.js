@@ -46,16 +46,18 @@ class App extends Component {
         <div className={'leaflet-top leaflet-left leaflet-touch'}>
           <div className={'leaflet-control leaflet-bar w5 bg-white '}>
             {
-              locations.keySeq().map(id => (
-                <div
-                  key={id}
-                  className={'ma2 flex'}
-                >
-                  <span className={'w-80 pa2'}>{`Location ${id}`}</span>
-                  <button className={'w-20 pa2'} onClick={() => this.onClickRemove(id)}>x
-                  </button>
-                </div>
-              ))
+              locations.isEmpty() ?
+                <div className={'tc ma2'}>Click map to add locations</div> :
+                locations.keySeq().map(id => (
+                  <div
+                    key={id}
+                    className={'ma2 flex'}
+                  >
+                    <span className={'w-80 pa2'}>{`Location ${id}`}</span>
+                    <button className={'w-20 pa2'} onClick={() => this.onClickRemove(id)}>x
+                    </button>
+                  </div>
+                ))
             }
           </div>
         </div>
