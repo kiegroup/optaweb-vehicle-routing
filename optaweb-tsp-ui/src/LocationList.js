@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Location from './Location';
 
-function LocationList({ locations, removeHandler }) {
+function LocationList({ locations, removeHandler, selectHandler }) {
   return (
     <div className={'leaflet-top leaflet-left leaflet-touch'}>
       <div className={'leaflet-control leaflet-bar w5 bg-white '}>
@@ -11,7 +11,12 @@ function LocationList({ locations, removeHandler }) {
           locations.isEmpty() ?
             <div className={'tc ma2'}>Click map to add locations</div> :
             locations.keySeq().map(id => (
-              <Location key={id} id={id} removeHandler={removeHandler} />
+              <Location
+                key={id}
+                id={id}
+                removeHandler={removeHandler}
+                selectHandler={selectHandler}
+              />
             ))
         }
       </div>
@@ -22,6 +27,7 @@ function LocationList({ locations, removeHandler }) {
 LocationList.propTypes = {
   locations: PropTypes.instanceOf(OrderedMap.constructor).isRequired,
   removeHandler: PropTypes.func.isRequired,
+  selectHandler: PropTypes.func.isRequired,
 };
 
 export default LocationList;

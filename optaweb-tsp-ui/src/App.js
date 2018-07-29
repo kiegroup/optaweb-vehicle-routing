@@ -16,10 +16,12 @@ class App extends Component {
       zoom: 14,
       counter: -1,
       locations: OrderedMap(),
+      selectedId: NaN,
     };
 
     this.onClickMap = this.onClickMap.bind(this);
     this.onClickRemove = this.onClickRemove.bind(this);
+    this.onSelectLocation = this.onSelectLocation.bind(this);
   }
 
   onClickMap(e) {
@@ -29,30 +31,34 @@ class App extends Component {
       counter: id,
       locations: this.state.locations.set(id, e.latlng),
     });
-    console.log(`Locations: ${this.state.locations}`);
   }
 
   onClickRemove(id) {
-    console.log(`Removing location ${id}`);
     this.setState({
       locations: this.state.locations.remove(id),
     });
   }
 
+  onSelectLocation(id) {
+    this.setState({ selectedId: id });
+  }
+
   render() {
-    const { center, zoom, locations } = this.state;
-    console.log(`Render, center: ${center}, locations: [${locations}]`);
+    const { center, zoom, locations, selectedId } = this.state;
+    console.log(`Render, center: ${center}, locations: [${locations}], selected: ${selectedId}`);
 
     return (
       <div>
         <LocationList
           locations={locations}
           removeHandler={this.onClickRemove}
+          selectHandler={this.onSelectLocation}
         />
         <TspMap
           center={center}
           zoom={zoom}
           locations={locations}
+          selectedId={selectedId}
           clickHandler={this.onClickMap}
           removeHandler={this.onClickRemove}
         />
