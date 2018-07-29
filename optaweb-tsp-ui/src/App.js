@@ -1,7 +1,7 @@
 import { OrderedMap } from 'immutable';
 import React, { Component } from 'react';
 import 'tachyons/css/tachyons.css';
-import Location from './Location';
+import LocationList from './LocationList';
 import TspMap from './TspMap';
 
 class App extends Component {
@@ -45,17 +45,10 @@ class App extends Component {
 
     return (
       <div>
-        <div className={'leaflet-top leaflet-left leaflet-touch'}>
-          <div className={'leaflet-control leaflet-bar w5 bg-white '}>
-            {
-              locations.isEmpty() ?
-                <div className={'tc ma2'}>Click map to add locations</div> :
-                locations.keySeq().map(id => (
-                  <Location key={id} id={id} removeHandler={this.onClickRemove} />
-                ))
-            }
-          </div>
-        </div>
+        <LocationList
+          locations={locations}
+          removeHandler={this.onClickRemove}
+        />
         <TspMap
           center={center}
           zoom={zoom}
