@@ -1,6 +1,7 @@
 import { OrderedMap } from 'immutable';
 import React, { Component } from 'react';
 import { Map, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
+import 'tachyons/css/tachyons.css';
 
 class App extends Component {
   constructor() {
@@ -42,16 +43,16 @@ class App extends Component {
 
     return (
       <div>
-        <div className={'leaflet-top leaflet-left leaflet-touch '}>
-          <div
-            className={'leaflet-control leaflet-bar'}
-            style={{ backgroundColor: 'white' }}
-          >
+        <div className={'leaflet-top leaflet-left leaflet-touch'}>
+          <div className={'leaflet-control leaflet-bar w5 bg-white '}>
             {
               locations.keySeq().map(id => (
-                <div key={id}>
-                  <span>{`Location ${id}`}</span>
-                  <button onClick={() => this.onClickRemove(id)}>x
+                <div
+                  key={id}
+                  className={'ma2 flex'}
+                >
+                  <span className={'w-80 pa2'}>{`Location ${id}`}</span>
+                  <button className={'w-20 pa2'} onClick={() => this.onClickRemove(id)}>x
                   </button>
                 </div>
               ))

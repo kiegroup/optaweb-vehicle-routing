@@ -8,7 +8,8 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-leaflet": "^2.0.0",
-    "react-scripts": "1.1.4"
+    "react-scripts": "1.1.4",
+    "tachyons": "^4.11.1"
   },
   "scripts": {
     "start": "react-scripts start",
