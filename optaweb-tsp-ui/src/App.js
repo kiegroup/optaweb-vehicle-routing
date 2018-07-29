@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
 
 class App extends Component {
   constructor() {
@@ -31,7 +31,7 @@ class App extends Component {
 
     return (
       <div>
-        <div className={'leaflet-top leaflet-right leaflet-touch '}>
+        <div className={'leaflet-top leaflet-left leaflet-touch '}>
           <div
             className={'leaflet-control leaflet-bar'}
             style={{ backgroundColor: 'white' }}
@@ -48,11 +48,13 @@ class App extends Component {
           zoom={zoom}
           onClick={this.handleClick}
           style={{ width: '100vw', height: '100vh' }}
+          zoomControl={false} // hide the default zoom control which is on top left
         >
           <TileLayer
             attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
+          <ZoomControl position="topright" />
           {
             locations.map((location, index) => (
               <Marker
