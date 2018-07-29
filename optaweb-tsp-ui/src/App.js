@@ -1,6 +1,6 @@
 import { OrderedMap } from 'immutable';
 import React, { Component } from 'react';
-import { Map, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
+import { Map, Marker, Popup, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
 import 'tachyons/css/tachyons.css';
 
 class App extends Component {
@@ -79,7 +79,10 @@ class App extends Component {
                 key={id}
                 position={location}
               >
-                <Popup>{`${id}: ${location.toString()}`}</Popup>
+                <Popup>
+                  <button onClick={() => this.onClickRemove(id)}>x</button>
+                </Popup>
+                <Tooltip>{`Location ${id}: ${location.toString()}`}</Tooltip>
               </Marker>
             ))
           }
