@@ -1,6 +1,7 @@
 import { OrderedMap } from 'immutable';
 import React, { Component } from 'react';
 import 'tachyons/css/tachyons.css';
+import Location from './Location';
 import TspMap from './TspMap';
 
 class App extends Component {
@@ -50,14 +51,7 @@ class App extends Component {
               locations.isEmpty() ?
                 <div className={'tc ma2'}>Click map to add locations</div> :
                 locations.keySeq().map(id => (
-                  <div
-                    key={id}
-                    className={'ma2 flex'}
-                  >
-                    <span className={'w-80 pa2'}>{`Location ${id}`}</span>
-                    <button className={'w-20 pa2'} onClick={() => this.onClickRemove(id)}>x
-                    </button>
-                  </div>
+                  <Location key={id} id={id} removeHandler={this.onClickRemove} />
                 ))
             }
           </div>
