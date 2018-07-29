@@ -1,3 +1,4 @@
+import { OrderedMap } from 'immutable';
 import React, { Component } from 'react';
 import { Map, Marker, Popup, TileLayer, ZoomControl } from 'react-leaflet';
 
@@ -11,7 +12,8 @@ class App extends Component {
         lng: 16.575610,
       },
       zoom: 14,
-      locations: [],
+      counter: -1,
+      locations: OrderedMap(),
     };
 
     this.handleClick = this.handleClick.bind(this);
@@ -19,8 +21,10 @@ class App extends Component {
 
   handleClick(e) {
     console.log(e.latlng);
+    const id = this.state.counter + 1;
     this.setState({
-      locations: [...this.state.locations, e.latlng],
+      counter: id,
+      locations: this.state.locations.set(id, e.latlng),
     });
     console.log(`Locations: ${this.state.locations}`);
   }
@@ -37,8 +41,8 @@ class App extends Component {
             style={{ backgroundColor: 'white' }}
           >
             {
-              locations.map((location, index) => (
-                <div key={location.toString()}>{`Location ${index}: ${location}`}</div>
+              locations.keySeq().map(id => (
+                <div key={id}>{`Location ${id}`}</div>
               ))
             }
           </div>
@@ -56,12 +60,12 @@ class App extends Component {
           />
           <ZoomControl position="topright" />
           {
-            locations.map((location, index) => (
+            locations.entrySeq().map(([id, location]) => (
               <Marker
-                key={location.toString()}
+                key={id}
                 position={location}
               >
-                <Popup>{`${index}: ${location.toString()}`}</Popup>
+                <Popup>{`${id}: ${location.toString()}`}</Popup>
               </Marker>
             ))
           }
