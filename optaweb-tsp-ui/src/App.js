@@ -16,10 +16,10 @@ class App extends Component {
       locations: OrderedMap(),
     };
 
-    this.handleClick = this.handleClick.bind(this);
+    this.onClickMap = this.onClickMap.bind(this);
   }
 
-  handleClick(e) {
+  onClickMap(e) {
     console.log(e.latlng);
     const id = this.state.counter + 1;
     this.setState({
@@ -27,6 +27,13 @@ class App extends Component {
       locations: this.state.locations.set(id, e.latlng),
     });
     console.log(`Locations: ${this.state.locations}`);
+  }
+
+  onClickRemove(id) {
+    console.log(`Removing location ${id}`);
+    this.setState({
+      locations: this.state.locations.remove(id),
+    });
   }
 
   render() {
@@ -42,7 +49,11 @@ class App extends Component {
           >
             {
               locations.keySeq().map(id => (
-                <div key={id}>{`Location ${id}`}</div>
+                <div key={id}>
+                  <span>{`Location ${id}`}</span>
+                  <button onClick={() => this.onClickRemove(id)}>x
+                  </button>
+                </div>
               ))
             }
           </div>
@@ -50,7 +61,7 @@ class App extends Component {
         <Map
           center={position}
           zoom={zoom}
-          onClick={this.handleClick}
+          onClick={this.onClickMap}
           style={{ width: '100vw', height: '100vh' }}
           zoomControl={false} // hide the default zoom control which is on top left
         >
