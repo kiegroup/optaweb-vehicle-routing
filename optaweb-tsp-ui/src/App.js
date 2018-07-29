@@ -7,10 +7,10 @@ class App extends Component {
 
     this.state = {
       position: {
-        lat: 51.505,
-        lng: -0.09,
+        lat: 49.231782,
+        lng: 16.575610,
       },
-      zoom: 13,
+      zoom: 14,
       locations: [],
     };
 
