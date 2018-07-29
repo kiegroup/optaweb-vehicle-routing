@@ -1,14 +1,14 @@
 import { OrderedMap } from 'immutable';
 import React, { Component } from 'react';
-import { Map, Marker, Popup, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
 import 'tachyons/css/tachyons.css';
+import TspMap from './TspMap';
 
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
-      position: {
+      center: {
         lat: 49.231782,
         lng: 16.575610,
       },
@@ -18,6 +18,7 @@ class App extends Component {
     };
 
     this.onClickMap = this.onClickMap.bind(this);
+    this.onClickRemove = this.onClickRemove.bind(this);
   }
 
   onClickMap(e) {
@@ -38,8 +39,8 @@ class App extends Component {
   }
 
   render() {
-    const { position, zoom, locations } = this.state;
-    console.log(`Render, position: ${position}, locations: [${locations}]`);
+    const { center, zoom, locations } = this.state;
+    console.log(`Render, center: ${center}, locations: [${locations}]`);
 
     return (
       <div>
@@ -61,32 +62,13 @@ class App extends Component {
             }
           </div>
         </div>
-        <Map
-          center={position}
+        <TspMap
+          center={center}
           zoom={zoom}
-          onClick={this.onClickMap}
-          style={{ width: '100vw', height: '100vh' }}
-          zoomControl={false} // hide the default zoom control which is on top left
-        >
-          <TileLayer
-            attribution="&amp;copy <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
-          <ZoomControl position="topright" />
-          {
-            locations.entrySeq().map(([id, location]) => (
-              <Marker
-                key={id}
-                position={location}
-              >
-                <Popup>
-                  <button onClick={() => this.onClickRemove(id)}>x</button>
-                </Popup>
-                <Tooltip>{`Location ${id}: ${location.toString()}`}</Tooltip>
-              </Marker>
-            ))
-          }
-        </Map>
+          locations={locations}
+          clickHandler={this.onClickMap}
+          removeHandler={this.onClickRemove}
+        />
       </div>
     );
   }
