@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 public class Place {
 
@@ -17,8 +19,10 @@ public class Place {
 
     // https://wiki.openstreetmap.org/wiki/Node#Structure
     @Column(precision = 9, scale = 7)
+    @JsonProperty(value = "lat", required = true)
     private BigDecimal latitude;
     @Column(precision = 10, scale = 7)
+    @JsonProperty(value = "lng", required = true)
     private BigDecimal longitude;
 
     public Place() {
