@@ -26,6 +26,22 @@ class App extends Component {
 
   onClickMap(e) {
     console.log(e.latlng);
+    fetch('http://localhost:8080/places/', {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(e.latlng),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => {
+      if (res.ok) {
+        return res.json();
+      }
+      console.error('Error:', res.statusText);
+      throw new Error('Network response was not ok.');
+    })
+      .catch(error => console.error('Error:', error))
+      .then(response => console.log('Success:', response));
     const id = this.state.counter + 1;
     this.setState({
       counter: id,
