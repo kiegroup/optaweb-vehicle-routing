@@ -7,9 +7,9 @@ function Location({ id, removeHandler, selectHandler }) {
       key={id}
       className={'ma2 flex bg-animate hover-bg-light-gray'}
       onMouseEnter={() => selectHandler(id)}
-      onMouseLeave={() => selectHandler(NaN)}
+      onMouseLeave={() => selectHandler('')}
     >
-      <span className={'w-80 pa2'}>{`Location ${id}`}</span>
+      <span className={'w-80 pa2'}>{`Location ${id.replace(/.*\//, '')}`}</span>
       <button className={'w-20 pa2'} onClick={() => removeHandler(id)}>x
       </button>
     </div>
@@ -17,7 +17,7 @@ function Location({ id, removeHandler, selectHandler }) {
 }
 
 Location.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
   removeHandler: PropTypes.func.isRequired,
   selectHandler: PropTypes.func.isRequired,
 };

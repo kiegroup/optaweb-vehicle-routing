@@ -1,4 +1,3 @@
-import { OrderedMap } from 'immutable';
 import React, { Component } from 'react';
 import 'tachyons/css/tachyons.css';
 import LocationList from './LocationList';
@@ -15,13 +14,24 @@ class App extends Component {
       },
       zoom: 14,
       counter: -1,
-      locations: OrderedMap(),
-      selectedId: NaN,
+      locations: [],
+      selectedId: '',
     };
 
     this.onClickMap = this.onClickMap.bind(this);
     this.onClickRemove = this.onClickRemove.bind(this);
     this.onSelectLocation = this.onSelectLocation.bind(this);
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:8080/places/', {
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(places => this.setState({ locations: places._embedded.places }));
   }
 
   onClickMap(e) {
@@ -42,6 +52,7 @@ class App extends Component {
     })
       .catch(error => console.error('Error:', error))
       .then(response => console.log('Success:', response));
+
     const id = this.state.counter + 1;
     this.setState({
       counter: id,
