@@ -58,9 +58,19 @@ class App extends Component {
   }
 
   onClickRemove(id) {
-    this.setState({
-      locations: this.state.locations.remove(id),
-    });
+    fetch(id, {
+      method: 'DELETE',
+      mode: 'cors',
+    }).then((res) => {
+      if (!res.ok) {
+        console.error('Error:', res.statusText);
+        throw new Error('Network response was not ok.');
+      }
+    }).catch(error => console.error('Error:', error))
+      .then((response) => {
+        console.log('Success:', response);
+        this.componentDidMount();
+      });
   }
 
   onSelectLocation(id) {
