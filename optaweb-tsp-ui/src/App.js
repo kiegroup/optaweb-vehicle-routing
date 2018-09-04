@@ -51,13 +51,10 @@ class App extends Component {
       throw new Error('Network response was not ok.');
     })
       .catch(error => console.error('Error:', error))
-      .then(response => console.log('Success:', response));
-
-    const id = this.state.counter + 1;
-    this.setState({
-      counter: id,
-      locations: this.state.locations.set(id, e.latlng),
-    });
+      .then((response) => {
+        console.log('Success:', response);
+        this.componentDidMount();
+      });
   }
 
   onClickRemove(id) {
