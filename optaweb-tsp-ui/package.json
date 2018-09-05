@@ -11,7 +11,9 @@
     "react-dom": "^16.4.1",
     "react-leaflet": "^2.0.0",
     "react-scripts": "1.1.4",
-    "tachyons": "^4.11.1"
+    "sockjs-client": "^1.1.5",
+    "tachyons": "^4.11.1",
+    "webstomp-client": "^1.2.4"
   },
   "scripts": {
     "predeploy": "npm run build",

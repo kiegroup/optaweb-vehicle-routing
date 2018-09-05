@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import SockJS from 'sockjs-client';
 import 'tachyons/css/tachyons.css';
+import webstomp from 'webstomp-client';
 import LocationList from './LocationList';
 import TspMap from './TspMap';
 
@@ -24,14 +26,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/places/', {
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(places => this.setState({ locations: places._embedded.places }));
+    this.connect();
+    this.loadLocations();
   }
 
   onClickMap(e) {
@@ -53,7 +49,7 @@ class App extends Component {
       .catch(error => console.error('Error:', error))
       .then((response) => {
         console.log('Success:', response);
-        this.componentDidMount();
+        this.loadLocations();
       });
   }
 
@@ -69,12 +65,33 @@ class App extends Component {
     }).catch(error => console.error('Error:', error))
       .then((response) => {
         console.log('Success:', response);
-        this.componentDidMount();
+        this.loadLocations();
       });
   }
 
   onSelectLocation(id) {
     this.setState({ selectedId: id });
+  }
+
+  connect() {
+    const socket = new SockJS('http://localhost:8080/tsp-websocket');
+    const stompClient = webstomp.over(socket);
+    stompClient.connect({}, (frame) => {
+      console.info('Connected:', frame);
+      stompClient.subscribe('/topic/route', (route) => {
+        console.info('Route:', route);
+      });
+    });
+  }
+
+  loadLocations() {
+    fetch('http://localhost:8080/places/', {
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => response.json())
+      .then(places => this.setState({ locations: places._embedded.places }));
   }
 
   render() {
