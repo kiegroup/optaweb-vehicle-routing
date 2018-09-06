@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Map, Marker, Popup, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
+import { Map, Marker, Polygon, Popup, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
 
-function TspMap({ center, zoom, locations, selectedId, clickHandler, removeHandler }) {
+function TspMap({ center, zoom, locations, selectedId, route, clickHandler, removeHandler }) {
   return (
     <Map
       center={center}
@@ -36,6 +36,10 @@ function TspMap({ center, zoom, locations, selectedId, clickHandler, removeHandl
           </Marker>
         ))
       }
+      <Polygon
+        positions={route}
+        fill={false}
+      />
     </Map>
   );
 }
@@ -52,6 +56,7 @@ TspMap.propTypes = {
     _links: PropTypes.object.isRequired,
   })).isRequired,
   selectedId: PropTypes.string.isRequired,
+  route: PropTypes.arrayOf(PropTypes.array).isRequired,
   clickHandler: PropTypes.func.isRequired,
   removeHandler: PropTypes.func.isRequired,
 };
