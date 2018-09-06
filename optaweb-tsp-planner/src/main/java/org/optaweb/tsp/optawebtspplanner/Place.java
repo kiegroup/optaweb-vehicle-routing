@@ -33,6 +33,10 @@ public class Place {
         this.longitude = longitude;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public BigDecimal getLatitude() {
         return latitude;
     }
