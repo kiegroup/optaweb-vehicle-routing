@@ -18,6 +18,7 @@ class App extends Component {
       counter: -1,
       locations: [],
       selectedId: '',
+      route: [],
     };
 
     this.onClickMap = this.onClickMap.bind(this);
@@ -78,8 +79,11 @@ class App extends Component {
     const stompClient = webstomp.over(socket);
     stompClient.connect({}, (frame) => {
       console.info('Connected:', frame);
-      stompClient.subscribe('/topic/route', (route) => {
-        console.info('Route:', route);
+      stompClient.subscribe('/topic/route', (res) => {
+        const route = JSON.parse(res.body);
+        this.setState({
+          route: route.map(place => [place.lat, place.lng]),
+        });
       });
     });
   }
@@ -95,7 +99,7 @@ class App extends Component {
   }
 
   render() {
-    const { center, zoom, locations, selectedId } = this.state;
+    const { center, zoom, locations, selectedId, route } = this.state;
     console.log(`Render, center: ${center}, locations: [${locations}], selected: ${selectedId}`);
 
     return (
@@ -110,6 +114,7 @@ class App extends Component {
           zoom={zoom}
           locations={locations}
           selectedId={selectedId}
+          route={route}
           clickHandler={this.onClickMap}
           removeHandler={this.onClickRemove}
         />
