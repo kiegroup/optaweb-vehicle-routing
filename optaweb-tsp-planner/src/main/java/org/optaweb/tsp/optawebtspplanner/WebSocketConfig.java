@@ -12,8 +12,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/topic/");
-        registry.setApplicationDestinationPrefixes("/app");
+        registry.enableSimpleBroker("/topic");
+        // Not sure if "/topic" should be application prefix but I couldn't get @SubscribeMapping("/route") working
+        // without this.
+        registry.setApplicationDestinationPrefixes("/app", "/topic");
     }
 
     @Override
