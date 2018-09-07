@@ -9,14 +9,17 @@ function LocationList({ route, removeHandler, selectHandler }) {
         {
           route.length === 0 ?
             <div className={'tc ma2'}>Click map to add locations</div> :
-            route.map(location => (
-              <Location
-                key={location.id}
-                id={location.id}
-                removeHandler={removeHandler}
-                selectHandler={selectHandler}
-              />
-            ))
+            route
+              .slice(0) // clone the array
+              .sort((a, b) => a.id - b.id) // because sort is done in place (that would affect the route)
+              .map(location => (
+                <Location
+                  key={location.id}
+                  id={location.id}
+                  removeHandler={removeHandler}
+                  selectHandler={selectHandler}
+                />
+              ))
         }
       </div>
     </div>
