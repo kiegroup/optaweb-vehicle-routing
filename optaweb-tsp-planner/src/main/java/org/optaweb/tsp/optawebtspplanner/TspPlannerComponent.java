@@ -23,7 +23,7 @@ public class TspPlannerComponent {
 
     @Scheduled(fixedRate = 2000)
     public void sendMessage() {
-        if (repository.count() < 2) {
+        if (repository.count() < 4) {
             return;
         }
         ArrayList<Place> places = new ArrayList<>();

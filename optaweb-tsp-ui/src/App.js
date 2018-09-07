@@ -16,9 +16,9 @@ class App extends Component {
       },
       zoom: 14,
       counter: -1,
-      locations: [],
-      selectedId: '',
+      selectedId: NaN,
       route: [],
+      stompClient: null,
     };
 
     this.onClickMap = this.onClickMap.bind(this);
@@ -28,46 +28,15 @@ class App extends Component {
 
   componentDidMount() {
     this.connect();
-    this.loadLocations();
   }
 
   onClickMap(e) {
     console.log(e.latlng);
-    fetch('http://localhost:8080/places/', {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify(e.latlng),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then((res) => {
-      if (res.ok) {
-        return res.json();
-      }
-      console.error('Error:', res.statusText);
-      throw new Error('Network response was not ok.');
-    })
-      .catch(error => console.error('Error:', error))
-      .then((response) => {
-        console.log('Success:', response);
-        this.loadLocations();
-      });
+    this.state.stompClient.send('/app/place', JSON.stringify(e.latlng));
   }
 
   onClickRemove(id) {
-    fetch(id, {
-      method: 'DELETE',
-      mode: 'cors',
-    }).then((res) => {
-      if (!res.ok) {
-        console.error('Error:', res.statusText);
-        throw new Error('Network response was not ok.');
-      }
-    }).catch(error => console.error('Error:', error))
-      .then((response) => {
-        console.log('Success:', response);
-        this.loadLocations();
-      });
+    this.state.stompClient.send(`/app/place/${id}/delete`);
   }
 
   onSelectLocation(id) {
@@ -77,42 +46,30 @@ class App extends Component {
   connect() {
     const socket = new SockJS('http://localhost:8080/tsp-websocket');
     const stompClient = webstomp.over(socket);
+    this.setState({ stompClient });
     stompClient.connect({}, (frame) => {
       console.info('Connected:', frame);
       stompClient.subscribe('/topic/route', (res) => {
         const route = JSON.parse(res.body);
-        this.setState({
-          route: route.map(place => [place.lat, place.lng]),
-        });
+        this.setState({ route });
       });
     });
   }
 
-  loadLocations() {
-    fetch('http://localhost:8080/places/', {
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }).then(response => response.json())
-      .then(places => this.setState({ locations: places._embedded.places }));
-  }
-
   render() {
-    const { center, zoom, locations, selectedId, route } = this.state;
-    console.log(`Render, center: ${center}, locations: [${locations}], selected: ${selectedId}`);
+    const { center, zoom, selectedId, route } = this.state;
+    console.log(`Render, center: ${center}, route: [${route}], selected: ${selectedId}`);
 
     return (
       <div>
         <LocationList
-          locations={locations}
+          route={route}
           removeHandler={this.onClickRemove}
           selectHandler={this.onSelectLocation}
         />
         <TspMap
           center={center}
           zoom={zoom}
-          locations={locations}
           selectedId={selectedId}
           route={route}
           clickHandler={this.onClickMap}
