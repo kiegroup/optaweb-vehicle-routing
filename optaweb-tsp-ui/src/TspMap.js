@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Map, Marker, Polygon, Popup, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
 
-function TspMap({ center, zoom, locations, selectedId, route, clickHandler, removeHandler }) {
+function TspMap({ center, zoom, selectedId, route, clickHandler, removeHandler }) {
   return (
     <Map
       center={center}
@@ -17,21 +17,21 @@ function TspMap({ center, zoom, locations, selectedId, route, clickHandler, remo
       />
       <ZoomControl position="topright" />
       {
-        locations.map(location => (
+        route.map(location => (
           <Marker
-            key={location._links.self.href}
+            key={location.id}
             position={location}
           >
             <Popup>
-              <button onClick={() => removeHandler(location._links.self.href)}>x</button>
+              <button onClick={() => removeHandler(location.id)}>x</button>
             </Popup>
             <Tooltip
               // The permanent and non-permanent tooltips are different components
               // and need to have different keys
-              key={location._links.self.href + (location._links.self.href === selectedId ? 'T' : 't')}
-              permanent={location._links.self.href === selectedId}
+              key={location.id + (location.id === selectedId ? 'T' : 't')}
+              permanent={location.id === selectedId}
             >
-              {`Location ${location._links.self.href.replace(/.*\//, '')} [Lat=${location.lat}, Lng=${location.lng}]`}
+              {`Location ${location.id} [Lat=${location.lat}, Lng=${location.lng}]`}
             </Tooltip>
           </Marker>
         ))
@@ -50,13 +50,12 @@ TspMap.propTypes = {
     lng: PropTypes.number.isRequired,
   }).isRequired,
   zoom: PropTypes.number.isRequired,
-  locations: PropTypes.arrayOf(PropTypes.shape({
+  selectedId: PropTypes.number.isRequired,
+  route: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
     lat: PropTypes.number.isRequired,
     lng: PropTypes.number.isRequired,
-    _links: PropTypes.object.isRequired,
   })).isRequired,
-  selectedId: PropTypes.string.isRequired,
-  route: PropTypes.arrayOf(PropTypes.array).isRequired,
   clickHandler: PropTypes.func.isRequired,
   removeHandler: PropTypes.func.isRequired,
 };
