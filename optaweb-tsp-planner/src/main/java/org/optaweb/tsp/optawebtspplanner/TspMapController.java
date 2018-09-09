@@ -15,10 +15,12 @@ public class TspMapController {
     private static Logger logger = LoggerFactory.getLogger(TspMapController.class);
 
     private final PlaceRepository repository;
+    private final TspPlannerComponent planner;
 
     @Autowired
-    public TspMapController(PlaceRepository repository) {
+    public TspMapController(PlaceRepository repository, TspPlannerComponent planner) {
         this.repository = repository;
+        this.planner = planner;
     }
 
     @SubscribeMapping("/route")
@@ -32,6 +34,7 @@ public class TspMapController {
     public Iterable<Place> create(Place place) {
         Place savedPlace = repository.save(place);
         logger.info("Created {}", savedPlace);
+        planner.addPlace(place);
         return repository.findAll();
     }
 

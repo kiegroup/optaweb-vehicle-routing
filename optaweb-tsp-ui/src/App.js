@@ -11,10 +11,10 @@ class App extends Component {
 
     this.state = {
       center: {
-        lat: 49.231782,
-        lng: 16.575610,
+        lat: 49.23178,
+        lng: 16.57561,
       },
-      zoom: 14,
+      zoom: 5,
       counter: -1,
       selectedId: NaN,
       route: [],
