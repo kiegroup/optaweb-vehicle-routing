@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
+import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
+import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.examples.tsp.app.TspApp;
 import org.optaplanner.examples.tsp.domain.Domicile;
 import org.optaplanner.examples.tsp.domain.Standstill;
@@ -19,11 +21,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TspPlannerComponent {
+public class TspPlannerComponent implements SolverEventListener<TspSolution> {
 
     private static Logger logger = LoggerFactory.getLogger(TspMapController.class);
 
@@ -37,12 +38,15 @@ public class TspPlannerComponent {
                                PlaceRepository repository) {
         this.webSocket = webSocket;
         this.repository = repository;
-        SolverFactory<TspSolution> sf = SolverFactory.createFromXmlResource(TspApp.SOLVER_CONFIG);
-        sf.getSolverConfig().setDaemon(true);
-        solver = sf.buildSolver();
+
         tsp.setDistanceType(DistanceType.AIR_DISTANCE);
         tsp.setLocationList(new ArrayList<>());
         tsp.setVisitList(new ArrayList<>());
+
+        SolverFactory<TspSolution> sf = SolverFactory.createFromXmlResource(TspApp.SOLVER_CONFIG);
+        sf.getSolverConfig().setDaemon(true);
+        solver = sf.buildSolver();
+        solver.addEventListener(this);
     }
 
     public void addPlace(Place place) {
@@ -87,12 +91,9 @@ public class TspPlannerComponent {
         return new AirLocation(p.getId(), p.getLatitude().doubleValue(), p.getLongitude().doubleValue());
     }
 
-    @Scheduled(fixedRate = 1000)
-    public void sendMessage() {
-        if (!solver.isSolving()) {
-            return;
-        }
-        TspSolution tspSolution = solver.getBestSolution();
+    @Override
+    public void bestSolutionChanged(BestSolutionChangedEvent<TspSolution> bestSolutionChangedEvent) {
+        TspSolution tspSolution = bestSolutionChangedEvent.getNewBestSolution();
         Domicile domicile = tspSolution.getDomicile();
         Map<Standstill, Visit> nextVisitMap = new LinkedHashMap<>();
         List<Visit> unassignedVisitList = new ArrayList<>();
