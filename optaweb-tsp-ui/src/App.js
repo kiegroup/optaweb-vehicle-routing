@@ -37,7 +37,9 @@ class App extends Component {
   }
 
   onClickRemove(id) {
-    this.state.stompClient.send(`/app/place/${id}/delete`);
+    if (id !== this.state.domicileId || this.state.route.length === 1) {
+      this.state.stompClient.send(`/app/place/${id}/delete`);
+    }
   }
 
   onSelectLocation(id) {
@@ -74,7 +76,6 @@ class App extends Component {
           zoom={zoom}
           selectedId={selectedId}
           route={route}
-          domicileId={domicileId}
           clickHandler={this.onClickMap}
           removeHandler={this.onClickRemove}
         />
