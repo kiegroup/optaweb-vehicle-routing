@@ -30,19 +30,20 @@ public class TspMapController {
     }
 
     @MessageMapping("/place")
-    @SendTo("/topic/route")
-    public Iterable<Place> create(Place place) {
+    public void create(Place place) {
         Place savedPlace = repository.save(place);
-        logger.info("Created {}", savedPlace);
         planner.addPlace(place);
-        return repository.findAll();
+        logger.info("Created {}", savedPlace);
     }
 
     @MessageMapping({"/place/{id}/delete"})
     @SendTo("/topic/route")
     public Iterable<Place> delete(@DestinationVariable Long id) {
-        repository.deleteById(id);
-        logger.info("Deleted place {}", id);
+        repository.findById(id).ifPresent(place -> {
+            repository.deleteById(id);
+            planner.removePlace(place);
+            logger.info("Deleted place {}", id);
+        });
         return repository.findAll();
     }
 }
