@@ -22,6 +22,7 @@ class App extends Component {
       stompClient: null,
     };
 
+    this.onClickLoad = this.onClickLoad.bind(this);
     this.onClickMap = this.onClickMap.bind(this);
     this.onClickRemove = this.onClickRemove.bind(this);
     this.onSelectLocation = this.onSelectLocation.bind(this);
@@ -29,6 +30,10 @@ class App extends Component {
 
   componentDidMount() {
     this.connect();
+  }
+
+  onClickLoad() {
+    this.state.stompClient.send('/app/demo');
   }
 
   onClickMap(e) {
@@ -65,6 +70,11 @@ class App extends Component {
 
     return (
       <div>
+        <div className={'leaflet-bottom leaflet-right leaflet-touch'}>
+          <div className={'leaflet-control leaflet-bar w4 bg-white'}>
+            <button style={{ width: '100%' }} onClick={this.onClickLoad}>Europe 40</button>
+          </div>
+        </div>
         <LocationList
           route={route}
           domicileId={domicileId}

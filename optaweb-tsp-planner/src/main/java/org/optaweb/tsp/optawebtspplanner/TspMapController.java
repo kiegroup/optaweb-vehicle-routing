@@ -1,5 +1,8 @@
 package org.optaweb.tsp.optawebtspplanner;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +37,18 @@ public class TspMapController {
         Place savedPlace = repository.save(place);
         planner.addPlace(place);
         logger.info("Created {}", savedPlace);
+    }
+
+    @MessageMapping("/demo")
+    public void demo() {
+//        repository.findAll().forEach(planner::removePlace);
+//        repository.deleteAll();
+        Arrays.stream(Europe.values()).forEach(city -> {
+            Place place = new Place(BigDecimal.valueOf(city.lat), BigDecimal.valueOf(city.lng));
+            Place savedPlace = repository.save(place);
+            planner.addPlace(place);
+            logger.info("Created {}", savedPlace);
+        });
     }
 
     @MessageMapping({"/place/{id}/delete"})

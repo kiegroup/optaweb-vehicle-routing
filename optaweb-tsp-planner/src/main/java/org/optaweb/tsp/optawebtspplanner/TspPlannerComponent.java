@@ -135,8 +135,9 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                     }
                 });
             }
-            sendRoute(extractRoute(tsp).orElseThrow(
-                    () -> new IllegalStateException("No unconnected visits expected at this point.")));
+            extractRoute(tsp).ifPresent(this::sendRoute);
+//            sendRoute(extractRoute(tsp).orElseThrow(
+//                    () -> new IllegalStateException("No unconnected visits expected at this point.")));
         } else {
             solver.addProblemFactChange(scoreDirector -> {
                 TspSolution workingSolution = scoreDirector.getWorkingSolution();
