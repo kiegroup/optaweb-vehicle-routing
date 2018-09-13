@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Map, Marker, Polygon, Popup, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
 
-function TspMap({ center, zoom, selectedId, route, clickHandler, removeHandler }) {
+function TspMap({ center, zoom, selectedId, route, domicileId, clickHandler, removeHandler }) {
   return (
     <Map
       center={center}
@@ -23,7 +23,11 @@ function TspMap({ center, zoom, selectedId, route, clickHandler, removeHandler }
             position={location}
           >
             <Popup>
-              <button onClick={() => removeHandler(location.id)}>x</button>
+              <button
+                disabled={route.length > 1 && location.id === domicileId}
+                onClick={() => removeHandler(location.id)}
+              >x
+              </button>
             </Popup>
             <Tooltip
               // The permanent and non-permanent tooltips are different components
@@ -56,6 +60,7 @@ TspMap.propTypes = {
     lat: PropTypes.number.isRequired,
     lng: PropTypes.number.isRequired,
   })).isRequired,
+  domicileId: PropTypes.number.isRequired,
   clickHandler: PropTypes.func.isRequired,
   removeHandler: PropTypes.func.isRequired,
 };
