@@ -18,6 +18,7 @@ class App extends Component {
       counter: -1,
       selectedId: NaN,
       route: [],
+      domicileId: NaN,
       stompClient: null,
     };
 
@@ -51,19 +52,20 @@ class App extends Component {
       console.info('Connected:', frame);
       stompClient.subscribe('/topic/route', (res) => {
         const route = JSON.parse(res.body);
-        this.setState({ route });
+        this.setState({ route, domicileId: route.length > 0 ? route[0].id : NaN });
       });
     });
   }
 
   render() {
-    const { center, zoom, selectedId, route } = this.state;
+    const { center, zoom, selectedId, route, domicileId } = this.state;
     console.log(`Render, center: ${center}, route: [${route}], selected: ${selectedId}`);
 
     return (
       <div>
         <LocationList
           route={route}
+          domicileId={domicileId}
           removeHandler={this.onClickRemove}
           selectHandler={this.onSelectLocation}
         />
@@ -72,6 +74,7 @@ class App extends Component {
           zoom={zoom}
           selectedId={selectedId}
           route={route}
+          domicileId={domicileId}
           clickHandler={this.onClickMap}
           removeHandler={this.onClickRemove}
         />
