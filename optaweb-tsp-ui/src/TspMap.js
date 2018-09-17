@@ -1,8 +1,22 @@
+import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Map, Marker, Polygon, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
 
-function TspMap({ center, zoom, selectedId, route, clickHandler, removeHandler }) {
+function TspMap({ center, zoom, selectedId, route, domicileId, clickHandler, removeHandler }) {
+  const homeIcon = L.icon({
+    iconUrl: 'if_big_house-home_2222740.png',
+    shadowUrl: 'if_big_house-home_2222740_shadow.png',
+
+    iconSize: [24, 24],
+    shadowSize: [50, 16],
+    iconAnchor: [12, 12],
+    shadowAnchor: [16, 2],
+    popupAnchor: [0, -10],
+  });
+
+  const defaultIcon = new L.Icon.Default();
+
   return (
     <Map
       center={center}
@@ -21,6 +35,7 @@ function TspMap({ center, zoom, selectedId, route, clickHandler, removeHandler }
           <Marker
             key={location.id}
             position={location}
+            icon={location.id === domicileId ? homeIcon : defaultIcon}
             onClick={() => removeHandler(location.id)}
           >
             <Tooltip
@@ -54,6 +69,7 @@ TspMap.propTypes = {
     lat: PropTypes.number.isRequired,
     lng: PropTypes.number.isRequired,
   })).isRequired,
+  domicileId: PropTypes.number.isRequired,
   clickHandler: PropTypes.func.isRequired,
   removeHandler: PropTypes.func.isRequired,
 };
