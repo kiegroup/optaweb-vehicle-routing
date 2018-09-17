@@ -76,6 +76,7 @@ class App extends Component {
           zoom={zoom}
           selectedId={selectedId}
           route={route}
+          domicileId={domicileId}
           clickHandler={this.onClickMap}
           removeHandler={this.onClickRemove}
         />
