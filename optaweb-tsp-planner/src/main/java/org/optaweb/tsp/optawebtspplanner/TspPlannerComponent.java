@@ -1,5 +1,6 @@
 package org.optaweb.tsp.optawebtspplanner;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -11,6 +12,7 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
+import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.examples.tsp.app.TspApp;
 import org.optaplanner.examples.tsp.domain.Domicile;
 import org.optaplanner.examples.tsp.domain.Standstill;
@@ -34,6 +36,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     private final SimpMessagingTemplate webSocket;
     private final PlaceRepository repository;
     private final Solver<TspSolution> solver;
+    private final ScoreDirector<TspSolution> scoreDirector;
     private ThreadPoolTaskExecutor executor;
     private TspSolution tsp = new TspSolution();
 
@@ -50,6 +53,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         SolverFactory<TspSolution> sf = SolverFactory.createFromXmlResource(TspApp.SOLVER_CONFIG);
         sf.getSolverConfig().setDaemon(true);
         solver = sf.buildSolver();
+        scoreDirector = solver.getScoreDirectorFactory().buildScoreDirector();
         solver.addEventListener(this);
     }
 
@@ -75,11 +79,15 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                 return Optional.empty();
             }
         }
-        List<Place> route = new ArrayList<>();
+
         // TODO race condition, if a rest thread deletes that location in the middle of this method happening on the solver thread
         // TODO make sure that location is still in the repository
         // TODO maybe repair the solution OR ignore if it's inconsistent (log WARNING)
         Domicile domicile = tsp.getDomicile();
+        if (domicile == null) {
+            return Optional.of(new ArrayList<>());
+        }
+        List<Place> route = new ArrayList<>();
         addToRoute(repository.findById(domicile.getLocation().getId()), route);
         for (Visit visit = nextVisitMap.get(domicile); visit != null; visit = nextVisitMap.get(visit)) {
             addToRoute(repository.findById(visit.getLocation().getId()), route);
@@ -87,8 +95,27 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         return Optional.of(route);
     }
 
-    private void sendRoute(List<Place> route) {
-        webSocket.convertAndSend("/topic/route", route);
+    private void sendRoute(TspSolution solution) {
+        extractRoute(solution).ifPresent(route -> {
+            logger.info("New TSP with {} locations, {} visits, route: {}",
+                        tsp.getLocationList().size(),
+                        tsp.getVisitList().size(),
+                        route);
+            String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
+            RouteMessage response = new RouteMessage(distanceString, route);
+            webSocket.convertAndSend("/topic/route", response);
+        });
+    }
+
+    private void updateScore(TspSolution solution) {
+        scoreDirector.setWorkingSolution(solution);
+        scoreDirector.calculateScore();
+    }
+
+    public RouteMessage getSolution() {
+        List<Place> route = extractRoute(tsp)
+                .orElseThrow(() -> new IllegalStateException("Best solution cannot have unconnected visits."));
+        return new RouteMessage(tsp.getDistanceString(new DecimalFormat("#,##0.00")), route);
     }
 
     @Override
@@ -98,13 +125,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
             return;
         }
         tsp = bestSolutionChangedEvent.getNewBestSolution();
-        extractRoute(tsp).ifPresent(route -> {
-            logger.info("New TSP with {} locations, {} route: {}",
-                        tsp.getLocationList().size(),
-                        tsp.getVisitList().size(),
-                        route);
-            sendRoute(route);
-        });
+        sendRoute(tsp);
     }
 
     public void addPlace(Place place) {
@@ -118,6 +139,8 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                 domicile.setId(airLocation.getId());
                 domicile.setLocation(airLocation);
                 tsp.setDomicile(domicile);
+                updateScore(tsp);
+                sendRoute(tsp);
             } else if (locationList.size() == 2) {
                 Visit visit = new Visit();
                 visit.setId(airLocation.getId());
@@ -135,9 +158,6 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                     }
                 });
             }
-            extractRoute(tsp).ifPresent(this::sendRoute);
-//            sendRoute(extractRoute(tsp).orElseThrow(
-//                    () -> new IllegalStateException("No unconnected visits expected at this point.")));
         } else {
             solver.addProblemFactChange(scoreDirector -> {
                 TspSolution workingSolution = scoreDirector.getWorkingSolution();
@@ -165,6 +185,8 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         if (!solver.isSolving()) {
             tsp.getLocationList().remove(0);
             tsp.setDomicile(null);
+            updateScore(tsp);
+            sendRoute(tsp);
         } else {
             if (tsp.getVisitList().size() == 1) {
                 // domicile and 1 visit remaining
@@ -177,6 +199,8 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                 domicile.setId(lastLocation.getId());
                 domicile.setLocation(lastLocation);
                 tsp.setDomicile(domicile);
+                updateScore(tsp);
+                sendRoute(tsp);
             } else {
                 if (tsp.getDomicile().getLocation().getId().equals(airLocation.getId())) {
                     throw new UnsupportedOperationException("You can only remove domicile if it's the only location on map.");

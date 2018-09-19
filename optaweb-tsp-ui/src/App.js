@@ -19,6 +19,7 @@ class App extends Component {
       selectedId: NaN,
       route: [],
       domicileId: NaN,
+      distance: '',
       stompClient: null,
     };
 
@@ -58,28 +59,29 @@ class App extends Component {
     stompClient.connect({}, (frame) => {
       console.info('Connected:', frame);
       stompClient.subscribe('/topic/route', (res) => {
-        const route = JSON.parse(res.body);
-        this.setState({ route, domicileId: route.length > 0 ? route[0].id : NaN });
+        const tsp = JSON.parse(res.body);
+        this.setState({
+          route: tsp.route,
+          domicileId: tsp.route.length > 0 ? tsp.route[0].id : NaN,
+          distance: tsp.distance,
+        });
       });
     });
   }
 
   render() {
-    const { center, zoom, selectedId, route, domicileId } = this.state;
+    const { center, zoom, selectedId, route, domicileId, distance } = this.state;
     console.log(`Render, center: ${center}, route: [${route}], selected: ${selectedId}`);
 
     return (
       <div>
-        <div className={'leaflet-bottom leaflet-right leaflet-touch'}>
-          <div className={'leaflet-control leaflet-bar w4 bg-white'}>
-            <button style={{ width: '100%' }} onClick={this.onClickLoad}>Europe 40</button>
-          </div>
-        </div>
         <LocationList
           route={route}
           domicileId={domicileId}
+          distance={distance}
           removeHandler={this.onClickRemove}
           selectHandler={this.onSelectLocation}
+          loadHandler={this.onClickLoad}
         />
         <TspMap
           center={center}
