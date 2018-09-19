@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
@@ -27,9 +26,9 @@ public class TspMapController {
     }
 
     @SubscribeMapping("/route")
-    public Iterable<Place> subscribe() {
+    public RouteMessage subscribe() {
         logger.info("Subscribed");
-        return repository.findAll();
+        return planner.getSolution();
     }
 
     @MessageMapping("/place")
@@ -52,13 +51,11 @@ public class TspMapController {
     }
 
     @MessageMapping({"/place/{id}/delete"})
-    @SendTo("/topic/route")
-    public Iterable<Place> delete(@DestinationVariable Long id) {
+    public void delete(@DestinationVariable Long id) {
         repository.findById(id).ifPresent(place -> {
             repository.deleteById(id);
             planner.removePlace(place);
             logger.info("Deleted place {}", id);
         });
-        return repository.findAll();
     }
 }
