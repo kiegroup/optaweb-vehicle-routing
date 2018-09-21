@@ -168,7 +168,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                 scoreDirector.afterProblemFactAdded(airLocation);
 
                 Visit visit = new Visit();
-                visit.setId(place.getId());
+                visit.setId(airLocation.getId());
                 visit.setLocation(airLocation);
 
                 scoreDirector.beforeEntityAdded(visit);
