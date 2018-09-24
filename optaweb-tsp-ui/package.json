@@ -10,8 +10,8 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-leaflet": "^2.0.0",
-    "react-scripts": "1.1.4",
-    "sockjs-client": "^1.1.5",
+    "react-scripts": "^1.1.5",
+    "sockjs-client": "^1.3.0",
     "tachyons": "^4.11.1",
     "webstomp-client": "^1.2.4"
   },
