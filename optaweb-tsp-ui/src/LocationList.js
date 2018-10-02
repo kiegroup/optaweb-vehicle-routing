@@ -67,10 +67,14 @@ LocationList.propTypes = {
     lng: PropTypes.number.isRequired,
   })).isRequired,
   domicileId: PropTypes.number.isRequired,
-  distance: PropTypes.string.isRequired,
+  distance: PropTypes.string,
   removeHandler: PropTypes.func.isRequired,
   selectHandler: PropTypes.func.isRequired,
   loadHandler: PropTypes.func.isRequired,
+};
+
+LocationList.defaultProps = {
+  distance: '',
 };
 
 export default LocationList;
