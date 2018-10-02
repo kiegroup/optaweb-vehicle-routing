@@ -6,12 +6,16 @@
     <artifactId>optaweb-tsp-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+    </properties>
     <modules>
     	<module>optaweb-tsp-planner</module>
     	<module>optaweb-tsp-ui</module>
-<!--     	<module>optaweb-tsp-bundle</module> -->
     </modules>
-    
-    
+
 
 </project>
