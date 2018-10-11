@@ -1,0 +1,3 @@
+= OptaWeb Traveling Salesman
+
+Web application solving the traveling salesman problem using https://www.optaplanner.org/[OptaPlanner].

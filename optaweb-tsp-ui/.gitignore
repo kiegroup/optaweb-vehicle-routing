@@ -9,7 +9,6 @@
 /build
 
 # misc
-.DS_Store
 .env.local
 .env.development.local
 .env.test.local
@@ -22,11 +21,9 @@ yarn-error.log*
 /target
 /local
 
-# Eclipse, Netbeans and IntelliJ files
-/.*
-!.gitignore
-!.gitattributes
+# Eclipse, NetBeans and IntelliJ files
 /nbproject
+/.idea
 /*.ipr
 /*.iws
 /*.iml
