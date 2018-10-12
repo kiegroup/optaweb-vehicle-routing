@@ -1,0 +1,148 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Location List Component Test should render correctly 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Location
+    id={10}
+    removeDisabled={false}
+    removeHandler={[Function]}
+    selectHandler={[Function]}
+/>,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": "10",
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <span
+          className="w-80 pa2"
+>
+          Location 10
+</span>,
+        <button
+          className="w-20 pa2"
+          disabled={false}
+          onClick={[Function]}
+>
+          x
+</button>,
+      ],
+      "className": "ma2 flex bg-animate hover-bg-light-gray",
+      "onMouseEnter": [Function],
+      "onMouseLeave": [Function],
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "Location 10",
+          "className": "w-80 pa2",
+        },
+        "ref": null,
+        "rendered": "Location 10",
+        "type": "span",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "x",
+          "className": "w-20 pa2",
+          "disabled": false,
+          "onClick": [Function],
+        },
+        "ref": null,
+        "rendered": "x",
+        "type": "button",
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": "10",
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <span
+            className="w-80 pa2"
+>
+            Location 10
+</span>,
+          <button
+            className="w-20 pa2"
+            disabled={false}
+            onClick={[Function]}
+>
+            x
+</button>,
+        ],
+        "className": "ma2 flex bg-animate hover-bg-light-gray",
+        "onMouseEnter": [Function],
+        "onMouseLeave": [Function],
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "Location 10",
+            "className": "w-80 pa2",
+          },
+          "ref": null,
+          "rendered": "Location 10",
+          "type": "span",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "x",
+            "className": "w-20 pa2",
+            "disabled": false,
+            "onClick": [Function],
+          },
+          "ref": null,
+          "rendered": "x",
+          "type": "button",
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;
