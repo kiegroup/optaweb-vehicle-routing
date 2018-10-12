@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Location List Component Test should render correctly with no routes 1`] = `
+exports[`Location List Component Test should render correctly with few routes 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <LocationList
@@ -8,7 +8,25 @@ ShallowWrapper {
     domicileId={1}
     loadHandler={[Function]}
     removeHandler={[Function]}
-    route={Array []}
+    route={
+        Array [
+            Object {
+              "id": 1,
+              "lat": 1.345678,
+              "lng": 1.345678,
+            },
+            Object {
+              "id": 2,
+              "lat": 2.345678,
+              "lng": 2.345678,
+            },
+            Object {
+              "id": 3,
+              "lat": 3.676111,
+              "lng": 3.568333,
+            },
+          ]
+    }
     selectHandler={[Function]}
 />,
   Symbol(enzyme.__renderer__): Object {
@@ -27,24 +45,45 @@ ShallowWrapper {
       "children": <div
         className="leaflet-control leaflet-bar w5 bg-white"
 >
-        <div
-                className="tc ma2"
-        >
-                <div>
-                        Click map to add locations
+        <div>
+                <div
+                        className="tl ma2 pa2"
+                >
+                        Distance: 
+                        10
                 </div>
-                <div>
-                        or 
-                        <button
-                                onClick={[Function]}
-                                style={
-                                        Object {
-                                                "width": "100%",
-                                              }
-                                }
-                        >
-                                Load 40 European cities
-                        </button>
+                <div
+                        className="tl ma2 pa2"
+                >
+                        Locations: 
+                        3
+                </div>
+                <div
+                        style={
+                                Object {
+                                        "maxHeight": "calc(100vh - 116px)",
+                                        "overflowY": "auto",
+                                      }
+                        }
+                >
+                        <Location
+                                id={1}
+                                removeDisabled={true}
+                                removeHandler={[Function]}
+                                selectHandler={[Function]}
+                        />
+                        <Location
+                                id={2}
+                                removeDisabled={false}
+                                removeHandler={[Function]}
+                                selectHandler={[Function]}
+                        />
+                        <Location
+                                id={3}
+                                removeDisabled={false}
+                                removeHandler={[Function]}
+                                selectHandler={[Function]}
+                        />
                 </div>
         </div>
 </div>,
@@ -56,24 +95,45 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
-        "children": <div
-          className="tc ma2"
->
-          <div>
-                    Click map to add locations
+        "children": <div>
+          <div
+                    className="tl ma2 pa2"
+          >
+                    Distance: 
+                    10
           </div>
-          <div>
-                    or 
-                    <button
-                              onClick={[Function]}
-                              style={
-                                        Object {
-                                                  "width": "100%",
-                                                }
-                              }
-                    >
-                              Load 40 European cities
-                    </button>
+          <div
+                    className="tl ma2 pa2"
+          >
+                    Locations: 
+                    3
+          </div>
+          <div
+                    style={
+                              Object {
+                                        "maxHeight": "calc(100vh - 116px)",
+                                        "overflowY": "auto",
+                                      }
+                    }
+          >
+                    <Location
+                              id={1}
+                              removeDisabled={true}
+                              removeHandler={[Function]}
+                              selectHandler={[Function]}
+                    />
+                    <Location
+                              id={2}
+                              removeDisabled={false}
+                              removeHandler={[Function]}
+                              selectHandler={[Function]}
+                    />
+                    <Location
+                              id={3}
+                              removeDisabled={false}
+                              removeHandler={[Function]}
+                              selectHandler={[Function]}
+                    />
           </div>
 </div>,
         "className": "leaflet-control leaflet-bar w5 bg-white",
@@ -85,24 +145,46 @@ ShallowWrapper {
         "nodeType": "host",
         "props": Object {
           "children": Array [
-            <div>
-              Click map to add locations
+            <div
+              className="tl ma2 pa2"
+>
+              Distance: 
+              10
 </div>,
-            <div>
-              or 
-              <button
-                            onClick={[Function]}
-                            style={
-                                          Object {
-                                                        "width": "100%",
-                                                      }
-                            }
-              >
-                            Load 40 European cities
-              </button>
+            <div
+              className="tl ma2 pa2"
+>
+              Locations: 
+              3
+</div>,
+            <div
+              style={
+                            Object {
+                                          "maxHeight": "calc(100vh - 116px)",
+                                          "overflowY": "auto",
+                                        }
+              }
+>
+              <Location
+                            id={1}
+                            removeDisabled={true}
+                            removeHandler={[Function]}
+                            selectHandler={[Function]}
+              />
+              <Location
+                            id={2}
+                            removeDisabled={false}
+                            removeHandler={[Function]}
+                            selectHandler={[Function]}
+              />
+              <Location
+                            id={3}
+                            removeDisabled={false}
+                            removeHandler={[Function]}
+                            selectHandler={[Function]}
+              />
 </div>,
           ],
-          "className": "tc ma2",
         },
         "ref": null,
         "rendered": Array [
@@ -111,10 +193,17 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "host",
             "props": Object {
-              "children": "Click map to add locations",
+              "children": Array [
+                "Distance: ",
+                "10",
+              ],
+              "className": "tl ma2 pa2",
             },
             "ref": null,
-            "rendered": "Click map to add locations",
+            "rendered": Array [
+              "Distance: ",
+              "10",
+            ],
             "type": "div",
           },
           Object {
@@ -123,36 +212,91 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": Array [
-                "or ",
-                <button
-                  onClick={[Function]}
-                  style={
-                                    Object {
-                                                      "width": "100%",
-                                                    }
-                  }
->
-                  Load 40 European cities
-</button>,
+                "Locations: ",
+                3,
               ],
+              "className": "tl ma2 pa2",
             },
             "ref": null,
             "rendered": Array [
-              "or ",
+              "Locations: ",
+              3,
+            ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": Array [
+                <Location
+                  id={1}
+                  removeDisabled={true}
+                  removeHandler={[Function]}
+                  selectHandler={[Function]}
+/>,
+                <Location
+                  id={2}
+                  removeDisabled={false}
+                  removeHandler={[Function]}
+                  selectHandler={[Function]}
+/>,
+                <Location
+                  id={3}
+                  removeDisabled={false}
+                  removeHandler={[Function]}
+                  selectHandler={[Function]}
+/>,
+              ],
+              "style": Object {
+                "maxHeight": "calc(100vh - 116px)",
+                "overflowY": "auto",
+              },
+            },
+            "ref": null,
+            "rendered": Array [
               Object {
                 "instance": null,
-                "key": undefined,
-                "nodeType": "host",
+                "key": "1",
+                "nodeType": "function",
                 "props": Object {
-                  "children": "Load 40 European cities",
-                  "onClick": [Function],
-                  "style": Object {
-                    "width": "100%",
-                  },
+                  "id": 1,
+                  "removeDisabled": true,
+                  "removeHandler": [Function],
+                  "selectHandler": [Function],
                 },
                 "ref": null,
-                "rendered": "Load 40 European cities",
-                "type": "button",
+                "rendered": null,
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": "2",
+                "nodeType": "function",
+                "props": Object {
+                  "id": 2,
+                  "removeDisabled": false,
+                  "removeHandler": [Function],
+                  "selectHandler": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": "3",
+                "nodeType": "function",
+                "props": Object {
+                  "id": 3,
+                  "removeDisabled": false,
+                  "removeHandler": [Function],
+                  "selectHandler": [Function],
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
               },
             ],
             "type": "div",
@@ -173,24 +317,45 @@ ShallowWrapper {
         "children": <div
           className="leaflet-control leaflet-bar w5 bg-white"
 >
-          <div
-                    className="tc ma2"
-          >
-                    <div>
-                              Click map to add locations
+          <div>
+                    <div
+                              className="tl ma2 pa2"
+                    >
+                              Distance: 
+                              10
                     </div>
-                    <div>
-                              or 
-                              <button
-                                        onClick={[Function]}
-                                        style={
-                                                  Object {
-                                                            "width": "100%",
-                                                          }
-                                        }
-                              >
-                                        Load 40 European cities
-                              </button>
+                    <div
+                              className="tl ma2 pa2"
+                    >
+                              Locations: 
+                              3
+                    </div>
+                    <div
+                              style={
+                                        Object {
+                                                  "maxHeight": "calc(100vh - 116px)",
+                                                  "overflowY": "auto",
+                                                }
+                              }
+                    >
+                              <Location
+                                        id={1}
+                                        removeDisabled={true}
+                                        removeHandler={[Function]}
+                                        selectHandler={[Function]}
+                              />
+                              <Location
+                                        id={2}
+                                        removeDisabled={false}
+                                        removeHandler={[Function]}
+                                        selectHandler={[Function]}
+                              />
+                              <Location
+                                        id={3}
+                                        removeDisabled={false}
+                                        removeHandler={[Function]}
+                                        selectHandler={[Function]}
+                              />
                     </div>
           </div>
 </div>,
@@ -202,24 +367,45 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": <div
-            className="tc ma2"
->
-            <div>
-                        Click map to add locations
+          "children": <div>
+            <div
+                        className="tl ma2 pa2"
+            >
+                        Distance: 
+                        10
             </div>
-            <div>
-                        or 
-                        <button
-                                    onClick={[Function]}
-                                    style={
-                                                Object {
-                                                            "width": "100%",
-                                                          }
-                                    }
-                        >
-                                    Load 40 European cities
-                        </button>
+            <div
+                        className="tl ma2 pa2"
+            >
+                        Locations: 
+                        3
+            </div>
+            <div
+                        style={
+                                    Object {
+                                                "maxHeight": "calc(100vh - 116px)",
+                                                "overflowY": "auto",
+                                              }
+                        }
+            >
+                        <Location
+                                    id={1}
+                                    removeDisabled={true}
+                                    removeHandler={[Function]}
+                                    selectHandler={[Function]}
+                        />
+                        <Location
+                                    id={2}
+                                    removeDisabled={false}
+                                    removeHandler={[Function]}
+                                    selectHandler={[Function]}
+                        />
+                        <Location
+                                    id={3}
+                                    removeDisabled={false}
+                                    removeHandler={[Function]}
+                                    selectHandler={[Function]}
+                        />
             </div>
 </div>,
           "className": "leaflet-control leaflet-bar w5 bg-white",
@@ -231,24 +417,46 @@ ShallowWrapper {
           "nodeType": "host",
           "props": Object {
             "children": Array [
-              <div>
-                Click map to add locations
+              <div
+                className="tl ma2 pa2"
+>
+                Distance: 
+                10
 </div>,
-              <div>
-                or 
-                <button
-                                onClick={[Function]}
-                                style={
-                                                Object {
-                                                                "width": "100%",
-                                                              }
-                                }
-                >
-                                Load 40 European cities
-                </button>
+              <div
+                className="tl ma2 pa2"
+>
+                Locations: 
+                3
+</div>,
+              <div
+                style={
+                                Object {
+                                                "maxHeight": "calc(100vh - 116px)",
+                                                "overflowY": "auto",
+                                              }
+                }
+>
+                <Location
+                                id={1}
+                                removeDisabled={true}
+                                removeHandler={[Function]}
+                                selectHandler={[Function]}
+                />
+                <Location
+                                id={2}
+                                removeDisabled={false}
+                                removeHandler={[Function]}
+                                selectHandler={[Function]}
+                />
+                <Location
+                                id={3}
+                                removeDisabled={false}
+                                removeHandler={[Function]}
+                                selectHandler={[Function]}
+                />
 </div>,
             ],
-            "className": "tc ma2",
           },
           "ref": null,
           "rendered": Array [
@@ -257,10 +465,17 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "host",
               "props": Object {
-                "children": "Click map to add locations",
+                "children": Array [
+                  "Distance: ",
+                  "10",
+                ],
+                "className": "tl ma2 pa2",
               },
               "ref": null,
-              "rendered": "Click map to add locations",
+              "rendered": Array [
+                "Distance: ",
+                "10",
+              ],
               "type": "div",
             },
             Object {
@@ -269,36 +484,91 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": Array [
-                  "or ",
-                  <button
-                    onClick={[Function]}
-                    style={
-                                        Object {
-                                                            "width": "100%",
-                                                          }
-                    }
->
-                    Load 40 European cities
-</button>,
+                  "Locations: ",
+                  3,
                 ],
+                "className": "tl ma2 pa2",
               },
               "ref": null,
               "rendered": Array [
-                "or ",
+                "Locations: ",
+                3,
+              ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": Array [
+                  <Location
+                    id={1}
+                    removeDisabled={true}
+                    removeHandler={[Function]}
+                    selectHandler={[Function]}
+/>,
+                  <Location
+                    id={2}
+                    removeDisabled={false}
+                    removeHandler={[Function]}
+                    selectHandler={[Function]}
+/>,
+                  <Location
+                    id={3}
+                    removeDisabled={false}
+                    removeHandler={[Function]}
+                    selectHandler={[Function]}
+/>,
+                ],
+                "style": Object {
+                  "maxHeight": "calc(100vh - 116px)",
+                  "overflowY": "auto",
+                },
+              },
+              "ref": null,
+              "rendered": Array [
                 Object {
                   "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
+                  "key": "1",
+                  "nodeType": "function",
                   "props": Object {
-                    "children": "Load 40 European cities",
-                    "onClick": [Function],
-                    "style": Object {
-                      "width": "100%",
-                    },
+                    "id": 1,
+                    "removeDisabled": true,
+                    "removeHandler": [Function],
+                    "selectHandler": [Function],
                   },
                   "ref": null,
-                  "rendered": "Load 40 European cities",
-                  "type": "button",
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": "2",
+                  "nodeType": "function",
+                  "props": Object {
+                    "id": 2,
+                    "removeDisabled": false,
+                    "removeHandler": [Function],
+                    "selectHandler": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": "3",
+                  "nodeType": "function",
+                  "props": Object {
+                    "id": 3,
+                    "removeDisabled": false,
+                    "removeHandler": [Function],
+                    "selectHandler": [Function],
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
                 },
               ],
               "type": "div",
@@ -331,7 +601,7 @@ ShallowWrapper {
 }
 `;
 
-exports[`Location List Component Test should render correctly with some routes 1`] = `
+exports[`Location List Component Test should render correctly with no routes 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <LocationList
