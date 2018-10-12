@@ -26,14 +26,49 @@ describe('Location List Component Test', () => {
       distance: '10',
       removeHandler: jest.fn(() => {}),
       selectHandler: jest.fn(select => select),
-      loadHandler: jest.fn(() => {})
+      loadHandler: jest.fn(() => {}),
+    };
+    expect.assertions(2);
+    const LocationListMock = shallow(<LocationList {...mockLocationList} />);
+    expect(LocationListMock).toMatchSnapshot();
+
+    LocationListMock.find('button').simulate('click');
+
+    expect(mockLocationList.loadHandler.mock.calls.length).toBe(1);
+  });
+
+  it('should render correctly with few routes', () => {
+    const mockLocationList = {
+      route: [
+        {
+          id: 1,
+          lat: 1.345678,
+          lng: 1.345678,
+        },
+        {
+          id: 2,
+          lat: 2.345678,
+          lng: 2.345678,
+        },
+        {
+          id: 3,
+          lat: 3.676111,
+          lng: 3.568333,
+        },
+      ],
+      domicileId: 1,
+      distance: '10',
+      removeHandler: jest.fn(() => {}),
+      selectHandler: jest.fn(select => select),
+      loadHandler: jest.fn(() => {}),
     };
     expect.assertions(2);
     const LocationMock = shallow(<LocationList {...mockLocationList} />);
     expect(LocationMock).toMatchSnapshot();
 
-    LocationMock.find('button').simulate('click');
+    expect(LocationMock.find('Location').length).toBe(mockLocationList.route.length);
 
-    expect(mockLocationList.loadHandler.mock.calls.length).toBe(1);
+    
   });
+  
 });
