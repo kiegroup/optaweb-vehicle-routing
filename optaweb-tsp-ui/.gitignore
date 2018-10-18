@@ -21,12 +21,16 @@ yarn-error.log*
 /target
 /local
 
-# Eclipse, NetBeans and IntelliJ files
+# IDEs
+# NetBeans
 /nbproject
+# IntelliJ
 /.idea
 /*.ipr
 /*.iws
 /*.iml
+# Visual Studio Code
+/.vscode
 
 # Repository wide ignore mac DS_Store files
 .DS_Store
