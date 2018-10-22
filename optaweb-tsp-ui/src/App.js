@@ -46,7 +46,9 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.connect();
+    this.connect('http://localhost:8080/tsp-websocket', () => {
+      this.subscribe();
+    });
   }
 
   onClickLoad() {
@@ -68,19 +70,26 @@ class App extends Component {
     this.setState({ selectedId: id });
   }
 
-  connect() {
-    const socket = new SockJS('http://localhost:8080/tsp-websocket');
-    const stompClient = webstomp.over(socket);
+  connect(socketUrl, successCallback) {
+    const webSocket = new SockJS(socketUrl);
+    const stompClient = webstomp.over(webSocket, { debug: true });
     this.setState({ stompClient });
-    stompClient.connect({}, (frame) => {
-      console.info('Connected:', frame);
-      stompClient.subscribe('/topic/route', (res) => {
-        const tsp = JSON.parse(res.body);
-        this.setState({
-          route: tsp.route,
-          domicileId: tsp.route.length > 0 ? tsp.route[0].id : NaN,
-          distance: tsp.distance,
-        });
+    stompClient.connect(
+      {}, // no headers
+      () => { // on connection, subscribe to the route topic
+        successCallback();
+      }, () => { // on error, schedule a reconnection attempt
+        setTimeout(() => this.connect(socketUrl, successCallback), 1000);
+      });
+  }
+
+  subscribe() {
+    this.state.stompClient.subscribe('/topic/route', (message) => {
+      const tsp = JSON.parse(message.body);
+      this.setState({
+        route: tsp.route,
+        domicileId: tsp.route.length > 0 ? tsp.route[0].id : NaN,
+        distance: tsp.distance,
       });
     });
   }
