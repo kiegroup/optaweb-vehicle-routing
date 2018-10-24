@@ -23,23 +23,16 @@ describe('Location Component', () => {
     const props = {
       id: 10,
       removeDisabled: false,
-      removeHandler: jest.fn(() => {}),
-      selectHandler: jest.fn(select => select),
+      removeHandler: jest.fn(),
+      selectHandler: jest.fn(),
     };
     expect.assertions(2);
-    const location = shallow(
-      <Location
-        id={props.id}
-        removeDisabled={props.removeDisabled}
-        removeHandler={props.removeHandler}
-        selectHandler={props.selectHandler}
-      />,
-    );
+    const location = shallow(<Location {...props} />);
     expect(location).toMatchSnapshot();
 
     location.find('button').simulate('click');
     location.find('div').simulate('mouseEnter');
 
-    expect(props.removeHandler.mock.calls.length).toBe(1);
+    expect(props.removeHandler).toHaveBeenCalledTimes(1);
   });
 });

@@ -44,8 +44,8 @@ describe('TSP Map View', () => {
       ],
       domicileId: 1,
       distance: '10',
-      clickHandler: jest.fn(() => {}),
-      removeHandler: jest.fn(() => {}),
+      clickHandler: jest.fn(),
+      removeHandler: jest.fn(),
       zoom: 5,
       selectedId: 1
     };
