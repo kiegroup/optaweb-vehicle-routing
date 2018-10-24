@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import React from 'react';
 import { shallow } from 'enzyme';
+import React from 'react';
 import Location from './Location';
 
 describe('Location List Component Test', () => {

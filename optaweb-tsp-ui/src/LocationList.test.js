@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import React from 'react';
 import { shallow } from 'enzyme';
+import React from 'react';
 import LocationList from './LocationList';
 
 describe('Location List Component Test', () => {
@@ -68,7 +68,6 @@ describe('Location List Component Test', () => {
 
     expect(LocationMock.find('Location').length).toBe(mockLocationList.route.length);
 
-    
   });
-  
+
 });
