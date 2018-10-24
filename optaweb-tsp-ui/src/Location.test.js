@@ -18,28 +18,28 @@ import { shallow } from 'enzyme';
 import React from 'react';
 import Location from './Location';
 
-describe('Location List Component Test', () => {
+describe('Location Component', () => {
   it('should render correctly', () => {
-    const mockLocation = {
+    const props = {
       id: 10,
       removeDisabled: false,
       removeHandler: jest.fn(() => {}),
       selectHandler: jest.fn(select => select),
     };
     expect.assertions(2);
-    const LocationMock = shallow(
+    const location = shallow(
       <Location
-        id={mockLocation.id}
-        removeDisabled={mockLocation.removeDisabled}
-        removeHandler={mockLocation.removeHandler}
-        selectHandler={mockLocation.selectHandler}
+        id={props.id}
+        removeDisabled={props.removeDisabled}
+        removeHandler={props.removeHandler}
+        selectHandler={props.selectHandler}
       />,
     );
-    expect(LocationMock).toMatchSnapshot();
+    expect(location).toMatchSnapshot();
 
-    LocationMock.find('button').simulate('click');
-    LocationMock.find('div').simulate('mouseEnter');
+    location.find('button').simulate('click');
+    location.find('div').simulate('mouseEnter');
 
-    expect(mockLocation.removeHandler.mock.calls.length).toBe(1);
+    expect(props.removeHandler.mock.calls.length).toBe(1);
   });
 });

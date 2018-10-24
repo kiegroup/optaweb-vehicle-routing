@@ -19,8 +19,8 @@ import React from 'react';
 import TspMap from './TspMap';
 
 describe('TSP Map View', () => {
-  it('render without errores', () => {
-    const mockTspMapData = {
+  it('should render correctly', () => {
+    const props = {
       center: {
         lat: 1.345678,
         lng: 1.345678
@@ -50,7 +50,7 @@ describe('TSP Map View', () => {
       selectedId: 1
     };
     expect.assertions(1);
-    const TspMapMock = shallow(<TspMap {...mockTspMapData} />);
-    expect(TspMapMock).toMatchSnapshot();
+    const tspMap = shallow(<TspMap {...props} />);
+    expect(tspMap).toMatchSnapshot();
   });
 });
