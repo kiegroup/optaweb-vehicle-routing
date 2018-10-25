@@ -8,6 +8,7 @@
     "jest/globals": true
   },
   "rules": {
+    "comma-dangle": ["error", "never"],
     "no-console": "off",
     "react/jsx-filename-extension": "off"
   }

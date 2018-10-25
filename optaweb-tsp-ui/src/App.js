@@ -114,7 +114,7 @@ class App extends Component {
           selectedId={selectedId}
           route={route}
           domicileId={domicileId}
-          clickHandler={this.onClickMap}
+          clickHandler={this.onClickMap} 
           removeHandler={this.onClickRemove}
         />
       </div>
