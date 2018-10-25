@@ -1,0 +1,36 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.optaweb.tsp</groupId>
+  <artifactId>optaweb-traveling-salesman</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <version.frontend-maven-plugin>1.6</version.frontend-maven-plugin>
+    <java.version>1.8</java.version>
+    <version.maven-war-plugin>3.2.2</version.maven-war-plugin>
+    <version.node>v8.11.4</version.node>
+    <version.npm>6.4.1</version.npm>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>jboss-snapshot</id>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+      <url>https://repository.jboss.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+  </repositories>
+
+  <modules>
+    <module>optaweb-tsp-planner</module>
+    <module>optaweb-tsp-ui</module>
+  </modules>
+
+
+</project>
