@@ -14,17 +14,23 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import App from './App';
-import './index.css';
-import configureStore from './configureStore';
-import registerServiceWorker from './registerServiceWorker';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { createLogger } from 'redux-logger';
 
-const store = configureStore();
-ReactDOM.render(
-  <Provider store={store}><App /></Provider>
-  , document.getElementById('root'));
 
-registerServiceWorker();
+export default function configureStore(preloadedState) {
+  const logger = createLogger();
+
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+  const rootReducer = combineReducers({});
+
+  const store = createStore(
+    rootReducer, preloadedState,
+    composeEnhancers(applyMiddleware(thunkMiddleware, logger))
+  );
+
+
+  return store;
+}
