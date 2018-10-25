@@ -14,31 +14,31 @@
  * limitations under the License.
  */
 
-import React from 'react';
 import { shallow } from 'enzyme';
+import React from 'react';
 import LocationList from './LocationList';
 
-describe('Location List Component Test', () => {
+describe('Location List Component', () => {
   it('should render correctly with no routes', () => {
-    const mockLocationList = {
+    const props = {
       route: [],
       domicileId: 1,
       distance: '10',
-      removeHandler: jest.fn(() => {}),
-      selectHandler: jest.fn(select => select),
-      loadHandler: jest.fn(() => {}),
+      removeHandler: jest.fn(),
+      selectHandler: jest.fn(),
+      loadHandler: jest.fn(),
     };
     expect.assertions(2);
-    const LocationListMock = shallow(<LocationList {...mockLocationList} />);
-    expect(LocationListMock).toMatchSnapshot();
+    const locationList = shallow(<LocationList {...props} />);
+    expect(locationList).toMatchSnapshot();
 
-    LocationListMock.find('button').simulate('click');
+    locationList.find('button').simulate('click');
 
-    expect(mockLocationList.loadHandler.mock.calls.length).toBe(1);
+    expect(props.loadHandler).toHaveBeenCalledTimes(1);
   });
 
-  it('should render correctly with few routes', () => {
-    const mockLocationList = {
+  it('should render correctly with a few routes', () => {
+    const props = {
       route: [
         {
           id: 1,
@@ -58,17 +58,15 @@ describe('Location List Component Test', () => {
       ],
       domicileId: 1,
       distance: '10',
-      removeHandler: jest.fn(() => {}),
-      selectHandler: jest.fn(select => select),
-      loadHandler: jest.fn(() => {}),
+      removeHandler: jest.fn(),
+      selectHandler: jest.fn(),
+      loadHandler: jest.fn(),
     };
     expect.assertions(2);
-    const LocationMock = shallow(<LocationList {...mockLocationList} />);
-    expect(LocationMock).toMatchSnapshot();
+    const locationList = shallow(<LocationList {...props} />);
+    expect(locationList).toMatchSnapshot();
 
-    expect(LocationMock.find('Location').length).toBe(mockLocationList.route.length);
-
-    
+    expect(locationList.find('Location')).toHaveLength(props.route.length);
   });
-  
+
 });

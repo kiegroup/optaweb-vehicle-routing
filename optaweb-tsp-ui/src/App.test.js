@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+import { render } from 'enzyme';
 import React from 'react';
-import { render /* , mount */ } from 'enzyme';
 import App from './App';
 
 it('renders without crashing', () => {

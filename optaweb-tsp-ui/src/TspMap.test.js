@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import React from 'react';
 import { shallow } from 'enzyme';
+import React from 'react';
 import TspMap from './TspMap';
 
 describe('TSP Map View', () => {
-  it('render without errores', () => {
-    const mockTspMapData = {
+  it('should render correctly', () => {
+    const props = {
       center: {
         lat: 1.345678,
         lng: 1.345678
@@ -44,13 +44,13 @@ describe('TSP Map View', () => {
       ],
       domicileId: 1,
       distance: '10',
-      clickHandler: jest.fn(() => {}),
-      removeHandler: jest.fn(() => {}),
+      clickHandler: jest.fn(),
+      removeHandler: jest.fn(),
       zoom: 5,
       selectedId: 1
     };
     expect.assertions(1);
-    const TspMapMock = shallow(<TspMap {...mockTspMapData} />);
-    expect(TspMapMock).toMatchSnapshot();
+    const tspMap = shallow(<TspMap {...props} />);
+    expect(tspMap).toMatchSnapshot();
   });
 });

@@ -14,32 +14,25 @@
  * limitations under the License.
  */
 
-import React from 'react';
 import { shallow } from 'enzyme';
+import React from 'react';
 import Location from './Location';
 
-describe('Location List Component Test', () => {
+describe('Location Component', () => {
   it('should render correctly', () => {
-    const mockLocation = {
+    const props = {
       id: 10,
       removeDisabled: false,
-      removeHandler: jest.fn(() => {}),
-      selectHandler: jest.fn(select => select),
+      removeHandler: jest.fn(),
+      selectHandler: jest.fn(),
     };
     expect.assertions(2);
-    const LocationMock = shallow(
-      <Location
-        id={mockLocation.id}
-        removeDisabled={mockLocation.removeDisabled}
-        removeHandler={mockLocation.removeHandler}
-        selectHandler={mockLocation.selectHandler}
-      />,
-    );
-    expect(LocationMock).toMatchSnapshot();
+    const location = shallow(<Location {...props} />);
+    expect(location).toMatchSnapshot();
 
-    LocationMock.find('button').simulate('click');
-    LocationMock.find('div').simulate('mouseEnter');
+    location.find('button').simulate('click');
+    location.find('div').simulate('mouseEnter');
 
-    expect(mockLocation.removeHandler.mock.calls.length).toBe(1);
+    expect(props.removeHandler).toHaveBeenCalledTimes(1);
   });
 });
