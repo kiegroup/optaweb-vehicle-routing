@@ -14,17 +14,25 @@
  * limitations under the License.
  */
 
-import { render } from 'enzyme';
+import { shallow } from 'enzyme';
 import React from 'react';
-import App from './App';
+import Location from './Location';
 
-it('renders without crashing', () => {
-  render(<App />);
-});
+describe('Location Component', () => {
+  it('should render correctly', () => {
+    const props = {
+      id: 10,
+      removeDisabled: false,
+      removeHandler: jest.fn(),
+      selectHandler: jest.fn(),
+    };
+    expect.assertions(2);
+    const location = shallow(<Location {...props} />);
+    expect(location).toMatchSnapshot();
 
-/* Application will mount */
-/*
- it('mount without crashing', () => {
-  mount(<App />).unmount();
+    location.find('button').simulate('click');
+    location.find('div').simulate('mouseEnter');
+
+    expect(props.removeHandler).toHaveBeenCalledTimes(1);
+  });
 });
-*/
