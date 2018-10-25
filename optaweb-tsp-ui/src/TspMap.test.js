@@ -23,31 +23,31 @@ describe('TSP Map View', () => {
     const props = {
       center: {
         lat: 1.345678,
-        lng: 1.345678
+        lng: 1.345678,
       },
       route: [
         {
           id: 1,
           lat: 1.345678,
-          lng: 1.345678
+          lng: 1.345678,
         },
         {
           id: 2,
           lat: 2.345678,
-          lng: 2.345678
+          lng: 2.345678,
         },
         {
           id: 3,
           lat: 3.676111,
-          lng: 3.568333
-        }
+          lng: 3.568333,
+        },
       ],
       domicileId: 1,
       distance: '10',
       clickHandler: jest.fn(),
       removeHandler: jest.fn(),
       zoom: 5,
-      selectedId: 1
+      selectedId: 1,
     };
     expect.assertions(1);
     const tspMap = shallow(<TspMap {...props} />);
