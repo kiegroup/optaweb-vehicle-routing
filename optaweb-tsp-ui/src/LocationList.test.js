@@ -68,5 +68,4 @@ describe('Location List Component', () => {
 
     expect(locationList.find('Location')).toHaveLength(props.route.length);
   });
-
 });

@@ -8,6 +8,15 @@
     "jest/globals": true
   },
   "rules": {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.js",
+          "**/setupTests.js"
+        ]
+      }
+    ],
     "no-console": "off",
     "react/jsx-filename-extension": "off"
   }

@@ -39,8 +39,9 @@ function LocationList({ route, domicileId, distance, removeHandler, selectHandle
               <div style={{ maxHeight: 'calc(100vh - 116px)', overflowY: 'auto' }}>
                 {
                   route
-                    .slice(0) // clone the array
-                    .sort((a, b) => a.id - b.id) // because sort is done in place (that would affect the route)
+                    .slice(0) // clone the array because
+                    // sort is done in place (that would affect the route)
+                    .sort((a, b) => a.id - b.id)
                     .map(location => (
                       <Location
                         key={location.id}
