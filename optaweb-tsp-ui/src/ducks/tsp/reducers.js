@@ -5,8 +5,8 @@ import types from './types';
 
 const INITIAL_STATE = {
   route: [],
-  domicileId: undefined,
-  distance: 0,
+  domicileId: -1,
+  distance: '0.00',
 };
 
 
