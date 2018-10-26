@@ -18,19 +18,25 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 
+import tspReducer, { tspOperations } from './ducks/tsp/index';
 
-export default function configureStore(preloadedState) {
+export default function configureStore(preloadedState, { socketUrl = 'http://localhost:8080/tsp-websocket' } = {}) {
   const logger = createLogger();
 
+  /* eslint-disable no-underscore-dangle */
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-  const rootReducer = combineReducers({});
+  /* eslint-enable */
+  const rootReducer = combineReducers({ tsp: tspReducer });
 
   const store = createStore(
-    rootReducer, preloadedState,
-    composeEnhancers(applyMiddleware(thunkMiddleware, logger))
+    rootReducer, preloadedState, composeEnhancers(applyMiddleware(thunkMiddleware, logger)),
   );
 
+  store.dispatch(tspOperations.connect(store, socketUrl));
+
+  /* if (process.env.NODE_ENV !== 'production' && module.hot) {
+    module.hot.accept('./reducers', () => store.replaceReducer(rootReducer));
+  } */
 
   return store;
 }

@@ -15,11 +15,30 @@
  */
 
 import React, { Component } from 'react';
-import SockJS from 'sockjs-client';
+import { connect } from 'react-redux';
 import 'tachyons/css/tachyons.css';
-import webstomp from 'webstomp-client';
 import LocationList from './LocationList';
 import TspMap from './TspMap';
+import { tspOperations } from './ducks/tsp/index';
+
+function mapStateToProps(state) {
+  return { tsp: state.tsp };
+}
+
+function mapDispatchToProps(dispatch) {
+  function onClickLoad() {
+    dispatch(tspOperations.addLocation(undefined, true));
+  }
+  function onClickMap(location) {
+    dispatch(tspOperations.addLocation(location));
+  }
+
+  function onClickRemove(id) {
+    dispatch(tspOperations.deleteLocation(id));
+  }
+  return { onClickLoad, onClickMap, onClickRemove };
+}
+
 
 class App extends Component {
   constructor() {
@@ -33,10 +52,6 @@ class App extends Component {
       zoom: 5,
       counter: -1,
       selectedId: NaN,
-      route: [],
-      domicileId: NaN,
-      distance: '',
-      stompClient: null,
     };
 
     this.onClickLoad = this.onClickLoad.bind(this);
@@ -46,23 +61,20 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.connect('http://localhost:8080/tsp-websocket', () => {
-      this.subscribe();
-    });
+
   }
 
   onClickLoad() {
-    this.state.stompClient.send('/app/demo');
+    this.props.onClickLoad();
   }
 
   onClickMap(e) {
-    console.log(e.latlng);
-    this.state.stompClient.send('/app/place', JSON.stringify(e.latlng));
+    this.props.onClickMap(e.latlng);
   }
 
   onClickRemove(id) {
     if (id !== this.state.domicileId || this.state.route.length === 1) {
-      this.state.stompClient.send(`/app/place/${id}/delete`);
+      this.props.onClickRemove(id);
     }
   }
 
@@ -70,32 +82,9 @@ class App extends Component {
     this.setState({ selectedId: id });
   }
 
-  connect(socketUrl, successCallback) {
-    const webSocket = new SockJS(socketUrl);
-    const stompClient = webstomp.over(webSocket, { debug: true });
-    this.setState({ stompClient });
-    stompClient.connect(
-      {}, // no headers
-      () => { // on connection, subscribe to the route topic
-        successCallback();
-      }, () => { // on error, schedule a reconnection attempt
-        setTimeout(() => this.connect(socketUrl, successCallback), 1000);
-      });
-  }
-
-  subscribe() {
-    this.state.stompClient.subscribe('/topic/route', (message) => {
-      const tsp = JSON.parse(message.body);
-      this.setState({
-        route: tsp.route,
-        domicileId: tsp.route.length > 0 ? tsp.route[0].id : NaN,
-        distance: tsp.distance,
-      });
-    });
-  }
-
   render() {
-    const { center, zoom, selectedId, route, domicileId, distance } = this.state;
+    const { center, zoom, selectedId } = this.state;
+    const { route, domicileId, distance } = this.props.tsp;
     console.log(`Render, center: ${center}, route: [${route}], selected: ${selectedId}`);
 
     return (
@@ -122,4 +111,9 @@ class App extends Component {
   }
 }
 
-export default App;
+
+if (process.env.NODE_ENV !== 'production' && module.hot) {
+  module.hot.accept('./App', App);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
