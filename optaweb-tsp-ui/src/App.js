@@ -16,6 +16,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import 'tachyons/css/tachyons.css';
 import LocationList from './LocationList';
 import TspMap from './TspMap';
@@ -111,6 +112,24 @@ class App extends Component {
   }
 }
 
+App.propTypes = {
+  tsp: PropTypes.shape({
+    route: PropTypes.array.isRequired,
+    domicileId: PropTypes.number.isRequired,
+    distance: PropTypes.string.isRequired,
+  }),
+  onClickLoad: PropTypes.func.isRequired,
+  onClickMap: PropTypes.func.isRequired,
+  onClickRemove: PropTypes.func.isRequired,
+};
+
+App.defaultProps = {
+  tsp: {
+    route: [],
+    domicileId: -1,
+    distance: 0,
+  },
+};
 
 if (process.env.NODE_ENV !== 'production' && module.hot) {
   module.hot.accept('./App', App);
