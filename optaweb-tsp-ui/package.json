@@ -25,6 +25,8 @@
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "./node_modules/eslint/bin/eslint.js ./src",
+    "lint:fix": "npm run lint -- --fix",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
