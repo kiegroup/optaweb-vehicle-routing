@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import { render } from 'enzyme';
-import React from 'react';
+// import { render } from 'enzyme';
+// import React from 'react';
 
 describe('-- 🦆 TSP -- ', () => {
   it('dummy test', () => {
 
   });
-})
+});
 
 /* Application will mount */
 /*
@@ -29,4 +29,3 @@ describe('-- 🦆 TSP -- ', () => {
   mount(<App />).unmount();
 });
 */
-
