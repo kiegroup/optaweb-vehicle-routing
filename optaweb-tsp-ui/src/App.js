@@ -51,7 +51,7 @@ class App extends Component {
         lng: 16.57561,
       },
       zoom: 5,
-      counter: -1,
+      // counter: -1,
       selectedId: NaN,
     };
 
@@ -66,16 +66,20 @@ class App extends Component {
   }
 
   onClickLoad() {
-    this.props.onClickLoad();
+    const { onClickLoad } = this.props;
+    return onClickLoad();
   }
 
   onClickMap(e) {
-    this.props.onClickMap(e.latlng);
+    const { onClickMap } = this.props;
+    onClickMap(e.latlng);
   }
 
   onClickRemove(id) {
-    if (id !== this.state.domicileId || this.state.route.length === 1) {
-      this.props.onClickRemove(id);
+    const { domicileId, route } = this.state;
+    const { onClickRemove } = this.props;
+    if (id !== domicileId || route.length === 1) {
+      onClickRemove(id);
     }
   }
 
@@ -85,7 +89,7 @@ class App extends Component {
 
   render() {
     const { center, zoom, selectedId } = this.state;
-    const { route, domicileId, distance } = this.props.tsp;
+    const { tsp: { route, domicileId, distance } } = this.props;
     console.log(`Render, center: ${center}, route: [${route}], selected: ${selectedId}`);
 
     return (

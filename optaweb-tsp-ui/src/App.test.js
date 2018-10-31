@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-import { render } from 'enzyme';
-import React from 'react';
-import configureStore from 'redux-mock-store';
-import App from './App';
+// import { render } from 'enzyme';
+// import React from 'react';
+// import App from './App';
 
 describe('-- TSP App tests --', () => {
   it('renders without crashing', () => {
-    //const store = configureStore();
-    //render(<App store={store} />);
+    // const store = configureStore();
+    // render(<App store={store} />);
   });
 });
 
