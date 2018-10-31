@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import {
+  createStore, combineReducers, compose, applyMiddleware,
+} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 

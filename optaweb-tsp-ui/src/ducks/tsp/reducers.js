@@ -39,4 +39,3 @@ export default function tspReducer(state = INITIAL_STATE, action) {
     default: return state;
   }
 }
-

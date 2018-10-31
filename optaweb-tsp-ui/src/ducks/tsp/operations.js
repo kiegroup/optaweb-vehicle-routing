@@ -24,8 +24,8 @@ const {
   updateTPSSolution,
   initWsConnection,
   wsConnectionSuccess,
-  wsConnectionFailure }
-  = Creators;
+  wsConnectionFailure,
+} = Creators;
 
 
 let webSocket;
@@ -52,7 +52,8 @@ function connectWs(store, socketUrl) {
       }, (err) => { // on error, schedule a reconnection attempt
         dispatch(wsConnectionFailure(err));
         setTimeout(() => connectWs(store, socketUrl), 1000);
-      });
+      },
+    );
   };
 }
 
@@ -85,4 +86,3 @@ export default {
   deleteLocation: deleteLocationOp,
 
 };
-

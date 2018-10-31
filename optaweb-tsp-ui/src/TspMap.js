@@ -17,9 +17,13 @@
 import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Map, Marker, Polygon, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
+import {
+  Map, Marker, Polygon, TileLayer, Tooltip, ZoomControl,
+} from 'react-leaflet';
 
-function TspMap({ center, zoom, selectedId, route, domicileId, clickHandler, removeHandler }) {
+function TspMap({
+  center, zoom, selectedId, route, domicileId, clickHandler, removeHandler,
+}) {
   const homeIcon = L.icon({
     iconUrl: 'if_big_house-home_2222740.png',
     shadowUrl: 'if_big_house-home_2222740_shadow.png',

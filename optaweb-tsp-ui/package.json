@@ -42,5 +42,11 @@
     "react-test-renderer": "^16.6.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-mock-store": "^1.5.3"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
