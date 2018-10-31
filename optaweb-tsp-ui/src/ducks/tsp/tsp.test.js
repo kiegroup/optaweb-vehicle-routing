@@ -16,15 +16,12 @@
 
 import { render } from 'enzyme';
 import React from 'react';
-import configureStore from 'redux-mock-store';
-import App from './App';
 
-describe('-- TSP App tests --', () => {
-  it('renders without crashing', () => {
-    //const store = configureStore();
-    //render(<App store={store} />);
+describe('-- 🦆 TSP -- ', () => {
+  it('dummy test', () => {
+
   });
-});
+})
 
 /* Application will mount */
 /*
@@ -32,3 +29,4 @@ describe('-- TSP App tests --', () => {
   mount(<App />).unmount();
 });
 */
+
