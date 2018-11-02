@@ -34,7 +34,7 @@ const actions = {
 
   deleteLocation: makeActionCreator(types.DELETE_LOCATION, 'value'),
 
-  updateTPSSolution: makeActionCreator(types.SOLUTION_UPDATES_DATA, 'solution'),
+  updateTSPSolution: makeActionCreator(types.SOLUTION_UPDATES_DATA, 'solution'),
 
 
   initWsConnection: makeActionCreator(types.WS_CONNECT, 'value'),
