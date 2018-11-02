@@ -53,7 +53,7 @@ function connectWs(store, socketUrl) {
       (err) => {
         // on error, schedule a reconnection attempt
         dispatch(wsConnectionFailure(err));
-        setTimeout(() => connectWs(store, socketUrl), 1000);
+        setTimeout(() => connectWs(store, socketUrl)(dispatch), 1000);
       },
     );
   };
