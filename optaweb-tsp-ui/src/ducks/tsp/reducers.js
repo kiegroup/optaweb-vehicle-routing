@@ -26,7 +26,7 @@ export default function tspReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case types.SOLUTION_UPDATES_DATA: {
       const { route, distance } = action.solution;
-      if (route.length <= 1) {
+      if (route.length < 1) {
         return state;
       }
       return {
@@ -34,6 +34,12 @@ export default function tspReducer(state = INITIAL_STATE, action) {
         domicileId: route.length > 0 ? route[0].id : NaN,
         distance,
       };
+    }
+    case types.DELETE_LOCATION: {
+      if (state.route.length === 1) {
+        return { ...INITIAL_STATE };
+      }
+      return state;
     }
     case types.ADD_LOCATION:
     case types.ADD_DEMO_LOCATION:
