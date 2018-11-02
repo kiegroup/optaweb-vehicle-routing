@@ -6,29 +6,29 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <LocationList
     distance="10"
     domicileId={1}
-    loadHandler={[Function]}
-    removeHandler={[Function]}
+    loadHandler={[MockFunction]}
+    removeHandler={[MockFunction]}
     route={
-        Array [
-            Object {
-              "id": 1,
-              "lat": 1.345678,
-              "lng": 1.345678,
-            },
-            Object {
-              "id": 2,
-              "lat": 2.345678,
-              "lng": 2.345678,
-            },
-            Object {
-              "id": 3,
-              "lat": 3.676111,
-              "lng": 3.568333,
-            },
-          ]
+      Array [
+        Object {
+          "id": 1,
+          "lat": 1.345678,
+          "lng": 1.345678,
+        },
+        Object {
+          "id": 2,
+          "lat": 2.345678,
+          "lng": 2.345678,
+        },
+        Object {
+          "id": 3,
+          "lat": 3.676111,
+          "lng": 3.568333,
+        },
+      ]
     }
-    selectHandler={[Function]}
-/>,
+    selectHandler={[MockFunction]}
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -44,51 +44,51 @@ ShallowWrapper {
     "props": Object {
       "children": <div
         className="leaflet-control leaflet-bar w5 bg-white"
->
+      >
         <div>
-                <div
-                        className="tl ma2 pa2"
-                >
-                        Distance:
-                         
-                        10
-                </div>
-                <div
-                        className="tl ma2 pa2"
-                >
-                        Locations:
-                         
-                        3
-                </div>
-                <div
-                        style={
-                                Object {
-                                        "maxHeight": "calc(100vh - 116px)",
-                                        "overflowY": "auto",
-                                      }
-                        }
-                >
-                        <Location
-                                id={1}
-                                removeDisabled={true}
-                                removeHandler={[Function]}
-                                selectHandler={[Function]}
-                        />
-                        <Location
-                                id={2}
-                                removeDisabled={false}
-                                removeHandler={[Function]}
-                                selectHandler={[Function]}
-                        />
-                        <Location
-                                id={3}
-                                removeDisabled={false}
-                                removeHandler={[Function]}
-                                selectHandler={[Function]}
-                        />
-                </div>
+          <div
+            className="tl ma2 pa2"
+          >
+            Distance:
+             
+            10
+          </div>
+          <div
+            className="tl ma2 pa2"
+          >
+            Locations:
+             
+            3
+          </div>
+          <div
+            style={
+              Object {
+                "maxHeight": "calc(100vh - 116px)",
+                "overflowY": "auto",
+              }
+            }
+          >
+            <Location
+              id={1}
+              removeDisabled={true}
+              removeHandler={[MockFunction]}
+              selectHandler={[MockFunction]}
+            />
+            <Location
+              id={2}
+              removeDisabled={false}
+              removeHandler={[MockFunction]}
+              selectHandler={[MockFunction]}
+            />
+            <Location
+              id={3}
+              removeDisabled={false}
+              removeHandler={[MockFunction]}
+              selectHandler={[MockFunction]}
+            />
+          </div>
         </div>
-</div>,
+      </div>,
       "className": "leaflet-top leaflet-left leaflet-touch",
     },
     "ref": null,
@@ -99,47 +99,47 @@ ShallowWrapper {
       "props": Object {
         "children": <div>
           <div
-                    className="tl ma2 pa2"
+            className="tl ma2 pa2"
           >
-                    Distance:
-                     
-                    10
+            Distance:
+             
+            10
           </div>
           <div
-                    className="tl ma2 pa2"
+            className="tl ma2 pa2"
           >
-                    Locations:
-                     
-                    3
+            Locations:
+             
+            3
           </div>
           <div
-                    style={
-                              Object {
-                                        "maxHeight": "calc(100vh - 116px)",
-                                        "overflowY": "auto",
-                                      }
-                    }
+            style={
+              Object {
+                "maxHeight": "calc(100vh - 116px)",
+                "overflowY": "auto",
+              }
+            }
           >
-                    <Location
-                              id={1}
-                              removeDisabled={true}
-                              removeHandler={[Function]}
-                              selectHandler={[Function]}
-                    />
-                    <Location
-                              id={2}
-                              removeDisabled={false}
-                              removeHandler={[Function]}
-                              selectHandler={[Function]}
-                    />
-                    <Location
-                              id={3}
-                              removeDisabled={false}
-                              removeHandler={[Function]}
-                              selectHandler={[Function]}
-                    />
+            <Location
+              id={1}
+              removeDisabled={true}
+              removeHandler={[MockFunction]}
+              selectHandler={[MockFunction]}
+            />
+            <Location
+              id={2}
+              removeDisabled={false}
+              removeHandler={[MockFunction]}
+              selectHandler={[MockFunction]}
+            />
+            <Location
+              id={3}
+              removeDisabled={false}
+              removeHandler={[MockFunction]}
+              selectHandler={[MockFunction]}
+            />
           </div>
-</div>,
+        </div>,
         "className": "leaflet-control leaflet-bar w5 bg-white",
       },
       "ref": null,
@@ -151,45 +151,45 @@ ShallowWrapper {
           "children": Array [
             <div
               className="tl ma2 pa2"
->
+            >
               Distance:
                
               10
-</div>,
+            </div>,
             <div
               className="tl ma2 pa2"
->
+            >
               Locations:
                
               3
-</div>,
+            </div>,
             <div
               style={
-                            Object {
-                                          "maxHeight": "calc(100vh - 116px)",
-                                          "overflowY": "auto",
-                                        }
+                Object {
+                  "maxHeight": "calc(100vh - 116px)",
+                  "overflowY": "auto",
+                }
               }
->
+            >
               <Location
-                            id={1}
-                            removeDisabled={true}
-                            removeHandler={[Function]}
-                            selectHandler={[Function]}
+                id={1}
+                removeDisabled={true}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
               />
               <Location
-                            id={2}
-                            removeDisabled={false}
-                            removeHandler={[Function]}
-                            selectHandler={[Function]}
+                id={2}
+                removeDisabled={false}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
               />
               <Location
-                            id={3}
-                            removeDisabled={false}
-                            removeHandler={[Function]}
-                            selectHandler={[Function]}
+                id={3}
+                removeDisabled={false}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
               />
-</div>,
+            </div>,
           ],
         },
         "ref": null,
@@ -243,21 +243,21 @@ ShallowWrapper {
                 <Location
                   id={1}
                   removeDisabled={true}
-                  removeHandler={[Function]}
-                  selectHandler={[Function]}
-/>,
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
+                />,
                 <Location
                   id={2}
                   removeDisabled={false}
-                  removeHandler={[Function]}
-                  selectHandler={[Function]}
-/>,
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
+                />,
                 <Location
                   id={3}
                   removeDisabled={false}
-                  removeHandler={[Function]}
-                  selectHandler={[Function]}
-/>,
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
+                />,
               ],
               "style": Object {
                 "maxHeight": "calc(100vh - 116px)",
@@ -273,8 +273,8 @@ ShallowWrapper {
                 "props": Object {
                   "id": 1,
                   "removeDisabled": true,
-                  "removeHandler": [Function],
-                  "selectHandler": [Function],
+                  "removeHandler": [MockFunction],
+                  "selectHandler": [MockFunction],
                 },
                 "ref": null,
                 "rendered": null,
@@ -287,8 +287,8 @@ ShallowWrapper {
                 "props": Object {
                   "id": 2,
                   "removeDisabled": false,
-                  "removeHandler": [Function],
-                  "selectHandler": [Function],
+                  "removeHandler": [MockFunction],
+                  "selectHandler": [MockFunction],
                 },
                 "ref": null,
                 "rendered": null,
@@ -301,8 +301,8 @@ ShallowWrapper {
                 "props": Object {
                   "id": 3,
                   "removeDisabled": false,
-                  "removeHandler": [Function],
-                  "selectHandler": [Function],
+                  "removeHandler": [MockFunction],
+                  "selectHandler": [MockFunction],
                 },
                 "ref": null,
                 "rendered": null,
@@ -326,51 +326,51 @@ ShallowWrapper {
       "props": Object {
         "children": <div
           className="leaflet-control leaflet-bar w5 bg-white"
->
+        >
           <div>
-                    <div
-                              className="tl ma2 pa2"
-                    >
-                              Distance:
-                               
-                              10
-                    </div>
-                    <div
-                              className="tl ma2 pa2"
-                    >
-                              Locations:
-                               
-                              3
-                    </div>
-                    <div
-                              style={
-                                        Object {
-                                                  "maxHeight": "calc(100vh - 116px)",
-                                                  "overflowY": "auto",
-                                                }
-                              }
-                    >
-                              <Location
-                                        id={1}
-                                        removeDisabled={true}
-                                        removeHandler={[Function]}
-                                        selectHandler={[Function]}
-                              />
-                              <Location
-                                        id={2}
-                                        removeDisabled={false}
-                                        removeHandler={[Function]}
-                                        selectHandler={[Function]}
-                              />
-                              <Location
-                                        id={3}
-                                        removeDisabled={false}
-                                        removeHandler={[Function]}
-                                        selectHandler={[Function]}
-                              />
-                    </div>
+            <div
+              className="tl ma2 pa2"
+            >
+              Distance:
+               
+              10
+            </div>
+            <div
+              className="tl ma2 pa2"
+            >
+              Locations:
+               
+              3
+            </div>
+            <div
+              style={
+                Object {
+                  "maxHeight": "calc(100vh - 116px)",
+                  "overflowY": "auto",
+                }
+              }
+            >
+              <Location
+                id={1}
+                removeDisabled={true}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
+              />
+              <Location
+                id={2}
+                removeDisabled={false}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
+              />
+              <Location
+                id={3}
+                removeDisabled={false}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
+              />
+            </div>
           </div>
-</div>,
+        </div>,
         "className": "leaflet-top leaflet-left leaflet-touch",
       },
       "ref": null,
@@ -381,47 +381,47 @@ ShallowWrapper {
         "props": Object {
           "children": <div>
             <div
-                        className="tl ma2 pa2"
+              className="tl ma2 pa2"
             >
-                        Distance:
-                         
-                        10
+              Distance:
+               
+              10
             </div>
             <div
-                        className="tl ma2 pa2"
+              className="tl ma2 pa2"
             >
-                        Locations:
-                         
-                        3
+              Locations:
+               
+              3
             </div>
             <div
-                        style={
-                                    Object {
-                                                "maxHeight": "calc(100vh - 116px)",
-                                                "overflowY": "auto",
-                                              }
-                        }
+              style={
+                Object {
+                  "maxHeight": "calc(100vh - 116px)",
+                  "overflowY": "auto",
+                }
+              }
             >
-                        <Location
-                                    id={1}
-                                    removeDisabled={true}
-                                    removeHandler={[Function]}
-                                    selectHandler={[Function]}
-                        />
-                        <Location
-                                    id={2}
-                                    removeDisabled={false}
-                                    removeHandler={[Function]}
-                                    selectHandler={[Function]}
-                        />
-                        <Location
-                                    id={3}
-                                    removeDisabled={false}
-                                    removeHandler={[Function]}
-                                    selectHandler={[Function]}
-                        />
+              <Location
+                id={1}
+                removeDisabled={true}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
+              />
+              <Location
+                id={2}
+                removeDisabled={false}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
+              />
+              <Location
+                id={3}
+                removeDisabled={false}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
+              />
             </div>
-</div>,
+          </div>,
           "className": "leaflet-control leaflet-bar w5 bg-white",
         },
         "ref": null,
@@ -433,45 +433,45 @@ ShallowWrapper {
             "children": Array [
               <div
                 className="tl ma2 pa2"
->
+              >
                 Distance:
                  
                 10
-</div>,
+              </div>,
               <div
                 className="tl ma2 pa2"
->
+              >
                 Locations:
                  
                 3
-</div>,
+              </div>,
               <div
                 style={
-                                Object {
-                                                "maxHeight": "calc(100vh - 116px)",
-                                                "overflowY": "auto",
-                                              }
+                  Object {
+                    "maxHeight": "calc(100vh - 116px)",
+                    "overflowY": "auto",
+                  }
                 }
->
+              >
                 <Location
-                                id={1}
-                                removeDisabled={true}
-                                removeHandler={[Function]}
-                                selectHandler={[Function]}
+                  id={1}
+                  removeDisabled={true}
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
                 />
                 <Location
-                                id={2}
-                                removeDisabled={false}
-                                removeHandler={[Function]}
-                                selectHandler={[Function]}
+                  id={2}
+                  removeDisabled={false}
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
                 />
                 <Location
-                                id={3}
-                                removeDisabled={false}
-                                removeHandler={[Function]}
-                                selectHandler={[Function]}
+                  id={3}
+                  removeDisabled={false}
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
                 />
-</div>,
+              </div>,
             ],
           },
           "ref": null,
@@ -525,21 +525,21 @@ ShallowWrapper {
                   <Location
                     id={1}
                     removeDisabled={true}
-                    removeHandler={[Function]}
-                    selectHandler={[Function]}
-/>,
+                    removeHandler={[MockFunction]}
+                    selectHandler={[MockFunction]}
+                  />,
                   <Location
                     id={2}
                     removeDisabled={false}
-                    removeHandler={[Function]}
-                    selectHandler={[Function]}
-/>,
+                    removeHandler={[MockFunction]}
+                    selectHandler={[MockFunction]}
+                  />,
                   <Location
                     id={3}
                     removeDisabled={false}
-                    removeHandler={[Function]}
-                    selectHandler={[Function]}
-/>,
+                    removeHandler={[MockFunction]}
+                    selectHandler={[MockFunction]}
+                  />,
                 ],
                 "style": Object {
                   "maxHeight": "calc(100vh - 116px)",
@@ -555,8 +555,8 @@ ShallowWrapper {
                   "props": Object {
                     "id": 1,
                     "removeDisabled": true,
-                    "removeHandler": [Function],
-                    "selectHandler": [Function],
+                    "removeHandler": [MockFunction],
+                    "selectHandler": [MockFunction],
                   },
                   "ref": null,
                   "rendered": null,
@@ -569,8 +569,8 @@ ShallowWrapper {
                   "props": Object {
                     "id": 2,
                     "removeDisabled": false,
-                    "removeHandler": [Function],
-                    "selectHandler": [Function],
+                    "removeHandler": [MockFunction],
+                    "selectHandler": [MockFunction],
                   },
                   "ref": null,
                   "rendered": null,
@@ -583,8 +583,8 @@ ShallowWrapper {
                   "props": Object {
                     "id": 3,
                     "removeDisabled": false,
-                    "removeHandler": [Function],
-                    "selectHandler": [Function],
+                    "removeHandler": [MockFunction],
+                    "selectHandler": [MockFunction],
                   },
                   "ref": null,
                   "rendered": null,
@@ -627,11 +627,11 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <LocationList
     distance="10"
     domicileId={1}
-    loadHandler={[Function]}
-    removeHandler={[Function]}
+    loadHandler={[MockFunction]}
+    removeHandler={[MockFunction]}
     route={Array []}
-    selectHandler={[Function]}
-/>,
+    selectHandler={[MockFunction]}
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -647,31 +647,31 @@ ShallowWrapper {
     "props": Object {
       "children": <div
         className="leaflet-control leaflet-bar w5 bg-white"
->
+      >
         <div
-                className="tc ma2"
+          className="tc ma2"
         >
-                <div>
-                        Click map to add locations
-                </div>
-                <div>
-                         
-                        or
-                         
-                        <button
-                                onClick={[Function]}
-                                style={
-                                        Object {
-                                                "width": "100%",
-                                              }
-                                }
-                                type="button"
-                        >
-                                Load 40 European cities
-                        </button>
-                </div>
+          <div>
+            Click map to add locations
+          </div>
+          <div>
+             
+            or
+             
+            <button
+              onClick={[MockFunction]}
+              style={
+                Object {
+                  "width": "100%",
+                }
+              }
+              type="button"
+            >
+              Load 40 European cities
+            </button>
+          </div>
         </div>
-</div>,
+      </div>,
       "className": "leaflet-top leaflet-left leaflet-touch",
     },
     "ref": null,
@@ -682,27 +682,27 @@ ShallowWrapper {
       "props": Object {
         "children": <div
           className="tc ma2"
->
+        >
           <div>
-                    Click map to add locations
+            Click map to add locations
           </div>
           <div>
-                     
-                    or
-                     
-                    <button
-                              onClick={[Function]}
-                              style={
-                                        Object {
-                                                  "width": "100%",
-                                                }
-                              }
-                              type="button"
-                    >
-                              Load 40 European cities
-                    </button>
+             
+            or
+             
+            <button
+              onClick={[MockFunction]}
+              style={
+                Object {
+                  "width": "100%",
+                }
+              }
+              type="button"
+            >
+              Load 40 European cities
+            </button>
           </div>
-</div>,
+        </div>,
         "className": "leaflet-control leaflet-bar w5 bg-white",
       },
       "ref": null,
@@ -714,23 +714,23 @@ ShallowWrapper {
           "children": Array [
             <div>
               Click map to add locations
-</div>,
+            </div>,
             <div>
                
               or
                
               <button
-                            onClick={[Function]}
-                            style={
-                                          Object {
-                                                        "width": "100%",
-                                                      }
-                            }
-                            type="button"
+                onClick={[MockFunction]}
+                style={
+                  Object {
+                    "width": "100%",
+                  }
+                }
+                type="button"
               >
-                            Load 40 European cities
+                Load 40 European cities
               </button>
-</div>,
+            </div>,
           ],
           "className": "tc ma2",
         },
@@ -757,16 +757,16 @@ ShallowWrapper {
                 "or",
                 " ",
                 <button
-                  onClick={[Function]}
+                  onClick={[MockFunction]}
                   style={
-                                    Object {
-                                                      "width": "100%",
-                                                    }
+                    Object {
+                      "width": "100%",
+                    }
                   }
                   type="button"
->
+                >
                   Load 40 European cities
-</button>,
+                </button>,
               ],
             },
             "ref": null,
@@ -780,7 +780,7 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": "Load 40 European cities",
-                  "onClick": [Function],
+                  "onClick": [MockFunction],
                   "style": Object {
                     "width": "100%",
                   },
@@ -808,31 +808,31 @@ ShallowWrapper {
       "props": Object {
         "children": <div
           className="leaflet-control leaflet-bar w5 bg-white"
->
+        >
           <div
-                    className="tc ma2"
+            className="tc ma2"
           >
-                    <div>
-                              Click map to add locations
-                    </div>
-                    <div>
-                               
-                              or
-                               
-                              <button
-                                        onClick={[Function]}
-                                        style={
-                                                  Object {
-                                                            "width": "100%",
-                                                          }
-                                        }
-                                        type="button"
-                              >
-                                        Load 40 European cities
-                              </button>
-                    </div>
+            <div>
+              Click map to add locations
+            </div>
+            <div>
+               
+              or
+               
+              <button
+                onClick={[MockFunction]}
+                style={
+                  Object {
+                    "width": "100%",
+                  }
+                }
+                type="button"
+              >
+                Load 40 European cities
+              </button>
+            </div>
           </div>
-</div>,
+        </div>,
         "className": "leaflet-top leaflet-left leaflet-touch",
       },
       "ref": null,
@@ -843,27 +843,27 @@ ShallowWrapper {
         "props": Object {
           "children": <div
             className="tc ma2"
->
+          >
             <div>
-                        Click map to add locations
+              Click map to add locations
             </div>
             <div>
-                         
-                        or
-                         
-                        <button
-                                    onClick={[Function]}
-                                    style={
-                                                Object {
-                                                            "width": "100%",
-                                                          }
-                                    }
-                                    type="button"
-                        >
-                                    Load 40 European cities
-                        </button>
+               
+              or
+               
+              <button
+                onClick={[MockFunction]}
+                style={
+                  Object {
+                    "width": "100%",
+                  }
+                }
+                type="button"
+              >
+                Load 40 European cities
+              </button>
             </div>
-</div>,
+          </div>,
           "className": "leaflet-control leaflet-bar w5 bg-white",
         },
         "ref": null,
@@ -875,23 +875,23 @@ ShallowWrapper {
             "children": Array [
               <div>
                 Click map to add locations
-</div>,
+              </div>,
               <div>
                  
                 or
                  
                 <button
-                                onClick={[Function]}
-                                style={
-                                                Object {
-                                                                "width": "100%",
-                                                              }
-                                }
-                                type="button"
+                  onClick={[MockFunction]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="button"
                 >
-                                Load 40 European cities
+                  Load 40 European cities
                 </button>
-</div>,
+              </div>,
             ],
             "className": "tc ma2",
           },
@@ -918,16 +918,16 @@ ShallowWrapper {
                   "or",
                   " ",
                   <button
-                    onClick={[Function]}
+                    onClick={[MockFunction]}
                     style={
-                                        Object {
-                                                            "width": "100%",
-                                                          }
+                      Object {
+                        "width": "100%",
+                      }
                     }
                     type="button"
->
+                  >
                     Load 40 European cities
-</button>,
+                  </button>,
                 ],
               },
               "ref": null,
@@ -941,7 +941,7 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": "Load 40 European cities",
-                    "onClick": [Function],
+                    "onClick": [MockFunction],
                     "style": Object {
                       "width": "100%",
                     },
