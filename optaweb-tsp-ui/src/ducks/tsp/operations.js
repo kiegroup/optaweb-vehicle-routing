@@ -21,12 +21,11 @@ import Creators from './actions';
 const {
   addLocation,
   deleteLocation,
-  updateTPSSolution,
+  updateTSPSolution,
   initWsConnection,
   wsConnectionSuccess,
   wsConnectionFailure,
 } = Creators;
-
 
 let webSocket;
 let stompClient;
@@ -34,7 +33,7 @@ let stompClient;
 function mapEventToActions(dispatch) {
   stompClient.subscribe('/topic/route', (message) => {
     const tsp = JSON.parse(message.body);
-    dispatch(updateTPSSolution(tsp));
+    dispatch(updateTSPSolution(tsp));
   });
 }
 
@@ -46,24 +45,21 @@ function connectWs(store, socketUrl) {
     dispatch(initWsConnection(socketUrl));
     stompClient.connect(
       {}, // no headers
-      () => { // on connection, subscribe to the route topic
+      () => {
+        // on connection, subscribe to the route topic
         dispatch(wsConnectionSuccess(stompClient));
         mapEventToActions(store.dispatch);
-      }, (err) => { // on error, schedule a reconnection attempt
+      },
+      (err) => {
+        // on error, schedule a reconnection attempt
         dispatch(wsConnectionFailure(err));
-        setTimeout(() => connectWs(store, socketUrl), 1000);
+        setTimeout(() => connectWs(store, socketUrl)(dispatch), 1000);
       },
     );
   };
 }
 
-
-const addLocationOp = (location, demo = false) => (dispatch) => {
-  if (demo) {
-    stompClient.send('/app/demo');
-    dispatch(addLocation(location));
-    return;
-  }
+const addLocationOp = location => (dispatch) => {
   if (!location) {
     return;
   }
@@ -72,17 +68,25 @@ const addLocationOp = (location, demo = false) => (dispatch) => {
   dispatch(addLocation(location));
 };
 
+const loadDemoOp = () => (dispatch) => {
+  stompClient.send('/app/demo');
+  dispatch(addLocation());
+};
+
 const deleteLocationOp = locationId => (dispatch) => {
   if (!locationId) {
     return;
   }
-  stompClient.send(`/app/place/${locationId}/delete`, JSON.stringify(locationId));
+  stompClient.send(
+    `/app/place/${locationId}/delete`,
+    JSON.stringify(locationId),
+  );
   dispatch(deleteLocation(locationId));
 };
 
 export default {
   connect: connectWs,
   addLocation: addLocationOp,
+  loadDemo: loadDemoOp,
   deleteLocation: deleteLocationOp,
-
 };

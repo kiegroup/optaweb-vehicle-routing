@@ -22,24 +22,21 @@ import LocationList from './LocationList';
 import TspMap from './TspMap';
 import { tspOperations } from './ducks/tsp/index';
 
-function mapStateToProps(state) {
-  return { tsp: state.tsp };
-}
+const mapStateToProps = state => ({
+  tsp: state.tsp,
+});
 
-function mapDispatchToProps(dispatch) {
-  function onClickLoad() {
-    dispatch(tspOperations.addLocation(undefined, true));
-  }
-  function onClickMap(location) {
-    dispatch(tspOperations.addLocation(location));
-  }
-
-  function onClickRemove(id) {
+const mapDispatchToProps = dispatch => ({
+  onClickLoad() {
+    dispatch(tspOperations.loadDemo());
+  },
+  onClickMap(event) {
+    dispatch(tspOperations.addLocation(event.latlng));
+  },
+  onClickRemove(id) {
     dispatch(tspOperations.deleteLocation(id));
-  }
-  return { onClickLoad, onClickMap, onClickRemove };
-}
-
+  },
+});
 
 class App extends Component {
   constructor() {
@@ -51,33 +48,18 @@ class App extends Component {
         lng: 16.57561,
       },
       zoom: 5,
-      // counter: -1,
       selectedId: NaN,
     };
 
-    this.onClickLoad = this.onClickLoad.bind(this);
-    this.onClickMap = this.onClickMap.bind(this);
     this.onClickRemove = this.onClickRemove.bind(this);
     this.onSelectLocation = this.onSelectLocation.bind(this);
   }
 
-  componentDidMount() {
-
-  }
-
-  onClickLoad() {
-    const { onClickLoad } = this.props;
-    return onClickLoad();
-  }
-
-  onClickMap(e) {
-    const { onClickMap } = this.props;
-    onClickMap(e.latlng);
-  }
-
   onClickRemove(id) {
-    const { domicileId, route } = this.state;
-    const { onClickRemove } = this.props;
+    const {
+      tsp: { domicileId, route },
+      onClickRemove,
+    } = this.props;
     if (id !== domicileId || route.length === 1) {
       onClickRemove(id);
     }
@@ -89,8 +71,14 @@ class App extends Component {
 
   render() {
     const { center, zoom, selectedId } = this.state;
-    const { tsp: { route, domicileId, distance } } = this.props;
-    console.log(`Render, center: ${center}, route: [${route}], selected: ${selectedId}`);
+    const {
+      tsp: { route, domicileId, distance },
+      onClickLoad,
+      onClickMap,
+    } = this.props;
+    console.log(
+      `Render, center: ${center}, route: [${route}], selected: ${selectedId}`,
+    );
 
     return (
       <div>
@@ -100,7 +88,7 @@ class App extends Component {
           distance={distance}
           removeHandler={this.onClickRemove}
           selectHandler={this.onSelectLocation}
-          loadHandler={this.onClickLoad}
+          loadHandler={onClickLoad}
         />
         <TspMap
           center={center}
@@ -108,7 +96,7 @@ class App extends Component {
           selectedId={selectedId}
           route={route}
           domicileId={domicileId}
-          clickHandler={this.onClickMap}
+          clickHandler={onClickMap}
           removeHandler={this.onClickRemove}
         />
       </div>
@@ -131,12 +119,11 @@ App.defaultProps = {
   tsp: {
     route: [],
     domicileId: -1,
-    distance: 0,
+    distance: '0',
   },
 };
 
-if (process.env.NODE_ENV !== 'production' && module.hot) {
-  module.hot.accept('./App', App);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
