@@ -30,8 +30,8 @@ const mapDispatchToProps = dispatch => ({
   onClickLoad() {
     dispatch(tspOperations.loadDemo());
   },
-  onClickMap(location) {
-    dispatch(tspOperations.addLocation(location));
+  onClickMap(event) {
+    dispatch(tspOperations.addLocation(event.latlng));
   },
   onClickRemove(id) {
     dispatch(tspOperations.deleteLocation(id));
@@ -51,19 +51,15 @@ class App extends Component {
       selectedId: NaN,
     };
 
-    this.onClickMap = this.onClickMap.bind(this);
     this.onClickRemove = this.onClickRemove.bind(this);
     this.onSelectLocation = this.onSelectLocation.bind(this);
   }
 
-  onClickMap(e) {
-    const { onClickMap } = this.props;
-    onClickMap(e.latlng);
-  }
-
   onClickRemove(id) {
-    const { domicileId, route } = this.state;
-    const { onClickRemove } = this.props;
+    const {
+      tsp: { domicileId, route },
+      onClickRemove,
+    } = this.props;
     if (id !== domicileId || route.length === 1) {
       onClickRemove(id);
     }
@@ -78,6 +74,7 @@ class App extends Component {
     const {
       tsp: { route, domicileId, distance },
       onClickLoad,
+      onClickMap,
     } = this.props;
     console.log(
       `Render, center: ${center}, route: [${route}], selected: ${selectedId}`,
@@ -99,7 +96,7 @@ class App extends Component {
           selectedId={selectedId}
           route={route}
           domicileId={domicileId}
-          clickHandler={this.onClickMap}
+          clickHandler={onClickMap}
           removeHandler={this.onClickRemove}
         />
       </div>
