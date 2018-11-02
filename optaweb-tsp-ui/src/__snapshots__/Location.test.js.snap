@@ -32,6 +32,7 @@ ShallowWrapper {
           className="w-20 pa2"
           disabled={false}
           onClick={[Function]}
+          type="button"
 >
           x
 </button>,
@@ -63,6 +64,7 @@ ShallowWrapper {
           "className": "w-20 pa2",
           "disabled": false,
           "onClick": [Function],
+          "type": "button",
         },
         "ref": null,
         "rendered": "x",
@@ -87,6 +89,7 @@ ShallowWrapper {
             className="w-20 pa2"
             disabled={false}
             onClick={[Function]}
+            type="button"
 >
             x
 </button>,
@@ -118,6 +121,7 @@ ShallowWrapper {
             "className": "w-20 pa2",
             "disabled": false,
             "onClick": [Function],
+            "type": "button",
           },
           "ref": null,
           "rendered": "x",

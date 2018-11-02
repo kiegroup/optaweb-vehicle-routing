@@ -49,13 +49,15 @@ ShallowWrapper {
                 <div
                         className="tl ma2 pa2"
                 >
-                        Distance: 
+                        Distance:
+                         
                         10
                 </div>
                 <div
                         className="tl ma2 pa2"
                 >
-                        Locations: 
+                        Locations:
+                         
                         3
                 </div>
                 <div
@@ -99,13 +101,15 @@ ShallowWrapper {
           <div
                     className="tl ma2 pa2"
           >
-                    Distance: 
+                    Distance:
+                     
                     10
           </div>
           <div
                     className="tl ma2 pa2"
           >
-                    Locations: 
+                    Locations:
+                     
                     3
           </div>
           <div
@@ -148,13 +152,15 @@ ShallowWrapper {
             <div
               className="tl ma2 pa2"
 >
-              Distance: 
+              Distance:
+               
               10
 </div>,
             <div
               className="tl ma2 pa2"
 >
-              Locations: 
+              Locations:
+               
               3
 </div>,
             <div
@@ -194,14 +200,16 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": Array [
-                "Distance: ",
+                "Distance:",
+                " ",
                 "10",
               ],
               "className": "tl ma2 pa2",
             },
             "ref": null,
             "rendered": Array [
-              "Distance: ",
+              "Distance:",
+              " ",
               "10",
             ],
             "type": "div",
@@ -212,14 +220,16 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": Array [
-                "Locations: ",
+                "Locations:",
+                " ",
                 3,
               ],
               "className": "tl ma2 pa2",
             },
             "ref": null,
             "rendered": Array [
-              "Locations: ",
+              "Locations:",
+              " ",
               3,
             ],
             "type": "div",
@@ -321,13 +331,15 @@ ShallowWrapper {
                     <div
                               className="tl ma2 pa2"
                     >
-                              Distance: 
+                              Distance:
+                               
                               10
                     </div>
                     <div
                               className="tl ma2 pa2"
                     >
-                              Locations: 
+                              Locations:
+                               
                               3
                     </div>
                     <div
@@ -371,13 +383,15 @@ ShallowWrapper {
             <div
                         className="tl ma2 pa2"
             >
-                        Distance: 
+                        Distance:
+                         
                         10
             </div>
             <div
                         className="tl ma2 pa2"
             >
-                        Locations: 
+                        Locations:
+                         
                         3
             </div>
             <div
@@ -420,13 +434,15 @@ ShallowWrapper {
               <div
                 className="tl ma2 pa2"
 >
-                Distance: 
+                Distance:
+                 
                 10
 </div>,
               <div
                 className="tl ma2 pa2"
 >
-                Locations: 
+                Locations:
+                 
                 3
 </div>,
               <div
@@ -466,14 +482,16 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": Array [
-                  "Distance: ",
+                  "Distance:",
+                  " ",
                   "10",
                 ],
                 "className": "tl ma2 pa2",
               },
               "ref": null,
               "rendered": Array [
-                "Distance: ",
+                "Distance:",
+                " ",
                 "10",
               ],
               "type": "div",
@@ -484,14 +502,16 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": Array [
-                  "Locations: ",
+                  "Locations:",
+                  " ",
                   3,
                 ],
                 "className": "tl ma2 pa2",
               },
               "ref": null,
               "rendered": Array [
-                "Locations: ",
+                "Locations:",
+                " ",
                 3,
               ],
               "type": "div",
@@ -635,7 +655,9 @@ ShallowWrapper {
                         Click map to add locations
                 </div>
                 <div>
-                        or 
+                         
+                        or
+                         
                         <button
                                 onClick={[Function]}
                                 style={
@@ -643,6 +665,7 @@ ShallowWrapper {
                                                 "width": "100%",
                                               }
                                 }
+                                type="button"
                         >
                                 Load 40 European cities
                         </button>
@@ -664,7 +687,9 @@ ShallowWrapper {
                     Click map to add locations
           </div>
           <div>
-                    or 
+                     
+                    or
+                     
                     <button
                               onClick={[Function]}
                               style={
@@ -672,6 +697,7 @@ ShallowWrapper {
                                                   "width": "100%",
                                                 }
                               }
+                              type="button"
                     >
                               Load 40 European cities
                     </button>
@@ -690,7 +716,9 @@ ShallowWrapper {
               Click map to add locations
 </div>,
             <div>
-              or 
+               
+              or
+               
               <button
                             onClick={[Function]}
                             style={
@@ -698,6 +726,7 @@ ShallowWrapper {
                                                         "width": "100%",
                                                       }
                             }
+                            type="button"
               >
                             Load 40 European cities
               </button>
@@ -724,7 +753,9 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": Array [
-                "or ",
+                " ",
+                "or",
+                " ",
                 <button
                   onClick={[Function]}
                   style={
@@ -732,6 +763,7 @@ ShallowWrapper {
                                                       "width": "100%",
                                                     }
                   }
+                  type="button"
 >
                   Load 40 European cities
 </button>,
@@ -739,7 +771,9 @@ ShallowWrapper {
             },
             "ref": null,
             "rendered": Array [
-              "or ",
+              " ",
+              "or",
+              " ",
               Object {
                 "instance": null,
                 "key": undefined,
@@ -750,6 +784,7 @@ ShallowWrapper {
                   "style": Object {
                     "width": "100%",
                   },
+                  "type": "button",
                 },
                 "ref": null,
                 "rendered": "Load 40 European cities",
@@ -781,7 +816,9 @@ ShallowWrapper {
                               Click map to add locations
                     </div>
                     <div>
-                              or 
+                               
+                              or
+                               
                               <button
                                         onClick={[Function]}
                                         style={
@@ -789,6 +826,7 @@ ShallowWrapper {
                                                             "width": "100%",
                                                           }
                                         }
+                                        type="button"
                               >
                                         Load 40 European cities
                               </button>
@@ -810,7 +848,9 @@ ShallowWrapper {
                         Click map to add locations
             </div>
             <div>
-                        or 
+                         
+                        or
+                         
                         <button
                                     onClick={[Function]}
                                     style={
@@ -818,6 +858,7 @@ ShallowWrapper {
                                                             "width": "100%",
                                                           }
                                     }
+                                    type="button"
                         >
                                     Load 40 European cities
                         </button>
@@ -836,7 +877,9 @@ ShallowWrapper {
                 Click map to add locations
 </div>,
               <div>
-                or 
+                 
+                or
+                 
                 <button
                                 onClick={[Function]}
                                 style={
@@ -844,6 +887,7 @@ ShallowWrapper {
                                                                 "width": "100%",
                                                               }
                                 }
+                                type="button"
                 >
                                 Load 40 European cities
                 </button>
@@ -870,7 +914,9 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": Array [
-                  "or ",
+                  " ",
+                  "or",
+                  " ",
                   <button
                     onClick={[Function]}
                     style={
@@ -878,6 +924,7 @@ ShallowWrapper {
                                                             "width": "100%",
                                                           }
                     }
+                    type="button"
 >
                     Load 40 European cities
 </button>,
@@ -885,7 +932,9 @@ ShallowWrapper {
               },
               "ref": null,
               "rendered": Array [
-                "or ",
+                " ",
+                "or",
+                " ",
                 Object {
                   "instance": null,
                   "key": undefined,
@@ -896,6 +945,7 @@ ShallowWrapper {
                     "style": Object {
                       "width": "100%",
                     },
+                    "type": "button",
                   },
                   "ref": null,
                   "rendered": "Load 40 European cities",
