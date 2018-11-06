@@ -18,20 +18,35 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import Location from './Location';
 
-function LocationList({ route, domicileId, distance, removeHandler, selectHandler, loadHandler }) {
+function LocationList({
+  route, domicileId, distance, removeHandler, selectHandler, loadHandler,
+}) {
   return (
-    <div className={'leaflet-top leaflet-left leaflet-touch'}>
-      <div className={'leaflet-control leaflet-bar w5 bg-white'}>
+    <div className="leaflet-top leaflet-left leaflet-touch">
+      <div className="leaflet-control leaflet-bar w5 bg-white">
         {
           route.length === 0 ? (
-            <div className={'tc ma2'}>
+            <div className="tc ma2">
               <div>Click map to add locations</div>
-              <div>or <button style={{ width: '100%' }} onClick={loadHandler}>Load 40 European cities</button></div>
+              <div>
+                {' '}
+or
+                {' '}
+                <button type="button" style={{ width: '100%' }} onClick={loadHandler}>Load 40 European cities</button>
+              </div>
             </div>
           ) : (
             <div>
-              <div className={'tl ma2 pa2'}>Distance: {distance}</div>
-              <div className={'tl ma2 pa2'}>Locations: {route.length}</div>
+              <div className="tl ma2 pa2">
+                  Distance:
+                {' '}
+                {distance}
+              </div>
+              <div className="tl ma2 pa2">
+                  Locations:
+                {' '}
+                {route.length}
+              </div>
               {/*
                The calculated maxHeight is a hack because the constant 116px depends
                on the height of Distance and Locations rows (above) and individual location rows.
@@ -40,7 +55,7 @@ function LocationList({ route, domicileId, distance, removeHandler, selectHandle
                 {
                   route
                     .slice(0) // clone the array because
-                    // sort is done in place (that would affect the route)
+                  // sort is done in place (that would affect the route)
                     .sort((a, b) => a.id - b.id)
                     .map(location => (
                       <Location
