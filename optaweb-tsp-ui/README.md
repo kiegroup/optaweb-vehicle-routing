@@ -41,7 +41,7 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 Developers set versions list in queries like `last 2 version` to be free from updating versions manually. Browserslist will use Can I Use data for this queries.
 
-Check the project current browser query on ![browserl.ist](https://browserl.ist/?q=%3E0.2%25%2C+not+dead%2C+not+ie%3C%3D11%2Cnot+op_mini+all)
+Check the project current browser query on [browserl.ist](https://browserl.ist/?q=%3E0.2%25%2C+not+dead%2C+not+ie%3C%3D11%2Cnot+op_mini+all)
 
 example:
 
