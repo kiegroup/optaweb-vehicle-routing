@@ -1,4 +1,4 @@
-# Optaplaweb Traveling Sales Man UI
+# OptaWeb Traveling Salesman UI
 
 ## Available Scripts
 
