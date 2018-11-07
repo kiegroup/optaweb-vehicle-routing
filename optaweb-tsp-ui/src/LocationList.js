@@ -29,21 +29,19 @@ function LocationList({
             <div className="tc ma2">
               <div>Click map to add locations</div>
               <div>
-                {' '}
-or
-                {' '}
+                or
                 <button type="button" style={{ width: '100%' }} onClick={loadHandler}>Load 40 European cities</button>
               </div>
             </div>
           ) : (
             <div>
               <div className="tl ma2 pa2">
-                  Distance:
+                Distance:
                 {' '}
                 {distance}
               </div>
               <div className="tl ma2 pa2">
-                  Locations:
+                Locations:
                 {' '}
                 {route.length}
               </div>
@@ -55,7 +53,7 @@ or
                 {
                   route
                     .slice(0) // clone the array because
-                  // sort is done in place (that would affect the route)
+                    // sort is done in place (that would affect the route)
                     .sort((a, b) => a.id - b.id)
                     .map(location => (
                       <Location
