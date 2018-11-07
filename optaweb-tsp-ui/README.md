@@ -37,15 +37,18 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## BrowserList Support
+## Browserslist Support
 
-Developers set versions list in queries like `last 2 version` to be free from updating versions manually. Browserslist will use Can I Use data for this queries.
+Developers set versions list in queries like `last 2 version` to be free from updating versions manually.
+Browserslist will use [Can I Use](http://caniuse.com/) data for this queries.
 
-Check the project current browser query on [browserl.ist](https://browserl.ist/?q=%3E0.2%25%2C+not+dead%2C+not+ie%3C%3D11%2Cnot+op_mini+all)
+Check the project current browser query on
+[browserl.ist](https://browserl.ist/?q=%3E0.2%25%2C+not+dead%2C+not+ie%3C%3D11%2Cnot+op_mini+all)
+or by running `npx browserslist`.
 
-example:
+Example:
 
-```javascript
+```json
 {
   "browserslist": [
     "last 1 version",
@@ -64,4 +67,4 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Learn more on BrowserList [browserlist](https://github.com/browserslist/browserslist#readme)
+Learn more on [Browserslist](https://github.com/browserslist/browserslist#readme).
