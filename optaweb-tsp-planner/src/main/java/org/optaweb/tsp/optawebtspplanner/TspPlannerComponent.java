@@ -16,14 +16,19 @@
 
 package org.optaweb.tsp.optawebtspplanner;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import com.graphhopper.GHRequest;
+import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.routing.util.EncodingManager;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
@@ -34,9 +39,8 @@ import org.optaplanner.examples.tsp.domain.Domicile;
 import org.optaplanner.examples.tsp.domain.Standstill;
 import org.optaplanner.examples.tsp.domain.TspSolution;
 import org.optaplanner.examples.tsp.domain.Visit;
-import org.optaplanner.examples.tsp.domain.location.AirLocation;
-import org.optaplanner.examples.tsp.domain.location.DistanceType;
 import org.optaplanner.examples.tsp.domain.location.Location;
+import org.optaplanner.examples.tsp.domain.location.RoadLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +59,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     private final ScoreDirector<TspSolution> scoreDirector;
     private ThreadPoolTaskExecutor executor;
     private TspSolution tsp = new TspSolution();
+    private GraphHopperOSM graphHopper;
 
     @Autowired
     public TspPlannerComponent(SimpMessagingTemplate webSocket,
@@ -62,7 +67,6 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         this.webSocket = webSocket;
         this.repository = repository;
 
-        tsp.setDistanceType(DistanceType.AIR_DISTANCE);
         tsp.setLocationList(new ArrayList<>());
         tsp.setVisitList(new ArrayList<>());
 
@@ -71,10 +75,23 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         solver = sf.buildSolver();
         scoreDirector = solver.getScoreDirectorFactory().buildScoreDirector();
         solver.addEventListener(this);
+
+        String osmPath = "local/belgium-latest.osm.pbf";
+        if (!new File(osmPath).exists()) {
+            throw new IllegalStateException("The osmPath (" + new File(osmPath).getAbsolutePath() + ") does not exist.\n" +
+                    "Download the osm file from http://download.geofabrik.de/ first.");
+        }
+        graphHopper = (GraphHopperOSM) new GraphHopperOSM().forServer();
+        graphHopper.setOSMFile(osmPath);
+        graphHopper.setGraphHopperLocation("local/" + osmPath.replaceFirst(".*/(.*)\\.osm\\.pbf$", "$1-gh"));
+        graphHopper.setEncodingManager(new EncodingManager("car"));
+        logger.info("GraphHopper loading...");
+        graphHopper.importOrLoad();
+        logger.info("GraphHopper loaded.");
     }
 
-    private static AirLocation fromPlace(Place p) {
-        return new AirLocation(p.getId(), p.getLatitude().doubleValue(), p.getLongitude().doubleValue());
+    private static RoadLocation fromPlace(Place p) {
+        return new RoadLocation(p.getId(), p.getLatitude().doubleValue(), p.getLongitude().doubleValue());
     }
 
     private static void addToRoute(Optional<Place> visit, List<Place> route) {
@@ -114,9 +131,9 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     private void sendRoute(TspSolution solution) {
         extractRoute(solution).ifPresent(route -> {
             logger.info("New TSP with {} locations, {} visits, route: {}",
-                        tsp.getLocationList().size(),
-                        tsp.getVisitList().size(),
-                        route);
+                    tsp.getLocationList().size(),
+                    tsp.getVisitList().size(),
+                    route);
             String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
             RouteMessage response = new RouteMessage(distanceString, route);
             webSocket.convertAndSend("/topic/route", response);
@@ -145,22 +162,40 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     }
 
     public void addPlace(Place place) {
-        AirLocation airLocation = fromPlace(place);
+        RoadLocation location = fromPlace(place);
+        Map<RoadLocation, Double> map = new HashMap<>();
+        location.setTravelDistanceMap(map);
+        for (Location other : tsp.getLocationList()) {
+            RoadLocation toLocation = (RoadLocation) other;
+            GHRequest there = new GHRequest(
+                    location.getLatitude(),
+                    location.getLongitude(),
+                    toLocation.getLatitude(),
+                    toLocation.getLongitude());
+            map.put(toLocation, graphHopper.route(there).getBest().getDistance());
+            GHRequest back = new GHRequest(
+                    toLocation.getLatitude(),
+                    toLocation.getLongitude(),
+                    location.getLatitude(),
+                    location.getLongitude());
+            // TODO handle no route -> roll back the problem fact change
+            toLocation.getTravelDistanceMap().put(location, graphHopper.route(back).getBest().getDistance());
+        }
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (!solver.isSolving()) {
             List<Location> locationList = tsp.getLocationList();
-            locationList.add(airLocation);
+            locationList.add(location);
             if (locationList.size() == 1) {
                 Domicile domicile = new Domicile();
-                domicile.setId(airLocation.getId());
-                domicile.setLocation(airLocation);
+                domicile.setId(location.getId());
+                domicile.setLocation(location);
                 tsp.setDomicile(domicile);
                 updateScore(tsp);
                 sendRoute(tsp);
             } else if (locationList.size() == 2) {
                 Visit visit = new Visit();
-                visit.setId(airLocation.getId());
-                visit.setLocation(airLocation);
+                visit.setId(location.getId());
+                visit.setLocation(location);
                 tsp.getVisitList().add(visit);
                 executor = new ThreadPoolTaskExecutor();
                 executor.initialize();
@@ -179,13 +214,13 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                 TspSolution workingSolution = scoreDirector.getWorkingSolution();
                 workingSolution.setLocationList(new ArrayList<>(workingSolution.getLocationList()));
 
-                scoreDirector.beforeProblemFactAdded(airLocation);
-                workingSolution.getLocationList().add(airLocation);
-                scoreDirector.afterProblemFactAdded(airLocation);
+                scoreDirector.beforeProblemFactAdded(location);
+                workingSolution.getLocationList().add(location);
+                scoreDirector.afterProblemFactAdded(location);
 
                 Visit visit = new Visit();
-                visit.setId(airLocation.getId());
-                visit.setLocation(airLocation);
+                visit.setId(location.getId());
+                visit.setLocation(location);
 
                 scoreDirector.beforeEntityAdded(visit);
                 workingSolution.getVisitList().add(visit);
@@ -197,7 +232,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     }
 
     public void removePlace(Place place) {
-        AirLocation airLocation = fromPlace(place);
+        Location location = fromPlace(place);
         if (!solver.isSolving()) {
             tsp.getLocationList().remove(0);
             tsp.setDomicile(null);
@@ -209,7 +244,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                 solver.terminateEarly();
                 executor.shutdown();
                 tsp.getVisitList().remove(0);
-                tsp.getLocationList().removeIf(location -> location.getId().equals(airLocation.getId()));
+                tsp.getLocationList().removeIf(l -> l.getId().equals(location.getId()));
                 Location lastLocation = tsp.getLocationList().get(0);
                 Domicile domicile = new Domicile();
                 domicile.setId(lastLocation.getId());
@@ -218,17 +253,17 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                 updateScore(tsp);
                 sendRoute(tsp);
             } else {
-                if (tsp.getDomicile().getLocation().getId().equals(airLocation.getId())) {
+                if (tsp.getDomicile().getLocation().getId().equals(location.getId())) {
                     throw new UnsupportedOperationException("You can only remove domicile if it's the only location on map.");
                 }
                 solver.addProblemFactChanges(Arrays.asList(
                         scoreDirector -> {
                             TspSolution workingSolution = scoreDirector.getWorkingSolution();
                             Visit visit = workingSolution.getVisitList().stream()
-                                    .filter(v -> v.getLocation().getId().equals(airLocation.getId()))
+                                    .filter(v -> v.getLocation().getId().equals(location.getId()))
                                     .findFirst()
                                     .orElseThrow(() -> new IllegalArgumentException(
-                                            "Invalid request for removing visit at " + airLocation));
+                                            "Invalid request for removing visit at " + location));
 
                             // Remove the visit
                             scoreDirector.beforeEntityRemoved(visit);
@@ -252,18 +287,18 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                         scoreDirector -> {
                             TspSolution workingSolution = scoreDirector.getWorkingSolution();
 
-                            AirLocation workingAirLocation = scoreDirector.lookUpWorkingObject(airLocation);
-                            if (workingAirLocation == null) {
-                                throw new IllegalStateException("Can't look up working copy of " + airLocation);
+                            Location workingLocation = scoreDirector.lookUpWorkingObject(location);
+                            if (workingLocation == null) {
+                                throw new IllegalStateException("Can't look up working copy of " + location);
                             }
                             // shallow clone fact list
                             // TODO think if we can fail fast when user forgets to make the clone (PLANNER)
                             workingSolution.setLocationList(new ArrayList<>(workingSolution.getLocationList()));
-                            scoreDirector.beforeProblemFactRemoved(workingAirLocation);
-                            if (!workingSolution.getLocationList().remove(workingAirLocation)) {
+                            scoreDirector.beforeProblemFactRemoved(workingLocation);
+                            if (!workingSolution.getLocationList().remove(workingLocation)) {
                                 throw new IllegalStateException("This is a bug.");
                             }
-                            scoreDirector.afterProblemFactRemoved(workingAirLocation);
+                            scoreDirector.afterProblemFactRemoved(workingLocation);
 
                             scoreDirector.triggerVariableListeners();
                         }

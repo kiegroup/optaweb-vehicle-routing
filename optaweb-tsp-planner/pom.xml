@@ -52,6 +52,11 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>com.graphhopper</groupId>
+      <artifactId>graphhopper-reader-osm</artifactId>
+      <version>0.11.0</version>
+    </dependency>
   </dependencies>
 
   <build>
