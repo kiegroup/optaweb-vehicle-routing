@@ -21,7 +21,7 @@ import { Client, Frame } from "webstomp-client";
 
 export type AddLocationAction = {
   type: typeof ADD_LOCATION;
-  value: GPSLocation;
+  value?: GPSLocation;
 };
 
 export type DeleteLocationAction = {
@@ -49,7 +49,7 @@ export type WsConnectionFailureAction = {
   value: Frame | CloseEvent;
 };
 
-const addLocation = (location: GPSLocation): AddLocationAction => ({
+const addLocation = (location?: GPSLocation): AddLocationAction => ({
   type: ADD_LOCATION,
   value: location
 });

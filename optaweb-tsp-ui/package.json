@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@types/react-redux": "^6.0.9",
+    "@types/sockjs-client": "^1.1.0",
     "ajv": "^6.5.2",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.6.0",
