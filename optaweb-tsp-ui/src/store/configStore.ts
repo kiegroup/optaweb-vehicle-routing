@@ -24,9 +24,13 @@ export interface AppState {
   tsp: TSPState;
 }
 
+export interface AppStoreConfig {
+  socketUrl: string;
+}
+
 export default function configureStore(
-  preloadedState?: AppState,
-  { socketUrl = "http://localhost:8080/tsp-websocket" } = {}
+  { socketUrl }: AppStoreConfig,
+  preloadedState?: AppState
 ) {
   const logger = createLogger();
 

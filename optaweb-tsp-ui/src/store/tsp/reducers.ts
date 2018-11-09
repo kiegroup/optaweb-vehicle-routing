@@ -36,7 +36,7 @@ export default function tspReducer(
   switch (action.type) {
     case types.SOLUTION_UPDATES_DATA: {
       const { route, distance } = action.solution;
-      if (route.length < 1) {
+      if (route.length == 0 && distance) {
         return state;
       }
       return {

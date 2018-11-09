@@ -19,11 +19,13 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import App from "./App";
 import "./index.css";
-import configureStore from "./store";
+import configureStore from "./store/configStore";
 
 import registerServiceWorker from "./registerServiceWorker";
 
-const store = configureStore();
+const store = configureStore({
+  socketUrl: "http://localhost:8080/tsp-websocket"
+});
 
 ReactDOM.render(
   <Provider store={store}>
