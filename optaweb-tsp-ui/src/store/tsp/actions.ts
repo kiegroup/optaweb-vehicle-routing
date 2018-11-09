@@ -14,38 +14,38 @@
  * limitations under the License.
  */
 
-import { GPSLocation, ADD_LOCATION, DELETE_LOCATION, SOLUTION_UPDATES_DATA, WS_CONNECT, WS_CONNECT_SUCCESS, WS_CONNECT_FAILURE, TSPStore } from "./types";
+import { GPSLocation, ADD_LOCATION, DELETE_LOCATION, SOLUTION_UPDATES_DATA, WS_CONNECT, WS_CONNECT_SUCCESS, WS_CONNECT_FAILURE, TSPState } from "./types";
 import { Client, Frame } from "webstomp-client";
 
 // Dropped action creator maker due to more complex type handling, a strategy will be defined once needed
 
 export type AddLocationAction = {
-  type: typeof ADD_LOCATION;
+  readonly type: typeof ADD_LOCATION;
   value?: GPSLocation;
 };
 
 export type DeleteLocationAction = {
-  type: typeof DELETE_LOCATION;
+  readonly type: typeof DELETE_LOCATION;
   value: number;
 };
 
 export type UpdateTSPSolutionAction = {
-  type: typeof SOLUTION_UPDATES_DATA;
-  solution: TSPStore;
+  readonly type: typeof SOLUTION_UPDATES_DATA;
+  solution: TSPState;
 };
 
 export type InitWsConnectionAction = {
-  type: typeof WS_CONNECT;
+  readonly type: typeof WS_CONNECT;
   value: string;
 };
 
 export type WsConnectionSuccessAction = {
-  type: typeof WS_CONNECT_SUCCESS;
+  readonly type: typeof WS_CONNECT_SUCCESS;
   value: Client;
 };
 
 export type WsConnectionFailureAction = {
-  type: typeof WS_CONNECT_FAILURE;
+  readonly type: typeof WS_CONNECT_FAILURE;
   value: Frame | CloseEvent;
 };
 
@@ -60,7 +60,7 @@ const deleteLocation = (id: number): DeleteLocationAction => ({
 });
 
 const updateTSPSolution = (
-  solution: TSPStore
+  solution: TSPState
 ): UpdateTSPSolutionAction => ({
   type: SOLUTION_UPDATES_DATA,
   solution

@@ -20,7 +20,7 @@ import PropTypes from 'prop-types';
 import 'tachyons/css/tachyons.css';
 import LocationList from './LocationList';
 import TspMap from './TspMap';
-import { tspOperations } from './ducks/tsp/index';
+import { tspOperations } from './store/tsp/index';
 
 const mapStateToProps = state => ({
   tsp: state.tsp,

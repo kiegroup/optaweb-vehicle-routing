@@ -46,7 +46,8 @@ function mapEventToActions(dispatch: Dispatch) {
 }
 
 function connectWs(store: Store, socketUrl: string) {
-  return (dispatch: Dispatch) => {
+  const { dispatch } = store;
+  return () => {
     webSocket = new SockJS(socketUrl);
     stompClient = webstomp.over(webSocket, { debug: true });
 
@@ -56,12 +57,12 @@ function connectWs(store: Store, socketUrl: string) {
       () => {
         // on connection, subscribe to the route topic
         dispatch(wsConnectionSuccess(stompClient));
-        mapEventToActions(store.dispatch);
+        mapEventToActions(dispatch);
       },
       err => {
         // on error, schedule a reconnection attempt
         dispatch(wsConnectionFailure(err));
-        setTimeout(() => connectWs(store, socketUrl)(dispatch), 1000);
+        setTimeout(() => connectWs(store, socketUrl)(), 1000);
       }
     );
   };

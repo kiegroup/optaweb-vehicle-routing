@@ -35,7 +35,7 @@ export interface GPSLocation {
   lat: number;
   lng: number;
 }
-export interface TSPStore {
+export interface TSPState {
   route: Array<GPSLocation>;
   domicileId: number;
   distance: string;
