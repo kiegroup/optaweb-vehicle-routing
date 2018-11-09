@@ -49,15 +49,13 @@ ShallowWrapper {
           <div
             className="tl ma2 pa2"
           >
-            Distance:
-             
+            Distance: 
             10
           </div>
           <div
             className="tl ma2 pa2"
           >
-            Locations:
-             
+            Locations: 
             3
           </div>
           <div
@@ -101,15 +99,13 @@ ShallowWrapper {
           <div
             className="tl ma2 pa2"
           >
-            Distance:
-             
+            Distance: 
             10
           </div>
           <div
             className="tl ma2 pa2"
           >
-            Locations:
-             
+            Locations: 
             3
           </div>
           <div
@@ -152,15 +148,13 @@ ShallowWrapper {
             <div
               className="tl ma2 pa2"
             >
-              Distance:
-               
+              Distance: 
               10
             </div>,
             <div
               className="tl ma2 pa2"
             >
-              Locations:
-               
+              Locations: 
               3
             </div>,
             <div
@@ -200,16 +194,14 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": Array [
-                "Distance:",
-                " ",
+                "Distance: ",
                 "10",
               ],
               "className": "tl ma2 pa2",
             },
             "ref": null,
             "rendered": Array [
-              "Distance:",
-              " ",
+              "Distance: ",
               "10",
             ],
             "type": "div",
@@ -220,16 +212,14 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": Array [
-                "Locations:",
-                " ",
+                "Locations: ",
                 3,
               ],
               "className": "tl ma2 pa2",
             },
             "ref": null,
             "rendered": Array [
-              "Locations:",
-              " ",
+              "Locations: ",
               3,
             ],
             "type": "div",
@@ -331,15 +321,13 @@ ShallowWrapper {
             <div
               className="tl ma2 pa2"
             >
-              Distance:
-               
+              Distance: 
               10
             </div>
             <div
               className="tl ma2 pa2"
             >
-              Locations:
-               
+              Locations: 
               3
             </div>
             <div
@@ -383,15 +371,13 @@ ShallowWrapper {
             <div
               className="tl ma2 pa2"
             >
-              Distance:
-               
+              Distance: 
               10
             </div>
             <div
               className="tl ma2 pa2"
             >
-              Locations:
-               
+              Locations: 
               3
             </div>
             <div
@@ -434,15 +420,13 @@ ShallowWrapper {
               <div
                 className="tl ma2 pa2"
               >
-                Distance:
-                 
+                Distance: 
                 10
               </div>,
               <div
                 className="tl ma2 pa2"
               >
-                Locations:
-                 
+                Locations: 
                 3
               </div>,
               <div
@@ -482,16 +466,14 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": Array [
-                  "Distance:",
-                  " ",
+                  "Distance: ",
                   "10",
                 ],
                 "className": "tl ma2 pa2",
               },
               "ref": null,
               "rendered": Array [
-                "Distance:",
-                " ",
+                "Distance: ",
                 "10",
               ],
               "type": "div",
@@ -502,16 +484,14 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": Array [
-                  "Locations:",
-                  " ",
+                  "Locations: ",
                   3,
                 ],
                 "className": "tl ma2 pa2",
               },
               "ref": null,
               "rendered": Array [
-                "Locations:",
-                " ",
+                "Locations: ",
                 3,
               ],
               "type": "div",
