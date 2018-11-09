@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
-const SOLUTION_UPDATES_DATA = "SOLUTION_UPDATES_DATA";
-const DELETE_LOCATION = "DELETE_LOCATION";
-const ADD_LOCATION = "ADD_LOCATION";
-const ADD_DEMO_LOCATION = "ADD_DEMO_LOCATION";
-const WS_CONNECT = "WS_CONNECT";
-const WS_CONNECT_SUCCESS = "WS_CONNECT_SUCCESS";
-const WS_CONNECT_FAILURE = "WS_CONNECT_FAILURE";
+export const SOLUTION_UPDATES_DATA = "SOLUTION_UPDATES_DATA";
+export const DELETE_LOCATION = "DELETE_LOCATION";
+export const ADD_LOCATION = "ADD_LOCATION";
+export const ADD_DEMO_LOCATION = "ADD_DEMO_LOCATION";
+export const WS_CONNECT = "WS_CONNECT";
+export const WS_CONNECT_SUCCESS = "WS_CONNECT_SUCCESS";
+export const WS_CONNECT_FAILURE = "WS_CONNECT_FAILURE";
 
+export type SOLUTION_UPDATES_DATA = typeof SOLUTION_UPDATES_DATA;
+export type DELETE_LOCATION = typeof DELETE_LOCATION;
+export type ADD_LOCATION = typeof ADD_LOCATION;
+export type ADD_DEMO_LOCATION = typeof ADD_DEMO_LOCATION;
+export type WS_CONNECT = typeof WS_CONNECT;
+export type WS_CONNECT_SUCCESS = typeof WS_CONNECT_SUCCESS;
+export type WS_CONNECT_FAILURE = typeof WS_CONNECT_FAILURE;
 
 export interface GPSLocation {
   id: number;
@@ -33,12 +40,3 @@ export interface TSPStore {
   domicileId: number;
   distance: string;
 }
-export default {
-  SOLUTION_UPDATES_DATA,
-  DELETE_LOCATION,
-  ADD_LOCATION,
-  ADD_DEMO_LOCATION,
-  WS_CONNECT,
-  WS_CONNECT_SUCCESS,
-  WS_CONNECT_FAILURE
-};

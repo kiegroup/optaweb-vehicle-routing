@@ -14,74 +14,74 @@
  * limitations under the License.
  */
 
-import types, { GPSLocation } from "./types";
+import { GPSLocation, ADD_LOCATION, DELETE_LOCATION, SOLUTION_UPDATES_DATA, WS_CONNECT, WS_CONNECT_SUCCESS, WS_CONNECT_FAILURE, TSPStore } from "./types";
 import { Client, Frame } from "webstomp-client";
 
 // Dropped action creator maker due to more complex type handling, a strategy will be defined once needed
 
 export type AddLocationAction = {
-  type: typeof types.ADD_LOCATION;
+  type: typeof ADD_LOCATION;
   value: GPSLocation;
 };
 
 export type DeleteLocationAction = {
-  type: typeof types.DELETE_LOCATION;
+  type: typeof DELETE_LOCATION;
   value: number;
 };
 
 export type UpdateTSPSolutionAction = {
-  type: typeof types.SOLUTION_UPDATES_DATA;
-  solution: Array<GPSLocation>;
+  type: typeof SOLUTION_UPDATES_DATA;
+  solution: TSPStore;
 };
 
 export type InitWsConnectionAction = {
-  type: typeof types.WS_CONNECT;
+  type: typeof WS_CONNECT;
   value: string;
 };
 
 export type WsConnectionSuccessAction = {
-  type: typeof types.WS_CONNECT_SUCCESS;
+  type: typeof WS_CONNECT_SUCCESS;
   value: Client;
 };
 
 export type WsConnectionFailureAction = {
-  type: typeof types.WS_CONNECT_FAILURE;
+  type: typeof WS_CONNECT_FAILURE;
   value: Frame | CloseEvent;
 };
 
 const addLocation = (location: GPSLocation): AddLocationAction => ({
-  type: types.ADD_LOCATION,
+  type: ADD_LOCATION,
   value: location
 });
 
 const deleteLocation = (id: number): DeleteLocationAction => ({
-  type: types.DELETE_LOCATION,
+  type: DELETE_LOCATION,
   value: id
 });
 
 const updateTSPSolution = (
-  solution: Array<GPSLocation>
+  solution: TSPStore
 ): UpdateTSPSolutionAction => ({
-  type: types.SOLUTION_UPDATES_DATA,
+  type: SOLUTION_UPDATES_DATA,
   solution
 });
 
 const initWsConnection = (socketUrl: string): InitWsConnectionAction => ({
-  type: types.WS_CONNECT,
+  type: WS_CONNECT,
   value: socketUrl
 });
 
 const wsConnectionSuccess = (
   webstompSocket: Client
 ): WsConnectionSuccessAction => ({
-  type: types.WS_CONNECT_SUCCESS,
+  type: WS_CONNECT_SUCCESS,
   value: webstompSocket
 });
 
 const wsConnectionFailure = (
   err: Frame | CloseEvent
 ): WsConnectionFailureAction => ({
-  type: types.WS_CONNECT_FAILURE,
+  type: WS_CONNECT_FAILURE,
   value: err
 });
 
