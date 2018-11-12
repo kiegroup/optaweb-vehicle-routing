@@ -77,9 +77,9 @@ const addLocationOp = (location: GPSLocation) => (dispatch: Dispatch) => {
   dispatch(addLocation(location));
 };
 
-const loadDemoOp = () => (dispatch: Dispatch) => {
+const loadDemoOp = () => {
   stompClient.send("/app/demo");
-  dispatch(addLocation());
+  return addLocation();
 };
 
 const deleteLocationOp = (locationId: number) => (dispatch: Dispatch) => {

@@ -31,12 +31,15 @@ export type WS_CONNECT_SUCCESS = typeof WS_CONNECT_SUCCESS;
 export type WS_CONNECT_FAILURE = typeof WS_CONNECT_FAILURE;
 
 export interface GPSLocation {
-  id: number;
   lat: number;
   lng: number;
 }
+
+export interface IdGPSLocation extends GPSLocation {
+  id: number;
+}
 export interface TSPState {
-  route: Array<GPSLocation>;
+  route: Array<IdGPSLocation>;
   domicileId: number;
   distance: string;
 }
