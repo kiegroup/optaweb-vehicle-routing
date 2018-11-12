@@ -49,6 +49,10 @@ export interface ITSPRoute {
   distance?: string;
 }
 
+export interface ITSPRouteWithSegments extends ITSPRoute {
+  segments: Array<[number, number]>;
+}
+
 export interface IWSConnection{
   ws: WS_CONNECTION_STATE;
 }

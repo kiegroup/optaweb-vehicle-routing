@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 import * as React from 'react';
-import { ILatLng, ITSPRoute } from '../store/tsp/types';
+import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
 import LocationList from './LocationList';
 import TspMap from './TspMap';
 
 export interface ITravelingSalesmanProblemProps {
-  tsp: ITSPRoute;
+  tsp: ITSPRouteWithSegments;
   removeHandler: (id: number) => void;
   loadHandler: () => void;
   addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
@@ -41,6 +41,7 @@ export default class TravelingSalesmanProblem extends React.Component<
       distance: '0',
       domicileId: -1,
       route: [],
+      segments: [],
     },
   };
   constructor(props: ITravelingSalesmanProblemProps) {
@@ -73,7 +74,7 @@ export default class TravelingSalesmanProblem extends React.Component<
   render() {
     const { center, zoom, selectedId, maxDistance } = this.state;
     const {
-      tsp: { route, domicileId, distance },
+      tsp: { route, segments, domicileId, distance },
       removeHandler,
       loadHandler,
       addHandler,
@@ -95,6 +96,7 @@ export default class TravelingSalesmanProblem extends React.Component<
           zoom={zoom}
           selectedId={selectedId}
           route={route}
+          segments={segments}
           domicileId={domicileId}
           clickHandler={addHandler}
           removeHandler={removeHandler}

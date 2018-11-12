@@ -19,14 +19,14 @@ import * as React from 'react';
 import {
   Map,
   Marker,
-  Polygon,
+  Polyline,
   TileLayer,
   Tooltip,
   ZoomControl
 } from 'react-leaflet';
-import { ILatLng, ITSPRoute } from '../store/tsp';
+import { ILatLng, ITSPRouteWithSegments } from '../store/tsp';
 
-interface ITspMapProps extends ITSPRoute {
+interface ITspMapProps extends ITSPRouteWithSegments {
   center: ILatLng;
   zoom: number;
   selectedId: number;
@@ -39,6 +39,7 @@ const TspMap: React.SFC<ITspMapProps> = ({
   zoom,
   selectedId,
   route,
+  segments,
   domicileId,
   clickHandler,
   removeHandler
@@ -85,7 +86,7 @@ const TspMap: React.SFC<ITspMapProps> = ({
           </Tooltip>
         </Marker>
       ))}
-      <Polygon positions={route} fill={false} />
+      <Polyline positions={segments} fill={false} />
     </Map>
   );
 };

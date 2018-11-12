@@ -27,13 +27,14 @@ import {
 import * as types from './types';
 
 export interface ITSPReducerState
-  extends types.ITSPRoute,
+  extends types.ITSPRouteWithSegments,
     types.IWSConnection {}
 
 const INITIAL_STATE: ITSPReducerState = {
   distance: '0.00',
   domicileId: -1,
   route: [],
+  segments: [],
   ws: types.WS_CONNECTION_STATE.CLOSED,
 };
 
@@ -47,7 +48,7 @@ export default function tspReducer(
 ): ITSPReducerState {
   switch (action.type) {
     case types.SOLUTION_UPDATES_DATA: {
-      const { route, distance } = action.solution;
+      const { route, segments, distance } = action.solution;
       if (route.length === 0 && distance) {
         return state;
       }
@@ -56,6 +57,7 @@ export default function tspReducer(
         distance,
         domicileId: route.length > 0 ? route[0].id : NaN,
         route,
+        segments,
       };
     }
     case types.DELETE_LOCATION: {

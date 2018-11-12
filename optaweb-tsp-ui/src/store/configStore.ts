@@ -17,13 +17,13 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
 import tspReducer, {
-  ITSPRoute,
+  ITSPRouteWithSegments,
   IWSConnection,
   tspOperations,
 } from './tsp/index';
 
 export interface IAppState {
-  tsp: ITSPRoute & IWSConnection;
+  tsp: ITSPRouteWithSegments & IWSConnection;
 }
 
 export interface IAppStoreConfig {
