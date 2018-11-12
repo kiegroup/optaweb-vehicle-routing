@@ -17,6 +17,7 @@
 package org.optaweb.tsp.optawebtspplanner;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,10 +26,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import com.graphhopper.GHRequest;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
+import com.graphhopper.util.PointList;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
@@ -128,15 +132,32 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         return Optional.of(route);
     }
 
+    private RouteMessage createResponse(TspSolution solution, List<Place> route) {
+        List<List<Place>> segments = new ArrayList<>();
+        for (int i = 1; i < route.size() + 1; i++) {
+            GHRequest segmentRq = new GHRequest(
+                    route.get(i - 1).getLatitude().doubleValue(),
+                    route.get(i - 1).getLongitude().doubleValue(),
+                    // "trick" to get N -> 0 distance at the end of the loop
+                    route.get(i % route.size()).getLatitude().doubleValue(),
+                    route.get(i % route.size()).getLongitude().doubleValue());
+            PointList points = graphHopper.route(segmentRq).getBest().getPoints();
+            List<Place> segment = StreamSupport.stream(points.spliterator(), false)
+                    .map(ghPoint3D -> new Place(BigDecimal.valueOf(ghPoint3D.lat), BigDecimal.valueOf(ghPoint3D.lon)))
+                    .collect(Collectors.toList());
+            segments.add(segment);
+        }
+        String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
+        return new RouteMessage(distanceString, route, segments);
+    }
+
     private void sendRoute(TspSolution solution) {
         extractRoute(solution).ifPresent(route -> {
             logger.info("New TSP with {} locations, {} visits, route: {}",
                     tsp.getLocationList().size(),
                     tsp.getVisitList().size(),
                     route);
-            String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
-            RouteMessage response = new RouteMessage(distanceString, route);
-            webSocket.convertAndSend("/topic/route", response);
+            webSocket.convertAndSend("/topic/route", createResponse(solution, route));
         });
     }
 
@@ -148,7 +169,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     public RouteMessage getSolution() {
         List<Place> route = extractRoute(tsp)
                 .orElseThrow(() -> new IllegalStateException("Best solution cannot have unconnected visits."));
-        return new RouteMessage(tsp.getDistanceString(new DecimalFormat("#,##0.00")), route);
+        return createResponse(tsp, route);
     }
 
     @Override

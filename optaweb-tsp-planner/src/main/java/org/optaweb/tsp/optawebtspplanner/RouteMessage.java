@@ -22,10 +22,12 @@ public class RouteMessage {
 
     private final String distance;
     private final List<Place> route;
+    List<List<Place>> segments;
 
-    public RouteMessage(String distance, List<Place> route) {
+    public RouteMessage(String distance, List<Place> route, List<List<Place>> segments) {
         this.distance = distance;
         this.route = route;
+        this.segments = segments;
     }
 
     public String getDistance() {
@@ -34,5 +36,9 @@ public class RouteMessage {
 
     public List<Place> getRoute() {
         return route;
+    }
+
+    public List<List<Place>> getSegments() {
+        return segments;
     }
 }

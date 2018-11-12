@@ -33,6 +33,18 @@ ShallowWrapper {
         },
       ]
     }
+    segments={
+      Array [
+        Array [
+          0.111222,
+          0.222333,
+        ],
+        Array [
+          0.444555,
+          0.555666,
+        ],
+      ]
+    }
     selectedId={1}
     zoom={5}
   />,
@@ -152,25 +164,18 @@ ShallowWrapper {
             </ForwardRef(Leaflet(Tooltip))>
           </ForwardRef(Leaflet(Marker))>,
         ],
-        <ForwardRef(Leaflet(Polygon))
+        <ForwardRef(Leaflet(Polyline))
           fill={false}
           positions={
             Array [
-              Object {
-                "id": 1,
-                "lat": 1.345678,
-                "lng": 1.345678,
-              },
-              Object {
-                "id": 2,
-                "lat": 2.345678,
-                "lng": 2.345678,
-              },
-              Object {
-                "id": 3,
-                "lat": 3.676111,
-                "lng": 3.568333,
-              },
+              Array [
+                0.111222,
+                0.222333,
+              ],
+              Array [
+                0.444555,
+                0.555666,
+              ],
             ]
           }
         />,
@@ -378,21 +383,14 @@ ShallowWrapper {
         "props": Object {
           "fill": false,
           "positions": Array [
-            Object {
-              "id": 1,
-              "lat": 1.345678,
-              "lng": 1.345678,
-            },
-            Object {
-              "id": 2,
-              "lat": 2.345678,
-              "lng": 2.345678,
-            },
-            Object {
-              "id": 3,
-              "lat": 3.676111,
-              "lng": 3.568333,
-            },
+            Array [
+              0.111222,
+              0.222333,
+            ],
+            Array [
+              0.444555,
+              0.555666,
+            ],
           ],
         },
         "ref": null,
@@ -515,25 +513,18 @@ ShallowWrapper {
               </ForwardRef(Leaflet(Tooltip))>
             </ForwardRef(Leaflet(Marker))>,
           ],
-          <ForwardRef(Leaflet(Polygon))
+          <ForwardRef(Leaflet(Polyline))
             fill={false}
             positions={
               Array [
-                Object {
-                  "id": 1,
-                  "lat": 1.345678,
-                  "lng": 1.345678,
-                },
-                Object {
-                  "id": 2,
-                  "lat": 2.345678,
-                  "lng": 2.345678,
-                },
-                Object {
-                  "id": 3,
-                  "lat": 3.676111,
-                  "lng": 3.568333,
-                },
+                Array [
+                  0.111222,
+                  0.222333,
+                ],
+                Array [
+                  0.444555,
+                  0.555666,
+                ],
               ]
             }
           />,
@@ -741,21 +732,14 @@ ShallowWrapper {
           "props": Object {
             "fill": false,
             "positions": Array [
-              Object {
-                "id": 1,
-                "lat": 1.345678,
-                "lng": 1.345678,
-              },
-              Object {
-                "id": 2,
-                "lat": 2.345678,
-                "lng": 2.345678,
-              },
-              Object {
-                "id": 3,
-                "lat": 3.676111,
-                "lng": 3.568333,
-              },
+              Array [
+                0.111222,
+                0.222333,
+              ],
+              Array [
+                0.444555,
+                0.555666,
+              ],
             ],
           },
           "ref": null,

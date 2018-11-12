@@ -46,6 +46,7 @@ describe('TSP Map View', () => {
           lng: 3.568333,
         },
       ],
+      segments: [[0.111222, 0.222333], [0.444555, 0.555666]] as Array<[number, number]>,
       selectedId: 1,
       zoom: 5,
     };

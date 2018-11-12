@@ -15,7 +15,16 @@
  */
 
 import { Client, Frame } from 'webstomp-client';
-import { ADD_LOCATION, DELETE_LOCATION, ILatLng, ITSPRoute, SOLUTION_UPDATES_DATA, WS_CONNECT, WS_CONNECT_FAILURE, WS_CONNECT_SUCCESS } from './types';
+import {
+  ADD_LOCATION,
+  DELETE_LOCATION,
+  ILatLng,
+  ITSPRouteWithSegments,
+  SOLUTION_UPDATES_DATA,
+  WS_CONNECT,
+  WS_CONNECT_FAILURE,
+  WS_CONNECT_SUCCESS,
+} from './types';
 
 // Dropped action creator maker due to more complex type handling, a strategy will be defined once needed
 export interface IAddLocationAction {
@@ -30,7 +39,7 @@ export interface IDeleteLocationAction {
 
 export interface IUpdateTSPSolutionAction {
   readonly type: typeof SOLUTION_UPDATES_DATA;
-  solution: ITSPRoute;
+  solution: ITSPRouteWithSegments;
 }
 
 export interface InitWsConnectionAction {
@@ -59,7 +68,7 @@ const deleteLocation = (id: number): IDeleteLocationAction => ({
 });
 
 const updateTSPSolution = (
-  solution: ITSPRoute
+  solution: ITSPRouteWithSegments
 ): IUpdateTSPSolutionAction => ({
   solution,
   type: SOLUTION_UPDATES_DATA

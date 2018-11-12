@@ -24,11 +24,11 @@ import TravelingSalesmanProblem, {
   ITravelingSalesmanProblemProps,
 } from '../components/TravelingSalesmanProblem';
 import { IAppState } from '../store/configStore';
-import { ITSPRoute, tspOperations } from '../store/tsp/index';
+import { ITSPRouteWithSegments, tspOperations } from '../store/tsp/index';
 import * as types from '../store/tsp/types';
 import './App.css';
 export interface IAppProps extends ITravelingSalesmanProblemProps {
-  tsp: ITSPRoute & types.IWSConnection;
+  tsp: ITSPRouteWithSegments & types.IWSConnection;
   removeHandler: (id: number) => void;
   loadHandler: () => void;
   addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
