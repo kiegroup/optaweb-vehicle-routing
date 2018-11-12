@@ -72,7 +72,9 @@ class App extends Component {
   render() {
     const { center, zoom, selectedId } = this.state;
     const {
-      tsp: { route, domicileId, distance },
+      tsp: {
+        route, segments, domicileId, distance,
+      },
       onClickLoad,
       onClickMap,
     } = this.props;
@@ -95,6 +97,7 @@ class App extends Component {
           zoom={zoom}
           selectedId={selectedId}
           route={route}
+          segments={segments}
           domicileId={domicileId}
           clickHandler={onClickMap}
           removeHandler={this.onClickRemove}

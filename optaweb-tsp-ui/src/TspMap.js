@@ -18,11 +18,11 @@ import L from 'leaflet';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
-  Map, Marker, Polygon, TileLayer, Tooltip, ZoomControl,
+  Map, Marker, Polyline, TileLayer, Tooltip, ZoomControl,
 } from 'react-leaflet';
 
 function TspMap({
-  center, zoom, selectedId, route, domicileId, clickHandler, removeHandler,
+  center, zoom, selectedId, route, segments, domicileId, clickHandler, removeHandler,
 }) {
   const homeIcon = L.icon({
     iconUrl: 'if_big_house-home_2222740.png',
@@ -69,8 +69,8 @@ function TspMap({
           </Marker>
         ))
       }
-      <Polygon
-        positions={route}
+      <Polyline
+        positions={segments}
         fill={false}
       />
     </Map>
@@ -89,6 +89,10 @@ TspMap.propTypes = {
     lat: PropTypes.number.isRequired,
     lng: PropTypes.number.isRequired,
   })).isRequired,
+  segments: PropTypes.arrayOf(PropTypes.arrayOf(
+    PropTypes.number.isRequired,
+    PropTypes.number.isRequired,
+  )).isRequired,
   domicileId: PropTypes.number.isRequired,
   clickHandler: PropTypes.func.isRequired,
   removeHandler: PropTypes.func.isRequired,

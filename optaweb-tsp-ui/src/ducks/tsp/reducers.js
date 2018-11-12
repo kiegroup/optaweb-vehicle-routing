@@ -18,6 +18,7 @@ import types from './types';
 
 const INITIAL_STATE = {
   route: [],
+  segments: [],
   domicileId: -1,
   distance: '0.00',
 };
@@ -25,12 +26,13 @@ const INITIAL_STATE = {
 export default function tspReducer(state = INITIAL_STATE, action) {
   switch (action.type) {
     case types.SOLUTION_UPDATES_DATA: {
-      const { route, distance } = action.solution;
+      const { route, segments, distance } = action.solution;
       if (route.length < 1) {
         return state;
       }
       return {
         route,
+        segments,
         domicileId: route.length > 0 ? route[0].id : NaN,
         distance,
       };

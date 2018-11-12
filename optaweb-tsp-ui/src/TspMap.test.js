@@ -42,6 +42,7 @@ describe('TSP Map View', () => {
           lng: 3.568333,
         },
       ],
+      segments: [[0.111222, 0.222333], [0.444555, 0.555666]],
       domicileId: 1,
       distance: '10',
       clickHandler: jest.fn(),
