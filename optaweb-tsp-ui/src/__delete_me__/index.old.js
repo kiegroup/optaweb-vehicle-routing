@@ -17,11 +17,11 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './App';
+import App from '../App';
 import './index.css';
-import configureStore from './store/configStore';
+import configureStore from '../store/configStore';
 
-import registerServiceWorker from './registerServiceWorker';
+import registerServiceWorker from '../registerServiceWorker';
 
 const store = configureStore();
 
