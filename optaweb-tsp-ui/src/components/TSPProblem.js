@@ -1,0 +1,96 @@
+/*
+ * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import "tachyons/css/tachyons.css";
+import LocationList from "../LocationList";
+import TspMap from "../TspMap";
+
+export default class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      center: {
+        lat: 49.23178,
+        lng: 16.57561
+      },
+      zoom: 5,
+      selectedId: NaN
+    };
+
+    this.onSelectLocation = this.onSelectLocation.bind(this);
+  }
+
+  onSelectLocation(id) {
+    this.setState({ selectedId: id });
+  }
+
+  render() {
+    const { center, zoom, selectedId } = this.state;
+    const {
+      tsp: { route, domicileId, distance },
+      removeHandler,
+      loadHandler,
+      addHandler
+    } = this.props;
+    console.log(
+      `Render, center: ${center}, route: [${route}], selected: ${selectedId}`
+    );
+
+    return (
+      <div>
+        <LocationList
+          route={route}
+          domicileId={domicileId}
+          distance={distance}
+          removeHandler={removeHandler}
+          selectHandler={this.onSelectLocation}
+          loadHandler={loadHandler}
+        />
+        <TspMap
+          center={center}
+          zoom={zoom}
+          selectedId={selectedId}
+          route={route}
+          domicileId={domicileId}
+          clickHandler={addHandler}
+          removeHandler={removeHandler}
+        />
+      </div>
+    );
+  }
+}
+
+App.propTypes = {
+  tsp: PropTypes.shape({
+    route: PropTypes.array.isRequired,
+    domicileId: PropTypes.number.isRequired,
+    distance: PropTypes.string.isRequired
+  }),
+  removeHandler: PropTypes.func.isRequired,
+  loadHandler: PropTypes.func.isRequired,
+  addHandler: PropTypes.func.isRequired
+};
+
+App.defaultProps = {
+  tsp: {
+    route: [],
+    domicileId: -1,
+    distance: "0"
+  }
+};

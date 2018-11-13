@@ -18,22 +18,21 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import 'tachyons/css/tachyons.css';
-import LocationList from './LocationList';
-import TspMap from './TspMap';
-import { tspOperations } from './store/tsp/index';
+import { tspOperations } from '../store/tsp/index';
+import TSPProblem from '../components/TSPProblem';
 
 const mapStateToProps = state => ({
   tsp: state.tsp,
 });
 
 const mapDispatchToProps = dispatch => ({
-  onClickLoad() {
+  loadHandler() {
     dispatch(tspOperations.loadDemo());
   },
-  onClickMap(event) {
+  addHandler(event) {
     dispatch(tspOperations.addLocation(event.latlng));
   },
-  onClickRemove(id) {
+  removeHandler(id) {
     dispatch(tspOperations.deleteLocation(id));
   },
 });
@@ -41,64 +40,23 @@ const mapDispatchToProps = dispatch => ({
 class App extends Component {
   constructor() {
     super();
-
-    this.state = {
-      center: {
-        lat: 49.23178,
-        lng: 16.57561,
-      },
-      zoom: 5,
-      selectedId: NaN,
-    };
-
     this.onClickRemove = this.onClickRemove.bind(this);
-    this.onSelectLocation = this.onSelectLocation.bind(this);
   }
 
   onClickRemove(id) {
     const {
       tsp: { domicileId, route },
-      onClickRemove,
+      removeHandler,
     } = this.props;
     if (id !== domicileId || route.length === 1) {
-      onClickRemove(id);
+      removeHandler(id);
     }
   }
 
-  onSelectLocation(id) {
-    this.setState({ selectedId: id });
-  }
-
   render() {
-    const { center, zoom, selectedId } = this.state;
-    const {
-      tsp: { route, domicileId, distance },
-      onClickLoad,
-      onClickMap,
-    } = this.props;
-    console.log(
-      `Render, center: ${center}, route: [${route}], selected: ${selectedId}`,
-    );
-
     return (
       <div>
-        <LocationList
-          route={route}
-          domicileId={domicileId}
-          distance={distance}
-          removeHandler={this.onClickRemove}
-          selectHandler={this.onSelectLocation}
-          loadHandler={onClickLoad}
-        />
-        <TspMap
-          center={center}
-          zoom={zoom}
-          selectedId={selectedId}
-          route={route}
-          domicileId={domicileId}
-          clickHandler={onClickMap}
-          removeHandler={this.onClickRemove}
-        />
+        <TSPProblem {...this.props} />
       </div>
     );
   }
@@ -110,9 +68,9 @@ App.propTypes = {
     domicileId: PropTypes.number.isRequired,
     distance: PropTypes.string.isRequired,
   }),
-  onClickLoad: PropTypes.func.isRequired,
-  onClickMap: PropTypes.func.isRequired,
-  onClickRemove: PropTypes.func.isRequired,
+  loadHandler: PropTypes.func.isRequired,
+  addHandler: PropTypes.func.isRequired,
+  removeHandler: PropTypes.func.isRequired,
 };
 
 App.defaultProps = {

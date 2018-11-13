@@ -26,6 +26,8 @@ import Creators, {
 } from "./actions";
 import { Store, Dispatch } from "redux";
 import { GPSLocation } from "./types";
+import { ThunkAction } from "redux-thunk";
+import { AppState } from "../configStore";
 const {
   addLocation,
   deleteLocation,
@@ -38,7 +40,7 @@ const {
 let webSocket: WebSocket;
 let stompClient: Client;
 
-function mapEventToActions(dispatch: Dispatch) {
+function mapDispatchToEvents(dispatch: Dispatch) {
   stompClient.subscribe("/topic/route", message => {
     const tsp = JSON.parse(message.body);
     dispatch(updateTSPSolution(tsp));
@@ -57,7 +59,7 @@ function connectWs(store: Store, socketUrl: string) {
       () => {
         // on connection, subscribe to the route topic
         dispatch(wsConnectionSuccess(stompClient));
-        mapEventToActions(dispatch);
+        mapDispatchToEvents(dispatch);
       },
       err => {
         // on error, schedule a reconnection attempt
@@ -68,7 +70,9 @@ function connectWs(store: Store, socketUrl: string) {
   };
 }
 
-const addLocationOp = (location: GPSLocation) => (dispatch: Dispatch) => {
+const addLocationOp = (
+  location: GPSLocation
+): ThunkAction<void, AppState, void, AddLocationAction> => (dispatch) :void  => {
   if (!location) {
     return;
   }
@@ -82,7 +86,7 @@ const loadDemoOp = () => {
   return addLocation();
 };
 
-const deleteLocationOp = (locationId: number) => (dispatch: Dispatch) => {
+const deleteLocationOp = (locationId: number) => (dispatch: Dispatch): void => {
   if (!locationId) {
     return;
   }
