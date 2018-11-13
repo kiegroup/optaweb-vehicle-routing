@@ -16,9 +16,9 @@
 
 import * as React from "react";
 import Location from "./Location";
-import { TSPState, GPSLocation } from "./store/tsp/types";
+import { TSPRoute, GPSLocation } from "./store/tsp/types";
 
-export interface LocationListProps extends TSPState {
+export interface LocationListProps extends TSPRoute {
   removeHandler: (id: number) => void;
   selectHandler: (e: any) => void;
   loadHandler: () => void;

@@ -18,10 +18,10 @@ import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import thunkMiddleware, { ThunkDispatch } from "redux-thunk";
 import { createLogger } from "redux-logger";
 
-import tspReducer, { tspOperations, TSPState } from "./tsp/index";
+import tspReducer, { tspOperations, TSPRoute } from "./tsp/index";
 
 export interface AppState {
-  tsp: TSPState;
+  tsp: TSPRoute;
 }
 
 export interface AppStoreConfig {

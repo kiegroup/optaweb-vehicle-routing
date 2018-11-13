@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { GPSLocation, ADD_LOCATION, DELETE_LOCATION, SOLUTION_UPDATES_DATA, WS_CONNECT, WS_CONNECT_SUCCESS, WS_CONNECT_FAILURE, TSPState } from "./types";
+import { GPSLocation, ADD_LOCATION, DELETE_LOCATION, SOLUTION_UPDATES_DATA, WS_CONNECT, WS_CONNECT_SUCCESS, WS_CONNECT_FAILURE, TSPRoute } from "./types";
 import { Client, Frame } from "webstomp-client";
 
 // Dropped action creator maker due to more complex type handling, a strategy will be defined once needed
@@ -31,7 +31,7 @@ export type DeleteLocationAction = {
 
 export type UpdateTSPSolutionAction = {
   readonly type: typeof SOLUTION_UPDATES_DATA;
-  solution: TSPState;
+  solution: TSPRoute;
 };
 
 export type InitWsConnectionAction = {
@@ -60,7 +60,7 @@ const deleteLocation = (id: number): DeleteLocationAction => ({
 });
 
 const updateTSPSolution = (
-  solution: TSPState
+  solution: TSPRoute
 ): UpdateTSPSolutionAction => ({
   type: SOLUTION_UPDATES_DATA,
   solution

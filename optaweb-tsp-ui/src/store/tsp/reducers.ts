@@ -17,7 +17,7 @@
 import * as types from "./types";
 import { AddLocationAction, DeleteLocationAction, UpdateTSPSolutionAction, InitWsConnectionAction, WsConnectionSuccessAction, WsConnectionFailureAction } from "./actions";
 
-const INITIAL_STATE: types.TSPState = {
+const INITIAL_STATE: types.TSPRoute = {
   route: [],
   domicileId: -1,
   distance: "0.00"
@@ -32,7 +32,7 @@ export default function tspReducer(
     | InitWsConnectionAction
     | WsConnectionSuccessAction
     | WsConnectionFailureAction
-): types.TSPState {
+): types.TSPRoute {
   switch (action.type) {
     case types.SOLUTION_UPDATES_DATA: {
       const { route, distance } = action.solution;

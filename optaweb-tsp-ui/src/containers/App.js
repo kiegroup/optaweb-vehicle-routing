@@ -29,8 +29,8 @@ const mapDispatchToProps = dispatch => ({
   loadHandler() {
     dispatch(tspOperations.loadDemo());
   },
-  addHandler(event) {
-    dispatch(tspOperations.addLocation(event.latlng));
+  addHandler({ latlng }) {
+    dispatch(tspOperations.addLocation(latlng));
   },
   removeHandler(id) {
     dispatch(tspOperations.deleteLocation(id));

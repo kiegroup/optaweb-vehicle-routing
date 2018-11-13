@@ -25,9 +25,9 @@ import {
   Tooltip,
   ZoomControl
 } from "react-leaflet";
-import { GPSLocation, TSPState } from "./store/tsp";
+import { GPSLocation, TSPRoute } from "./store/tsp";
 
-interface TspMapProps extends TSPState {
+interface TspMapProps extends TSPRoute {
   center: GPSLocation;
   zoom: number;
   selectedId: number;

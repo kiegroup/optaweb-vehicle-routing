@@ -13,16 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import "tachyons/css/tachyons.css";
+import * as React from "react";
 import LocationList from "../LocationList";
 import TspMap from "../TspMap";
+import { TSPRoute, GPSLocation } from "../store/tsp";
 
-export default class App extends Component {
-  constructor() {
-    super();
+export interface AppProps {
+  tsp: TSPRoute;
+  removeHandler: (id: number) => void;
+  loadHandler: () => void;
+  addHandler:(e: React.SyntheticEvent<HTMLElement>) => void;
+}
+
+export interface AppState {
+  center: GPSLocation;
+  zoom: number;
+  selectedId: number
+}
+
+export default class App extends React.Component<AppProps, AppState> {
+  static defaultProps = {
+    tsp: {
+      route: [],
+      domicileId: -1,
+      distance: "0"
+    }
+  };
+  constructor(props: AppProps) {
+    super(props);
 
     this.state = {
       center: {
@@ -32,15 +50,14 @@ export default class App extends Component {
       zoom: 5,
       selectedId: NaN
     };
-
     this.onSelectLocation = this.onSelectLocation.bind(this);
   }
 
-  onSelectLocation(id) {
+  onSelectLocation(id: number) {
     this.setState({ selectedId: id });
   }
 
-  render() {
+  public render() {
     const { center, zoom, selectedId } = this.state;
     const {
       tsp: { route, domicileId, distance },
@@ -75,22 +92,3 @@ export default class App extends Component {
     );
   }
 }
-
-App.propTypes = {
-  tsp: PropTypes.shape({
-    route: PropTypes.array.isRequired,
-    domicileId: PropTypes.number.isRequired,
-    distance: PropTypes.string.isRequired
-  }),
-  removeHandler: PropTypes.func.isRequired,
-  loadHandler: PropTypes.func.isRequired,
-  addHandler: PropTypes.func.isRequired
-};
-
-App.defaultProps = {
-  tsp: {
-    route: [],
-    domicileId: -1,
-    distance: "0"
-  }
-};

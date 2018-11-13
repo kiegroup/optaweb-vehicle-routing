@@ -38,8 +38,8 @@ export interface GPSLocation {
 export interface IdGPSLocation extends GPSLocation {
   id: number;
 }
-export interface TSPState {
+export interface TSPRoute {
   route: Array<IdGPSLocation>;
   domicileId: number;
-  distance: string;
+  distance?: string;
 }
