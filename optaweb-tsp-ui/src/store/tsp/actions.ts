@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import { GPSLocation, ADD_LOCATION, DELETE_LOCATION, SOLUTION_UPDATES_DATA, WS_CONNECT, WS_CONNECT_SUCCESS, WS_CONNECT_FAILURE, TSPRoute } from "./types";
+import { LatLng, ADD_LOCATION, DELETE_LOCATION, SOLUTION_UPDATES_DATA, WS_CONNECT, WS_CONNECT_SUCCESS, WS_CONNECT_FAILURE, TSPRoute } from "./types";
 import { Client, Frame } from "webstomp-client";
 
 // Dropped action creator maker due to more complex type handling, a strategy will be defined once needed
 
 export type AddLocationAction = {
   readonly type: typeof ADD_LOCATION;
-  value?: GPSLocation;
+  value?: LatLng;
 };
 
 export type DeleteLocationAction = {
@@ -49,7 +49,7 @@ export type WsConnectionFailureAction = {
   value: Frame | CloseEvent;
 };
 
-const addLocation = (location?: GPSLocation): AddLocationAction => ({
+const addLocation = (location?: LatLng): AddLocationAction => ({
   type: ADD_LOCATION,
   value: location
 });

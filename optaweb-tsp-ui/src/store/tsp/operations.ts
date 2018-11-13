@@ -14,20 +14,11 @@
  * limitations under the License.
  */
 
+import { Dispatch, Store } from "redux";
 import SockJS from "sockjs-client";
-import webstomp, { Client, Frame } from "webstomp-client";
-import Creators, {
-  AddLocationAction,
-  DeleteLocationAction,
-  InitWsConnectionAction,
-  UpdateTSPSolutionAction,
-  WsConnectionFailureAction,
-  WsConnectionSuccessAction
-} from "./actions";
-import { Store, Dispatch } from "redux";
-import { GPSLocation } from "./types";
-import { ThunkAction } from "redux-thunk";
-import { AppState } from "../configStore";
+import webstomp, { Client } from "webstomp-client";
+import Creators from "./actions";
+import { LatLng } from "./types";
 const {
   addLocation,
   deleteLocation,
@@ -47,38 +38,31 @@ function mapDispatchToEvents(dispatch: Dispatch) {
   });
 }
 
-function connectWs(store: Store, socketUrl: string) {
+function connectWs(store: Store, socketUrl: string): void {
   const { dispatch } = store;
-  return () => {
-    webSocket = new SockJS(socketUrl);
-    stompClient = webstomp.over(webSocket, { debug: true });
 
-    dispatch(initWsConnection(socketUrl));
-    stompClient.connect(
-      {}, // no headers
-      () => {
-        // on connection, subscribe to the route topic
-        dispatch(wsConnectionSuccess(stompClient));
-        mapDispatchToEvents(dispatch);
-      },
-      err => {
-        // on error, schedule a reconnection attempt
-        dispatch(wsConnectionFailure(err));
-        setTimeout(() => connectWs(store, socketUrl)(), 1000);
-      }
-    );
-  };
+  webSocket = new SockJS(socketUrl);
+  stompClient = webstomp.over(webSocket, { debug: true });
+
+  dispatch(initWsConnection(socketUrl));
+  stompClient.connect(
+    {}, // no headers
+    () => {
+      // on connection, subscribe to the route topic
+      dispatch(wsConnectionSuccess(stompClient));
+      mapDispatchToEvents(dispatch);
+    },
+    err => {
+      // on error, schedule a reconnection attempt
+      dispatch(wsConnectionFailure(err));
+      setTimeout(() => connectWs(store, socketUrl), 1000);
+    }
+  );
 }
 
-const addLocationOp = (
-  location: GPSLocation
-): ThunkAction<void, AppState, void, AddLocationAction> => (dispatch) :void  => {
-  if (!location) {
-    return;
-  }
-
+const addLocationOp = (location: LatLng) => {
   stompClient.send("/app/place", JSON.stringify(location));
-  dispatch(addLocation(location));
+  return addLocation(location);
 };
 
 const loadDemoOp = () => {
@@ -86,15 +70,12 @@ const loadDemoOp = () => {
   return addLocation();
 };
 
-const deleteLocationOp = (locationId: number) => (dispatch: Dispatch): void => {
-  if (!locationId) {
-    return;
-  }
+const deleteLocationOp = (locationId: number) => {
   stompClient.send(
     `/app/place/${locationId}/delete`,
     JSON.stringify(locationId)
   );
-  dispatch(deleteLocation(locationId));
+  return deleteLocation(locationId);
 };
 
 export default {

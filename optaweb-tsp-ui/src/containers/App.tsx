@@ -14,39 +14,47 @@
  * limitations under the License.
  */
 
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import 'tachyons/css/tachyons.css';
-import { tspOperations } from '../store/tsp/index';
-import TSPProblem from '../components/TSPProblem';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import "tachyons/css/tachyons.css";
+import TSPProblem from "../components/TSPProblem";
+import { AppState } from "../store/configStore";
+import { tspOperations, TSPRoute } from "../store/tsp/index";
 
-const mapStateToProps = state => ({
-  tsp: state.tsp,
-});
+export interface AppProps {
+  tsp: TSPRoute;
+  removeHandler: (id: number) => void;
+  loadHandler: () => void;
+  addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
+}
 
-const mapDispatchToProps = dispatch => ({
+const mapStateToProps = ({ tsp }: AppState) => ({ tsp });
+
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
   loadHandler() {
     dispatch(tspOperations.loadDemo());
   },
-  addHandler({ latlng }) {
-    dispatch(tspOperations.addLocation(latlng));
+  addHandler(e: any) {
+    dispatch(tspOperations.addLocation(e.latlng));
   },
-  removeHandler(id) {
+  removeHandler(id: number) {
     dispatch(tspOperations.deleteLocation(id));
-  },
+  }
 });
 
-class App extends Component {
-  constructor() {
-    super();
+class App extends Component<AppProps> {
+  constructor(props : AppProps) {
+    super(props);
     this.onClickRemove = this.onClickRemove.bind(this);
   }
 
-  onClickRemove(id) {
+  onClickRemove(id: number) {
     const {
       tsp: { domicileId, route },
-      removeHandler,
+      removeHandler
     } = this.props;
     if (id !== domicileId || route.length === 1) {
       removeHandler(id);
@@ -62,26 +70,7 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
-  tsp: PropTypes.shape({
-    route: PropTypes.array.isRequired,
-    domicileId: PropTypes.number.isRequired,
-    distance: PropTypes.string.isRequired,
-  }),
-  loadHandler: PropTypes.func.isRequired,
-  addHandler: PropTypes.func.isRequired,
-  removeHandler: PropTypes.func.isRequired,
-};
-
-App.defaultProps = {
-  tsp: {
-    route: [],
-    domicileId: -1,
-    distance: '0',
-  },
-};
-
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(App);

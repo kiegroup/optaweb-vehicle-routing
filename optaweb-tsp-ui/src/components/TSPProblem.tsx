@@ -16,7 +16,7 @@
 import * as React from "react";
 import LocationList from "../LocationList";
 import TspMap from "../TspMap";
-import { TSPRoute, GPSLocation } from "../store/tsp";
+import { TSPRoute, LatLng } from "../store/tsp";
 
 export interface AppProps {
   tsp: TSPRoute;
@@ -26,7 +26,7 @@ export interface AppProps {
 }
 
 export interface AppState {
-  center: GPSLocation;
+  center: LatLng;
   zoom: number;
   selectedId: number
 }

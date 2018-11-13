@@ -30,12 +30,12 @@ export type WS_CONNECT = typeof WS_CONNECT;
 export type WS_CONNECT_SUCCESS = typeof WS_CONNECT_SUCCESS;
 export type WS_CONNECT_FAILURE = typeof WS_CONNECT_FAILURE;
 
-export interface GPSLocation {
+export interface LatLng {
   lat: number;
   lng: number;
 }
 
-export interface IdGPSLocation extends GPSLocation {
+export interface IdGPSLocation extends LatLng {
   id: number;
 }
 export interface TSPRoute {
