@@ -33,7 +33,7 @@ const renderEmptyLocationList = ({ loadHandler }: ILocationListProps) => {
       <CardHeader>Click map to add locations</CardHeader>
       <CardBody>
         <Button type="button" style={{ width: '100%' }} onClick={loadHandler}>
-          Load 40 European cities
+          Load demo
         </Button>
       </CardBody>
     </Card>

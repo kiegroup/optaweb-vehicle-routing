@@ -49,12 +49,12 @@ export default class TravelingSalesmanProblem extends React.Component<
 
     this.state = {
       center: {
-        lat: 49.23178,
-        lng: 16.57561,
+        lat: 50.85,
+        lng: 4.35,
       },
       maxDistance: -1,
       selectedId: NaN,
-      zoom: 5,
+      zoom: 9,
     };
     this.onSelectLocation = this.onSelectLocation.bind(this);
   }

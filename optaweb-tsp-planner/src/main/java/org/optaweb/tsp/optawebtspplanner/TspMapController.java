@@ -56,7 +56,7 @@ public class TspMapController {
 
     @MessageMapping("/demo")
     public void demo() {
-        Arrays.stream(Europe.values()).forEach(city -> {
+        Arrays.stream(Belgium.values()).forEach(city -> {
             Place place = new Place(BigDecimal.valueOf(city.lat), BigDecimal.valueOf(city.lng));
             Place savedPlace = repository.save(place);
             planner.addPlace(place);
