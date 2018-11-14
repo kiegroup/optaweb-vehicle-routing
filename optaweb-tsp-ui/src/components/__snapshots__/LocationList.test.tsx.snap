@@ -856,7 +856,7 @@ ShallowWrapper {
               type="button"
               variant="primary"
             >
-              Load 40 European cities
+              Load demo
             </Button>
           </CardBody>
         </Card>
@@ -904,7 +904,7 @@ ShallowWrapper {
               type="button"
               variant="primary"
             >
-              Load 40 European cities
+              Load demo
             </Button>
           </CardBody>
         </Card>,
@@ -945,7 +945,7 @@ ShallowWrapper {
                 type="button"
                 variant="primary"
               >
-                Load 40 European cities
+                Load demo
               </Button>
             </CardBody>,
           ],
@@ -990,7 +990,7 @@ ShallowWrapper {
                 type="button"
                 variant="primary"
               >
-                Load 40 European cities
+                Load demo
               </Button>,
               "className": "",
               "component": "div",
@@ -1002,7 +1002,7 @@ ShallowWrapper {
               "nodeType": "function",
               "props": Object {
                 "aria-label": null,
-                "children": "Load 40 European cities",
+                "children": "Load demo",
                 "className": "",
                 "component": "button",
                 "isActive": false,
@@ -1018,7 +1018,7 @@ ShallowWrapper {
                 "variant": "primary",
               },
               "ref": null,
-              "rendered": "Load 40 European cities",
+              "rendered": "Load demo",
               "type": [Function],
             },
             "type": [Function],
@@ -1071,7 +1071,7 @@ ShallowWrapper {
                 type="button"
                 variant="primary"
               >
-                Load 40 European cities
+                Load demo
               </Button>
             </CardBody>
           </Card>
@@ -1119,7 +1119,7 @@ ShallowWrapper {
                 type="button"
                 variant="primary"
               >
-                Load 40 European cities
+                Load demo
               </Button>
             </CardBody>
           </Card>,
@@ -1160,7 +1160,7 @@ ShallowWrapper {
                   type="button"
                   variant="primary"
                 >
-                  Load 40 European cities
+                  Load demo
                 </Button>
               </CardBody>,
             ],
@@ -1205,7 +1205,7 @@ ShallowWrapper {
                   type="button"
                   variant="primary"
                 >
-                  Load 40 European cities
+                  Load demo
                 </Button>,
                 "className": "",
                 "component": "div",
@@ -1217,7 +1217,7 @@ ShallowWrapper {
                 "nodeType": "function",
                 "props": Object {
                   "aria-label": null,
-                  "children": "Load 40 European cities",
+                  "children": "Load demo",
                   "className": "",
                   "component": "button",
                   "isActive": false,
@@ -1233,7 +1233,7 @@ ShallowWrapper {
                   "variant": "primary",
                 },
                 "ref": null,
-                "rendered": "Load 40 European cities",
+                "rendered": "Load demo",
                 "type": [Function],
               },
               "type": [Function],
