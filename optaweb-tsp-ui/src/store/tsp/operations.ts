@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Dispatch, Store } from "redux";
+import { Dispatch } from "redux";
 import SockJS from "sockjs-client";
 import webstomp, { Client } from "webstomp-client";
 import Creators from "./actions";
@@ -28,9 +28,22 @@ const {
   wsConnectionFailure
 } = Creators;
 
+interface WSConnectionOpts {
+  socketUrl: string;
+}
+
+interface TSPConfig extends WSConnectionOpts {
+  dispatch: Dispatch;
+}
+
 let webSocket: WebSocket;
 let stompClient: Client;
 
+/**
+ * Map dispatch function to socket events
+ *
+ * @param {Dispatch} dispatch
+ */
 function mapDispatchToEvents(dispatch: Dispatch) {
   stompClient.subscribe("/topic/route", message => {
     const tsp = JSON.parse(message.body);
@@ -38,12 +51,18 @@ function mapDispatchToEvents(dispatch: Dispatch) {
   });
 }
 
-function connectWs(store: Store, socketUrl: string): void {
-  const { dispatch } = store;
-
+/**
+ * Connect TSP module to the websocket and use dispatch function issue
+ * action about TSP
+ *
+ * @param {Dispatch} dispatch
+ * @param {string} socketUrl
+ */
+function connectWs({ dispatch, socketUrl }: TSPConfig): void {
   webSocket = new SockJS(socketUrl);
   stompClient = webstomp.over(webSocket, { debug: true });
 
+  // dispatch WS connection initializing
   dispatch(initWsConnection(socketUrl));
   stompClient.connect(
     {}, // no headers
@@ -55,7 +74,7 @@ function connectWs(store: Store, socketUrl: string): void {
     err => {
       // on error, schedule a reconnection attempt
       dispatch(wsConnectionFailure(err));
-      setTimeout(() => connectWs(store, socketUrl), 1000);
+      setTimeout(() => connectWs({ dispatch, socketUrl }), 1000);
     }
   );
 }

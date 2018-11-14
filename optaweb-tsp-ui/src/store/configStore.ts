@@ -16,7 +16,6 @@
 
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import { createLogger } from "redux-logger";
-
 import tspReducer, { tspOperations, TSPRoute } from "./tsp/index";
 
 export interface AppState {
@@ -31,12 +30,15 @@ export default function configureStore(
   { socketUrl }: AppStoreConfig,
   preloadedState?: AppState
 ) {
+  // create logger middleware
   const logger = createLogger();
 
   /* eslint-disable no-underscore-dangle */
   const composeEnhancers =
     (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   /* eslint-enable */
+
+  // combining reducers
   const rootReducer = combineReducers({ tsp: tspReducer });
 
   const store = createStore(
@@ -45,10 +47,10 @@ export default function configureStore(
     composeEnhancers(applyMiddleware(logger))
   );
 
-  tspOperations.connect(
-    store,
+  tspOperations.connect({
+    dispatch: store.dispatch,
     socketUrl
-  );
+  });
 
   /* if (process.env.NODE_ENV !== 'production' && module.hot) {
     module.hot.accept('./reducers', () => store.replaceReducer(rootReducer));

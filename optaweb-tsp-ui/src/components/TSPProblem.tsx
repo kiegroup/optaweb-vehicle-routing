@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 import * as React from "react";
-import LocationList from "../LocationList";
-import TspMap from "../TspMap";
+import LocationList from "./LocationList";
+import TspMap from "./TspMap";
 import { TSPRoute, LatLng } from "../store/tsp";
 
 export interface AppProps {

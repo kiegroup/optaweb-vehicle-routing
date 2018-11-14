@@ -18,13 +18,13 @@ import { LatLng, ADD_LOCATION, DELETE_LOCATION, SOLUTION_UPDATES_DATA, WS_CONNEC
 import { Client, Frame } from "webstomp-client";
 
 // Dropped action creator maker due to more complex type handling, a strategy will be defined once needed
-
-export type AddLocationAction = {
+export interface AddLocationAction {
   readonly type: typeof ADD_LOCATION;
   value?: LatLng;
 };
 
-export type DeleteLocationAction = {
+
+export interface DeleteLocationAction {
   readonly type: typeof DELETE_LOCATION;
   value: number;
 };
@@ -48,6 +48,7 @@ export type WsConnectionFailureAction = {
   readonly type: typeof WS_CONNECT_FAILURE;
   value: Frame | CloseEvent;
 };
+
 
 const addLocation = (location?: LatLng): AddLocationAction => ({
   type: ADD_LOCATION,

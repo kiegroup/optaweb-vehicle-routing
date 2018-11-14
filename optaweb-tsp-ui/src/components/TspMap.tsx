@@ -25,7 +25,7 @@ import {
   Tooltip,
   ZoomControl
 } from "react-leaflet";
-import { LatLng, TSPRoute } from "./store/tsp";
+import { LatLng, TSPRoute } from "../store/tsp";
 
 interface TspMapProps extends TSPRoute {
   center: LatLng;
