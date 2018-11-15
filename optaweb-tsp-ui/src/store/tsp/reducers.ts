@@ -15,7 +15,14 @@
  */
 
 import * as types from "./types";
-import { AddLocationAction, DeleteLocationAction, UpdateTSPSolutionAction, InitWsConnectionAction, WsConnectionSuccessAction, WsConnectionFailureAction } from "./actions";
+import {
+  AddLocationAction,
+  DeleteLocationAction,
+  UpdateTSPSolutionAction,
+  InitWsConnectionAction,
+  WsConnectionSuccessAction,
+  WsConnectionFailureAction
+} from "./actions";
 
 const INITIAL_STATE: types.TSPRoute = {
   route: [],
@@ -25,13 +32,7 @@ const INITIAL_STATE: types.TSPRoute = {
 
 export default function tspReducer(
   state = INITIAL_STATE,
-  action:
-    | AddLocationAction
-    | DeleteLocationAction
-    | UpdateTSPSolutionAction
-    | InitWsConnectionAction
-    | WsConnectionSuccessAction
-    | WsConnectionFailureAction
+  action: DeleteLocationAction | UpdateTSPSolutionAction
 ): types.TSPRoute {
   switch (action.type) {
     case types.SOLUTION_UPDATES_DATA: {

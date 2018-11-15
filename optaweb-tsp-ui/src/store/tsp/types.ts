@@ -35,11 +35,11 @@ export interface LatLng {
   lng: number;
 }
 
-export interface IdGPSLocation extends LatLng {
+export interface IdLatLng extends LatLng {
   id: number;
 }
 export interface TSPRoute {
-  route: Array<IdGPSLocation>;
+  route: Array<IdLatLng>;
   domicileId: number;
   distance?: string;
 }

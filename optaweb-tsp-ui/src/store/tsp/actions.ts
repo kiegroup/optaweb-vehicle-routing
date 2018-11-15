@@ -23,7 +23,6 @@ export interface AddLocationAction {
   value?: LatLng;
 };
 
-
 export interface DeleteLocationAction {
   readonly type: typeof DELETE_LOCATION;
   value: number;
@@ -48,7 +47,6 @@ export type WsConnectionFailureAction = {
   readonly type: typeof WS_CONNECT_FAILURE;
   value: Frame | CloseEvent;
 };
-
 
 const addLocation = (location?: LatLng): AddLocationAction => ({
   type: ADD_LOCATION,
