@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
