@@ -18,11 +18,11 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import "tachyons/css/tachyons.css";
-import TSPProblem from "../components/TSPProblem";
+import TravelingSalesmanProblem, { TravelingSalesmanProblemProps } from "../components/TravelingSalesmanProblem";
 import { AppState } from "../store/configStore";
 import { tspOperations, TSPRoute } from "../store/tsp/index";
 
-export interface AppProps {
+export interface AppProps extends TravelingSalesmanProblemProps {
   tsp: TSPRoute;
   removeHandler: (id: number) => void;
   loadHandler: () => void;
@@ -63,7 +63,7 @@ class App extends Component<AppProps> {
   render() {
     return (
       <div>
-        <TSPProblem {...this.props} />
+        <TravelingSalesmanProblem {...this.props} />
       </div>
     );
   }

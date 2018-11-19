@@ -18,20 +18,20 @@ import LocationList from "./LocationList";
 import TspMap from "./TspMap";
 import { TSPRoute, LatLng } from "../store/tsp";
 
-export interface AppProps {
+export interface TravelingSalesmanProblemProps {
   tsp: TSPRoute;
   removeHandler: (id: number) => void;
   loadHandler: () => void;
   addHandler:(e: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-export interface AppState {
+interface TravelingSalesmanProblemState {
   center: LatLng;
   zoom: number;
   selectedId: number
 }
 
-export default class App extends React.Component<AppProps, AppState> {
+export default class TravelingSalesmanProblem extends React.Component<TravelingSalesmanProblemProps, TravelingSalesmanProblemState> {
   static defaultProps = {
     tsp: {
       route: [],
@@ -39,7 +39,7 @@ export default class App extends React.Component<AppProps, AppState> {
       distance: "0"
     }
   };
-  constructor(props: AppProps) {
+  constructor(props: TravelingSalesmanProblemProps) {
     super(props);
 
     this.state = {
