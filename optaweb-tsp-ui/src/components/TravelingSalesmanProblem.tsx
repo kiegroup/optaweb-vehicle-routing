@@ -18,20 +18,25 @@ import LocationList from "./LocationList";
 import TspMap from "./TspMap";
 import { TSPRoute, LatLng } from "../store/tsp/types";
 
+import { Split, SplitItem } from "@patternfly/react-core";
+
 export interface TravelingSalesmanProblemProps {
   tsp: TSPRoute;
   removeHandler: (id: number) => void;
   loadHandler: () => void;
-  addHandler:(e: React.SyntheticEvent<HTMLElement>) => void;
+  addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
 }
 
 interface TravelingSalesmanProblemState {
   center: LatLng;
   zoom: number;
-  selectedId: number
+  selectedId: number;
 }
 
-export default class TravelingSalesmanProblem extends React.Component<TravelingSalesmanProblemProps, TravelingSalesmanProblemState> {
+export default class TravelingSalesmanProblem extends React.Component<
+  TravelingSalesmanProblemProps,
+  TravelingSalesmanProblemState
+> {
   static defaultProps = {
     tsp: {
       route: [],
@@ -71,6 +76,11 @@ export default class TravelingSalesmanProblem extends React.Component<TravelingS
 
     return (
       <div>
+        <Split>
+          <SplitItem isMain={false}>Secondary content</SplitItem>
+          <SplitItem isMain>Primary Content</SplitItem>
+          <SplitItem isMain={false}>Secondary content</SplitItem>
+        </Split>
         <LocationList
           route={route}
           domicileId={domicileId}

@@ -5,6 +5,7 @@
   "license": "Apache-2.0",
   "homepage": "https://yurloc.github.io/optaweb-traveling-salesman/",
   "dependencies": {
+    "@patternfly/react-core": "^1.35.1",
     "@types/jest": "^23.3.9",
     "@types/leaflet": "^1.2.14",
     "@types/node": "^10.12.3",
