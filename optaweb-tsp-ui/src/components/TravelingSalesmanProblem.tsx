@@ -16,7 +16,7 @@
 import * as React from "react";
 import LocationList from "./LocationList";
 import TspMap from "./TspMap";
-import { TSPRoute, LatLng } from "../store/tsp";
+import { TSPRoute, LatLng } from "../store/tsp/types";
 
 export interface TravelingSalesmanProblemProps {
   tsp: TSPRoute;
