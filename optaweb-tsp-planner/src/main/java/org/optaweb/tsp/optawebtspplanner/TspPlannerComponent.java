@@ -63,6 +63,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     private final ScoreDirector<TspSolution> scoreDirector;
     private ThreadPoolTaskExecutor executor;
     private TspSolution tsp = new TspSolution();
+    private List<Location> locations = new ArrayList<>();
     private GraphHopperOSM graphHopper;
 
     @Autowired
@@ -184,16 +185,16 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
 
     public void addPlace(Place place) {
         RoadLocation location = fromPlace(place);
-        Map<RoadLocation, Double> map = new HashMap<>();
-        location.setTravelDistanceMap(map);
-        for (Location other : tsp.getLocationList()) {
+        Map<RoadLocation, Double> distanceMap = new HashMap<>();
+        location.setTravelDistanceMap(distanceMap);
+        for (Location other : locations) {
             RoadLocation toLocation = (RoadLocation) other;
             GHRequest there = new GHRequest(
                     location.getLatitude(),
                     location.getLongitude(),
                     toLocation.getLatitude(),
                     toLocation.getLongitude());
-            map.put(toLocation, graphHopper.route(there).getBest().getDistance());
+            distanceMap.put(toLocation, graphHopper.route(there).getBest().getDistance());
             GHRequest back = new GHRequest(
                     toLocation.getLatitude(),
                     toLocation.getLongitude(),
@@ -202,6 +203,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
             // TODO handle no route -> roll back the problem fact change
             toLocation.getTravelDistanceMap().put(location, graphHopper.route(back).getBest().getDistance());
         }
+        locations.add(location);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (!solver.isSolving()) {
             List<Location> locationList = tsp.getLocationList();
@@ -254,6 +256,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
 
     public void removePlace(Place place) {
         Location location = fromPlace(place);
+        locations.remove(location);
         if (!solver.isSolving()) {
             tsp.getLocationList().remove(0);
             tsp.setDomicile(null);
