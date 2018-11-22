@@ -1,5 +1,5 @@
 = OptaWeb Traveling Salesman
 
-image:https://travis-ci.org/yurloc/optaweb-traveling-salesman.svg?branch=master["Build Status", link="https://travis-ci.org/yurloc/optaweb-traveling-salesman"]
+image:https://travis-ci.org/kiegroup/optaweb-traveling-salesman.svg?branch=master["Build Status", link="https://travis-ci.org/kiegroup/optaweb-traveling-salesman"]
 
 Web application solving the traveling salesman problem using https://www.optaplanner.org/[OptaPlanner].
