@@ -27,9 +27,9 @@ export interface ITravelingSalesmanProblemProps {
 
 interface ITravelingSalesmanProblemState {
   center: ILatLng;
-  zoom: number;
-  selectedId: number;
   maxDistance: number;
+  selectedId: number;
+  zoom: number;
 }
 
 export default class TravelingSalesmanProblem extends React.Component<
@@ -38,9 +38,8 @@ export default class TravelingSalesmanProblem extends React.Component<
 > {
   static defaultProps = {
     tsp: {
-      domicileId: -1,
       distance: '0',
-
+      domicileId: -1,
       route: [],
     },
   };
