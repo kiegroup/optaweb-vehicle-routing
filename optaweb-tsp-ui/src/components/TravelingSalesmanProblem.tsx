@@ -13,47 +13,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as React from "react";
-import LocationList from "./LocationList";
-import TspMap from "./TspMap";
-import { TSPRoute, LatLng } from "../store/tsp/types";
+import * as React from 'react';
+import { ILatLng, ITSPRoute } from '../store/tsp/types';
+import LocationList from './LocationList';
+import TspMap from './TspMap';
 
-import { Split, SplitItem } from "@patternfly/react-core";
-
-export interface TravelingSalesmanProblemProps {
-  tsp: TSPRoute;
+export interface ITravelingSalesmanProblemProps {
+  tsp: ITSPRoute;
   removeHandler: (id: number) => void;
   loadHandler: () => void;
   addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-interface TravelingSalesmanProblemState {
-  center: LatLng;
+interface ITravelingSalesmanProblemState {
+  center: ILatLng;
   zoom: number;
   selectedId: number;
+  maxDistance: number;
 }
 
 export default class TravelingSalesmanProblem extends React.Component<
-  TravelingSalesmanProblemProps,
-  TravelingSalesmanProblemState
+  ITravelingSalesmanProblemProps,
+  ITravelingSalesmanProblemState
 > {
   static defaultProps = {
     tsp: {
-      route: [],
       domicileId: -1,
-      distance: "0"
-    }
+      distance: '0',
+
+      route: [],
+    },
   };
-  constructor(props: TravelingSalesmanProblemProps) {
+  constructor(props: ITravelingSalesmanProblemProps) {
     super(props);
 
     this.state = {
       center: {
         lat: 49.23178,
-        lng: 16.57561
+        lng: 16.57561,
       },
+      maxDistance: -1,
+      selectedId: NaN,
       zoom: 5,
-      selectedId: NaN
     };
     this.onSelectLocation = this.onSelectLocation.bind(this);
   }
@@ -62,29 +63,31 @@ export default class TravelingSalesmanProblem extends React.Component<
     this.setState({ selectedId: id });
   }
 
-  public render() {
-    const { center, zoom, selectedId } = this.state;
+  componentWillUpdate() {
+    const intDistance = parseInt(this.props.tsp.distance || '0', 10);
+    const { maxDistance: currentMax } = this.state;
+
+    if ((currentMax === -1 && intDistance > 0) || currentMax < intDistance) {
+      this.setState({ maxDistance: intDistance });
+    }
+  }
+  render() {
+    const { center, zoom, selectedId, maxDistance } = this.state;
     const {
       tsp: { route, domicileId, distance },
       removeHandler,
       loadHandler,
-      addHandler
+      addHandler,
     } = this.props;
-    console.log(
-      `Render, center: ${center}, route: [${route}], selected: ${selectedId}`
-    );
+    // console.log(`Render TSP`);
 
     return (
       <div>
-        <Split>
-          <SplitItem isMain={false}>Secondary content</SplitItem>
-          <SplitItem isMain>Primary Content</SplitItem>
-          <SplitItem isMain={false}>Secondary content</SplitItem>
-        </Split>
         <LocationList
           route={route}
           domicileId={domicileId}
           distance={distance}
+          maxDistance={maxDistance}
           removeHandler={removeHandler}
           selectHandler={this.onSelectLocation}
           loadHandler={loadHandler}

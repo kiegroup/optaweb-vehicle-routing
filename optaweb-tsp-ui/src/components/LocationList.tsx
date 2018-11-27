@@ -14,24 +14,27 @@
  * limitations under the License.
  */
 
-import * as React from "react";
-import Location from "./Location";
-import { TSPRoute, LatLng } from "../store/tsp/types";
+import * as React from 'react';
+import { ITSPRoute } from '../store/tsp/types';
+import Location from './Location';
+import TripData from './TripData';
 
-export interface LocationListProps extends TSPRoute {
+export interface ILocationListProps extends ITSPRoute {
   removeHandler: (id: number) => void;
   selectHandler: (e: any) => void;
   loadHandler: () => void;
+  maxDistance: number;
 }
 
-const LocationList: React.SFC<LocationListProps> = ({
+const LocationList: React.SFC<ILocationListProps> = ({
   route,
   domicileId,
-  distance = "",
+  distance = '',
   removeHandler,
   selectHandler,
-  loadHandler
-}: LocationListProps) => {
+  loadHandler,
+  maxDistance,
+}: ILocationListProps) => {
   return (
     <div className="leaflet-top leaflet-left leaflet-touch">
       <div className="leaflet-control leaflet-bar w5 bg-white">
@@ -42,7 +45,7 @@ const LocationList: React.SFC<LocationListProps> = ({
               or
               <button
                 type="button"
-                style={{ width: "100%" }}
+                style={{ width: '100%' }}
                 onClick={loadHandler}
               >
                 Load 40 European cities
@@ -53,12 +56,18 @@ const LocationList: React.SFC<LocationListProps> = ({
           <div>
             <div className="tl ma2 pa2">Distance: {distance}</div>
             <div className="tl ma2 pa2">Locations: {route.length}</div>
+            <div className="tl ma2 pa2">
+              <TripData
+                maxDistance={maxDistance}
+                distance={parseInt(distance, 10) || maxDistance}
+              />
+            </div>
             {/*
                The calculated maxHeight is a hack because the constant 116px depends
                on the height of Distance and Locations rows (above) and individual location rows.
                */}
             <div
-              style={{ maxHeight: "calc(100vh - 116px)", overflowY: "auto" }}
+              style={{ maxHeight: 'calc(100vh - 116px)', overflowY: 'auto' }}
             >
               {route
                 .slice(0) // clone the array because

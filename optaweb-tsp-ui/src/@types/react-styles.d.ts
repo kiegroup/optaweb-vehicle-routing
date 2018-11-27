@@ -1,5 +1,5 @@
 
-declare module "@patternfly/react-styles" {
+declare module '@patternfly/react-styles' {
   export interface StyleDeclarationStatic {
     __className: string;
     __inject(): void;
@@ -47,5 +47,5 @@ declare module "@patternfly/react-styles" {
   export const StyleSheet: StyleSheetStatic;
 
   export const css: string;
- 
+
 }

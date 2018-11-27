@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-import React, { Component } from "react";
+import * as React from "react";
+import { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import "tachyons/css/tachyons.css";
-import TravelingSalesmanProblem, { TravelingSalesmanProblemProps } from "../components/TravelingSalesmanProblem";
-import { AppState } from "../store/configStore";
-import { tspOperations, TSPRoute } from "../store/tsp/index";
+import TravelingSalesmanProblem, {
+  ITravelingSalesmanProblemProps
+} from "../components/TravelingSalesmanProblem";
+import { IAppState } from "../store/configStore";
+import { ITSPRoute, tspOperations } from "../store/tsp/index";
 
-export interface AppProps extends TravelingSalesmanProblemProps {
-  tsp: TSPRoute;
+export interface IAppProps extends ITravelingSalesmanProblemProps {
+  tsp: ITSPRoute;
   removeHandler: (id: number) => void;
   loadHandler: () => void;
   addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-const mapStateToProps = ({ tsp }: AppState) => ({ tsp });
-
+const mapStateToProps = ({ tsp }: IAppState) => ({ tsp });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   loadHandler() {
@@ -44,8 +46,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   }
 });
 
-class App extends Component<AppProps> {
-  constructor(props : AppProps) {
+class App extends Component<IAppProps> {
+  constructor(props: IAppProps) {
     super(props);
     this.onClickRemove = this.onClickRemove.bind(this);
   }

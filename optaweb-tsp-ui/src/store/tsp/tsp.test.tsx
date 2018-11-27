@@ -19,7 +19,7 @@
 
 describe('-- 🦆 TSP -- ', () => {
   it('dummy test', () => {
-
+    expect({ expected: true, actual: true });
   });
 });
 

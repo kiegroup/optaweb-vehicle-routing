@@ -14,55 +14,55 @@
  * limitations under the License.
  */
 
-import { LatLng, ADD_LOCATION, DELETE_LOCATION, SOLUTION_UPDATES_DATA, WS_CONNECT, WS_CONNECT_SUCCESS, WS_CONNECT_FAILURE, TSPRoute } from "./types";
 import { Client, Frame } from "webstomp-client";
+import { ADD_LOCATION, DELETE_LOCATION, ILatLng, ITSPRoute, SOLUTION_UPDATES_DATA, WS_CONNECT, WS_CONNECT_FAILURE, WS_CONNECT_SUCCESS } from "./types";
 
 // Dropped action creator maker due to more complex type handling, a strategy will be defined once needed
-export interface AddLocationAction {
+export interface IAddLocationAction {
   readonly type: typeof ADD_LOCATION;
-  value?: LatLng;
+  value?: ILatLng;
 };
 
-export interface DeleteLocationAction {
+export interface IDeleteLocationAction {
   readonly type: typeof DELETE_LOCATION;
   value: number;
 };
 
-export type UpdateTSPSolutionAction = {
+export interface IUpdateTSPSolutionAction {
   readonly type: typeof SOLUTION_UPDATES_DATA;
-  solution: TSPRoute;
-};
+  solution: ITSPRoute;
+}
 
-export type InitWsConnectionAction = {
+export interface InitWsConnectionAction {
   readonly type: typeof WS_CONNECT;
   value: string;
-};
+}
 
-export type WsConnectionSuccessAction = {
+export interface IWsConnectionSuccessAction {
   readonly type: typeof WS_CONNECT_SUCCESS;
   value: Client;
-};
+}
 
-export type WsConnectionFailureAction = {
+export interface IWsConnectionFailureAction {
   readonly type: typeof WS_CONNECT_FAILURE;
   value: Frame | CloseEvent;
-};
+}
 
-const addLocation = (location?: LatLng): AddLocationAction => ({
+const addLocation = (location?: ILatLng): IAddLocationAction => ({
   type: ADD_LOCATION,
   value: location
 });
 
-const deleteLocation = (id: number): DeleteLocationAction => ({
+const deleteLocation = (id: number): IDeleteLocationAction => ({
   type: DELETE_LOCATION,
   value: id
 });
 
 const updateTSPSolution = (
-  solution: TSPRoute
-): UpdateTSPSolutionAction => ({
-  type: SOLUTION_UPDATES_DATA,
-  solution
+  solution: ITSPRoute
+): IUpdateTSPSolutionAction => ({
+  solution,
+  type: SOLUTION_UPDATES_DATA
 });
 
 const initWsConnection = (socketUrl: string): InitWsConnectionAction => ({
@@ -72,14 +72,14 @@ const initWsConnection = (socketUrl: string): InitWsConnectionAction => ({
 
 const wsConnectionSuccess = (
   webstompSocket: Client
-): WsConnectionSuccessAction => ({
+): IWsConnectionSuccessAction => ({
   type: WS_CONNECT_SUCCESS,
   value: webstompSocket
 });
 
 const wsConnectionFailure = (
   err: Frame | CloseEvent
-): WsConnectionFailureAction => ({
+): IWsConnectionFailureAction => ({
   type: WS_CONNECT_FAILURE,
   value: err
 });
@@ -87,8 +87,8 @@ const wsConnectionFailure = (
 export default {
   addLocation,
   deleteLocation,
-  updateTSPSolution,
   initWsConnection,
-  wsConnectionSuccess,
-  wsConnectionFailure
+  updateTSPSolution,
+  wsConnectionFailure,
+  wsConnectionSuccess
 };

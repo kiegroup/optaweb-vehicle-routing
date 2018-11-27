@@ -30,16 +30,16 @@ export type WS_CONNECT = typeof WS_CONNECT;
 export type WS_CONNECT_SUCCESS = typeof WS_CONNECT_SUCCESS;
 export type WS_CONNECT_FAILURE = typeof WS_CONNECT_FAILURE;
 
-export interface LatLng {
+export interface ILatLng {
   lat: number;
   lng: number;
 }
 
-export interface IdLatLng extends LatLng {
+export interface IdLatLng extends ILatLng {
   id: number;
 }
-export interface TSPRoute {
-  route: Array<IdLatLng>;
+export interface ITSPRoute {
+  route: IdLatLng[];
   domicileId: number;
   distance?: string;
 }

@@ -16,19 +16,19 @@
 
 import * as React from "react";
 
-export interface LocationProps {
+export interface ILocationProps {
   id: number;
   removeDisabled: boolean;
   removeHandler: (id: number) => void;
   selectHandler: (e: any) => void; // FIXME: Event Type
 }
 
-const Location: React.SFC<LocationProps> = ({
+const Location: React.SFC<ILocationProps> = ({
   id,
   removeDisabled,
   removeHandler,
   selectHandler
-}: LocationProps) => {
+}: ILocationProps) => {
   return (
     <div
       key={id}

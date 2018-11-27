@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import L from "leaflet";
-import PropTypes from "prop-types";
+import * as L from "leaflet";
 import * as React from "react";
 import {
   Map,
@@ -25,17 +24,17 @@ import {
   Tooltip,
   ZoomControl
 } from "react-leaflet";
-import { LatLng, TSPRoute } from "../store/tsp";
+import { ILatLng, ITSPRoute } from "../store/tsp";
 
-interface TspMapProps extends TSPRoute {
-  center: LatLng;
+interface ITspMapProps extends ITSPRoute {
+  center: ILatLng;
   zoom: number;
   selectedId: number;
   clickHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
   removeHandler: (id: number) => void;
 }
 
-const TspMap: React.SFC<TspMapProps> = ({
+const TspMap: React.SFC<ITspMapProps> = ({
   center,
   zoom,
   selectedId,
@@ -45,14 +44,13 @@ const TspMap: React.SFC<TspMapProps> = ({
   removeHandler
 }) => {
   const homeIcon = L.icon({
-    iconUrl: "if_big_house-home_2222740.png",
-    shadowUrl: "if_big_house-home_2222740_shadow.png",
-
-    iconSize: [24, 24],
-    shadowSize: [50, 16],
     iconAnchor: [12, 12],
+    iconSize: [24, 24],
+    iconUrl: "if_big_house-home_2222740.png",
+    popupAnchor: [0, -10],
     shadowAnchor: [16, 2],
-    popupAnchor: [0, -10]
+    shadowSize: [50, 16],
+    shadowUrl: "if_big_house-home_2222740_shadow.png"
   });
   const defaultIcon = new L.Icon.Default();
   return (

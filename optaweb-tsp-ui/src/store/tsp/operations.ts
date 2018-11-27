@@ -15,10 +15,10 @@
  */
 
 import { Dispatch } from "redux";
-import SockJS from "sockjs-client";
+import * as SockJS from "sockjs-client";
 import webstomp, { Client } from "webstomp-client";
 import Creators from "./actions";
-import { LatLng } from "./types";
+import { ILatLng } from "./types";
 const {
   addLocation,
   deleteLocation,
@@ -28,11 +28,11 @@ const {
   wsConnectionFailure
 } = Creators;
 
-interface WSConnectionOpts {
+interface IWSConnectionOpts {
   socketUrl: string;
 }
 
-interface TSPConfig extends WSConnectionOpts {
+interface ITSPConfig extends IWSConnectionOpts {
   dispatch: Dispatch;
 }
 
@@ -58,7 +58,7 @@ function mapDispatchToEvents(dispatch: Dispatch) {
  * @param {Dispatch} dispatch
  * @param {string} socketUrl
  */
-function connectWs({ dispatch, socketUrl }: TSPConfig): void {
+function connectWs({ dispatch, socketUrl }: ITSPConfig): void {
   webSocket = new SockJS(socketUrl);
   stompClient = webstomp.over(webSocket, { debug: true });
 
@@ -79,7 +79,7 @@ function connectWs({ dispatch, socketUrl }: TSPConfig): void {
   );
 }
 
-const addLocationOp = (location: LatLng) => {
+const addLocationOp = (location: ILatLng) => {
   stompClient.send("/app/place", JSON.stringify(location));
   return addLocation(location);
 };
@@ -98,8 +98,8 @@ const deleteLocationOp = (locationId: number) => {
 };
 
 export default {
-  connect: connectWs,
   addLocation: addLocationOp,
-  loadDemo: loadDemoOp,
-  deleteLocation: deleteLocationOp
-};
+  connect: connectWs,
+  deleteLocation: deleteLocationOp,
+  loadDemo: loadDemoOp
+}

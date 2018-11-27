@@ -14,28 +14,29 @@
  * limitations under the License.
  */
 
-import { createStore, combineReducers, compose, applyMiddleware } from "redux";
-import { createLogger } from "redux-logger";
-import tspReducer, { tspOperations, TSPRoute } from "./tsp/index";
+import {
+  applyMiddleware, combineReducers, compose, createStore,
+} from 'redux';
+import { createLogger } from 'redux-logger';
+import tspReducer, { ITSPRoute, tspOperations } from './tsp/index';
 
-export interface AppState {
-  tsp: TSPRoute;
+export interface IAppState {
+  tsp: ITSPRoute;
 }
 
-export interface AppStoreConfig {
+export interface IAppStoreConfig {
   socketUrl: string;
 }
 
 export default function configureStore(
-  { socketUrl }: AppStoreConfig,
-  preloadedState?: AppState
+  { socketUrl }: IAppStoreConfig,
+  preloadedState?: IAppState,
 ) {
   // create logger middleware
   const logger = createLogger();
 
   /* eslint-disable no-underscore-dangle */
-  const composeEnhancers =
-    (<any>window).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   /* eslint-enable */
 
   // combining reducers
@@ -44,12 +45,12 @@ export default function configureStore(
   const store = createStore(
     rootReducer,
     preloadedState,
-    composeEnhancers(applyMiddleware(logger))
+    composeEnhancers(applyMiddleware(logger)),
   );
 
   tspOperations.connect({
     dispatch: store.dispatch,
-    socketUrl
+    socketUrl,
   });
 
   /* if (process.env.NODE_ENV !== 'production' && module.hot) {
