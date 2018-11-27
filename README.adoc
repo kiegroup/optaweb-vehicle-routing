@@ -1,5 +1,7 @@
-= OptaWeb Traveling Salesman
+= OptaWeb Vehicle Routing
 
-image:https://travis-ci.org/yurloc/optaweb-traveling-salesman.svg?branch=master["Build Status", link="https://travis-ci.org/yurloc/optaweb-traveling-salesman"]
+image:https://travis-ci.org/kiegroup/optaweb-vehicle-routing.svg?branch=master[
+"Build Status", link="https://travis-ci.org/kiegroup/optaweb-vehicle-routing"]
 
-Web application solving the traveling salesman problem using https://www.optaplanner.org/[OptaPlanner].
+Web application for solving the https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html[Vehicle Routing Problem]
+using https://www.optaplanner.org/[OptaPlanner].
