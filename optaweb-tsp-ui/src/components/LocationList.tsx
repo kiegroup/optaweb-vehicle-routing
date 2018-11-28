@@ -36,15 +36,15 @@ const LocationList: React.SFC<ILocationListProps> = ({
   maxDistance,
 }: ILocationListProps) => {
   return (
-    <div className="leaflet-top leaflet-left leaflet-touch">
-      <div className="leaflet-control leaflet-bar w5 bg-white">
+    <div className='leaflet-top leaflet-left leaflet-touch'>
+      <div className='leaflet-control leaflet-bar w5 bg-white'>
         {route.length === 0 ? (
-          <div className="tc ma2">
+          <div className='tc ma2'>
             <div>Click map to add locations</div>
             <div>
               or
               <button
-                type="button"
+                type='button'
                 style={{ width: '100%' }}
                 onClick={loadHandler}
               >
@@ -54,9 +54,9 @@ const LocationList: React.SFC<ILocationListProps> = ({
           </div>
         ) : (
           <div>
-            <div className="tl ma2 pa2">Distance: {distance}</div>
-            <div className="tl ma2 pa2">Locations: {route.length}</div>
-            <div className="tl ma2 pa2">
+            <div className='tl ma2 pa2'>Distance: {distance}</div>
+            <div className='tl ma2 pa2'>Locations: {route.length}</div>
+            <div className='tl ma2 pa2'>
               <TripData
                 maxDistance={maxDistance}
                 distance={parseInt(distance, 10) || maxDistance}

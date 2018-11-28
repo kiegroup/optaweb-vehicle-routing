@@ -15,24 +15,24 @@
  */
 
 import '@patternfly/react-core/dist/styles/base.css';
-import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import App from "./containers/App";
-import "./index.css";
-import configureStore from "./store/configStore";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import App from './containers/App';
+import './index.css';
+import configureStore from './store/configStore';
 
-import registerServiceWorker from "./registerServiceWorker";
+import registerServiceWorker from './registerServiceWorker';
 
 const store = configureStore({
-  socketUrl: "http://localhost:8080/tsp-websocket"
+  socketUrl: 'http://localhost:8080/tsp-websocket'
 });
 
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById("root") as HTMLElement
+  document.getElementById('root') as HTMLElement
 );
 
 registerServiceWorker();

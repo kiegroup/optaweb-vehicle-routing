@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as React from "react";
+import * as React from 'react';
 
 export interface ILocationProps {
   id: number;
@@ -32,15 +32,15 @@ const Location: React.SFC<ILocationProps> = ({
   return (
     <div
       key={id}
-      className="ma2 flex bg-animate hover-bg-light-gray"
+      className='ma2 flex bg-animate hover-bg-light-gray'
       onMouseEnter={() => selectHandler(id)}
       onMouseLeave={() => selectHandler(NaN)}
     >
-      <span className="w-80 pa2">{`Location ${id}`}</span>
+      <span className='w-80 pa2'>{`Location ${id}`}</span>
       <button
-        type="button"
+        type='button'
         disabled={removeDisabled}
-        className="w-20 pa2"
+        className='w-20 pa2'
         onClick={() => removeHandler(id)}
       >
         x

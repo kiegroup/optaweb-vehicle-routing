@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { Client, Frame } from "webstomp-client";
-import { ADD_LOCATION, DELETE_LOCATION, ILatLng, ITSPRoute, SOLUTION_UPDATES_DATA, WS_CONNECT, WS_CONNECT_FAILURE, WS_CONNECT_SUCCESS } from "./types";
+import { Client, Frame } from 'webstomp-client';
+import { ADD_LOCATION, DELETE_LOCATION, ILatLng, ITSPRoute, SOLUTION_UPDATES_DATA, WS_CONNECT, WS_CONNECT_FAILURE, WS_CONNECT_SUCCESS } from './types';
 
 // Dropped action creator maker due to more complex type handling, a strategy will be defined once needed
 export interface IAddLocationAction {

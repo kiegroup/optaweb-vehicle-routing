@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { Dispatch } from "redux";
-import * as SockJS from "sockjs-client";
-import webstomp, { Client } from "webstomp-client";
-import Creators from "./actions";
-import { ILatLng } from "./types";
+import { Dispatch } from 'redux';
+import * as SockJS from 'sockjs-client';
+import webstomp, { Client } from 'webstomp-client';
+import Creators from './actions';
+import { ILatLng } from './types';
 const {
   addLocation,
   deleteLocation,
@@ -45,7 +45,7 @@ let stompClient: Client;
  * @param {Dispatch} dispatch
  */
 function mapDispatchToEvents(dispatch: Dispatch) {
-  stompClient.subscribe("/topic/route", message => {
+  stompClient.subscribe('/topic/route', message => {
     const tsp = JSON.parse(message.body);
     dispatch(updateTSPSolution(tsp));
   });
@@ -80,12 +80,12 @@ function connectWs({ dispatch, socketUrl }: ITSPConfig): void {
 }
 
 const addLocationOp = (location: ILatLng) => {
-  stompClient.send("/app/place", JSON.stringify(location));
+  stompClient.send('/app/place', JSON.stringify(location));
   return addLocation(location);
 };
 
 const loadDemoOp = () => {
-  stompClient.send("/app/demo");
+  stompClient.send('/app/demo');
   return addLocation();
 };
 

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import tspReducer from "./reducers";
+import tspReducer from './reducers';
 
-export { default as tspOperations } from "./operations";
-export * from "./types";
+export { default as tspOperations } from './operations';
+export * from './types';
 export default tspReducer;

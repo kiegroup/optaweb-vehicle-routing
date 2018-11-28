@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-import * as React from "react";
-import { Component } from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import "tachyons/css/tachyons.css";
+import * as React from 'react';
+import { Component } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import 'tachyons/css/tachyons.css';
 import TravelingSalesmanProblem, {
   ITravelingSalesmanProblemProps
-} from "../components/TravelingSalesmanProblem";
-import { IAppState } from "../store/configStore";
-import { ITSPRoute, tspOperations } from "../store/tsp/index";
+} from '../components/TravelingSalesmanProblem';
+import { IAppState } from '../store/configStore';
+import { ITSPRoute, tspOperations } from '../store/tsp/index';
 
 export interface IAppProps extends ITravelingSalesmanProblemProps {
   tsp: ITSPRoute;

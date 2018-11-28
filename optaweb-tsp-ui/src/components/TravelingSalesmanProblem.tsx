@@ -78,7 +78,6 @@ export default class TravelingSalesmanProblem extends React.Component<
       loadHandler,
       addHandler,
     } = this.props;
-    // console.log(`Render TSP`);
 
     return (
       <div>
