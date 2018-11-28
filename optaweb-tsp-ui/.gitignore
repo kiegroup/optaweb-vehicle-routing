@@ -19,3 +19,16 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+/target
+/local
+ # IDEs
+# NetBeans
+/nbproject
+# IntelliJ
+/.idea
+/*.ipr
+/*.iws
+/*.iml
+# Visual Studio Code
+/.vscode

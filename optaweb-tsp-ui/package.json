@@ -19,6 +19,7 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
+    "lint": "./node_modules/tslint/bin/tslint -c tslint.json 'src/**/*.{ts,tsx}' -e 'src/@types/**'",
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
