@@ -8,7 +8,7 @@
     "react-dom": "^16.6.3",
     "react-leaflet": "^2.1.2",
     "react-redux": "^5.1.1",
-    "react-scripts-ts": "3.1.0",
+    "react-scripts-ts": "^4.0.8",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "sockjs-client": "^1.3.0",
@@ -25,11 +25,11 @@
   "devDependencies": {
     "@types/enzyme": "^3.1.15",
     "@types/enzyme-adapter-react-16": "^1.0.3",
-    "@types/jest": "^23.3.9",
+    "@types/jest": "^23.3.10",
     "@types/leaflet": "^1.2.14",
     "@types/node": "^10.12.10",
-    "@types/react": "^16.7.7",
-    "@types/react-dom": "^16.0.10",
+    "@types/react": "^16.7.8",
+    "@types/react-dom": "^16.0.11",
     "@types/react-leaflet": "^1.1.6",
     "@types/react-redux": "^6.0.10",
     "@types/redux-logger": "^3.0.6",
@@ -37,7 +37,13 @@
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
     "react-test-renderer": "^16.6.3",
-    "redux-devtools-extension": "^2.13.6",
+    "redux-devtools-extension": "^2.13.7",
     "typescript": "^3.1.6"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
