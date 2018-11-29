@@ -1,5 +1,4 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 
@@ -10,7 +9,6 @@
 /build
 
 # misc
-.DS_Store
 .env.local
 .env.development.local
 .env.test.local
@@ -22,13 +20,18 @@ yarn-error.log*
 
 /target
 /local
-# IDEs
-# NetBeans
-/nbproject
+
+# Eclipse
+/.project
+
 # IntelliJ
 /.idea
 /*.ipr
 /*.iws
 /*.iml
+
+# NetBeans
+/nbproject
+
 # Visual Studio Code
 /.vscode

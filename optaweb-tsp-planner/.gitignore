@@ -1,6 +1,18 @@
 !.mvn/wrapper/maven-wrapper.jar
 
-### STS ###
+/target
+/local
+
+# IntelliJ
+/.idea
+/*.ipr
+/*.iws
+/*.iml
+
+# NetBeans
+/nbproject
+
+# STS (Spring Tools Suite)
 .apt_generated
 .classpath
 .factorypath
@@ -8,16 +20,3 @@
 .settings
 .springBeans
 .sts4-cache
-
-/target/
-/local
-
-# Eclipse, NetBeans and IntelliJ files
-/nbproject
-/.idea
-/*.ipr
-/*.iws
-/*.iml
-
-# Repository wide ignore mac DS_Store files
-.DS_Store
