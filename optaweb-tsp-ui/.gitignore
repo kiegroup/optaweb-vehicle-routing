@@ -22,7 +22,7 @@ yarn-error.log*
 
 /target
 /local
- # IDEs
+# IDEs
 # NetBeans
 /nbproject
 # IntelliJ
