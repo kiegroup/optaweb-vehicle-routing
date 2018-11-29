@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import '@patternfly/react-core/dist/styles/base.css';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import App from './App';
+import App from './containers/App';
 import './index.css';
-import configureStore from './configureStore';
+import configureStore from './store/configStore';
 
 import registerServiceWorker from './registerServiceWorker';
 
-const store = configureStore();
-
+const store = configureStore({
+  socketUrl: 'http://localhost:8080/tsp-websocket'
+});
 
 ReactDOM.render(
-  <Provider store={store}><App /></Provider>,
-  document.getElementById('root'),
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root') as HTMLElement
 );
 
 registerServiceWorker();

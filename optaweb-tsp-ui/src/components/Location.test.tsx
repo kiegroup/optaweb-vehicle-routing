@@ -15,42 +15,24 @@
  */
 
 import { shallow } from 'enzyme';
-import React from 'react';
-import TspMap from './TspMap';
+import * as React from 'react';
+import Location from './Location';
 
-describe('TSP Map View', () => {
+describe('Location Component', () => {
   it('should render correctly', () => {
     const props = {
-      center: {
-        lat: 1.345678,
-        lng: 1.345678,
-      },
-      route: [
-        {
-          id: 1,
-          lat: 1.345678,
-          lng: 1.345678,
-        },
-        {
-          id: 2,
-          lat: 2.345678,
-          lng: 2.345678,
-        },
-        {
-          id: 3,
-          lat: 3.676111,
-          lng: 3.568333,
-        },
-      ],
-      domicileId: 1,
-      distance: '10',
-      clickHandler: jest.fn(),
+      id: 10,
+      removeDisabled: false,
       removeHandler: jest.fn(),
-      zoom: 5,
-      selectedId: 1,
+      selectHandler: jest.fn(),
     };
-    expect.assertions(1);
-    const tspMap = shallow(<TspMap {...props} />);
-    expect(tspMap).toMatchSnapshot();
+    expect.assertions(2);
+    const location = shallow(<Location {...props} />);
+    expect(location).toMatchSnapshot();
+
+    location.find('button').simulate('click');
+    location.find('div').simulate('mouseEnter');
+
+    expect(props.removeHandler).toHaveBeenCalledTimes(1);
   });
 });

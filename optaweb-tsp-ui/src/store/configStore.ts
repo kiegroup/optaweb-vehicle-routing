@@ -15,26 +15,43 @@
  */
 
 import {
-  createStore, combineReducers, compose, applyMiddleware,
+  applyMiddleware, combineReducers, compose, createStore,
 } from 'redux';
-import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
+import tspReducer, { ITSPRoute, tspOperations } from './tsp/index';
 
-import tspReducer, { tspOperations } from './ducks/tsp/index';
+export interface IAppState {
+  tsp: ITSPRoute;
+}
 
-export default function configureStore(preloadedState, { socketUrl = 'http://localhost:8080/tsp-websocket' } = {}) {
+export interface IAppStoreConfig {
+  socketUrl: string;
+}
+
+export default function configureStore(
+  { socketUrl }: IAppStoreConfig,
+  preloadedState?: IAppState,
+) {
+  // create logger middleware
   const logger = createLogger();
 
   /* eslint-disable no-underscore-dangle */
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   /* eslint-enable */
+
+  // combining reducers
   const rootReducer = combineReducers({ tsp: tspReducer });
 
   const store = createStore(
-    rootReducer, preloadedState, composeEnhancers(applyMiddleware(thunkMiddleware, logger)),
+    rootReducer,
+    preloadedState,
+    composeEnhancers(applyMiddleware(logger)),
   );
 
-  store.dispatch(tspOperations.connect(store, socketUrl));
+  tspOperations.connect({
+    dispatch: store.dispatch,
+    socketUrl,
+  });
 
   /* if (process.env.NODE_ENV !== 'production' && module.hot) {
     module.hot.accept('./reducers', () => store.replaceReducer(rootReducer));

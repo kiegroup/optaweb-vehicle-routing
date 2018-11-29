@@ -14,30 +14,39 @@
  * limitations under the License.
  */
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import * as React from 'react';
 
-function Location({
-  id, removeDisabled, removeHandler, selectHandler,
-}) {
+export interface ILocationProps {
+  id: number;
+  removeDisabled: boolean;
+  removeHandler: (id: number) => void;
+  selectHandler: (e: any) => void; // FIXME: Event Type
+}
+
+const Location: React.SFC<ILocationProps> = ({
+  id,
+  removeDisabled,
+  removeHandler,
+  selectHandler
+}: ILocationProps) => {
   return (
     <div
       key={id}
-      className="ma2 flex bg-animate hover-bg-light-gray"
+      className='ma2 flex bg-animate hover-bg-light-gray'
       onMouseEnter={() => selectHandler(id)}
       onMouseLeave={() => selectHandler(NaN)}
     >
-      <span className="w-80 pa2">{`Location ${id}`}</span>
-      <button type="button" disabled={removeDisabled} className="w-20 pa2" onClick={() => removeHandler(id)}>x</button>
+      <span className='w-80 pa2'>{`Location ${id}`}</span>
+      <button
+        type='button'
+        disabled={removeDisabled}
+        className='w-20 pa2'
+        onClick={() => removeHandler(id)}
+      >
+        x
+      </button>
     </div>
   );
-}
-
-Location.propTypes = {
-  id: PropTypes.number.isRequired,
-  removeDisabled: PropTypes.bool.isRequired,
-  removeHandler: PropTypes.func.isRequired,
-  selectHandler: PropTypes.func.isRequired,
 };
 
 export default Location;

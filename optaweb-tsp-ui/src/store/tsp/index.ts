@@ -14,25 +14,8 @@
  * limitations under the License.
  */
 
-import { shallow } from 'enzyme';
-import React from 'react';
-import Location from './Location';
+import tspReducer from './reducers';
 
-describe('Location Component', () => {
-  it('should render correctly', () => {
-    const props = {
-      id: 10,
-      removeDisabled: false,
-      removeHandler: jest.fn(),
-      selectHandler: jest.fn(),
-    };
-    expect.assertions(2);
-    const location = shallow(<Location {...props} />);
-    expect(location).toMatchSnapshot();
-
-    location.find('button').simulate('click');
-    location.find('div').simulate('mouseEnter');
-
-    expect(props.removeHandler).toHaveBeenCalledTimes(1);
-  });
-});
+export { default as tspOperations } from './operations';
+export * from './types';
+export default tspReducer;

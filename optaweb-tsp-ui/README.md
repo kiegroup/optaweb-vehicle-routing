@@ -57,17 +57,17 @@ Example:
 ```json
 {
   "browserslist": [
-    "last 1 version",
-    "> 1%",
-    "maintained node versions",
-    "not dead"
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
   ]
 }
 ```
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+You can learn more in the [TypeScript React Starter](https://github.com/Microsoft/TypeScript-React-Starter).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 

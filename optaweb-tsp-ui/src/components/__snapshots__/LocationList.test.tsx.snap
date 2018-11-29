@@ -7,6 +7,7 @@ ShallowWrapper {
     distance="10"
     domicileId={1}
     loadHandler={[MockFunction]}
+    maxDistance={1}
     removeHandler={[MockFunction]}
     route={
       Array [
@@ -49,16 +50,22 @@ ShallowWrapper {
           <div
             className="tl ma2 pa2"
           >
-            Distance:
-             
+            Distance: 
             10
           </div>
           <div
             className="tl ma2 pa2"
           >
-            Locations:
-             
+            Locations: 
             3
+          </div>
+          <div
+            className="tl ma2 pa2"
+          >
+            <TripData
+              distance={10}
+              maxDistance={1}
+            />
           </div>
           <div
             style={
@@ -101,16 +108,22 @@ ShallowWrapper {
           <div
             className="tl ma2 pa2"
           >
-            Distance:
-             
+            Distance: 
             10
           </div>
           <div
             className="tl ma2 pa2"
           >
-            Locations:
-             
+            Locations: 
             3
+          </div>
+          <div
+            className="tl ma2 pa2"
+          >
+            <TripData
+              distance={10}
+              maxDistance={1}
+            />
           </div>
           <div
             style={
@@ -152,16 +165,22 @@ ShallowWrapper {
             <div
               className="tl ma2 pa2"
             >
-              Distance:
-               
+              Distance: 
               10
             </div>,
             <div
               className="tl ma2 pa2"
             >
-              Locations:
-               
+              Locations: 
               3
+            </div>,
+            <div
+              className="tl ma2 pa2"
+            >
+              <TripData
+                distance={10}
+                maxDistance={1}
+              />
             </div>,
             <div
               style={
@@ -200,16 +219,14 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": Array [
-                "Distance:",
-                " ",
+                "Distance: ",
                 "10",
               ],
               "className": "tl ma2 pa2",
             },
             "ref": null,
             "rendered": Array [
-              "Distance:",
-              " ",
+              "Distance: ",
               "10",
             ],
             "type": "div",
@@ -220,18 +237,42 @@ ShallowWrapper {
             "nodeType": "host",
             "props": Object {
               "children": Array [
-                "Locations:",
-                " ",
+                "Locations: ",
                 3,
               ],
               "className": "tl ma2 pa2",
             },
             "ref": null,
             "rendered": Array [
-              "Locations:",
-              " ",
+              "Locations: ",
               3,
             ],
+            "type": "div",
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <TripData
+                distance={10}
+                maxDistance={1}
+              />,
+              "className": "tl ma2 pa2",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "distance": 10,
+                "maxDistance": 1,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
             "type": "div",
           },
           Object {
@@ -331,16 +372,22 @@ ShallowWrapper {
             <div
               className="tl ma2 pa2"
             >
-              Distance:
-               
+              Distance: 
               10
             </div>
             <div
               className="tl ma2 pa2"
             >
-              Locations:
-               
+              Locations: 
               3
+            </div>
+            <div
+              className="tl ma2 pa2"
+            >
+              <TripData
+                distance={10}
+                maxDistance={1}
+              />
             </div>
             <div
               style={
@@ -383,16 +430,22 @@ ShallowWrapper {
             <div
               className="tl ma2 pa2"
             >
-              Distance:
-               
+              Distance: 
               10
             </div>
             <div
               className="tl ma2 pa2"
             >
-              Locations:
-               
+              Locations: 
               3
+            </div>
+            <div
+              className="tl ma2 pa2"
+            >
+              <TripData
+                distance={10}
+                maxDistance={1}
+              />
             </div>
             <div
               style={
@@ -434,16 +487,22 @@ ShallowWrapper {
               <div
                 className="tl ma2 pa2"
               >
-                Distance:
-                 
+                Distance: 
                 10
               </div>,
               <div
                 className="tl ma2 pa2"
               >
-                Locations:
-                 
+                Locations: 
                 3
+              </div>,
+              <div
+                className="tl ma2 pa2"
+              >
+                <TripData
+                  distance={10}
+                  maxDistance={1}
+                />
               </div>,
               <div
                 style={
@@ -482,16 +541,14 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": Array [
-                  "Distance:",
-                  " ",
+                  "Distance: ",
                   "10",
                 ],
                 "className": "tl ma2 pa2",
               },
               "ref": null,
               "rendered": Array [
-                "Distance:",
-                " ",
+                "Distance: ",
                 "10",
               ],
               "type": "div",
@@ -502,18 +559,42 @@ ShallowWrapper {
               "nodeType": "host",
               "props": Object {
                 "children": Array [
-                  "Locations:",
-                  " ",
+                  "Locations: ",
                   3,
                 ],
                 "className": "tl ma2 pa2",
               },
               "ref": null,
               "rendered": Array [
-                "Locations:",
-                " ",
+                "Locations: ",
                 3,
               ],
+              "type": "div",
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "host",
+              "props": Object {
+                "children": <TripData
+                  distance={10}
+                  maxDistance={1}
+                />,
+                "className": "tl ma2 pa2",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "distance": 10,
+                  "maxDistance": 1,
+                },
+                "ref": null,
+                "rendered": null,
+                "type": [Function],
+              },
               "type": "div",
             },
             Object {
@@ -628,6 +709,7 @@ ShallowWrapper {
     distance="10"
     domicileId={1}
     loadHandler={[MockFunction]}
+    maxDistance={1}
     removeHandler={[MockFunction]}
     route={Array []}
     selectHandler={[MockFunction]}

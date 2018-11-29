@@ -14,8 +14,18 @@
  * limitations under the License.
  */
 
-import tspReducer from './reducers';
+// import { render } from 'enzyme';
+// import React from 'react';
 
-export { default as tspOperations } from './operations';
-export { default as tspTypes } from './types';
-export default tspReducer;
+describe('-- 🦆 TSP -- ', () => {
+  it('dummy test', () => {
+    expect({ expected: true, actual: true });
+  });
+});
+
+/* Application will mount */
+/*
+ it('mount without crashing', () => {
+  mount(<App />).unmount();
+});
+*/

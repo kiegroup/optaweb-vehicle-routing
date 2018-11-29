@@ -14,25 +14,36 @@
  * limitations under the License.
  */
 
-import types from './types';
+import {
+  // AddLocationAction,
+  IDeleteLocationAction,
+  // InitWsConnectionAction,
+  IUpdateTSPSolutionAction,
+  // WsConnectionFailureAction,
+  // WsConnectionSuccessAction
+} from './actions';
+import * as types from './types';
 
-const INITIAL_STATE = {
-  route: [],
-  domicileId: -1,
+const INITIAL_STATE: types.ITSPRoute = {
   distance: '0.00',
+  domicileId: -1,
+  route: [],
 };
 
-export default function tspReducer(state = INITIAL_STATE, action) {
+export default function tspReducer(
+  state = INITIAL_STATE,
+  action: IDeleteLocationAction | IUpdateTSPSolutionAction
+): types.ITSPRoute {
   switch (action.type) {
     case types.SOLUTION_UPDATES_DATA: {
       const { route, distance } = action.solution;
-      if (route.length < 1) {
+      if (route.length === 0 && distance) {
         return state;
       }
       return {
-        route,
-        domicileId: route.length > 0 ? route[0].id : NaN,
         distance,
+        domicileId: route.length > 0 ? route[0].id : NaN,
+        route,
       };
     }
     case types.DELETE_LOCATION: {
@@ -41,8 +52,6 @@ export default function tspReducer(state = INITIAL_STATE, action) {
       }
       return state;
     }
-    case types.ADD_LOCATION:
-    case types.ADD_DEMO_LOCATION:
     default:
       return state;
   }

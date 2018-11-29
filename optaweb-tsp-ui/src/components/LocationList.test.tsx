@@ -15,18 +15,18 @@
  */
 
 import { shallow } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import LocationList from './LocationList';
-
 describe('Location List Component', () => {
   it('should render correctly with no routes', () => {
     const props = {
-      route: [],
-      domicileId: 1,
       distance: '10',
-      removeHandler: jest.fn(),
-      selectHandler: jest.fn(),
+      domicileId: 1,
       loadHandler: jest.fn(),
+      maxDistance: 1,
+      removeHandler: jest.fn(),
+      route: [],
+      selectHandler: jest.fn(),
     };
     expect.assertions(2);
     const locationList = shallow(<LocationList {...props} />);
@@ -39,6 +39,11 @@ describe('Location List Component', () => {
 
   it('should render correctly with a few routes', () => {
     const props = {
+      distance: '10',
+      domicileId: 1,
+      loadHandler: jest.fn(),
+      maxDistance: 1,
+      removeHandler: jest.fn(),
       route: [
         {
           id: 1,
@@ -56,11 +61,7 @@ describe('Location List Component', () => {
           lng: 3.568333,
         },
       ],
-      domicileId: 1,
-      distance: '10',
-      removeHandler: jest.fn(),
       selectHandler: jest.fn(),
-      loadHandler: jest.fn(),
     };
     expect.assertions(2);
     const locationList = shallow(<LocationList {...props} />);
