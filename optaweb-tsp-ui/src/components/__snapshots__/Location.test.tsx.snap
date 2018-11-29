@@ -6,9 +6,9 @@ ShallowWrapper {
   Symbol(enzyme.__unrendered__): <Location
     id={10}
     removeDisabled={false}
-    removeHandler={[Function]}
-    selectHandler={[Function]}
-/>,
+    removeHandler={[MockFunction]}
+    selectHandler={[MockFunction]}
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -25,17 +25,17 @@ ShallowWrapper {
       "children": Array [
         <span
           className="w-80 pa2"
->
+        >
           Location 10
-</span>,
+        </span>,
         <button
           className="w-20 pa2"
           disabled={false}
           onClick={[Function]}
           type="button"
->
+        >
           x
-</button>,
+        </button>,
       ],
       "className": "ma2 flex bg-animate hover-bg-light-gray",
       "onMouseEnter": [Function],
@@ -82,17 +82,17 @@ ShallowWrapper {
         "children": Array [
           <span
             className="w-80 pa2"
->
+          >
             Location 10
-</span>,
+          </span>,
           <button
             className="w-20 pa2"
             disabled={false}
             onClick={[Function]}
             type="button"
->
+          >
             x
-</button>,
+          </button>,
         ],
         "className": "ma2 flex bg-animate hover-bg-light-gray",
         "onMouseEnter": [Function],

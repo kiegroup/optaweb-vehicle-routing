@@ -5,37 +5,37 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <TspMap
     center={
-        Object {
-            "lat": 1.345678,
-            "lng": 1.345678,
-          }
+      Object {
+        "lat": 1.345678,
+        "lng": 1.345678,
+      }
     }
-    clickHandler={[Function]}
+    clickHandler={[MockFunction]}
     distance="10"
     domicileId={1}
-    removeHandler={[Function]}
+    removeHandler={[MockFunction]}
     route={
-        Array [
-            Object {
-              "id": 1,
-              "lat": 1.345678,
-              "lng": 1.345678,
-            },
-            Object {
-              "id": 2,
-              "lat": 2.345678,
-              "lng": 2.345678,
-            },
-            Object {
-              "id": 3,
-              "lat": 3.676111,
-              "lng": 3.568333,
-            },
-          ]
+      Array [
+        Object {
+          "id": 1,
+          "lat": 1.345678,
+          "lng": 1.345678,
+        },
+        Object {
+          "id": 2,
+          "lat": 2.345678,
+          "lng": 2.345678,
+        },
+        Object {
+          "id": 3,
+          "lat": 3.676111,
+          "lng": 3.568333,
+        },
+      ]
     }
     selectedId={1}
     zoom={5}
-/>,
+  />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
     "getNode": [Function],
@@ -54,128 +54,128 @@ ShallowWrapper {
         "lng": 1.345678,
       },
       "children": Array [
-        <Unknown
+        <ForwardRef(Leaflet(TileLayer))
           attribution="&copy <a href=\\"http://osm.org/copyright\\">OpenStreetMap</a> contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-/>,
-        <Unknown
+        />,
+        <ForwardRef(Leaflet(ZoomControl))
           position="topright"
-/>,
+        />,
         Array [
-          <Unknown
+          <ForwardRef(Leaflet(Marker))
             icon={
-                        NewClass {
-                                    "_initHooksCalled": true,
-                                    "options": Object {
-                                      "iconAnchor": Array [
-                                        12,
-                                        12,
-                                      ],
-                                      "iconSize": Array [
-                                        24,
-                                        24,
-                                      ],
-                                      "iconUrl": "if_big_house-home_2222740.png",
-                                      "popupAnchor": Array [
-                                        0,
-                                        -10,
-                                      ],
-                                      "shadowAnchor": Array [
-                                        16,
-                                        2,
-                                      ],
-                                      "shadowSize": Array [
-                                        50,
-                                        16,
-                                      ],
-                                      "shadowUrl": "if_big_house-home_2222740_shadow.png",
-                                    },
-                                  }
+              NewClass {
+                "_initHooksCalled": true,
+                "options": Object {
+                  "iconAnchor": Array [
+                    12,
+                    12,
+                  ],
+                  "iconSize": Array [
+                    24,
+                    24,
+                  ],
+                  "iconUrl": "if_big_house-home_2222740.png",
+                  "popupAnchor": Array [
+                    0,
+                    -10,
+                  ],
+                  "shadowAnchor": Array [
+                    16,
+                    2,
+                  ],
+                  "shadowSize": Array [
+                    50,
+                    16,
+                  ],
+                  "shadowUrl": "if_big_house-home_2222740_shadow.png",
+                },
+              }
             }
             onClick={[Function]}
             position={
-                        Object {
-                                    "id": 1,
-                                    "lat": 1.345678,
-                                    "lng": 1.345678,
-                                  }
+              Object {
+                "id": 1,
+                "lat": 1.345678,
+                "lng": 1.345678,
+              }
             }
->
-            <Unknown
-                        permanent={true}
+          >
+            <ForwardRef(Leaflet(Tooltip))
+              permanent={true}
             >
-                        Location 1 [Lat=1.345678, Lng=1.345678]
-            </Unknown>
-</Unknown>,
-          <Unknown
+              Location 1 [Lat=1.345678, Lng=1.345678]
+            </ForwardRef(Leaflet(Tooltip))>
+          </ForwardRef(Leaflet(Marker))>,
+          <ForwardRef(Leaflet(Marker))
             icon={
-                        NewClass {
-                                    "_initHooksCalled": true,
-                                    "options": Object {},
-                                  }
+              NewClass {
+                "_initHooksCalled": true,
+                "options": Object {},
+              }
             }
             onClick={[Function]}
             position={
-                        Object {
-                                    "id": 2,
-                                    "lat": 2.345678,
-                                    "lng": 2.345678,
-                                  }
+              Object {
+                "id": 2,
+                "lat": 2.345678,
+                "lng": 2.345678,
+              }
             }
->
-            <Unknown
-                        permanent={false}
+          >
+            <ForwardRef(Leaflet(Tooltip))
+              permanent={false}
             >
-                        Location 2 [Lat=2.345678, Lng=2.345678]
-            </Unknown>
-</Unknown>,
-          <Unknown
+              Location 2 [Lat=2.345678, Lng=2.345678]
+            </ForwardRef(Leaflet(Tooltip))>
+          </ForwardRef(Leaflet(Marker))>,
+          <ForwardRef(Leaflet(Marker))
             icon={
-                        NewClass {
-                                    "_initHooksCalled": true,
-                                    "options": Object {},
-                                  }
+              NewClass {
+                "_initHooksCalled": true,
+                "options": Object {},
+              }
             }
             onClick={[Function]}
             position={
-                        Object {
-                                    "id": 3,
-                                    "lat": 3.676111,
-                                    "lng": 3.568333,
-                                  }
+              Object {
+                "id": 3,
+                "lat": 3.676111,
+                "lng": 3.568333,
+              }
             }
->
-            <Unknown
-                        permanent={false}
+          >
+            <ForwardRef(Leaflet(Tooltip))
+              permanent={false}
             >
-                        Location 3 [Lat=3.676111, Lng=3.568333]
-            </Unknown>
-</Unknown>,
+              Location 3 [Lat=3.676111, Lng=3.568333]
+            </ForwardRef(Leaflet(Tooltip))>
+          </ForwardRef(Leaflet(Marker))>,
         ],
-        <Unknown
+        <ForwardRef(Leaflet(Polygon))
           fill={false}
           positions={
-                    Array [
-                              Object {
-                                "id": 1,
-                                "lat": 1.345678,
-                                "lng": 1.345678,
-                              },
-                              Object {
-                                "id": 2,
-                                "lat": 2.345678,
-                                "lng": 2.345678,
-                              },
-                              Object {
-                                "id": 3,
-                                "lat": 3.676111,
-                                "lng": 3.568333,
-                              },
-                            ]
+            Array [
+              Object {
+                "id": 1,
+                "lat": 1.345678,
+                "lng": 1.345678,
+              },
+              Object {
+                "id": 2,
+                "lat": 2.345678,
+                "lng": 2.345678,
+              },
+              Object {
+                "id": 3,
+                "lat": 3.676111,
+                "lng": 3.568333,
+              },
+            ]
           }
-/>,
+        />,
       ],
-      "onClick": [Function],
+      "onClick": [MockFunction],
       "style": Object {
         "height": "100vh",
         "width": "100vw",
@@ -221,11 +221,11 @@ ShallowWrapper {
         "key": "1",
         "nodeType": "function",
         "props": Object {
-          "children": <Unknown
+          "children": <ForwardRef(Leaflet(Tooltip))
             permanent={true}
->
+          >
             Location 1 [Lat=1.345678, Lng=1.345678]
-</Unknown>,
+          </ForwardRef(Leaflet(Tooltip))>,
           "icon": NewClass {
             "_initHooksCalled": true,
             "options": Object {
@@ -288,11 +288,11 @@ ShallowWrapper {
         "key": "2",
         "nodeType": "function",
         "props": Object {
-          "children": <Unknown
+          "children": <ForwardRef(Leaflet(Tooltip))
             permanent={false}
->
+          >
             Location 2 [Lat=2.345678, Lng=2.345678]
-</Unknown>,
+          </ForwardRef(Leaflet(Tooltip))>,
           "icon": NewClass {
             "_initHooksCalled": true,
             "options": Object {},
@@ -332,11 +332,11 @@ ShallowWrapper {
         "key": "3",
         "nodeType": "function",
         "props": Object {
-          "children": <Unknown
+          "children": <ForwardRef(Leaflet(Tooltip))
             permanent={false}
->
+          >
             Location 3 [Lat=3.676111, Lng=3.568333]
-</Unknown>,
+          </ForwardRef(Leaflet(Tooltip))>,
           "icon": NewClass {
             "_initHooksCalled": true,
             "options": Object {},
@@ -417,128 +417,128 @@ ShallowWrapper {
           "lng": 1.345678,
         },
         "children": Array [
-          <Unknown
+          <ForwardRef(Leaflet(TileLayer))
             attribution="&copy <a href=\\"http://osm.org/copyright\\">OpenStreetMap</a> contributors"
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-/>,
-          <Unknown
+          />,
+          <ForwardRef(Leaflet(ZoomControl))
             position="topright"
-/>,
+          />,
           Array [
-            <Unknown
+            <ForwardRef(Leaflet(Marker))
               icon={
-                            NewClass {
-                                          "_initHooksCalled": true,
-                                          "options": Object {
-                                            "iconAnchor": Array [
-                                              12,
-                                              12,
-                                            ],
-                                            "iconSize": Array [
-                                              24,
-                                              24,
-                                            ],
-                                            "iconUrl": "if_big_house-home_2222740.png",
-                                            "popupAnchor": Array [
-                                              0,
-                                              -10,
-                                            ],
-                                            "shadowAnchor": Array [
-                                              16,
-                                              2,
-                                            ],
-                                            "shadowSize": Array [
-                                              50,
-                                              16,
-                                            ],
-                                            "shadowUrl": "if_big_house-home_2222740_shadow.png",
-                                          },
-                                        }
+                NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {
+                    "iconAnchor": Array [
+                      12,
+                      12,
+                    ],
+                    "iconSize": Array [
+                      24,
+                      24,
+                    ],
+                    "iconUrl": "if_big_house-home_2222740.png",
+                    "popupAnchor": Array [
+                      0,
+                      -10,
+                    ],
+                    "shadowAnchor": Array [
+                      16,
+                      2,
+                    ],
+                    "shadowSize": Array [
+                      50,
+                      16,
+                    ],
+                    "shadowUrl": "if_big_house-home_2222740_shadow.png",
+                  },
+                }
               }
               onClick={[Function]}
               position={
-                            Object {
-                                          "id": 1,
-                                          "lat": 1.345678,
-                                          "lng": 1.345678,
-                                        }
+                Object {
+                  "id": 1,
+                  "lat": 1.345678,
+                  "lng": 1.345678,
+                }
               }
->
-              <Unknown
-                            permanent={true}
+            >
+              <ForwardRef(Leaflet(Tooltip))
+                permanent={true}
               >
-                            Location 1 [Lat=1.345678, Lng=1.345678]
-              </Unknown>
-</Unknown>,
-            <Unknown
+                Location 1 [Lat=1.345678, Lng=1.345678]
+              </ForwardRef(Leaflet(Tooltip))>
+            </ForwardRef(Leaflet(Marker))>,
+            <ForwardRef(Leaflet(Marker))
               icon={
-                            NewClass {
-                                          "_initHooksCalled": true,
-                                          "options": Object {},
-                                        }
+                NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {},
+                }
               }
               onClick={[Function]}
               position={
-                            Object {
-                                          "id": 2,
-                                          "lat": 2.345678,
-                                          "lng": 2.345678,
-                                        }
+                Object {
+                  "id": 2,
+                  "lat": 2.345678,
+                  "lng": 2.345678,
+                }
               }
->
-              <Unknown
-                            permanent={false}
+            >
+              <ForwardRef(Leaflet(Tooltip))
+                permanent={false}
               >
-                            Location 2 [Lat=2.345678, Lng=2.345678]
-              </Unknown>
-</Unknown>,
-            <Unknown
+                Location 2 [Lat=2.345678, Lng=2.345678]
+              </ForwardRef(Leaflet(Tooltip))>
+            </ForwardRef(Leaflet(Marker))>,
+            <ForwardRef(Leaflet(Marker))
               icon={
-                            NewClass {
-                                          "_initHooksCalled": true,
-                                          "options": Object {},
-                                        }
+                NewClass {
+                  "_initHooksCalled": true,
+                  "options": Object {},
+                }
               }
               onClick={[Function]}
               position={
-                            Object {
-                                          "id": 3,
-                                          "lat": 3.676111,
-                                          "lng": 3.568333,
-                                        }
+                Object {
+                  "id": 3,
+                  "lat": 3.676111,
+                  "lng": 3.568333,
+                }
               }
->
-              <Unknown
-                            permanent={false}
+            >
+              <ForwardRef(Leaflet(Tooltip))
+                permanent={false}
               >
-                            Location 3 [Lat=3.676111, Lng=3.568333]
-              </Unknown>
-</Unknown>,
+                Location 3 [Lat=3.676111, Lng=3.568333]
+              </ForwardRef(Leaflet(Tooltip))>
+            </ForwardRef(Leaflet(Marker))>,
           ],
-          <Unknown
+          <ForwardRef(Leaflet(Polygon))
             fill={false}
             positions={
-                        Array [
-                                    Object {
-                                      "id": 1,
-                                      "lat": 1.345678,
-                                      "lng": 1.345678,
-                                    },
-                                    Object {
-                                      "id": 2,
-                                      "lat": 2.345678,
-                                      "lng": 2.345678,
-                                    },
-                                    Object {
-                                      "id": 3,
-                                      "lat": 3.676111,
-                                      "lng": 3.568333,
-                                    },
-                                  ]
+              Array [
+                Object {
+                  "id": 1,
+                  "lat": 1.345678,
+                  "lng": 1.345678,
+                },
+                Object {
+                  "id": 2,
+                  "lat": 2.345678,
+                  "lng": 2.345678,
+                },
+                Object {
+                  "id": 3,
+                  "lat": 3.676111,
+                  "lng": 3.568333,
+                },
+              ]
             }
-/>,
+          />,
         ],
-        "onClick": [Function],
+        "onClick": [MockFunction],
         "style": Object {
           "height": "100vh",
           "width": "100vw",
@@ -584,11 +584,11 @@ ShallowWrapper {
           "key": "1",
           "nodeType": "function",
           "props": Object {
-            "children": <Unknown
+            "children": <ForwardRef(Leaflet(Tooltip))
               permanent={true}
->
+            >
               Location 1 [Lat=1.345678, Lng=1.345678]
-</Unknown>,
+            </ForwardRef(Leaflet(Tooltip))>,
             "icon": NewClass {
               "_initHooksCalled": true,
               "options": Object {
@@ -651,11 +651,11 @@ ShallowWrapper {
           "key": "2",
           "nodeType": "function",
           "props": Object {
-            "children": <Unknown
+            "children": <ForwardRef(Leaflet(Tooltip))
               permanent={false}
->
+            >
               Location 2 [Lat=2.345678, Lng=2.345678]
-</Unknown>,
+            </ForwardRef(Leaflet(Tooltip))>,
             "icon": NewClass {
               "_initHooksCalled": true,
               "options": Object {},
@@ -695,11 +695,11 @@ ShallowWrapper {
           "key": "3",
           "nodeType": "function",
           "props": Object {
-            "children": <Unknown
+            "children": <ForwardRef(Leaflet(Tooltip))
               permanent={false}
->
+            >
               Location 3 [Lat=3.676111, Lng=3.568333]
-</Unknown>,
+            </ForwardRef(Leaflet(Tooltip))>,
             "icon": NewClass {
               "_initHooksCalled": true,
               "options": Object {},
