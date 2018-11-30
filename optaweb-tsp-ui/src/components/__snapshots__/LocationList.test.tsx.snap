@@ -44,57 +44,60 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": <div
-        className="leaflet-control leaflet-bar w5 bg-white"
+        className="leaflet-control leaflet-bar"
       >
-        <div>
-          <div
-            className="tl ma2 pa2"
+        <Card
+          className=""
+          component="article"
+        >
+          <CardHeader
+            className=""
+            component="div"
           >
             Distance: 
             10
-          </div>
-          <div
-            className="tl ma2 pa2"
-          >
+            <br />
             Locations: 
             3
-          </div>
-          <div
-            className="tl ma2 pa2"
-          >
             <TripData
               distance={10}
               maxDistance={1}
             />
-          </div>
-          <div
-            style={
-              Object {
-                "maxHeight": "calc(100vh - 116px)",
-                "overflowY": "auto",
-              }
-            }
+            <hr />
+          </CardHeader>
+          <CardBody
+            className=""
+            component="div"
           >
-            <Location
-              id={1}
-              removeDisabled={true}
-              removeHandler={[MockFunction]}
-              selectHandler={[MockFunction]}
-            />
-            <Location
-              id={2}
-              removeDisabled={false}
-              removeHandler={[MockFunction]}
-              selectHandler={[MockFunction]}
-            />
-            <Location
-              id={3}
-              removeDisabled={false}
-              removeHandler={[MockFunction]}
-              selectHandler={[MockFunction]}
-            />
-          </div>
-        </div>
+            <div
+              style={
+                Object {
+                  "maxHeight": "calc(100vh - 116px)",
+                  "overflowY": "auto",
+                }
+              }
+            >
+              <Location
+                id={1}
+                removeDisabled={true}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
+              />
+              <Location
+                id={2}
+                removeDisabled={false}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
+              />
+              <Location
+                id={3}
+                removeDisabled={false}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
+              />
+            </div>
+          </CardBody>
+        </Card>
       </div>,
       "className": "leaflet-top leaflet-left leaflet-touch",
     },
@@ -104,406 +107,86 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
-        "children": <div>
-          <div
-            className="tl ma2 pa2"
+        "children": <Card
+          className=""
+          component="article"
+        >
+          <CardHeader
+            className=""
+            component="div"
           >
             Distance: 
             10
-          </div>
-          <div
-            className="tl ma2 pa2"
-          >
+            <br />
             Locations: 
             3
-          </div>
-          <div
-            className="tl ma2 pa2"
-          >
             <TripData
               distance={10}
               maxDistance={1}
             />
-          </div>
-          <div
-            style={
-              Object {
-                "maxHeight": "calc(100vh - 116px)",
-                "overflowY": "auto",
-              }
-            }
+            <hr />
+          </CardHeader>
+          <CardBody
+            className=""
+            component="div"
           >
-            <Location
-              id={1}
-              removeDisabled={true}
-              removeHandler={[MockFunction]}
-              selectHandler={[MockFunction]}
-            />
-            <Location
-              id={2}
-              removeDisabled={false}
-              removeHandler={[MockFunction]}
-              selectHandler={[MockFunction]}
-            />
-            <Location
-              id={3}
-              removeDisabled={false}
-              removeHandler={[MockFunction]}
-              selectHandler={[MockFunction]}
-            />
-          </div>
-        </div>,
-        "className": "leaflet-control leaflet-bar w5 bg-white",
+            <div
+              style={
+                Object {
+                  "maxHeight": "calc(100vh - 116px)",
+                  "overflowY": "auto",
+                }
+              }
+            >
+              <Location
+                id={1}
+                removeDisabled={true}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
+              />
+              <Location
+                id={2}
+                removeDisabled={false}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
+              />
+              <Location
+                id={3}
+                removeDisabled={false}
+                removeHandler={[MockFunction]}
+                selectHandler={[MockFunction]}
+              />
+            </div>
+          </CardBody>
+        </Card>,
+        "className": "leaflet-control leaflet-bar",
       },
       "ref": null,
       "rendered": Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "host",
+        "nodeType": "function",
         "props": Object {
           "children": Array [
-            <div
-              className="tl ma2 pa2"
+            <CardHeader
+              className=""
+              component="div"
             >
               Distance: 
               10
-            </div>,
-            <div
-              className="tl ma2 pa2"
-            >
+              <br />
               Locations: 
               3
-            </div>,
-            <div
-              className="tl ma2 pa2"
-            >
               <TripData
                 distance={10}
                 maxDistance={1}
               />
-            </div>,
-            <div
-              style={
-                Object {
-                  "maxHeight": "calc(100vh - 116px)",
-                  "overflowY": "auto",
-                }
-              }
+              <hr />
+            </CardHeader>,
+            <CardBody
+              className=""
+              component="div"
             >
-              <Location
-                id={1}
-                removeDisabled={true}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-              <Location
-                id={2}
-                removeDisabled={false}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-              <Location
-                id={3}
-                removeDisabled={false}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-            </div>,
-          ],
-        },
-        "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                "Distance: ",
-                "10",
-              ],
-              "className": "tl ma2 pa2",
-            },
-            "ref": null,
-            "rendered": Array [
-              "Distance: ",
-              "10",
-            ],
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                "Locations: ",
-                3,
-              ],
-              "className": "tl ma2 pa2",
-            },
-            "ref": null,
-            "rendered": Array [
-              "Locations: ",
-              3,
-            ],
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": <TripData
-                distance={10}
-                maxDistance={1}
-              />,
-              "className": "tl ma2 pa2",
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "distance": 10,
-                "maxDistance": 1,
-              },
-              "ref": null,
-              "rendered": null,
-              "type": [Function],
-            },
-            "type": "div",
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "host",
-            "props": Object {
-              "children": Array [
-                <Location
-                  id={1}
-                  removeDisabled={true}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />,
-                <Location
-                  id={2}
-                  removeDisabled={false}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />,
-                <Location
-                  id={3}
-                  removeDisabled={false}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />,
-              ],
-              "style": Object {
-                "maxHeight": "calc(100vh - 116px)",
-                "overflowY": "auto",
-              },
-            },
-            "ref": null,
-            "rendered": Array [
-              Object {
-                "instance": null,
-                "key": "1",
-                "nodeType": "function",
-                "props": Object {
-                  "id": 1,
-                  "removeDisabled": true,
-                  "removeHandler": [MockFunction],
-                  "selectHandler": [MockFunction],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-              Object {
-                "instance": null,
-                "key": "2",
-                "nodeType": "function",
-                "props": Object {
-                  "id": 2,
-                  "removeDisabled": false,
-                  "removeHandler": [MockFunction],
-                  "selectHandler": [MockFunction],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-              Object {
-                "instance": null,
-                "key": "3",
-                "nodeType": "function",
-                "props": Object {
-                  "id": 3,
-                  "removeDisabled": false,
-                  "removeHandler": [MockFunction],
-                  "selectHandler": [MockFunction],
-                },
-                "ref": null,
-                "rendered": null,
-                "type": [Function],
-              },
-            ],
-            "type": "div",
-          },
-        ],
-        "type": "div",
-      },
-      "type": "div",
-    },
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": <div
-          className="leaflet-control leaflet-bar w5 bg-white"
-        >
-          <div>
-            <div
-              className="tl ma2 pa2"
-            >
-              Distance: 
-              10
-            </div>
-            <div
-              className="tl ma2 pa2"
-            >
-              Locations: 
-              3
-            </div>
-            <div
-              className="tl ma2 pa2"
-            >
-              <TripData
-                distance={10}
-                maxDistance={1}
-              />
-            </div>
-            <div
-              style={
-                Object {
-                  "maxHeight": "calc(100vh - 116px)",
-                  "overflowY": "auto",
-                }
-              }
-            >
-              <Location
-                id={1}
-                removeDisabled={true}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-              <Location
-                id={2}
-                removeDisabled={false}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-              <Location
-                id={3}
-                removeDisabled={false}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-            </div>
-          </div>
-        </div>,
-        "className": "leaflet-top leaflet-left leaflet-touch",
-      },
-      "ref": null,
-      "rendered": Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": <div>
-            <div
-              className="tl ma2 pa2"
-            >
-              Distance: 
-              10
-            </div>
-            <div
-              className="tl ma2 pa2"
-            >
-              Locations: 
-              3
-            </div>
-            <div
-              className="tl ma2 pa2"
-            >
-              <TripData
-                distance={10}
-                maxDistance={1}
-              />
-            </div>
-            <div
-              style={
-                Object {
-                  "maxHeight": "calc(100vh - 116px)",
-                  "overflowY": "auto",
-                }
-              }
-            >
-              <Location
-                id={1}
-                removeDisabled={true}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-              <Location
-                id={2}
-                removeDisabled={false}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-              <Location
-                id={3}
-                removeDisabled={false}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-            </div>
-          </div>,
-          "className": "leaflet-control leaflet-bar w5 bg-white",
-        },
-        "ref": null,
-        "rendered": Object {
-          "instance": null,
-          "key": undefined,
-          "nodeType": "host",
-          "props": Object {
-            "children": Array [
-              <div
-                className="tl ma2 pa2"
-              >
-                Distance: 
-                10
-              </div>,
-              <div
-                className="tl ma2 pa2"
-              >
-                Locations: 
-                3
-              </div>,
-              <div
-                className="tl ma2 pa2"
-              >
-                <TripData
-                  distance={10}
-                  maxDistance={1}
-                />
-              </div>,
               <div
                 style={
                   Object {
@@ -530,60 +213,50 @@ ShallowWrapper {
                   removeHandler={[MockFunction]}
                   selectHandler={[MockFunction]}
                 />
-              </div>,
-            ],
-          },
-          "ref": null,
-          "rendered": Array [
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": Array [
-                  "Distance: ",
-                  "10",
-                ],
-                "className": "tl ma2 pa2",
-              },
-              "ref": null,
-              "rendered": Array [
+              </div>
+            </CardBody>,
+          ],
+          "className": "",
+          "component": "article",
+        },
+        "ref": null,
+        "rendered": Array [
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "children": Array [
                 "Distance: ",
                 "10",
-              ],
-              "type": "div",
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": Array [
-                  "Locations: ",
-                  3,
-                ],
-                "className": "tl ma2 pa2",
-              },
-              "ref": null,
-              "rendered": Array [
+                <br />,
                 "Locations: ",
                 3,
-              ],
-              "type": "div",
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": <TripData
+                <TripData
                   distance={10}
                   maxDistance={1}
                 />,
-                "className": "tl ma2 pa2",
+                <hr />,
+              ],
+              "className": "",
+              "component": "div",
+            },
+            "ref": null,
+            "rendered": Array [
+              "Distance: ",
+              "10",
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
               },
-              "ref": null,
-              "rendered": Object {
+              "Locations: ",
+              3,
+              Object {
                 "instance": null,
                 "key": undefined,
                 "nodeType": "function",
@@ -595,9 +268,55 @@ ShallowWrapper {
                 "rendered": null,
                 "type": [Function],
               },
-              "type": "div",
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "hr",
+              },
+            ],
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "children": <div
+                style={
+                  Object {
+                    "maxHeight": "calc(100vh - 116px)",
+                    "overflowY": "auto",
+                  }
+                }
+              >
+                <Location
+                  id={1}
+                  removeDisabled={true}
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
+                />
+                <Location
+                  id={2}
+                  removeDisabled={false}
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
+                />
+                <Location
+                  id={3}
+                  removeDisabled={false}
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
+                />
+              </div>,
+              "className": "",
+              "component": "div",
             },
-            Object {
+            "ref": null,
+            "rendered": Object {
               "instance": null,
               "key": undefined,
               "nodeType": "host",
@@ -674,8 +393,375 @@ ShallowWrapper {
               ],
               "type": "div",
             },
+            "type": [Function],
+          },
+        ],
+        "type": [Function],
+      },
+      "type": "div",
+    },
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <div
+          className="leaflet-control leaflet-bar"
+        >
+          <Card
+            className=""
+            component="article"
+          >
+            <CardHeader
+              className=""
+              component="div"
+            >
+              Distance: 
+              10
+              <br />
+              Locations: 
+              3
+              <TripData
+                distance={10}
+                maxDistance={1}
+              />
+              <hr />
+            </CardHeader>
+            <CardBody
+              className=""
+              component="div"
+            >
+              <div
+                style={
+                  Object {
+                    "maxHeight": "calc(100vh - 116px)",
+                    "overflowY": "auto",
+                  }
+                }
+              >
+                <Location
+                  id={1}
+                  removeDisabled={true}
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
+                />
+                <Location
+                  id={2}
+                  removeDisabled={false}
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
+                />
+                <Location
+                  id={3}
+                  removeDisabled={false}
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
+                />
+              </div>
+            </CardBody>
+          </Card>
+        </div>,
+        "className": "leaflet-top leaflet-left leaflet-touch",
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <Card
+            className=""
+            component="article"
+          >
+            <CardHeader
+              className=""
+              component="div"
+            >
+              Distance: 
+              10
+              <br />
+              Locations: 
+              3
+              <TripData
+                distance={10}
+                maxDistance={1}
+              />
+              <hr />
+            </CardHeader>
+            <CardBody
+              className=""
+              component="div"
+            >
+              <div
+                style={
+                  Object {
+                    "maxHeight": "calc(100vh - 116px)",
+                    "overflowY": "auto",
+                  }
+                }
+              >
+                <Location
+                  id={1}
+                  removeDisabled={true}
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
+                />
+                <Location
+                  id={2}
+                  removeDisabled={false}
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
+                />
+                <Location
+                  id={3}
+                  removeDisabled={false}
+                  removeHandler={[MockFunction]}
+                  selectHandler={[MockFunction]}
+                />
+              </div>
+            </CardBody>
+          </Card>,
+          "className": "leaflet-control leaflet-bar",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "children": Array [
+              <CardHeader
+                className=""
+                component="div"
+              >
+                Distance: 
+                10
+                <br />
+                Locations: 
+                3
+                <TripData
+                  distance={10}
+                  maxDistance={1}
+                />
+                <hr />
+              </CardHeader>,
+              <CardBody
+                className=""
+                component="div"
+              >
+                <div
+                  style={
+                    Object {
+                      "maxHeight": "calc(100vh - 116px)",
+                      "overflowY": "auto",
+                    }
+                  }
+                >
+                  <Location
+                    id={1}
+                    removeDisabled={true}
+                    removeHandler={[MockFunction]}
+                    selectHandler={[MockFunction]}
+                  />
+                  <Location
+                    id={2}
+                    removeDisabled={false}
+                    removeHandler={[MockFunction]}
+                    selectHandler={[MockFunction]}
+                  />
+                  <Location
+                    id={3}
+                    removeDisabled={false}
+                    removeHandler={[MockFunction]}
+                    selectHandler={[MockFunction]}
+                  />
+                </div>
+              </CardBody>,
+            ],
+            "className": "",
+            "component": "article",
+          },
+          "ref": null,
+          "rendered": Array [
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "children": Array [
+                  "Distance: ",
+                  "10",
+                  <br />,
+                  "Locations: ",
+                  3,
+                  <TripData
+                    distance={10}
+                    maxDistance={1}
+                  />,
+                  <hr />,
+                ],
+                "className": "",
+                "component": "div",
+              },
+              "ref": null,
+              "rendered": Array [
+                "Distance: ",
+                "10",
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
+                },
+                "Locations: ",
+                3,
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "distance": 10,
+                    "maxDistance": 1,
+                  },
+                  "ref": null,
+                  "rendered": null,
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "hr",
+                },
+              ],
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "children": <div
+                  style={
+                    Object {
+                      "maxHeight": "calc(100vh - 116px)",
+                      "overflowY": "auto",
+                    }
+                  }
+                >
+                  <Location
+                    id={1}
+                    removeDisabled={true}
+                    removeHandler={[MockFunction]}
+                    selectHandler={[MockFunction]}
+                  />
+                  <Location
+                    id={2}
+                    removeDisabled={false}
+                    removeHandler={[MockFunction]}
+                    selectHandler={[MockFunction]}
+                  />
+                  <Location
+                    id={3}
+                    removeDisabled={false}
+                    removeHandler={[MockFunction]}
+                    selectHandler={[MockFunction]}
+                  />
+                </div>,
+                "className": "",
+                "component": "div",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {
+                  "children": Array [
+                    <Location
+                      id={1}
+                      removeDisabled={true}
+                      removeHandler={[MockFunction]}
+                      selectHandler={[MockFunction]}
+                    />,
+                    <Location
+                      id={2}
+                      removeDisabled={false}
+                      removeHandler={[MockFunction]}
+                      selectHandler={[MockFunction]}
+                    />,
+                    <Location
+                      id={3}
+                      removeDisabled={false}
+                      removeHandler={[MockFunction]}
+                      selectHandler={[MockFunction]}
+                    />,
+                  ],
+                  "style": Object {
+                    "maxHeight": "calc(100vh - 116px)",
+                    "overflowY": "auto",
+                  },
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": "1",
+                    "nodeType": "function",
+                    "props": Object {
+                      "id": 1,
+                      "removeDisabled": true,
+                      "removeHandler": [MockFunction],
+                      "selectHandler": [MockFunction],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": "2",
+                    "nodeType": "function",
+                    "props": Object {
+                      "id": 2,
+                      "removeDisabled": false,
+                      "removeHandler": [MockFunction],
+                      "selectHandler": [MockFunction],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": "3",
+                    "nodeType": "function",
+                    "props": Object {
+                      "id": 3,
+                      "removeDisabled": false,
+                      "removeHandler": [MockFunction],
+                      "selectHandler": [MockFunction],
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                ],
+                "type": "div",
+              },
+              "type": [Function],
+            },
           ],
-          "type": "div",
+          "type": [Function],
         },
         "type": "div",
       },
@@ -728,16 +814,23 @@ ShallowWrapper {
     "nodeType": "host",
     "props": Object {
       "children": <div
-        className="leaflet-control leaflet-bar w5 bg-white"
+        className="leaflet-control leaflet-bar"
       >
-        <div
-          className="tc ma2"
+        <Card
+          className=""
+          component="article"
         >
-          <div>
+          <CardHeader
+            className=""
+            component="div"
+          >
             Click map to add locations
-          </div>
-          <div>
-            or
+          </CardHeader>
+          <CardBody
+            className=""
+            component="div"
+          >
+             
             <button
               onClick={[MockFunction]}
               style={
@@ -749,8 +842,8 @@ ShallowWrapper {
             >
               Load 40 European cities
             </button>
-          </div>
-        </div>
+          </CardBody>
+        </Card>
       </div>,
       "className": "leaflet-top leaflet-left leaflet-touch",
     },
@@ -760,14 +853,21 @@ ShallowWrapper {
       "key": undefined,
       "nodeType": "host",
       "props": Object {
-        "children": <div
-          className="tc ma2"
+        "children": <Card
+          className=""
+          component="article"
         >
-          <div>
+          <CardHeader
+            className=""
+            component="div"
+          >
             Click map to add locations
-          </div>
-          <div>
-            or
+          </CardHeader>
+          <CardBody
+            className=""
+            component="div"
+          >
+             
             <button
               onClick={[MockFunction]}
               style={
@@ -779,22 +879,28 @@ ShallowWrapper {
             >
               Load 40 European cities
             </button>
-          </div>
-        </div>,
-        "className": "leaflet-control leaflet-bar w5 bg-white",
+          </CardBody>
+        </Card>,
+        "className": "leaflet-control leaflet-bar",
       },
       "ref": null,
       "rendered": Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "host",
+        "nodeType": "function",
         "props": Object {
           "children": Array [
-            <div>
+            <CardHeader
+              className=""
+              component="div"
+            >
               Click map to add locations
-            </div>,
-            <div>
-              or
+            </CardHeader>,
+            <CardBody
+              className=""
+              component="div"
+            >
+               
               <button
                 onClick={[MockFunction]}
                 style={
@@ -806,30 +912,33 @@ ShallowWrapper {
               >
                 Load 40 European cities
               </button>
-            </div>,
+            </CardBody>,
           ],
-          "className": "tc ma2",
+          "className": "",
+          "component": "article",
         },
         "ref": null,
         "rendered": Array [
           Object {
             "instance": null,
             "key": undefined,
-            "nodeType": "host",
+            "nodeType": "function",
             "props": Object {
               "children": "Click map to add locations",
+              "className": "",
+              "component": "div",
             },
             "ref": null,
             "rendered": "Click map to add locations",
-            "type": "div",
+            "type": [Function],
           },
           Object {
             "instance": null,
             "key": undefined,
-            "nodeType": "host",
+            "nodeType": "function",
             "props": Object {
               "children": Array [
-                "or",
+                " ",
                 <button
                   onClick={[MockFunction]}
                   style={
@@ -842,10 +951,12 @@ ShallowWrapper {
                   Load 40 European cities
                 </button>,
               ],
+              "className": "",
+              "component": "div",
             },
             "ref": null,
             "rendered": Array [
-              "or",
+              " ",
               Object {
                 "instance": null,
                 "key": undefined,
@@ -863,10 +974,10 @@ ShallowWrapper {
                 "type": "button",
               },
             ],
-            "type": "div",
+            "type": [Function],
           },
         ],
-        "type": "div",
+        "type": [Function],
       },
       "type": "div",
     },
@@ -879,16 +990,23 @@ ShallowWrapper {
       "nodeType": "host",
       "props": Object {
         "children": <div
-          className="leaflet-control leaflet-bar w5 bg-white"
+          className="leaflet-control leaflet-bar"
         >
-          <div
-            className="tc ma2"
+          <Card
+            className=""
+            component="article"
           >
-            <div>
+            <CardHeader
+              className=""
+              component="div"
+            >
               Click map to add locations
-            </div>
-            <div>
-              or
+            </CardHeader>
+            <CardBody
+              className=""
+              component="div"
+            >
+               
               <button
                 onClick={[MockFunction]}
                 style={
@@ -900,8 +1018,8 @@ ShallowWrapper {
               >
                 Load 40 European cities
               </button>
-            </div>
-          </div>
+            </CardBody>
+          </Card>
         </div>,
         "className": "leaflet-top leaflet-left leaflet-touch",
       },
@@ -911,14 +1029,21 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "host",
         "props": Object {
-          "children": <div
-            className="tc ma2"
+          "children": <Card
+            className=""
+            component="article"
           >
-            <div>
+            <CardHeader
+              className=""
+              component="div"
+            >
               Click map to add locations
-            </div>
-            <div>
-              or
+            </CardHeader>
+            <CardBody
+              className=""
+              component="div"
+            >
+               
               <button
                 onClick={[MockFunction]}
                 style={
@@ -930,22 +1055,28 @@ ShallowWrapper {
               >
                 Load 40 European cities
               </button>
-            </div>
-          </div>,
-          "className": "leaflet-control leaflet-bar w5 bg-white",
+            </CardBody>
+          </Card>,
+          "className": "leaflet-control leaflet-bar",
         },
         "ref": null,
         "rendered": Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "host",
+          "nodeType": "function",
           "props": Object {
             "children": Array [
-              <div>
+              <CardHeader
+                className=""
+                component="div"
+              >
                 Click map to add locations
-              </div>,
-              <div>
-                or
+              </CardHeader>,
+              <CardBody
+                className=""
+                component="div"
+              >
+                 
                 <button
                   onClick={[MockFunction]}
                   style={
@@ -957,30 +1088,33 @@ ShallowWrapper {
                 >
                   Load 40 European cities
                 </button>
-              </div>,
+              </CardBody>,
             ],
-            "className": "tc ma2",
+            "className": "",
+            "component": "article",
           },
           "ref": null,
           "rendered": Array [
             Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "host",
+              "nodeType": "function",
               "props": Object {
                 "children": "Click map to add locations",
+                "className": "",
+                "component": "div",
               },
               "ref": null,
               "rendered": "Click map to add locations",
-              "type": "div",
+              "type": [Function],
             },
             Object {
               "instance": null,
               "key": undefined,
-              "nodeType": "host",
+              "nodeType": "function",
               "props": Object {
                 "children": Array [
-                  "or",
+                  " ",
                   <button
                     onClick={[MockFunction]}
                     style={
@@ -993,10 +1127,12 @@ ShallowWrapper {
                     Load 40 European cities
                   </button>,
                 ],
+                "className": "",
+                "component": "div",
               },
               "ref": null,
               "rendered": Array [
-                "or",
+                " ",
                 Object {
                   "instance": null,
                   "key": undefined,
@@ -1014,10 +1150,10 @@ ShallowWrapper {
                   "type": "button",
                 },
               ],
-              "type": "div",
+              "type": [Function],
             },
           ],
-          "type": "div",
+          "type": [Function],
         },
         "type": "div",
       },

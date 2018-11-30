@@ -32,13 +32,12 @@ const Location: React.SFC<ILocationProps> = ({
   selectHandler,
 }: ILocationProps) => {
   return (
-    <Grid gutter="md">
-      <GridItem
-        key={id}
-        onMouseEnter={() => selectHandler(id)}
-        onMouseLeave={() => selectHandler(NaN)}
-        span={9}
-      >
+    <Grid
+      gutter="md"
+      onMouseEnter={() => selectHandler(id)}
+      onMouseLeave={() => selectHandler(NaN)}
+    >
+      <GridItem span={9}>
         {`Location ${id}`}
       </GridItem>
       <GridItem span={3}>

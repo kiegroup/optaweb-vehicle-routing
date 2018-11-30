@@ -19,116 +19,382 @@ ShallowWrapper {
   },
   Symbol(enzyme.__node__): Object {
     "instance": null,
-    "key": "10",
-    "nodeType": "host",
+    "key": undefined,
+    "nodeType": "function",
     "props": Object {
       "children": Array [
-        <span
-          className="w-80 pa2"
+        <GridItem
+          className=""
+          lg={null}
+          lgOffset={null}
+          lgRowSpan={null}
+          md={null}
+          mdOffset={null}
+          mdRowSpan={null}
+          offset={null}
+          rowSpan={null}
+          sm={null}
+          smOffset={null}
+          smRowSpan={null}
+          span={9}
+          xl={null}
+          xlOffset={null}
+          xlRowSpan={null}
         >
           Location 10
-        </span>,
-        <button
-          className="w-20 pa2"
-          disabled={false}
-          onClick={[Function]}
-          type="button"
+        </GridItem>,
+        <GridItem
+          className=""
+          lg={null}
+          lgOffset={null}
+          lgRowSpan={null}
+          md={null}
+          mdOffset={null}
+          mdRowSpan={null}
+          offset={null}
+          rowSpan={null}
+          sm={null}
+          smOffset={null}
+          smRowSpan={null}
+          span={3}
+          xl={null}
+          xlOffset={null}
+          xlRowSpan={null}
         >
-          x
-        </button>,
+          <Button
+            aria-label={null}
+            className=""
+            component="button"
+            isActive={false}
+            isBlock={false}
+            isDisabled={false}
+            isFocus={false}
+            isHover={false}
+            onClick={[Function]}
+            type="button"
+            variant="link"
+          >
+            <TimesIcon
+              color="currentColor"
+              size="sm"
+              title={null}
+            />
+          </Button>
+        </GridItem>,
       ],
-      "className": "ma2 flex bg-animate hover-bg-light-gray",
+      "className": "",
+      "gutter": "md",
+      "lg": null,
+      "md": null,
       "onMouseEnter": [Function],
       "onMouseLeave": [Function],
+      "sm": null,
+      "span": null,
+      "xl": null,
     },
     "ref": null,
     "rendered": Array [
       Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "host",
+        "nodeType": "function",
         "props": Object {
           "children": "Location 10",
-          "className": "w-80 pa2",
+          "className": "",
+          "lg": null,
+          "lgOffset": null,
+          "lgRowSpan": null,
+          "md": null,
+          "mdOffset": null,
+          "mdRowSpan": null,
+          "offset": null,
+          "rowSpan": null,
+          "sm": null,
+          "smOffset": null,
+          "smRowSpan": null,
+          "span": 9,
+          "xl": null,
+          "xlOffset": null,
+          "xlRowSpan": null,
         },
         "ref": null,
         "rendered": "Location 10",
-        "type": "span",
+        "type": [Function],
       },
       Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "host",
+        "nodeType": "function",
         "props": Object {
-          "children": "x",
-          "className": "w-20 pa2",
-          "disabled": false,
-          "onClick": [Function],
-          "type": "button",
+          "children": <Button
+            aria-label={null}
+            className=""
+            component="button"
+            isActive={false}
+            isBlock={false}
+            isDisabled={false}
+            isFocus={false}
+            isHover={false}
+            onClick={[Function]}
+            type="button"
+            variant="link"
+          >
+            <TimesIcon
+              color="currentColor"
+              size="sm"
+              title={null}
+            />
+          </Button>,
+          "className": "",
+          "lg": null,
+          "lgOffset": null,
+          "lgRowSpan": null,
+          "md": null,
+          "mdOffset": null,
+          "mdRowSpan": null,
+          "offset": null,
+          "rowSpan": null,
+          "sm": null,
+          "smOffset": null,
+          "smRowSpan": null,
+          "span": 3,
+          "xl": null,
+          "xlOffset": null,
+          "xlRowSpan": null,
         },
         "ref": null,
-        "rendered": "x",
-        "type": "button",
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "aria-label": null,
+            "children": <TimesIcon
+              color="currentColor"
+              size="sm"
+              title={null}
+            />,
+            "className": "",
+            "component": "button",
+            "isActive": false,
+            "isBlock": false,
+            "isDisabled": false,
+            "isFocus": false,
+            "isHover": false,
+            "onClick": [Function],
+            "type": "button",
+            "variant": "link",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "class",
+            "props": Object {
+              "color": "currentColor",
+              "size": "sm",
+              "title": null,
+            },
+            "ref": null,
+            "rendered": null,
+            "type": [Function],
+          },
+          "type": [Function],
+        },
+        "type": [Function],
       },
     ],
-    "type": "div",
+    "type": [Function],
   },
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
-      "key": "10",
-      "nodeType": "host",
+      "key": undefined,
+      "nodeType": "function",
       "props": Object {
         "children": Array [
-          <span
-            className="w-80 pa2"
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={9}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
           >
             Location 10
-          </span>,
-          <button
-            className="w-20 pa2"
-            disabled={false}
-            onClick={[Function]}
-            type="button"
+          </GridItem>,
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={3}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
           >
-            x
-          </button>,
+            <Button
+              aria-label={null}
+              className=""
+              component="button"
+              isActive={false}
+              isBlock={false}
+              isDisabled={false}
+              isFocus={false}
+              isHover={false}
+              onClick={[Function]}
+              type="button"
+              variant="link"
+            >
+              <TimesIcon
+                color="currentColor"
+                size="sm"
+                title={null}
+              />
+            </Button>
+          </GridItem>,
         ],
-        "className": "ma2 flex bg-animate hover-bg-light-gray",
+        "className": "",
+        "gutter": "md",
+        "lg": null,
+        "md": null,
         "onMouseEnter": [Function],
         "onMouseLeave": [Function],
+        "sm": null,
+        "span": null,
+        "xl": null,
       },
       "ref": null,
       "rendered": Array [
         Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "host",
+          "nodeType": "function",
           "props": Object {
             "children": "Location 10",
-            "className": "w-80 pa2",
+            "className": "",
+            "lg": null,
+            "lgOffset": null,
+            "lgRowSpan": null,
+            "md": null,
+            "mdOffset": null,
+            "mdRowSpan": null,
+            "offset": null,
+            "rowSpan": null,
+            "sm": null,
+            "smOffset": null,
+            "smRowSpan": null,
+            "span": 9,
+            "xl": null,
+            "xlOffset": null,
+            "xlRowSpan": null,
           },
           "ref": null,
           "rendered": "Location 10",
-          "type": "span",
+          "type": [Function],
         },
         Object {
           "instance": null,
           "key": undefined,
-          "nodeType": "host",
+          "nodeType": "function",
           "props": Object {
-            "children": "x",
-            "className": "w-20 pa2",
-            "disabled": false,
-            "onClick": [Function],
-            "type": "button",
+            "children": <Button
+              aria-label={null}
+              className=""
+              component="button"
+              isActive={false}
+              isBlock={false}
+              isDisabled={false}
+              isFocus={false}
+              isHover={false}
+              onClick={[Function]}
+              type="button"
+              variant="link"
+            >
+              <TimesIcon
+                color="currentColor"
+                size="sm"
+                title={null}
+              />
+            </Button>,
+            "className": "",
+            "lg": null,
+            "lgOffset": null,
+            "lgRowSpan": null,
+            "md": null,
+            "mdOffset": null,
+            "mdRowSpan": null,
+            "offset": null,
+            "rowSpan": null,
+            "sm": null,
+            "smOffset": null,
+            "smRowSpan": null,
+            "span": 3,
+            "xl": null,
+            "xlOffset": null,
+            "xlRowSpan": null,
           },
           "ref": null,
-          "rendered": "x",
-          "type": "button",
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "aria-label": null,
+              "children": <TimesIcon
+                color="currentColor"
+                size="sm"
+                title={null}
+              />,
+              "className": "",
+              "component": "button",
+              "isActive": false,
+              "isBlock": false,
+              "isDisabled": false,
+              "isFocus": false,
+              "isHover": false,
+              "onClick": [Function],
+              "type": "button",
+              "variant": "link",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "color": "currentColor",
+                "size": "sm",
+                "title": null,
+              },
+              "ref": null,
+              "rendered": null,
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          "type": [Function],
         },
       ],
-      "type": "div",
+      "type": [Function],
     },
   ],
   Symbol(enzyme.__options__): Object {
