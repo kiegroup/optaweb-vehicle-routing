@@ -16,8 +16,6 @@
 
 package org.optaweb.tsp.optawebtspplanner;
 
-import java.io.File;
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,13 +24,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
-import com.graphhopper.GHRequest;
-import com.graphhopper.reader.osm.GraphHopperOSM;
-import com.graphhopper.routing.util.EncodingManager;
-import com.graphhopper.util.PointList;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
@@ -64,13 +56,15 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     private ThreadPoolTaskExecutor executor;
     private TspSolution tsp = new TspSolution();
     private List<Location> locations = new ArrayList<>();
-    private GraphHopperOSM graphHopper;
+    private RoutingComponent routing;
 
     @Autowired
     public TspPlannerComponent(SimpMessagingTemplate webSocket,
-                               PlaceRepository repository) {
+                               PlaceRepository repository,
+                               RoutingComponent routing) {
         this.webSocket = webSocket;
         this.repository = repository;
+        this.routing = routing;
 
         tsp.setLocationList(new ArrayList<>());
         tsp.setVisitList(new ArrayList<>());
@@ -80,19 +74,6 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         solver = sf.buildSolver();
         scoreDirector = solver.getScoreDirectorFactory().buildScoreDirector();
         solver.addEventListener(this);
-
-        String osmPath = "local/belgium-latest.osm.pbf";
-        if (!new File(osmPath).exists()) {
-            throw new IllegalStateException("The osmPath (" + new File(osmPath).getAbsolutePath() + ") does not exist.\n" +
-                    "Download the osm file from http://download.geofabrik.de/ first.");
-        }
-        graphHopper = (GraphHopperOSM) new GraphHopperOSM().forServer();
-        graphHopper.setOSMFile(osmPath);
-        graphHopper.setGraphHopperLocation("local/" + osmPath.replaceFirst(".*/(.*)\\.osm\\.pbf$", "$1-gh"));
-        graphHopper.setEncodingManager(new EncodingManager("car"));
-        logger.info("GraphHopper loading...");
-        graphHopper.importOrLoad();
-        logger.info("GraphHopper loaded.");
     }
 
     private static RoadLocation fromPlace(Place p) {
@@ -136,17 +117,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     private RouteMessage createResponse(TspSolution solution, List<Place> route) {
         List<List<Place>> segments = new ArrayList<>();
         for (int i = 1; i < route.size() + 1; i++) {
-            GHRequest segmentRq = new GHRequest(
-                    route.get(i - 1).getLatitude().doubleValue(),
-                    route.get(i - 1).getLongitude().doubleValue(),
-                    // "trick" to get N -> 0 distance at the end of the loop
-                    route.get(i % route.size()).getLatitude().doubleValue(),
-                    route.get(i % route.size()).getLongitude().doubleValue());
-            PointList points = graphHopper.route(segmentRq).getBest().getPoints();
-            List<Place> segment = StreamSupport.stream(points.spliterator(), false)
-                    .map(ghPoint3D -> new Place(BigDecimal.valueOf(ghPoint3D.lat), BigDecimal.valueOf(ghPoint3D.lon)))
-                    .collect(Collectors.toList());
-            segments.add(segment);
+            segments.add(routing.getRoute(route.get(i - 1), route.get(i % route.size())));
         }
         String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
         return new RouteMessage(distanceString, route, segments);
@@ -189,19 +160,11 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         location.setTravelDistanceMap(distanceMap);
         for (Location other : locations) {
             RoadLocation toLocation = (RoadLocation) other;
-            GHRequest there = new GHRequest(
-                    location.getLatitude(),
-                    location.getLongitude(),
-                    toLocation.getLatitude(),
-                    toLocation.getLongitude());
-            distanceMap.put(toLocation, graphHopper.route(there).getBest().getDistance());
-            GHRequest back = new GHRequest(
-                    toLocation.getLatitude(),
-                    toLocation.getLongitude(),
-                    location.getLatitude(),
-                    location.getLongitude());
             // TODO handle no route -> roll back the problem fact change
-            toLocation.getTravelDistanceMap().put(location, graphHopper.route(back).getBest().getDistance());
+            distanceMap
+                    .put(toLocation, routing.getDistance(location, toLocation));
+            toLocation.getTravelDistanceMap()
+                    .put(location, routing.getDistance(toLocation, location));
         }
         locations.add(location);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
