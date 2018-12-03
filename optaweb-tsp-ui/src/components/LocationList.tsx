@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Card, CardBody, CardHeader } from '@patternfly/react-core';
+import { Button, Card, CardBody, CardHeader } from '@patternfly/react-core';
 import * as React from 'react';
 import { ITSPRoute } from '../store/tsp/types';
 import Location from './Location';
@@ -32,10 +32,9 @@ const renderEmptyLocationList = ({ loadHandler }: ILocationListProps) => {
     <Card>
       <CardHeader>Click map to add locations</CardHeader>
       <CardBody>
-        {' '}
-        <button type="button" style={{ width: '100%' }} onClick={loadHandler}>
+        <Button type="button" style={{ width: '100%' }} onClick={loadHandler}>
           Load 40 European cities
-        </button>
+        </Button>
       </CardBody>
     </Card>
   );
@@ -67,7 +66,7 @@ const renderLocationList = ({
                The calculated maxHeight is a hack because the constant 116px depends
                on the height of Distance and Locations rows (above) and individual location rows.
                */}
-        <div style={{ maxHeight: 'calc(100vh - 116px)', overflowY: 'auto' }}>
+        <div style={{ maxHeight: 'calc(100vh - 256px)', overflowY: 'auto' }}>
           {route
             .slice(0) // clone the array because
             // sort is done in place (that would affect the route)
