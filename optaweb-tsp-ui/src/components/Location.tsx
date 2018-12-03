@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { Button, Grid, GridItem } from '@patternfly/react-core';
+import { TimesIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 
 export interface ILocationProps {
@@ -27,25 +29,28 @@ const Location: React.SFC<ILocationProps> = ({
   id,
   removeDisabled,
   removeHandler,
-  selectHandler
+  selectHandler,
 }: ILocationProps) => {
   return (
-    <div
-      key={id}
-      className='ma2 flex bg-animate hover-bg-light-gray'
+    <Grid
+      gutter="md"
       onMouseEnter={() => selectHandler(id)}
       onMouseLeave={() => selectHandler(NaN)}
     >
-      <span className='w-80 pa2'>{`Location ${id}`}</span>
-      <button
-        type='button'
-        disabled={removeDisabled}
-        className='w-20 pa2'
-        onClick={() => removeHandler(id)}
-      >
-        x
-      </button>
-    </div>
+      <GridItem span={9}>
+        {`Location ${id}`}
+      </GridItem>
+      <GridItem span={3}>
+        <Button
+          variant="link"
+          isDisabled={removeDisabled}
+          onClick={() => removeHandler(id)}
+          type="button"
+        >
+          <TimesIcon />
+        </Button>
+      </GridItem>
+    </Grid>
   );
 };
 

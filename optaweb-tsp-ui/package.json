@@ -3,6 +3,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@patternfly/react-core": "^1.36.0",
+    "@patternfly/react-icons": "^2.9.2",
     "leaflet": "^1.3.4",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
@@ -12,7 +13,6 @@
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "sockjs-client": "^1.3.0",
-    "tachyons": "^4.11.1",
     "webstomp-client": "^1.2.6"
   },
   "scripts": {

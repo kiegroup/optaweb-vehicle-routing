@@ -32,7 +32,7 @@ describe('Location List Component', () => {
     const locationList = shallow(<LocationList {...props} />);
     expect(locationList).toMatchSnapshot();
 
-    locationList.find('button').simulate('click');
+    locationList.find('Button').simulate('click');
 
     expect(props.loadHandler).toHaveBeenCalledTimes(1);
   });

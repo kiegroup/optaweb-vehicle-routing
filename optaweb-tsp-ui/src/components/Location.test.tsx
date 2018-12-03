@@ -29,9 +29,9 @@ describe('Location Component', () => {
     expect.assertions(2);
     const location = shallow(<Location {...props} />);
     expect(location).toMatchSnapshot();
-
-    location.find('button').simulate('click');
-    location.find('div').simulate('mouseEnter');
+    location.find('Grid').simulate('mouseEnter');
+    location.find('Button').simulate('click');
+    
 
     expect(props.removeHandler).toHaveBeenCalledTimes(1);
   });
