@@ -17,6 +17,7 @@
 package org.optaweb.tsp.optawebtspplanner;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -67,6 +68,25 @@ public class Place {
 
     public void setLongitude(BigDecimal longitude) {
         this.longitude = longitude;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Place place = (Place) o;
+        return id == place.id &&
+                Objects.equals(latitude, place.latitude) &&
+                Objects.equals(longitude, place.longitude);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, latitude, longitude);
     }
 
     @Override
