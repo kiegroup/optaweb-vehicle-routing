@@ -72,7 +72,7 @@ ShallowWrapper {
             <div
               style={
                 Object {
-                  "maxHeight": "calc(100vh - 116px)",
+                  "maxHeight": "calc(100vh - 195px)",
                   "overflowY": "auto",
                 }
               }
@@ -133,7 +133,7 @@ ShallowWrapper {
             <div
               style={
                 Object {
-                  "maxHeight": "calc(100vh - 116px)",
+                  "maxHeight": "calc(100vh - 195px)",
                   "overflowY": "auto",
                 }
               }
@@ -190,7 +190,7 @@ ShallowWrapper {
               <div
                 style={
                   Object {
-                    "maxHeight": "calc(100vh - 116px)",
+                    "maxHeight": "calc(100vh - 195px)",
                     "overflowY": "auto",
                   }
                 }
@@ -288,7 +288,7 @@ ShallowWrapper {
               "children": <div
                 style={
                   Object {
-                    "maxHeight": "calc(100vh - 116px)",
+                    "maxHeight": "calc(100vh - 195px)",
                     "overflowY": "auto",
                   }
                 }
@@ -342,7 +342,7 @@ ShallowWrapper {
                   />,
                 ],
                 "style": Object {
-                  "maxHeight": "calc(100vh - 116px)",
+                  "maxHeight": "calc(100vh - 195px)",
                   "overflowY": "auto",
                 },
               },
@@ -437,7 +437,7 @@ ShallowWrapper {
               <div
                 style={
                   Object {
-                    "maxHeight": "calc(100vh - 116px)",
+                    "maxHeight": "calc(100vh - 195px)",
                     "overflowY": "auto",
                   }
                 }
@@ -498,7 +498,7 @@ ShallowWrapper {
               <div
                 style={
                   Object {
-                    "maxHeight": "calc(100vh - 116px)",
+                    "maxHeight": "calc(100vh - 195px)",
                     "overflowY": "auto",
                   }
                 }
@@ -555,7 +555,7 @@ ShallowWrapper {
                 <div
                   style={
                     Object {
-                      "maxHeight": "calc(100vh - 116px)",
+                      "maxHeight": "calc(100vh - 195px)",
                       "overflowY": "auto",
                     }
                   }
@@ -653,7 +653,7 @@ ShallowWrapper {
                 "children": <div
                   style={
                     Object {
-                      "maxHeight": "calc(100vh - 116px)",
+                      "maxHeight": "calc(100vh - 195px)",
                       "overflowY": "auto",
                     }
                   }
@@ -707,7 +707,7 @@ ShallowWrapper {
                     />,
                   ],
                   "style": Object {
-                    "maxHeight": "calc(100vh - 116px)",
+                    "maxHeight": "calc(100vh - 195px)",
                     "overflowY": "auto",
                   },
                 },
@@ -830,8 +830,15 @@ ShallowWrapper {
             className=""
             component="div"
           >
-             
-            <button
+            <Button
+              aria-label={null}
+              className=""
+              component="button"
+              isActive={false}
+              isBlock={false}
+              isDisabled={false}
+              isFocus={false}
+              isHover={false}
               onClick={[MockFunction]}
               style={
                 Object {
@@ -839,9 +846,10 @@ ShallowWrapper {
                 }
               }
               type="button"
+              variant="primary"
             >
               Load 40 European cities
-            </button>
+            </Button>
           </CardBody>
         </Card>
       </div>,
@@ -867,8 +875,15 @@ ShallowWrapper {
             className=""
             component="div"
           >
-             
-            <button
+            <Button
+              aria-label={null}
+              className=""
+              component="button"
+              isActive={false}
+              isBlock={false}
+              isDisabled={false}
+              isFocus={false}
+              isHover={false}
               onClick={[MockFunction]}
               style={
                 Object {
@@ -876,9 +891,10 @@ ShallowWrapper {
                 }
               }
               type="button"
+              variant="primary"
             >
               Load 40 European cities
-            </button>
+            </Button>
           </CardBody>
         </Card>,
         "className": "leaflet-control leaflet-bar",
@@ -900,8 +916,15 @@ ShallowWrapper {
               className=""
               component="div"
             >
-               
-              <button
+              <Button
+                aria-label={null}
+                className=""
+                component="button"
+                isActive={false}
+                isBlock={false}
+                isDisabled={false}
+                isFocus={false}
+                isHover={false}
                 onClick={[MockFunction]}
                 style={
                   Object {
@@ -909,9 +932,10 @@ ShallowWrapper {
                   }
                 }
                 type="button"
+                variant="primary"
               >
                 Load 40 European cities
-              </button>
+              </Button>
             </CardBody>,
           ],
           "className": "",
@@ -937,43 +961,55 @@ ShallowWrapper {
             "key": undefined,
             "nodeType": "function",
             "props": Object {
-              "children": Array [
-                " ",
-                <button
-                  onClick={[MockFunction]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
+              "children": <Button
+                aria-label={null}
+                className=""
+                component="button"
+                isActive={false}
+                isBlock={false}
+                isDisabled={false}
+                isFocus={false}
+                isHover={false}
+                onClick={[MockFunction]}
+                style={
+                  Object {
+                    "width": "100%",
                   }
-                  type="button"
-                >
-                  Load 40 European cities
-                </button>,
-              ],
+                }
+                type="button"
+                variant="primary"
+              >
+                Load 40 European cities
+              </Button>,
               "className": "",
               "component": "div",
             },
             "ref": null,
-            "rendered": Array [
-              " ",
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": "Load 40 European cities",
-                  "onClick": [MockFunction],
-                  "style": Object {
-                    "width": "100%",
-                  },
-                  "type": "button",
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "aria-label": null,
+                "children": "Load 40 European cities",
+                "className": "",
+                "component": "button",
+                "isActive": false,
+                "isBlock": false,
+                "isDisabled": false,
+                "isFocus": false,
+                "isHover": false,
+                "onClick": [MockFunction],
+                "style": Object {
+                  "width": "100%",
                 },
-                "ref": null,
-                "rendered": "Load 40 European cities",
                 "type": "button",
+                "variant": "primary",
               },
-            ],
+              "ref": null,
+              "rendered": "Load 40 European cities",
+              "type": [Function],
+            },
             "type": [Function],
           },
         ],
@@ -1006,8 +1042,15 @@ ShallowWrapper {
               className=""
               component="div"
             >
-               
-              <button
+              <Button
+                aria-label={null}
+                className=""
+                component="button"
+                isActive={false}
+                isBlock={false}
+                isDisabled={false}
+                isFocus={false}
+                isHover={false}
                 onClick={[MockFunction]}
                 style={
                   Object {
@@ -1015,9 +1058,10 @@ ShallowWrapper {
                   }
                 }
                 type="button"
+                variant="primary"
               >
                 Load 40 European cities
-              </button>
+              </Button>
             </CardBody>
           </Card>
         </div>,
@@ -1043,8 +1087,15 @@ ShallowWrapper {
               className=""
               component="div"
             >
-               
-              <button
+              <Button
+                aria-label={null}
+                className=""
+                component="button"
+                isActive={false}
+                isBlock={false}
+                isDisabled={false}
+                isFocus={false}
+                isHover={false}
                 onClick={[MockFunction]}
                 style={
                   Object {
@@ -1052,9 +1103,10 @@ ShallowWrapper {
                   }
                 }
                 type="button"
+                variant="primary"
               >
                 Load 40 European cities
-              </button>
+              </Button>
             </CardBody>
           </Card>,
           "className": "leaflet-control leaflet-bar",
@@ -1076,8 +1128,15 @@ ShallowWrapper {
                 className=""
                 component="div"
               >
-                 
-                <button
+                <Button
+                  aria-label={null}
+                  className=""
+                  component="button"
+                  isActive={false}
+                  isBlock={false}
+                  isDisabled={false}
+                  isFocus={false}
+                  isHover={false}
                   onClick={[MockFunction]}
                   style={
                     Object {
@@ -1085,9 +1144,10 @@ ShallowWrapper {
                     }
                   }
                   type="button"
+                  variant="primary"
                 >
                   Load 40 European cities
-                </button>
+                </Button>
               </CardBody>,
             ],
             "className": "",
@@ -1113,43 +1173,55 @@ ShallowWrapper {
               "key": undefined,
               "nodeType": "function",
               "props": Object {
-                "children": Array [
-                  " ",
-                  <button
-                    onClick={[MockFunction]}
-                    style={
-                      Object {
-                        "width": "100%",
-                      }
+                "children": <Button
+                  aria-label={null}
+                  className=""
+                  component="button"
+                  isActive={false}
+                  isBlock={false}
+                  isDisabled={false}
+                  isFocus={false}
+                  isHover={false}
+                  onClick={[MockFunction]}
+                  style={
+                    Object {
+                      "width": "100%",
                     }
-                    type="button"
-                  >
-                    Load 40 European cities
-                  </button>,
-                ],
+                  }
+                  type="button"
+                  variant="primary"
+                >
+                  Load 40 European cities
+                </Button>,
                 "className": "",
                 "component": "div",
               },
               "ref": null,
-              "rendered": Array [
-                " ",
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {
-                    "children": "Load 40 European cities",
-                    "onClick": [MockFunction],
-                    "style": Object {
-                      "width": "100%",
-                    },
-                    "type": "button",
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "aria-label": null,
+                  "children": "Load 40 European cities",
+                  "className": "",
+                  "component": "button",
+                  "isActive": false,
+                  "isBlock": false,
+                  "isDisabled": false,
+                  "isFocus": false,
+                  "isHover": false,
+                  "onClick": [MockFunction],
+                  "style": Object {
+                    "width": "100%",
                   },
-                  "ref": null,
-                  "rendered": "Load 40 European cities",
                   "type": "button",
+                  "variant": "primary",
                 },
-              ],
+                "ref": null,
+                "rendered": "Load 40 European cities",
+                "type": [Function],
+              },
               "type": [Function],
             },
           ],
