@@ -66,7 +66,7 @@ const renderLocationList = ({
                The calculated maxHeight is a hack because the constant 116px depends
                on the height of Distance and Locations rows (above) and individual location rows.
                */}
-        <div style={{ maxHeight: 'calc(100vh - 256px)', overflowY: 'auto' }}>
+        <div style={{ maxHeight: 'calc(100vh - 195px)', overflowY: 'auto' }}>
           {route
             .slice(0) // clone the array because
             // sort is done in place (that would affect the route)
