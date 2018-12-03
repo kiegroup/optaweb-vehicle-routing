@@ -30,6 +30,11 @@ export type WS_CONNECT = typeof WS_CONNECT;
 export type WS_CONNECT_SUCCESS = typeof WS_CONNECT_SUCCESS;
 export type WS_CONNECT_FAILURE = typeof WS_CONNECT_FAILURE;
 
+export enum WS_CONNECTION_STATE {
+  OPEN,
+  CLOSED,
+  ERROR,
+}
 export interface ILatLng {
   lat: number;
   lng: number;
@@ -42,4 +47,8 @@ export interface ITSPRoute {
   route: IdLatLng[];
   domicileId: number;
   distance?: string;
+}
+
+export interface IWSConnection{
+  ws: WS_CONNECTION_STATE;
 }

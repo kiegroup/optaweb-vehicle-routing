@@ -18,14 +18,16 @@ import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import ConnectionError from 'src/components/ConnectionError';
 import TravelingSalesmanProblem, {
-  ITravelingSalesmanProblemProps
+  ITravelingSalesmanProblemProps,
 } from '../components/TravelingSalesmanProblem';
 import { IAppState } from '../store/configStore';
 import { ITSPRoute, tspOperations } from '../store/tsp/index';
+import * as types from '../store/tsp/types';
 
 export interface IAppProps extends ITravelingSalesmanProblemProps {
-  tsp: ITSPRoute;
+  tsp: ITSPRoute & types.IWSConnection;
   removeHandler: (id: number) => void;
   loadHandler: () => void;
   addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
@@ -42,7 +44,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   },
   removeHandler(id: number) {
     dispatch(tspOperations.deleteLocation(id));
-  }
+  },
 });
 
 class App extends Component<IAppProps> {
@@ -54,7 +56,7 @@ class App extends Component<IAppProps> {
   onClickRemove(id: number) {
     const {
       tsp: { domicileId, route },
-      removeHandler
+      removeHandler,
     } = this.props;
     if (id !== domicileId || route.length === 1) {
       removeHandler(id);
@@ -62,8 +64,14 @@ class App extends Component<IAppProps> {
   }
 
   render() {
+    const { ws } = this.props.tsp;
     return (
       <div>
+        {ws === types.WS_CONNECTION_STATE.ERROR ? (
+          <ConnectionError title="Error" message="batta" />
+        ) : (
+          undefined
+        )}
         <TravelingSalesmanProblem {...this.props} />
       </div>
     );

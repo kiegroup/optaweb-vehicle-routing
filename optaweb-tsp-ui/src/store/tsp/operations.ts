@@ -74,7 +74,7 @@ function connectWs({ dispatch, socketUrl }: ITSPConfig): void {
     err => {
       // on error, schedule a reconnection attempt
       dispatch(wsConnectionFailure(err));
-      setTimeout(() => connectWs({ dispatch, socketUrl }), 1000);
+      setTimeout(() => connectWs({ dispatch, socketUrl }), 10000);
     }
   );
 }

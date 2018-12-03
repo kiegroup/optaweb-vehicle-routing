@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-import {
-  applyMiddleware, combineReducers, compose, createStore,
-} from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
-import tspReducer, { ITSPRoute, tspOperations } from './tsp/index';
+import tspReducer, {
+  ITSPRoute,
+  IWSConnection,
+  tspOperations,
+} from './tsp/index';
 
 export interface IAppState {
-  tsp: ITSPRoute;
+  tsp: ITSPRoute & IWSConnection;
 }
 
 export interface IAppStoreConfig {
@@ -30,13 +32,14 @@ export interface IAppStoreConfig {
 
 export default function configureStore(
   { socketUrl }: IAppStoreConfig,
-  preloadedState?: IAppState,
+  preloadedState?: IAppState
 ) {
   // create logger middleware
   const logger = createLogger();
 
   /* eslint-disable no-underscore-dangle */
-  const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+  const composeEnhancers =
+    (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   /* eslint-enable */
 
   // combining reducers
@@ -45,7 +48,7 @@ export default function configureStore(
   const store = createStore(
     rootReducer,
     preloadedState,
-    composeEnhancers(applyMiddleware(logger)),
+    composeEnhancers(applyMiddleware(logger))
   );
 
   tspOperations.connect({
