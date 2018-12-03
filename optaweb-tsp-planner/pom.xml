@@ -60,6 +60,27 @@
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+          <version>1.4.2</version>
+          <configuration>
+            <reportsDirectory>local/pit-reports</reportsDirectory>
+            <timestampedReports>true</timestampedReports>
+            <timeoutConstant>1000</timeoutConstant>
+            <mutators>
+              <!-- See http://pitest.org/quickstart/mutators/ -->
+              <mutator>DEFAULTS</mutator>
+              <mutator>NON_VOID_METHOD_CALLS</mutator>
+              <mutator>REMOVE_CONDITIONALS</mutator>
+            </mutators>
+            <avoidCallsTo>java.lang.StringBuilder</avoidCallsTo>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>
@@ -67,6 +88,35 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <!-- Mutation coverage disabled by default (use -Dmutation-coverage to activate it) -->
+      <id>mutation-coverage</id>
+      <activation>
+        <property>
+          <name>mutation-coverage</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <executions>
+              <execution>
+                <id>default-pitest</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <repositories>
     <repository>
