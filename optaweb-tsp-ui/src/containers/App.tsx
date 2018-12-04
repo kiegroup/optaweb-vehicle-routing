@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { Component } from 'react';
 import { connect } from 'react-redux';
@@ -25,7 +26,6 @@ import TravelingSalesmanProblem, {
 import { IAppState } from '../store/configStore';
 import { ITSPRoute, tspOperations } from '../store/tsp/index';
 import * as types from '../store/tsp/types';
-
 export interface IAppProps extends ITravelingSalesmanProblemProps {
   tsp: ITSPRoute & types.IWSConnection;
   removeHandler: (id: number) => void;
@@ -68,7 +68,12 @@ class App extends Component<IAppProps> {
     return (
       <div>
         {ws === types.WS_CONNECTION_STATE.ERROR ? (
-          <ConnectionError title="Error" message="batta" />
+          <ConnectionError
+            title="Ops... Connection Error!!!"
+            message="Please check your network connection?"
+            icon={<UnpluggedIcon />}
+            help={'When connection will be available the application will be funcional again.'}
+          />
         ) : (
           undefined
         )}

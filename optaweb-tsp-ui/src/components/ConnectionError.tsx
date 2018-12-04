@@ -1,17 +1,12 @@
-import {
-  Button,
-  Modal,
-  Text,
-  TextContent,
-  TextVariants,
-} from '@patternfly/react-core';
-import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
+import { Modal, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
+import { ReactNode } from 'react';
 
 export interface IConnectionErrorProps {
   title: string;
   message: string;
-  icon?: IconType;
+  icon?: ReactNode;
+  help?: string;
 }
 
 export default class ConnectionError extends React.Component<
@@ -21,27 +16,24 @@ export default class ConnectionError extends React.Component<
     super(props);
   }
 
+  renderHelpBlock() {
+    const { help } = this.props;
+    return help ? (
+      <Text component={TextVariants.small}>{this.props.help}</Text>
+    ) : (
+      ''
+    );
+  }
+
   render() {
     const { title, message, icon } = this.props;
     return (
-      <Modal
-        title="Modal Header"
-        isOpen={true}
-        actions={[
-          <Button
-            key="confirm"
-            variant="primary"
-            onClick={() => console.log('batta')}
-          >
-            Confirm
-          </Button>,
-        ]}
-      >
+      <Modal title={title} isOpen={true} style={{ zIndex: 1000000 }}>
         <TextContent>
-          <Text component={TextVariants.h1}>
-            {icon ? icon : undefined}
-            {title}
-            <Text component={TextVariants.small}>{message}</Text>
+          <Text component={TextVariants.h3}>
+            {icon}
+            {message}
+            {this.renderHelpBlock()}
           </Text>
         </TextContent>
       </Modal>
