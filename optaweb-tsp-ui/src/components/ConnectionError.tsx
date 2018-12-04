@@ -1,7 +1,7 @@
 import { Modal, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { ReactNode } from 'react';
-
+import './ConnectionError.css';
 export interface IConnectionErrorProps {
   title: string;
   message: string;

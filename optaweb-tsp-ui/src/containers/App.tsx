@@ -26,6 +26,7 @@ import TravelingSalesmanProblem, {
 import { IAppState } from '../store/configStore';
 import { ITSPRoute, tspOperations } from '../store/tsp/index';
 import * as types from '../store/tsp/types';
+import './App.css';
 export interface IAppProps extends ITravelingSalesmanProblemProps {
   tsp: ITSPRoute & types.IWSConnection;
   removeHandler: (id: number) => void;
