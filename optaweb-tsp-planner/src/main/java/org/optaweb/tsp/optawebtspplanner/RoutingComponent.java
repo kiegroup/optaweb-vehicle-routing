@@ -1,6 +1,5 @@
 package org.optaweb.tsp.optawebtspplanner;
 
-import java.io.File;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,38 +8,15 @@ import java.util.stream.StreamSupport;
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.reader.osm.GraphHopperOSM;
-import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.util.PointList;
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RoutingComponent {
 
-    private static Logger logger = LoggerFactory.getLogger(TspMapController.class);
     private final GraphHopperOSM graphHopper;
 
-    public RoutingComponent() {
-        this((GraphHopperOSM) new GraphHopperOSM().forServer());
-        String osmPath = "local/belgium-latest.osm.pbf";
-        if (!new File(osmPath).exists()) {
-            throw new IllegalStateException("The osmPath (" + new File(osmPath).getAbsolutePath() + ") does not exist.\n" +
-                    "Download the osm file from http://download.geofabrik.de/ first.");
-        }
-        graphHopper.setOSMFile(osmPath);
-        graphHopper.setGraphHopperLocation("local/" + osmPath.replaceFirst(".*/(.*)\\.osm\\.pbf$", "$1-gh"));
-        graphHopper.setEncodingManager(new EncodingManager("car"));
-        logger.info("GraphHopper loading...");
-        graphHopper.importOrLoad();
-        logger.info("GraphHopper loaded.");
-    }
-
-    /**
-     * For testing.
-     * @param graphHopper mock
-     */
     RoutingComponent(GraphHopperOSM graphHopper) {
         this.graphHopper = graphHopper;
     }
