@@ -5,3 +5,72 @@ image:https://travis-ci.org/kiegroup/optaweb-vehicle-routing.svg?branch=master[
 
 Web application for solving the https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html[Vehicle Routing Problem]
 using https://www.optaplanner.org/[OptaPlanner].
+
+== Running the application
+
+First, clone this repository and `cd` into it.
+
+Frontend and backend are built and run independently. Open two terminal windows.
+
+== Run frontend
+
+. Install `npm`. If you're on Fedora, you can do this by running:
++
+[source,shell]
+----
+sudo dnf install npm
+----
+
+. Install dependencies.
++
+[source,shell]
+----
+cd optaweb-tsp-ui
+npm install
+----
+
+. Run frontend.
++
+[source,shell]
+----
+npm start
+----
+
+. Open http://localhost:3000/
+
+[TIP]
+.Prevent `npm start` from launching your default browser
+====
+If you don't want `npm start` to open a new browser tab each time you run it,
+export an environment variable `BROWSER=none`.
+
+You can use `.env.local` file to make this preference permanent.
+To do that, run
+
+[source,shell]
+----
+echo BROWSER=none >> .env.local
+----
+====
+
+== Run backend
+
+JDK 8 is the only system prerequisite. To install OpenJDK 8 on Fedora, run:
+
+[source,shell]
+----
+sudo dnf install java-1.8.0-openjdk-devel
+----
+
+. Download OpenStreetMap data for Belgium from Geofabrik.
+.. Open http://download.geofabrik.de/europe/belgium.html.
+.. Download the PBF file http://download.geofabrik.de/europe/belgium-latest.osm.pbf[belgium-latest.osm.pbf].
+.. Save it to `optaweb-vehicle-routing/optaweb-tsp-planner/local/belgium-latest.osm.pbf`.
+
+. Run backend.
++
+[source,shell]
+----
+cd optaweb-tsp-planner
+./mvnw spring-boot:run
+----
