@@ -70,10 +70,10 @@ class App extends Component<IAppProps> {
       <div>
         {ws === types.WS_CONNECTION_STATE.ERROR ? (
           <ConnectionError
-            title="Ops... Connection Error!!!"
-            message="Please check your network connection?"
+            title="Oops... Connection error!"
+            message="Please check your network connection."
             icon={<UnpluggedIcon />}
-            help={'When connection will be available the application will be funcional again.'}
+            help={'When connection is available the application will be functional again.'}
           />
         ) : (
           undefined
