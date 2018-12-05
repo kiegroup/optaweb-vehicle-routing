@@ -26,7 +26,6 @@ import {
   WS_CONNECT_SUCCESS,
 } from './types';
 
-// Dropped action creator maker due to more complex type handling, a strategy will be defined once needed
 export interface IAddLocationAction {
   readonly type: typeof ADD_LOCATION;
   value?: ILatLng;

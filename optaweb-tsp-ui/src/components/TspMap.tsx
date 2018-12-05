@@ -63,7 +63,9 @@ const TspMap: React.SFC<ITspMapProps> = ({
       zoomControl={false} // hide the default zoom control which is on top left
     >
       <TileLayer
-        attribution={'&amp;copy <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors'}
+        attribution={
+          '&amp;copy <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors'
+        }
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ZoomControl position="topright" />

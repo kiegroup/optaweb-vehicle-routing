@@ -16,12 +16,11 @@
 
 import { Modal, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
-import { ReactNode } from 'react';
 
 export interface IConnectionErrorProps {
   title: string;
   message: string;
-  icon?: ReactNode;
+  icon?: React.ReactNode;
   help?: string;
 }
 

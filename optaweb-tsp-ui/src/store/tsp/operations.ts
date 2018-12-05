@@ -46,7 +46,7 @@ let stompClient: Client;
  * @param {Dispatch} dispatch
  */
 function mapDispatchToEvents(dispatch: Dispatch) {
-  stompClient.subscribe('/topic/route', message => {
+  stompClient.subscribe('/topic/route', (message) => {
     const tsp = JSON.parse(message.body);
     dispatch(updateTSPSolution(tsp));
   });
@@ -72,7 +72,7 @@ function connectWs({ dispatch, socketUrl }: ITSPConfig): void {
       dispatch(wsConnectionSuccess(stompClient));
       mapDispatchToEvents(dispatch);
     },
-    err => {
+    (err) => {
       // on error, schedule a reconnection attempt
       dispatch(wsConnectionFailure(err));
       setTimeout(() => connectWs({ dispatch, socketUrl }), 1000);

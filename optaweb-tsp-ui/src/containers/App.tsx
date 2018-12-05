@@ -16,7 +16,6 @@
 
 import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
-import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import ConnectionError from 'src/components/ConnectionError';
@@ -49,7 +48,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   },
 });
 
-class App extends Component<IAppProps> {
+class App extends React.Component<IAppProps> {
   constructor(props: IAppProps) {
     super(props);
     this.onClickRemove = this.onClickRemove.bind(this);
