@@ -30,12 +30,12 @@ import {
 export interface IAddLocationAction {
   readonly type: typeof ADD_LOCATION;
   value?: ILatLng;
-};
+}
 
 export interface IDeleteLocationAction {
   readonly type: typeof DELETE_LOCATION;
   value: number;
-};
+}
 
 export interface IUpdateTSPSolutionAction {
   readonly type: typeof SOLUTION_UPDATES_DATA;

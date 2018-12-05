@@ -22,7 +22,7 @@ import {
   Polyline,
   TileLayer,
   Tooltip,
-  ZoomControl
+  ZoomControl,
 } from 'react-leaflet';
 import { ILatLng, ITSPRouteWithSegments } from '../store/tsp';
 
