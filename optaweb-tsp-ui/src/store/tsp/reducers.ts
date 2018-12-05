@@ -19,21 +19,32 @@ import {
   IDeleteLocationAction,
   // InitWsConnectionAction,
   IUpdateTSPSolutionAction,
+  IWsConnectionFailureAction,
+  IWsConnectionSuccessAction,
   // WsConnectionFailureAction,
   // WsConnectionSuccessAction
 } from './actions';
 import * as types from './types';
 
-const INITIAL_STATE: types.ITSPRoute = {
+export interface ITSPReducerState
+  extends types.ITSPRoute,
+    types.IWSConnection {}
+
+const INITIAL_STATE: ITSPReducerState = {
   distance: '0.00',
   domicileId: -1,
   route: [],
+  ws: types.WS_CONNECTION_STATE.CLOSED,
 };
 
 export default function tspReducer(
   state = INITIAL_STATE,
-  action: IDeleteLocationAction | IUpdateTSPSolutionAction
-): types.ITSPRoute {
+  action:
+    | IDeleteLocationAction
+    | IUpdateTSPSolutionAction
+    | IWsConnectionSuccessAction
+    | IWsConnectionFailureAction
+): ITSPReducerState {
   switch (action.type) {
     case types.SOLUTION_UPDATES_DATA: {
       const { route, distance } = action.solution;
@@ -41,6 +52,7 @@ export default function tspReducer(
         return state;
       }
       return {
+        ...state,
         distance,
         domicileId: route.length > 0 ? route[0].id : NaN,
         route,
@@ -51,6 +63,13 @@ export default function tspReducer(
         return { ...INITIAL_STATE };
       }
       return state;
+    }
+    case types.WS_CONNECT_SUCCESS: {
+      return { ...state, ws: types.WS_CONNECTION_STATE.OPEN };
+    }
+
+    case types.WS_CONNECT_FAILURE: {
+      return { ...state, ws: types.WS_CONNECTION_STATE.ERROR };
     }
     default:
       return state;

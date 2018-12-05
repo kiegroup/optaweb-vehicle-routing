@@ -29,6 +29,7 @@ ShallowWrapper {
       ]
     }
     selectHandler={[MockFunction]}
+    ws={0}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -100,6 +101,9 @@ ShallowWrapper {
         </Card>
       </div>,
       "className": "leaflet-top leaflet-left leaflet-touch",
+      "style": Object {
+        "zIndex": 500,
+      },
     },
     "ref": null,
     "rendered": Object {
@@ -465,6 +469,9 @@ ShallowWrapper {
           </Card>
         </div>,
         "className": "leaflet-top leaflet-left leaflet-touch",
+        "style": Object {
+          "zIndex": 500,
+        },
       },
       "ref": null,
       "rendered": Object {
@@ -799,6 +806,7 @@ ShallowWrapper {
     removeHandler={[MockFunction]}
     route={Array []}
     selectHandler={[MockFunction]}
+    ws={0}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -854,6 +862,9 @@ ShallowWrapper {
         </Card>
       </div>,
       "className": "leaflet-top leaflet-left leaflet-touch",
+      "style": Object {
+        "zIndex": 500,
+      },
     },
     "ref": null,
     "rendered": Object {
@@ -1066,6 +1077,9 @@ ShallowWrapper {
           </Card>
         </div>,
         "className": "leaflet-top leaflet-left leaflet-touch",
+        "style": Object {
+          "zIndex": 500,
+        },
       },
       "ref": null,
       "rendered": Object {
