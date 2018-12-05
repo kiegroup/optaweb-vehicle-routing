@@ -74,7 +74,7 @@ class App extends Component<IAppProps> {
             message="Please check your network connection."
             icon={<UnpluggedIcon />}
             help={
-              'When connection will be available the application will be funcional again.'
+              'When connection is available the application will be functional again.'
             }
           />
         )}
