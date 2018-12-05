@@ -59,38 +59,38 @@ export interface IWsConnectionFailureAction {
 
 const addLocation = (location?: ILatLng): IAddLocationAction => ({
   type: ADD_LOCATION,
-  value: location
+  value: location,
 });
 
 const deleteLocation = (id: number): IDeleteLocationAction => ({
   type: DELETE_LOCATION,
-  value: id
+  value: id,
 });
 
 const updateTSPSolution = (
-  solution: ITSPRouteWithSegments
+  solution: ITSPRouteWithSegments,
 ): IUpdateTSPSolutionAction => ({
   solution,
-  type: SOLUTION_UPDATES_DATA
+  type: SOLUTION_UPDATES_DATA,
 });
 
 const initWsConnection = (socketUrl: string): InitWsConnectionAction => ({
   type: WS_CONNECT,
-  value: socketUrl
+  value: socketUrl,
 });
 
 const wsConnectionSuccess = (
-  webstompSocket: Client
+  webstompSocket: Client,
 ): IWsConnectionSuccessAction => ({
   type: WS_CONNECT_SUCCESS,
-  value: webstompSocket
+  value: webstompSocket,
 });
 
 const wsConnectionFailure = (
-  err: Frame | CloseEvent
+  err: Frame | CloseEvent,
 ): IWsConnectionFailureAction => ({
   type: WS_CONNECT_FAILURE,
-  value: err
+  value: err,
 });
 
 export default {
@@ -99,5 +99,5 @@ export default {
   initWsConnection,
   updateTSPSolution,
   wsConnectionFailure,
-  wsConnectionSuccess
+  wsConnectionSuccess,
 };

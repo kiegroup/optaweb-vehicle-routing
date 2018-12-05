@@ -28,7 +28,8 @@ import * as types from './types';
 
 export interface ITSPReducerState
   extends types.ITSPRouteWithSegments,
-    types.IWSConnection {}
+    types.IWSConnection {
+}
 
 const INITIAL_STATE: ITSPReducerState = {
   distance: '0.00',
@@ -44,7 +45,7 @@ export default function tspReducer(
     | IDeleteLocationAction
     | IUpdateTSPSolutionAction
     | IWsConnectionSuccessAction
-    | IWsConnectionFailureAction
+    | IWsConnectionFailureAction,
 ): ITSPReducerState {
   switch (action.type) {
     case types.SOLUTION_UPDATES_DATA: {

@@ -25,14 +25,14 @@ import configureStore from './store/configStore';
 import registerServiceWorker from './registerServiceWorker';
 
 const store = configureStore({
-  socketUrl: 'http://localhost:8080/tsp-websocket'
+  socketUrl: 'http://localhost:8080/tsp-websocket',
 });
 
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById('root') as HTMLElement
+  document.getElementById('root') as HTMLElement,
 );
 
 registerServiceWorker();

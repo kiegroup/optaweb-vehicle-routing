@@ -27,6 +27,7 @@ import { IAppState } from '../store/configStore';
 import { ITSPRouteWithSegments, tspOperations } from '../store/tsp/index';
 import * as types from '../store/tsp/types';
 import './App.css';
+
 export interface IAppProps extends ITravelingSalesmanProblemProps {
   tsp: ITSPRouteWithSegments & types.IWSConnection;
   removeHandler: (id: number) => void;
@@ -86,5 +87,5 @@ class App extends Component<IAppProps> {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(App);

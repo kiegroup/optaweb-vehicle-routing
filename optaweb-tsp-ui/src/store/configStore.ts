@@ -32,7 +32,7 @@ export interface IAppStoreConfig {
 
 export default function configureStore(
   { socketUrl }: IAppStoreConfig,
-  preloadedState?: IAppState
+  preloadedState?: IAppState,
 ) {
   // create logger middleware
   const logger = createLogger();
@@ -48,7 +48,7 @@ export default function configureStore(
   const store = createStore(
     rootReducer,
     preloadedState,
-    composeEnhancers(applyMiddleware(logger))
+    composeEnhancers(applyMiddleware(logger)),
   );
 
   tspOperations.connect({

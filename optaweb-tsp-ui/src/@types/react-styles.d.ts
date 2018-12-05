@@ -19,16 +19,17 @@
 declare module '@patternfly/react-styles' {
   export interface StyleDeclarationStatic {
     __className: string;
+
     __inject(): void;
   }
 
   export function isValidStyleDeclaration(
-    obj: any
+    obj: any,
   ): obj is StyleDeclarationStatic;
 
   export function createStyleDeclaration(
     className: string,
-    rawCss: string
+    rawCss: string,
   ): StyleDeclarationStatic;
 
   export function isModifier(className: string): boolean;
@@ -36,7 +37,7 @@ declare module '@patternfly/react-styles' {
   export function getModifier(
     styleObject: any,
     modifier: string,
-    defaultModifer?: StyleDeclarationStatic | string
+    defaultModifer?: StyleDeclarationStatic | string,
   ): StyleDeclarationStatic | string;
 
   export function formatClassName(className: string): string;
@@ -49,8 +50,9 @@ declare module '@patternfly/react-styles' {
 
   export interface StyleSheetStatic {
     parse(cssString: string): StyleSheetValueStatic;
+
     create<T extends Record<keyof T, any>>(
-      styles: T
+      styles: T,
     ): Record<keyof T, string>;
   }
 
