@@ -12,23 +12,23 @@
     ]
   },
   "rules": {
+    "file-header": [
+      true,
+      "^\n \\* Copyright \\d{4} Red Hat, Inc\\. and/or its affiliates\\.\n \\*\n \\* Licensed under the Apache License, Version 2\\.0 \\(the \"License\"\\);\n \\* you may not use this file except in compliance with the License\\.\n \\* You may obtain a copy of the License at\n \\*\n \\*     http://www\\.apache\\.org/licenses/LICENSE-2\\.0\n \\*\n \\* Unless required by applicable law or agreed to in writing, software\n \\* distributed under the License is distributed on an \"AS IS\" BASIS,\n \\* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied\\.\n \\* See the License for the specific language governing permissions and\n \\* limitations under the License\\.\n $",
+      "Copyright 2018 Red Hat, Inc. and/or its affiliates.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License."
+    ],
     "import-name": false,
     // In some edge cases: https://github.com/wmonk/create-react-app-typescript/issues/370#issuecomment-415299545
     // WHY CAN BE DANGEROUS: https://maarten.mulders.it/blog/2017/07/no-bind-or-arrow-in-jsx-props-why-how.html
     "jsx-no-lambda": false,
     "jsx-no-multiline-js": false,
-    "object-shorthand-properties-first": false,
-    "no-console": {
-      "severity": "warn"
-    },
     "member-access": [
       true,
       "no-public"
     ],
-    "file-header": [
-      true,
-      "^\n \\* Copyright \\d{4} Red Hat, Inc\\. and/or its affiliates\\.\n \\*\n \\* Licensed under the Apache License, Version 2\\.0 \\(the \"License\"\\);\n \\* you may not use this file except in compliance with the License\\.\n \\* You may obtain a copy of the License at\n \\*\n \\*     http://www\\.apache\\.org/licenses/LICENSE-2\\.0\n \\*\n \\* Unless required by applicable law or agreed to in writing, software\n \\* distributed under the License is distributed on an \"AS IS\" BASIS,\n \\* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied\\.\n \\* See the License for the specific language governing permissions and\n \\* limitations under the License\\.\n $",
-      "Copyright 2018 Red Hat, Inc. and/or its affiliates.\n\nLicensed under the Apache License, Version 2.0 (the \"License\");\nyou may not use this file except in compliance with the License.\nYou may obtain a copy of the License at\n\n    http://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software\ndistributed under the License is distributed on an \"AS IS\" BASIS,\nWITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\nSee the License for the specific language governing permissions and\nlimitations under the License."
-    ]
+    "no-console": {
+      "severity": "warn"
+    },
+    "object-shorthand-properties-first": false
   }
 }
