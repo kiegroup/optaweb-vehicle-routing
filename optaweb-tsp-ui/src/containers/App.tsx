@@ -71,7 +71,7 @@ class App extends Component<IAppProps> {
         {ws === types.WS_CONNECTION_STATE.ERROR ? (
           <ConnectionError
             title="Oops... Connection error!"
-            message="Please check your network connection?"
+            message="Please check your network connection."
             icon={<UnpluggedIcon />}
             help={'When connection will be available the application will be funcional again.'}
           />
