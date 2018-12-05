@@ -17,7 +17,6 @@
 import { Modal, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { ReactNode } from 'react';
-import './ConnectionError.css';
 export interface IConnectionErrorProps {
   title: string;
   message: string;
@@ -44,7 +43,7 @@ export default class ConnectionError extends React.Component<
   render() {
     const { title, message, icon } = this.props;
     return (
-      <Modal title={title} isOpen={true} style={{ zIndex: 1000000 }}>
+      <Modal title={title} isOpen={true}>
         <TextContent>
           <Text component={TextVariants.h3}>
             {icon}

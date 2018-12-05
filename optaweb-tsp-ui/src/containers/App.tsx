@@ -68,15 +68,15 @@ class App extends Component<IAppProps> {
     const { ws } = this.props.tsp;
     return (
       <div>
-        {ws === types.WS_CONNECTION_STATE.ERROR ? (
+        {ws === types.WS_CONNECTION_STATE.ERROR && (
           <ConnectionError
-            title="Oops... Connection error!"
-            message="Please check your network connection."
+            title="Ops... Connection Error!!!"
+            message="Please check your network connection?"
             icon={<UnpluggedIcon />}
-            help={'When connection is available the application will be functional again.'}
+            help={
+              'When connection will be available the application will be funcional again.'
+            }
           />
-        ) : (
-          undefined
         )}
         <TravelingSalesmanProblem {...this.props} />
       </div>
