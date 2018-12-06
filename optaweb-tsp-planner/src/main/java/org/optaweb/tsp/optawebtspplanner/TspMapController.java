@@ -56,8 +56,6 @@ public class TspMapController {
 
     @MessageMapping("/demo")
     public void demo() {
-//        repository.findAll().forEach(planner::removePlace);
-//        repository.deleteAll();
         Arrays.stream(Europe.values()).forEach(city -> {
             Place place = new Place(BigDecimal.valueOf(city.lat), BigDecimal.valueOf(city.lng));
             Place savedPlace = repository.save(place);
