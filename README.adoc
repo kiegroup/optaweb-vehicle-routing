@@ -64,8 +64,8 @@ sudo dnf install java-1.8.0-openjdk-devel
 
 . Download OpenStreetMap data for Belgium from Geofabrik.
 .. Open http://download.geofabrik.de/europe/belgium.html.
-.. Download the PBF file http://download.geofabrik.de/europe/belgium-latest.osm.pbf[belgium-latest.osm.pbf].
-.. Save it to `optaweb-vehicle-routing/optaweb-tsp-planner/local/belgium-latest.osm.pbf`.
+.. Download the OSM file http://download.geofabrik.de/europe/belgium-latest.osm.pbf[belgium-latest.osm.pbf].
+.. Save it to `optaweb-vehicle-routing/optaweb-tsp-planner/local/openstreetmap/belgium-latest.osm.pbf`.
 
 . Run backend.
 +
@@ -74,3 +74,23 @@ sudo dnf install java-1.8.0-openjdk-devel
 cd optaweb-tsp-planner
 ./mvnw spring-boot:run
 ----
+
+[TIP]
+.Use a different OSM file
+====
+If you want to try a different region than Belgium, download an OSM file from Geofabrik
+and use a system property when starting the backend to change the data file:
+
+[source,shell]
+----
+./mvnw spring-boot:run -Dosmfile=massachusetts-latest.osm.pbf
+----
+====
+
+[CAUTION]
+.Using large OSM files
+====
+For best user experience it is recommended to use smaller regions like individual European or US states.
+Using OSM files larger than 1 GB will require significant RAM size
+and take a lot of time (up to several hours) for the initial processing.
+====
