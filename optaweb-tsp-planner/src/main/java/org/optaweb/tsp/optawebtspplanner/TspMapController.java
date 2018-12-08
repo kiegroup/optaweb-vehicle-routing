@@ -30,7 +30,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class TspMapController {
 
-    private static Logger logger = LoggerFactory.getLogger(TspMapController.class);
+    private static final Logger logger = LoggerFactory.getLogger(TspMapController.class);
 
     private final PlaceRepository repository;
     private final TspPlannerComponent planner;

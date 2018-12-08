@@ -47,7 +47,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TspPlannerComponent implements SolverEventListener<TspSolution> {
 
-    private static Logger logger = LoggerFactory.getLogger(TspPlannerComponent.class);
+    private static final Logger logger = LoggerFactory.getLogger(TspPlannerComponent.class);
 
     private final SimpMessagingTemplate webSocket;
     private final PlaceRepository repository;
