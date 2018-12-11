@@ -117,6 +117,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     private RouteMessage createResponse(TspSolution solution, List<Place> route) {
         List<List<Place>> segments = new ArrayList<>();
         for (int i = 1; i < route.size() + 1; i++) {
+            // "trick" to get N -> 0 distance at the end of the loop
             segments.add(routing.getRoute(route.get(i - 1), route.get(i % route.size())));
         }
         String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
