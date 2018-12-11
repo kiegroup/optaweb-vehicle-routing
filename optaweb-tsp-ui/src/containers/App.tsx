@@ -101,5 +101,5 @@ class App extends React.Component<IAppProps> {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(App);
