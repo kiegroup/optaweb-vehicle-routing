@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
+import { BackgroundImage, BackgroundImageSrc } from '@patternfly/react-core';
 import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
-import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import ConnectionError from 'src/components/ConnectionError';
+import ConnectionError from '../components/ConnectionError';
 import TravelingSalesmanProblem, {
   ITravelingSalesmanProblemProps,
 } from '../components/TravelingSalesmanProblem';
@@ -48,7 +48,20 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   },
 });
 
-class App extends Component<IAppProps> {
+const images = {
+  [BackgroundImageSrc.lg]: '/assets/images/pfbg_1200.jpg',
+  [BackgroundImageSrc.md]: '/assets/images/pfbg_992.jpg',
+  [BackgroundImageSrc.md2x]: '/assets/images/pfbg_992@2x.jpg',
+  [BackgroundImageSrc.sm]: '/assets/images/pfbg_768.jpg',
+  [BackgroundImageSrc.sm2x]: '/assets/images/pfbg_768@2x.jpg',
+  [BackgroundImageSrc.xl]: '/assets/images/pfbg_2000.jpg',
+  [BackgroundImageSrc.xs]: '/assets/images/pfbg_576.jpg',
+  [BackgroundImageSrc.xs2x]: '/assets/images/pfbg_576@2x.jpg',
+  [BackgroundImageSrc.filter]:
+    '/assets/images/background-filter.svg#image_overlay',
+};
+
+class App extends React.Component<IAppProps> {
   constructor(props: IAppProps) {
     super(props);
     this.onClickRemove = this.onClickRemove.bind(this);
@@ -68,7 +81,8 @@ class App extends Component<IAppProps> {
     const { ws } = this.props.tsp;
     return (
       <div>
-        {ws === types.WS_CONNECTION_STATE.ERROR && (
+        <BackgroundImage src={images} />
+        {ws === types.WS_CONNECTION_STATE.ERROR ? (
           <ConnectionError
             title="Oops... Connection error!"
             message="Please check your network connection."
@@ -77,8 +91,9 @@ class App extends Component<IAppProps> {
               'When connection is available the application will be functional again.'
             }
           />
+        ) : (
+          <TravelingSalesmanProblem {...this.props} />
         )}
-        <TravelingSalesmanProblem {...this.props} />
       </div>
     );
   }
