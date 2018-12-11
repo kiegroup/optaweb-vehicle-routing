@@ -29,6 +29,12 @@
     "no-console": {
       "severity": "warn"
     },
-    "object-shorthand-properties-first": false
+    "object-shorthand-properties-first": false,
+    "prefer-array-literal": [
+      true,
+      {
+        "allow-type-parameters": true
+      }
+    ]
   }
 }
