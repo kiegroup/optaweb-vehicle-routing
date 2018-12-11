@@ -38,4 +38,11 @@ public class LatLng {
     public int hashCode() {
         return Objects.hash(latitude, longitude);
     }
+
+    @Override
+    public String toString() {
+        return "[" + latitude.toPlainString() +
+                ", " + longitude.toPlainString() +
+                ']';
+    }
 }
