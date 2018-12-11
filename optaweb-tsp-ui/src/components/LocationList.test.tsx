@@ -18,6 +18,7 @@ import { shallow } from 'enzyme';
 import * as React from 'react';
 import * as types from '../store/tsp/types';
 import LocationList from './LocationList';
+
 describe('Location List Component', () => {
   it('should render correctly with no routes', () => {
     const props = {
@@ -28,8 +29,7 @@ describe('Location List Component', () => {
       removeHandler: jest.fn(),
       route: [],
       selectHandler: jest.fn(),
-      ws: types.WS_CONNECTION_STATE.OPEN
-  
+      ws: types.WS_CONNECTION_STATE.OPEN,
     };
     expect.assertions(2);
     const locationList = shallow(<LocationList {...props} />);
@@ -65,7 +65,7 @@ describe('Location List Component', () => {
         },
       ],
       selectHandler: jest.fn(),
-      ws: types.WS_CONNECTION_STATE.OPEN
+      ws: types.WS_CONNECTION_STATE.OPEN,
     };
     expect.assertions(2);
     const locationList = shallow(<LocationList {...props} />);

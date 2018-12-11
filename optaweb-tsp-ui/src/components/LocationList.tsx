@@ -87,7 +87,7 @@ const renderLocationList = ({
 };
 
 const LocationList: React.SFC<ILocationListProps> = (
-  props: ILocationListProps
+  props: ILocationListProps,
 ) => {
   return (
     <div

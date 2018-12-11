@@ -44,6 +44,7 @@ export default class TravelingSalesmanProblem extends React.Component<
       segments: [],
     },
   };
+
   constructor(props: ITravelingSalesmanProblemProps) {
     super(props);
 
@@ -71,6 +72,7 @@ export default class TravelingSalesmanProblem extends React.Component<
       this.setState({ maxDistance: intDistance });
     }
   }
+
   render() {
     const { center, zoom, selectedId, maxDistance } = this.state;
     const {

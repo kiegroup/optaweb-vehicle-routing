@@ -22,7 +22,7 @@ import {
   Polyline,
   TileLayer,
   Tooltip,
-  ZoomControl
+  ZoomControl,
 } from 'react-leaflet';
 import { ILatLng, ITSPRouteWithSegments } from '../store/tsp';
 
@@ -42,7 +42,7 @@ const TspMap: React.SFC<ITspMapProps> = ({
   segments,
   domicileId,
   clickHandler,
-  removeHandler
+  removeHandler,
 }) => {
   const homeIcon = L.icon({
     iconAnchor: [12, 12],
@@ -51,7 +51,7 @@ const TspMap: React.SFC<ITspMapProps> = ({
     popupAnchor: [0, -10],
     shadowAnchor: [16, 2],
     shadowSize: [50, 16],
-    shadowUrl: 'if_big_house-home_2222740_shadow.png'
+    shadowUrl: 'if_big_house-home_2222740_shadow.png',
   });
   const defaultIcon = new L.Icon.Default();
   return (
@@ -63,7 +63,9 @@ const TspMap: React.SFC<ITspMapProps> = ({
       zoomControl={false} // hide the default zoom control which is on top left
     >
       <TileLayer
-        attribution={'&amp;copy <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors'}
+        attribution={
+          '&amp;copy <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors'
+        }
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ZoomControl position="topright" />
@@ -80,9 +82,7 @@ const TspMap: React.SFC<ITspMapProps> = ({
             key={location.id + (location.id === selectedId ? 'T' : 't')}
             permanent={location.id === selectedId}
           >
-            {`Location ${location.id} [Lat=${location.lat}, Lng=${
-              location.lng
-            }]`}
+            {`Location ${location.id} [Lat=${location.lat}, Lng=${location.lng}]`}
           </Tooltip>
         </Marker>
       ))}
@@ -90,7 +90,5 @@ const TspMap: React.SFC<ITspMapProps> = ({
     </Map>
   );
 };
-
-
 
 export default TspMap;

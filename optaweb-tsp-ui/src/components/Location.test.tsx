@@ -31,7 +31,6 @@ describe('Location Component', () => {
     expect(location).toMatchSnapshot();
     location.find('Grid').simulate('mouseEnter');
     location.find('Button').simulate('click');
-    
 
     expect(props.removeHandler).toHaveBeenCalledTimes(1);
   });

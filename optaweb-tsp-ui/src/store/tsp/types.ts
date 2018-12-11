@@ -35,6 +35,7 @@ export enum WS_CONNECTION_STATE {
   CLOSED,
   ERROR,
 }
+
 export interface ILatLng {
   lat: number;
   lng: number;
@@ -43,6 +44,7 @@ export interface ILatLng {
 export interface IdLatLng extends ILatLng {
   id: number;
 }
+
 export interface ITSPRoute {
   route: IdLatLng[];
   domicileId: number;
@@ -53,6 +55,6 @@ export interface ITSPRouteWithSegments extends ITSPRoute {
   segments: Array<[number, number]>;
 }
 
-export interface IWSConnection{
+export interface IWSConnection {
   ws: WS_CONNECTION_STATE;
 }

@@ -16,7 +16,6 @@
 
 import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
-import { Component } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import ConnectionError from 'src/components/ConnectionError';
@@ -27,6 +26,7 @@ import { IAppState } from '../store/configStore';
 import { ITSPRouteWithSegments, tspOperations } from '../store/tsp/index';
 import * as types from '../store/tsp/types';
 import './App.css';
+
 export interface IAppProps extends ITravelingSalesmanProblemProps {
   tsp: ITSPRouteWithSegments & types.IWSConnection;
   removeHandler: (id: number) => void;
@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   },
 });
 
-class App extends Component<IAppProps> {
+class App extends React.Component<IAppProps> {
   constructor(props: IAppProps) {
     super(props);
     this.onClickRemove = this.onClickRemove.bind(this);
@@ -86,5 +86,5 @@ class App extends Component<IAppProps> {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(App);
