@@ -3,7 +3,7 @@
 exports[`Location List Component should render correctly with a few routes 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <LocationList
+  Symbol(enzyme.__unrendered__): <locationList
     distance="10"
     domicileId={1}
     loadHandler={[MockFunction]}
@@ -42,737 +42,1613 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "host",
+    "nodeType": "function",
     "props": Object {
-      "children": <div
-        className="leaflet-control leaflet-bar"
-      >
-        <Card
+      "children": Array [
+        <br />,
+        "Locations: ",
+        3,
+        <TripData
+          distance={10}
+          maxDistance={1}
+        />,
+        <hr />,
+        <DataList
+          aria-label="Ciao"
           className=""
-          component="article"
         >
-          <CardHeader
+          <DataListItem
+            aria-labelledby="check-1"
             className=""
-            component="div"
+            isExpanded={true}
           >
-            Distance: 
-            10
-            <br />
-            Locations: 
-            3
-            <TripData
-              distance={10}
-              maxDistance={1}
-            />
-            <hr />
-          </CardHeader>
-          <CardBody
-            className=""
-            component="div"
-          >
-            <div
-              style={
-                Object {
-                  "maxHeight": "calc(100vh - 195px)",
-                  "overflowY": "auto",
-                }
-              }
+            <DataListCell
+              className=""
+              width={1}
             >
-              <Location
-                id={1}
-                removeDisabled={true}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-              <Location
-                id={2}
-                removeDisabled={false}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-              <Location
-                id={3}
-                removeDisabled={false}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-            </div>
-          </CardBody>
-        </Card>
-      </div>,
-      "className": "leaflet-top leaflet-left leaflet-touch",
-      "style": Object {
-        "zIndex": 500,
-      },
+              <span
+                id="check-1"
+              >
+                Location 
+                1
+              </span>
+            </DataListCell>
+            <DataListAction
+              aria-label="Actions"
+              aria-labelledby="check-action-item1 check-action-action1"
+              className=""
+              id="check-action-action1"
+            >
+              <Button
+                aria-label={null}
+                className=""
+                component="button"
+                isActive={false}
+                isBlock={false}
+                isDisabled={true}
+                isFocus={false}
+                isHover={false}
+                onClick={[Function]}
+                type="button"
+                variant="link"
+              >
+                <TimesIcon
+                  color="currentColor"
+                  size="sm"
+                  title={null}
+                />
+              </Button>
+            </DataListAction>
+          </DataListItem>
+          <DataListItem
+            aria-labelledby="check-2"
+            className=""
+            isExpanded={true}
+          >
+            <DataListCell
+              className=""
+              width={1}
+            >
+              <span
+                id="check-2"
+              >
+                Location 
+                2
+              </span>
+            </DataListCell>
+            <DataListAction
+              aria-label="Actions"
+              aria-labelledby="check-action-item1 check-action-action1"
+              className=""
+              id="check-action-action1"
+            >
+              <Button
+                aria-label={null}
+                className=""
+                component="button"
+                isActive={false}
+                isBlock={false}
+                isDisabled={false}
+                isFocus={false}
+                isHover={false}
+                onClick={[Function]}
+                type="button"
+                variant="link"
+              >
+                <TimesIcon
+                  color="currentColor"
+                  size="sm"
+                  title={null}
+                />
+              </Button>
+            </DataListAction>
+          </DataListItem>
+          <DataListItem
+            aria-labelledby="check-3"
+            className=""
+            isExpanded={true}
+          >
+            <DataListCell
+              className=""
+              width={1}
+            >
+              <span
+                id="check-3"
+              >
+                Location 
+                3
+              </span>
+            </DataListCell>
+            <DataListAction
+              aria-label="Actions"
+              aria-labelledby="check-action-item1 check-action-action1"
+              className=""
+              id="check-action-action1"
+            >
+              <Button
+                aria-label={null}
+                className=""
+                component="button"
+                isActive={false}
+                isBlock={false}
+                isDisabled={false}
+                isFocus={false}
+                isHover={false}
+                onClick={[Function]}
+                type="button"
+                variant="link"
+              >
+                <TimesIcon
+                  color="currentColor"
+                  size="sm"
+                  title={null}
+                />
+              </Button>
+            </DataListAction>
+          </DataListItem>
+        </DataList>,
+      ],
     },
     "ref": null,
-    "rendered": Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": <Card
-          className=""
-          component="article"
-        >
-          <CardHeader
-            className=""
-            component="div"
-          >
-            Distance: 
-            10
-            <br />
-            Locations: 
-            3
-            <TripData
-              distance={10}
-              maxDistance={1}
-            />
-            <hr />
-          </CardHeader>
-          <CardBody
-            className=""
-            component="div"
-          >
-            <div
-              style={
-                Object {
-                  "maxHeight": "calc(100vh - 195px)",
-                  "overflowY": "auto",
-                }
-              }
-            >
-              <Location
-                id={1}
-                removeDisabled={true}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-              <Location
-                id={2}
-                removeDisabled={false}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-              <Location
-                id={3}
-                removeDisabled={false}
-                removeHandler={[MockFunction]}
-                selectHandler={[MockFunction]}
-              />
-            </div>
-          </CardBody>
-        </Card>,
-        "className": "leaflet-control leaflet-bar",
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {},
+        "ref": null,
+        "rendered": null,
+        "type": "br",
       },
-      "ref": null,
-      "rendered": Object {
+      "Locations: ",
+      3,
+      Object {
         "instance": null,
         "key": undefined,
         "nodeType": "function",
         "props": Object {
+          "distance": 10,
+          "maxDistance": 1,
+        },
+        "ref": null,
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {},
+        "ref": null,
+        "rendered": null,
+        "type": "hr",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "function",
+        "props": Object {
+          "aria-label": "Ciao",
           "children": Array [
-            <CardHeader
+            <DataListItem
+              aria-labelledby="check-1"
               className=""
-              component="div"
+              isExpanded={true}
             >
-              Distance: 
-              10
-              <br />
-              Locations: 
-              3
-              <TripData
-                distance={10}
-                maxDistance={1}
-              />
-              <hr />
-            </CardHeader>,
-            <CardBody
-              className=""
-              component="div"
-            >
-              <div
-                style={
-                  Object {
-                    "maxHeight": "calc(100vh - 195px)",
-                    "overflowY": "auto",
-                  }
-                }
+              <DataListCell
+                className=""
+                width={1}
               >
-                <Location
-                  id={1}
-                  removeDisabled={true}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />
-                <Location
-                  id={2}
-                  removeDisabled={false}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />
-                <Location
-                  id={3}
-                  removeDisabled={false}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />
-              </div>
-            </CardBody>,
+                <span
+                  id="check-1"
+                >
+                  Location 
+                  1
+                </span>
+              </DataListCell>
+              <DataListAction
+                aria-label="Actions"
+                aria-labelledby="check-action-item1 check-action-action1"
+                className=""
+                id="check-action-action1"
+              >
+                <Button
+                  aria-label={null}
+                  className=""
+                  component="button"
+                  isActive={false}
+                  isBlock={false}
+                  isDisabled={true}
+                  isFocus={false}
+                  isHover={false}
+                  onClick={[Function]}
+                  type="button"
+                  variant="link"
+                >
+                  <TimesIcon
+                    color="currentColor"
+                    size="sm"
+                    title={null}
+                  />
+                </Button>
+              </DataListAction>
+            </DataListItem>,
+            <DataListItem
+              aria-labelledby="check-2"
+              className=""
+              isExpanded={true}
+            >
+              <DataListCell
+                className=""
+                width={1}
+              >
+                <span
+                  id="check-2"
+                >
+                  Location 
+                  2
+                </span>
+              </DataListCell>
+              <DataListAction
+                aria-label="Actions"
+                aria-labelledby="check-action-item1 check-action-action1"
+                className=""
+                id="check-action-action1"
+              >
+                <Button
+                  aria-label={null}
+                  className=""
+                  component="button"
+                  isActive={false}
+                  isBlock={false}
+                  isDisabled={false}
+                  isFocus={false}
+                  isHover={false}
+                  onClick={[Function]}
+                  type="button"
+                  variant="link"
+                >
+                  <TimesIcon
+                    color="currentColor"
+                    size="sm"
+                    title={null}
+                  />
+                </Button>
+              </DataListAction>
+            </DataListItem>,
+            <DataListItem
+              aria-labelledby="check-3"
+              className=""
+              isExpanded={true}
+            >
+              <DataListCell
+                className=""
+                width={1}
+              >
+                <span
+                  id="check-3"
+                >
+                  Location 
+                  3
+                </span>
+              </DataListCell>
+              <DataListAction
+                aria-label="Actions"
+                aria-labelledby="check-action-item1 check-action-action1"
+                className=""
+                id="check-action-action1"
+              >
+                <Button
+                  aria-label={null}
+                  className=""
+                  component="button"
+                  isActive={false}
+                  isBlock={false}
+                  isDisabled={false}
+                  isFocus={false}
+                  isHover={false}
+                  onClick={[Function]}
+                  type="button"
+                  variant="link"
+                >
+                  <TimesIcon
+                    color="currentColor"
+                    size="sm"
+                    title={null}
+                  />
+                </Button>
+              </DataListAction>
+            </DataListItem>,
           ],
           "className": "",
-          "component": "article",
         },
         "ref": null,
         "rendered": Array [
           Object {
             "instance": null,
-            "key": undefined,
+            "key": "1",
             "nodeType": "function",
             "props": Object {
+              "aria-labelledby": "check-1",
               "children": Array [
-                "Distance: ",
-                "10",
-                <br />,
-                "Locations: ",
-                3,
-                <TripData
-                  distance={10}
-                  maxDistance={1}
-                />,
-                <hr />,
+                <DataListCell
+                  className=""
+                  width={1}
+                >
+                  <span
+                    id="check-1"
+                  >
+                    Location 
+                    1
+                  </span>
+                </DataListCell>,
+                <DataListAction
+                  aria-label="Actions"
+                  aria-labelledby="check-action-item1 check-action-action1"
+                  className=""
+                  id="check-action-action1"
+                >
+                  <Button
+                    aria-label={null}
+                    className=""
+                    component="button"
+                    isActive={false}
+                    isBlock={false}
+                    isDisabled={true}
+                    isFocus={false}
+                    isHover={false}
+                    onClick={[Function]}
+                    type="button"
+                    variant="link"
+                  >
+                    <TimesIcon
+                      color="currentColor"
+                      size="sm"
+                      title={null}
+                    />
+                  </Button>
+                </DataListAction>,
               ],
               "className": "",
-              "component": "div",
+              "isExpanded": true,
             },
             "ref": null,
             "rendered": Array [
-              "Distance: ",
-              "10",
-              Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {},
-                "ref": null,
-                "rendered": null,
-                "type": "br",
-              },
-              "Locations: ",
-              3,
               Object {
                 "instance": null,
                 "key": undefined,
                 "nodeType": "function",
                 "props": Object {
-                  "distance": 10,
-                  "maxDistance": 1,
+                  "children": <span
+                    id="check-1"
+                  >
+                    Location 
+                    1
+                  </span>,
+                  "className": "",
+                  "width": 1,
                 },
                 "ref": null,
-                "rendered": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      "Location ",
+                      1,
+                    ],
+                    "id": "check-1",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    "Location ",
+                    1,
+                  ],
+                  "type": "span",
+                },
                 "type": [Function],
               },
               Object {
                 "instance": null,
                 "key": undefined,
-                "nodeType": "host",
-                "props": Object {},
+                "nodeType": "function",
+                "props": Object {
+                  "aria-label": "Actions",
+                  "aria-labelledby": "check-action-item1 check-action-action1",
+                  "children": <Button
+                    aria-label={null}
+                    className=""
+                    component="button"
+                    isActive={false}
+                    isBlock={false}
+                    isDisabled={true}
+                    isFocus={false}
+                    isHover={false}
+                    onClick={[Function]}
+                    type="button"
+                    variant="link"
+                  >
+                    <TimesIcon
+                      color="currentColor"
+                      size="sm"
+                      title={null}
+                    />
+                  </Button>,
+                  "className": "",
+                  "id": "check-action-action1",
+                },
                 "ref": null,
-                "rendered": null,
-                "type": "hr",
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "aria-label": null,
+                    "children": <TimesIcon
+                      color="currentColor"
+                      size="sm"
+                      title={null}
+                    />,
+                    "className": "",
+                    "component": "button",
+                    "isActive": false,
+                    "isBlock": false,
+                    "isDisabled": true,
+                    "isFocus": false,
+                    "isHover": false,
+                    "onClick": [Function],
+                    "type": "button",
+                    "variant": "link",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "color": "currentColor",
+                      "size": "sm",
+                      "title": null,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+                "type": [Function],
               },
             ],
             "type": [Function],
           },
           Object {
             "instance": null,
-            "key": undefined,
+            "key": "2",
             "nodeType": "function",
             "props": Object {
-              "children": <div
-                style={
-                  Object {
-                    "maxHeight": "calc(100vh - 195px)",
-                    "overflowY": "auto",
-                  }
-                }
-              >
-                <Location
-                  id={1}
-                  removeDisabled={true}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />
-                <Location
-                  id={2}
-                  removeDisabled={false}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />
-                <Location
-                  id={3}
-                  removeDisabled={false}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />
-              </div>,
+              "aria-labelledby": "check-2",
+              "children": Array [
+                <DataListCell
+                  className=""
+                  width={1}
+                >
+                  <span
+                    id="check-2"
+                  >
+                    Location 
+                    2
+                  </span>
+                </DataListCell>,
+                <DataListAction
+                  aria-label="Actions"
+                  aria-labelledby="check-action-item1 check-action-action1"
+                  className=""
+                  id="check-action-action1"
+                >
+                  <Button
+                    aria-label={null}
+                    className=""
+                    component="button"
+                    isActive={false}
+                    isBlock={false}
+                    isDisabled={false}
+                    isFocus={false}
+                    isHover={false}
+                    onClick={[Function]}
+                    type="button"
+                    variant="link"
+                  >
+                    <TimesIcon
+                      color="currentColor"
+                      size="sm"
+                      title={null}
+                    />
+                  </Button>
+                </DataListAction>,
+              ],
               "className": "",
-              "component": "div",
+              "isExpanded": true,
             },
             "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "host",
-              "props": Object {
-                "children": Array [
-                  <Location
-                    id={1}
-                    removeDisabled={true}
-                    removeHandler={[MockFunction]}
-                    selectHandler={[MockFunction]}
-                  />,
-                  <Location
-                    id={2}
-                    removeDisabled={false}
-                    removeHandler={[MockFunction]}
-                    selectHandler={[MockFunction]}
-                  />,
-                  <Location
-                    id={3}
-                    removeDisabled={false}
-                    removeHandler={[MockFunction]}
-                    selectHandler={[MockFunction]}
-                  />,
-                ],
-                "style": Object {
-                  "maxHeight": "calc(100vh - 195px)",
-                  "overflowY": "auto",
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": <span
+                    id="check-2"
+                  >
+                    Location 
+                    2
+                  </span>,
+                  "className": "",
+                  "width": 1,
                 },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      "Location ",
+                      2,
+                    ],
+                    "id": "check-2",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    "Location ",
+                    2,
+                  ],
+                  "type": "span",
+                },
+                "type": [Function],
               },
-              "ref": null,
-              "rendered": Array [
-                Object {
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "aria-label": "Actions",
+                  "aria-labelledby": "check-action-item1 check-action-action1",
+                  "children": <Button
+                    aria-label={null}
+                    className=""
+                    component="button"
+                    isActive={false}
+                    isBlock={false}
+                    isDisabled={false}
+                    isFocus={false}
+                    isHover={false}
+                    onClick={[Function]}
+                    type="button"
+                    variant="link"
+                  >
+                    <TimesIcon
+                      color="currentColor"
+                      size="sm"
+                      title={null}
+                    />
+                  </Button>,
+                  "className": "",
+                  "id": "check-action-action1",
+                },
+                "ref": null,
+                "rendered": Object {
                   "instance": null,
-                  "key": "1",
+                  "key": undefined,
                   "nodeType": "function",
                   "props": Object {
-                    "id": 1,
-                    "removeDisabled": true,
-                    "removeHandler": [MockFunction],
-                    "selectHandler": [MockFunction],
+                    "aria-label": null,
+                    "children": <TimesIcon
+                      color="currentColor"
+                      size="sm"
+                      title={null}
+                    />,
+                    "className": "",
+                    "component": "button",
+                    "isActive": false,
+                    "isBlock": false,
+                    "isDisabled": false,
+                    "isFocus": false,
+                    "isHover": false,
+                    "onClick": [Function],
+                    "type": "button",
+                    "variant": "link",
                   },
                   "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
-                Object {
-                  "instance": null,
-                  "key": "2",
-                  "nodeType": "function",
-                  "props": Object {
-                    "id": 2,
-                    "removeDisabled": false,
-                    "removeHandler": [MockFunction],
-                    "selectHandler": [MockFunction],
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "color": "currentColor",
+                      "size": "sm",
+                      "title": null,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
                   },
-                  "ref": null,
-                  "rendered": null,
                   "type": [Function],
                 },
-                Object {
-                  "instance": null,
-                  "key": "3",
-                  "nodeType": "function",
-                  "props": Object {
-                    "id": 3,
-                    "removeDisabled": false,
-                    "removeHandler": [MockFunction],
-                    "selectHandler": [MockFunction],
-                  },
-                  "ref": null,
-                  "rendered": null,
-                  "type": [Function],
-                },
+                "type": [Function],
+              },
+            ],
+            "type": [Function],
+          },
+          Object {
+            "instance": null,
+            "key": "3",
+            "nodeType": "function",
+            "props": Object {
+              "aria-labelledby": "check-3",
+              "children": Array [
+                <DataListCell
+                  className=""
+                  width={1}
+                >
+                  <span
+                    id="check-3"
+                  >
+                    Location 
+                    3
+                  </span>
+                </DataListCell>,
+                <DataListAction
+                  aria-label="Actions"
+                  aria-labelledby="check-action-item1 check-action-action1"
+                  className=""
+                  id="check-action-action1"
+                >
+                  <Button
+                    aria-label={null}
+                    className=""
+                    component="button"
+                    isActive={false}
+                    isBlock={false}
+                    isDisabled={false}
+                    isFocus={false}
+                    isHover={false}
+                    onClick={[Function]}
+                    type="button"
+                    variant="link"
+                  >
+                    <TimesIcon
+                      color="currentColor"
+                      size="sm"
+                      title={null}
+                    />
+                  </Button>
+                </DataListAction>,
               ],
-              "type": "div",
+              "className": "",
+              "isExpanded": true,
             },
+            "ref": null,
+            "rendered": Array [
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "children": <span
+                    id="check-3"
+                  >
+                    Location 
+                    3
+                  </span>,
+                  "className": "",
+                  "width": 1,
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {
+                    "children": Array [
+                      "Location ",
+                      3,
+                    ],
+                    "id": "check-3",
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    "Location ",
+                    3,
+                  ],
+                  "type": "span",
+                },
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "aria-label": "Actions",
+                  "aria-labelledby": "check-action-item1 check-action-action1",
+                  "children": <Button
+                    aria-label={null}
+                    className=""
+                    component="button"
+                    isActive={false}
+                    isBlock={false}
+                    isDisabled={false}
+                    isFocus={false}
+                    isHover={false}
+                    onClick={[Function]}
+                    type="button"
+                    variant="link"
+                  >
+                    <TimesIcon
+                      color="currentColor"
+                      size="sm"
+                      title={null}
+                    />
+                  </Button>,
+                  "className": "",
+                  "id": "check-action-action1",
+                },
+                "ref": null,
+                "rendered": Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "aria-label": null,
+                    "children": <TimesIcon
+                      color="currentColor"
+                      size="sm"
+                      title={null}
+                    />,
+                    "className": "",
+                    "component": "button",
+                    "isActive": false,
+                    "isBlock": false,
+                    "isDisabled": false,
+                    "isFocus": false,
+                    "isHover": false,
+                    "onClick": [Function],
+                    "type": "button",
+                    "variant": "link",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "color": "currentColor",
+                      "size": "sm",
+                      "title": null,
+                    },
+                    "ref": null,
+                    "rendered": null,
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+                "type": [Function],
+              },
+            ],
             "type": [Function],
           },
         ],
         "type": [Function],
       },
-      "type": "div",
-    },
-    "type": "div",
+    ],
+    "type": Symbol(react.fragment),
   },
   Symbol(enzyme.__nodes__): Array [
     Object {
       "instance": null,
       "key": undefined,
-      "nodeType": "host",
+      "nodeType": "function",
       "props": Object {
-        "children": <div
-          className="leaflet-control leaflet-bar"
-        >
-          <Card
+        "children": Array [
+          <br />,
+          "Locations: ",
+          3,
+          <TripData
+            distance={10}
+            maxDistance={1}
+          />,
+          <hr />,
+          <DataList
+            aria-label="Ciao"
             className=""
-            component="article"
           >
-            <CardHeader
+            <DataListItem
+              aria-labelledby="check-1"
               className=""
-              component="div"
+              isExpanded={true}
             >
-              Distance: 
-              10
-              <br />
-              Locations: 
-              3
-              <TripData
-                distance={10}
-                maxDistance={1}
-              />
-              <hr />
-            </CardHeader>
-            <CardBody
-              className=""
-              component="div"
-            >
-              <div
-                style={
-                  Object {
-                    "maxHeight": "calc(100vh - 195px)",
-                    "overflowY": "auto",
-                  }
-                }
+              <DataListCell
+                className=""
+                width={1}
               >
-                <Location
-                  id={1}
-                  removeDisabled={true}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />
-                <Location
-                  id={2}
-                  removeDisabled={false}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />
-                <Location
-                  id={3}
-                  removeDisabled={false}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />
-              </div>
-            </CardBody>
-          </Card>
-        </div>,
-        "className": "leaflet-top leaflet-left leaflet-touch",
-        "style": Object {
-          "zIndex": 500,
-        },
+                <span
+                  id="check-1"
+                >
+                  Location 
+                  1
+                </span>
+              </DataListCell>
+              <DataListAction
+                aria-label="Actions"
+                aria-labelledby="check-action-item1 check-action-action1"
+                className=""
+                id="check-action-action1"
+              >
+                <Button
+                  aria-label={null}
+                  className=""
+                  component="button"
+                  isActive={false}
+                  isBlock={false}
+                  isDisabled={true}
+                  isFocus={false}
+                  isHover={false}
+                  onClick={[Function]}
+                  type="button"
+                  variant="link"
+                >
+                  <TimesIcon
+                    color="currentColor"
+                    size="sm"
+                    title={null}
+                  />
+                </Button>
+              </DataListAction>
+            </DataListItem>
+            <DataListItem
+              aria-labelledby="check-2"
+              className=""
+              isExpanded={true}
+            >
+              <DataListCell
+                className=""
+                width={1}
+              >
+                <span
+                  id="check-2"
+                >
+                  Location 
+                  2
+                </span>
+              </DataListCell>
+              <DataListAction
+                aria-label="Actions"
+                aria-labelledby="check-action-item1 check-action-action1"
+                className=""
+                id="check-action-action1"
+              >
+                <Button
+                  aria-label={null}
+                  className=""
+                  component="button"
+                  isActive={false}
+                  isBlock={false}
+                  isDisabled={false}
+                  isFocus={false}
+                  isHover={false}
+                  onClick={[Function]}
+                  type="button"
+                  variant="link"
+                >
+                  <TimesIcon
+                    color="currentColor"
+                    size="sm"
+                    title={null}
+                  />
+                </Button>
+              </DataListAction>
+            </DataListItem>
+            <DataListItem
+              aria-labelledby="check-3"
+              className=""
+              isExpanded={true}
+            >
+              <DataListCell
+                className=""
+                width={1}
+              >
+                <span
+                  id="check-3"
+                >
+                  Location 
+                  3
+                </span>
+              </DataListCell>
+              <DataListAction
+                aria-label="Actions"
+                aria-labelledby="check-action-item1 check-action-action1"
+                className=""
+                id="check-action-action1"
+              >
+                <Button
+                  aria-label={null}
+                  className=""
+                  component="button"
+                  isActive={false}
+                  isBlock={false}
+                  isDisabled={false}
+                  isFocus={false}
+                  isHover={false}
+                  onClick={[Function]}
+                  type="button"
+                  variant="link"
+                >
+                  <TimesIcon
+                    color="currentColor"
+                    size="sm"
+                    title={null}
+                  />
+                </Button>
+              </DataListAction>
+            </DataListItem>
+          </DataList>,
+        ],
       },
       "ref": null,
-      "rendered": Object {
-        "instance": null,
-        "key": undefined,
-        "nodeType": "host",
-        "props": Object {
-          "children": <Card
-            className=""
-            component="article"
-          >
-            <CardHeader
-              className=""
-              component="div"
-            >
-              Distance: 
-              10
-              <br />
-              Locations: 
-              3
-              <TripData
-                distance={10}
-                maxDistance={1}
-              />
-              <hr />
-            </CardHeader>
-            <CardBody
-              className=""
-              component="div"
-            >
-              <div
-                style={
-                  Object {
-                    "maxHeight": "calc(100vh - 195px)",
-                    "overflowY": "auto",
-                  }
-                }
-              >
-                <Location
-                  id={1}
-                  removeDisabled={true}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />
-                <Location
-                  id={2}
-                  removeDisabled={false}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />
-                <Location
-                  id={3}
-                  removeDisabled={false}
-                  removeHandler={[MockFunction]}
-                  selectHandler={[MockFunction]}
-                />
-              </div>
-            </CardBody>
-          </Card>,
-          "className": "leaflet-control leaflet-bar",
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {},
+          "ref": null,
+          "rendered": null,
+          "type": "br",
         },
-        "ref": null,
-        "rendered": Object {
+        "Locations: ",
+        3,
+        Object {
           "instance": null,
           "key": undefined,
           "nodeType": "function",
           "props": Object {
+            "distance": 10,
+            "maxDistance": 1,
+          },
+          "ref": null,
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {},
+          "ref": null,
+          "rendered": null,
+          "type": "hr",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "aria-label": "Ciao",
             "children": Array [
-              <CardHeader
+              <DataListItem
+                aria-labelledby="check-1"
                 className=""
-                component="div"
+                isExpanded={true}
               >
-                Distance: 
-                10
-                <br />
-                Locations: 
-                3
-                <TripData
-                  distance={10}
-                  maxDistance={1}
-                />
-                <hr />
-              </CardHeader>,
-              <CardBody
-                className=""
-                component="div"
-              >
-                <div
-                  style={
-                    Object {
-                      "maxHeight": "calc(100vh - 195px)",
-                      "overflowY": "auto",
-                    }
-                  }
+                <DataListCell
+                  className=""
+                  width={1}
                 >
-                  <Location
-                    id={1}
-                    removeDisabled={true}
-                    removeHandler={[MockFunction]}
-                    selectHandler={[MockFunction]}
-                  />
-                  <Location
-                    id={2}
-                    removeDisabled={false}
-                    removeHandler={[MockFunction]}
-                    selectHandler={[MockFunction]}
-                  />
-                  <Location
-                    id={3}
-                    removeDisabled={false}
-                    removeHandler={[MockFunction]}
-                    selectHandler={[MockFunction]}
-                  />
-                </div>
-              </CardBody>,
+                  <span
+                    id="check-1"
+                  >
+                    Location 
+                    1
+                  </span>
+                </DataListCell>
+                <DataListAction
+                  aria-label="Actions"
+                  aria-labelledby="check-action-item1 check-action-action1"
+                  className=""
+                  id="check-action-action1"
+                >
+                  <Button
+                    aria-label={null}
+                    className=""
+                    component="button"
+                    isActive={false}
+                    isBlock={false}
+                    isDisabled={true}
+                    isFocus={false}
+                    isHover={false}
+                    onClick={[Function]}
+                    type="button"
+                    variant="link"
+                  >
+                    <TimesIcon
+                      color="currentColor"
+                      size="sm"
+                      title={null}
+                    />
+                  </Button>
+                </DataListAction>
+              </DataListItem>,
+              <DataListItem
+                aria-labelledby="check-2"
+                className=""
+                isExpanded={true}
+              >
+                <DataListCell
+                  className=""
+                  width={1}
+                >
+                  <span
+                    id="check-2"
+                  >
+                    Location 
+                    2
+                  </span>
+                </DataListCell>
+                <DataListAction
+                  aria-label="Actions"
+                  aria-labelledby="check-action-item1 check-action-action1"
+                  className=""
+                  id="check-action-action1"
+                >
+                  <Button
+                    aria-label={null}
+                    className=""
+                    component="button"
+                    isActive={false}
+                    isBlock={false}
+                    isDisabled={false}
+                    isFocus={false}
+                    isHover={false}
+                    onClick={[Function]}
+                    type="button"
+                    variant="link"
+                  >
+                    <TimesIcon
+                      color="currentColor"
+                      size="sm"
+                      title={null}
+                    />
+                  </Button>
+                </DataListAction>
+              </DataListItem>,
+              <DataListItem
+                aria-labelledby="check-3"
+                className=""
+                isExpanded={true}
+              >
+                <DataListCell
+                  className=""
+                  width={1}
+                >
+                  <span
+                    id="check-3"
+                  >
+                    Location 
+                    3
+                  </span>
+                </DataListCell>
+                <DataListAction
+                  aria-label="Actions"
+                  aria-labelledby="check-action-item1 check-action-action1"
+                  className=""
+                  id="check-action-action1"
+                >
+                  <Button
+                    aria-label={null}
+                    className=""
+                    component="button"
+                    isActive={false}
+                    isBlock={false}
+                    isDisabled={false}
+                    isFocus={false}
+                    isHover={false}
+                    onClick={[Function]}
+                    type="button"
+                    variant="link"
+                  >
+                    <TimesIcon
+                      color="currentColor"
+                      size="sm"
+                      title={null}
+                    />
+                  </Button>
+                </DataListAction>
+              </DataListItem>,
             ],
             "className": "",
-            "component": "article",
           },
           "ref": null,
           "rendered": Array [
             Object {
               "instance": null,
-              "key": undefined,
+              "key": "1",
               "nodeType": "function",
               "props": Object {
+                "aria-labelledby": "check-1",
                 "children": Array [
-                  "Distance: ",
-                  "10",
-                  <br />,
-                  "Locations: ",
-                  3,
-                  <TripData
-                    distance={10}
-                    maxDistance={1}
-                  />,
-                  <hr />,
+                  <DataListCell
+                    className=""
+                    width={1}
+                  >
+                    <span
+                      id="check-1"
+                    >
+                      Location 
+                      1
+                    </span>
+                  </DataListCell>,
+                  <DataListAction
+                    aria-label="Actions"
+                    aria-labelledby="check-action-item1 check-action-action1"
+                    className=""
+                    id="check-action-action1"
+                  >
+                    <Button
+                      aria-label={null}
+                      className=""
+                      component="button"
+                      isActive={false}
+                      isBlock={false}
+                      isDisabled={true}
+                      isFocus={false}
+                      isHover={false}
+                      onClick={[Function]}
+                      type="button"
+                      variant="link"
+                    >
+                      <TimesIcon
+                        color="currentColor"
+                        size="sm"
+                        title={null}
+                      />
+                    </Button>
+                  </DataListAction>,
                 ],
                 "className": "",
-                "component": "div",
+                "isExpanded": true,
               },
               "ref": null,
               "rendered": Array [
-                "Distance: ",
-                "10",
-                Object {
-                  "instance": null,
-                  "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {},
-                  "ref": null,
-                  "rendered": null,
-                  "type": "br",
-                },
-                "Locations: ",
-                3,
                 Object {
                   "instance": null,
                   "key": undefined,
                   "nodeType": "function",
                   "props": Object {
-                    "distance": 10,
-                    "maxDistance": 1,
+                    "children": <span
+                      id="check-1"
+                    >
+                      Location 
+                      1
+                    </span>,
+                    "className": "",
+                    "width": 1,
                   },
                   "ref": null,
-                  "rendered": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        "Location ",
+                        1,
+                      ],
+                      "id": "check-1",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      "Location ",
+                      1,
+                    ],
+                    "type": "span",
+                  },
                   "type": [Function],
                 },
                 Object {
                   "instance": null,
                   "key": undefined,
-                  "nodeType": "host",
-                  "props": Object {},
+                  "nodeType": "function",
+                  "props": Object {
+                    "aria-label": "Actions",
+                    "aria-labelledby": "check-action-item1 check-action-action1",
+                    "children": <Button
+                      aria-label={null}
+                      className=""
+                      component="button"
+                      isActive={false}
+                      isBlock={false}
+                      isDisabled={true}
+                      isFocus={false}
+                      isHover={false}
+                      onClick={[Function]}
+                      type="button"
+                      variant="link"
+                    >
+                      <TimesIcon
+                        color="currentColor"
+                        size="sm"
+                        title={null}
+                      />
+                    </Button>,
+                    "className": "",
+                    "id": "check-action-action1",
+                  },
                   "ref": null,
-                  "rendered": null,
-                  "type": "hr",
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "aria-label": null,
+                      "children": <TimesIcon
+                        color="currentColor"
+                        size="sm"
+                        title={null}
+                      />,
+                      "className": "",
+                      "component": "button",
+                      "isActive": false,
+                      "isBlock": false,
+                      "isDisabled": true,
+                      "isFocus": false,
+                      "isHover": false,
+                      "onClick": [Function],
+                      "type": "button",
+                      "variant": "link",
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "color": "currentColor",
+                        "size": "sm",
+                        "title": null,
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "type": [Function],
+                  },
+                  "type": [Function],
                 },
               ],
               "type": [Function],
             },
             Object {
               "instance": null,
-              "key": undefined,
+              "key": "2",
               "nodeType": "function",
               "props": Object {
-                "children": <div
-                  style={
-                    Object {
-                      "maxHeight": "calc(100vh - 195px)",
-                      "overflowY": "auto",
-                    }
-                  }
-                >
-                  <Location
-                    id={1}
-                    removeDisabled={true}
-                    removeHandler={[MockFunction]}
-                    selectHandler={[MockFunction]}
-                  />
-                  <Location
-                    id={2}
-                    removeDisabled={false}
-                    removeHandler={[MockFunction]}
-                    selectHandler={[MockFunction]}
-                  />
-                  <Location
-                    id={3}
-                    removeDisabled={false}
-                    removeHandler={[MockFunction]}
-                    selectHandler={[MockFunction]}
-                  />
-                </div>,
+                "aria-labelledby": "check-2",
+                "children": Array [
+                  <DataListCell
+                    className=""
+                    width={1}
+                  >
+                    <span
+                      id="check-2"
+                    >
+                      Location 
+                      2
+                    </span>
+                  </DataListCell>,
+                  <DataListAction
+                    aria-label="Actions"
+                    aria-labelledby="check-action-item1 check-action-action1"
+                    className=""
+                    id="check-action-action1"
+                  >
+                    <Button
+                      aria-label={null}
+                      className=""
+                      component="button"
+                      isActive={false}
+                      isBlock={false}
+                      isDisabled={false}
+                      isFocus={false}
+                      isHover={false}
+                      onClick={[Function]}
+                      type="button"
+                      variant="link"
+                    >
+                      <TimesIcon
+                        color="currentColor"
+                        size="sm"
+                        title={null}
+                      />
+                    </Button>
+                  </DataListAction>,
+                ],
                 "className": "",
-                "component": "div",
+                "isExpanded": true,
               },
               "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "host",
-                "props": Object {
-                  "children": Array [
-                    <Location
-                      id={1}
-                      removeDisabled={true}
-                      removeHandler={[MockFunction]}
-                      selectHandler={[MockFunction]}
-                    />,
-                    <Location
-                      id={2}
-                      removeDisabled={false}
-                      removeHandler={[MockFunction]}
-                      selectHandler={[MockFunction]}
-                    />,
-                    <Location
-                      id={3}
-                      removeDisabled={false}
-                      removeHandler={[MockFunction]}
-                      selectHandler={[MockFunction]}
-                    />,
-                  ],
-                  "style": Object {
-                    "maxHeight": "calc(100vh - 195px)",
-                    "overflowY": "auto",
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": <span
+                      id="check-2"
+                    >
+                      Location 
+                      2
+                    </span>,
+                    "className": "",
+                    "width": 1,
                   },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        "Location ",
+                        2,
+                      ],
+                      "id": "check-2",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      "Location ",
+                      2,
+                    ],
+                    "type": "span",
+                  },
+                  "type": [Function],
                 },
-                "ref": null,
-                "rendered": Array [
-                  Object {
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "aria-label": "Actions",
+                    "aria-labelledby": "check-action-item1 check-action-action1",
+                    "children": <Button
+                      aria-label={null}
+                      className=""
+                      component="button"
+                      isActive={false}
+                      isBlock={false}
+                      isDisabled={false}
+                      isFocus={false}
+                      isHover={false}
+                      onClick={[Function]}
+                      type="button"
+                      variant="link"
+                    >
+                      <TimesIcon
+                        color="currentColor"
+                        size="sm"
+                        title={null}
+                      />
+                    </Button>,
+                    "className": "",
+                    "id": "check-action-action1",
+                  },
+                  "ref": null,
+                  "rendered": Object {
                     "instance": null,
-                    "key": "1",
+                    "key": undefined,
                     "nodeType": "function",
                     "props": Object {
-                      "id": 1,
-                      "removeDisabled": true,
-                      "removeHandler": [MockFunction],
-                      "selectHandler": [MockFunction],
+                      "aria-label": null,
+                      "children": <TimesIcon
+                        color="currentColor"
+                        size="sm"
+                        title={null}
+                      />,
+                      "className": "",
+                      "component": "button",
+                      "isActive": false,
+                      "isBlock": false,
+                      "isDisabled": false,
+                      "isFocus": false,
+                      "isHover": false,
+                      "onClick": [Function],
+                      "type": "button",
+                      "variant": "link",
                     },
                     "ref": null,
-                    "rendered": null,
-                    "type": [Function],
-                  },
-                  Object {
-                    "instance": null,
-                    "key": "2",
-                    "nodeType": "function",
-                    "props": Object {
-                      "id": 2,
-                      "removeDisabled": false,
-                      "removeHandler": [MockFunction],
-                      "selectHandler": [MockFunction],
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "color": "currentColor",
+                        "size": "sm",
+                        "title": null,
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
                     },
-                    "ref": null,
-                    "rendered": null,
                     "type": [Function],
                   },
-                  Object {
-                    "instance": null,
-                    "key": "3",
-                    "nodeType": "function",
-                    "props": Object {
-                      "id": 3,
-                      "removeDisabled": false,
-                      "removeHandler": [MockFunction],
-                      "selectHandler": [MockFunction],
-                    },
-                    "ref": null,
-                    "rendered": null,
-                    "type": [Function],
-                  },
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
+            },
+            Object {
+              "instance": null,
+              "key": "3",
+              "nodeType": "function",
+              "props": Object {
+                "aria-labelledby": "check-3",
+                "children": Array [
+                  <DataListCell
+                    className=""
+                    width={1}
+                  >
+                    <span
+                      id="check-3"
+                    >
+                      Location 
+                      3
+                    </span>
+                  </DataListCell>,
+                  <DataListAction
+                    aria-label="Actions"
+                    aria-labelledby="check-action-item1 check-action-action1"
+                    className=""
+                    id="check-action-action1"
+                  >
+                    <Button
+                      aria-label={null}
+                      className=""
+                      component="button"
+                      isActive={false}
+                      isBlock={false}
+                      isDisabled={false}
+                      isFocus={false}
+                      isHover={false}
+                      onClick={[Function]}
+                      type="button"
+                      variant="link"
+                    >
+                      <TimesIcon
+                        color="currentColor"
+                        size="sm"
+                        title={null}
+                      />
+                    </Button>
+                  </DataListAction>,
                 ],
-                "type": "div",
+                "className": "",
+                "isExpanded": true,
               },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "children": <span
+                      id="check-3"
+                    >
+                      Location 
+                      3
+                    </span>,
+                    "className": "",
+                    "width": 1,
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "host",
+                    "props": Object {
+                      "children": Array [
+                        "Location ",
+                        3,
+                      ],
+                      "id": "check-3",
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      "Location ",
+                      3,
+                    ],
+                    "type": "span",
+                  },
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "aria-label": "Actions",
+                    "aria-labelledby": "check-action-item1 check-action-action1",
+                    "children": <Button
+                      aria-label={null}
+                      className=""
+                      component="button"
+                      isActive={false}
+                      isBlock={false}
+                      isDisabled={false}
+                      isFocus={false}
+                      isHover={false}
+                      onClick={[Function]}
+                      type="button"
+                      variant="link"
+                    >
+                      <TimesIcon
+                        color="currentColor"
+                        size="sm"
+                        title={null}
+                      />
+                    </Button>,
+                    "className": "",
+                    "id": "check-action-action1",
+                  },
+                  "ref": null,
+                  "rendered": Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "function",
+                    "props": Object {
+                      "aria-label": null,
+                      "children": <TimesIcon
+                        color="currentColor"
+                        size="sm"
+                        title={null}
+                      />,
+                      "className": "",
+                      "component": "button",
+                      "isActive": false,
+                      "isBlock": false,
+                      "isDisabled": false,
+                      "isFocus": false,
+                      "isHover": false,
+                      "onClick": [Function],
+                      "type": "button",
+                      "variant": "link",
+                    },
+                    "ref": null,
+                    "rendered": Object {
+                      "instance": null,
+                      "key": undefined,
+                      "nodeType": "class",
+                      "props": Object {
+                        "color": "currentColor",
+                        "size": "sm",
+                        "title": null,
+                      },
+                      "ref": null,
+                      "rendered": null,
+                      "type": [Function],
+                    },
+                    "type": [Function],
+                  },
+                  "type": [Function],
+                },
+              ],
               "type": [Function],
             },
           ],
           "type": [Function],
         },
-        "type": "div",
-      },
-      "type": "div",
+      ],
+      "type": Symbol(react.fragment),
     },
   ],
   Symbol(enzyme.__options__): Object {
@@ -798,7 +1674,7 @@ ShallowWrapper {
 exports[`Location List Component should render correctly with no routes 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
-  Symbol(enzyme.__unrendered__): <LocationList
+  Symbol(enzyme.__unrendered__): <locationList
     distance="10"
     domicileId={1}
     loadHandler={[MockFunction]}
@@ -819,311 +1695,86 @@ ShallowWrapper {
   Symbol(enzyme.__node__): Object {
     "instance": null,
     "key": undefined,
-    "nodeType": "host",
+    "nodeType": "function",
     "props": Object {
-      "children": <div
-        className="leaflet-control leaflet-bar"
-      >
-        <Card
+      "children": Array [
+        <CardHeader
           className=""
-          component="article"
+          component="div"
         >
-          <CardHeader
+          Click map to add locations
+        </CardHeader>,
+        <CardBody
+          className=""
+          component="div"
+        >
+          <Button
+            aria-label={null}
             className=""
-            component="div"
-          >
-            Click map to add locations
-          </CardHeader>
-          <CardBody
-            className=""
-            component="div"
-          >
-            <Button
-              aria-label={null}
-              className=""
-              component="button"
-              isActive={false}
-              isBlock={false}
-              isDisabled={false}
-              isFocus={false}
-              isHover={false}
-              onClick={[MockFunction]}
-              style={
-                Object {
-                  "width": "100%",
-                }
+            component="button"
+            isActive={false}
+            isBlock={false}
+            isDisabled={false}
+            isFocus={false}
+            isHover={false}
+            onClick={[MockFunction]}
+            style={
+              Object {
+                "width": "100%",
               }
-              type="button"
-              variant="primary"
-            >
-              Load demo
-            </Button>
-          </CardBody>
-        </Card>
-      </div>,
-      "className": "leaflet-top leaflet-left leaflet-touch",
-      "style": Object {
-        "zIndex": 500,
-      },
+            }
+            type="button"
+            variant="primary"
+          >
+            Load 40 European cities
+          </Button>
+        </CardBody>,
+      ],
+      "className": "",
+      "component": "article",
     },
     "ref": null,
-    "rendered": Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": <Card
-          className=""
-          component="article"
-        >
-          <CardHeader
-            className=""
-            component="div"
-          >
-            Click map to add locations
-          </CardHeader>
-          <CardBody
-            className=""
-            component="div"
-          >
-            <Button
-              aria-label={null}
-              className=""
-              component="button"
-              isActive={false}
-              isBlock={false}
-              isDisabled={false}
-              isFocus={false}
-              isHover={false}
-              onClick={[MockFunction]}
-              style={
-                Object {
-                  "width": "100%",
-                }
-              }
-              type="button"
-              variant="primary"
-            >
-              Load demo
-            </Button>
-          </CardBody>
-        </Card>,
-        "className": "leaflet-control leaflet-bar",
-      },
-      "ref": null,
-      "rendered": Object {
+    "rendered": Array [
+      Object {
         "instance": null,
         "key": undefined,
         "nodeType": "function",
         "props": Object {
-          "children": Array [
-            <CardHeader
-              className=""
-              component="div"
-            >
-              Click map to add locations
-            </CardHeader>,
-            <CardBody
-              className=""
-              component="div"
-            >
-              <Button
-                aria-label={null}
-                className=""
-                component="button"
-                isActive={false}
-                isBlock={false}
-                isDisabled={false}
-                isFocus={false}
-                isHover={false}
-                onClick={[MockFunction]}
-                style={
-                  Object {
-                    "width": "100%",
-                  }
-                }
-                type="button"
-                variant="primary"
-              >
-                Load demo
-              </Button>
-            </CardBody>,
-          ],
+          "children": "Click map to add locations",
           "className": "",
-          "component": "article",
+          "component": "div",
         },
         "ref": null,
-        "rendered": Array [
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "children": "Click map to add locations",
-              "className": "",
-              "component": "div",
-            },
-            "ref": null,
-            "rendered": "Click map to add locations",
-            "type": [Function],
-          },
-          Object {
-            "instance": null,
-            "key": undefined,
-            "nodeType": "function",
-            "props": Object {
-              "children": <Button
-                aria-label={null}
-                className=""
-                component="button"
-                isActive={false}
-                isBlock={false}
-                isDisabled={false}
-                isFocus={false}
-                isHover={false}
-                onClick={[MockFunction]}
-                style={
-                  Object {
-                    "width": "100%",
-                  }
-                }
-                type="button"
-                variant="primary"
-              >
-                Load demo
-              </Button>,
-              "className": "",
-              "component": "div",
-            },
-            "ref": null,
-            "rendered": Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "aria-label": null,
-                "children": "Load demo",
-                "className": "",
-                "component": "button",
-                "isActive": false,
-                "isBlock": false,
-                "isDisabled": false,
-                "isFocus": false,
-                "isHover": false,
-                "onClick": [MockFunction],
-                "style": Object {
-                  "width": "100%",
-                },
-                "type": "button",
-                "variant": "primary",
-              },
-              "ref": null,
-              "rendered": "Load demo",
-              "type": [Function],
-            },
-            "type": [Function],
-          },
-        ],
+        "rendered": "Click map to add locations",
         "type": [Function],
       },
-      "type": "div",
-    },
-    "type": "div",
-  },
-  Symbol(enzyme.__nodes__): Array [
-    Object {
-      "instance": null,
-      "key": undefined,
-      "nodeType": "host",
-      "props": Object {
-        "children": <div
-          className="leaflet-control leaflet-bar"
-        >
-          <Card
-            className=""
-            component="article"
-          >
-            <CardHeader
-              className=""
-              component="div"
-            >
-              Click map to add locations
-            </CardHeader>
-            <CardBody
-              className=""
-              component="div"
-            >
-              <Button
-                aria-label={null}
-                className=""
-                component="button"
-                isActive={false}
-                isBlock={false}
-                isDisabled={false}
-                isFocus={false}
-                isHover={false}
-                onClick={[MockFunction]}
-                style={
-                  Object {
-                    "width": "100%",
-                  }
-                }
-                type="button"
-                variant="primary"
-              >
-                Load demo
-              </Button>
-            </CardBody>
-          </Card>
-        </div>,
-        "className": "leaflet-top leaflet-left leaflet-touch",
-        "style": Object {
-          "zIndex": 500,
-        },
-      },
-      "ref": null,
-      "rendered": Object {
+      Object {
         "instance": null,
         "key": undefined,
-        "nodeType": "host",
+        "nodeType": "function",
         "props": Object {
-          "children": <Card
+          "children": <Button
+            aria-label={null}
             className=""
-            component="article"
+            component="button"
+            isActive={false}
+            isBlock={false}
+            isDisabled={false}
+            isFocus={false}
+            isHover={false}
+            onClick={[MockFunction]}
+            style={
+              Object {
+                "width": "100%",
+              }
+            }
+            type="button"
+            variant="primary"
           >
-            <CardHeader
-              className=""
-              component="div"
-            >
-              Click map to add locations
-            </CardHeader>
-            <CardBody
-              className=""
-              component="div"
-            >
-              <Button
-                aria-label={null}
-                className=""
-                component="button"
-                isActive={false}
-                isBlock={false}
-                isDisabled={false}
-                isFocus={false}
-                isHover={false}
-                onClick={[MockFunction]}
-                style={
-                  Object {
-                    "width": "100%",
-                  }
-                }
-                type="button"
-                variant="primary"
-              >
-                Load demo
-              </Button>
-            </CardBody>
-          </Card>,
-          "className": "leaflet-control leaflet-bar",
+            Load 40 European cities
+          </Button>,
+          "className": "",
+          "component": "div",
         },
         "ref": null,
         "rendered": Object {
@@ -1131,119 +1782,146 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "function",
           "props": Object {
-            "children": Array [
-              <CardHeader
-                className=""
-                component="div"
-              >
-                Click map to add locations
-              </CardHeader>,
-              <CardBody
-                className=""
-                component="div"
-              >
-                <Button
-                  aria-label={null}
-                  className=""
-                  component="button"
-                  isActive={false}
-                  isBlock={false}
-                  isDisabled={false}
-                  isFocus={false}
-                  isHover={false}
-                  onClick={[MockFunction]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="button"
-                  variant="primary"
-                >
-                  Load demo
-                </Button>
-              </CardBody>,
-            ],
+            "aria-label": null,
+            "children": "Load 40 European cities",
             "className": "",
-            "component": "article",
+            "component": "button",
+            "isActive": false,
+            "isBlock": false,
+            "isDisabled": false,
+            "isFocus": false,
+            "isHover": false,
+            "onClick": [MockFunction],
+            "style": Object {
+              "width": "100%",
+            },
+            "type": "button",
+            "variant": "primary",
           },
           "ref": null,
-          "rendered": Array [
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "children": "Click map to add locations",
-                "className": "",
-                "component": "div",
-              },
-              "ref": null,
-              "rendered": "Click map to add locations",
-              "type": [Function],
-            },
-            Object {
-              "instance": null,
-              "key": undefined,
-              "nodeType": "function",
-              "props": Object {
-                "children": <Button
-                  aria-label={null}
-                  className=""
-                  component="button"
-                  isActive={false}
-                  isBlock={false}
-                  isDisabled={false}
-                  isFocus={false}
-                  isHover={false}
-                  onClick={[MockFunction]}
-                  style={
-                    Object {
-                      "width": "100%",
-                    }
-                  }
-                  type="button"
-                  variant="primary"
-                >
-                  Load demo
-                </Button>,
-                "className": "",
-                "component": "div",
-              },
-              "ref": null,
-              "rendered": Object {
-                "instance": null,
-                "key": undefined,
-                "nodeType": "function",
-                "props": Object {
-                  "aria-label": null,
-                  "children": "Load demo",
-                  "className": "",
-                  "component": "button",
-                  "isActive": false,
-                  "isBlock": false,
-                  "isDisabled": false,
-                  "isFocus": false,
-                  "isHover": false,
-                  "onClick": [MockFunction],
-                  "style": Object {
-                    "width": "100%",
-                  },
-                  "type": "button",
-                  "variant": "primary",
-                },
-                "ref": null,
-                "rendered": "Load demo",
-                "type": [Function],
-              },
-              "type": [Function],
-            },
-          ],
+          "rendered": "Load 40 European cities",
           "type": [Function],
         },
-        "type": "div",
+        "type": [Function],
       },
-      "type": "div",
+    ],
+    "type": [Function],
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "children": Array [
+          <CardHeader
+            className=""
+            component="div"
+          >
+            Click map to add locations
+          </CardHeader>,
+          <CardBody
+            className=""
+            component="div"
+          >
+            <Button
+              aria-label={null}
+              className=""
+              component="button"
+              isActive={false}
+              isBlock={false}
+              isDisabled={false}
+              isFocus={false}
+              isHover={false}
+              onClick={[MockFunction]}
+              style={
+                Object {
+                  "width": "100%",
+                }
+              }
+              type="button"
+              variant="primary"
+            >
+              Load 40 European cities
+            </Button>
+          </CardBody>,
+        ],
+        "className": "",
+        "component": "article",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "children": "Click map to add locations",
+            "className": "",
+            "component": "div",
+          },
+          "ref": null,
+          "rendered": "Click map to add locations",
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "function",
+          "props": Object {
+            "children": <Button
+              aria-label={null}
+              className=""
+              component="button"
+              isActive={false}
+              isBlock={false}
+              isDisabled={false}
+              isFocus={false}
+              isHover={false}
+              onClick={[MockFunction]}
+              style={
+                Object {
+                  "width": "100%",
+                }
+              }
+              type="button"
+              variant="primary"
+            >
+              Load 40 European cities
+            </Button>,
+            "className": "",
+            "component": "div",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "aria-label": null,
+              "children": "Load 40 European cities",
+              "className": "",
+              "component": "button",
+              "isActive": false,
+              "isBlock": false,
+              "isDisabled": false,
+              "isFocus": false,
+              "isHover": false,
+              "onClick": [MockFunction],
+              "style": Object {
+                "width": "100%",
+              },
+              "type": "button",
+              "variant": "primary",
+            },
+            "ref": null,
+            "rendered": "Load 40 European cities",
+            "type": [Function],
+          },
+          "type": [Function],
+        },
+      ],
+      "type": [Function],
     },
   ],
   Symbol(enzyme.__options__): Object {
