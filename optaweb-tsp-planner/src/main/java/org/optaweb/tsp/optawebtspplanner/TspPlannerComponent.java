@@ -16,6 +16,7 @@
 
 package org.optaweb.tsp.optawebtspplanner;
 
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
@@ -37,6 +39,7 @@ import org.optaplanner.examples.tsp.domain.TspSolution;
 import org.optaplanner.examples.tsp.domain.Visit;
 import org.optaplanner.examples.tsp.domain.location.Location;
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
+import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -118,7 +121,15 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         List<List<Place>> segments = new ArrayList<>();
         for (int i = 1; i < route.size() + 1; i++) {
             // "trick" to get N -> 0 distance at the end of the loop
-            segments.add(routing.getRoute(route.get(i - 1), route.get(i % route.size())));
+            Place fromPlace = route.get(i - 1);
+            Place toPlace = route.get(i % route.size());
+            LatLng fromLatLng = new LatLng(fromPlace.getLatitude(), fromPlace.getLongitude());
+            LatLng toLatLng = new LatLng(toPlace.getLatitude(), toPlace.getLongitude());
+            List<LatLng> latLngs = routing.getRoute(fromLatLng, toLatLng);
+            segments.add(latLngs.stream()
+                    .map(latLng -> new Place(latLng.getLatitude(), latLng.getLongitude()))
+                    .collect(Collectors.toList())
+            );
         }
         String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
         return new RouteMessage(distanceString, route, segments);
@@ -162,10 +173,12 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         for (Location other : locations) {
             RoadLocation toLocation = (RoadLocation) other;
             // TODO handle no route -> roll back the problem fact change
+            LatLng fromLatLng = new LatLng(place.getLatitude(), place.getLongitude());
+            LatLng toLatLng = new LatLng(BigDecimal.valueOf(toLocation.getLatitude()), BigDecimal.valueOf(toLocation.getLongitude()));
             distanceMap
-                    .put(toLocation, routing.getDistance(location, toLocation));
+                    .put(toLocation, routing.getDistance(fromLatLng, toLatLng));
             toLocation.getTravelDistanceMap()
-                    .put(location, routing.getDistance(toLocation, location));
+                    .put(location, routing.getDistance(toLatLng, fromLatLng));
         }
         locations.add(location);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
