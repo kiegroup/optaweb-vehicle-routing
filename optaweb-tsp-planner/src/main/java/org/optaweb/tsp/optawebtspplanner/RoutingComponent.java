@@ -25,7 +25,6 @@ public class RoutingComponent {
         GHRequest segmentRq = new GHRequest(
                 from.getLatitude().doubleValue(),
                 from.getLongitude().doubleValue(),
-                // "trick" to get N -> 0 distance at the end of the loop
                 to.getLatitude().doubleValue(),
                 to.getLongitude().doubleValue());
         PointList points = graphHopper.route(segmentRq).getBest().getPoints();
