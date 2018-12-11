@@ -9,7 +9,7 @@ import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.PointList;
-import org.optaplanner.examples.tsp.domain.location.RoadLocation;
+import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,7 +21,7 @@ public class RoutingComponent {
         this.graphHopper = graphHopper;
     }
 
-    List<Place> getRoute(Place from, Place to) {
+    List<LatLng> getRoute(LatLng from, LatLng to) {
         GHRequest segmentRq = new GHRequest(
                 from.getLatitude().doubleValue(),
                 from.getLongitude().doubleValue(),
@@ -30,16 +30,16 @@ public class RoutingComponent {
                 to.getLongitude().doubleValue());
         PointList points = graphHopper.route(segmentRq).getBest().getPoints();
         return StreamSupport.stream(points.spliterator(), false)
-                .map(ghPoint3D -> new Place(BigDecimal.valueOf(ghPoint3D.lat), BigDecimal.valueOf(ghPoint3D.lon)))
+                .map(ghPoint3D -> new LatLng(BigDecimal.valueOf(ghPoint3D.lat), BigDecimal.valueOf(ghPoint3D.lon)))
                 .collect(Collectors.toList());
     }
 
-    double getDistance(RoadLocation from, RoadLocation to) {
+    double getDistance(LatLng from, LatLng to) {
         GHRequest ghRequest = new GHRequest(
-                from.getLatitude(),
-                from.getLongitude(),
-                to.getLatitude(),
-                to.getLongitude());
+                from.getLatitude().doubleValue(),
+                from.getLongitude().doubleValue(),
+                to.getLatitude().doubleValue(),
+                to.getLongitude().doubleValue());
         GHResponse ghResponse = graphHopper.route(ghRequest);
         // TODO return wrapper that can hold both the result and error explanation instead of throwing exception
         if (ghResponse.hasErrors()) {

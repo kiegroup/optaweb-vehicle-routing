@@ -14,7 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.optaplanner.examples.tsp.domain.location.RoadLocation;
+import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -25,18 +25,14 @@ import static org.mockito.Mockito.when;
 public class RoutingComponentTest {
 
     private final PointList pointList = new PointList();
-    private final RoadLocation from = new RoadLocation(0, 0.1, 0.1);
-    private final RoadLocation to = new RoadLocation(1, 0.2, 0.2);
+    private final LatLng from = new LatLng(BigDecimal.valueOf(-Double.MIN_VALUE), BigDecimal.valueOf(Double.MIN_VALUE));
+    private final LatLng to = new LatLng(BigDecimal.valueOf(Double.MAX_VALUE), BigDecimal.valueOf(-Double.MAX_VALUE));
     @Mock
     private GraphHopperOSM graphHopper;
     @Mock
     private GHResponse ghResponse;
     @Mock
     private PathWrapper pathWrapper;
-
-    private static Place place(double lat, double lng) {
-        return new Place(BigDecimal.valueOf(lat), BigDecimal.valueOf(lng));
-    }
 
     @Before
     public void setUp() {
@@ -73,16 +69,21 @@ public class RoutingComponentTest {
     public void getRoute_should_return_graphopper_route() {
         // arrange
         RoutingComponent routing = new RoutingComponent(graphHopper);
-        pointList.add(1, 1);
-        pointList.add(2, 2);
-        pointList.add(3, 3);
+
+        LatLng latLng1 = new LatLng(BigDecimal.valueOf(1), BigDecimal.valueOf(1));
+        LatLng latLng2 = new LatLng(BigDecimal.valueOf(Math.E), BigDecimal.valueOf(Math.PI));
+        LatLng latLng3 = new LatLng(BigDecimal.valueOf(0.1), BigDecimal.valueOf(1.0 / 3.0));
+
+        pointList.add(latLng1.getLatitude().doubleValue(), latLng1.getLongitude().doubleValue());
+        pointList.add(latLng2.getLatitude().doubleValue(), latLng2.getLongitude().doubleValue());
+        pointList.add(latLng3.getLatitude().doubleValue(), latLng3.getLongitude().doubleValue());
 
         // act & assert
-        List<Place> route = routing.getRoute(place(0.1, 0.1), place(0.2, 0.2));
+        List<LatLng> route = routing.getRoute(from, to);
         assertThat(route).containsExactly(
-                place(1, 1),
-                place(2, 2),
-                place(3, 3)
+                latLng1,
+                latLng2,
+                latLng3
         );
     }
 }
