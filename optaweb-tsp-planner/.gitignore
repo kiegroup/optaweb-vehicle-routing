@@ -1,7 +1,7 @@
 !.mvn/wrapper/maven-wrapper.jar
 
 /target
-/local
+
 
 # IntelliJ
 /.idea
@@ -20,3 +20,8 @@
 .settings
 .springBeans
 .sts4-cache
+
+
+# OpenStreetMap data
+local/**/*.osm.pbf
+!local/openstreetmap/_placehere.osm.pbf.txt

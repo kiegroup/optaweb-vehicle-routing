@@ -1,0 +1,1 @@
+Belgium latest : http://download.geofabrik.de/europe/belgium-latest.osm.pbf
