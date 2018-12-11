@@ -30,8 +30,8 @@ public class LatLng {
             return false;
         }
         LatLng latLng = (LatLng) o;
-        return latitude.equals(latLng.latitude) &&
-                longitude.equals(latLng.longitude);
+        return latitude.compareTo(latLng.latitude) == 0 &&
+                longitude.compareTo(latLng.longitude) == 0;
     }
 
     @Override
