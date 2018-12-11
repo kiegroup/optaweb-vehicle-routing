@@ -22,6 +22,9 @@
 .sts4-cache
 
 
-# OpenStreetMap data
-local/**/*.osm.pbf
-!local/openstreetmap/_placehere.osm.pbf.txt
+# Preserve initial folder structure for OpenStreetMap
+
+local/*
+!local/openstreetmap
+local/openstreetmap/*
+!local/openstreetmap/.gitkeep
