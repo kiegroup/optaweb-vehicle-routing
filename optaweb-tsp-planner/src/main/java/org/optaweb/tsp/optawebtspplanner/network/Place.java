@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.tsp.optawebtspplanner;
+package org.optaweb.tsp.optawebtspplanner.network;
 
 import java.math.BigDecimal;
 import java.util.Objects;

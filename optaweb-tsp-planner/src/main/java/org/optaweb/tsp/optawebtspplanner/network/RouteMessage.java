@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.tsp.optawebtspplanner;
+package org.optaweb.tsp.optawebtspplanner.network;
 
 import java.util.List;
 
