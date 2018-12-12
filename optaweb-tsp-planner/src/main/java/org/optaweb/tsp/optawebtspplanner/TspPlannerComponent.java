@@ -39,6 +39,8 @@ import org.optaplanner.examples.tsp.domain.TspSolution;
 import org.optaplanner.examples.tsp.domain.Visit;
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
+import org.optaweb.tsp.optawebtspplanner.network.Place;
+import org.optaweb.tsp.optawebtspplanner.network.RouteMessage;
 import org.optaweb.tsp.optawebtspplanner.persistence.Location;
 import org.optaweb.tsp.optawebtspplanner.persistence.LocationRepository;
 import org.slf4j.Logger;
