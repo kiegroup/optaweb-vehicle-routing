@@ -22,6 +22,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.optaweb.tsp.optawebtspplanner.persistence.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -61,12 +62,12 @@ public class OptawebTspPlannerApplicationTests {
         final BigDecimal maxLongitude = new BigDecimal("214.7483647");
         final BigDecimal minLatitude = maxLatitude.negate();
         final BigDecimal minLongitude = maxLongitude.negate();
-        restTemplate.postForEntity("/places", new Place(minLatitude, minLongitude), Place.class);
-        restTemplate.postForEntity("/places", new Place(maxLatitude, maxLongitude), Place.class);
+        restTemplate.postForEntity("/locations", new Location(minLatitude, minLongitude), Location.class);
+        restTemplate.postForEntity("/locations", new Location(maxLatitude, maxLongitude), Location.class);
 
         // act
-        ResponseEntity<Place> response1 = restTemplate.getForEntity("/places/1", Place.class);
-        ResponseEntity<Place> response2 = restTemplate.getForEntity("/places/2", Place.class);
+        ResponseEntity<Location> response1 = restTemplate.getForEntity("/locations/1", Location.class);
+        ResponseEntity<Location> response2 = restTemplate.getForEntity("/locations/2", Location.class);
 
         // assert
         assertThat(response1.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -81,10 +82,10 @@ public class OptawebTspPlannerApplicationTests {
 
     @Test
     public void should_create_entity() throws Exception {
-        mockMvc.perform(post("/places").content(
+        mockMvc.perform(post("/locations").content(
                 "{\"latitude\": \"1\", \"longitude\":\"2\"}")).andExpect(
                 status().isCreated()).andExpect(
-                header().string("Location", containsString("places/")));
+                header().string("Location", containsString("locations/")));
     }
 
     @Test
@@ -93,7 +94,7 @@ public class OptawebTspPlannerApplicationTests {
         // arrange
         final String lat = "0.0000003";
         final String lng = "0.0000005";
-        MvcResult mvcResult = mockMvc.perform(post("/places").content(
+        MvcResult mvcResult = mockMvc.perform(post("/locations").content(
                 "{\"lat\": \"" + lat + "\", \"lng\":\"" + lng + "\"}"))
                 .andExpect(status().isCreated())
                 .andReturn();

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.tsp.optawebtspplanner;
+package org.optaweb.tsp.optawebtspplanner.persistence;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
 @Configuration
-public class PlaceRepositoryRestConfigurer extends RepositoryRestConfigurerAdapter {
+public class LocationRepositoryRestConfigurer extends RepositoryRestConfigurerAdapter {
 
     @Override
     public void configureJacksonObjectMapper(ObjectMapper objectMapper) {
