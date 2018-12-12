@@ -22,7 +22,7 @@ import {
 } from '@patternfly/react-core';
 import * as React from 'react';
 import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
-import LocationList from './LocationList';
+import SolutionExplorer from './SolutionExplorer';
 import TspMap from './TspMap';
 
 export interface ITravelingSalesmanProblemProps {
@@ -70,7 +70,7 @@ export default class TravelingSalesmanProblem extends React.Component<
     this.onNavToggle = this.onNavToggle.bind(this);
     this.onSelectLocation = this.onSelectLocation.bind(this);
     this.renderHeader = this.renderHeader.bind(this);
-    this.renderLocationList = this.renderLocationList.bind(this);
+    this.renderSolutionExplorer = this.renderSolutionExplorer.bind(this);
     this.renderSidebar = this.renderSidebar.bind(this);
   }
   onNavToggle() {
@@ -107,7 +107,7 @@ export default class TravelingSalesmanProblem extends React.Component<
     );
   }
 
-  renderLocationList() {
+  renderSolutionExplorer() {
     const {
       tsp: { route, domicileId, distance },
       removeHandler,
@@ -115,7 +115,7 @@ export default class TravelingSalesmanProblem extends React.Component<
     } = this.props;
     const { maxDistance } = this.state;
     return (
-      <LocationList
+      <SolutionExplorer
         route={route}
         domicileId={domicileId}
         distance={distance}
@@ -129,7 +129,7 @@ export default class TravelingSalesmanProblem extends React.Component<
   renderSidebar() {
     const { isNavOpen } = this.state;
     return (
-      <PageSidebar nav={this.renderLocationList()} isNavOpen={isNavOpen} />
+      <PageSidebar nav={this.renderSolutionExplorer()} isNavOpen={isNavOpen} />
     );
   }
   render() {

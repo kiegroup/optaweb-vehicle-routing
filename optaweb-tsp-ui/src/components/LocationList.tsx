@@ -16,9 +16,6 @@
 
 import {
   Button,
-  Card,
-  CardBody,
-  CardHeader,
   DataList,
   DataListAction,
   DataListCell,
@@ -29,89 +26,50 @@ import { TimesIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { ITSPRoute } from '../store/tsp/types';
 // import Location from './Location';
-import TripData from './TripData';
 
 export interface ILocationListProps extends ITSPRoute {
   removeHandler: (id: number) => void;
   selectHandler: (e: any) => void;
-  loadHandler: () => void;
-  maxDistance: number;
 }
 
-const renderEmptyLocationList = ({ loadHandler }: ILocationListProps) => {
-  return (
-    <Card>
-      <CardHeader>Click map to add locations</CardHeader>
-      <CardBody>
-        <Button type="button" style={{ width: '100%' }} onClick={loadHandler}>
-          Load 40 European cities
-        </Button>
-      </CardBody>
-    </Card>
-  );
-};
-
-const renderLocationList = ({
+const LocationList: React.SFC<ILocationListProps> = ({
   route,
   domicileId,
-  distance = '',
   removeHandler,
   selectHandler,
-  loadHandler,
-  maxDistance,
 }: ILocationListProps) => {
   return (
-    <React.Fragment>
-      <br />
-      Locations: {route.length}
-      <TripData
-        maxDistance={maxDistance}
-        distance={parseInt(distance, 10) || maxDistance}
-      />
-      <hr />
-      {/*
-               The calculated maxHeight is a hack because the constant 116px depends
-               on the height of Distance and Locations rows (above) and individual location rows.
-               */}
-      <DataList aria-label="Ciao">
-        {[...route] // clone the array because
-          // sort is done in place (that would affect the route)
-          .sort((a, b) => a.id - b.id)
-          .map(location => (
-            <DataListItem
-              aria-labelledby={`check-${location.id}`}
-              key={location.id}
-              isExpanded={true}
+    <DataList aria-label="Ciao">
+      {[...route] // clone the array because
+        // sort is done in place (that would affect the route)
+        .sort((a, b) => a.id - b.id)
+        .map(location => (
+          <DataListItem
+            aria-labelledby={`check-${location.id}`}
+            key={location.id}
+            isExpanded={true}
+          >
+            <DataListCell width={1}>
+              <span id={`check-${location.id}`}>Location {location.id}</span>
+            </DataListCell>
+            <DataListAction
+              aria-labelledby="check-action-item1 check-action-action1"
+              id="check-action-action1"
+              aria-label="Actions"
             >
-              <DataListCell width={1}>
-                <span id={`check-${location.id}`}>Location {location.id}</span>
-              </DataListCell>
-              <DataListAction
-                aria-labelledby="check-action-item1 check-action-action1"
-                id="check-action-action1"
-                aria-label="Actions"
+              <Button
+                variant="link"
+                isDisabled={route.length > 1 && location.id === domicileId}
+                onClick={() => removeHandler(location.id)}
+                type="button"
               >
-                <Button
-                  variant="link"
-                  isDisabled={route.length > 1 && location.id === domicileId}
-                  onClick={() => removeHandler(location.id)}
-                  type="button"
-                >
-                  <TimesIcon />
-                </Button>
-              </DataListAction>
-            </DataListItem>
-          ))}
-      </DataList>
-    </React.Fragment>
+                <TimesIcon />
+              </Button>
+            </DataListAction>
+          </DataListItem>
+        ))}
+    </DataList>
   );
 };
 
-const locationList: React.SFC<ILocationListProps> = (
-  props: ILocationListProps,
-) =>
-  props.route.length === 0
-    ? renderEmptyLocationList(props)
-    : renderLocationList(props);
-
-export default locationList;
+export default LocationList;
