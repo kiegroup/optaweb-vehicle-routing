@@ -25,7 +25,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
@@ -37,16 +36,14 @@ import org.optaplanner.examples.tsp.domain.Domicile;
 import org.optaplanner.examples.tsp.domain.Standstill;
 import org.optaplanner.examples.tsp.domain.TspSolution;
 import org.optaplanner.examples.tsp.domain.Visit;
+import org.optaplanner.examples.tsp.domain.location.Location;
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.network.Place;
-import org.optaweb.tsp.optawebtspplanner.network.RouteMessage;
-import org.optaweb.tsp.optawebtspplanner.persistence.Location;
-import org.optaweb.tsp.optawebtspplanner.persistence.LocationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -55,22 +52,19 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
 
     private static final Logger logger = LoggerFactory.getLogger(TspPlannerComponent.class);
 
-    private final SimpMessagingTemplate webSocket;
-    private final LocationRepository repository;
+    private final RoutingComponent routing;
+    private final ApplicationEventPublisher publisher;
     private final Solver<TspSolution> solver;
     private final ScoreDirector<TspSolution> scoreDirector;
     private ThreadPoolTaskExecutor executor;
     private TspSolution tsp = new TspSolution();
-    private List<org.optaplanner.examples.tsp.domain.location.Location> locations = new ArrayList<>();
-    private RoutingComponent routing;
+    private List<Location> locations = new ArrayList<>();
 
     @Autowired
-    public TspPlannerComponent(SimpMessagingTemplate webSocket,
-                               LocationRepository repository,
-                               RoutingComponent routing) {
-        this.webSocket = webSocket;
-        this.repository = repository;
+    public TspPlannerComponent(RoutingComponent routing,
+                               ApplicationEventPublisher publisher) {
         this.routing = routing;
+        this.publisher = publisher;
 
         tsp.setLocationList(new ArrayList<>());
         tsp.setVisitList(new ArrayList<>());
@@ -86,6 +80,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         return new RoadLocation(p.getId(), p.getLatitude().doubleValue(), p.getLongitude().doubleValue());
     }
 
+    // TODO don't use network package
     private Optional<List<Place>> extractRoute(TspSolution tsp) {
         Map<Standstill, Visit> nextVisitMap = new LinkedHashMap<>();
         for (Visit visit : tsp.getVisitList()) {
@@ -105,48 +100,28 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
             return Optional.of(new ArrayList<>());
         }
         List<Place> route = new ArrayList<>();
-        route.add(getPlaceFromRepositoryById(domicile.getLocation().getId()));
+        addLocationToRoute(route, domicile.getLocation());
         for (Visit visit = nextVisitMap.get(domicile); visit != null; visit = nextVisitMap.get(visit)) {
-            route.add(getPlaceFromRepositoryById(visit.getLocation().getId()));
+            addLocationToRoute(route, visit.getLocation());
         }
         return Optional.of(route);
     }
 
-    private Place getPlaceFromRepositoryById(long id) {
-        Optional<Location> maybeLocation = repository.findById(id);
-        if (!maybeLocation.isPresent()) {
-            logger.info("Invalid solution, visit #{} has been removed previously", id);
-            throw new IllegalStateException("Visit #" + id + " has been removed previously.");
-        }
-        Location location = maybeLocation.get();
-        return new Place(location.getId(), location.getLatitude(), location.getLongitude());
-    }
-
-    private RouteMessage createResponse(TspSolution solution, List<Place> route) {
-        List<List<Place>> segments = new ArrayList<>();
-        for (int i = 1; i < route.size() + 1; i++) {
-            // "trick" to get N -> 0 distance at the end of the loop
-            Place fromPlace = route.get(i - 1);
-            Place toPlace = route.get(i % route.size());
-            LatLng fromLatLng = new LatLng(fromPlace.getLatitude(), fromPlace.getLongitude());
-            LatLng toLatLng = new LatLng(toPlace.getLatitude(), toPlace.getLongitude());
-            List<LatLng> latLngs = routing.getRoute(fromLatLng, toLatLng);
-            segments.add(latLngs.stream()
-                    .map(latLng -> new Place(0, latLng.getLatitude(), latLng.getLongitude()))
-                    .collect(Collectors.toList())
-            );
-        }
-        String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
-        return new RouteMessage(distanceString, route, segments);
+    private static void addLocationToRoute(List<Place> route, Location location) {
+        route.add(new Place(location.getId(),
+                BigDecimal.valueOf(location.getLatitude()),
+                BigDecimal.valueOf(location.getLongitude()))
+        );
     }
 
     private void sendRoute(TspSolution solution) {
         extractRoute(solution).ifPresent(route -> {
             logger.info("New TSP with {} locations, {} visits, route: {}",
-                    tsp.getLocationList().size(),
-                    tsp.getVisitList().size(),
+                    solution.getLocationList().size(),
+                    solution.getVisitList().size(),
                     route);
-            webSocket.convertAndSend("/topic/route", createResponse(solution, route));
+            String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
+            publisher.publishEvent(new RouteChangedEvent(this, distanceString, route));
         });
     }
 
@@ -155,10 +130,11 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         scoreDirector.calculateScore();
     }
 
-    public RouteMessage getSolution() {
+    public RouteChangedEvent getSolution() {
         List<Place> route = extractRoute(tsp)
                 .orElseThrow(() -> new IllegalStateException("Best solution cannot have unconnected visits."));
-        return createResponse(tsp, route);
+        // FIXME duplication of distance format
+        return new RouteChangedEvent(this, tsp.getDistanceString(new DecimalFormat("#,##0.00")), route);
     }
 
     @Override
@@ -175,7 +151,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         RoadLocation location = fromPlace(place);
         Map<RoadLocation, Double> distanceMap = new HashMap<>();
         location.setTravelDistanceMap(distanceMap);
-        for (org.optaplanner.examples.tsp.domain.location.Location other : locations) {
+        for (Location other : locations) {
             RoadLocation toLocation = (RoadLocation) other;
             // TODO handle no route -> roll back the problem fact change
             LatLng fromLatLng = new LatLng(place.getLatitude(), place.getLongitude());
@@ -188,7 +164,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         locations.add(location);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (!solver.isSolving()) {
-            List<org.optaplanner.examples.tsp.domain.location.Location> locationList = tsp.getLocationList();
+            List<Location> locationList = tsp.getLocationList();
             locationList.add(location);
             if (locationList.size() == 1) {
                 Domicile domicile = new Domicile();
@@ -237,7 +213,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     }
 
     public void removePlace(Place place) {
-        org.optaplanner.examples.tsp.domain.location.Location location = fromPlace(place);
+        Location location = fromPlace(place);
         locations.remove(location);
         if (!solver.isSolving()) {
             tsp.getLocationList().remove(0);
@@ -251,7 +227,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                 executor.shutdown();
                 tsp.getVisitList().remove(0);
                 tsp.getLocationList().removeIf(l -> l.getId().equals(location.getId()));
-                org.optaplanner.examples.tsp.domain.location.Location lastLocation = tsp.getLocationList().get(0);
+                Location lastLocation = tsp.getLocationList().get(0);
                 Domicile domicile = new Domicile();
                 domicile.setId(lastLocation.getId());
                 domicile.setLocation(lastLocation);
@@ -293,7 +269,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                         scoreDirector -> {
                             TspSolution workingSolution = scoreDirector.getWorkingSolution();
 
-                            org.optaplanner.examples.tsp.domain.location.Location workingLocation = scoreDirector.lookUpWorkingObject(location);
+                            Location workingLocation = scoreDirector.lookUpWorkingObject(location);
                             if (workingLocation == null) {
                                 throw new IllegalStateException("Can't look up working copy of " + location);
                             }
