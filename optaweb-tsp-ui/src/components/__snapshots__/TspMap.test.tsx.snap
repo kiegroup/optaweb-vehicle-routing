@@ -67,7 +67,7 @@ ShallowWrapper {
       },
       "children": Array [
         <ForwardRef(Leaflet(TileLayer))
-          attribution="&amp;copy <a href=\\"http://osm.org/copyright\\">OpenStreetMap</a> contributors"
+          attribution="© <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />,
         <ForwardRef(Leaflet(ZoomControl))
@@ -195,7 +195,7 @@ ShallowWrapper {
         "key": undefined,
         "nodeType": "function",
         "props": Object {
-          "attribution": "&amp;copy <a href=\\"http://osm.org/copyright\\">OpenStreetMap</a> contributors",
+          "attribution": "© <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors",
           "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         },
         "ref": null,
@@ -416,7 +416,7 @@ ShallowWrapper {
         },
         "children": Array [
           <ForwardRef(Leaflet(TileLayer))
-            attribution="&amp;copy <a href=\\"http://osm.org/copyright\\">OpenStreetMap</a> contributors"
+            attribution="© <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />,
           <ForwardRef(Leaflet(ZoomControl))
@@ -544,7 +544,7 @@ ShallowWrapper {
           "key": undefined,
           "nodeType": "function",
           "props": Object {
-            "attribution": "&amp;copy <a href=\\"http://osm.org/copyright\\">OpenStreetMap</a> contributors",
+            "attribution": "© <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors",
             "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
           },
           "ref": null,
