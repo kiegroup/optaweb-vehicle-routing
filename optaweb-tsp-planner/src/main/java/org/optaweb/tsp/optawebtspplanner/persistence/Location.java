@@ -14,27 +14,33 @@
  * limitations under the License.
  */
 
-package org.optaweb.tsp.optawebtspplanner;
+package org.optaweb.tsp.optawebtspplanner.persistence;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-public class Place {
+@Entity
+public class Location {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @JsonProperty(value = "lat", required = true)
+    // https://wiki.openstreetmap.org/wiki/Node#Structure
+    @Column(precision = 9, scale = 7)
     private BigDecimal latitude;
-    @JsonProperty(value = "lng", required = true)
+    @Column(precision = 10, scale = 7)
     private BigDecimal longitude;
 
-    public Place() {
+    public Location() {
     }
 
-    public Place(long id, BigDecimal latitude, BigDecimal longitude) {
-        this.id = id;
+    public Location(BigDecimal latitude, BigDecimal longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -43,48 +49,17 @@ public class Place {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public BigDecimal getLatitude() {
         return latitude;
-    }
-
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
     }
 
     public BigDecimal getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        Place place = (Place) o;
-        return id == place.id &&
-                Objects.equals(latitude, place.latitude) &&
-                Objects.equals(longitude, place.longitude);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, latitude, longitude);
-    }
-
     @Override
     public String toString() {
-        return "Place{" +
+        return "Location{" +
                 "id=" + id +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +

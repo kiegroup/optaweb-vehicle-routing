@@ -19,6 +19,8 @@ package org.optaweb.tsp.optawebtspplanner;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import org.optaweb.tsp.optawebtspplanner.persistence.Location;
+import org.optaweb.tsp.optawebtspplanner.persistence.LocationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +34,11 @@ public class TspMapController {
 
     private static final Logger logger = LoggerFactory.getLogger(TspMapController.class);
 
-    private final PlaceRepository repository;
+    private final LocationRepository repository;
     private final TspPlannerComponent planner;
 
     @Autowired
-    public TspMapController(PlaceRepository repository, TspPlannerComponent planner) {
+    public TspMapController(LocationRepository repository, TspPlannerComponent planner) {
         this.repository = repository;
         this.planner = planner;
     }
@@ -49,27 +51,27 @@ public class TspMapController {
 
     @MessageMapping("/place")
     public void create(Place place) {
-        Place savedPlace = repository.save(place);
+        Location location = repository.save(new Location(place.getLatitude(), place.getLongitude()));
+        place.setId(location.getId());
         planner.addPlace(place);
-        logger.info("Created {}", savedPlace);
+        logger.info("Created {}", place);
     }
 
     @MessageMapping("/demo")
     public void demo() {
         Arrays.stream(Belgium.values()).forEach(city -> {
-            Place place = new Place(BigDecimal.valueOf(city.lat), BigDecimal.valueOf(city.lng));
-            Place savedPlace = repository.save(place);
-            planner.addPlace(place);
-            logger.info("Created {}", savedPlace);
+            Location location = repository.save(new Location(BigDecimal.valueOf(city.lat), BigDecimal.valueOf(city.lng)));
+            planner.addPlace(new Place(location.getId(), location.getLatitude(), location.getLongitude()));
+            logger.info("Created {}", location);
         });
     }
 
     @MessageMapping({"/place/{id}/delete"})
     public void delete(@DestinationVariable Long id) {
-        repository.findById(id).ifPresent(place -> {
+        repository.findById(id).ifPresent(location -> {
             repository.deleteById(id);
-            planner.removePlace(place);
-            logger.info("Deleted place {}", id);
+            planner.removePlace(new Place(id, location.getLatitude(), location.getLongitude()));
+            logger.info("Deleted location {}", id);
         });
     }
 }

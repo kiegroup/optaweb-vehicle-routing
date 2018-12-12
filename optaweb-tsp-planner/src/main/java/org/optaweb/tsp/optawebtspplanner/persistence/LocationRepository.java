@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.optaweb.tsp.optawebtspplanner;
+package org.optaweb.tsp.optawebtspplanner.persistence;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin
-public interface PlaceRepository extends CrudRepository<Place, Long> {
+public interface LocationRepository extends CrudRepository<Location, Long> {
 
 }
