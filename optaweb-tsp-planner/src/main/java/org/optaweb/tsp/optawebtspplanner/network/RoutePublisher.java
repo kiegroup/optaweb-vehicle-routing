@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.optaweb.tsp.optawebtspplanner.RouteChangedEvent;
-import org.optaweb.tsp.optawebtspplanner.RoutingComponent;
+import org.optaweb.tsp.optawebtspplanner.planner.RouteChangedEvent;
+import org.optaweb.tsp.optawebtspplanner.routing.RoutingComponent;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

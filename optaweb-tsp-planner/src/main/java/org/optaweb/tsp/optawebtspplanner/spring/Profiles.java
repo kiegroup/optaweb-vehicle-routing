@@ -1,4 +1,4 @@
-package org.optaweb.tsp.optawebtspplanner;
+package org.optaweb.tsp.optawebtspplanner.spring;
 
 public class Profiles {
 
