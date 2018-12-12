@@ -1,4 +1,4 @@
-package org.optaweb.tsp.optawebtspplanner;
+package org.optaweb.tsp.optawebtspplanner.planner;
 
 import java.util.List;
 

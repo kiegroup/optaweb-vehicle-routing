@@ -19,8 +19,8 @@ package org.optaweb.tsp.optawebtspplanner.network;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import org.optaweb.tsp.optawebtspplanner.RouteChangedEvent;
-import org.optaweb.tsp.optawebtspplanner.TspPlannerComponent;
+import org.optaweb.tsp.optawebtspplanner.planner.RouteChangedEvent;
+import org.optaweb.tsp.optawebtspplanner.planner.TspPlannerComponent;
 import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
 import org.optaweb.tsp.optawebtspplanner.persistence.Location;
 import org.optaweb.tsp.optawebtspplanner.persistence.LocationRepository;

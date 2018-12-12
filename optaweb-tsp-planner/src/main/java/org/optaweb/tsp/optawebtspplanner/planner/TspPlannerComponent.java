@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.tsp.optawebtspplanner;
+package org.optaweb.tsp.optawebtspplanner.planner;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -40,6 +40,7 @@ import org.optaplanner.examples.tsp.domain.location.Location;
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.network.Place;
+import org.optaweb.tsp.optawebtspplanner.routing.RoutingComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package org.optaweb.tsp.optawebtspplanner;
+package org.optaweb.tsp.optawebtspplanner.routing;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -33,7 +33,7 @@ public class RoutingComponent {
                 .collect(Collectors.toList());
     }
 
-    double getDistance(LatLng from, LatLng to) {
+    public double getDistance(LatLng from, LatLng to) {
         GHRequest ghRequest = new GHRequest(
                 from.getLatitude().doubleValue(),
                 from.getLongitude().doubleValue(),
