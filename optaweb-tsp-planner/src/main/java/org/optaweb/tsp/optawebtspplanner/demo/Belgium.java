@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.tsp.optawebtspplanner;
+package org.optaweb.tsp.optawebtspplanner.demo;
 
 public enum Belgium {
     AALST(50.933333, 4.033333),

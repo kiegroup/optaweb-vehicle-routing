@@ -19,6 +19,7 @@ package org.optaweb.tsp.optawebtspplanner;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
 import org.optaweb.tsp.optawebtspplanner.persistence.Location;
 import org.optaweb.tsp.optawebtspplanner.persistence.LocationRepository;
 import org.slf4j.Logger;
