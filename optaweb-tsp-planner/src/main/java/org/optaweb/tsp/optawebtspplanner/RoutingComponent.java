@@ -21,7 +21,7 @@ public class RoutingComponent {
         this.graphHopper = graphHopper;
     }
 
-    List<LatLng> getRoute(LatLng from, LatLng to) {
+    public List<LatLng> getRoute(LatLng from, LatLng to) {
         GHRequest segmentRq = new GHRequest(
                 from.getLatitude().doubleValue(),
                 from.getLongitude().doubleValue(),

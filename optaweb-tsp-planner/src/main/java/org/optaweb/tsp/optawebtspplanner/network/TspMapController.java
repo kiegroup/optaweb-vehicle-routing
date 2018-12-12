@@ -19,6 +19,7 @@ package org.optaweb.tsp.optawebtspplanner.network;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import org.optaweb.tsp.optawebtspplanner.RouteChangedEvent;
 import org.optaweb.tsp.optawebtspplanner.TspPlannerComponent;
 import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
 import org.optaweb.tsp.optawebtspplanner.persistence.Location;
@@ -38,17 +39,22 @@ public class TspMapController {
 
     private final LocationRepository repository;
     private final TspPlannerComponent planner;
+    private final RoutePublisher routePublisher;
 
     @Autowired
-    public TspMapController(LocationRepository repository, TspPlannerComponent planner) {
+    public TspMapController(LocationRepository repository,
+                            TspPlannerComponent planner,
+                            RoutePublisher routePublisher) {
         this.repository = repository;
         this.planner = planner;
+        this.routePublisher = routePublisher;
     }
 
     @SubscribeMapping("/route")
     public RouteMessage subscribe() {
         logger.info("Subscribed");
-        return planner.getSolution();
+        RouteChangedEvent event = planner.getSolution();
+        return routePublisher.createResponse(event.getDistance(), event.getRoute());
     }
 
     @MessageMapping("/place")
