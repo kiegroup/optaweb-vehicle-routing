@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-import {
-  Button,
-  DataList,
-  DataListAction,
-  DataListCell,
-  // DataListCheck,
-  DataListItem,
-} from '@patternfly/react-core';
-import { TimesIcon } from '@patternfly/react-icons';
+import { DataList } from '@patternfly/react-core';
 import * as React from 'react';
 import { ITSPRoute } from '../store/tsp/types';
-// import Location from './Location';
+import Location from './Location';
 
 export interface ILocationListProps extends ITSPRoute {
   removeHandler: (id: number) => void;
@@ -44,29 +36,9 @@ const LocationList: React.SFC<ILocationListProps> = ({
         // sort is done in place (that would affect the route)
         .sort((a, b) => a.id - b.id)
         .map(location => (
-          <DataListItem
-            aria-labelledby={`check-${location.id}`}
-            key={location.id}
-            isExpanded={true}
-          >
-            <DataListCell width={1}>
-              <span id={`check-${location.id}`}>Location {location.id}</span>
-            </DataListCell>
-            <DataListAction
-              aria-labelledby="check-action-item1 check-action-action1"
-              id="check-action-action1"
-              aria-label="Actions"
-            >
-              <Button
-                variant="link"
-                isDisabled={route.length > 1 && location.id === domicileId}
-                onClick={() => removeHandler(location.id)}
-                type="button"
-              >
-                <TimesIcon />
-              </Button>
-            </DataListAction>
-          </DataListItem>
+          <Location
+            {...{ id: location.id, removeHandler, selectHandler, domicileId }}
+          />
         ))}
     </DataList>
   );

@@ -21,6 +21,7 @@ import Location from './Location';
 describe('Location Component', () => {
   it('should render correctly', () => {
     const props = {
+      domicileId: 10,
       id: 10,
       removeDisabled: false,
       removeHandler: jest.fn(),

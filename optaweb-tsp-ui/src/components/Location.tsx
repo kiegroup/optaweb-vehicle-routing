@@ -14,43 +14,50 @@
  * limitations under the License.
  */
 
-import { Button, Grid, GridItem } from '@patternfly/react-core';
-import { TimesIcon } from '@patternfly/react-icons';
+import {
+  Button,
+  DataListAction,
+  DataListCell,
+  DataListItem,
+} from '@patternfly/react-core';
+import { HomeIcon, MapPinIcon, TimesIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 
 export interface ILocationProps {
   id: number;
-  removeDisabled: boolean;
+  domicileId: number;
   removeHandler: (id: number) => void;
   selectHandler: (e: any) => void; // FIXME: Event Type
 }
 
 const Location: React.SFC<ILocationProps> = ({
   id,
-  removeDisabled,
+  domicileId,
   removeHandler,
   selectHandler,
 }: ILocationProps) => {
+  const isDomicile = id === domicileId;
   return (
-    <Grid
-      gutter="md"
-      onMouseEnter={() => selectHandler(id)}
-      onMouseLeave={() => selectHandler(NaN)}
-    >
-      <GridItem span={9}>
-        {`Location ${id}`}
-      </GridItem>
-      <GridItem span={3}>
+    <DataListItem aria-labelledby={`check-${id}`} key={id} isExpanded={true}>
+      <DataListCell width={1}>
+        {isDomicile ? <HomeIcon /> :<MapPinIcon/>}
+        <span id={`check-${id}`}>Location {id}</span>
+      </DataListCell>
+      <DataListAction
+        aria-labelledby="check-action-item1 check-action-action1"
+        id="check-action-action1"
+        aria-label="Actions"
+      >
         <Button
           variant="link"
-          isDisabled={removeDisabled}
+          isDisabled={isDomicile}
           onClick={() => removeHandler(id)}
           type="button"
         >
           <TimesIcon />
         </Button>
-      </GridItem>
-    </Grid>
+      </DataListAction>
+    </DataListItem>
   );
 };
 
