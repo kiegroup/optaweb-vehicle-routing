@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.optaweb.tsp.optawebtspplanner.core.LatLng;
+import org.optaweb.tsp.optawebtspplanner.core.Location;
 import org.optaweb.tsp.optawebtspplanner.planner.RouteChangedEvent;
 import org.optaweb.tsp.optawebtspplanner.routing.RoutingComponent;
-import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -30,20 +31,24 @@ public class RoutePublisher implements ApplicationListener<RouteChangedEvent> {
         webSocket.convertAndSend("/topic/route", createResponse(event.getDistance(), event.getRoute()));
     }
 
-    RouteMessage createResponse(String distanceString, List<Place> route) {
+    RouteMessage createResponse(String distanceString, List<Location> route) {
         List<List<Place>> segments = new ArrayList<>();
         for (int i = 1; i < route.size() + 1; i++) {
             // "trick" to get N -> 0 distance at the end of the loop
-            Place fromPlace = route.get(i - 1);
-            Place toPlace = route.get(i % route.size());
-            LatLng fromLatLng = new LatLng(fromPlace.getLatitude(), fromPlace.getLongitude());
-            LatLng toLatLng = new LatLng(toPlace.getLatitude(), toPlace.getLongitude());
-            List<LatLng> latLngs = routing.getRoute(fromLatLng, toLatLng);
+            Location fromLocation = route.get(i - 1);
+            Location toLocation = route.get(i % route.size());
+            List<LatLng> latLngs = routing.getRoute(fromLocation.getLatLng(), toLocation.getLatLng());
             segments.add(latLngs.stream()
                     .map(latLng -> new Place(0, latLng.getLatitude(), latLng.getLongitude()))
                     .collect(Collectors.toList())
             );
         }
-        return new RouteMessage(distanceString, route, segments);
+        List<Place> networkingRoute = route.stream()
+                .map(location -> new Place(
+                        location.getId(),
+                        location.getLatLng().getLatitude(),
+                        location.getLatLng().getLongitude()))
+                .collect(Collectors.toList());
+        return new RouteMessage(distanceString, networkingRoute, segments);
     }
 }

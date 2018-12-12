@@ -13,6 +13,14 @@ public class Location {
         this.latLng = latLng;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

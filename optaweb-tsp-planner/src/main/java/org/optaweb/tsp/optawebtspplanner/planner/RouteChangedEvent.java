@@ -2,13 +2,13 @@ package org.optaweb.tsp.optawebtspplanner.planner;
 
 import java.util.List;
 
-import org.optaweb.tsp.optawebtspplanner.network.Place;
+import org.optaweb.tsp.optawebtspplanner.core.Location;
 import org.springframework.context.ApplicationEvent;
 
 public class RouteChangedEvent extends ApplicationEvent {
 
     private final String distance;
-    private final List<Place> route;
+    private final List<Location> route;
 
     /**
      * Create a new ApplicationEvent.
@@ -16,13 +16,13 @@ public class RouteChangedEvent extends ApplicationEvent {
      * @param distance route distance
      * @param route list of locations
      */
-    public RouteChangedEvent(Object source, String distance, List<Place> route) {
+    public RouteChangedEvent(Object source, String distance, List<Location> route) {
         super(source);
         this.route = route;
         this.distance = distance;
     }
 
-    public List<Place> getRoute() {
+    public List<Location> getRoute() {
         return route;
     }
 

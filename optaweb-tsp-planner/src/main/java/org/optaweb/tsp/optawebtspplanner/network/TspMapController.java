@@ -19,11 +19,12 @@ package org.optaweb.tsp.optawebtspplanner.network;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import org.optaweb.tsp.optawebtspplanner.planner.RouteChangedEvent;
-import org.optaweb.tsp.optawebtspplanner.planner.TspPlannerComponent;
+import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
 import org.optaweb.tsp.optawebtspplanner.persistence.Location;
 import org.optaweb.tsp.optawebtspplanner.persistence.LocationRepository;
+import org.optaweb.tsp.optawebtspplanner.planner.RouteChangedEvent;
+import org.optaweb.tsp.optawebtspplanner.planner.TspPlannerComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,27 +60,38 @@ public class TspMapController {
 
     @MessageMapping("/place")
     public void create(Place place) {
-        Location location = repository.save(new Location(place.getLatitude(), place.getLongitude()));
-        place.setId(location.getId());
-        planner.addPlace(place);
-        logger.info("Created {}", place);
+        Location locationEntity = repository.save(new Location(place.getLatitude(), place.getLongitude()));
+        org.optaweb.tsp.optawebtspplanner.core.Location location = new org.optaweb.tsp.optawebtspplanner.core.Location(
+                locationEntity.getId(),
+                new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
+        );
+        planner.addLocation(location);
+        logger.info("Created {}", locationEntity);
     }
 
     @MessageMapping("/demo")
     public void demo() {
         Arrays.stream(Belgium.values()).forEach(city -> {
-            Location location = repository.save(new Location(BigDecimal.valueOf(city.lat), BigDecimal.valueOf(city.lng)));
-            planner.addPlace(new Place(location.getId(), location.getLatitude(), location.getLongitude()));
+            Location locationEntity = repository.save(new Location(BigDecimal.valueOf(city.lat), BigDecimal.valueOf(city.lng)));
+            org.optaweb.tsp.optawebtspplanner.core.Location location = new org.optaweb.tsp.optawebtspplanner.core.Location(
+                    locationEntity.getId(),
+                    new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
+            );
+            planner.addLocation(location);
             logger.info("Created {}", location);
         });
     }
 
     @MessageMapping({"/place/{id}/delete"})
     public void delete(@DestinationVariable Long id) {
-        repository.findById(id).ifPresent(location -> {
+        repository.findById(id).ifPresent(locationEntity -> {
             repository.deleteById(id);
-            planner.removePlace(new Place(id, location.getLatitude(), location.getLongitude()));
-            logger.info("Deleted location {}", id);
+            org.optaweb.tsp.optawebtspplanner.core.Location location = new org.optaweb.tsp.optawebtspplanner.core.Location(
+                    id,
+                    new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
+            );
+            planner.removeLocation(location);
+            logger.info("Deleted locationEntity {}", id);
         });
     }
 }

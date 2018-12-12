@@ -39,7 +39,6 @@ import org.optaplanner.examples.tsp.domain.Visit;
 import org.optaplanner.examples.tsp.domain.location.Location;
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
-import org.optaweb.tsp.optawebtspplanner.network.Place;
 import org.optaweb.tsp.optawebtspplanner.routing.RoutingComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,12 +76,14 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         solver.addEventListener(this);
     }
 
-    private static RoadLocation fromPlace(Place p) {
-        return new RoadLocation(p.getId(), p.getLatitude().doubleValue(), p.getLongitude().doubleValue());
+    private static RoadLocation coreToPlanner(org.optaweb.tsp.optawebtspplanner.core.Location location) {
+        return new RoadLocation(location.getId(),
+                location.getLatLng().getLatitude().doubleValue(),
+                location.getLatLng().getLongitude().doubleValue()
+        );
     }
 
-    // TODO don't use network package
-    private Optional<List<Place>> extractRoute(TspSolution tsp) {
+    private Optional<List<org.optaweb.tsp.optawebtspplanner.core.Location>> extractRoute(TspSolution tsp) {
         Map<Standstill, Visit> nextVisitMap = new LinkedHashMap<>();
         for (Visit visit : tsp.getVisitList()) {
             if (visit.getPreviousStandstill() != null) {
@@ -100,7 +101,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         if (domicile == null) {
             return Optional.of(new ArrayList<>());
         }
-        List<Place> route = new ArrayList<>();
+        List<org.optaweb.tsp.optawebtspplanner.core.Location> route = new ArrayList<>();
         addLocationToRoute(route, domicile.getLocation());
         for (Visit visit = nextVisitMap.get(domicile); visit != null; visit = nextVisitMap.get(visit)) {
             addLocationToRoute(route, visit.getLocation());
@@ -108,11 +109,14 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         return Optional.of(route);
     }
 
-    private static void addLocationToRoute(List<Place> route, Location location) {
-        route.add(new Place(location.getId(),
-                BigDecimal.valueOf(location.getLatitude()),
-                BigDecimal.valueOf(location.getLongitude()))
-        );
+    private static void addLocationToRoute(List<org.optaweb.tsp.optawebtspplanner.core.Location> route, Location location) {
+        route.add(new org.optaweb.tsp.optawebtspplanner.core.Location(
+                location.getId(),
+                new LatLng(
+                        BigDecimal.valueOf(location.getLatitude()),
+                        BigDecimal.valueOf(location.getLongitude())
+                )
+        ));
     }
 
     private void sendRoute(TspSolution solution) {
@@ -132,7 +136,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     }
 
     public RouteChangedEvent getSolution() {
-        List<Place> route = extractRoute(tsp)
+        List<org.optaweb.tsp.optawebtspplanner.core.Location> route = extractRoute(tsp)
                 .orElseThrow(() -> new IllegalStateException("Best solution cannot have unconnected visits."));
         // FIXME duplication of distance format
         return new RouteChangedEvent(this, tsp.getDistanceString(new DecimalFormat("#,##0.00")), route);
@@ -148,14 +152,14 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         sendRoute(tsp);
     }
 
-    public void addPlace(Place place) {
-        RoadLocation location = fromPlace(place);
+    public void addLocation(org.optaweb.tsp.optawebtspplanner.core.Location coreLocation) {
+        RoadLocation location = coreToPlanner(coreLocation);
         Map<RoadLocation, Double> distanceMap = new HashMap<>();
         location.setTravelDistanceMap(distanceMap);
         for (Location other : locations) {
             RoadLocation toLocation = (RoadLocation) other;
             // TODO handle no route -> roll back the problem fact change
-            LatLng fromLatLng = new LatLng(place.getLatitude(), place.getLongitude());
+            LatLng fromLatLng = coreLocation.getLatLng();
             LatLng toLatLng = new LatLng(BigDecimal.valueOf(toLocation.getLatitude()), BigDecimal.valueOf(toLocation.getLongitude()));
             distanceMap
                     .put(toLocation, routing.getDistance(fromLatLng, toLatLng));
@@ -213,8 +217,8 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         }
     }
 
-    public void removePlace(Place place) {
-        Location location = fromPlace(place);
+    public void removeLocation(org.optaweb.tsp.optawebtspplanner.core.Location coreLocation) {
+        Location location = coreToPlanner(coreLocation);
         locations.remove(location);
         if (!solver.isSolving()) {
             tsp.getLocationList().remove(0);
