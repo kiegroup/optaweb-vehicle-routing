@@ -54,7 +54,6 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     private final ScoreDirector<TspSolution> scoreDirector;
     private ThreadPoolTaskExecutor executor;
     private TspSolution tsp = new TspSolution();
-    private List<Location> locations = new ArrayList<>();
 
     @Autowired
     public TspPlannerComponent(ApplicationEventPublisher publisher) {
@@ -147,7 +146,6 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
                             DistanceMapProvider distanceMapProvider) {
         RoadLocation location = coreToPlanner(coreLocation);
         location.setTravelDistanceMap(distanceMapProvider.getDistanceMap(coreLocation));
-        locations.add(location);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (!solver.isSolving()) {
             List<Location> locationList = tsp.getLocationList();
@@ -200,7 +198,6 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
 
     public void removeLocation(org.optaweb.tsp.optawebtspplanner.core.Location coreLocation) {
         Location location = coreToPlanner(coreLocation);
-        locations.remove(location);
         if (!solver.isSolving()) {
             tsp.getLocationList().remove(0);
             tsp.setDomicile(null);
