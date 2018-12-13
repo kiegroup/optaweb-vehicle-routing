@@ -22,7 +22,7 @@ public class RouteMessage {
 
     private final String distance;
     private final List<PortableLocation> route;
-    List<List<PortableLocation>> segments;
+    private final List<List<PortableLocation>> segments;
 
     public RouteMessage(String distance, List<PortableLocation> route, List<List<PortableLocation>> segments) {
         this.distance = distance;
