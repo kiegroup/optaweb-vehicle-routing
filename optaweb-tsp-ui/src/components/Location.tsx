@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-import {
-  DataListCell,
-  DataListItem,
-} from '@patternfly/react-core';
+import { DataListCell, DataListItem } from '@patternfly/react-core';
 import { HomeIcon, MapPinIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import LocationContextMenu from './LocationContextMenu';
@@ -43,7 +40,7 @@ const Location: React.SFC<ILocationProps> = ({
         <span id={`check-${id}`}>Location {id}</span>
       </DataListCell>
       <LocationContextMenu
-        removeHandler={removeHandler}
+        removeHandler={event => removeHandler(id)}
         selectHandler={selectHandler}
       />
     </DataListItem>

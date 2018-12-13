@@ -18,12 +18,7 @@ import { Dropdown, DropdownItem, KebabToggle } from '@patternfly/react-core';
 import * as React from 'react';
 
 export interface ILocationContextMenuProps {
-  removeHandler: (id: number) => void;
-  selectHandler: (e: any) => void; // FIXME: Event Type
-}
-
-export interface ILocationContextMenuProps {
-  removeHandler: (id: number) => void;
+  removeHandler: (e: any) => void;
   selectHandler: (e: any) => void;
 }
 interface ILocationContextMenuState {
@@ -40,6 +35,7 @@ export default class LocationContextMenu extends React.Component<
       isOpen: false,
     };
     this.onToggle = this.onToggle.bind(this);
+    this.onSelect = this.onSelect.bind(this);
   }
   onToggle(isOpen: boolean) {
     this.setState({
@@ -55,9 +51,16 @@ export default class LocationContextMenu extends React.Component<
 
   render() {
     const { isOpen } = this.state;
+    const { removeHandler, selectHandler } = this.props;
     const dropdownItems = [
-      <DropdownItem key="link">Link</DropdownItem>,
-      <DropdownItem key="separated link">Separated Link</DropdownItem>,
+      // tslint:disable-next-line:jsx-wrap-multiline
+      <DropdownItem key="remove" onClick={removeHandler}>
+        Remove
+      </DropdownItem>,
+      // tslint:disable-next-line:jsx-wrap-multiline
+      <DropdownItem key="select" onClick={selectHandler}>
+        Select
+      </DropdownItem>,
     ];
 
     /*
