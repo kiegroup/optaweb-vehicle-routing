@@ -65,31 +65,22 @@ public class TspMapController {
 
     @MessageMapping("/place") // TODO rename to location
     public void create(PortableLocation request) {
-        LocationEntity locationEntity = repository.save(new LocationEntity(request.getLatitude(), request.getLongitude()));
-        Location location = new Location(
-                locationEntity.getId(),
-                new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
-        );
-        // TODO handle no route -> roll back the problem fact change
-        distanceMatrix.addLocation(location);
-        planner.addLocation(location, distanceMatrix);
-        logger.info("Created {}", locationEntity);
+        addLocation(request.getLatitude(), request.getLongitude());
     }
 
     @MessageMapping("/demo")
     public void demo() {
-        Arrays.stream(Belgium.values()).forEach(city -> {
-            LocationEntity locationEntity = repository.save(
-                    new LocationEntity(BigDecimal.valueOf(city.lat), BigDecimal.valueOf(city.lng)));
-            Location location = new Location(
-                    locationEntity.getId(),
-                    new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
-            );
-            // TODO handle no route -> roll back the problem fact change
-            distanceMatrix.addLocation(location);
-            planner.addLocation(location, distanceMatrix);
-            logger.info("Created {}", location);
-        });
+        Arrays.stream(Belgium.values())
+                .forEach(city -> addLocation(BigDecimal.valueOf(city.lat), BigDecimal.valueOf(city.lng)));
+    }
+
+    private void addLocation(BigDecimal lat, BigDecimal lng) {
+        LocationEntity locationEntity = repository.save(new LocationEntity(lat, lng));
+        Location location = new Location(locationEntity.getId(), new LatLng(lat, lng));
+        // TODO handle no route -> roll back the problem fact change
+        distanceMatrix.addLocation(location);
+        planner.addLocation(location, distanceMatrix);
+        logger.info("Created {}", location);
     }
 
     @MessageMapping({"/place/{id}/delete"}) // TODO rename to location
