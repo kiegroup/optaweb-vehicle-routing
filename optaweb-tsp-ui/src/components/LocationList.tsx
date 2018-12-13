@@ -37,6 +37,7 @@ const LocationList: React.SFC<ILocationListProps> = ({
         .sort((a, b) => a.id - b.id)
         .map(location => (
           <Location
+            key={`location-${location.id}`}
             {...{ id: location.id, removeHandler, selectHandler, domicileId }}
           />
         ))}

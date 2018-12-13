@@ -15,13 +15,12 @@
  */
 
 import {
-  Button,
-  DataListAction,
   DataListCell,
   DataListItem,
 } from '@patternfly/react-core';
-import { HomeIcon, MapPinIcon, TimesIcon } from '@patternfly/react-icons';
+import { HomeIcon, MapPinIcon } from '@patternfly/react-icons';
 import * as React from 'react';
+import LocationContextMenu from './LocationContextMenu';
 
 export interface ILocationProps {
   id: number;
@@ -40,23 +39,13 @@ const Location: React.SFC<ILocationProps> = ({
   return (
     <DataListItem aria-labelledby={`check-${id}`} key={id} isExpanded={true}>
       <DataListCell width={1}>
-        {isDomicile ? <HomeIcon /> :<MapPinIcon/>}
+        {isDomicile ? <HomeIcon /> : <MapPinIcon />}
         <span id={`check-${id}`}>Location {id}</span>
       </DataListCell>
-      <DataListAction
-        aria-labelledby="check-action-item1 check-action-action1"
-        id="check-action-action1"
-        aria-label="Actions"
-      >
-        <Button
-          variant="link"
-          isDisabled={isDomicile}
-          onClick={() => removeHandler(id)}
-          type="button"
-        >
-          <TimesIcon />
-        </Button>
-      </DataListAction>
+      <LocationContextMenu
+        removeHandler={removeHandler}
+        selectHandler={selectHandler}
+      />
     </DataListItem>
   );
 };
