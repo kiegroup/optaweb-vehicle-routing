@@ -38,4 +38,12 @@ public class Location {
     public int hashCode() {
         return Objects.hash(id, latLng);
     }
+
+    @Override
+    public String toString() {
+        return "Location{" +
+                "id=" + id +
+                ", latLng=" + latLng +
+                '}';
+    }
 }
