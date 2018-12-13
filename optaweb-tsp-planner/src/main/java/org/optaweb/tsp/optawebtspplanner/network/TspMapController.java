@@ -18,9 +18,7 @@ package org.optaweb.tsp.optawebtspplanner.network;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.Map;
 
-import org.optaplanner.examples.tsp.domain.location.RoadLocation;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.core.Location;
 import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
@@ -73,8 +71,8 @@ public class TspMapController {
                 new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
         );
         // TODO handle no route -> roll back the problem fact change
-        Map<RoadLocation, Double> distanceMap = distanceMatrix.addLocation(location);
-        planner.addLocation(location, distanceMap);
+        distanceMatrix.addLocation(location);
+        planner.addLocation(location, distanceMatrix);
         logger.info("Created {}", locationEntity);
     }
 
@@ -88,8 +86,8 @@ public class TspMapController {
                     new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
             );
             // TODO handle no route -> roll back the problem fact change
-            Map<RoadLocation, Double> distanceMap = distanceMatrix.addLocation(location);
-            planner.addLocation(location, distanceMap);
+            distanceMatrix.addLocation(location);
+            planner.addLocation(location, distanceMatrix);
             logger.info("Created {}", location);
         });
     }
