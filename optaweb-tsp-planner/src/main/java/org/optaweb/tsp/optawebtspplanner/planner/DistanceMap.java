@@ -6,11 +6,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
+import org.optaweb.tsp.optawebtspplanner.core.Location;
 
 // TODO get rid of dependency on Planning domain
 public class DistanceMap implements Map<RoadLocation, Double> {
 
+    private final Location location;
     private final Map<Long, Double> distanceMap = new HashMap<>(100);
+
+    public DistanceMap(Location location) {
+        this.location = location;
+    }
 
     public Double put(Long id, Double distance) {
         return distanceMap.put(id, distance);
@@ -28,7 +34,7 @@ public class DistanceMap implements Map<RoadLocation, Double> {
 
     @Override
     public boolean containsKey(Object key) {
-        return (key instanceof RoadLocation) && distanceMap.containsKey(((RoadLocation) key).getId());
+        return distanceMap.containsKey(((RoadLocation) key).getId());
     }
 
     @Override
@@ -38,9 +44,12 @@ public class DistanceMap implements Map<RoadLocation, Double> {
 
     @Override
     public Double get(Object key) {
-        return (key instanceof RoadLocation)
-                ? distanceMap.get(((RoadLocation) key).getId())
-                : null;
+        if (!containsKey(key)) {
+            throw new IllegalArgumentException("Distance from " + location + " to " + key
+                    + " hasn't been recorded.\n"
+                    + "We only know distances to " + distanceMap.keySet());
+        }
+        return distanceMap.get(((RoadLocation) key).getId());
     }
 
     @Override

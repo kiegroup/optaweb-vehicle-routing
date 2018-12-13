@@ -20,8 +20,8 @@ public class DistanceMatrix implements DistanceMapProvider {
         this.routing = routing;
     }
 
-    public DistanceMap addLocation(Location location) {
-        DistanceMap distanceMap = new DistanceMap();
+    public synchronized DistanceMap addLocation(Location location) {
+        DistanceMap distanceMap = new DistanceMap(location);
         distanceMap.put(location.getId(), 0.0);
         for (Map.Entry<Location, DistanceMap> entry : matrix.entrySet()) {
             Location other = entry.getKey();
