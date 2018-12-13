@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +38,6 @@ import org.optaplanner.examples.tsp.domain.Visit;
 import org.optaplanner.examples.tsp.domain.location.Location;
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
-import org.optaweb.tsp.optawebtspplanner.routing.RoutingComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +50,6 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
 
     private static final Logger logger = LoggerFactory.getLogger(TspPlannerComponent.class);
 
-    private final RoutingComponent routing;
     private final ApplicationEventPublisher publisher;
     private final Solver<TspSolution> solver;
     private final ScoreDirector<TspSolution> scoreDirector;
@@ -61,9 +58,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     private List<Location> locations = new ArrayList<>();
 
     @Autowired
-    public TspPlannerComponent(RoutingComponent routing,
-                               ApplicationEventPublisher publisher) {
-        this.routing = routing;
+    public TspPlannerComponent(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
 
         tsp.setLocationList(new ArrayList<>());
@@ -152,20 +147,10 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         sendRoute(tsp);
     }
 
-    public void addLocation(org.optaweb.tsp.optawebtspplanner.core.Location coreLocation) {
+    public void addLocation(org.optaweb.tsp.optawebtspplanner.core.Location coreLocation,
+                            Map<RoadLocation, Double> distanceMap) {
         RoadLocation location = coreToPlanner(coreLocation);
-        Map<RoadLocation, Double> distanceMap = new HashMap<>();
         location.setTravelDistanceMap(distanceMap);
-        for (Location other : locations) {
-            RoadLocation toLocation = (RoadLocation) other;
-            // TODO handle no route -> roll back the problem fact change
-            LatLng fromLatLng = coreLocation.getLatLng();
-            LatLng toLatLng = new LatLng(BigDecimal.valueOf(toLocation.getLatitude()), BigDecimal.valueOf(toLocation.getLongitude()));
-            distanceMap
-                    .put(toLocation, routing.getDistance(fromLatLng, toLatLng));
-            toLocation.getTravelDistanceMap()
-                    .put(location, routing.getDistance(toLatLng, fromLatLng));
-        }
         locations.add(location);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (!solver.isSolving()) {
