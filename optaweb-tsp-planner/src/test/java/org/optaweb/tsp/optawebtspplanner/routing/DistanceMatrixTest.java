@@ -9,6 +9,7 @@ import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.core.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class DistanceMatrixTest {
 
@@ -26,7 +27,7 @@ public class DistanceMatrixTest {
         // distance to self
         assertThat(mapL0.get(roadLocation(l0))).isEqualTo(0.0);
         // distance to not yet registered location
-        assertThat(mapL0.get(roadLocation(l1))).isNull();
+        assertThatThrownBy(() -> mapL0.get(roadLocation(l1))).isInstanceOf(IllegalArgumentException.class);
 
         Map<RoadLocation, Double> mapL1 = distanceMatrix.addLocation(l1);
         // distance to self
