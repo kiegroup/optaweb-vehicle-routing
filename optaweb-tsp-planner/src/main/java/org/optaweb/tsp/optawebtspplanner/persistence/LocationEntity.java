@@ -25,7 +25,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Location {
+public class LocationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -37,10 +37,10 @@ public class Location {
     @Column(precision = 10, scale = 7)
     private BigDecimal longitude;
 
-    public Location() {
+    public LocationEntity() {
     }
 
-    public Location(BigDecimal latitude, BigDecimal longitude) {
+    public LocationEntity(BigDecimal latitude, BigDecimal longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -59,7 +59,7 @@ public class Location {
 
     @Override
     public String toString() {
-        return "Location{" +
+        return "LocationEntity{" +
                 "id=" + id +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +

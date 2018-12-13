@@ -20,8 +20,9 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
+import org.optaweb.tsp.optawebtspplanner.core.Location;
 import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
-import org.optaweb.tsp.optawebtspplanner.persistence.Location;
+import org.optaweb.tsp.optawebtspplanner.persistence.LocationEntity;
 import org.optaweb.tsp.optawebtspplanner.persistence.LocationRepository;
 import org.optaweb.tsp.optawebtspplanner.planner.RouteChangedEvent;
 import org.optaweb.tsp.optawebtspplanner.planner.TspPlannerComponent;
@@ -60,8 +61,8 @@ public class TspMapController {
 
     @MessageMapping("/place")
     public void create(Place place) {
-        Location locationEntity = repository.save(new Location(place.getLatitude(), place.getLongitude()));
-        org.optaweb.tsp.optawebtspplanner.core.Location location = new org.optaweb.tsp.optawebtspplanner.core.Location(
+        LocationEntity locationEntity = repository.save(new LocationEntity(place.getLatitude(), place.getLongitude()));
+        Location location = new Location(
                 locationEntity.getId(),
                 new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
         );
@@ -72,8 +73,9 @@ public class TspMapController {
     @MessageMapping("/demo")
     public void demo() {
         Arrays.stream(Belgium.values()).forEach(city -> {
-            Location locationEntity = repository.save(new Location(BigDecimal.valueOf(city.lat), BigDecimal.valueOf(city.lng)));
-            org.optaweb.tsp.optawebtspplanner.core.Location location = new org.optaweb.tsp.optawebtspplanner.core.Location(
+            LocationEntity locationEntity = repository.save(
+                    new LocationEntity(BigDecimal.valueOf(city.lat), BigDecimal.valueOf(city.lng)));
+            Location location = new Location(
                     locationEntity.getId(),
                     new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
             );
@@ -84,14 +86,14 @@ public class TspMapController {
 
     @MessageMapping({"/place/{id}/delete"})
     public void delete(@DestinationVariable Long id) {
-        repository.findById(id).ifPresent(locationEntity -> {
+        repository.findById(id).ifPresent(locationEntityEntity -> {
             repository.deleteById(id);
-            org.optaweb.tsp.optawebtspplanner.core.Location location = new org.optaweb.tsp.optawebtspplanner.core.Location(
+            Location location = new Location(
                     id,
-                    new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
+                    new LatLng(locationEntityEntity.getLatitude(), locationEntityEntity.getLongitude())
             );
             planner.removeLocation(location);
-            logger.info("Deleted locationEntity {}", id);
+            logger.info("Deleted {}", location);
         });
     }
 }

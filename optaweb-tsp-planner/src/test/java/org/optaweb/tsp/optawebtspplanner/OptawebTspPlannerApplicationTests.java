@@ -22,12 +22,13 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.optaweb.tsp.optawebtspplanner.persistence.Location;
+import org.optaweb.tsp.optawebtspplanner.persistence.LocationEntity;
 import org.optaweb.tsp.optawebtspplanner.spring.Profiles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
@@ -63,12 +64,12 @@ public class OptawebTspPlannerApplicationTests {
         final BigDecimal maxLongitude = new BigDecimal("214.7483647");
         final BigDecimal minLatitude = maxLatitude.negate();
         final BigDecimal minLongitude = maxLongitude.negate();
-        restTemplate.postForEntity("/locations", new Location(minLatitude, minLongitude), Location.class);
-        restTemplate.postForEntity("/locations", new Location(maxLatitude, maxLongitude), Location.class);
+        restTemplate.postForEntity("/locations", new LocationEntity(minLatitude, minLongitude), LocationEntity.class);
+        restTemplate.postForEntity("/locations", new LocationEntity(maxLatitude, maxLongitude), LocationEntity.class);
 
         // act
-        ResponseEntity<Location> response1 = restTemplate.getForEntity("/locations/1", Location.class);
-        ResponseEntity<Location> response2 = restTemplate.getForEntity("/locations/2", Location.class);
+        ResponseEntity<LocationEntity> response1 = restTemplate.getForEntity("/locations/1", LocationEntity.class);
+        ResponseEntity<LocationEntity> response2 = restTemplate.getForEntity("/locations/2", LocationEntity.class);
 
         // assert
         assertThat(response1.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -86,7 +87,7 @@ public class OptawebTspPlannerApplicationTests {
         mockMvc.perform(post("/locations").content(
                 "{\"latitude\": \"1\", \"longitude\":\"2\"}")).andExpect(
                 status().isCreated()).andExpect(
-                header().string("Location", containsString("locations/")));
+                header().string(HttpHeaders.LOCATION, containsString("locations/")));
     }
 
     @Test
@@ -101,7 +102,7 @@ public class OptawebTspPlannerApplicationTests {
                 .andReturn();
 
         // act & assert
-        String location = mvcResult.getResponse().getHeader("Location");
+        String location = mvcResult.getResponse().getHeader(HttpHeaders.LOCATION);
         mockMvc.perform(get(location))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.lat").value(lat))
