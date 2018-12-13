@@ -18,7 +18,9 @@ package org.optaweb.tsp.optawebtspplanner.network;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Map;
 
+import org.optaplanner.examples.tsp.domain.location.RoadLocation;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.core.Location;
 import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
@@ -26,6 +28,7 @@ import org.optaweb.tsp.optawebtspplanner.persistence.LocationEntity;
 import org.optaweb.tsp.optawebtspplanner.persistence.LocationRepository;
 import org.optaweb.tsp.optawebtspplanner.planner.RouteChangedEvent;
 import org.optaweb.tsp.optawebtspplanner.planner.TspPlannerComponent;
+import org.optaweb.tsp.optawebtspplanner.routing.DistanceMatrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,14 +45,17 @@ public class TspMapController {
     private final LocationRepository repository;
     private final TspPlannerComponent planner;
     private final RoutePublisher routePublisher;
+    private final DistanceMatrix distanceMatrix;
 
     @Autowired
     public TspMapController(LocationRepository repository,
                             TspPlannerComponent planner,
-                            RoutePublisher routePublisher) {
+                            RoutePublisher routePublisher,
+                            DistanceMatrix distanceMatrix) {
         this.repository = repository;
         this.planner = planner;
         this.routePublisher = routePublisher;
+        this.distanceMatrix = distanceMatrix;
     }
 
     @SubscribeMapping("/route")
@@ -66,7 +72,9 @@ public class TspMapController {
                 locationEntity.getId(),
                 new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
         );
-        planner.addLocation(location);
+        // TODO handle no route -> roll back the problem fact change
+        Map<RoadLocation, Double> distanceMap = distanceMatrix.addLocation(location);
+        planner.addLocation(location, distanceMap);
         logger.info("Created {}", locationEntity);
     }
 
@@ -79,7 +87,9 @@ public class TspMapController {
                     locationEntity.getId(),
                     new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
             );
-            planner.addLocation(location);
+            // TODO handle no route -> roll back the problem fact change
+            Map<RoadLocation, Double> distanceMap = distanceMatrix.addLocation(location);
+            planner.addLocation(location, distanceMap);
             logger.info("Created {}", location);
         });
     }
