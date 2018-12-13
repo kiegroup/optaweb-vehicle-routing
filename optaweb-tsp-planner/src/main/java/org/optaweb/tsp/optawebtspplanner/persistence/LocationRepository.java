@@ -17,9 +17,11 @@
 package org.optaweb.tsp.optawebtspplanner.persistence;
 
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 @CrossOrigin
-public interface LocationRepository extends CrudRepository<Location, Long> {
+@RestResource(path = "locations")
+public interface LocationRepository extends CrudRepository<LocationEntity, Long> {
 
 }
