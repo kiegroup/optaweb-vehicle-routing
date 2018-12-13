@@ -16,7 +16,6 @@
 
 package org.optaweb.tsp.optawebtspplanner.planner;
 
-import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,10 +106,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     private static void addLocationToRoute(List<org.optaweb.tsp.optawebtspplanner.core.Location> route, Location location) {
         route.add(new org.optaweb.tsp.optawebtspplanner.core.Location(
                 location.getId(),
-                new LatLng(
-                        BigDecimal.valueOf(location.getLatitude()),
-                        BigDecimal.valueOf(location.getLongitude())
-                )
+                LatLng.valueOf(location.getLatitude(), location.getLongitude())
         ));
     }
 

@@ -1,6 +1,5 @@
 package org.optaweb.tsp.optawebtspplanner.routing;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -29,7 +28,7 @@ public class RoutingComponent {
                 to.getLongitude().doubleValue());
         PointList points = graphHopper.route(segmentRq).getBest().getPoints();
         return StreamSupport.stream(points.spliterator(), false)
-                .map(ghPoint3D -> new LatLng(BigDecimal.valueOf(ghPoint3D.lat), BigDecimal.valueOf(ghPoint3D.lon)))
+                .map(ghPoint3D -> LatLng.valueOf(ghPoint3D.lat, ghPoint3D.lon))
                 .collect(Collectors.toList());
     }
 
