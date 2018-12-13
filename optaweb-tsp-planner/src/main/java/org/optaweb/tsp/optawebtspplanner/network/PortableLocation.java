@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class Place {
+public class PortableLocation {
 
     private long id;
 
@@ -30,10 +30,10 @@ public class Place {
     @JsonProperty(value = "lng", required = true)
     private BigDecimal longitude;
 
-    public Place() {
+    public PortableLocation() {
     }
 
-    public Place(long id, BigDecimal latitude, BigDecimal longitude) {
+    public PortableLocation(long id, BigDecimal latitude, BigDecimal longitude) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -71,10 +71,10 @@ public class Place {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Place place = (Place) o;
-        return id == place.id &&
-                Objects.equals(latitude, place.latitude) &&
-                Objects.equals(longitude, place.longitude);
+        PortableLocation portableLocation = (PortableLocation) o;
+        return id == portableLocation.id &&
+                Objects.equals(latitude, portableLocation.latitude) &&
+                Objects.equals(longitude, portableLocation.longitude);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class Place {
 
     @Override
     public String toString() {
-        return "Place{" +
+        return "PortableLocation{" +
                 "id=" + id +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +

@@ -63,9 +63,9 @@ public class TspMapController {
         return routePublisher.createResponse(event.getDistance(), event.getRoute());
     }
 
-    @MessageMapping("/place")
-    public void create(Place place) {
-        LocationEntity locationEntity = repository.save(new LocationEntity(place.getLatitude(), place.getLongitude()));
+    @MessageMapping("/place") // TODO rename to location
+    public void create(PortableLocation request) {
+        LocationEntity locationEntity = repository.save(new LocationEntity(request.getLatitude(), request.getLongitude()));
         Location location = new Location(
                 locationEntity.getId(),
                 new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
@@ -92,7 +92,7 @@ public class TspMapController {
         });
     }
 
-    @MessageMapping({"/place/{id}/delete"})
+    @MessageMapping({"/place/{id}/delete"}) // TODO rename to location
     public void delete(@DestinationVariable Long id) {
         repository.findById(id).ifPresent(locationEntityEntity -> {
             repository.deleteById(id);
