@@ -1,6 +1,5 @@
 package org.optaweb.tsp.optawebtspplanner.routing;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,8 +24,8 @@ import static org.mockito.Mockito.when;
 public class RoutingComponentTest {
 
     private final PointList pointList = new PointList();
-    private final LatLng from = new LatLng(BigDecimal.valueOf(-Double.MIN_VALUE), BigDecimal.valueOf(Double.MIN_VALUE));
-    private final LatLng to = new LatLng(BigDecimal.valueOf(Double.MAX_VALUE), BigDecimal.valueOf(-Double.MAX_VALUE));
+    private final LatLng from = LatLng.valueOf(-Double.MIN_VALUE, Double.MIN_VALUE);
+    private final LatLng to = LatLng.valueOf(Double.MAX_VALUE, -Double.MAX_VALUE);
     @Mock
     private GraphHopperOSM graphHopper;
     @Mock
@@ -70,9 +69,9 @@ public class RoutingComponentTest {
         // arrange
         RoutingComponent routing = new RoutingComponent(graphHopper);
 
-        LatLng latLng1 = new LatLng(BigDecimal.valueOf(1), BigDecimal.valueOf(1));
-        LatLng latLng2 = new LatLng(BigDecimal.valueOf(Math.E), BigDecimal.valueOf(Math.PI));
-        LatLng latLng3 = new LatLng(BigDecimal.valueOf(0.1), BigDecimal.valueOf(1.0 / 3.0));
+        LatLng latLng1 = LatLng.valueOf(1, 1);
+        LatLng latLng2 = LatLng.valueOf(Math.E, Math.PI);
+        LatLng latLng3 = LatLng.valueOf(0.1, 1.0 / 3.0);
 
         pointList.add(latLng1.getLatitude().doubleValue(), latLng1.getLongitude().doubleValue());
         pointList.add(latLng2.getLatitude().doubleValue(), latLng2.getLongitude().doubleValue());

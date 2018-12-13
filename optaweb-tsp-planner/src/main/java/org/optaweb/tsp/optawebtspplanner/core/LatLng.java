@@ -15,6 +15,10 @@ public class LatLng {
         this.longitude = longitude;
     }
 
+    public static LatLng valueOf(double latitude, double longitude) {
+        return new LatLng(BigDecimal.valueOf(latitude), BigDecimal.valueOf(longitude));
+    }
+
     public BigDecimal getLatitude() {
         return latitude;
     }
