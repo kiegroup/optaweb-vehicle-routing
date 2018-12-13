@@ -32,19 +32,19 @@ public class RoutePublisher implements ApplicationListener<RouteChangedEvent> {
     }
 
     RouteMessage createResponse(String distanceString, List<Location> route) {
-        List<List<Place>> segments = new ArrayList<>();
+        List<List<PortableLocation>> segments = new ArrayList<>();
         for (int i = 1; i < route.size() + 1; i++) {
             // "trick" to get N -> 0 distance at the end of the loop
             Location fromLocation = route.get(i - 1);
             Location toLocation = route.get(i % route.size());
             List<LatLng> latLngs = routing.getRoute(fromLocation.getLatLng(), toLocation.getLatLng());
             segments.add(latLngs.stream()
-                    .map(latLng -> new Place(0, latLng.getLatitude(), latLng.getLongitude()))
+                    .map(latLng -> new PortableLocation(0, latLng.getLatitude(), latLng.getLongitude()))
                     .collect(Collectors.toList())
             );
         }
-        List<Place> networkingRoute = route.stream()
-                .map(location -> new Place(
+        List<PortableLocation> networkingRoute = route.stream()
+                .map(location -> new PortableLocation(
                         location.getId(),
                         location.getLatLng().getLatitude(),
                         location.getLatLng().getLongitude()))

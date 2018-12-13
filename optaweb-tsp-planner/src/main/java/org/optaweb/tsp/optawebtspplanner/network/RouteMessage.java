@@ -21,10 +21,10 @@ import java.util.List;
 public class RouteMessage {
 
     private final String distance;
-    private final List<Place> route;
-    List<List<Place>> segments;
+    private final List<PortableLocation> route;
+    List<List<PortableLocation>> segments;
 
-    public RouteMessage(String distance, List<Place> route, List<List<Place>> segments) {
+    public RouteMessage(String distance, List<PortableLocation> route, List<List<PortableLocation>> segments) {
         this.distance = distance;
         this.route = route;
         this.segments = segments;
@@ -34,11 +34,11 @@ public class RouteMessage {
         return distance;
     }
 
-    public List<Place> getRoute() {
+    public List<PortableLocation> getRoute() {
         return route;
     }
 
-    public List<List<Place>> getSegments() {
+    public List<List<PortableLocation>> getSegments() {
         return segments;
     }
 }
