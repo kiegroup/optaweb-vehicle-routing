@@ -76,7 +76,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         );
     }
 
-    private Optional<List<org.optaweb.tsp.optawebtspplanner.core.Location>> extractRoute(TspSolution tsp) {
+    private static Optional<List<org.optaweb.tsp.optawebtspplanner.core.Location>> extractRoute(TspSolution tsp) {
         Map<Standstill, Visit> nextVisitMap = new LinkedHashMap<>();
         for (Visit visit : tsp.getVisitList()) {
             if (visit.getPreviousStandstill() != null) {
