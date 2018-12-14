@@ -3,6 +3,9 @@ package org.optaweb.tsp.optawebtspplanner.core;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+/**
+ * Horizontal geographical coordinates consisting of latitude and longitude.
+ */
 public class LatLng {
 
     private final BigDecimal latitude;

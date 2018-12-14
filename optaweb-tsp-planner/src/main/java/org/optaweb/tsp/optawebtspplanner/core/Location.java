@@ -2,6 +2,9 @@ package org.optaweb.tsp.optawebtspplanner.core;
 
 import java.util.Objects;
 
+/**
+ * A unique location significant to the user.
+ */
 public class Location {
 
     private final long id;
