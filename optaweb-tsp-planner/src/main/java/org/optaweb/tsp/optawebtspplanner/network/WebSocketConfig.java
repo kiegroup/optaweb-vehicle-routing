@@ -22,23 +22,35 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+/**
+ * Configures STOMP over WebSocket.
+ * <p>
+ * See <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/web.html#websocket-stomp-enable">
+ * WebSockets/Enable STOMP</a>.
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
-    public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableSimpleBroker("/topic");
-        // Not sure if "/topic" should be application prefix but I couldn't get @SubscribeMapping("/route") working
-        // without this.
-        registry.setApplicationDestinationPrefixes("/app", "/topic");
-    }
-
-    @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
+        // /tsp-websocket is the HTTP URL for the endpoint to which a WebSocket client needs to connect
+        // for the WebSocket handshake.
         registry
                 .addEndpoint("/tsp-websocket")
                 .setAllowedOrigins("*")
                 .withSockJS();
+    }
+
+    @Override
+    public void configureMessageBroker(MessageBrokerRegistry registry) {
+        // STOMP messages whose destination header begins with /app are routed to @MessageMapping methods
+        // in @Controller classes.
+        // Not sure if "/topic" should be an application prefix but I couldn't get @SubscribeMapping("/route") working
+        // without this.
+        registry.setApplicationDestinationPrefixes("/app", "/topic");
+        // Use the built-in message broker for subscriptions and broadcasting,
+        // and route messages whose destination header begins with /topic to the broker.
+        registry.enableSimpleBroker("/topic");
     }
 }

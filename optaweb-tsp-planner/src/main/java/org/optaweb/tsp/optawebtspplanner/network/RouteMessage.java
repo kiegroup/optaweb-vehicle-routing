@@ -18,6 +18,9 @@ package org.optaweb.tsp.optawebtspplanner.network;
 
 import java.util.List;
 
+/**
+ * Route description.
+ */
 public class RouteMessage {
 
     private final String distance;

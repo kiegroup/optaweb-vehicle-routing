@@ -13,6 +13,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
+/**
+ * Broadcasts updated route to interested clients over WebSocket.
+ */
 @Component
 public class RoutePublisher implements ApplicationListener<RouteChangedEvent> {
 
