@@ -20,6 +20,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+/**
+ * Location repository.
+ */
 @CrossOrigin
 @RestResource(path = "locations")
 public interface LocationRepository extends CrudRepository<LocationEntity, Long> {
