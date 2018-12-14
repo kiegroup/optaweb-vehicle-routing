@@ -21,6 +21,9 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Location representation convenient for marshalling.
+ */
 public class PortableLocation {
 
     private long id;

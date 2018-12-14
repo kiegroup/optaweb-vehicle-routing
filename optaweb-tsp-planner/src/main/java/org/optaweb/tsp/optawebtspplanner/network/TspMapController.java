@@ -34,6 +34,10 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
+/**
+ * Handles WebSocket subscriptions and STOMP messages.
+ * @see WebSocketConfig
+ */
 @Controller
 public class TspMapController {
 
@@ -55,6 +59,10 @@ public class TspMapController {
         this.distanceMatrix = distanceMatrix;
     }
 
+    /**
+     * Subscribe for updates of the TSP route.
+     * @return route message
+     */
     @SubscribeMapping("/route")
     public RouteMessage subscribe() {
         logger.info("Subscribed");
@@ -62,11 +70,18 @@ public class TspMapController {
         return routePublisher.createResponse(event.getDistance(), event.getRoute());
     }
 
+    /**
+     * Create new location.
+     * @param request new location description
+     */
     @MessageMapping("/place") // TODO rename to location
     public void create(PortableLocation request) {
         addLocation(new LatLng(request.getLatitude(), request.getLongitude()));
     }
 
+    /**
+     * Load a demo consisting of a number of cities.
+     */
     @MessageMapping("/demo")
     public void demo() {
         Arrays.stream(Belgium.values()).forEach(city -> addLocation(LatLng.valueOf(city.lat, city.lng)));
@@ -81,6 +96,10 @@ public class TspMapController {
         logger.info("Created {}", location);
     }
 
+    /**
+     * Delete location.
+     * @param id ID of the location to be deleted
+     */
     @MessageMapping({"/place/{id}/delete"}) // TODO rename to location
     public void delete(@DestinationVariable Long id) {
         repository.findById(id).ifPresent(locationEntityEntity -> {
