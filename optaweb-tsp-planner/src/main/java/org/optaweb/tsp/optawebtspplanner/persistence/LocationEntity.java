@@ -24,6 +24,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * Persistable location.
+ */
 @Entity
 public class LocationEntity {
 
