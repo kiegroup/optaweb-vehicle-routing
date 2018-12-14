@@ -16,7 +16,6 @@
 
 package org.optaweb.tsp.optawebtspplanner.network;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
@@ -65,18 +64,17 @@ public class TspMapController {
 
     @MessageMapping("/place") // TODO rename to location
     public void create(PortableLocation request) {
-        addLocation(request.getLatitude(), request.getLongitude());
+        addLocation(new LatLng(request.getLatitude(), request.getLongitude()));
     }
 
     @MessageMapping("/demo")
     public void demo() {
-        Arrays.stream(Belgium.values())
-                .forEach(city -> addLocation(BigDecimal.valueOf(city.lat), BigDecimal.valueOf(city.lng)));
+        Arrays.stream(Belgium.values()).forEach(city -> addLocation(LatLng.valueOf(city.lat, city.lng)));
     }
 
-    private void addLocation(BigDecimal lat, BigDecimal lng) {
-        LocationEntity locationEntity = repository.save(new LocationEntity(lat, lng));
-        Location location = new Location(locationEntity.getId(), new LatLng(lat, lng));
+    private void addLocation(LatLng latLng) {
+        LocationEntity locationEntity = repository.save(new LocationEntity(latLng.getLatitude(), latLng.getLongitude()));
+        Location location = new Location(locationEntity.getId(), latLng);
         // TODO handle no route -> roll back the problem fact change
         distanceMatrix.addLocation(location);
         planner.addLocation(location, distanceMatrix);
