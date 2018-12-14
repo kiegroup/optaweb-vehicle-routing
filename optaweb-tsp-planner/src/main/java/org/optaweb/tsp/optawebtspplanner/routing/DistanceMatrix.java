@@ -5,12 +5,11 @@ import java.util.Map;
 
 import org.optaweb.tsp.optawebtspplanner.core.Location;
 import org.optaweb.tsp.optawebtspplanner.planner.DistanceMap;
-import org.optaweb.tsp.optawebtspplanner.planner.DistanceMapProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DistanceMatrix implements DistanceMapProvider {
+public class DistanceMatrix {
 
     private final RoutingComponent routing;
     private final Map<Location, DistanceMap> matrix = new HashMap<>();
@@ -20,6 +19,7 @@ public class DistanceMatrix implements DistanceMapProvider {
         this.routing = routing;
     }
 
+    // TODO get rid of dependency on planner
     public synchronized DistanceMap addLocation(Location location) {
         DistanceMap distanceMap = new DistanceMap(location);
         distanceMap.put(location.getId(), 0.0);
@@ -30,10 +30,5 @@ public class DistanceMatrix implements DistanceMapProvider {
         }
         matrix.put(location, distanceMap);
         return distanceMap;
-    }
-
-    @Override
-    public DistanceMap getDistanceMap(Location location) {
-        return matrix.get(location);
     }
 }

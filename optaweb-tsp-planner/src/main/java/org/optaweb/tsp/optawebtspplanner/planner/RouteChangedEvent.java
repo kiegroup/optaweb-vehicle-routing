@@ -5,6 +5,10 @@ import java.util.List;
 import org.optaweb.tsp.optawebtspplanner.core.Location;
 import org.springframework.context.ApplicationEvent;
 
+/**
+ * Event published when the best route has been changed either by discovering a better route or changing
+ * the set of locations.
+ */
 public class RouteChangedEvent extends ApplicationEvent {
 
     private final String distance;
