@@ -23,6 +23,7 @@ import org.optaweb.tsp.optawebtspplanner.core.Location;
 import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
 import org.optaweb.tsp.optawebtspplanner.persistence.LocationEntity;
 import org.optaweb.tsp.optawebtspplanner.persistence.LocationRepository;
+import org.optaweb.tsp.optawebtspplanner.planner.DistanceMap;
 import org.optaweb.tsp.optawebtspplanner.planner.RouteChangedEvent;
 import org.optaweb.tsp.optawebtspplanner.planner.TspPlannerComponent;
 import org.optaweb.tsp.optawebtspplanner.routing.DistanceMatrix;
@@ -91,8 +92,8 @@ public class TspMapController {
         LocationEntity locationEntity = repository.save(new LocationEntity(latLng.getLatitude(), latLng.getLongitude()));
         Location location = new Location(locationEntity.getId(), latLng);
         // TODO handle no route -> roll back the problem fact change
-        distanceMatrix.addLocation(location);
-        planner.addLocation(location, distanceMatrix);
+        DistanceMap distanceMap = distanceMatrix.addLocation(location);
+        planner.addLocation(location, distanceMap);
         logger.info("Created {}", location);
     }
 

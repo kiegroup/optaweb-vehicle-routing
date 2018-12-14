@@ -143,9 +143,9 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     }
 
     public void addLocation(org.optaweb.tsp.optawebtspplanner.core.Location coreLocation,
-                            DistanceMapProvider distanceMapProvider) {
+                            DistanceMap distanceMap) {
         RoadLocation location = coreToPlanner(coreLocation);
-        location.setTravelDistanceMap(distanceMapProvider.getDistanceMap(coreLocation));
+        location.setTravelDistanceMap(distanceMap);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (!solver.isSolving()) {
             List<Location> locationList = tsp.getLocationList();
