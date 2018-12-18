@@ -8,6 +8,12 @@ import org.optaweb.tsp.optawebtspplanner.planner.DistanceMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Keeps the information about distances between every pair of locations.
+ * <p>
+ * TODO Currently, the API is encumbered by usage of OptaPlanner VRP example code that works with
+ * {@code Map<RoadLocation, Double>}.
+ */
 @Component
 public class DistanceMatrix {
 

@@ -13,6 +13,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 
+/**
+ * Spring Bean producer that creates a GraphHopper instance and allows to configure the path to OSM file
+ * through environment.
+ */
 @Configuration
 public class RoutingConfig {
 
