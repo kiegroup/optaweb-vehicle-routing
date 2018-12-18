@@ -11,6 +11,9 @@ import com.graphhopper.util.PointList;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.springframework.stereotype.Component;
 
+/**
+ * Provides geographical information needed for route optimization.
+ */
 @Component
 public class RoutingComponent {
 
