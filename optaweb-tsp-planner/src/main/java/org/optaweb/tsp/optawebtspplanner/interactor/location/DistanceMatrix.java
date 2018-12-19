@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.tsp.optawebtspplanner.interactor;
+package org.optaweb.tsp.optawebtspplanner.interactor.location;
 
 import java.util.Map;
 

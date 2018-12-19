@@ -17,7 +17,7 @@
 package org.optaweb.tsp.optawebtspplanner.websocket;
 
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
-import org.optaweb.tsp.optawebtspplanner.interactor.LocationInteractor;
+import org.optaweb.tsp.optawebtspplanner.interactor.location.LocationInteractor;
 import org.optaweb.tsp.optawebtspplanner.planner.RouteChangedEvent;
 import org.optaweb.tsp.optawebtspplanner.planner.TspPlannerComponent;
 import org.slf4j.Logger;

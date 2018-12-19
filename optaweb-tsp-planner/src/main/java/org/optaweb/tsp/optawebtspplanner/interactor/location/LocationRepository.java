@@ -14,13 +14,27 @@
  * limitations under the License.
  */
 
-package org.optaweb.tsp.optawebtspplanner.interactor;
+package org.optaweb.tsp.optawebtspplanner.interactor.location;
 
+import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.core.Location;
 
-public interface RouteOptimizer {
+/**
+ * Defines repository operations on locations.
+ */
+public interface LocationRepository {
 
-    void addLocation(Location location, DistanceMatrix distanceMatrix);
+    /**
+     * Create a location with a unique ID.
+     * @param latLng location's coordinates
+     * @return a new location
+     */
+    Location createLocation(LatLng latLng);
 
-    void removeLocation(Location location);
+    /**
+     * Remove location.
+     * @param id location's id
+     * @return the removed location
+     */
+    Location removeLocation(long id);
 }

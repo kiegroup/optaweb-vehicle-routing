@@ -20,7 +20,7 @@ import java.util.Optional;
 
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.core.Location;
-import org.optaweb.tsp.optawebtspplanner.interactor.LocationRepository;
+import org.optaweb.tsp.optawebtspplanner.interactor.location.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
