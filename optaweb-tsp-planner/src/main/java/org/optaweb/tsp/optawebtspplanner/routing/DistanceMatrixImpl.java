@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.optaweb.tsp.optawebtspplanner.core.Location;
-import org.optaweb.tsp.optawebtspplanner.interactor.DistanceMatrix;
+import org.optaweb.tsp.optawebtspplanner.interactor.location.DistanceMatrix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
