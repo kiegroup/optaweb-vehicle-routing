@@ -16,17 +16,10 @@
 
 package org.optaweb.tsp.optawebtspplanner.websocket;
 
-import java.util.Arrays;
-
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
-import org.optaweb.tsp.optawebtspplanner.core.Location;
-import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
-import org.optaweb.tsp.optawebtspplanner.persistence.LocationEntity;
-import org.optaweb.tsp.optawebtspplanner.persistence.LocationRepository;
-import org.optaweb.tsp.optawebtspplanner.planner.DistanceMap;
+import org.optaweb.tsp.optawebtspplanner.interactor.LocationInteractor;
 import org.optaweb.tsp.optawebtspplanner.planner.RouteChangedEvent;
 import org.optaweb.tsp.optawebtspplanner.planner.TspPlannerComponent;
-import org.optaweb.tsp.optawebtspplanner.routing.DistanceMatrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,20 +37,17 @@ public class TspMapController {
 
     private static final Logger logger = LoggerFactory.getLogger(TspMapController.class);
 
-    private final LocationRepository repository;
     private final TspPlannerComponent planner;
     private final RoutePublisher routePublisher;
-    private final DistanceMatrix distanceMatrix;
+    private final LocationInteractor locationInteractor;
 
     @Autowired
-    public TspMapController(LocationRepository repository,
-                            TspPlannerComponent planner,
+    public TspMapController(TspPlannerComponent planner,
                             RoutePublisher routePublisher,
-                            DistanceMatrix distanceMatrix) {
-        this.repository = repository;
+                            LocationInteractor locationInteractor) {
         this.planner = planner;
         this.routePublisher = routePublisher;
-        this.distanceMatrix = distanceMatrix;
+        this.locationInteractor = locationInteractor;
     }
 
     /**
@@ -77,7 +67,7 @@ public class TspMapController {
      */
     @MessageMapping("/place") // TODO rename to location
     public void create(PortableLocation request) {
-        addLocation(new LatLng(request.getLatitude(), request.getLongitude()));
+        locationInteractor.addLocation(new LatLng(request.getLatitude(), request.getLongitude()));
     }
 
     /**
@@ -85,16 +75,7 @@ public class TspMapController {
      */
     @MessageMapping("/demo")
     public void demo() {
-        Arrays.stream(Belgium.values()).forEach(city -> addLocation(LatLng.valueOf(city.lat, city.lng)));
-    }
-
-    private void addLocation(LatLng latLng) {
-        LocationEntity locationEntity = repository.save(new LocationEntity(latLng.getLatitude(), latLng.getLongitude()));
-        Location location = new Location(locationEntity.getId(), latLng);
-        // TODO handle no route -> roll back the problem fact change
-        DistanceMap distanceMap = distanceMatrix.addLocation(location);
-        planner.addLocation(location, distanceMap);
-        logger.info("Created {}", location);
+        locationInteractor.loadDemo();
     }
 
     /**
@@ -103,14 +84,6 @@ public class TspMapController {
      */
     @MessageMapping({"/place/{id}/delete"}) // TODO rename to location
     public void delete(@DestinationVariable Long id) {
-        repository.findById(id).ifPresent(locationEntityEntity -> {
-            repository.deleteById(id);
-            Location location = new Location(
-                    id,
-                    new LatLng(locationEntityEntity.getLatitude(), locationEntityEntity.getLongitude())
-            );
-            planner.removeLocation(location);
-            logger.info("Deleted {}", location);
-        });
+        locationInteractor.removeLocation(id);
     }
 }
