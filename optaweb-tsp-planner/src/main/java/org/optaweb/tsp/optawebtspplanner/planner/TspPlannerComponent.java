@@ -38,6 +38,7 @@ import org.optaplanner.examples.tsp.domain.location.Location;
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.interactor.DistanceMatrix;
+import org.optaweb.tsp.optawebtspplanner.interactor.RouteOptimizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +47,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TspPlannerComponent implements SolverEventListener<TspSolution> {
+public class TspPlannerComponent implements RouteOptimizer,
+                                            SolverEventListener<TspSolution> {
 
     private static final Logger logger = LoggerFactory.getLogger(TspPlannerComponent.class);
 
@@ -143,6 +145,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         sendRoute(tsp);
     }
 
+    @Override
     public void addLocation(org.optaweb.tsp.optawebtspplanner.core.Location coreLocation,
                             DistanceMatrix distanceMatrix) {
         RoadLocation location = coreToPlanner(coreLocation);
@@ -198,6 +201,7 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
         }
     }
 
+    @Override
     public void removeLocation(org.optaweb.tsp.optawebtspplanner.core.Location coreLocation) {
         Location location = coreToPlanner(coreLocation);
         if (!solver.isSolving()) {
