@@ -22,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
 /**
- * Configures REST access to {@link LocationRepository}.
+ * Configures REST access to {@link LocationCrudRepository}.
  */
 @Configuration
 public class LocationRepositoryRestConfig extends RepositoryRestConfigurerAdapter {
