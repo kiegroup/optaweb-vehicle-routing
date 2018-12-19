@@ -18,8 +18,8 @@ package org.optaweb.tsp.optawebtspplanner.websocket;
 
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.interactor.location.LocationInteractor;
-import org.optaweb.tsp.optawebtspplanner.planner.RouteChangedEvent;
-import org.optaweb.tsp.optawebtspplanner.planner.TspPlannerComponent;
+import org.optaweb.tsp.optawebtspplanner.interactor.route.Route;
+import org.optaweb.tsp.optawebtspplanner.interactor.route.RouteListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,15 +37,15 @@ public class TspMapController {
 
     private static final Logger logger = LoggerFactory.getLogger(TspMapController.class);
 
-    private final TspPlannerComponent planner;
-    private final RoutePublisher routePublisher;
+    private final RouteListener routeListener;
+    private final RoutePublisherImpl routePublisher;
     private final LocationInteractor locationInteractor;
 
     @Autowired
-    public TspMapController(TspPlannerComponent planner,
-                            RoutePublisher routePublisher,
+    public TspMapController(RouteListener routeListener,
+                            RoutePublisherImpl routePublisher,
                             LocationInteractor locationInteractor) {
-        this.planner = planner;
+        this.routeListener = routeListener;
         this.routePublisher = routePublisher;
         this.locationInteractor = locationInteractor;
     }
@@ -57,8 +57,8 @@ public class TspMapController {
     @SubscribeMapping("/route")
     public RouteMessage subscribe() {
         logger.info("Subscribed");
-        RouteChangedEvent event = planner.getSolution();
-        return routePublisher.createResponse(event.getDistance(), event.getRoute());
+        Route route = routeListener.getBestRoute();
+        return routePublisher.createResponse(route);
     }
 
     /**

@@ -39,6 +39,7 @@ import org.optaplanner.examples.tsp.domain.location.RoadLocation;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.interactor.location.DistanceMatrix;
 import org.optaweb.tsp.optawebtspplanner.interactor.location.RouteOptimizer;
+import org.optaweb.tsp.optawebtspplanner.interactor.route.RouteChangedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
