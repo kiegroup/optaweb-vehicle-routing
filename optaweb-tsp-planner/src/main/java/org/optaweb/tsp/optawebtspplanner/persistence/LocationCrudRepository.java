@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  * Location repository.
  */
 @CrossOrigin
-@RestResource(path = "locations")
-public interface LocationRepository extends CrudRepository<LocationEntity, Long> {
+@RestResource(path = "locations") // FIXME disable REST
+public interface LocationCrudRepository extends CrudRepository<LocationEntity, Long> {
 
 }

@@ -21,8 +21,6 @@ import java.util.Arrays;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.core.Location;
 import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
-import org.optaweb.tsp.optawebtspplanner.persistence.LocationEntity;
-import org.optaweb.tsp.optawebtspplanner.persistence.LocationRepository;
 import org.optaweb.tsp.optawebtspplanner.planner.DistanceMap;
 import org.optaweb.tsp.optawebtspplanner.planner.TspPlannerComponent;
 import org.optaweb.tsp.optawebtspplanner.routing.DistanceMatrix;
@@ -30,6 +28,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+/**
+ * Performs location-related use cases.
+ */
 @Component
 public class LocationInteractor {
 
@@ -52,8 +53,7 @@ public class LocationInteractor {
     }
 
     public void addLocation(LatLng latLng) {
-        LocationEntity locationEntity = repository.save(new LocationEntity(latLng.getLatitude(), latLng.getLongitude()));
-        Location location = new Location(locationEntity.getId(), latLng);
+        Location location = repository.createLocation(latLng);
         // TODO handle no route -> roll back the problem fact change
         DistanceMap distanceMap = distanceMatrix.addLocation(location);
         planner.addLocation(location, distanceMap);
@@ -61,14 +61,8 @@ public class LocationInteractor {
     }
 
     public void removeLocation(long id) {
-        repository.findById(id).ifPresent(locationEntityEntity -> {
-            repository.deleteById(id);
-            Location location = new Location(
-                    id,
-                    new LatLng(locationEntityEntity.getLatitude(), locationEntityEntity.getLongitude())
-            );
-            planner.removeLocation(location);
-            logger.info("Deleted {}", location);
-        });
+        Location location = repository.removeLocation(id);
+        planner.removeLocation(location);
+        logger.info("Deleted {}", location);
     }
 }
