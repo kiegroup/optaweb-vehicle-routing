@@ -21,7 +21,6 @@ import java.util.Arrays;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.core.Location;
 import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
-import org.optaweb.tsp.optawebtspplanner.planner.TspPlannerComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -35,14 +34,14 @@ public class LocationInteractor {
     private static final Logger logger = LoggerFactory.getLogger(LocationInteractor.class);
 
     private final LocationRepository repository;
-    private final TspPlannerComponent planner;
+    private final RouteOptimizer optimizer;
     private final DistanceMatrix distanceMatrix;
 
     public LocationInteractor(LocationRepository repository,
-                              TspPlannerComponent planner,
+                              RouteOptimizer optimizer,
                               DistanceMatrix distanceMatrix) {
         this.repository = repository;
-        this.planner = planner;
+        this.optimizer = optimizer;
         this.distanceMatrix = distanceMatrix;
     }
 
@@ -54,13 +53,13 @@ public class LocationInteractor {
         Location location = repository.createLocation(latLng);
         // TODO handle no route -> roll back the problem fact change
         distanceMatrix.addLocation(location);
-        planner.addLocation(location, distanceMatrix);
+        optimizer.addLocation(location, distanceMatrix);
         logger.info("Created {}", location);
     }
 
     public void removeLocation(long id) {
         Location location = repository.removeLocation(id);
-        planner.removeLocation(location);
+        optimizer.removeLocation(location);
         logger.info("Deleted {}", location);
     }
 }
