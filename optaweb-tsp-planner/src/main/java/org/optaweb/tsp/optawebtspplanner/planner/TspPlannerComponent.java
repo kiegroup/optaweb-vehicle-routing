@@ -37,6 +37,7 @@ import org.optaplanner.examples.tsp.domain.Visit;
 import org.optaplanner.examples.tsp.domain.location.Location;
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
+import org.optaweb.tsp.optawebtspplanner.interactor.DistanceMatrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,8 +144,9 @@ public class TspPlannerComponent implements SolverEventListener<TspSolution> {
     }
 
     public void addLocation(org.optaweb.tsp.optawebtspplanner.core.Location coreLocation,
-                            DistanceMap distanceMap) {
+                            DistanceMatrix distanceMatrix) {
         RoadLocation location = coreToPlanner(coreLocation);
+        DistanceMap distanceMap = new DistanceMap(coreLocation, distanceMatrix.getRow(coreLocation));
         location.setTravelDistanceMap(distanceMap);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (!solver.isSolving()) {

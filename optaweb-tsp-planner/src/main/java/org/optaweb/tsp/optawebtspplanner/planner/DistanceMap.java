@@ -1,7 +1,6 @@
 package org.optaweb.tsp.optawebtspplanner.planner;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,14 +15,11 @@ import org.optaweb.tsp.optawebtspplanner.core.Location;
 public class DistanceMap implements Map<RoadLocation, Double> {
 
     private final Location location;
-    private final Map<Long, Double> distanceMap = new HashMap<>(100);
+    private final Map<Long, Double> distanceMap;
 
-    public DistanceMap(Location location) {
+    public DistanceMap(Location location, Map<Long, Double> distanceMap) {
         this.location = location;
-    }
-
-    public Double put(Long id, Double distance) {
-        return distanceMap.put(id, distance);
+        this.distanceMap = distanceMap;
     }
 
     @Override

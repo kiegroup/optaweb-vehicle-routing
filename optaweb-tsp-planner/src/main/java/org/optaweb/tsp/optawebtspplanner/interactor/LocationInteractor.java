@@ -21,9 +21,7 @@ import java.util.Arrays;
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.core.Location;
 import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
-import org.optaweb.tsp.optawebtspplanner.planner.DistanceMap;
 import org.optaweb.tsp.optawebtspplanner.planner.TspPlannerComponent;
-import org.optaweb.tsp.optawebtspplanner.routing.DistanceMatrix;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -55,8 +53,8 @@ public class LocationInteractor {
     public void addLocation(LatLng latLng) {
         Location location = repository.createLocation(latLng);
         // TODO handle no route -> roll back the problem fact change
-        DistanceMap distanceMap = distanceMatrix.addLocation(location);
-        planner.addLocation(location, distanceMap);
+        distanceMatrix.addLocation(location);
+        planner.addLocation(location, distanceMatrix);
         logger.info("Created {}", location);
     }
 
