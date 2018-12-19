@@ -25,7 +25,7 @@ public class RoutingConfig {
     private static final String OSM_FILE_KEY = "osmfile";
     private static final String GH_DIR = "local/graphhopper/";
 
-    private Environment env;
+    private final Environment env;
 
     @Autowired
     public RoutingConfig(Environment env) {
