@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import org.junit.Test;
-import org.optaweb.tsp.optawebtspplanner.core.LatLng;
-import org.optaweb.tsp.optawebtspplanner.core.Location;
+import org.optaweb.tsp.optawebtspplanner.domain.LatLng;
+import org.optaweb.tsp.optawebtspplanner.domain.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

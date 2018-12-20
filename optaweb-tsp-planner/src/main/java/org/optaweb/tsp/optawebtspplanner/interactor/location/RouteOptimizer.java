@@ -16,7 +16,7 @@
 
 package org.optaweb.tsp.optawebtspplanner.interactor.location;
 
-import org.optaweb.tsp.optawebtspplanner.core.Location;
+import org.optaweb.tsp.optawebtspplanner.domain.Location;
 
 public interface RouteOptimizer {
 

@@ -36,7 +36,7 @@ import org.optaplanner.examples.tsp.domain.TspSolution;
 import org.optaplanner.examples.tsp.domain.Visit;
 import org.optaplanner.examples.tsp.domain.location.Location;
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
-import org.optaweb.tsp.optawebtspplanner.core.LatLng;
+import org.optaweb.tsp.optawebtspplanner.domain.LatLng;
 import org.optaweb.tsp.optawebtspplanner.interactor.location.DistanceMatrix;
 import org.optaweb.tsp.optawebtspplanner.interactor.location.RouteOptimizer;
 import org.optaweb.tsp.optawebtspplanner.interactor.route.RouteChangedEvent;
@@ -73,14 +73,14 @@ public class TspPlannerComponent implements RouteOptimizer,
         solver.addEventListener(this);
     }
 
-    private static RoadLocation coreToPlanner(org.optaweb.tsp.optawebtspplanner.core.Location location) {
+    private static RoadLocation coreToPlanner(org.optaweb.tsp.optawebtspplanner.domain.Location location) {
         return new RoadLocation(location.getId(),
                 location.getLatLng().getLatitude().doubleValue(),
                 location.getLatLng().getLongitude().doubleValue()
         );
     }
 
-    private static Optional<List<org.optaweb.tsp.optawebtspplanner.core.Location>> extractRoute(TspSolution tsp) {
+    private static Optional<List<org.optaweb.tsp.optawebtspplanner.domain.Location>> extractRoute(TspSolution tsp) {
         Map<Standstill, Visit> nextVisitMap = new LinkedHashMap<>();
         for (Visit visit : tsp.getVisitList()) {
             if (visit.getPreviousStandstill() != null) {
@@ -98,7 +98,7 @@ public class TspPlannerComponent implements RouteOptimizer,
         if (domicile == null) {
             return Optional.of(new ArrayList<>());
         }
-        List<org.optaweb.tsp.optawebtspplanner.core.Location> route = new ArrayList<>();
+        List<org.optaweb.tsp.optawebtspplanner.domain.Location> route = new ArrayList<>();
         addLocationToRoute(route, domicile.getLocation());
         for (Visit visit = nextVisitMap.get(domicile); visit != null; visit = nextVisitMap.get(visit)) {
             addLocationToRoute(route, visit.getLocation());
@@ -106,8 +106,8 @@ public class TspPlannerComponent implements RouteOptimizer,
         return Optional.of(route);
     }
 
-    private static void addLocationToRoute(List<org.optaweb.tsp.optawebtspplanner.core.Location> route, Location location) {
-        route.add(new org.optaweb.tsp.optawebtspplanner.core.Location(
+    private static void addLocationToRoute(List<org.optaweb.tsp.optawebtspplanner.domain.Location> route, Location location) {
+        route.add(new org.optaweb.tsp.optawebtspplanner.domain.Location(
                 location.getId(),
                 LatLng.valueOf(location.getLatitude(), location.getLongitude())
         ));
@@ -130,7 +130,7 @@ public class TspPlannerComponent implements RouteOptimizer,
     }
 
     public RouteChangedEvent getSolution() {
-        List<org.optaweb.tsp.optawebtspplanner.core.Location> route = extractRoute(tsp)
+        List<org.optaweb.tsp.optawebtspplanner.domain.Location> route = extractRoute(tsp)
                 .orElseThrow(() -> new IllegalStateException("Best solution cannot have unconnected visits."));
         // FIXME duplication of distance format
         return new RouteChangedEvent(this, tsp.getDistanceString(new DecimalFormat("#,##0.00")), route);
@@ -147,7 +147,7 @@ public class TspPlannerComponent implements RouteOptimizer,
     }
 
     @Override
-    public void addLocation(org.optaweb.tsp.optawebtspplanner.core.Location coreLocation,
+    public void addLocation(org.optaweb.tsp.optawebtspplanner.domain.Location coreLocation,
                             DistanceMatrix distanceMatrix) {
         RoadLocation location = coreToPlanner(coreLocation);
         DistanceMap distanceMap = new DistanceMap(coreLocation, distanceMatrix.getRow(coreLocation));
@@ -203,7 +203,7 @@ public class TspPlannerComponent implements RouteOptimizer,
     }
 
     @Override
-    public void removeLocation(org.optaweb.tsp.optawebtspplanner.core.Location coreLocation) {
+    public void removeLocation(org.optaweb.tsp.optawebtspplanner.domain.Location coreLocation) {
         Location location = coreToPlanner(coreLocation);
         if (!solver.isSolving()) {
             tsp.getLocationList().remove(0);

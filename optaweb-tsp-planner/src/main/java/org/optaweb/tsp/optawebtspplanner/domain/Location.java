@@ -1,4 +1,4 @@
-package org.optaweb.tsp.optawebtspplanner.core;
+package org.optaweb.tsp.optawebtspplanner.domain;
 
 import java.util.Objects;
 

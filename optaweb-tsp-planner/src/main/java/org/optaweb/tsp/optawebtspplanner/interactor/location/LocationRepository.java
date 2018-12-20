@@ -16,8 +16,8 @@
 
 package org.optaweb.tsp.optawebtspplanner.interactor.location;
 
-import org.optaweb.tsp.optawebtspplanner.core.LatLng;
-import org.optaweb.tsp.optawebtspplanner.core.Location;
+import org.optaweb.tsp.optawebtspplanner.domain.LatLng;
+import org.optaweb.tsp.optawebtspplanner.domain.Location;
 
 /**
  * Defines repository operations on locations.

@@ -16,7 +16,7 @@
 
 package org.optaweb.tsp.optawebtspplanner.plugin.websocket;
 
-import org.optaweb.tsp.optawebtspplanner.core.LatLng;
+import org.optaweb.tsp.optawebtspplanner.domain.LatLng;
 import org.optaweb.tsp.optawebtspplanner.interactor.location.LocationInteractor;
 import org.optaweb.tsp.optawebtspplanner.interactor.route.Route;
 import org.optaweb.tsp.optawebtspplanner.interactor.route.RouteListener;

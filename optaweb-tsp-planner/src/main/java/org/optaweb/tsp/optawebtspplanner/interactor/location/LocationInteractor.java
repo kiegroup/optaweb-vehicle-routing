@@ -18,8 +18,8 @@ package org.optaweb.tsp.optawebtspplanner.interactor.location;
 
 import java.util.Arrays;
 
-import org.optaweb.tsp.optawebtspplanner.core.LatLng;
-import org.optaweb.tsp.optawebtspplanner.core.Location;
+import org.optaweb.tsp.optawebtspplanner.domain.LatLng;
+import org.optaweb.tsp.optawebtspplanner.domain.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

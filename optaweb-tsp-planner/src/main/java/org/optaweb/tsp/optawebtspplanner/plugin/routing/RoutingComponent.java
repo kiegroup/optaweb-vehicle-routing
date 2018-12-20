@@ -8,7 +8,7 @@ import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.PointList;
-import org.optaweb.tsp.optawebtspplanner.core.LatLng;
+import org.optaweb.tsp.optawebtspplanner.domain.LatLng;
 import org.optaweb.tsp.optawebtspplanner.interactor.route.Router;
 import org.springframework.stereotype.Component;
 

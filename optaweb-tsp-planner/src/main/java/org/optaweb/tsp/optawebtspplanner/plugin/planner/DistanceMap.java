@@ -5,11 +5,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
-import org.optaweb.tsp.optawebtspplanner.core.Location;
+import org.optaweb.tsp.optawebtspplanner.domain.Location;
 
 /**
  * Temporary distance map implementation that allows to compute and store distances purely from
- * {@link org.optaweb.tsp.optawebtspplanner.core core domain} and later be queried using Planning domain.
+ * {@link org.optaweb.tsp.optawebtspplanner.domain domain objects} and later be queried using Planning domain objects.
  */
 // TODO get rid of dependency on Planning domain
 public class DistanceMap implements Map<RoadLocation, Double> {
