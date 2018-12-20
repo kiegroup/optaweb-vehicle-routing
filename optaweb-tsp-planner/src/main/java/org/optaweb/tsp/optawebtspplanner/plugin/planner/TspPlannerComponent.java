@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.tsp.optawebtspplanner.planner;
+package org.optaweb.tsp.optawebtspplanner.plugin.planner;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;

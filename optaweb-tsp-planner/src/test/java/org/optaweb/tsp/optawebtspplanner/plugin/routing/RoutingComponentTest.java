@@ -1,4 +1,4 @@
-package org.optaweb.tsp.optawebtspplanner.routing;
+package org.optaweb.tsp.optawebtspplanner.plugin.routing;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.optaweb.tsp.optawebtspplanner.planner;
+package org.optaweb.tsp.optawebtspplanner.plugin.planner;
 
 import java.util.Collection;
 import java.util.Map;

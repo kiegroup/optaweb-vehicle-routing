@@ -1,4 +1,4 @@
-package org.optaweb.tsp.optawebtspplanner.routing;
+package org.optaweb.tsp.optawebtspplanner.plugin.routing;
 
 import java.math.BigDecimal;
 import java.util.Map;
