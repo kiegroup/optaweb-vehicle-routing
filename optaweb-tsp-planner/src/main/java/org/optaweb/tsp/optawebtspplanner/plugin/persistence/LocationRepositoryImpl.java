@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.tsp.optawebtspplanner.persistence;
+package org.optaweb.tsp.optawebtspplanner.plugin.persistence;
 
 import java.util.Optional;
 

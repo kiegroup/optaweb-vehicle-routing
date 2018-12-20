@@ -1,4 +1,4 @@
-package org.optaweb.tsp.optawebtspplanner.websocket;
+package org.optaweb.tsp.optawebtspplanner.plugin.websocket;
 
 import java.util.ArrayList;
 import java.util.List;
