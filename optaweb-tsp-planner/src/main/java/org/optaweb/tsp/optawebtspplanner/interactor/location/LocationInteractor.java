@@ -20,7 +20,6 @@ import java.util.Arrays;
 
 import org.optaweb.tsp.optawebtspplanner.core.LatLng;
 import org.optaweb.tsp.optawebtspplanner.core.Location;
-import org.optaweb.tsp.optawebtspplanner.demo.Belgium;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
