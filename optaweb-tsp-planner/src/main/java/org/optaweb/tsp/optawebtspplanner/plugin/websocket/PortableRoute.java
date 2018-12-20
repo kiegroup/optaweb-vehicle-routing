@@ -21,13 +21,13 @@ import java.util.List;
 /**
  * Route description.
  */
-public class RouteMessage {
+public class PortableRoute {
 
     private final String distance;
     private final List<PortableLocation> route;
     private final List<List<PortableLocation>> segments;
 
-    public RouteMessage(String distance, List<PortableLocation> route, List<List<PortableLocation>> segments) {
+    public PortableRoute(String distance, List<PortableLocation> route, List<List<PortableLocation>> segments) {
         this.distance = distance;
         this.route = route;
         this.segments = segments;

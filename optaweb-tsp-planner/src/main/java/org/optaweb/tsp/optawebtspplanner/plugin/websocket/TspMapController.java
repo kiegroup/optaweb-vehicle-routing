@@ -55,10 +55,10 @@ public class TspMapController {
      * @return route message
      */
     @SubscribeMapping("/route")
-    public RouteMessage subscribe() {
+    public PortableRoute subscribe() {
         logger.info("Subscribed");
         Route route = routeListener.getBestRoute();
-        return routePublisher.createResponse(route);
+        return routePublisher.portableRoute(route);
     }
 
     /**
