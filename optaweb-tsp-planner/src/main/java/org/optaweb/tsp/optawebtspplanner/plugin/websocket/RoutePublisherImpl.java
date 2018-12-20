@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.optaweb.tsp.optawebtspplanner.core.LatLng;
+import org.optaweb.tsp.optawebtspplanner.domain.LatLng;
 import org.optaweb.tsp.optawebtspplanner.interactor.route.Route;
 import org.optaweb.tsp.optawebtspplanner.interactor.route.RoutePublisher;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -18,7 +18,7 @@ package org.optaweb.tsp.optawebtspplanner.interactor.route;
 
 import java.util.List;
 
-import org.optaweb.tsp.optawebtspplanner.core.LatLng;
+import org.optaweb.tsp.optawebtspplanner.domain.LatLng;
 
 public interface Router {
 

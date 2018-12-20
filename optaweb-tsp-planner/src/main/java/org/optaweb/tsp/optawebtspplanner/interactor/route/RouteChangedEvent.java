@@ -18,7 +18,7 @@ package org.optaweb.tsp.optawebtspplanner.interactor.route;
 
 import java.util.List;
 
-import org.optaweb.tsp.optawebtspplanner.core.Location;
+import org.optaweb.tsp.optawebtspplanner.domain.Location;
 import org.springframework.context.ApplicationEvent;
 
 /**
