@@ -26,10 +26,10 @@ public class RoutePublisherImpl implements RoutePublisher {
 
     @Override
     public void publish(Route route) {
-        webSocket.convertAndSend("/topic/route", createResponse(route));
+        webSocket.convertAndSend("/topic/route", portableRoute(route));
     }
 
-    RouteMessage createResponse(Route route) {
+    PortableRoute portableRoute(Route route) {
         List<PortableLocation> portableRoute = route.getRoute().stream()
                 .map(location -> new PortableLocation(
                         location.getId(),
@@ -43,6 +43,6 @@ public class RoutePublisherImpl implements RoutePublisher {
                     .collect(Collectors.toList());
             portableSegments.add(portableSegment);
         }
-        return new RouteMessage(route.getDistance(), portableRoute, portableSegments);
+        return new PortableRoute(route.getDistance(), portableRoute, portableSegments);
     }
 }
