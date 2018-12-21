@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RoutingComponentTest {
+public class RouterImplTest {
 
     private final PointList pointList = new PointList();
     private final LatLng from = LatLng.valueOf(-Double.MIN_VALUE, Double.MIN_VALUE);
@@ -43,7 +43,7 @@ public class RoutingComponentTest {
     @Test
     public void getDistance_should_return_graphhopper_distance() {
         // arrange
-        RoutingComponent routing = new RoutingComponent(graphHopper);
+        RouterImpl routing = new RouterImpl(graphHopper);
         when(pathWrapper.getDistance()).thenReturn(Math.PI);
 
         // act & assert
@@ -53,7 +53,7 @@ public class RoutingComponentTest {
     @Test
     public void getDistance_should_throw_exception_when_no_route_exists() {
         // arrange
-        RoutingComponent routing = new RoutingComponent(graphHopper);
+        RouterImpl routing = new RouterImpl(graphHopper);
         when(ghResponse.hasErrors()).thenReturn(true);
         when(ghResponse.getErrors()).thenReturn(Collections.singletonList(new RuntimeException()));
 
@@ -67,7 +67,7 @@ public class RoutingComponentTest {
     @Test
     public void getRoute_should_return_graphopper_route() {
         // arrange
-        RoutingComponent routing = new RoutingComponent(graphHopper);
+        RouterImpl routing = new RouterImpl(graphHopper);
 
         LatLng latLng1 = LatLng.valueOf(1, 1);
         LatLng latLng2 = LatLng.valueOf(Math.E, Math.PI);

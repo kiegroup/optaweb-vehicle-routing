@@ -16,11 +16,11 @@ import org.springframework.stereotype.Component;
  * Provides geographical information needed for route optimization.
  */
 @Component
-public class RoutingComponent implements Router {
+public class RouterImpl implements Router {
 
     private final GraphHopperOSM graphHopper;
 
-    RoutingComponent(GraphHopperOSM graphHopper) {
+    RouterImpl(GraphHopperOSM graphHopper) {
         this.graphHopper = graphHopper;
     }
 

@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class DistanceMatrixImpl implements DistanceMatrix {
 
-    private final RoutingComponent routing;
+    private final RouterImpl router;
     private final Map<Location, Map<Long, Double>> matrix = new HashMap<>();
 
     @Autowired
-    public DistanceMatrixImpl(RoutingComponent routing) {
-        this.routing = routing;
+    public DistanceMatrixImpl(RouterImpl router) {
+        this.router = router;
     }
 
     @Override
@@ -28,8 +28,8 @@ public class DistanceMatrixImpl implements DistanceMatrix {
         distanceMap.put(location.getId(), 0.0);
         for (Map.Entry<Location, Map<Long, Double>> entry : matrix.entrySet()) {
             Location other = entry.getKey();
-            distanceMap.put(other.getId(), routing.getDistance(location.getLatLng(), other.getLatLng()));
-            entry.getValue().put(location.getId(), routing.getDistance(other.getLatLng(), location.getLatLng()));
+            distanceMap.put(other.getId(), router.getDistance(location.getLatLng(), other.getLatLng()));
+            entry.getValue().put(location.getId(), router.getDistance(other.getLatLng(), location.getLatLng()));
         }
         matrix.put(location, distanceMap);
     }

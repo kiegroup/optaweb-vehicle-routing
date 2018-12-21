@@ -13,7 +13,7 @@ public class DistanceMatrixImplTest {
 
     @Test
     public void test() {
-        DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockRouting());
+        DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockRouter());
 
         Location l0 = location(100, 0);
         Location l1 = location(111, 1);
@@ -57,9 +57,9 @@ public class DistanceMatrixImplTest {
         return new Location(id, new LatLng(BigDecimal.ZERO, BigDecimal.valueOf(longitude)));
     }
 
-    private static class MockRouting extends RoutingComponent {
+    private static class MockRouter extends RouterImpl {
 
-        public MockRouting() {
+        MockRouter() {
             super(null);
         }
 
