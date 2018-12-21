@@ -33,18 +33,18 @@ import org.springframework.stereotype.Controller;
  * @see WebSocketConfig
  */
 @Controller
-public class TspMapController {
+public class WebSocketController {
 
-    private static final Logger logger = LoggerFactory.getLogger(TspMapController.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebSocketController.class);
 
     private final RouteListener routeListener;
     private final RoutePublisherImpl routePublisher;
     private final LocationInteractor locationInteractor;
 
     @Autowired
-    public TspMapController(RouteListener routeListener,
-                            RoutePublisherImpl routePublisher,
-                            LocationInteractor locationInteractor) {
+    public WebSocketController(RouteListener routeListener,
+                               RoutePublisherImpl routePublisher,
+                               LocationInteractor locationInteractor) {
         this.routeListener = routeListener;
         this.routePublisher = routePublisher;
         this.locationInteractor = locationInteractor;
