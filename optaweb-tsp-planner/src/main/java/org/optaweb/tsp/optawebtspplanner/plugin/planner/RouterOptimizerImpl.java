@@ -48,10 +48,10 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TspPlannerComponent implements RouteOptimizer,
+public class RouterOptimizerImpl implements RouteOptimizer,
                                             SolverEventListener<TspSolution> {
 
-    private static final Logger logger = LoggerFactory.getLogger(TspPlannerComponent.class);
+    private static final Logger logger = LoggerFactory.getLogger(RouterOptimizerImpl.class);
 
     private final ApplicationEventPublisher publisher;
     private final Solver<TspSolution> solver;
@@ -60,7 +60,7 @@ public class TspPlannerComponent implements RouteOptimizer,
     private TspSolution tsp = new TspSolution();
 
     @Autowired
-    public TspPlannerComponent(ApplicationEventPublisher publisher) {
+    public RouterOptimizerImpl(ApplicationEventPublisher publisher) {
         this.publisher = publisher;
 
         tsp.setLocationList(new ArrayList<>());
@@ -127,13 +127,6 @@ public class TspPlannerComponent implements RouteOptimizer,
     private void updateScore(TspSolution solution) {
         scoreDirector.setWorkingSolution(solution);
         scoreDirector.calculateScore();
-    }
-
-    public RouteChangedEvent getSolution() {
-        List<org.optaweb.tsp.optawebtspplanner.domain.Location> route = extractRoute(tsp)
-                .orElseThrow(() -> new IllegalStateException("Best solution cannot have unconnected visits."));
-        // FIXME duplication of distance format
-        return new RouteChangedEvent(this, tsp.getDistanceString(new DecimalFormat("#,##0.00")), route);
     }
 
     @Override
