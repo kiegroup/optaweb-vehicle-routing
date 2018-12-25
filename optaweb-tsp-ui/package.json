@@ -19,6 +19,7 @@
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
+    "coverage": "npm run test -- --coverage",
     "lint": "./node_modules/tslint/bin/tslint -p tsconfig.json --force",
     "lint:fix": "npm run lint -- --fix",
     "eject": "react-scripts-ts eject"
