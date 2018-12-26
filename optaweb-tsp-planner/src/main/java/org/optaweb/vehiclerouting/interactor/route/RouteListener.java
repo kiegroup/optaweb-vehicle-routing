@@ -24,6 +24,9 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+/**
+ * Handles route updates emitted by optimization plugin.
+ */
 @Component
 public class RouteListener implements ApplicationListener<RouteChangedEvent> {
 
