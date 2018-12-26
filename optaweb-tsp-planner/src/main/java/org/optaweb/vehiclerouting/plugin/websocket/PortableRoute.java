@@ -19,7 +19,7 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 import java.util.List;
 
 /**
- * Route description.
+ * Route representation convenient for marshalling.
  */
 public class PortableRoute {
 

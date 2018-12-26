@@ -20,6 +20,9 @@ import java.util.Map;
 
 import org.optaweb.vehiclerouting.domain.Location;
 
+/**
+ * Keeps the information about distances between every pair of locations.
+ */
 public interface DistanceMatrix {
 
     void addLocation(Location location);
