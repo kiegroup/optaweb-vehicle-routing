@@ -19,4 +19,4 @@ jobs:
     - language: java
       jdk: openjdk8
       before_install:
-        - "cd optaweb-tsp-planner"
+        - "cd optaweb-vehicle-routing-backend"

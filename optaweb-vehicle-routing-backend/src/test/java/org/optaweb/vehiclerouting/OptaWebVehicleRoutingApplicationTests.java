@@ -47,7 +47,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 @ActiveProfiles(Profiles.TEST)
-public class OptawebTspPlannerApplicationTests {
+public class OptaWebVehicleRoutingApplicationTests {
 
     @Autowired
     private MockMvc mockMvc;

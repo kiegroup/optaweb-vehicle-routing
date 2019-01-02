@@ -19,13 +19,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.optaweb.tsp</groupId>
-  <artifactId>optaweb-tsp-planner</artifactId>
+  <groupId>org.optaweb.vehiclerouting</groupId>
+  <artifactId>optaweb-vehicle-routing-backend</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>optaweb-tsp-planner</name>
-  <description>Demo project for Spring Boot</description>
+  <name>OptaWeb Vehicle Routing Backend</name>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
