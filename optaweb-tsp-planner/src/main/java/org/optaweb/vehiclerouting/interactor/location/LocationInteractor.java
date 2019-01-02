@@ -22,12 +22,12 @@ import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Performs location-related use cases.
  */
-@Component
+@Service
 public class LocationInteractor {
 
     private static final Logger logger = LoggerFactory.getLogger(LocationInteractor.class);
