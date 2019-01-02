@@ -1,0 +1,61 @@
+= OptaWeb Vehicle Routing Backend
+
+- Maintains and persists user data created through the UI (e.g. visit locations).
+- Uses 3rd party services to obtain travel distances between locations based on
+  real-world geographical data.
+- Uses OptaPlanner to optimize the route between locations.
+- Provides network endpoints for interaction with the web UI.
+
+== Project Structure
+
+=== Root Package
+
+The root package name is identical to the Maven Group ID of the project
+(`org.optaweb.vehiclerouting`).
+It contains a class annotated with `@SpringBootApplication`,
+which enables Spring auto-configuration and component scanning in sub-packages.
+
+=== Domain Package
+
+Contains "business objects" that model the domain of this project,
+for example Customer, Depot, Location, Vehicle.
+These objects are strictly business-oriented and must not be influenced
+by any tools and frameworks (e.g. ORM, marshalling formats etc.).
+
+=== Interactors Package
+
+Contains classes that implement "use cases".
+A use case is for example adding new location, changing vehicle capacity
+or finding coordinates for an address.
+The business rules that govern use cases are expressed using the domain objects.
+
+Use cases often need to interact with outer layers, such as persistence, web and
+optimization.
+To keep the code loosely coupled, the interaction with the outer layers
+is expressed in terms of interfaces.
+Their implementations are provided by Spring IoC container at runtime.
+
+=== Plugins Package
+
+Contains outer layers such as optimization, persistence, routing and web.
+
+== Dependency rules
+
+Compile-time dependencies are only allowed in the direction from outer layers
+towards the center.
+This means plugins -> interactors -> domain.
+
+The domain has no dependencies.
+
+Interactors only depend on the domain.
+If an interactor needs to send a result (e.g. to a database or web socket),
+it uses an output boundary interface.
+Its implementation is injected by the IoC container.
+
+Plugins depend on interactors in two ways.
+Firstly, they invoke interactors based on events such as a user input
+or a route update coming from the optimization engine.
+Interactors are injected into plugins, which moves the burden of their
+construction and dependency resolution to the IoC container.
+Secondly, plugins implement interactors' output boundary interfaces to handle
+use case results, e.g. persisting changes to database, sending response to web UI.
