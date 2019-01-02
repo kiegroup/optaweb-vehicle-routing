@@ -22,12 +22,12 @@ import java.util.List;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.context.ApplicationListener;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 /**
  * Handles route updates emitted by optimization plugin.
  */
-@Component
+@Service
 public class RouteListener implements ApplicationListener<RouteChangedEvent> {
 
     private final Router router;
