@@ -14,39 +14,39 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.interactor.route;
+package org.optaweb.vehiclerouting.service.route;
 
-import java.util.Collections;
 import java.util.List;
 
-import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.springframework.context.ApplicationEvent;
 
-public class Route {
+/**
+ * Event published when the best route has been changed either by discovering a better route or changing
+ * the set of locations.
+ */
+public class RouteChangedEvent extends ApplicationEvent {
 
     private final String distance;
     private final List<Location> route;
-    private final List<List<LatLng>> segments;
 
-    public Route(String distance, List<Location> route, List<List<LatLng>> segments) {
-        this.distance = distance;
+    /**
+     * Create a new ApplicationEvent.
+     * @param source the object on which the event initially occurred (never {@code null})
+     * @param distance route distance
+     * @param route list of locations
+     */
+    public RouteChangedEvent(Object source, String distance, List<Location> route) {
+        super(source);
         this.route = route;
-        this.segments = segments;
-    }
-
-    public static Route empty() {
-        return new Route("0", Collections.emptyList(), Collections.emptyList());
-    }
-
-    public String getDistance() {
-        return distance;
+        this.distance = distance;
     }
 
     public List<Location> getRoute() {
         return route;
     }
 
-    public List<List<LatLng>> getSegments() {
-        return segments;
+    public String getDistance() {
+        return distance;
     }
 }

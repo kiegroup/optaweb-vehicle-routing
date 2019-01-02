@@ -17,9 +17,9 @@
 package org.optaweb.vehiclerouting.plugin.websocket;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.interactor.location.LocationInteractor;
-import org.optaweb.vehiclerouting.interactor.route.Route;
-import org.optaweb.vehiclerouting.interactor.route.RouteListener;
+import org.optaweb.vehiclerouting.service.location.LocationService;
+import org.optaweb.vehiclerouting.service.route.Route;
+import org.optaweb.vehiclerouting.service.route.RouteListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,15 +39,15 @@ public class WebSocketController {
 
     private final RouteListener routeListener;
     private final RoutePublisherImpl routePublisher;
-    private final LocationInteractor locationInteractor;
+    private final LocationService locationService;
 
     @Autowired
     public WebSocketController(RouteListener routeListener,
                                RoutePublisherImpl routePublisher,
-                               LocationInteractor locationInteractor) {
+                               LocationService locationService) {
         this.routeListener = routeListener;
         this.routePublisher = routePublisher;
-        this.locationInteractor = locationInteractor;
+        this.locationService = locationService;
     }
 
     /**
@@ -67,7 +67,7 @@ public class WebSocketController {
      */
     @MessageMapping("/place") // TODO rename to location
     public void create(PortableLocation request) {
-        locationInteractor.addLocation(new LatLng(request.getLatitude(), request.getLongitude()));
+        locationService.addLocation(new LatLng(request.getLatitude(), request.getLongitude()));
     }
 
     /**
@@ -75,7 +75,7 @@ public class WebSocketController {
      */
     @MessageMapping("/demo")
     public void demo() {
-        locationInteractor.loadDemo();
+        locationService.loadDemo();
     }
 
     /**
@@ -84,6 +84,6 @@ public class WebSocketController {
      */
     @MessageMapping({"/place/{id}/delete"}) // TODO rename to location
     public void delete(@DestinationVariable Long id) {
-        locationInteractor.removeLocation(id);
+        locationService.removeLocation(id);
     }
 }

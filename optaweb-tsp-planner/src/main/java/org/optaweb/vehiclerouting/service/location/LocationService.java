@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.interactor.location;
+package org.optaweb.vehiclerouting.service.location;
 
 import java.util.Arrays;
 
@@ -28,17 +28,17 @@ import org.springframework.stereotype.Service;
  * Performs location-related use cases.
  */
 @Service
-public class LocationInteractor {
+public class LocationService {
 
-    private static final Logger logger = LoggerFactory.getLogger(LocationInteractor.class);
+    private static final Logger logger = LoggerFactory.getLogger(LocationService.class);
 
     private final LocationRepository repository;
     private final RouteOptimizer optimizer;
     private final DistanceMatrix distanceMatrix;
 
-    public LocationInteractor(LocationRepository repository,
-                              RouteOptimizer optimizer,
-                              DistanceMatrix distanceMatrix) {
+    public LocationService(LocationRepository repository,
+                           RouteOptimizer optimizer,
+                           DistanceMatrix distanceMatrix) {
         this.repository = repository;
         this.optimizer = optimizer;
         this.distanceMatrix = distanceMatrix;

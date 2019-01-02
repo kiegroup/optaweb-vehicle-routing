@@ -14,7 +14,27 @@
  * limitations under the License.
  */
 
+package org.optaweb.vehiclerouting.service.location;
+
+import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Location;
+
 /**
- * Handles {@link org.optaweb.vehiclerouting.interactor.route.Route route} updates.
+ * Defines repository operations on locations.
  */
-package org.optaweb.vehiclerouting.interactor.route;
+public interface LocationRepository {
+
+    /**
+     * Create a location with a unique ID.
+     * @param latLng location's coordinates
+     * @return a new location
+     */
+    Location createLocation(LatLng latLng);
+
+    /**
+     * Remove location.
+     * @param id location's id
+     * @return the removed location
+     */
+    Location removeLocation(long id);
+}

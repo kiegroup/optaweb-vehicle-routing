@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.interactor.route;
-
-public interface RoutePublisher {
-
-    void publish(Route route);
-}
+/**
+ * Handles {@link org.optaweb.vehiclerouting.service.route.Route route} updates.
+ */
+package org.optaweb.vehiclerouting.service.route;

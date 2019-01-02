@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.interactor.route.Route;
-import org.optaweb.vehiclerouting.interactor.route.RoutePublisher;
+import org.optaweb.vehiclerouting.service.route.Route;
+import org.optaweb.vehiclerouting.service.route.RoutePublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;

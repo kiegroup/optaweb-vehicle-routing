@@ -22,7 +22,7 @@ for example Customer, Depot, Location, Vehicle.
 These objects are strictly business-oriented and must not be influenced
 by any tools and frameworks (e.g. ORM, marshalling formats etc.).
 
-=== Interactors Package
+=== Services Package
 
 Contains classes that implement "use cases".
 A use case is for example adding new location, changing vehicle capacity
@@ -43,19 +43,19 @@ Contains outer layers such as optimization, persistence, routing and web.
 
 Compile-time dependencies are only allowed in the direction from outer layers
 towards the center.
-This means plugins -> interactors -> domain.
+This means plugins -> services -> domain.
 
 The domain has no dependencies.
 
-Interactors only depend on the domain.
-If an interactor needs to send a result (e.g. to a database or web socket),
+Services only depend on the domain.
+If a service needs to send a result (e.g. to a database or web socket),
 it uses an output boundary interface.
 Its implementation is injected by the IoC container.
 
-Plugins depend on interactors in two ways.
-Firstly, they invoke interactors based on events such as a user input
+Plugins depend on services in two ways.
+Firstly, they invoke services based on events such as a user input
 or a route update coming from the optimization engine.
-Interactors are injected into plugins, which moves the burden of their
+Services are injected into plugins, which moves the burden of their
 construction and dependency resolution to the IoC container.
-Secondly, plugins implement interactors' output boundary interfaces to handle
+Secondly, plugins implement services' output boundary interfaces to handle
 use case results, e.g. persisting changes to database, sending response to web UI.

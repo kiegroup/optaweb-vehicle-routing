@@ -14,27 +14,16 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.interactor.location;
+package org.optaweb.vehiclerouting.service.location;
 
-import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 
 /**
- * Defines repository operations on locations.
+ * Performs route optimization based on distances provided by {@link DistanceMatrix}.
  */
-public interface LocationRepository {
+public interface RouteOptimizer {
 
-    /**
-     * Create a location with a unique ID.
-     * @param latLng location's coordinates
-     * @return a new location
-     */
-    Location createLocation(LatLng latLng);
+    void addLocation(Location location, DistanceMatrix distanceMatrix);
 
-    /**
-     * Remove location.
-     * @param id location's id
-     * @return the removed location
-     */
-    Location removeLocation(long id);
+    void removeLocation(Location location);
 }
