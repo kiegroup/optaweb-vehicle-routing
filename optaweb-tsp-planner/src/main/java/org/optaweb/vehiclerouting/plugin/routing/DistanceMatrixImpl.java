@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.interactor.location.DistanceMatrix;
+import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

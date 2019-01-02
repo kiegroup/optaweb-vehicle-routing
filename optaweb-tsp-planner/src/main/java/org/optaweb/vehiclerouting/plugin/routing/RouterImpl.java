@@ -25,7 +25,7 @@ import com.graphhopper.GHResponse;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.PointList;
 import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.interactor.route.Router;
+import org.optaweb.vehiclerouting.service.route.Router;
 import org.springframework.stereotype.Component;
 
 /**

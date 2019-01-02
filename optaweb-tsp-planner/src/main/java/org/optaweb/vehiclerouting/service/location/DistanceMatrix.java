@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.interactor.location;
+package org.optaweb.vehiclerouting.service.location;
+
+import java.util.Map;
 
 import org.optaweb.vehiclerouting.domain.Location;
 
 /**
- * Performs route optimization based on distances provided by {@link DistanceMatrix}.
+ * Keeps the information about distances between every pair of locations.
  */
-public interface RouteOptimizer {
+public interface DistanceMatrix {
 
-    void addLocation(Location location, DistanceMatrix distanceMatrix);
+    void addLocation(Location location);
 
-    void removeLocation(Location location);
+    // TODO Currently, the API is encumbered by usage of OptaPlanner VRP example code that works with
+    // {@code Map<RoadLocation, Double>}.
+    // TODO replace with getDistance(LatLng, LatLng, VehicleType)
+    Map<Long, Double> getRow(Location location);
 }

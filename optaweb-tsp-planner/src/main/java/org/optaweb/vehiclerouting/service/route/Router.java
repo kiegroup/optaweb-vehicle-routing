@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.interactor.route;
+package org.optaweb.vehiclerouting.service.route;
 
 import java.util.List;
 

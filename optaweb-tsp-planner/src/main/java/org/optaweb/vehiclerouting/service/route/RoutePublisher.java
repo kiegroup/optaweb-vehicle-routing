@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-/**
- * Handles use cases that involve {@link org.optaweb.vehiclerouting.domain.Location locations}.
- */
-package org.optaweb.vehiclerouting.interactor.location;
+package org.optaweb.vehiclerouting.service.route;
+
+public interface RoutePublisher {
+
+    void publish(Route route);
+}

@@ -20,7 +20,7 @@ import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.interactor.location.LocationRepository;
+import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
