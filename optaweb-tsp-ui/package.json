@@ -38,6 +38,7 @@
     "@types/sockjs-client": "^1.1.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
+    "husky": "^1.2.1",
     "react-test-renderer": "^16.6.3",
     "redux-devtools-extension": "^2.13.7",
     "tslint-config-airbnb": "^5.11.1",
@@ -48,5 +49,10 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-push": "CI=true npm test"
+    }
+  }
 }
