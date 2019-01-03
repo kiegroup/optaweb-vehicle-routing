@@ -33,6 +33,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     private final Router router;
     private final RoutePublisher publisher;
 
+    // TODO maybe remove state from the service and get best route from a repository
     private Route bestRoute;
 
     public RouteListener(Router router, RoutePublisher publisher) {
