@@ -66,8 +66,17 @@ public class WebSocketController {
      * @param request new location description
      */
     @MessageMapping("/place") // TODO rename to location
-    public void create(PortableLocation request) {
+    public void addLocation(PortableLocation request) {
         locationService.addLocation(new LatLng(request.getLatitude(), request.getLongitude()));
+    }
+
+    /**
+     * Delete location.
+     * @param id ID of the location to be deleted
+     */
+    @MessageMapping({"/place/{id}/delete"}) // TODO rename to location
+    public void removeLocation(@DestinationVariable Long id) {
+        locationService.removeLocation(id);
     }
 
     /**
@@ -76,14 +85,5 @@ public class WebSocketController {
     @MessageMapping("/demo")
     public void demo() {
         locationService.loadDemo();
-    }
-
-    /**
-     * Delete location.
-     * @param id ID of the location to be deleted
-     */
-    @MessageMapping({"/place/{id}/delete"}) // TODO rename to location
-    public void delete(@DestinationVariable Long id) {
-        locationService.removeLocation(id);
     }
 }
