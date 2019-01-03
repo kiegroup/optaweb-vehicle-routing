@@ -20,9 +20,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class OptawebTspPlannerApplication {
+public class OptaWebVehicleRoutingApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OptawebTspPlannerApplication.class, args);
+        SpringApplication.run(OptaWebVehicleRoutingApplication.class, args);
     }
 }

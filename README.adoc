@@ -65,13 +65,13 @@ sudo dnf install java-1.8.0-openjdk-devel
 . Download OpenStreetMap data for Belgium from Geofabrik.
 .. Open http://download.geofabrik.de/europe/belgium.html.
 .. Download the OSM file http://download.geofabrik.de/europe/belgium-latest.osm.pbf[belgium-latest.osm.pbf].
-.. Save it to `optaweb-vehicle-routing/optaweb-tsp-planner/local/openstreetmap/belgium-latest.osm.pbf`.
+.. Save it to `optaweb-vehicle-routing/optaweb-vehicle-routing-backend/local/openstreetmap/belgium-latest.osm.pbf`.
 
 . Run backend.
 +
 [source,shell]
 ----
-cd optaweb-tsp-planner
+cd optaweb-vehicle-routing-backend
 ./mvnw spring-boot:run
 ----
 
