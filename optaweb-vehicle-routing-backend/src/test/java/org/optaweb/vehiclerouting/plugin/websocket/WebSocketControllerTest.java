@@ -1,0 +1,82 @@
+/*
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.optaweb.vehiclerouting.plugin.websocket;
+
+import java.util.Collections;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.service.location.LocationService;
+import org.optaweb.vehiclerouting.service.route.Route;
+import org.optaweb.vehiclerouting.service.route.RouteListener;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+@RunWith(MockitoJUnitRunner.class)
+public class WebSocketControllerTest {
+
+    @Mock
+    private RouteListener routeListener;
+    @Mock
+    private RoutePublisherImpl routePublisher;
+    @Mock
+    private LocationService locationService;
+    @InjectMocks
+    private WebSocketController webSocketController;
+
+    private PortableRoute portableRoute;
+
+    @Before
+    public void setUp() {
+        portableRoute = new PortableRoute("xy", Collections.emptyList(), Collections.emptyList());
+        when(routeListener.getBestRoute()).thenReturn(Route.empty());
+        when(routePublisher.portableRoute(any(Route.class))).thenReturn(portableRoute);
+    }
+
+    @Test
+    public void subscribe() {
+        assertThat(webSocketController.subscribe()).isEqualTo(portableRoute);
+    }
+
+    @Test
+    public void addLocation() {
+        LatLng latLng = LatLng.valueOf(0.0, 1.0);
+        PortableLocation request = new PortableLocation(321, latLng.getLatitude(), latLng.getLongitude());
+        webSocketController.addLocation(request);
+        verify(locationService).addLocation(latLng);
+    }
+
+    @Test
+    public void removeLocation() {
+        webSocketController.removeLocation(9L);
+        verify(locationService).removeLocation(9);
+    }
+
+    @Test
+    public void demo() {
+        webSocketController.demo();
+        verify(locationService).loadDemo();
+    }
+}
