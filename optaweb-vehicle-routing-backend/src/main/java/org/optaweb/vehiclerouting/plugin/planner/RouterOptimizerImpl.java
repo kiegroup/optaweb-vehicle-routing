@@ -28,7 +28,6 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
-import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.examples.tsp.app.TspApp;
 import org.optaplanner.examples.tsp.domain.Domicile;
 import org.optaplanner.examples.tsp.domain.Standstill;
@@ -55,7 +54,6 @@ public class RouterOptimizerImpl implements RouteOptimizer,
 
     private final ApplicationEventPublisher publisher;
     private final Solver<TspSolution> solver;
-    private final ScoreDirector<TspSolution> scoreDirector;
     private ThreadPoolTaskExecutor executor;
     private TspSolution tsp = new TspSolution();
 
@@ -69,7 +67,6 @@ public class RouterOptimizerImpl implements RouteOptimizer,
         SolverFactory<TspSolution> sf = SolverFactory.createFromXmlResource(TspApp.SOLVER_CONFIG);
         sf.getSolverConfig().setDaemon(true);
         solver = sf.buildSolver();
-        scoreDirector = solver.getScoreDirectorFactory().buildScoreDirector();
         solver.addEventListener(this);
     }
 
@@ -113,7 +110,7 @@ public class RouterOptimizerImpl implements RouteOptimizer,
         ));
     }
 
-    private void sendRoute(TspSolution solution) {
+    private void publishRoute(TspSolution solution) {
         extractRoute(solution).ifPresent(route -> {
             logger.info("New TSP with {} locations, {} visits, route: {}",
                     solution.getLocationList().size(),
@@ -124,11 +121,6 @@ public class RouterOptimizerImpl implements RouteOptimizer,
         });
     }
 
-    private void updateScore(TspSolution solution) {
-        scoreDirector.setWorkingSolution(solution);
-        scoreDirector.calculateScore();
-    }
-
     @Override
     public void bestSolutionChanged(BestSolutionChangedEvent<TspSolution> bestSolutionChangedEvent) {
         if (!bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()) {
@@ -136,7 +128,7 @@ public class RouterOptimizerImpl implements RouteOptimizer,
             return;
         }
         tsp = bestSolutionChangedEvent.getNewBestSolution();
-        sendRoute(tsp);
+        publishRoute(tsp);
     }
 
     @Override
@@ -154,8 +146,7 @@ public class RouterOptimizerImpl implements RouteOptimizer,
                 domicile.setId(location.getId());
                 domicile.setLocation(location);
                 tsp.setDomicile(domicile);
-                updateScore(tsp);
-                sendRoute(tsp);
+                publishRoute(tsp);
             } else if (locationList.size() == 2) {
                 Visit visit = new Visit();
                 visit.setId(location.getId());
@@ -201,8 +192,7 @@ public class RouterOptimizerImpl implements RouteOptimizer,
         if (!solver.isSolving()) {
             tsp.getLocationList().remove(0);
             tsp.setDomicile(null);
-            updateScore(tsp);
-            sendRoute(tsp);
+            publishRoute(tsp);
         } else {
             if (tsp.getVisitList().size() == 1) {
                 // domicile and 1 visit remaining
@@ -215,8 +205,7 @@ public class RouterOptimizerImpl implements RouteOptimizer,
                 domicile.setId(lastLocation.getId());
                 domicile.setLocation(lastLocation);
                 tsp.setDomicile(domicile);
-                updateScore(tsp);
-                sendRoute(tsp);
+                publishRoute(tsp);
             } else {
                 if (tsp.getDomicile().getLocation().getId().equals(location.getId())) {
                     throw new UnsupportedOperationException("You can only remove domicile if it's the only location on map.");
