@@ -22,9 +22,11 @@ import org.optaplanner.examples.tsp.app.TspApp;
 import org.optaplanner.examples.tsp.domain.TspSolution;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 /**
- * Spring Bean producer that creates a Solver instance.
+ * Spring configuration that creates {@link RouteOptimizerImpl route optimizer}'s dependencies.
  */
 @Configuration
 public class RouteOptimizerConfig {
@@ -34,5 +36,12 @@ public class RouteOptimizerConfig {
         SolverFactory<TspSolution> sf = SolverFactory.createFromXmlResource(TspApp.SOLVER_CONFIG);
         sf.getSolverConfig().setDaemon(true);
         return sf.buildSolver();
+    }
+
+    @Bean
+    public AsyncTaskExecutor executor() {
+        SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor();
+        executor.setConcurrencyLimit(1);
+        return executor;
     }
 }

@@ -23,6 +23,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
@@ -41,7 +43,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -52,13 +54,18 @@ public class RouteOptimizerImpl implements RouteOptimizer,
 
     private final ApplicationEventPublisher publisher;
     private final Solver<TspSolution> solver;
-    private ThreadPoolTaskExecutor executor;
+    private final AsyncTaskExecutor executor;
+    private Future<?> solverFuture;
     private TspSolution tsp = new TspSolution();
 
     @Autowired
-    public RouteOptimizerImpl(ApplicationEventPublisher publisher, Solver<TspSolution> solver) {
+    public RouteOptimizerImpl(ApplicationEventPublisher publisher,
+                              Solver<TspSolution> solver,
+                              AsyncTaskExecutor executor) {
         this.publisher = publisher;
         this.solver = solver;
+        this.executor = executor;
+
         this.solver.addEventListener(this);
 
         tsp.setLocationList(new ArrayList<>());
@@ -147,16 +154,10 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 visit.setId(location.getId());
                 visit.setLocation(location);
                 tsp.getVisitList().add(visit);
-                executor = new ThreadPoolTaskExecutor();
-                executor.initialize();
-                executor.setWaitForTasksToCompleteOnShutdown(true);
-                executor.setAwaitTerminationSeconds(5);
-                executor.submit(() -> {
-                    try {
-                        solver.solve(tsp);
-                    } catch (Exception e) {
-                        logger.error("Solver error: ", e);
-                    }
+                // TODO move this to @Async method?
+                // TODO use ListenableFuture to react to solve() exceptions immediately?
+                solverFuture = executor.submit(() -> {
+                    solver.solve(tsp);
                 });
             }
         } else {
@@ -192,7 +193,12 @@ public class RouteOptimizerImpl implements RouteOptimizer,
             if (tsp.getVisitList().size() == 1) {
                 // domicile and 1 visit remaining
                 solver.terminateEarly();
-                executor.shutdown();
+                // make sure solver has terminated and propagate exceptions
+                try {
+                    solverFuture.get();
+                } catch (InterruptedException | ExecutionException e) {
+                    throw new RuntimeException(e);
+                }
                 tsp.getVisitList().remove(0);
                 tsp.getLocationList().removeIf(l -> l.getId().equals(location.getId()));
                 Location lastLocation = tsp.getLocationList().get(0);
