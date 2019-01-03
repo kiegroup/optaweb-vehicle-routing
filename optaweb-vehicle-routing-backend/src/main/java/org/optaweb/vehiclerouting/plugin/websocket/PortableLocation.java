@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Location;
 
 /**
  * Location representation convenient for marshalling.
@@ -32,6 +34,22 @@ public class PortableLocation {
     private BigDecimal latitude;
     @JsonProperty(value = "lng", required = true)
     private BigDecimal longitude;
+
+    public static PortableLocation fromLocation(Location location) {
+        return new PortableLocation(
+                location.getId(),
+                location.getLatLng().getLatitude(),
+                location.getLatLng().getLongitude()
+        );
+    }
+
+    public static PortableLocation fromLatLng(LatLng latLng) {
+        return new PortableLocation(
+                0,
+                latLng.getLatitude(),
+                latLng.getLongitude()
+        );
+    }
 
     public PortableLocation() {
     }

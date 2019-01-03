@@ -47,15 +47,12 @@ public class RoutePublisherImpl implements RoutePublisher {
 
     PortableRoute portableRoute(Route route) {
         List<PortableLocation> portableRoute = route.getRoute().stream()
-                .map(location -> new PortableLocation(
-                        location.getId(),
-                        location.getLatLng().getLatitude(),
-                        location.getLatLng().getLongitude()))
+                .map(PortableLocation::fromLocation)
                 .collect(Collectors.toList());
         List<List<PortableLocation>> portableSegments = new ArrayList<>();
         for (List<LatLng> segment : route.getSegments()) {
             List<PortableLocation> portableSegment = segment.stream()
-                    .map(latLng -> new PortableLocation(0, latLng.getLatitude(), latLng.getLongitude()))
+                    .map(PortableLocation::fromLatLng)
                     .collect(Collectors.toList());
             portableSegments.add(portableSegment);
         }
