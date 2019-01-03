@@ -25,10 +25,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.optaplanner.core.api.solver.Solver;
-import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
-import org.optaplanner.examples.tsp.app.TspApp;
 import org.optaplanner.examples.tsp.domain.Domicile;
 import org.optaplanner.examples.tsp.domain.Standstill;
 import org.optaplanner.examples.tsp.domain.TspSolution;
@@ -47,10 +45,10 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RouterOptimizerImpl implements RouteOptimizer,
-                                            SolverEventListener<TspSolution> {
+public class RouteOptimizerImpl implements RouteOptimizer,
+                                           SolverEventListener<TspSolution> {
 
-    private static final Logger logger = LoggerFactory.getLogger(RouterOptimizerImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(RouteOptimizerImpl.class);
 
     private final ApplicationEventPublisher publisher;
     private final Solver<TspSolution> solver;
@@ -58,16 +56,13 @@ public class RouterOptimizerImpl implements RouteOptimizer,
     private TspSolution tsp = new TspSolution();
 
     @Autowired
-    public RouterOptimizerImpl(ApplicationEventPublisher publisher) {
+    public RouteOptimizerImpl(ApplicationEventPublisher publisher, Solver<TspSolution> solver) {
         this.publisher = publisher;
+        this.solver = solver;
+        this.solver.addEventListener(this);
 
         tsp.setLocationList(new ArrayList<>());
         tsp.setVisitList(new ArrayList<>());
-
-        SolverFactory<TspSolution> sf = SolverFactory.createFromXmlResource(TspApp.SOLVER_CONFIG);
-        sf.getSolverConfig().setDaemon(true);
-        solver = sf.buildSolver();
-        solver.addEventListener(this);
     }
 
     private static RoadLocation coreToPlanner(org.optaweb.vehiclerouting.domain.Location location) {
