@@ -44,7 +44,9 @@ public class LocationRepositoryImpl implements LocationRepository {
     public Location removeLocation(long id) {
         Optional<LocationEntity> maybeLocation = repository.findById(id);
         maybeLocation.ifPresent(locationEntity -> repository.deleteById(id));
-        LocationEntity locationEntity = maybeLocation.orElseThrow(IllegalArgumentException::new);
+        LocationEntity locationEntity = maybeLocation.orElseThrow(() ->
+                new IllegalArgumentException("Location{id=" + id + "} doesn't exist.")
+        );
         return new Location(locationEntity.getId(),
                 new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude()));
     }
