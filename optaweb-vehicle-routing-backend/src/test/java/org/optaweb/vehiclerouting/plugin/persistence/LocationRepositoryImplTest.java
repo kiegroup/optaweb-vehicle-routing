@@ -51,7 +51,15 @@ public class LocationRepositoryImplTest {
 
         Location removed = repository.removeLocation(location.getId());
         assertThat(removed).isEqualTo(location);
+
+        // removing the same location twice should fail
         assertThatThrownBy(() -> repository.removeLocation(location.getId()))
                 .isInstanceOf(IllegalArgumentException.class);
+
+        // removing nonexistent location should fail and its ID should appear in the exception message
+        int uniqueNonexistentId = 7173;
+        assertThatThrownBy(() -> repository.removeLocation(uniqueNonexistentId))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining(String.valueOf(uniqueNonexistentId));
     }
 }
