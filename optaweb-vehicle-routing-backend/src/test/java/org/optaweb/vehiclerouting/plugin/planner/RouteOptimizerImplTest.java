@@ -16,9 +16,12 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -26,17 +29,26 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.stubbing.Answer;
+import org.mockito.stubbing.Answer1;
+import org.mockito.stubbing.VoidAnswer1;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.examples.tsp.domain.Domicile;
+import org.optaplanner.examples.tsp.domain.Standstill;
 import org.optaplanner.examples.tsp.domain.TspSolution;
 import org.optaplanner.examples.tsp.domain.Visit;
 import org.optaplanner.examples.tsp.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.core.task.AsyncTaskExecutor;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.AdditionalAnswers.answer;
+import static org.mockito.AdditionalAnswers.answerVoid;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -44,6 +56,12 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RouteOptimizerImplTest {
+
+    private final Location location1 = new Location(1, LatLng.valueOf(1.0, 0.1));
+    private final Location location2 = new Location(2, LatLng.valueOf(0.2, 2.2));
+    private final Location location3 = new Location(3, LatLng.valueOf(3.4, 5.6));
+
+    private boolean isSolving;
 
     @Mock
     private ApplicationEventPublisher eventPublisher;
@@ -53,8 +71,33 @@ public class RouteOptimizerImplTest {
     private BestSolutionChangedEvent<TspSolution> bestSolutionChangedEvent;
     @Captor
     private ArgumentCaptor<RouteChangedEvent> routeChangedEventArgumentCaptor;
+    @Mock
+    private DistanceMatrix distanceMatrix;
+    @Mock
+    private AsyncTaskExecutor executor;
+    @Mock
+    private Future solverFuture;
     @InjectMocks
     private RouteOptimizerImpl routeOptimizer;
+
+    @Before
+    public void setUp() {
+        // always run the runnable submitted to executor (that's what every executor does)
+        // we can then verify that solver.solve() has been called
+        when(executor.submit(any(Runnable.class))).thenAnswer(answer((Answer1<Future, Runnable>) runnable -> {
+            runnable.run();
+            return solverFuture;
+        }));
+
+        // mimic solve() => isSolving(); terminateEarly() => !isSolving()
+        isSolving = false;
+        when(solver.isSolving()).thenAnswer((Answer<Boolean>) invocation -> isSolving);
+        when(solver.solve(any())).thenAnswer(answerVoid((VoidAnswer1<TspSolution>) solution -> isSolving = true));
+        when(solver.terminateEarly()).thenAnswer((Answer<Boolean>) invocation -> {
+            isSolving = false;
+            return true;
+        });
+    }
 
     @Test
     public void should_listen_for_best_solution_events() {
@@ -76,9 +119,7 @@ public class RouteOptimizerImplTest {
 
     @Test
     public void publish_new_best_solution_if_all_fact_changes_processed() {
-        TspSolution solution = createSolutionWithOneVisit();
-        Domicile domicile = solution.getDomicile();
-        Visit visit = solution.getVisitList().get(0);
+        TspSolution solution = createSolution(location1, location2);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
 
@@ -87,38 +128,109 @@ public class RouteOptimizerImplTest {
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
 
-        Assertions.assertThat(event.getRoute()).containsExactly(
-                new Location(
-                        domicile.getLocation().getId(),
-                        LatLng.valueOf(domicile.getLocation().getLatitude(), domicile.getLocation().getLongitude())
-                ),
-                new Location(
-                        visit.getLocation().getId(),
-                        LatLng.valueOf(visit.getLocation().getLatitude(), visit.getLocation().getLongitude())
-                )
-        );
+        assertThat(event.getRoute()).containsExactly(location1, location2);
     }
 
     @Test
-    public void addLocation() {
+    public void solution_with_domicile_only_should_be_published() {
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        verify(eventPublisher).publishEvent(any(RouteChangedEvent.class));
+        assertThat(solver.isSolving()).isFalse();
     }
 
     @Test
-    public void removeLocation() {
+    public void solver_should_start_when_two_locations_added() {
+        // add 2 locations
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        routeOptimizer.addLocation(location2, distanceMatrix);
+
+        assertThat(isSolving).isTrue();
+        assertThat(solver.isSolving()).isTrue();
+        // solving has started after adding a second location (domicile + visit)
+        verify(solver).solve(any());
+
+        // problem fact change only happens when adding location to a running solver
+        // or when more than 1 location remains after removing one
+        verify(solver, never()).addProblemFactChange(any());
     }
 
-    private static TspSolution createSolutionWithOneVisit() {
+    @Test
+    public void solver_should_stop_when_locations_reduced_to_one() throws ExecutionException, InterruptedException {
+        // add 2 locations
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        routeOptimizer.addLocation(location2, distanceMatrix);
+
+        // remove 1 location from running solver
+        assertThat(solver.isSolving()).isTrue();
+        routeOptimizer.removeLocation(location2);
+
+        assertThat(solver.isSolving()).isFalse();
+        verify(solver).terminateEarly();
+        verify(solverFuture).get();
+
+        // problem fact change only happens when adding location to a running solver
+        // or when more than 1 location remains after removing one
+        verify(solver, never()).addProblemFactChange(any());
+    }
+
+    @Test
+    public void removing_domicile_impossible_when_there_are_other_locations() {
+        // add 2 locations
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        routeOptimizer.addLocation(location2, distanceMatrix);
+
+        Assertions.assertThatThrownBy(() -> routeOptimizer.removeLocation(location1))
+                .isInstanceOf(UnsupportedOperationException.class)
+                .hasMessageContaining("domicile");
+    }
+
+    @Test
+    public void adding_location_to_running_solver_must_happen_through_problem_fact_change() {
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        assertThat(solver.isSolving()).isFalse();
+        routeOptimizer.addLocation(location2, distanceMatrix);
+        assertThat(solver.isSolving()).isTrue();
+        routeOptimizer.addLocation(location3, distanceMatrix);
+        verify(solver).addProblemFactChange(any());
+    }
+
+    @Test
+    public void removing_location_from_solver_with_more_than_two_locations_must_happen_through_problem_fact_change() {
+        // set up a situation where solver is running with 1 domicile and 2 visits
+        TspSolution solution = createSolution(location1, location2, location3);
+        when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
+        when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        routeOptimizer.addLocation(location2, distanceMatrix);
+        routeOptimizer.addLocation(location3, distanceMatrix);
+        routeOptimizer.bestSolutionChanged(bestSolutionChangedEvent);
+
+        routeOptimizer.removeLocation(location2);
+        verify(solver).addProblemFactChanges(any()); // note that it's plural
+        // solver still running
+        verify(solver, never()).terminateEarly();
+    }
+
+    private static TspSolution createSolution(Location... coreLocations) {
         TspSolution solution = new TspSolution();
-        RoadLocation domicileLocation = new RoadLocation(1, 0.0, 1.0);
-        RoadLocation visitLocation = new RoadLocation(2, 3.0, -1.0);
-        solution.setLocationList(Arrays.asList(domicileLocation, visitLocation));
+        solution.setLocationList(new ArrayList<>());
+        RoadLocation domicileLocation = RouteOptimizerImpl.coreToPlanner(coreLocations[0]);
+        solution.getLocationList().add(domicileLocation);
         Domicile domicile = new Domicile();
         domicile.setLocation(domicileLocation);
         solution.setDomicile(domicile);
-        Visit visit = new Visit();
-        visit.setLocation(visitLocation);
-        visit.setPreviousStandstill(domicile);
-        solution.setVisitList(Arrays.asList(visit));
+
+        // visits
+        solution.setVisitList(new ArrayList<>());
+        Standstill previousStandstill = domicile;
+
+        for (int i = 1; i < coreLocations.length; i++) {
+            Visit visit = new Visit();
+            visit.setLocation(RouteOptimizerImpl.coreToPlanner(coreLocations[i]));
+            visit.setPreviousStandstill(previousStandstill);
+            solution.getVisitList().add(visit);
+            previousStandstill = visit;
+        }
         return solution;
     }
 }

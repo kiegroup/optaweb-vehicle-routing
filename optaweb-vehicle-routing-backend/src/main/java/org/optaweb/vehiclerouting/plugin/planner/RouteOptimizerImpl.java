@@ -72,7 +72,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         tsp.setVisitList(new ArrayList<>());
     }
 
-    private static RoadLocation coreToPlanner(org.optaweb.vehiclerouting.domain.Location location) {
+    static RoadLocation coreToPlanner(org.optaweb.vehiclerouting.domain.Location location) {
         return new RoadLocation(location.getId(),
                 location.getLatLng().getLatitude().doubleValue(),
                 location.getLatLng().getLongitude().doubleValue()
@@ -186,10 +186,17 @@ public class RouteOptimizerImpl implements RouteOptimizer,
     public void removeLocation(org.optaweb.vehiclerouting.domain.Location coreLocation) {
         Location location = coreToPlanner(coreLocation);
         if (!solver.isSolving()) {
+            if (tsp.getLocationList().size() != 1) {
+                throw new IllegalStateException("Impossible number of locations (" + tsp.getLocationList().size()
+                        + ") when solver is not solving.\n" + tsp.getLocationList());
+            }
             tsp.getLocationList().remove(0);
             tsp.setDomicile(null);
             publishRoute(tsp);
         } else {
+            if (tsp.getDomicile().getLocation().getId().equals(location.getId())) {
+                throw new UnsupportedOperationException("You can only remove domicile if it's the only location on map.");
+            }
             if (tsp.getVisitList().size() == 1) {
                 // domicile and 1 visit remaining
                 solver.terminateEarly();
@@ -201,16 +208,8 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 }
                 tsp.getVisitList().remove(0);
                 tsp.getLocationList().removeIf(l -> l.getId().equals(location.getId()));
-                Location lastLocation = tsp.getLocationList().get(0);
-                Domicile domicile = new Domicile();
-                domicile.setId(lastLocation.getId());
-                domicile.setLocation(lastLocation);
-                tsp.setDomicile(domicile);
                 publishRoute(tsp);
             } else {
-                if (tsp.getDomicile().getLocation().getId().equals(location.getId())) {
-                    throw new UnsupportedOperationException("You can only remove domicile if it's the only location on map.");
-                }
                 solver.addProblemFactChanges(Arrays.asList(
                         scoreDirector -> {
                             TspSolution workingSolution = scoreDirector.getWorkingSolution();
