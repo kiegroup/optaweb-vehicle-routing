@@ -72,6 +72,12 @@
       <artifactId>graphhopper-reader-osm</artifactId>
       <version>0.11.0</version>
     </dependency>
+    <!-- Enable Spring Boot Automatic Restart, see Development Guide in Readme to learn how to use it. -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
 
   <build>
