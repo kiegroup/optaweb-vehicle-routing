@@ -59,3 +59,39 @@ Services are injected into plugins, which moves the burden of their
 construction and dependency resolution to the IoC container.
 Secondly, plugins implement services' output boundary interfaces to handle
 use case results, e.g. persisting changes to database, sending response to web UI.
+
+== Development Guide
+
+=== Automatic Restart
+
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-devtools-restart[Automatic restart]
+is provided by Spring Boot DevTools.
+It scans files on the classpath, so you only need to recompile your changes
+to trigger application restart.
+No IDE configuration is needed.
+
+If your IDE has a compile-on-save feature (Eclipse, NetBeans),
+you just need to save the files that have changed since last compilation.
+
+IntelliJ IDEA saves changes automatically and you need to use either
+Recompile action, which recompiles the file in active tab, or
+Build Project action which recompiles all changes.
+See https://www.jetbrains.com/help/idea/compilation-types.html[Compilation Types].
+
+=== Running Backend from IntelliJ IDEA
+
+1. Run `org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication`
+   from Project window.
+   This will create a Run Configuration that you will edit in the next step.
+   A failure on the first run is expected due to wrong working directory.
+
+2. Select `Run > Edit Configurations...` and then select
+   `Spring Boot > OptaWebVehicleRoutingApplication`.
+
+3. Change *Working directory* to the backend module (`optaweb-vehicle-routing-backend`).
+
+4. Optionally, set *On Update action* to *Hot swap classes and update trigger file if failed*.
+   This will allow you to use the Update action to quickly restart the application.
++
+See https://blog.jetbrains.com/idea/2018/04/spring-and-spring-boot-in-intellij-idea-2018-1/[Spring and Spring Boot in IntelliJ IDEA 2018.1]
+for more details.
