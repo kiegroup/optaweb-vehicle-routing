@@ -8,6 +8,20 @@
 
 == Project Structure
 
+[literal]
+....
+org.optaweb.vehiclerouting
+├── domain
+├── plugin
+│   ├── persistence
+│   ├── planner
+│   ├── routing
+│   └── websocket
+└── service
+    ├── location
+    └── route
+....
+
 === Root Package
 
 The root package name is identical to the Maven Group ID of the project
@@ -39,7 +53,7 @@ Their implementations are provided by Spring IoC container at runtime.
 
 Contains outer layers such as optimization, persistence, routing and web.
 
-== Dependency rules
+== Dependency Rules
 
 Compile-time dependencies are only allowed in the direction from outer layers
 towards the center.
