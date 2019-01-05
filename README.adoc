@@ -6,13 +6,13 @@ image:https://travis-ci.org/kiegroup/optaweb-vehicle-routing.svg?branch=master[
 Web application for solving the https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html[Vehicle Routing Problem]
 using https://www.optaplanner.org/[OptaPlanner].
 
-== Running the application
+== Running the Application
 
 First, clone this repository and `cd` into it.
 
 Frontend and backend are built and run independently. Open two terminal windows.
 
-== Run frontend
+== Run Frontend
 
 . Install `npm`. If you're on Fedora, you can do this by running:
 +
@@ -53,7 +53,7 @@ echo BROWSER=none >> .env.local
 ----
 ====
 
-== Run backend
+== Run Backend
 
 JDK 8 is the only system prerequisite. To install OpenJDK 8 on Fedora, run:
 
@@ -74,6 +74,10 @@ sudo dnf install java-1.8.0-openjdk-devel
 cd optaweb-vehicle-routing-backend
 ./mvnw spring-boot:run
 ----
+
+See
+xref:optaweb-vehicle-routing-backend/README.adoc#development-guide[Backend Development Guide]
+to learn how to run backend during development.
 
 [TIP]
 .Use a different OSM file
