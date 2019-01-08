@@ -72,6 +72,12 @@ Contains outer layers such as optimization, persistence, routing and web.
  * P2dT21h (PnDTnHnMn.nS)
 |How long the solver should run after a location change occurs.
 
+|app.routing.osmFile
+|String
+|belgium-latest.osm.pbf
+|Name of the OSM file that should be loaded by GraphHopper.
+ The file must be placed under `local/openstreetmap/`.
+
 |===
 
 There are multiple ways how to set configuration properties.

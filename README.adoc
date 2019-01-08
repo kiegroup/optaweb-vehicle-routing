@@ -21,7 +21,7 @@ Frontend and backend are built and run independently. Open two terminal windows.
 sudo dnf install npm
 ----
 
-. Install dependencies.
+. Install dependencies:
 +
 [source,shell]
 ----
@@ -29,7 +29,7 @@ cd optaweb-vehicle-routing-frontend
 npm install
 ----
 
-. Run frontend.
+. Run frontend:
 +
 [source,shell]
 ----
@@ -62,17 +62,24 @@ JDK 8 is the only system prerequisite. To install OpenJDK 8 on Fedora, run:
 sudo dnf install java-1.8.0-openjdk-devel
 ----
 
-. Download OpenStreetMap data for Belgium from Geofabrik.
+. Download OpenStreetMap data for Belgium from Geofabrik:
 .. Open http://download.geofabrik.de/europe/belgium.html.
 .. Download the OSM file http://download.geofabrik.de/europe/belgium-latest.osm.pbf[belgium-latest.osm.pbf].
 .. Save it to `optaweb-vehicle-routing/optaweb-vehicle-routing-backend/local/openstreetmap/belgium-latest.osm.pbf`.
 
-. Run backend.
+. Build backend:
 +
 [source,shell]
 ----
 cd optaweb-vehicle-routing-backend
-./mvnw spring-boot:run
+./mvnw install
+----
+
+. Run backend:
++
+[source,shell]
+----
+java -jar target/optaweb-vehicle-routing-backend-*.jar
 ----
 
 See
@@ -83,11 +90,11 @@ to learn how to run backend during development.
 .Use a different OSM file
 ====
 If you want to try a different region than Belgium, download an OSM file from Geofabrik
-and use a system property when starting the backend to change the data file:
+and use an argument when starting the backend to change the data file:
 
 [source,shell]
 ----
-./mvnw spring-boot:run -Dosmfile=massachusetts-latest.osm.pbf
+java -jar target/optaweb-vehicle-routing-backend-*.jar --app.routing.osmfile=massachusetts-latest.osm.pbf
 ----
 ====
 

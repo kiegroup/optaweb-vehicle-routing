@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.core.env.Environment;
 
 /**
  * Spring Bean producer that creates a GraphHopper instance and allows to configure the path to OSM file
@@ -38,14 +37,13 @@ public class RoutingConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutingConfig.class);
     private static final String OSM_DIR = "local/openstreetmap/";
-    private static final String OSM_FILE_KEY = "osmfile";
     private static final String GH_DIR = "local/graphhopper/";
 
-    private final Environment env;
+    private final RoutingProperties routingProperties;
 
     @Autowired
-    public RoutingConfig(Environment env) {
-        this.env = env;
+    public RoutingConfig(RoutingProperties routingProperties) {
+        this.routingProperties = routingProperties;
     }
 
     /**
@@ -56,7 +54,8 @@ public class RoutingConfig {
     @Bean
     public GraphHopperOSM graphHopper() {
         GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
-        String osmPath = OSM_DIR + env.getProperty(OSM_FILE_KEY, "belgium-latest.osm.pbf");
+        String osmPath = OSM_DIR + routingProperties.getOsmFile();
+        logger.info("OSM file: {}", osmPath);
         if (!new File(osmPath).exists()) {
             throw new IllegalStateException("The osmPath (" + new File(osmPath).getAbsolutePath() + ") does not exist.\n" +
                     "Download the osm file from http://download.geofabrik.de/ first.");
