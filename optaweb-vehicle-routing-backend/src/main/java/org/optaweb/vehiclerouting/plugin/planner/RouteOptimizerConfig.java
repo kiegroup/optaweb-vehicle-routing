@@ -16,10 +16,14 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
+import java.time.Duration;
+
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
+import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.optaplanner.examples.tsp.app.TspApp;
 import org.optaplanner.examples.tsp.domain.TspSolution;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.AsyncTaskExecutor;
@@ -31,9 +35,18 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 @Configuration
 public class RouteOptimizerConfig {
 
+    private final OptimizerProperties optimizerProperties;
+
+    @Autowired
+    public RouteOptimizerConfig(OptimizerProperties optimizerProperties) {
+        this.optimizerProperties = optimizerProperties;
+    }
+
     @Bean
     public Solver<TspSolution> solver() {
         SolverFactory<TspSolution> sf = SolverFactory.createFromXmlResource(TspApp.SOLVER_CONFIG);
+        Duration timeout = optimizerProperties.getTimeout();
+        sf.getSolverConfig().setTerminationConfig(new TerminationConfig().withSecondsSpentLimit(timeout.getSeconds()));
         sf.getSolverConfig().setDaemon(true);
         return sf.buildSolver();
     }

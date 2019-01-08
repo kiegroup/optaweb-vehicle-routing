@@ -55,6 +55,48 @@ Their implementations are provided by Spring IoC container at runtime.
 
 Contains outer layers such as optimization, persistence, routing and web.
 
+== Configuration
+
+[cols="m,d,a,d",options="header"]
+|===
+
+|Property
+|Type
+|Example
+|Description
+
+|app.optimizer.timeout
+|java.time.Duration
+|* 1m
+ * 150s
+ * P2dT21h (PnDTnHnMn.nS)
+|How long the solver should run after a location change occurs.
+
+|===
+
+There are multiple ways how to set configuration properties.
+When running locally, you'll probably want to use one of these:
+
+* Set it using `application.properties` (you'll find it under `/src/main/resources/`).
+* A command line argument when running the packaged application
+(e.g. `java -jar optaweb-vehicle-routing-backend.jar --app.my-property=value1`).
+* An environment variable when running the application with `spring-boot:run`.
++
+For example: `app_my_property=value1 ./mvnw spring-boot:run`
+if the property name is `app.my-property` (this requires
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config-relaxed-binding[relaxed binding]
+which only works if the property is defined using `@ConfigurationProperties`).
+
+[NOTE]
+It's not possible to set properties simply via `-D` when running
+the application using Spring Boot Maven plugin (`./mvnw spring-boot:run -Dmy-property`).
+Any system properties that should be set by the plugin to the forked Java process
+in which the application runs need to be specified using `systemPropertiesVariables`
+https://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-system-properties.html[plugin configuration].
+
+You can learn more about Spring Boot Externalized Configuration in
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Guide].
+
 == Dependency Rules
 
 Compile-time dependencies are only allowed in the direction from outer layers
