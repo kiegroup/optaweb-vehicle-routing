@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -50,6 +49,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.AdditionalAnswers.answer;
 import static org.mockito.AdditionalAnswers.answerVoid;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -211,9 +211,36 @@ public class RouteOptimizerImplTest {
         verify(solver, never()).terminateEarly();
     }
 
+    @Test
+    public void clear_should_stop_solver_and_publish_empty_solution() throws ExecutionException, InterruptedException {
+        // set up a situation where solver is running with 1 domicile and 2 visits
+        TspSolution solution = createSolution(location1, location2, location3);
+        when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
+        when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        routeOptimizer.addLocation(location2, distanceMatrix);
+        routeOptimizer.addLocation(location3, distanceMatrix);
+        routeOptimizer.bestSolutionChanged(bestSolutionChangedEvent);
+        clearInvocations(eventPublisher);
+
+        routeOptimizer.clear();
+
+        assertThat(solver.isSolving()).isFalse();
+        verify(solver).terminateEarly();
+        verify(solverFuture).get();
+
+        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
+        RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
+        assertThat(event.getRoute()).isEmpty();
+    }
+
+    @Test
+    public void clear_should_not_fail_when_solver_is_not_solving() {
+        routeOptimizer.clear();
+    }
+
     private static TspSolution createSolution(Location... coreLocations) {
-        TspSolution solution = new TspSolution();
-        solution.setLocationList(new ArrayList<>());
+        TspSolution solution = RouteOptimizerImpl.emptySolution();
         RoadLocation domicileLocation = RouteOptimizerImpl.coreToPlanner(coreLocations[0]);
         solution.getLocationList().add(domicileLocation);
         Domicile domicile = new Domicile();
@@ -221,7 +248,6 @@ public class RouteOptimizerImplTest {
         solution.setDomicile(domicile);
 
         // visits
-        solution.setVisitList(new ArrayList<>());
         Standstill previousStandstill = domicile;
 
         for (int i = 1; i < coreLocations.length; i++) {

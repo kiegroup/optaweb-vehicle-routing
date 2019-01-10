@@ -62,4 +62,15 @@ public class LocationRepositoryImplTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining(String.valueOf(uniqueNonexistentId));
     }
+
+    @Test
+    public void remove_all_locations() {
+        int locationCount = 132;
+        for (int i = 0; i < locationCount; i++) {
+            repository.createLocation(LatLng.valueOf(1.0, i / 100.0));
+        }
+        assertThat(crudRepository.count()).isEqualTo(locationCount);
+        repository.removeAll();
+        assertThat(crudRepository.count()).isZero();
+    }
 }

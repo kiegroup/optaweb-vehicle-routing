@@ -26,6 +26,7 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import org.optaplanner.core.api.score.buildin.simplelong.SimpleLongScore;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
@@ -56,7 +57,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
     private final Solver<TspSolution> solver;
     private final AsyncTaskExecutor executor;
     private Future<?> solverFuture;
-    private TspSolution tsp = new TspSolution();
+    private TspSolution tsp;
 
     @Autowired
     public RouteOptimizerImpl(ApplicationEventPublisher publisher,
@@ -67,9 +68,15 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         this.executor = executor;
 
         this.solver.addEventListener(this);
+        tsp = emptySolution();
+    }
 
+    static TspSolution emptySolution() {
+        TspSolution tsp = new TspSolution();
         tsp.setLocationList(new ArrayList<>());
         tsp.setVisitList(new ArrayList<>());
+        tsp.setScore(SimpleLongScore.ZERO);
+        return tsp;
     }
 
     static RoadLocation coreToPlanner(org.optaweb.vehiclerouting.domain.Location location) {
@@ -123,6 +130,31 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         });
     }
 
+    private void startSolver() {
+        if (solverFuture != null) {
+            throw new IllegalStateException("Solver start has already been requested");
+        }
+        // TODO move this to @Async method?
+        // TODO use ListenableFuture to react to solve() exceptions immediately?
+        solverFuture = executor.submit(() -> {
+            solver.solve(tsp);
+        });
+    }
+
+    private void stopSolver() {
+        if (solverFuture != null) {
+            // TODO what happens if solver hasn't started yet (solve() is called asynchronously)
+            solver.terminateEarly();
+            // make sure solver has terminated and propagate exceptions
+            try {
+                solverFuture.get();
+                solverFuture = null;
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     @Override
     public void bestSolutionChanged(BestSolutionChangedEvent<TspSolution> bestSolutionChangedEvent) {
         if (!bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()) {
@@ -154,11 +186,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 visit.setId(location.getId());
                 visit.setLocation(location);
                 tsp.getVisitList().add(visit);
-                // TODO move this to @Async method?
-                // TODO use ListenableFuture to react to solve() exceptions immediately?
-                solverFuture = executor.submit(() -> {
-                    solver.solve(tsp);
-                });
+                startSolver();
             }
         } else {
             solver.addProblemFactChange(scoreDirector -> {
@@ -199,13 +227,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
             }
             if (tsp.getVisitList().size() == 1) {
                 // domicile and 1 visit remaining
-                solver.terminateEarly();
-                // make sure solver has terminated and propagate exceptions
-                try {
-                    solverFuture.get();
-                } catch (InterruptedException | ExecutionException e) {
-                    throw new RuntimeException(e);
-                }
+                stopSolver();
                 tsp.getVisitList().remove(0);
                 tsp.getLocationList().removeIf(l -> l.getId().equals(location.getId()));
                 publishRoute(tsp);
@@ -259,5 +281,12 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 ));
             }
         }
+    }
+
+    @Override
+    public void clear() {
+        stopSolver();
+        tsp = emptySolution();
+        publishRoute(tsp);
     }
 }

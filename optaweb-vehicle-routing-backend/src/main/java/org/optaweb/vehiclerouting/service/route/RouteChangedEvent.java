@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.service.route;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.context.ApplicationEvent;
@@ -38,8 +39,8 @@ public class RouteChangedEvent extends ApplicationEvent {
      */
     public RouteChangedEvent(Object source, String distance, List<Location> route) {
         super(source);
-        this.route = route;
-        this.distance = distance;
+        this.distance = Objects.requireNonNull(distance);
+        this.route = Objects.requireNonNull(route);
     }
 
     public List<Location> getRoute() {

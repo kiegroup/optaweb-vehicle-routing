@@ -54,4 +54,9 @@ public class DistanceMatrixImpl implements DistanceMatrix {
     public synchronized Map<Long, Double> getRow(Location location) {
         return matrix.get(location);
     }
+
+    @Override
+    public synchronized void clear() {
+        matrix.clear();
+    }
 }

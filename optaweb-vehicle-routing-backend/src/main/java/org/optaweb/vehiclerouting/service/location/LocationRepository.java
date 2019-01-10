@@ -37,4 +37,9 @@ public interface LocationRepository {
      * @return the removed location
      */
     Location removeLocation(long id);
+
+    /**
+     * Remove all locations from the repository.
+     */
+    void removeAll();
 }

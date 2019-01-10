@@ -67,6 +67,12 @@ public class DistanceMatrixImplTest {
         assertThat(mapL0.size()).isEqualTo(3);
         assertThat(mapL1.size()).isEqualTo(3);
         assertThat(mapL9.size()).isEqualTo(3);
+
+        // clear the map
+        distanceMatrix.clear();
+        assertThat(distanceMatrix.getRow(l0)).isNull();
+        assertThat(distanceMatrix.getRow(l1)).isNull();
+        assertThat(distanceMatrix.getRow(l9neg)).isNull();
     }
 
     private static Location location(long id, int longitude) {

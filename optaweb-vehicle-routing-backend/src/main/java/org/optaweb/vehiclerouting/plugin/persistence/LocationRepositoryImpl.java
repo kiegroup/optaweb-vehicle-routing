@@ -50,4 +50,9 @@ public class LocationRepositoryImpl implements LocationRepository {
         return new Location(locationEntity.getId(),
                 new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude()));
     }
+
+    @Override
+    public void removeAll() {
+        repository.deleteAll();
+    }
 }
