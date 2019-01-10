@@ -76,4 +76,12 @@ public class LocationServiceTest {
         verify(distanceMatrix, times(CITY_COUNT)).addLocation(any(Location.class));
         verify(optimizer, times(CITY_COUNT)).addLocation(any(Location.class), any(DistanceMatrix.class));
     }
+
+    @Test
+    public void clear() {
+        locationService.clear();
+        verify(optimizer).clear();
+        verify(distanceMatrix).clear();
+        verify(repository).removeAll();
+    }
 }

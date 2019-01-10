@@ -28,10 +28,8 @@ public class LatLng {
     private final BigDecimal longitude;
 
     public LatLng(BigDecimal latitude, BigDecimal longitude) {
-        Objects.requireNonNull(latitude);
-        Objects.requireNonNull(longitude);
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude = Objects.requireNonNull(latitude);
+        this.longitude = Objects.requireNonNull(longitude);
     }
 
     public static LatLng valueOf(double latitude, double longitude) {

@@ -31,4 +31,9 @@ public interface DistanceMatrix {
     // {@code Map<RoadLocation, Double>}.
     // TODO replace with getDistance(LatLng, LatLng, VehicleType)
     Map<Long, Double> getRow(Location location);
+
+    /**
+     * Remove all data from the matrix.
+     */
+    void clear();
 }

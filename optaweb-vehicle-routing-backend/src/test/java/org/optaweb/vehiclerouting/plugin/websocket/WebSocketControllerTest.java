@@ -79,4 +79,10 @@ public class WebSocketControllerTest {
         webSocketController.demo();
         verify(locationService).loadDemo();
     }
+
+    @Test
+    public void clear() {
+        webSocketController.clear();
+        verify(locationService).clear();
+    }
 }

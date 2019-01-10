@@ -61,4 +61,10 @@ public class LocationService {
         optimizer.removeLocation(location);
         logger.info("Deleted {}", location);
     }
+
+    public void clear() {
+        optimizer.clear();
+        repository.removeAll();
+        distanceMatrix.clear();
+    }
 }

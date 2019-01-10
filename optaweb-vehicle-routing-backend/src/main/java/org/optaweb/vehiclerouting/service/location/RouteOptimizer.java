@@ -26,4 +26,6 @@ public interface RouteOptimizer {
     void addLocation(Location location, DistanceMatrix distanceMatrix);
 
     void removeLocation(Location location);
+
+    void clear();
 }

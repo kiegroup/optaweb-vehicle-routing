@@ -27,9 +27,8 @@ public class Location {
     private final LatLng latLng;
 
     public Location(long id, LatLng latLng) {
-        Objects.requireNonNull(latLng);
         this.id = id;
-        this.latLng = latLng;
+        this.latLng = Objects.requireNonNull(latLng);
     }
 
     public long getId() {
