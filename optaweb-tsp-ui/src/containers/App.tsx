@@ -72,7 +72,7 @@ class App extends React.Component<IAppProps> {
     const { ws } = this.props.tsp;
     return (
       <div>
-        {ws === types.WS_CONNECTION_STATE.ERROR && (
+        {ws === types.WebSocketConnectionState.ERROR && (
           <ConnectionError
             title="Oops... Connection error!"
             message="Please check your network connection."

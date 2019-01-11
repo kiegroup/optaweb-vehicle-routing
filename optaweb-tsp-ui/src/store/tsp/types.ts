@@ -32,7 +32,7 @@ export type WS_CONNECT = typeof WS_CONNECT;
 export type WS_CONNECT_SUCCESS = typeof WS_CONNECT_SUCCESS;
 export type WS_CONNECT_FAILURE = typeof WS_CONNECT_FAILURE;
 
-export enum WS_CONNECTION_STATE {
+export enum WebSocketConnectionState {
   OPEN,
   CLOSED,
   ERROR,
@@ -58,5 +58,5 @@ export interface ITSPRouteWithSegments extends ITSPRoute {
 }
 
 export interface IWSConnection {
-  ws: WS_CONNECTION_STATE;
+  ws: WebSocketConnectionState;
 }

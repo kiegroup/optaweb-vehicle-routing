@@ -30,7 +30,7 @@ describe('Location List Component', () => {
       removeHandler: jest.fn(),
       route: [],
       selectHandler: jest.fn(),
-      ws: types.WS_CONNECTION_STATE.OPEN,
+      ws: types.WebSocketConnectionState.OPEN,
     };
     expect.assertions(2);
     const locationList = shallow(<LocationList {...props} />);
@@ -67,7 +67,7 @@ describe('Location List Component', () => {
         },
       ],
       selectHandler: jest.fn(),
-      ws: types.WS_CONNECTION_STATE.OPEN,
+      ws: types.WebSocketConnectionState.OPEN,
     };
     expect.assertions(2);
     const locationList = shallow(<LocationList {...props} />);

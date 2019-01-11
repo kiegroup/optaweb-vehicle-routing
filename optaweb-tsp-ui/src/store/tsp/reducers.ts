@@ -32,7 +32,7 @@ const INITIAL_STATE: ITSPReducerState = {
   domicileId: -1,
   route: [],
   segments: [],
-  ws: types.WS_CONNECTION_STATE.CLOSED,
+  ws: types.WebSocketConnectionState.CLOSED,
 };
 
 export default function tspReducer(
@@ -64,11 +64,11 @@ export default function tspReducer(
       return state;
     }
     case types.WS_CONNECT_SUCCESS: {
-      return { ...state, ws: types.WS_CONNECTION_STATE.OPEN };
+      return { ...state, ws: types.WebSocketConnectionState.OPEN };
     }
 
     case types.WS_CONNECT_FAILURE: {
-      return { ...state, ws: types.WS_CONNECTION_STATE.ERROR };
+      return { ...state, ws: types.WebSocketConnectionState.ERROR };
     }
     default:
       return state;
