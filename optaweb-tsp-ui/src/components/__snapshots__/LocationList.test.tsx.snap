@@ -4,6 +4,7 @@ exports[`Location List Component should render correctly with a few routes 1`] =
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <LocationList
+    clearHandler={[MockFunction]}
     distance="10"
     domicileId={1}
     loadHandler={[MockFunction]}
@@ -64,7 +65,28 @@ ShallowWrapper {
               distance={10}
               maxDistance={1}
             />
-            <hr />
+            <br />
+            <Button
+              aria-label={null}
+              className=""
+              component="button"
+              isActive={false}
+              isBlock={false}
+              isDisabled={false}
+              isFocus={false}
+              isHover={false}
+              onClick={[MockFunction]}
+              style={
+                Object {
+                  "width": "100%",
+                }
+              }
+              type="button"
+              variant="primary"
+            >
+              Clear
+            </Button>
+            <br />
           </CardHeader>
           <CardBody
             className=""
@@ -73,7 +95,7 @@ ShallowWrapper {
             <div
               style={
                 Object {
-                  "maxHeight": "calc(100vh - 195px)",
+                  "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
                   "overflowY": "auto",
                 }
               }
@@ -128,7 +150,28 @@ ShallowWrapper {
               distance={10}
               maxDistance={1}
             />
-            <hr />
+            <br />
+            <Button
+              aria-label={null}
+              className=""
+              component="button"
+              isActive={false}
+              isBlock={false}
+              isDisabled={false}
+              isFocus={false}
+              isHover={false}
+              onClick={[MockFunction]}
+              style={
+                Object {
+                  "width": "100%",
+                }
+              }
+              type="button"
+              variant="primary"
+            >
+              Clear
+            </Button>
+            <br />
           </CardHeader>
           <CardBody
             className=""
@@ -137,7 +180,7 @@ ShallowWrapper {
             <div
               style={
                 Object {
-                  "maxHeight": "calc(100vh - 195px)",
+                  "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
                   "overflowY": "auto",
                 }
               }
@@ -185,7 +228,28 @@ ShallowWrapper {
                 distance={10}
                 maxDistance={1}
               />
-              <hr />
+              <br />
+              <Button
+                aria-label={null}
+                className=""
+                component="button"
+                isActive={false}
+                isBlock={false}
+                isDisabled={false}
+                isFocus={false}
+                isHover={false}
+                onClick={[MockFunction]}
+                style={
+                  Object {
+                    "width": "100%",
+                  }
+                }
+                type="button"
+                variant="primary"
+              >
+                Clear
+              </Button>
+              <br />
             </CardHeader>,
             <CardBody
               className=""
@@ -194,7 +258,7 @@ ShallowWrapper {
               <div
                 style={
                   Object {
-                    "maxHeight": "calc(100vh - 195px)",
+                    "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
                     "overflowY": "auto",
                   }
                 }
@@ -240,7 +304,28 @@ ShallowWrapper {
                   distance={10}
                   maxDistance={1}
                 />,
-                <hr />,
+                <br />,
+                <Button
+                  aria-label={null}
+                  className=""
+                  component="button"
+                  isActive={false}
+                  isBlock={false}
+                  isDisabled={false}
+                  isFocus={false}
+                  isHover={false}
+                  onClick={[MockFunction]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="button"
+                  variant="primary"
+                >
+                  Clear
+                </Button>,
+                <br />,
               ],
               "className": "",
               "component": "div",
@@ -279,7 +364,41 @@ ShallowWrapper {
                 "props": Object {},
                 "ref": null,
                 "rendered": null,
-                "type": "hr",
+                "type": "br",
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "function",
+                "props": Object {
+                  "aria-label": null,
+                  "children": "Clear",
+                  "className": "",
+                  "component": "button",
+                  "isActive": false,
+                  "isBlock": false,
+                  "isDisabled": false,
+                  "isFocus": false,
+                  "isHover": false,
+                  "onClick": [MockFunction],
+                  "style": Object {
+                    "width": "100%",
+                  },
+                  "type": "button",
+                  "variant": "primary",
+                },
+                "ref": null,
+                "rendered": "Clear",
+                "type": [Function],
+              },
+              Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "host",
+                "props": Object {},
+                "ref": null,
+                "rendered": null,
+                "type": "br",
               },
             ],
             "type": [Function],
@@ -292,7 +411,7 @@ ShallowWrapper {
               "children": <div
                 style={
                   Object {
-                    "maxHeight": "calc(100vh - 195px)",
+                    "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
                     "overflowY": "auto",
                   }
                 }
@@ -346,7 +465,7 @@ ShallowWrapper {
                   />,
                 ],
                 "style": Object {
-                  "maxHeight": "calc(100vh - 195px)",
+                  "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
                   "overflowY": "auto",
                 },
               },
@@ -432,7 +551,28 @@ ShallowWrapper {
                 distance={10}
                 maxDistance={1}
               />
-              <hr />
+              <br />
+              <Button
+                aria-label={null}
+                className=""
+                component="button"
+                isActive={false}
+                isBlock={false}
+                isDisabled={false}
+                isFocus={false}
+                isHover={false}
+                onClick={[MockFunction]}
+                style={
+                  Object {
+                    "width": "100%",
+                  }
+                }
+                type="button"
+                variant="primary"
+              >
+                Clear
+              </Button>
+              <br />
             </CardHeader>
             <CardBody
               className=""
@@ -441,7 +581,7 @@ ShallowWrapper {
               <div
                 style={
                   Object {
-                    "maxHeight": "calc(100vh - 195px)",
+                    "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
                     "overflowY": "auto",
                   }
                 }
@@ -496,7 +636,28 @@ ShallowWrapper {
                 distance={10}
                 maxDistance={1}
               />
-              <hr />
+              <br />
+              <Button
+                aria-label={null}
+                className=""
+                component="button"
+                isActive={false}
+                isBlock={false}
+                isDisabled={false}
+                isFocus={false}
+                isHover={false}
+                onClick={[MockFunction]}
+                style={
+                  Object {
+                    "width": "100%",
+                  }
+                }
+                type="button"
+                variant="primary"
+              >
+                Clear
+              </Button>
+              <br />
             </CardHeader>
             <CardBody
               className=""
@@ -505,7 +666,7 @@ ShallowWrapper {
               <div
                 style={
                   Object {
-                    "maxHeight": "calc(100vh - 195px)",
+                    "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
                     "overflowY": "auto",
                   }
                 }
@@ -553,7 +714,28 @@ ShallowWrapper {
                   distance={10}
                   maxDistance={1}
                 />
-                <hr />
+                <br />
+                <Button
+                  aria-label={null}
+                  className=""
+                  component="button"
+                  isActive={false}
+                  isBlock={false}
+                  isDisabled={false}
+                  isFocus={false}
+                  isHover={false}
+                  onClick={[MockFunction]}
+                  style={
+                    Object {
+                      "width": "100%",
+                    }
+                  }
+                  type="button"
+                  variant="primary"
+                >
+                  Clear
+                </Button>
+                <br />
               </CardHeader>,
               <CardBody
                 className=""
@@ -562,7 +744,7 @@ ShallowWrapper {
                 <div
                   style={
                     Object {
-                      "maxHeight": "calc(100vh - 195px)",
+                      "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
                       "overflowY": "auto",
                     }
                   }
@@ -608,7 +790,28 @@ ShallowWrapper {
                     distance={10}
                     maxDistance={1}
                   />,
-                  <hr />,
+                  <br />,
+                  <Button
+                    aria-label={null}
+                    className=""
+                    component="button"
+                    isActive={false}
+                    isBlock={false}
+                    isDisabled={false}
+                    isFocus={false}
+                    isHover={false}
+                    onClick={[MockFunction]}
+                    style={
+                      Object {
+                        "width": "100%",
+                      }
+                    }
+                    type="button"
+                    variant="primary"
+                  >
+                    Clear
+                  </Button>,
+                  <br />,
                 ],
                 "className": "",
                 "component": "div",
@@ -647,7 +850,41 @@ ShallowWrapper {
                   "props": Object {},
                   "ref": null,
                   "rendered": null,
-                  "type": "hr",
+                  "type": "br",
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "function",
+                  "props": Object {
+                    "aria-label": null,
+                    "children": "Clear",
+                    "className": "",
+                    "component": "button",
+                    "isActive": false,
+                    "isBlock": false,
+                    "isDisabled": false,
+                    "isFocus": false,
+                    "isHover": false,
+                    "onClick": [MockFunction],
+                    "style": Object {
+                      "width": "100%",
+                    },
+                    "type": "button",
+                    "variant": "primary",
+                  },
+                  "ref": null,
+                  "rendered": "Clear",
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "host",
+                  "props": Object {},
+                  "ref": null,
+                  "rendered": null,
+                  "type": "br",
                 },
               ],
               "type": [Function],
@@ -660,7 +897,7 @@ ShallowWrapper {
                 "children": <div
                   style={
                     Object {
-                      "maxHeight": "calc(100vh - 195px)",
+                      "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
                       "overflowY": "auto",
                     }
                   }
@@ -714,7 +951,7 @@ ShallowWrapper {
                     />,
                   ],
                   "style": Object {
-                    "maxHeight": "calc(100vh - 195px)",
+                    "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
                     "overflowY": "auto",
                   },
                 },
@@ -799,6 +1036,7 @@ exports[`Location List Component should render correctly with no routes 1`] = `
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <LocationList
+    clearHandler={[MockFunction]}
     distance="10"
     domicileId={1}
     loadHandler={[MockFunction]}

@@ -22,6 +22,7 @@ import { ILatLng } from './types';
 
 const {
   addLocation,
+  clearSolution,
   deleteLocation,
   updateTSPSolution,
   initWsConnection,
@@ -98,8 +99,14 @@ const deleteLocationOp = (locationId: number) => {
   return deleteLocation(locationId);
 };
 
+const clearSolutionOp = () => {
+  stompClient.send('/app/clear');
+  return clearSolution();
+};
+
 export default {
   addLocation: addLocationOp,
+  clearSolution: clearSolutionOp,
   connect: connectWs,
   deleteLocation: deleteLocationOp,
   loadDemo: loadDemoOp,

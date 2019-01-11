@@ -24,6 +24,7 @@ export interface ILocationListProps extends ITSPRoute {
   removeHandler: (id: number) => void;
   selectHandler: (e: any) => void;
   loadHandler: () => void;
+  clearHandler: () => void;
   maxDistance: number;
 }
 
@@ -46,7 +47,7 @@ const renderLocationList = ({
   distance = '',
   removeHandler,
   selectHandler,
-  loadHandler,
+  clearHandler,
   maxDistance,
 }: ILocationListProps) => {
   return (
@@ -59,14 +60,18 @@ const renderLocationList = ({
           maxDistance={maxDistance}
           distance={parseInt(distance, 10) || maxDistance}
         />
-        <hr />
+        <br />
+        <Button type="button" style={{ width: '100%' }} onClick={clearHandler}>
+          Clear
+        </Button>
+        <br />
       </CardHeader>
       <CardBody>
         {/*
-               The calculated maxHeight is a hack because the constant 116px depends
-               on the height of Distance and Locations rows (above) and individual location rows.
-               */}
-        <div style={{ maxHeight: 'calc(100vh - 195px)', overflowY: 'auto' }}>
+        The calculated maxHeight is a hack because the last constant depends
+        on the height of CardHeader (above).
+        */}
+        <div style={{ maxHeight: 'calc(100vh - 24px - 24px - 8px - 196px)', overflowY: 'auto' }}>
           {route
             .slice(0) // clone the array because
             // sort is done in place (that would affect the route)
