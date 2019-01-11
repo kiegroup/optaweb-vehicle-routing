@@ -15,89 +15,100 @@
  */
 
 import { Client, Frame } from 'webstomp-client';
-import {
-  ADD_LOCATION,
-  CLEAR_SOLUTION,
-  DELETE_LOCATION,
-  ILatLng,
-  ITSPRouteWithSegments,
-  SOLUTION_UPDATES_DATA,
-  WS_CONNECT,
-  WS_CONNECT_FAILURE,
-  WS_CONNECT_SUCCESS,
-} from './types';
+import { ActionType, ILatLng, ITSPRouteWithSegments } from './types';
+
+// *************************************************************************************************
+// Action interfaces
+// *************************************************************************************************
 
 export interface IAddLocationAction {
-  readonly type: typeof ADD_LOCATION;
+  readonly type: ActionType.ADD_LOCATION;
   value?: ILatLng;
 }
 
 export interface IClearSolutionAction {
-  readonly type: typeof CLEAR_SOLUTION;
+  readonly type: ActionType.CLEAR_SOLUTION;
 }
 
 export interface IDeleteLocationAction {
-  readonly type: typeof DELETE_LOCATION;
+  readonly type: ActionType.DELETE_LOCATION;
   value: number;
 }
 
 export interface IUpdateTSPSolutionAction {
-  readonly type: typeof SOLUTION_UPDATES_DATA;
+  readonly type: ActionType.SOLUTION_UPDATES_DATA;
   solution: ITSPRouteWithSegments;
 }
 
 export interface InitWsConnectionAction {
-  readonly type: typeof WS_CONNECT;
+  readonly type: ActionType.WS_CONNECT;
   value: string;
 }
 
 export interface IWsConnectionSuccessAction {
-  readonly type: typeof WS_CONNECT_SUCCESS;
+  readonly type: ActionType.WS_CONNECT_SUCCESS;
   value: Client;
 }
 
 export interface IWsConnectionFailureAction {
-  readonly type: typeof WS_CONNECT_FAILURE;
+  readonly type: ActionType.WS_CONNECT_FAILURE;
   value: Frame | CloseEvent;
 }
 
+/**
+ * Union type for all actions.
+ */
+export type TspAction =
+  | IAddLocationAction
+  | IClearSolutionAction
+  | IDeleteLocationAction
+  | InitWsConnectionAction
+  | IUpdateTSPSolutionAction
+  | IWsConnectionFailureAction
+  | IWsConnectionSuccessAction;
+
+// *************************************************************************************************
+// Action creators
+// *************************************************************************************************
+
+// TODO use ActionCreator<IAddLocationAction> for the function interface
 const addLocation = (location?: ILatLng): IAddLocationAction => ({
-  type: ADD_LOCATION,
+  type: ActionType.ADD_LOCATION,
   value: location,
 });
 
 const deleteLocation = (id: number): IDeleteLocationAction => ({
-  type: DELETE_LOCATION,
+  type: ActionType.DELETE_LOCATION,
   value: id,
 });
 
 const clearSolution = (): IClearSolutionAction => ({
-  type: CLEAR_SOLUTION,
+  type: ActionType.CLEAR_SOLUTION,
 });
 
 const updateTSPSolution = (
   solution: ITSPRouteWithSegments,
 ): IUpdateTSPSolutionAction => ({
   solution,
-  type: SOLUTION_UPDATES_DATA,
+  type: ActionType.SOLUTION_UPDATES_DATA,
 });
 
 const initWsConnection = (socketUrl: string): InitWsConnectionAction => ({
-  type: WS_CONNECT,
+  type: ActionType.WS_CONNECT,
   value: socketUrl,
 });
 
 const wsConnectionSuccess = (
   webstompSocket: Client,
 ): IWsConnectionSuccessAction => ({
-  type: WS_CONNECT_SUCCESS,
+  type: ActionType.WS_CONNECT_SUCCESS,
   value: webstompSocket,
 });
 
 const wsConnectionFailure = (
   err: Frame | CloseEvent,
 ): IWsConnectionFailureAction => ({
-  type: WS_CONNECT_FAILURE,
+  type: ActionType.WS_CONNECT_FAILURE,
   value: err,
 });
 

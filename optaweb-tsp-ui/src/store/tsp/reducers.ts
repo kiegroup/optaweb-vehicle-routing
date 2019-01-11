@@ -14,12 +14,7 @@
  * limitations under the License.
  */
 
-import {
-  IDeleteLocationAction,
-  IUpdateTSPSolutionAction,
-  IWsConnectionFailureAction,
-  IWsConnectionSuccessAction,
-} from './actions';
+import { TspAction } from './actions';
 import * as types from './types';
 
 export interface ITSPReducerState
@@ -37,14 +32,10 @@ const INITIAL_STATE: ITSPReducerState = {
 
 export default function tspReducer(
   state = INITIAL_STATE,
-  action:
-    | IDeleteLocationAction
-    | IUpdateTSPSolutionAction
-    | IWsConnectionSuccessAction
-    | IWsConnectionFailureAction,
+  action: TspAction,
 ): ITSPReducerState {
   switch (action.type) {
-    case types.SOLUTION_UPDATES_DATA: {
+    case types.ActionType.SOLUTION_UPDATES_DATA: {
       const { route, segments, distance } = action.solution;
       if (route.length === 0 && distance) {
         return { ...INITIAL_STATE };
@@ -57,17 +48,17 @@ export default function tspReducer(
         segments,
       };
     }
-    case types.DELETE_LOCATION: {
+    case types.ActionType.DELETE_LOCATION: {
       if (state.route.length === 1) {
         return { ...INITIAL_STATE };
       }
       return state;
     }
-    case types.WS_CONNECT_SUCCESS: {
+    case types.ActionType.WS_CONNECT_SUCCESS: {
       return { ...state, ws: types.WebSocketConnectionState.OPEN };
     }
 
-    case types.WS_CONNECT_FAILURE: {
+    case types.ActionType.WS_CONNECT_FAILURE: {
       return { ...state, ws: types.WebSocketConnectionState.ERROR };
     }
     default:
