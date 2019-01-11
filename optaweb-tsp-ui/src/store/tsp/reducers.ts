@@ -15,14 +15,10 @@
  */
 
 import {
-  // AddLocationAction,
   IDeleteLocationAction,
-  // InitWsConnectionAction,
   IUpdateTSPSolutionAction,
   IWsConnectionFailureAction,
   IWsConnectionSuccessAction,
-  // WsConnectionFailureAction,
-  // WsConnectionSuccessAction
 } from './actions';
 import * as types from './types';
 
@@ -51,7 +47,7 @@ export default function tspReducer(
     case types.SOLUTION_UPDATES_DATA: {
       const { route, segments, distance } = action.solution;
       if (route.length === 0 && distance) {
-        return state;
+        return { ...INITIAL_STATE };
       }
       return {
         ...state,

@@ -22,6 +22,7 @@ import LocationList from './LocationList';
 describe('Location List Component', () => {
   it('should render correctly with no routes', () => {
     const props = {
+      clearHandler: jest.fn(),
       distance: '10',
       domicileId: 1,
       loadHandler: jest.fn(),
@@ -42,6 +43,7 @@ describe('Location List Component', () => {
 
   it('should render correctly with a few routes', () => {
     const props = {
+      clearHandler: jest.fn(),
       distance: '10',
       domicileId: 1,
       loadHandler: jest.fn(),

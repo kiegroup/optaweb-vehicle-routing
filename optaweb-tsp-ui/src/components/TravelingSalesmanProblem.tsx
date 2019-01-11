@@ -22,6 +22,7 @@ export interface ITravelingSalesmanProblemProps {
   tsp: ITSPRouteWithSegments;
   removeHandler: (id: number) => void;
   loadHandler: () => void;
+  clearHandler: () => void;
   addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
 }
 
@@ -79,6 +80,7 @@ export default class TravelingSalesmanProblem extends React.Component<
       tsp: { route, segments, domicileId, distance },
       removeHandler,
       loadHandler,
+      clearHandler,
       addHandler,
     } = this.props;
 
@@ -92,6 +94,7 @@ export default class TravelingSalesmanProblem extends React.Component<
           removeHandler={removeHandler}
           selectHandler={this.onSelectLocation}
           loadHandler={loadHandler}
+          clearHandler={clearHandler}
         />
         <TspMap
           center={center}

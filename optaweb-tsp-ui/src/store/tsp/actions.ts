@@ -17,6 +17,7 @@
 import { Client, Frame } from 'webstomp-client';
 import {
   ADD_LOCATION,
+  CLEAR_SOLUTION,
   DELETE_LOCATION,
   ILatLng,
   ITSPRouteWithSegments,
@@ -29,6 +30,10 @@ import {
 export interface IAddLocationAction {
   readonly type: typeof ADD_LOCATION;
   value?: ILatLng;
+}
+
+export interface IClearSolutionAction {
+  readonly type: typeof CLEAR_SOLUTION;
 }
 
 export interface IDeleteLocationAction {
@@ -66,6 +71,10 @@ const deleteLocation = (id: number): IDeleteLocationAction => ({
   value: id,
 });
 
+const clearSolution = (): IClearSolutionAction => ({
+  type: CLEAR_SOLUTION,
+});
+
 const updateTSPSolution = (
   solution: ITSPRouteWithSegments,
 ): IUpdateTSPSolutionAction => ({
@@ -94,6 +103,7 @@ const wsConnectionFailure = (
 
 export default {
   addLocation,
+  clearSolution,
   deleteLocation,
   initWsConnection,
   updateTSPSolution,

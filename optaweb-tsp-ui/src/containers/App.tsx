@@ -32,6 +32,7 @@ export interface IAppProps extends ITravelingSalesmanProblemProps {
   removeHandler: (id: number) => void;
   loadHandler: () => void;
   addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
+  clearHandler: () => void;
 }
 
 const mapStateToProps = ({ tsp }: IAppState) => ({ tsp });
@@ -42,6 +43,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   },
   addHandler(e: any) {
     dispatch(tspOperations.addLocation(e.latlng));
+  },
+  clearHandler() {
+    dispatch(tspOperations.clearSolution());
   },
   removeHandler(id: number) {
     dispatch(tspOperations.deleteLocation(id));

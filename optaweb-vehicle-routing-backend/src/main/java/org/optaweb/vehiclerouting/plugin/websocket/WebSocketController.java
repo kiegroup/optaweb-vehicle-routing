@@ -86,4 +86,9 @@ public class WebSocketController {
     public void demo() {
         locationService.loadDemo();
     }
+
+    @MessageMapping("/clear")
+    public void clear() {
+        locationService.clear();
+    }
 }
