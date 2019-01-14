@@ -22,7 +22,7 @@ import TripData from './TripData';
 
 export interface ILocationListProps extends ITSPRoute {
   removeHandler: (id: number) => void;
-  selectHandler: (e: any) => void;
+  selectHandler: (id: number) => void;
   loadHandler: () => void;
   clearHandler: () => void;
   maxDistance: number;
