@@ -23,7 +23,7 @@ import TravelingSalesmanProblem, {
   ITravelingSalesmanProblemProps,
 } from '../components/TravelingSalesmanProblem';
 import tspOperations from '../store/tsp/operations';
-import { IAppState, ITSPReducerState, WebSocketConnectionState } from '../store/tsp/types';
+import { IAppState, ITSPReducerState, WebSocketConnectionStatus } from '../store/tsp/types';
 import './App.css';
 
 export interface IAppProps extends ITravelingSalesmanProblemProps {
@@ -71,7 +71,7 @@ class App extends React.Component<IAppProps> {
     const { ws } = this.props.tsp;
     return (
       <div>
-        {ws === WebSocketConnectionState.ERROR && (
+        {ws === WebSocketConnectionStatus.ERROR && (
           <ConnectionError
             title="Oops... Connection error!"
             message="Please check your network connection."

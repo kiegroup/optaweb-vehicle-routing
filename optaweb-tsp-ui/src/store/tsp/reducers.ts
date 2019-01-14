@@ -15,14 +15,14 @@
  */
 
 import { TspAction } from './actions';
-import { ActionType, ITSPReducerState, WebSocketConnectionState } from './types';
+import { ActionType, ITSPReducerState, WebSocketConnectionStatus } from './types';
 
 const INITIAL_STATE: ITSPReducerState = {
   distance: '0.00',
   domicileId: -1,
   route: [],
   segments: [],
-  ws: WebSocketConnectionState.CLOSED,
+  ws: WebSocketConnectionStatus.CLOSED,
 };
 
 export default function tspReducer(
@@ -50,11 +50,11 @@ export default function tspReducer(
       return state;
     }
     case ActionType.WS_CONNECT_SUCCESS: {
-      return { ...state, ws: WebSocketConnectionState.OPEN };
+      return { ...state, ws: WebSocketConnectionStatus.OPEN };
     }
 
     case ActionType.WS_CONNECT_FAILURE: {
-      return { ...state, ws: WebSocketConnectionState.ERROR };
+      return { ...state, ws: WebSocketConnectionStatus.ERROR };
     }
     default:
       return state;

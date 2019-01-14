@@ -29,14 +29,14 @@ export enum ActionType {
 // WebSocket connection
 // *************************************************************************************************
 
-export enum WebSocketConnectionState {
+export enum WebSocketConnectionStatus {
   OPEN,
   CLOSED,
   ERROR,
 }
 
 export interface IWSConnection {
-  ws: WebSocketConnectionState;
+  ws: WebSocketConnectionStatus;
 }
 
 // *************************************************************************************************
