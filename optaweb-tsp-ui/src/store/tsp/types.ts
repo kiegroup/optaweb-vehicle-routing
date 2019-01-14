@@ -25,7 +25,7 @@ export enum WebSocketConnectionStatus {
 }
 
 export interface IWSConnection {
-  ws: WebSocketConnectionStatus;
+  readonly ws: WebSocketConnectionStatus;
 }
 
 // *************************************************************************************************
@@ -33,31 +33,31 @@ export interface IWSConnection {
 // *************************************************************************************************
 
 export interface ILatLng {
-  lat: number;
-  lng: number;
+  readonly lat: number;
+  readonly lng: number;
 }
 
 export interface ILocation extends ILatLng {
-  id: number;
+  readonly id: number;
 }
 
 export interface ITSPRoute {
-  route: ILocation[];
-  domicileId: number;
-  distance: string;
+  readonly route: ILocation[];
+  readonly domicileId: number;
+  readonly distance: string;
 }
 
 export interface ITSPRouteWithSegments extends ITSPRoute {
-  segments: Array<[number, number]>;
+  readonly segments: Array<[number, number]>;
 }
 
 export interface ITSPReducerState extends ITSPRouteWithSegments, IWSConnection {
 }
 
 export interface IAppState {
-  tsp: ITSPReducerState;
+  readonly tsp: ITSPReducerState;
 }
 
 export interface IAppStoreConfig {
-  socketUrl: string;
+  readonly socketUrl: string;
 }
