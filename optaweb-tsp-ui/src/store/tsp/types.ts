@@ -66,7 +66,7 @@ export interface ITSPReducerState extends ITSPRouteWithSegments, IWSConnection {
 }
 
 export interface IAppState {
-  tsp: ITSPRouteWithSegments & IWSConnection;
+  tsp: ITSPReducerState;
 }
 
 export interface IAppStoreConfig {
