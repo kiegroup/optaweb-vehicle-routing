@@ -48,12 +48,12 @@ export interface ILatLng {
   lng: number;
 }
 
-export interface IdLatLng extends ILatLng {
+export interface ILocation extends ILatLng {
   id: number;
 }
 
 export interface ITSPRoute {
-  route: IdLatLng[];
+  route: ILocation[];
   domicileId: number;
   distance?: string;
 }
