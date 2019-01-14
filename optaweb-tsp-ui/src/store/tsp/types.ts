@@ -14,17 +14,6 @@
  * limitations under the License.
  */
 
-export enum ActionType {
-  SOLUTION_UPDATES_DATA = 'SOLUTION_UPDATES_DATA',
-  DELETE_LOCATION = 'DELETE_LOCATION',
-  ADD_LOCATION = 'ADD_LOCATION',
-  ADD_DEMO_LOCATION = 'ADD_DEMO_LOCATION',
-  CLEAR_SOLUTION = 'CLEAR_SOLUTION',
-  WS_CONNECT = 'WS_CONNECT',
-  WS_CONNECT_SUCCESS = 'WS_CONNECT_SUCCESS',
-  WS_CONNECT_FAILURE = 'WS_CONNECT_FAILURE',
-}
-
 // *************************************************************************************************
 // WebSocket connection
 // *************************************************************************************************

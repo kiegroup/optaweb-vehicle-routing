@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { TspAction } from './actions';
-import { ActionType, ITSPReducerState, WebSocketConnectionStatus } from './types';
+import { ActionType, TspAction } from './actions';
+import { ITSPReducerState, WebSocketConnectionStatus } from './types';
 
 const INITIAL_STATE: ITSPReducerState = {
   distance: '0.00',
