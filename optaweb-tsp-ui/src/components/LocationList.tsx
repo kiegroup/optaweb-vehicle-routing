@@ -20,12 +20,13 @@ import { ITSPRoute } from '../store/tsp/types';
 import Location from './Location';
 import TripData from './TripData';
 
-export interface ILocationListProps extends ITSPRoute {
+export interface ILocationListProps {
   removeHandler: (id: number) => void;
   selectHandler: (id: number) => void;
   loadHandler: () => void;
   clearHandler: () => void;
   maxDistance: number;
+  route: ITSPRoute;
 }
 
 const renderEmptyLocationList = ({ loadHandler }: ILocationListProps) => {
@@ -42,9 +43,7 @@ const renderEmptyLocationList = ({ loadHandler }: ILocationListProps) => {
 };
 
 const renderLocationList = ({
-  route,
-  domicileId,
-  distance = '',
+  route: { distance, route, domicileId },
   removeHandler,
   selectHandler,
   clearHandler,
@@ -100,7 +99,7 @@ const LocationList: React.SFC<ILocationListProps> = (
       style={{ zIndex: 500 }}
     >
       <div className="leaflet-control leaflet-bar">
-        {props.route.length === 0
+        {props.route.route.length === 0
           ? renderEmptyLocationList(props)
           : renderLocationList(props)}
       </div>

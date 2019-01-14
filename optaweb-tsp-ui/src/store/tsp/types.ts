@@ -44,7 +44,7 @@ export interface ILocation extends ILatLng {
 export interface ITSPRoute {
   route: ILocation[];
   domicileId: number;
-  distance?: string;
+  distance: string;
 }
 
 export interface ITSPRouteWithSegments extends ITSPRoute {

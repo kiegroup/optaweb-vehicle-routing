@@ -69,7 +69,7 @@ export default class TravelingSalesmanProblem extends React.Component<
   render() {
     const { center, zoom, selectedId, maxDistance } = this.state;
     const {
-      tsp: { route, segments, domicileId, distance },
+      tsp,
       removeHandler,
       loadHandler,
       clearHandler,
@@ -79,9 +79,7 @@ export default class TravelingSalesmanProblem extends React.Component<
     return (
       <div>
         <LocationList
-          route={route}
-          domicileId={domicileId}
-          distance={distance}
+          route={tsp}
           maxDistance={maxDistance}
           removeHandler={removeHandler}
           selectHandler={this.onSelectLocation}
@@ -92,11 +90,9 @@ export default class TravelingSalesmanProblem extends React.Component<
           center={center}
           zoom={zoom}
           selectedId={selectedId}
-          route={route}
-          segments={segments}
-          domicileId={domicileId}
           clickHandler={addHandler}
           removeHandler={removeHandler}
+          tsp={tsp}
         />
       </div>
     );
