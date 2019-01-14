@@ -37,14 +37,6 @@ export default class TravelingSalesmanProblem extends React.Component<
   ITravelingSalesmanProblemProps,
   ITravelingSalesmanProblemState
 > {
-  static defaultProps = {
-    tsp: {
-      distance: '0',
-      domicileId: -1,
-      route: [],
-      segments: [],
-    },
-  };
 
   constructor(props: ITravelingSalesmanProblemProps) {
     super(props);
