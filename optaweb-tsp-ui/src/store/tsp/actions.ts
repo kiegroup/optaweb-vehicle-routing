@@ -25,7 +25,7 @@ export enum ActionType {
   SOLUTION_UPDATES_DATA = 'SOLUTION_UPDATES_DATA',
   DELETE_LOCATION = 'DELETE_LOCATION',
   ADD_LOCATION = 'ADD_LOCATION',
-  ADD_DEMO_LOCATION = 'ADD_DEMO_LOCATION',
+  LOAD_DEMO = 'LOAD_DEMO',
   CLEAR_SOLUTION = 'CLEAR_SOLUTION',
   WS_CONNECT = 'WS_CONNECT',
   WS_CONNECT_SUCCESS = 'WS_CONNECT_SUCCESS',
@@ -38,7 +38,7 @@ export enum ActionType {
 
 export interface IAddLocationAction {
   readonly type: ActionType.ADD_LOCATION;
-  value?: ILatLng;
+  value: ILatLng;
 }
 
 export interface IClearSolutionAction {
@@ -48,6 +48,10 @@ export interface IClearSolutionAction {
 export interface IDeleteLocationAction {
   readonly type: ActionType.DELETE_LOCATION;
   value: number;
+}
+
+export interface ILoadDemoAction {
+  readonly type: ActionType.LOAD_DEMO;
 }
 
 export interface IUpdateTSPSolutionAction {
@@ -87,7 +91,7 @@ export type TspAction =
 // *************************************************************************************************
 
 // TODO use ActionCreator<IAddLocationAction> for the function interface
-const addLocation = (location?: ILatLng): IAddLocationAction => ({
+const addLocation = (location: ILatLng): IAddLocationAction => ({
   type: ActionType.ADD_LOCATION,
   value: location,
 });
@@ -95,6 +99,10 @@ const addLocation = (location?: ILatLng): IAddLocationAction => ({
 const deleteLocation = (id: number): IDeleteLocationAction => ({
   type: ActionType.DELETE_LOCATION,
   value: id,
+});
+
+const loadDemo = (): ILoadDemoAction => ({
+  type: ActionType.LOAD_DEMO,
 });
 
 const clearSolution = (): IClearSolutionAction => ({
@@ -132,6 +140,7 @@ export default {
   clearSolution,
   deleteLocation,
   initWsConnection,
+  loadDemo,
   updateTSPSolution,
   wsConnectionFailure,
   wsConnectionSuccess,

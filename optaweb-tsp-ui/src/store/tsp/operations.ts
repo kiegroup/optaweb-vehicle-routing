@@ -24,6 +24,7 @@ const {
   addLocation,
   clearSolution,
   deleteLocation,
+  loadDemo,
   updateTSPSolution,
   initWsConnection,
   wsConnectionSuccess,
@@ -88,7 +89,7 @@ const addLocationOp = (location: ILatLng) => {
 
 const loadDemoOp = () => {
   stompClient.send('/app/demo');
-  return addLocation();
+  return loadDemo();
 };
 
 const deleteLocationOp = (locationId: number) => {
