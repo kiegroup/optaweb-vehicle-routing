@@ -15,19 +15,14 @@
  */
 
 import { TspAction } from './actions';
-import * as types from './types';
-
-export interface ITSPReducerState
-  extends types.ITSPRouteWithSegments,
-    types.IWSConnection {
-}
+import { ActionType, ITSPReducerState, WebSocketConnectionState } from './types';
 
 const INITIAL_STATE: ITSPReducerState = {
   distance: '0.00',
   domicileId: -1,
   route: [],
   segments: [],
-  ws: types.WebSocketConnectionState.CLOSED,
+  ws: WebSocketConnectionState.CLOSED,
 };
 
 export default function tspReducer(
@@ -35,7 +30,7 @@ export default function tspReducer(
   action: TspAction,
 ): ITSPReducerState {
   switch (action.type) {
-    case types.ActionType.SOLUTION_UPDATES_DATA: {
+    case ActionType.SOLUTION_UPDATES_DATA: {
       const { route, segments, distance } = action.solution;
       if (route.length === 0 && distance) {
         return { ...INITIAL_STATE };
@@ -48,18 +43,18 @@ export default function tspReducer(
         segments,
       };
     }
-    case types.ActionType.DELETE_LOCATION: {
+    case ActionType.DELETE_LOCATION: {
       if (state.route.length === 1) {
         return { ...INITIAL_STATE };
       }
       return state;
     }
-    case types.ActionType.WS_CONNECT_SUCCESS: {
-      return { ...state, ws: types.WebSocketConnectionState.OPEN };
+    case ActionType.WS_CONNECT_SUCCESS: {
+      return { ...state, ws: WebSocketConnectionState.OPEN };
     }
 
-    case types.ActionType.WS_CONNECT_FAILURE: {
-      return { ...state, ws: types.WebSocketConnectionState.ERROR };
+    case ActionType.WS_CONNECT_FAILURE: {
+      return { ...state, ws: WebSocketConnectionState.ERROR };
     }
     default:
       return state;

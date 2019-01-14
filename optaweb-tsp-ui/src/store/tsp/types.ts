@@ -25,11 +25,23 @@ export enum ActionType {
   WS_CONNECT_FAILURE = 'WS_CONNECT_FAILURE',
 }
 
+// *************************************************************************************************
+// WebSocket connection
+// *************************************************************************************************
+
 export enum WebSocketConnectionState {
   OPEN,
   CLOSED,
   ERROR,
 }
+
+export interface IWSConnection {
+  ws: WebSocketConnectionState;
+}
+
+// *************************************************************************************************
+// Route
+// *************************************************************************************************
 
 export interface ILatLng {
   lat: number;
@@ -50,6 +62,13 @@ export interface ITSPRouteWithSegments extends ITSPRoute {
   segments: Array<[number, number]>;
 }
 
-export interface IWSConnection {
-  ws: WebSocketConnectionState;
+export interface ITSPReducerState extends ITSPRouteWithSegments, IWSConnection {
+}
+
+export interface IAppState {
+  tsp: ITSPRouteWithSegments & IWSConnection;
+}
+
+export interface IAppStoreConfig {
+  socketUrl: string;
 }

@@ -22,7 +22,7 @@ import ConnectionError from 'src/components/ConnectionError';
 import TravelingSalesmanProblem, {
   ITravelingSalesmanProblemProps,
 } from '../components/TravelingSalesmanProblem';
-import { IAppState } from '../store/configStore';
+import { IAppState } from '../store/tsp';
 import { ITSPRouteWithSegments, tspOperations } from '../store/tsp/index';
 import * as types from '../store/tsp/types';
 import './App.css';
