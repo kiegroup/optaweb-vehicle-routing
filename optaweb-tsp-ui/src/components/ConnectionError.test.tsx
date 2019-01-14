@@ -16,11 +16,11 @@
 
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import ConnectionError from './ConnectionError';
+import ConnectionError, { IConnectionErrorProps } from './ConnectionError';
 
 describe('Connection Error Component', () => {
   it('should render correctly', () => {
-    const props = {
+    const props: IConnectionErrorProps = {
       help: 'help',
       icon: <i>Icon</i>,
       message: 'message',

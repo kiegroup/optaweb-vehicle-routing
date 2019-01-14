@@ -16,11 +16,11 @@
 
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import TspMap from './TspMap';
+import TspMap, { ITspMapProps } from './TspMap';
 
 describe('TSP Map View', () => {
   it('should render correctly', () => {
-    const props = {
+    const props: ITspMapProps = {
       center: {
         lat: 1.345678,
         lng: 1.345678,
@@ -46,7 +46,7 @@ describe('TSP Map View', () => {
           lng: 3.568333,
         },
       ],
-      segments: [[0.111222, 0.222333], [0.444555, 0.555666]] as Array<[number, number]>,
+      segments: [[0.111222, 0.222333], [0.444555, 0.555666]],
       selectedId: 1,
       zoom: 5,
     };

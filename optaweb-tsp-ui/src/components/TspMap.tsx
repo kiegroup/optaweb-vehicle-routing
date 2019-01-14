@@ -26,7 +26,7 @@ import {
 } from 'react-leaflet';
 import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
 
-interface ITspMapProps extends ITSPRouteWithSegments {
+export interface ITspMapProps extends ITSPRouteWithSegments {
   center: ILatLng;
   zoom: number;
   selectedId: number;
