@@ -24,7 +24,7 @@ import {
   Tooltip,
   ZoomControl,
 } from 'react-leaflet';
-import { ILatLng, ITSPRouteWithSegments } from '../store/tsp';
+import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
 
 interface ITspMapProps extends ITSPRouteWithSegments {
   center: ILatLng;

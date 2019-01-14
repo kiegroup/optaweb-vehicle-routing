@@ -16,9 +16,9 @@
 
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { createLogger } from 'redux-logger';
-import tspReducer, {
-  IAppState, IAppStoreConfig, tspOperations,
-} from './tsp/index';
+import tspOperations from './tsp/operations';
+import tspReducer from './tsp/reducers';
+import { IAppState, IAppStoreConfig } from './tsp/types';
 
 export default function configureStore(
   { socketUrl }: IAppStoreConfig,

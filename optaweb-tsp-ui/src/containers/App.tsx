@@ -22,13 +22,17 @@ import ConnectionError from 'src/components/ConnectionError';
 import TravelingSalesmanProblem, {
   ITravelingSalesmanProblemProps,
 } from '../components/TravelingSalesmanProblem';
-import { IAppState } from '../store/tsp';
-import { ITSPRouteWithSegments, tspOperations } from '../store/tsp/index';
-import * as types from '../store/tsp/types';
+import tspOperations from '../store/tsp/operations';
+import {
+  IAppState,
+  ITSPRouteWithSegments,
+  IWSConnection,
+  WebSocketConnectionState,
+} from '../store/tsp/types';
 import './App.css';
 
 export interface IAppProps extends ITravelingSalesmanProblemProps {
-  tsp: ITSPRouteWithSegments & types.IWSConnection;
+  tsp: ITSPRouteWithSegments & IWSConnection;
   removeHandler: (id: number) => void;
   loadHandler: () => void;
   addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
@@ -72,7 +76,7 @@ class App extends React.Component<IAppProps> {
     const { ws } = this.props.tsp;
     return (
       <div>
-        {ws === types.WebSocketConnectionState.ERROR && (
+        {ws === WebSocketConnectionState.ERROR && (
           <ConnectionError
             title="Oops... Connection error!"
             message="Please check your network connection."
