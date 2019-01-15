@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
 import { createLogger } from 'redux-logger';
 import tspOperations from './tsp/operations';
 import tspReducer from './tsp/reducers';
@@ -23,7 +23,7 @@ import { IAppState, IAppStoreConfig } from './tsp/types';
 export default function configureStore(
   { socketUrl }: IAppStoreConfig,
   preloadedState?: IAppState,
-) {
+): Store<IAppState> {
   // create logger middleware
   const logger = createLogger();
 
@@ -33,7 +33,7 @@ export default function configureStore(
   /* eslint-enable */
 
   // combining reducers
-  const rootReducer = combineReducers({ tsp: tspReducer });
+  const rootReducer = combineReducers<IAppState>({ tsp: tspReducer });
 
   const store = createStore(
     rootReducer,
