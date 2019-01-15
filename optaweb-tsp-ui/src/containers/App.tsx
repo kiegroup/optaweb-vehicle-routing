@@ -46,17 +46,6 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 class App extends React.Component<IAppProps> {
   constructor(props: IAppProps) {
     super(props);
-    this.onClickRemove = this.onClickRemove.bind(this);
-  }
-
-  onClickRemove(id: number) {
-    const {
-      tsp: { domicileId, route },
-      removeHandler,
-    } = this.props;
-    if (id !== domicileId || route.length === 1) {
-      removeHandler(id);
-    }
   }
 
   render() {
