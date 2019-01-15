@@ -37,18 +37,10 @@ const mapStateToProps = ({ route, connectionStatus }: IAppState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  loadHandler() {
-    dispatch(tspOperations.loadDemo());
-  },
-  addHandler(e: any) {
-    dispatch(tspOperations.addLocation(e.latlng));
-  },
-  clearHandler() {
-    dispatch(tspOperations.clearSolution());
-  },
-  removeHandler(id: number) {
-    dispatch(tspOperations.deleteLocation(id));
-  },
+  addHandler: (e: any) => dispatch(tspOperations.addLocation(e.latlng)),
+  clearHandler: () => dispatch(tspOperations.clearSolution()),
+  loadHandler: () => dispatch(tspOperations.loadDemo()),
+  removeHandler: (id: number) => dispatch(tspOperations.deleteLocation(id)),
 });
 
 class App extends React.Component<IAppProps> {
