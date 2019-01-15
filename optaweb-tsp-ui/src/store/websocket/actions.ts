@@ -24,17 +24,17 @@ export enum ActionType {
 
 export interface InitWsConnectionAction {
   readonly type: ActionType.WS_CONNECT;
-  value: string;
+  readonly value: string;
 }
 
 export interface IWsConnectionSuccessAction {
   readonly type: ActionType.WS_CONNECT_SUCCESS;
-  value: Client;
+  readonly value: Client;
 }
 
 export interface IWsConnectionFailureAction {
   readonly type: ActionType.WS_CONNECT_FAILURE;
-  value: Frame | CloseEvent;
+  readonly value: Frame | CloseEvent;
 }
 
 export type WebSocketAction =

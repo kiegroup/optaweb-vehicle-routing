@@ -26,7 +26,7 @@ export enum ActionType {
 
 export interface IAddLocationAction {
   readonly type: ActionType.ADD_LOCATION;
-  value: ILatLng;
+  readonly value: ILatLng;
 }
 
 export interface IClearSolutionAction {
@@ -35,7 +35,7 @@ export interface IClearSolutionAction {
 
 export interface IDeleteLocationAction {
   readonly type: ActionType.DELETE_LOCATION;
-  value: number;
+  readonly value: number;
 }
 
 export interface ILoadDemoAction {
@@ -44,7 +44,7 @@ export interface ILoadDemoAction {
 
 export interface IUpdateTSPSolutionAction {
   readonly type: ActionType.SOLUTION_UPDATES_DATA;
-  solution: ITSPRouteWithSegments;
+  readonly solution: ITSPRouteWithSegments;
 }
 
 export type TspAction =
