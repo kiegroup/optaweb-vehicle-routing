@@ -17,7 +17,7 @@
 import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
 import { createLogger } from 'redux-logger';
 import tspOperations from './tsp/operations';
-import tspReducer from './tsp/reducers';
+import tspReducer, { wsReducer } from './tsp/reducers';
 import { IAppState, IAppStoreConfig } from './tsp/types';
 
 export default function configureStore(
@@ -33,7 +33,10 @@ export default function configureStore(
   /* eslint-enable */
 
   // combining reducers
-  const rootReducer = combineReducers<IAppState>({ tsp: tspReducer });
+  const rootReducer = combineReducers<IAppState>({
+    connectionStatus: wsReducer,
+    route: tspReducer,
+  });
 
   const store = createStore(
     rootReducer,

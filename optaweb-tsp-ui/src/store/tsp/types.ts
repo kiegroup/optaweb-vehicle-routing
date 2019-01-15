@@ -24,10 +24,6 @@ export enum WebSocketConnectionStatus {
   ERROR,
 }
 
-export interface IWSConnection {
-  readonly ws: WebSocketConnectionStatus;
-}
-
 // *************************************************************************************************
 // Route
 // *************************************************************************************************
@@ -51,11 +47,9 @@ export interface ITSPRouteWithSegments extends ITSPRoute {
   readonly segments: Array<[number, number]>;
 }
 
-export interface ITSPReducerState extends ITSPRouteWithSegments, IWSConnection {
-}
-
 export interface IAppState {
-  readonly tsp: ITSPReducerState;
+  readonly route: ITSPRouteWithSegments;
+  readonly connectionStatus: WebSocketConnectionStatus;
 }
 
 export interface IAppStoreConfig {

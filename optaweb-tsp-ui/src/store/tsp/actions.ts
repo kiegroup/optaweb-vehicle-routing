@@ -81,8 +81,10 @@ export type TspAction =
   | IAddLocationAction
   | IClearSolutionAction
   | IDeleteLocationAction
+  | IUpdateTSPSolutionAction;
+
+export type WebSocketAction =
   | InitWsConnectionAction
-  | IUpdateTSPSolutionAction
   | IWsConnectionFailureAction
   | IWsConnectionSuccessAction;
 

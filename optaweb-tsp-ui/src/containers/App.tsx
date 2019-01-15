@@ -23,18 +23,17 @@ import TravelingSalesmanProblem, {
   ITravelingSalesmanProblemProps,
 } from '../components/TravelingSalesmanProblem';
 import tspOperations from '../store/tsp/operations';
-import { IAppState, ITSPReducerState, WebSocketConnectionStatus } from '../store/tsp/types';
+import { IAppState, WebSocketConnectionStatus } from '../store/tsp/types';
 import './App.css';
 
 export interface IAppProps extends ITravelingSalesmanProblemProps {
-  tsp: ITSPReducerState;
-  removeHandler: (id: number) => void;
-  loadHandler: () => void;
-  addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
-  clearHandler: () => void;
+  connectionStatus: WebSocketConnectionStatus;
 }
 
-const mapStateToProps = ({ tsp }: IAppState) => ({ tsp });
+const mapStateToProps = ({ route, connectionStatus }: IAppState) => ({
+  connectionStatus,
+  tsp: route,
+});
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   loadHandler() {
@@ -68,10 +67,10 @@ class App extends React.Component<IAppProps> {
   }
 
   render() {
-    const { ws } = this.props.tsp;
+    const { connectionStatus } = this.props;
     return (
       <div>
-        {ws === WebSocketConnectionStatus.ERROR && (
+        {connectionStatus === WebSocketConnectionStatus.ERROR && (
           <ConnectionError
             title="Oops... Connection error!"
             message="Please check your network connection."
