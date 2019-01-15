@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,8 @@
  * limitations under the License.
  */
 
-export interface ILatLng {
-  readonly lat: number;
-  readonly lng: number;
-}
-
-export interface ILocation extends ILatLng {
-  readonly id: number;
-}
-
-export interface ITSPRoute {
-  readonly route: ILocation[];
-  readonly domicileId: number;
-  readonly distance: string;
-}
-
-export interface ITSPRouteWithSegments extends ITSPRoute {
-  readonly segments: Array<[number, number]>;
+export enum WebSocketConnectionStatus {
+  OPEN,
+  CLOSED,
+  ERROR,
 }

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { ActionType, TspAction, WebSocketAction } from './actions';
-import { ITSPRouteWithSegments, WebSocketConnectionStatus } from './types';
+import { ActionType, TspAction } from './actions';
+import { ITSPRouteWithSegments } from './types';
 
 const initialTspState: ITSPRouteWithSegments = {
   distance: '0.00',
@@ -47,22 +47,6 @@ export default function tspReducer(
         return { ...initialTspState };
       }
       return state;
-    }
-    default:
-      return state;
-  }
-}
-
-export function wsReducer(
-  state = WebSocketConnectionStatus.CLOSED,
-  action: WebSocketAction,
-): WebSocketConnectionStatus {
-  switch (action.type) {
-    case ActionType.WS_CONNECT_SUCCESS: {
-      return WebSocketConnectionStatus.OPEN;
-    }
-    case ActionType.WS_CONNECT_FAILURE: {
-      return WebSocketConnectionStatus.ERROR;
     }
     default:
       return state;

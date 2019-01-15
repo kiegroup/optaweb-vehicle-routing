@@ -22,8 +22,9 @@ import ConnectionError from 'src/components/ConnectionError';
 import TravelingSalesmanProblem, {
   ITravelingSalesmanProblemProps,
 } from '../components/TravelingSalesmanProblem';
-import tspOperations from '../store/tsp/operations';
-import { IAppState, WebSocketConnectionStatus } from '../store/tsp/types';
+import { IAppState } from '../store/configStore';
+import tspOperations from '../store/operations';
+import { WebSocketConnectionStatus } from '../store/websocket/types';
 import './App.css';
 
 export interface IAppProps extends ITravelingSalesmanProblemProps {

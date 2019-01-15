@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-export interface ILatLng {
-  readonly lat: number;
-  readonly lng: number;
-}
+import { ActionType, WebSocketAction } from './actions';
+import { WebSocketConnectionStatus } from './types';
 
-export interface ILocation extends ILatLng {
-  readonly id: number;
-}
-
-export interface ITSPRoute {
-  readonly route: ILocation[];
-  readonly domicileId: number;
-  readonly distance: string;
-}
-
-export interface ITSPRouteWithSegments extends ITSPRoute {
-  readonly segments: Array<[number, number]>;
+export function wsReducer(
+  state = WebSocketConnectionStatus.CLOSED,
+  action: WebSocketAction,
+): WebSocketConnectionStatus {
+  switch (action.type) {
+    case ActionType.WS_CONNECT_SUCCESS: {
+      return WebSocketConnectionStatus.OPEN;
+    }
+    case ActionType.WS_CONNECT_FAILURE: {
+      return WebSocketConnectionStatus.ERROR;
+    }
+    default:
+      return state;
+  }
 }

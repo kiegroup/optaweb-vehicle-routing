@@ -17,8 +17,9 @@
 import { Dispatch } from 'redux';
 import * as SockJS from 'sockjs-client';
 import webstomp, { Client } from 'webstomp-client';
-import Creators from './actions';
-import { ILatLng } from './types';
+import TspActions from './tsp/actions';
+import { ILatLng } from './tsp/types';
+import WebSocketActions from './websocket/actions';
 
 const {
   addLocation,
@@ -26,10 +27,13 @@ const {
   deleteLocation,
   loadDemo,
   updateTSPSolution,
+} = TspActions;
+
+const {
   initWsConnection,
   wsConnectionSuccess,
   wsConnectionFailure,
-} = Creators;
+} = WebSocketActions;
 
 interface IWSConnectionOpts {
   socketUrl: string;

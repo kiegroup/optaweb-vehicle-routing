@@ -16,9 +16,20 @@
 
 import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
 import { createLogger } from 'redux-logger';
-import tspOperations from './tsp/operations';
-import tspReducer, { wsReducer } from './tsp/reducers';
-import { IAppState, IAppStoreConfig } from './tsp/types';
+import tspOperations from './operations';
+import tspReducer from './tsp/reducers';
+import { ITSPRouteWithSegments } from './tsp/types';
+import { wsReducer } from './websocket/reducers';
+import { WebSocketConnectionStatus } from './websocket/types';
+
+export interface IAppState {
+  readonly route: ITSPRouteWithSegments;
+  readonly connectionStatus: WebSocketConnectionStatus;
+}
+
+export interface IAppStoreConfig {
+  readonly socketUrl: string;
+}
 
 export default function configureStore(
   { socketUrl }: IAppStoreConfig,
