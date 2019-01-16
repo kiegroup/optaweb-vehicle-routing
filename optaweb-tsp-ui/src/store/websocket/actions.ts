@@ -47,16 +47,12 @@ const initWsConnection = (socketUrl: string): InitWsConnectionAction => ({
   value: socketUrl,
 });
 
-const wsConnectionSuccess = (
-  webstompSocket: Client,
-): IWsConnectionSuccessAction => ({
+const wsConnectionSuccess = (webstompSocket: Client): IWsConnectionSuccessAction => ({
   type: ActionType.WS_CONNECT_SUCCESS,
   value: webstompSocket,
 });
 
-const wsConnectionFailure = (
-  err: Frame | CloseEvent,
-): IWsConnectionFailureAction => ({
+const wsConnectionFailure = (err: Frame | CloseEvent): IWsConnectionFailureAction => ({
   type: ActionType.WS_CONNECT_FAILURE,
   value: err,
 });

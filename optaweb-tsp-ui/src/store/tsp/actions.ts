@@ -71,9 +71,7 @@ const clearSolution = (): IClearSolutionAction => ({
   type: ActionType.CLEAR_SOLUTION,
 });
 
-const updateTSPSolution = (
-  solution: ITSPRouteWithSegments,
-): IUpdateTSPSolutionAction => ({
+const updateTSPSolution = (solution: ITSPRouteWithSegments): IUpdateTSPSolutionAction => ({
   solution,
   type: ActionType.SOLUTION_UPDATES_DATA,
 });
