@@ -35,14 +35,14 @@ ShallowWrapper {
           },
         ],
         "segments": Array [
-          Array [
-            0.111222,
-            0.222333,
-          ],
-          Array [
-            0.444555,
-            0.555666,
-          ],
+          Object {
+            "lat": 0.111222,
+            "lng": 0.222333,
+          },
+          Object {
+            "lat": 0.444555,
+            "lng": 0.555666,
+          },
         ],
       }
     }
@@ -168,14 +168,14 @@ ShallowWrapper {
           fill={false}
           positions={
             Array [
-              Array [
-                0.111222,
-                0.222333,
-              ],
-              Array [
-                0.444555,
-                0.555666,
-              ],
+              Object {
+                "lat": 0.111222,
+                "lng": 0.222333,
+              },
+              Object {
+                "lat": 0.444555,
+                "lng": 0.555666,
+              },
             ]
           }
         />,
@@ -383,14 +383,14 @@ ShallowWrapper {
         "props": Object {
           "fill": false,
           "positions": Array [
-            Array [
-              0.111222,
-              0.222333,
-            ],
-            Array [
-              0.444555,
-              0.555666,
-            ],
+            Object {
+              "lat": 0.111222,
+              "lng": 0.222333,
+            },
+            Object {
+              "lat": 0.444555,
+              "lng": 0.555666,
+            },
           ],
         },
         "ref": null,
@@ -517,14 +517,14 @@ ShallowWrapper {
             fill={false}
             positions={
               Array [
-                Array [
-                  0.111222,
-                  0.222333,
-                ],
-                Array [
-                  0.444555,
-                  0.555666,
-                ],
+                Object {
+                  "lat": 0.111222,
+                  "lng": 0.222333,
+                },
+                Object {
+                  "lat": 0.444555,
+                  "lng": 0.555666,
+                },
               ]
             }
           />,
@@ -732,14 +732,14 @@ ShallowWrapper {
           "props": Object {
             "fill": false,
             "positions": Array [
-              Array [
-                0.111222,
-                0.222333,
-              ],
-              Array [
-                0.444555,
-                0.555666,
-              ],
+              Object {
+                "lat": 0.111222,
+                "lng": 0.222333,
+              },
+              Object {
+                "lat": 0.444555,
+                "lng": 0.555666,
+              },
             ],
           },
           "ref": null,

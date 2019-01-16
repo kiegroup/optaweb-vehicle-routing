@@ -30,5 +30,5 @@ export interface ITSPRoute {
 }
 
 export interface ITSPRouteWithSegments extends ITSPRoute {
-  readonly segments: Array<[number, number]>;
+  readonly segments: ILatLng[];
 }
