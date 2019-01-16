@@ -31,12 +31,12 @@ export interface IAppProps extends ITravelingSalesmanProblemProps {
   connectionStatus: WebSocketConnectionStatus;
 }
 
-const mapStateToProps = ({ route, connectionStatus }: IAppState) => ({
+const mapStateToProps = ({ route, connectionStatus }: IAppState): Partial<IAppProps> => ({
   connectionStatus,
   tsp: route,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch): Partial<IAppProps> => ({
   addHandler: (e: any) => dispatch(tspOperations.addLocation(e.latlng)),
   clearHandler: () => dispatch(tspOperations.clearSolution()),
   loadHandler: () => dispatch(tspOperations.loadDemo()),
