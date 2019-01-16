@@ -24,34 +24,28 @@ export interface IConnectionErrorProps {
   help?: string;
 }
 
-export default class ConnectionError extends React.Component<
-  IConnectionErrorProps
-> {
-  constructor(props: IConnectionErrorProps) {
-    super(props);
-  }
+const renderHelpBlock = (help?: string) => {
+  return help ? (
+    <Text component={TextVariants.small}>{help}</Text>
+  ) : (
+    ''
+  );
+};
 
-  renderHelpBlock() {
-    const { help } = this.props;
-    return help ? (
-      <Text component={TextVariants.small}>{this.props.help}</Text>
-    ) : (
-      ''
-    );
-  }
+const ConnectionError: React.SFC<IConnectionErrorProps> = (
+  { title, message, icon, help }: IConnectionErrorProps,
+) => {
+  return (
+    <Modal title={title} isOpen={true}>
+      <TextContent>
+        <Text component={TextVariants.h3}>
+          {icon}
+          {message}
+          {renderHelpBlock(help)}
+        </Text>
+      </TextContent>
+    </Modal>
+  );
+};
 
-  render() {
-    const { title, message, icon } = this.props;
-    return (
-      <Modal title={title} isOpen={true}>
-        <TextContent>
-          <Text component={TextVariants.h3}>
-            {icon}
-            {message}
-            {this.renderHelpBlock()}
-          </Text>
-        </TextContent>
-      </Modal>
-    );
-  }
-}
+export default ConnectionError;

@@ -57,9 +57,7 @@ class App extends React.Component<IAppProps> {
             title="Oops... Connection error!"
             message="Please check your network connection."
             icon={<UnpluggedIcon />}
-            help={
-              'When connection is available the application will be functional again.'
-            }
+            help="When connection is available the application will be functional again."
           />
         )}
         <TravelingSalesmanProblem {...this.props} />
