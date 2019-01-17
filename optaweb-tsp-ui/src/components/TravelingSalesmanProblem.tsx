@@ -21,38 +21,40 @@ import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
 import LocationList from './LocationList';
 import TspMap from './TspMap';
 
-export interface ITravelingSalesmanProblemProps {
+interface IStateProps {
   tsp: ITSPRouteWithSegments;
+}
+
+interface IDispatchProps {
   removeHandler: typeof operations.deleteLocation;
   loadHandler: typeof operations.loadDemo;
   clearHandler: typeof operations.clearSolution;
   addHandler: typeof operations.addLocation;
 }
 
-interface ITravelingSalesmanProblemState {
+type Props = IStateProps & IDispatchProps;
+
+interface IState {
   center: ILatLng;
   maxDistance: number;
   selectedId: number;
   zoom: number;
 }
 
-const mapStateToProps = ({ route }: IAppState): Partial<ITravelingSalesmanProblemProps> => ({
+const mapStateToProps = ({ route }: IAppState): IStateProps => ({
   tsp: route,
 });
 
-const mapDispatchToProps = (): Partial<ITravelingSalesmanProblemProps> => ({
+const mapDispatchToProps = (): IDispatchProps => ({
   addHandler: operations.addLocation,
   clearHandler: operations.clearSolution,
   loadHandler: operations.loadDemo,
   removeHandler: operations.deleteLocation,
 });
 
-class TravelingSalesmanProblem extends React.Component<
-  ITravelingSalesmanProblemProps,
-  ITravelingSalesmanProblemState
-> {
+class TravelingSalesmanProblem extends React.Component<Props, IState> {
 
-  constructor(props: ITravelingSalesmanProblemProps) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

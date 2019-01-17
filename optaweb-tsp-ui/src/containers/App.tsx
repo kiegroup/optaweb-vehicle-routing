@@ -23,16 +23,18 @@ import { IAppState } from '../store/configStore';
 import { WebSocketConnectionStatus } from '../store/websocket/types';
 import './App.css';
 
-export interface IAppProps {
+interface IStateProps {
   connectionStatus: WebSocketConnectionStatus;
 }
 
-const mapStateToProps = ({ connectionStatus }: IAppState): Partial<IAppProps> => ({
+type Props = IStateProps;
+
+const mapStateToProps = ({ connectionStatus }: IAppState): IStateProps => ({
   connectionStatus,
 });
 
-class App extends React.Component<IAppProps> {
-  constructor(props: IAppProps) {
+class App extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
   }
 
