@@ -17,30 +17,18 @@
 import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import ConnectionError from 'src/components/ConnectionError';
-import TravelingSalesmanProblem, {
-  ITravelingSalesmanProblemProps,
-} from '../components/TravelingSalesmanProblem';
+import TravelingSalesmanProblem from '../components/TravelingSalesmanProblem';
 import { IAppState } from '../store/configStore';
-import tspOperations from '../store/operations';
 import { WebSocketConnectionStatus } from '../store/websocket/types';
 import './App.css';
 
-export interface IAppProps extends ITravelingSalesmanProblemProps {
+export interface IAppProps {
   connectionStatus: WebSocketConnectionStatus;
 }
 
-const mapStateToProps = ({ route, connectionStatus }: IAppState): Partial<IAppProps> => ({
+const mapStateToProps = ({ connectionStatus }: IAppState): Partial<IAppProps> => ({
   connectionStatus,
-  tsp: route,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch): Partial<IAppProps> => ({
-  addHandler: (e: any) => dispatch(tspOperations.addLocation(e.latlng)),
-  clearHandler: () => dispatch(tspOperations.clearSolution()),
-  loadHandler: () => dispatch(tspOperations.loadDemo()),
-  removeHandler: (id: number) => dispatch(tspOperations.deleteLocation(id)),
 });
 
 class App extends React.Component<IAppProps> {
@@ -60,13 +48,10 @@ class App extends React.Component<IAppProps> {
             help="When connection is available the application will be functional again."
           />
         )}
-        <TravelingSalesmanProblem {...this.props} />
+        <TravelingSalesmanProblem />
       </div>
     );
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps)(App);

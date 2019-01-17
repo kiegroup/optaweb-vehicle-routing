@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { IAppState } from '../store/configStore';
+import operations from '../store/operations';
 import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
 import LocationList from './LocationList';
 import TspMap from './TspMap';
@@ -33,7 +37,18 @@ interface ITravelingSalesmanProblemState {
   zoom: number;
 }
 
-export default class TravelingSalesmanProblem extends React.Component<
+const mapStateToProps = ({ route }: IAppState): Partial<ITravelingSalesmanProblemProps> => ({
+  tsp: route,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch): Partial<ITravelingSalesmanProblemProps> => ({
+  addHandler: (e: any) => dispatch(operations.addLocation(e.latlng)),
+  clearHandler: () => dispatch(operations.clearSolution()),
+  loadHandler: () => dispatch(operations.loadDemo()),
+  removeHandler: (id: number) => dispatch(operations.deleteLocation(id)),
+});
+
+class TravelingSalesmanProblem extends React.Component<
   ITravelingSalesmanProblemProps,
   ITravelingSalesmanProblemState
 > {
@@ -98,3 +113,5 @@ export default class TravelingSalesmanProblem extends React.Component<
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(TravelingSalesmanProblem);
