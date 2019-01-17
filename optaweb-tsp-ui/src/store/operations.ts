@@ -17,9 +17,9 @@
 import { Dispatch } from 'redux';
 import * as SockJS from 'sockjs-client';
 import webstomp, { Client } from 'webstomp-client';
-import TspActions from './tsp/actions';
+import TspActions, { IUpdateTSPSolutionAction } from './tsp/actions';
 import { ILatLng } from './tsp/types';
-import WebSocketActions from './websocket/actions';
+import WebSocketActions, { WebSocketAction } from './websocket/actions';
 
 const {
   addLocation,
@@ -40,7 +40,7 @@ interface IWSConnectionOpts {
 }
 
 interface ITSPConfig extends IWSConnectionOpts {
-  dispatch: Dispatch;
+  dispatch: Dispatch<WebSocketAction | IUpdateTSPSolutionAction>;
 }
 
 let webSocket: WebSocket;
@@ -51,12 +51,12 @@ let stompClient: Client;
  *
  * @param {Dispatch} dispatch
  */
-function mapDispatchToEvents(dispatch: Dispatch) {
+const mapDispatchToEvents = (dispatch: Dispatch<IUpdateTSPSolutionAction>): void => {
   stompClient.subscribe('/topic/route', (message) => {
     const tsp = JSON.parse(message.body);
     dispatch(updateTSPSolution(tsp));
   });
-}
+};
 
 /**
  * Connect TSP module to the websocket and use dispatch function issue
@@ -65,7 +65,7 @@ function mapDispatchToEvents(dispatch: Dispatch) {
  * @param {Dispatch} dispatch
  * @param {string} socketUrl
  */
-function connectWs({ dispatch, socketUrl }: ITSPConfig): void {
+const connectWs = ({ dispatch, socketUrl }: ITSPConfig): void => {
   webSocket = new SockJS(socketUrl);
   stompClient = webstomp.over(webSocket, { debug: true });
 
@@ -84,7 +84,7 @@ function connectWs({ dispatch, socketUrl }: ITSPConfig): void {
       setTimeout(() => connectWs({ dispatch, socketUrl }), 1000);
     },
   );
-}
+};
 
 const addLocationOp = (location: ILatLng) => {
   stompClient.send('/app/place', JSON.stringify(location));
