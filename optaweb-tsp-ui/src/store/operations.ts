@@ -21,6 +21,12 @@ import TspActions, { IUpdateTSPSolutionAction } from './tsp/actions';
 import { ILatLng } from './tsp/types';
 import WebSocketActions, { WebSocketAction } from './websocket/actions';
 
+/**
+ * This dispatch is intended for async actions only. Those are connection status changes and
+ * solution updates.
+ */
+type WebSocketDispatch = Dispatch<WebSocketAction | IUpdateTSPSolutionAction>;
+
 const {
   addLocation,
   clearSolution,
@@ -34,14 +40,6 @@ const {
   wsConnectionSuccess,
   wsConnectionFailure,
 } = WebSocketActions;
-
-interface IWSConnectionOpts {
-  socketUrl: string;
-}
-
-interface ITSPConfig extends IWSConnectionOpts {
-  dispatch: Dispatch<WebSocketAction | IUpdateTSPSolutionAction>;
-}
 
 let webSocket: WebSocket;
 let stompClient: Client;
@@ -65,7 +63,7 @@ const mapDispatchToEvents = (dispatch: Dispatch<IUpdateTSPSolutionAction>): void
  * @param {Dispatch} dispatch
  * @param {string} socketUrl
  */
-const connectWs = ({ dispatch, socketUrl }: ITSPConfig): void => {
+const connectWs = (dispatch: WebSocketDispatch, socketUrl: string): void => {
   webSocket = new SockJS(socketUrl);
   stompClient = webstomp.over(webSocket, { debug: true });
 
@@ -81,7 +79,7 @@ const connectWs = ({ dispatch, socketUrl }: ITSPConfig): void => {
     (err) => {
       // on error, schedule a reconnection attempt
       dispatch(wsConnectionFailure(err));
-      setTimeout(() => connectWs({ dispatch, socketUrl }), 1000);
+      setTimeout(() => connectWs(dispatch, socketUrl), 1000);
     },
   );
 };

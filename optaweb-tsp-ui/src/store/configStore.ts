@@ -55,10 +55,7 @@ export default function configureStore(
     composeEnhancers(applyMiddleware(logger)),
   );
 
-  tspOperations.connect({
-    dispatch: store.dispatch,
-    socketUrl,
-  });
+  tspOperations.connect(store.dispatch, socketUrl);
 
   /* if (process.env.NODE_ENV !== 'production' && module.hot) {
     module.hot.accept('./reducers', () => store.replaceReducer(rootReducer));
