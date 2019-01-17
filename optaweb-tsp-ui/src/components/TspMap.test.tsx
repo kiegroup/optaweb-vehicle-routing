@@ -15,6 +15,7 @@
  */
 
 import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import * as React from 'react';
 import TspMap, { ITspMapProps } from './TspMap';
 
@@ -54,6 +55,6 @@ describe('TSP Map View', () => {
     };
     expect.assertions(1);
     const tspMap = shallow(<TspMap {...props} />);
-    expect(tspMap).toMatchSnapshot();
+    expect(toJson(tspMap)).toMatchSnapshot();
   });
 });

@@ -15,6 +15,7 @@
  */
 
 import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import * as React from 'react';
 import LocationList, { ILocationListProps } from './LocationList';
 
@@ -34,7 +35,7 @@ describe('Location List Component', () => {
     };
     expect.assertions(2);
     const locationList = shallow(<LocationList {...props} />);
-    expect(locationList).toMatchSnapshot();
+    expect(toJson(locationList)).toMatchSnapshot();
 
     locationList.find('Button').simulate('click');
 
@@ -72,7 +73,7 @@ describe('Location List Component', () => {
     };
     expect.assertions(2);
     const locationList = shallow(<LocationList {...props} />);
-    expect(locationList).toMatchSnapshot();
+    expect(toJson(locationList)).toMatchSnapshot();
 
     expect(locationList.find('Location')).toHaveLength(props.route.route.length);
   });

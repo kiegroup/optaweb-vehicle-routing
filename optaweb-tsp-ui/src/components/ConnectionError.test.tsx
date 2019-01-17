@@ -15,6 +15,7 @@
  */
 
 import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import * as React from 'react';
 import ConnectionError, { IConnectionErrorProps } from './ConnectionError';
 
@@ -29,6 +30,6 @@ describe('Connection Error Component', () => {
 
     expect.assertions(1);
     const connectionError = shallow(<ConnectionError {...props} />);
-    expect(connectionError).toMatchSnapshot();
+    expect(toJson(connectionError)).toMatchSnapshot();
   });
 });
