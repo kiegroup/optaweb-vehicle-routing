@@ -39,6 +39,7 @@
     "@types/sockjs-client": "^1.1.0",
     "enzyme": "^3.7.0",
     "enzyme-adapter-react-16": "^1.7.0",
+    "enzyme-to-json": "^3.3.5",
     "husky": "^1.2.1",
     "react-test-renderer": "^16.6.3",
     "redux-devtools-extension": "^2.13.7",
@@ -55,5 +56,10 @@
     "hooks": {
       "pre-push": "CI=true npm test"
     }
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   }
 }

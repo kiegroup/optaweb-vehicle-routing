@@ -15,6 +15,7 @@
  */
 
 import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import * as React from 'react';
 import Location, { ILocationProps } from './Location';
 
@@ -28,7 +29,7 @@ describe('Location Component', () => {
     };
     expect.assertions(2);
     const location = shallow(<Location {...props} />);
-    expect(location).toMatchSnapshot();
+    expect(toJson(location)).toMatchSnapshot();
     location.find('Grid').simulate('mouseEnter');
     location.find('Button').simulate('click');
 
