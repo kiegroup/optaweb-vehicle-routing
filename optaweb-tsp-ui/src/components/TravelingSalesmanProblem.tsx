@@ -15,7 +15,6 @@
  */
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import { IAppState } from '../store/configStore';
 import operations from '../store/operations';
 import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
@@ -24,10 +23,10 @@ import TspMap from './TspMap';
 
 export interface ITravelingSalesmanProblemProps {
   tsp: ITSPRouteWithSegments;
-  removeHandler: (id: number) => void;
-  loadHandler: () => void;
-  clearHandler: () => void;
-  addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
+  removeHandler: typeof operations.deleteLocation;
+  loadHandler: typeof operations.loadDemo;
+  clearHandler: typeof operations.clearSolution;
+  addHandler: typeof operations.addLocation;
 }
 
 interface ITravelingSalesmanProblemState {
@@ -41,11 +40,11 @@ const mapStateToProps = ({ route }: IAppState): Partial<ITravelingSalesmanProble
   tsp: route,
 });
 
-const mapDispatchToProps = (dispatch: Dispatch): Partial<ITravelingSalesmanProblemProps> => ({
-  addHandler: (e: any) => dispatch(operations.addLocation(e.latlng)),
-  clearHandler: () => dispatch(operations.clearSolution()),
-  loadHandler: () => dispatch(operations.loadDemo()),
-  removeHandler: (id: number) => dispatch(operations.deleteLocation(id)),
+const mapDispatchToProps = (): Partial<ITravelingSalesmanProblemProps> => ({
+  addHandler: operations.addLocation,
+  clearHandler: operations.clearSolution,
+  loadHandler: operations.loadDemo,
+  removeHandler: operations.deleteLocation,
 });
 
 class TravelingSalesmanProblem extends React.Component<
@@ -66,10 +65,15 @@ class TravelingSalesmanProblem extends React.Component<
       zoom: 9,
     };
     this.onSelectLocation = this.onSelectLocation.bind(this);
+    this.handleMapClick = this.handleMapClick.bind(this);
   }
 
   onSelectLocation(id: number) {
     this.setState({ selectedId: id });
+  }
+
+  handleMapClick(e: any) {
+    this.props.addHandler(e.latlng);
   }
 
   componentWillUpdate() {
@@ -88,7 +92,6 @@ class TravelingSalesmanProblem extends React.Component<
       removeHandler,
       loadHandler,
       clearHandler,
-      addHandler,
     } = this.props;
 
     return (
@@ -105,7 +108,7 @@ class TravelingSalesmanProblem extends React.Component<
           center={center}
           zoom={zoom}
           selectedId={selectedId}
-          clickHandler={addHandler}
+          clickHandler={this.handleMapClick}
           removeHandler={removeHandler}
           tsp={tsp}
         />
