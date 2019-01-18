@@ -15,7 +15,7 @@
  */
 
 export enum WebSocketConnectionStatus {
-  OPEN,
-  CLOSED,
-  ERROR,
+  OPEN = 'OPEN',
+  CLOSED = 'CLOSED',
+  ERROR = 'ERROR',
 }
