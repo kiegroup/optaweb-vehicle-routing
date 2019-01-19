@@ -19,6 +19,7 @@ import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
 // by importing from redux-devtools-extension/developmentOnly
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
+import thunk from 'redux-thunk';
 import tspOperations from './operations';
 import tspReducer from './tsp/reducers';
 import { ITSPRouteWithSegments } from './tsp/types';
@@ -39,7 +40,7 @@ export default function configureStore(
   preloadedState?: IAppState,
 ): Store<IAppState> {
 
-  const middlewares = [createLogger()];
+  const middlewares = [createLogger(), thunk];
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
   const enhancers = [middlewareEnhancer];
