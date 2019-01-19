@@ -30,11 +30,6 @@ import { ILatLng } from './tsp/types';
 import WebSocketActions, { WebSocketAction } from './websocket/actions';
 
 /**
- * This dispatch is intended for async actions only. Those are connection status changes and
- * solution updates.
- */
-type WebSocketDispatch = Dispatch<WebSocketAction | IUpdateTSPSolutionAction>;
-/**
  * ThunkCommand is a ThunkAction that has no result (it's typically something like
  * `Promise<ActionAfterDataFetched>`, but sending messages over WebSocket usually has no response
  * (with the exception of subscribe), so most of our operations are void).
@@ -76,10 +71,11 @@ const mapDispatchToEvents = (dispatch: Dispatch<IUpdateTSPSolutionAction>): void
  * Connect TSP module to the websocket and use dispatch function issue
  * action about TSP
  *
- * @param {Dispatch} dispatch
  * @param {string} socketUrl
  */
-const connectWs = (dispatch: WebSocketDispatch, socketUrl: string): void => {
+const connectWs: ActionCreator<ThunkCommand<WebSocketAction | IUpdateTSPSolutionAction>> = (
+  socketUrl: string,
+) => (dispatch) => {
   webSocket = new SockJS(socketUrl);
   stompClient = webstomp.over(webSocket, { debug: true });
 
@@ -95,7 +91,7 @@ const connectWs = (dispatch: WebSocketDispatch, socketUrl: string): void => {
     (err) => {
       // on error, schedule a reconnection attempt
       dispatch(wsConnectionFailure(err));
-      setTimeout(() => connectWs(dispatch, socketUrl), 1000);
+      setTimeout(() => dispatch(connectWs(socketUrl)), 1000);
     },
   );
 };

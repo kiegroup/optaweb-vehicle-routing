@@ -58,7 +58,9 @@ export default function configureStore(
     composedEnhancers,
   );
 
-  tspOperations.connect(store.dispatch, socketUrl);
+  // FIXME make TypeScript compiler happy
+  // @ts-ignore
+  store.dispatch(tspOperations.connect(socketUrl));
 
   /* if (process.env.NODE_ENV !== 'production' && module.hot) {
     module.hot.accept('./reducers', () => store.replaceReducer(rootReducer));
