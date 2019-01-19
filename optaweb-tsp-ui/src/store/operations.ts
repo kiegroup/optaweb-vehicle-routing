@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-import { Dispatch } from 'redux';
+import { Action, ActionCreator, Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 import * as SockJS from 'sockjs-client';
 import webstomp, { Client } from 'webstomp-client';
-import TspActions, { IUpdateTSPSolutionAction } from './tsp/actions';
+import { IAppState } from './configStore';
+import TspActions, {
+  IAddLocationAction,
+  IClearSolutionAction,
+  IDeleteLocationAction,
+  ILoadDemoAction,
+  IUpdateTSPSolutionAction,
+} from './tsp/actions';
 import { ILatLng } from './tsp/types';
 import WebSocketActions, { WebSocketAction } from './websocket/actions';
 
@@ -26,6 +34,14 @@ import WebSocketActions, { WebSocketAction } from './websocket/actions';
  * solution updates.
  */
 type WebSocketDispatch = Dispatch<WebSocketAction | IUpdateTSPSolutionAction>;
+/**
+ * ThunkCommand is a ThunkAction that has no result (it's typically something like
+ * `Promise<ActionAfterDataFetched>`, but sending messages over WebSocket usually has no response
+ * (with the exception of subscribe), so most of our operations are void).
+ *
+ * @template A Type of action(s) allowed to be dispatched.
+ */
+type ThunkCommand<A extends Action> = ThunkAction<void, IAppState, undefined, A>;
 
 const {
   addLocation,
@@ -84,27 +100,32 @@ const connectWs = (dispatch: WebSocketDispatch, socketUrl: string): void => {
   );
 };
 
-const addLocationOp = (location: ILatLng) => {
+const addLocationOp: ActionCreator<ThunkCommand<IAddLocationAction>> = (
+  location: ILatLng,
+) => (
+  dispatch,
+) => {
+  dispatch(addLocation(location));
   stompClient.send('/app/place', JSON.stringify(location));
-  return addLocation(location);
 };
 
-const loadDemoOp = () => {
+const loadDemoOp: ActionCreator<ThunkCommand<ILoadDemoAction>> = () => (dispatch) => {
+  dispatch(loadDemo());
   stompClient.send('/app/demo');
-  return loadDemo();
 };
 
-const deleteLocationOp = (locationId: number) => {
-  stompClient.send(
-    `/app/place/${locationId}/delete`,
-    JSON.stringify(locationId),
-  );
-  return deleteLocation(locationId);
+const deleteLocationOp: ActionCreator<ThunkCommand<IDeleteLocationAction>> = (
+  locationId: number,
+) => (
+  dispatch,
+) => {
+  dispatch(deleteLocation(locationId));
+  stompClient.send(`/app/place/${locationId}/delete`, JSON.stringify(locationId));
 };
 
-const clearSolutionOp = () => {
+const clearSolutionOp: ActionCreator<ThunkCommand<IClearSolutionAction>> = () => (dispatch) => {
+  dispatch(clearSolution());
   stompClient.send('/app/clear');
-  return clearSolution();
 };
 
 export default {
