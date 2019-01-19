@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-import { applyMiddleware, combineReducers, compose, createStore, Store } from 'redux';
+import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
+// it's possible to disable the extension in production
+// by importing from redux-devtools-extension/developmentOnly
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 import tspOperations from './operations';
 import tspReducer from './tsp/reducers';
@@ -35,13 +38,12 @@ export default function configureStore(
   { socketUrl }: IAppStoreConfig,
   preloadedState?: IAppState,
 ): Store<IAppState> {
-  // create logger middleware
-  const logger = createLogger();
 
-  /* eslint-disable no-underscore-dangle */
-  const composeEnhancers =
-    (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  /* eslint-enable */
+  const middlewares = [createLogger()];
+  const middlewareEnhancer = applyMiddleware(...middlewares);
+
+  const enhancers = [middlewareEnhancer];
+  const composedEnhancers = composeWithDevTools(...enhancers);
 
   // combining reducers
   const rootReducer = combineReducers<IAppState>({
@@ -52,7 +54,7 @@ export default function configureStore(
   const store = createStore(
     rootReducer,
     preloadedState,
-    composeEnhancers(applyMiddleware(logger)),
+    composedEnhancers,
   );
 
   tspOperations.connect(store.dispatch, socketUrl);
