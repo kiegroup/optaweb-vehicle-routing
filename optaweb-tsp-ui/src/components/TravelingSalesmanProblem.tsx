@@ -45,12 +45,12 @@ const mapStateToProps = ({ route }: IAppState): IStateProps => ({
   tsp: route,
 });
 
-const mapDispatchToProps = (): IDispatchProps => ({
+const mapDispatchToProps: IDispatchProps = {
   addHandler: operations.addLocation,
   clearHandler: operations.clearSolution,
   loadHandler: operations.loadDemo,
   removeHandler: operations.deleteLocation,
-});
+};
 
 class TravelingSalesmanProblem extends React.Component<Props, IState> {
 
