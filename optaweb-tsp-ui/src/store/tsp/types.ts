@@ -63,6 +63,7 @@ export interface IUpdateTSPSolutionAction extends Action<ActionType.SOLUTION_UPD
 
 export type TspAction =
   | IAddLocationAction
+  | ILoadDemoAction
   | IClearSolutionAction
   | IDeleteLocationAction
   | IUpdateTSPSolutionAction;
