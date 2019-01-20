@@ -16,7 +16,7 @@
 
 import { ActionType, ITSPRouteWithSegments, TspAction } from './types';
 
-const initialTspState: ITSPRouteWithSegments = {
+export const initialTspState: ITSPRouteWithSegments = {
   distance: '0.00',
   domicileId: -1,
   route: [],
