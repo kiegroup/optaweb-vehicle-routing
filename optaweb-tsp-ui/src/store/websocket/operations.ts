@@ -1,0 +1,45 @@
+/*
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { ActionCreator } from 'redux';
+import tspActions, { IUpdateTSPSolutionAction } from '../tsp/actions';
+import { ThunkCommand } from '../types';
+import actions, { WebSocketAction } from './actions';
+
+/**
+ * Connect TSP client to WebSocket.
+ */
+const connectWs: ActionCreator<ThunkCommand<WebSocketAction | IUpdateTSPSolutionAction>> = () => (
+  dispatch, state, client,
+) => {
+  // dispatch WS connection initializing
+  dispatch(actions.initWsConnection());
+  client.connect(
+    () => {
+      // on connection, subscribe to the route topic
+      dispatch(actions.wsConnectionSuccess());
+      client.subscribe(route => dispatch(tspActions.updateTSPSolution(route)));
+    },
+    (err) => {
+      // on error, schedule a reconnection attempt
+      dispatch(actions.wsConnectionFailure(err));
+      setTimeout(() => dispatch(connectWs(client)), 1000);
+    });
+};
+
+export default {
+  connect: connectWs,
+};

@@ -16,7 +16,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../store/configStore';
-import operations from '../store/operations';
+import operations from '../store/tsp/operations';
 import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
 import LocationList from './LocationList';
 import TspMap from './TspMap';

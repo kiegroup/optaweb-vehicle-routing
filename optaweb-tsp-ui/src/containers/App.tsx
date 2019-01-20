@@ -20,7 +20,7 @@ import { connect } from 'react-redux';
 import ConnectionError from 'src/components/ConnectionError';
 import TravelingSalesmanProblem from '../components/TravelingSalesmanProblem';
 import { IAppState } from '../store/configStore';
-import operations from '../store/operations';
+import operations from '../store/websocket/operations';
 import { WebSocketConnectionStatus } from '../store/websocket/types';
 import './App.css';
 
