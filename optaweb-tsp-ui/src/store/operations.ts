@@ -16,8 +16,7 @@
 
 import { Action, ActionCreator, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import * as SockJS from 'sockjs-client';
-import webstomp, { Client } from 'webstomp-client';
+import TspClient from '../websocket/TspClient';
 import { IAppState } from './configStore';
 import TspActions, {
   IAddLocationAction,
@@ -52,8 +51,7 @@ const {
   wsConnectionFailure,
 } = WebSocketActions;
 
-let webSocket: WebSocket;
-let stompClient: Client;
+let client: TspClient;
 
 /**
  * Map dispatch function to socket events
@@ -61,39 +59,33 @@ let stompClient: Client;
  * @param {Dispatch} dispatch
  */
 const mapDispatchToEvents = (dispatch: Dispatch<IUpdateTSPSolutionAction>): void => {
-  stompClient.subscribe('/topic/route', (message) => {
-    const tsp = JSON.parse(message.body);
-    dispatch(updateTSPSolution(tsp));
-  });
+  client.subscribe(route => dispatch(updateTSPSolution(route)));
 };
 
 /**
  * Connect TSP module to the websocket and use dispatch function issue
  * action about TSP
  *
- * @param {string} socketUrl
+ * @param tspWsClient
  */
 const connectWs: ActionCreator<ThunkCommand<WebSocketAction | IUpdateTSPSolutionAction>> = (
-  socketUrl: string,
+  tspWsClient: TspClient,
 ) => (dispatch) => {
-  webSocket = new SockJS(socketUrl);
-  stompClient = webstomp.over(webSocket, { debug: true });
+  client = tspWsClient;
 
   // dispatch WS connection initializing
-  dispatch(initWsConnection(socketUrl));
-  stompClient.connect(
-    {}, // no headers
+  dispatch(initWsConnection());
+  client.connect(
     () => {
       // on connection, subscribe to the route topic
-      dispatch(wsConnectionSuccess(stompClient));
+      dispatch(wsConnectionSuccess());
       mapDispatchToEvents(dispatch);
     },
     (err) => {
       // on error, schedule a reconnection attempt
       dispatch(wsConnectionFailure(err));
-      setTimeout(() => dispatch(connectWs(socketUrl)), 1000);
-    },
-  );
+      setTimeout(() => dispatch(connectWs(tspWsClient)), 1000);
+    });
 };
 
 const addLocationOp: ActionCreator<ThunkCommand<IAddLocationAction>> = (
@@ -102,12 +94,12 @@ const addLocationOp: ActionCreator<ThunkCommand<IAddLocationAction>> = (
   dispatch,
 ) => {
   dispatch(addLocation(location));
-  stompClient.send('/app/place', JSON.stringify(location));
+  client.addLocation(location);
 };
 
 const loadDemoOp: ActionCreator<ThunkCommand<ILoadDemoAction>> = () => (dispatch) => {
   dispatch(loadDemo());
-  stompClient.send('/app/demo');
+  client.loadDemo();
 };
 
 const deleteLocationOp: ActionCreator<ThunkCommand<IDeleteLocationAction>> = (
@@ -116,12 +108,12 @@ const deleteLocationOp: ActionCreator<ThunkCommand<IDeleteLocationAction>> = (
   dispatch,
 ) => {
   dispatch(deleteLocation(locationId));
-  stompClient.send(`/app/place/${locationId}/delete`, JSON.stringify(locationId));
+  client.deleteLocation(locationId);
 };
 
 const clearSolutionOp: ActionCreator<ThunkCommand<IClearSolutionAction>> = () => (dispatch) => {
   dispatch(clearSolution());
-  stompClient.send('/app/clear');
+  client.clear();
 };
 
 export default {
