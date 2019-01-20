@@ -14,13 +14,8 @@
  * limitations under the License.
  */
 
-import * as tspOperations from './operations';
-import reducer from './reducers';
-import * as tspSelectors from './selectors';
+import { ITSPRouteWithSegments } from './types';
 
-export {
-  tspOperations,
-  tspSelectors,
+export const getDomicileId = (route: ITSPRouteWithSegments) => {
+  return route.route.length > 0 ? route.route[0].id : -1;
 };
-
-export default reducer;

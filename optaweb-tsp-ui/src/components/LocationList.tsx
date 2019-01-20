@@ -27,6 +27,7 @@ export interface ILocationListProps {
   clearHandler: () => void;
   maxDistance: number;
   route: ITSPRoute;
+  domicileId: number;
 }
 
 const renderEmptyLocationList = ({ loadHandler }: ILocationListProps) => {
@@ -43,7 +44,8 @@ const renderEmptyLocationList = ({ loadHandler }: ILocationListProps) => {
 };
 
 const renderLocationList = ({
-  route: { distance, route, domicileId },
+  route: { distance, route },
+  domicileId,
   removeHandler,
   selectHandler,
   clearHandler,

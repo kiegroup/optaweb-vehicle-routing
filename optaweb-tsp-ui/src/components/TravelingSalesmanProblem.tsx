@@ -16,13 +16,14 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../store/configStore';
-import { tspOperations } from '../store/tsp';
+import { tspOperations, tspSelectors } from '../store/tsp';
 import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
 import LocationList from './LocationList';
 import TspMap from './TspMap';
 
 interface IStateProps {
   tsp: ITSPRouteWithSegments;
+  domicileId: number;
 }
 
 interface IDispatchProps {
@@ -42,6 +43,7 @@ interface IState {
 }
 
 const mapStateToProps = ({ route }: IAppState): IStateProps => ({
+  domicileId: tspSelectors.getDomicileId(route),
   tsp: route,
 });
 
@@ -91,6 +93,7 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
     const { center, zoom, selectedId, maxDistance } = this.state;
     const {
       tsp,
+      domicileId,
       removeHandler,
       loadHandler,
       clearHandler,
@@ -100,6 +103,7 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
       <div>
         <LocationList
           route={tsp}
+          domicileId={domicileId}
           maxDistance={maxDistance}
           removeHandler={removeHandler}
           selectHandler={this.onSelectLocation}
@@ -113,6 +117,7 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
           clickHandler={this.handleMapClick}
           removeHandler={removeHandler}
           tsp={tsp}
+          domicileId={domicileId}
         />
       </div>
     );

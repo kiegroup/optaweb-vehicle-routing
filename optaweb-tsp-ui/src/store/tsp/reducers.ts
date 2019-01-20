@@ -18,7 +18,6 @@ import { ActionType, ITSPRouteWithSegments, TspAction } from './types';
 
 export const initialTspState: ITSPRouteWithSegments = {
   distance: '0.00',
-  domicileId: -1,
   route: [],
   segments: [],
 };
@@ -29,17 +28,7 @@ export default function tspReducer(
 ): ITSPRouteWithSegments {
   switch (action.type) {
     case ActionType.SOLUTION_UPDATES_DATA: {
-      const { route, segments, distance } = action.solution;
-      if (route.length === 0 && distance) {
-        return { ...initialTspState };
-      }
-      return {
-        ...state,
-        distance,
-        domicileId: route.length > 0 ? route[0].id : NaN,
-        route,
-        segments,
-      };
+      return action.solution;
     }
     case ActionType.DELETE_LOCATION: {
       if (state.route.length === 1) {
