@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Action, ActionCreator, Dispatch } from 'redux';
+import { Action, ActionCreator } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import TspClient from '../websocket/TspClient';
 import { IAppState } from './configStore';
@@ -35,7 +35,7 @@ import WebSocketActions, { WebSocketAction } from './websocket/actions';
  *
  * @template A Type of action(s) allowed to be dispatched.
  */
-type ThunkCommand<A extends Action> = ThunkAction<void, IAppState, undefined, A>;
+type ThunkCommand<A extends Action> = ThunkAction<void, IAppState, TspClient, A>;
 
 const {
   addLocation,
@@ -51,53 +51,39 @@ const {
   wsConnectionFailure,
 } = WebSocketActions;
 
-let client: TspClient;
-
 /**
- * Map dispatch function to socket events
- *
- * @param {Dispatch} dispatch
+ * Connect TSP client to WebSocket.
  */
-const mapDispatchToEvents = (dispatch: Dispatch<IUpdateTSPSolutionAction>): void => {
-  client.subscribe(route => dispatch(updateTSPSolution(route)));
-};
-
-/**
- * Connect TSP module to the websocket and use dispatch function issue
- * action about TSP
- *
- * @param tspWsClient
- */
-const connectWs: ActionCreator<ThunkCommand<WebSocketAction | IUpdateTSPSolutionAction>> = (
-  tspWsClient: TspClient,
-) => (dispatch) => {
-  client = tspWsClient;
-
+const connectWs: ActionCreator<ThunkCommand<WebSocketAction | IUpdateTSPSolutionAction>> = () => (
+  dispatch, state, client,
+) => {
   // dispatch WS connection initializing
   dispatch(initWsConnection());
   client.connect(
     () => {
       // on connection, subscribe to the route topic
       dispatch(wsConnectionSuccess());
-      mapDispatchToEvents(dispatch);
+      client.subscribe(route => dispatch(updateTSPSolution(route)));
     },
     (err) => {
       // on error, schedule a reconnection attempt
       dispatch(wsConnectionFailure(err));
-      setTimeout(() => dispatch(connectWs(tspWsClient)), 1000);
+      setTimeout(() => dispatch(connectWs(client)), 1000);
     });
 };
 
 const addLocationOp: ActionCreator<ThunkCommand<IAddLocationAction>> = (
   location: ILatLng,
 ) => (
-  dispatch,
+  dispatch, state, client,
 ) => {
   dispatch(addLocation(location));
   client.addLocation(location);
 };
 
-const loadDemoOp: ActionCreator<ThunkCommand<ILoadDemoAction>> = () => (dispatch) => {
+const loadDemoOp: ActionCreator<ThunkCommand<ILoadDemoAction>> = () => (
+  dispatch, state, client,
+) => {
   dispatch(loadDemo());
   client.loadDemo();
 };
@@ -105,13 +91,15 @@ const loadDemoOp: ActionCreator<ThunkCommand<ILoadDemoAction>> = () => (dispatch
 const deleteLocationOp: ActionCreator<ThunkCommand<IDeleteLocationAction>> = (
   locationId: number,
 ) => (
-  dispatch,
+  dispatch, state, client,
 ) => {
   dispatch(deleteLocation(locationId));
   client.deleteLocation(locationId);
 };
 
-const clearSolutionOp: ActionCreator<ThunkCommand<IClearSolutionAction>> = () => (dispatch) => {
+const clearSolutionOp: ActionCreator<ThunkCommand<IClearSolutionAction>> = () => (
+  dispatch, state, client,
+) => {
   dispatch(clearSolution());
   client.clear();
 };

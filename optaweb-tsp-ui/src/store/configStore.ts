@@ -21,7 +21,6 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import TspClient from '../websocket/TspClient';
-import tspOperations from './operations';
 import tspReducer from './tsp/reducers';
 import { ITSPRouteWithSegments } from './tsp/types';
 import { wsReducer } from './websocket/reducers';
@@ -41,7 +40,9 @@ export default function configureStore(
   preloadedState?: IAppState,
 ): Store<IAppState> {
 
-  const middlewares = [createLogger(), thunk];
+  const tspClient = new TspClient(socketUrl);
+
+  const middlewares = [createLogger(), thunk.withExtraArgument(tspClient)];
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
   const enhancers = [middlewareEnhancer];
@@ -53,19 +54,13 @@ export default function configureStore(
     route: tspReducer,
   });
 
-  const store = createStore(
-    rootReducer,
-    preloadedState,
-    composedEnhancers,
-  );
-
-  // FIXME make TypeScript compiler happy
-  // @ts-ignore
-  store.dispatch(tspOperations.connect(new TspClient(socketUrl)));
-
   /* if (process.env.NODE_ENV !== 'production' && module.hot) {
     module.hot.accept('./reducers', () => store.replaceReducer(rootReducer));
   } */
 
-  return store;
+  return createStore(
+    rootReducer,
+    preloadedState,
+    composedEnhancers,
+  );
 }

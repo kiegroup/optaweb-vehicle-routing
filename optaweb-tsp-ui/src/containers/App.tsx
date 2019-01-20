@@ -20,6 +20,7 @@ import { connect } from 'react-redux';
 import ConnectionError from 'src/components/ConnectionError';
 import TravelingSalesmanProblem from '../components/TravelingSalesmanProblem';
 import { IAppState } from '../store/configStore';
+import operations from '../store/operations';
 import { WebSocketConnectionStatus } from '../store/websocket/types';
 import './App.css';
 
@@ -27,15 +28,27 @@ interface IStateProps {
   connectionStatus: WebSocketConnectionStatus;
 }
 
-type Props = IStateProps;
+interface IDispatchProps {
+  connectClient: typeof operations.connect;
+}
+
+type Props = IStateProps & IDispatchProps;
 
 const mapStateToProps = ({ connectionStatus }: IAppState): IStateProps => ({
   connectionStatus,
 });
 
+const mapDispatchToProps: IDispatchProps = {
+  connectClient: operations.connect,
+};
+
 class App extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
+  }
+
+  componentDidMount(): void {
+    this.props.connectClient();
   }
 
   render() {
@@ -56,4 +69,4 @@ class App extends React.Component<Props> {
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
