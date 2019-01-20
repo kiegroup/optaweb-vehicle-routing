@@ -22,7 +22,7 @@ import { IAppState } from '../configStore';
 import { tspOperations } from '../tsp';
 import { ITSPRouteWithSegments, IUpdateTSPSolutionAction } from '../tsp/types';
 import * as actions from './actions';
-import * as operations from './operations';
+import reducer, { websocketOperations } from './index';
 import { WebSocketAction, WebSocketConnectionStatus } from './types';
 
 jest.mock('../../websocket/TspClient');
@@ -63,7 +63,7 @@ describe('WebSocket client operations', () => {
       createMockStore<IAppState, DispatchExts>(middlewares);
     const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
 
-    store.dispatch(operations.connectClient());
+    store.dispatch(websocketOperations.connectClient());
     expect(store.getActions()).toEqual([actions.initWsConnection()]);
 
     // simulate client disconnection
@@ -95,6 +95,19 @@ describe('WebSocket client operations', () => {
     // simulate response to subscription
     subscribeCallbackCap(route);
     expect(store.getActions()).toEqual([tspOperations.updateTSPSolution(route)]);
+  });
+});
+
+describe('WebSocket reducers', () => {
+  it('connection success should open connection status', () => {
+    expect(
+      reducer(WebSocketConnectionStatus.CLOSED, actions.wsConnectionSuccess()),
+    ).toEqual(WebSocketConnectionStatus.OPEN);
+  });
+  it('connection failure should fail connection status', () => {
+    expect(
+      reducer(WebSocketConnectionStatus.OPEN, actions.wsConnectionFailure()),
+    ).toEqual(WebSocketConnectionStatus.ERROR);
   });
 });
 
