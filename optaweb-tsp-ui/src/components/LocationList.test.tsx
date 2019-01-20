@@ -23,12 +23,12 @@ describe('Location List Component', () => {
   it('should render correctly with no routes', () => {
     const props: ILocationListProps = {
       clearHandler: jest.fn(),
+      domicileId: -1,
       loadHandler: jest.fn(),
       maxDistance: 1,
       removeHandler: jest.fn(),
       route: {
         distance: '0',
-        domicileId: -1,
         route: [],
       },
       selectHandler: jest.fn(),
@@ -45,12 +45,12 @@ describe('Location List Component', () => {
   it('should render correctly with a few routes', () => {
     const props: ILocationListProps = {
       clearHandler: jest.fn(),
+      domicileId: 1,
       loadHandler: jest.fn(),
       maxDistance: 1,
       removeHandler: jest.fn(),
       route: {
         distance: '10',
-        domicileId: 1,
         route: [
           {
             id: 1,

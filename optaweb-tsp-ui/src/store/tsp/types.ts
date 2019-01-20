@@ -27,7 +27,6 @@ export interface ILocation extends ILatLng {
 
 export interface ITSPRoute {
   readonly route: ILocation[];
-  readonly domicileId: number;
   readonly distance: string;
 }
 

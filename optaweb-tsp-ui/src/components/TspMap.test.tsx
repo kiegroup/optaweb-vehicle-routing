@@ -27,11 +27,11 @@ describe('TSP Map View', () => {
         lng: 1.345678,
       },
       clickHandler: jest.fn(),
+      domicileId: 1,
       removeHandler: jest.fn(),
       selectedId: 1,
       tsp: {
         distance: '10',
-        domicileId: 1,
         route: [
           {
             id: 1,

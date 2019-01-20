@@ -21,7 +21,7 @@ import TspClient from '../../websocket/TspClient';
 import { IAppState } from '../configStore';
 import { WebSocketAction, WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
-import reducer, { tspOperations } from './index';
+import reducer, { tspOperations, tspSelectors } from './index';
 import { initialTspState } from './reducers';
 import { ILatLng, IUpdateTSPSolutionAction } from './types';
 
@@ -95,11 +95,23 @@ describe('TSP reducers', () => {
   });
 });
 
+describe('TSP selectors', () => {
+  it('domicile should be the first location ID', () => {
+    expect(
+      tspSelectors.getDomicileId(state.route),
+    ).toEqual(1);
+  });
+  it('domicile should not be a positive number if route is empty', () => {
+    expect(
+      tspSelectors.getDomicileId(initialTspState),
+    ).not.toBeGreaterThanOrEqual(0);
+  });
+});
+
 const state: IAppState = {
   connectionStatus: WebSocketConnectionStatus.CLOSED,
   route: {
     distance: '10',
-    domicileId: 1,
     route: [
       {
         id: 1,

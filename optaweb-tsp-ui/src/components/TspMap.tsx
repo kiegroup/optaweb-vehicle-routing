@@ -33,6 +33,7 @@ export interface ITspMapProps {
   clickHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
   removeHandler: (id: number) => void;
   tsp: ITSPRouteWithSegments;
+  domicileId: number;
 }
 
 const TspMap: React.SFC<ITspMapProps> = ({
@@ -40,6 +41,7 @@ const TspMap: React.SFC<ITspMapProps> = ({
   zoom,
   selectedId,
   tsp,
+  domicileId,
   clickHandler,
   removeHandler,
 }) => {
@@ -70,7 +72,7 @@ const TspMap: React.SFC<ITspMapProps> = ({
         <Marker
           key={location.id}
           position={location}
-          icon={location.id === tsp.domicileId ? homeIcon : defaultIcon}
+          icon={location.id === domicileId ? homeIcon : defaultIcon}
           onClick={() => removeHandler(location.id)}
         >
           <Tooltip
