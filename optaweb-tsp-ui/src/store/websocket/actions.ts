@@ -14,47 +14,26 @@
  * limitations under the License.
  */
 
-import { Action, ActionCreator } from 'redux';
+import { ActionCreator } from 'redux';
 import { Frame } from 'webstomp-client';
+import {
+  ActionType,
+  InitWsConnectionAction,
+  IWsConnectionFailureAction,
+  IWsConnectionSuccessAction,
+} from './types';
 
-export enum ActionType {
-  WS_CONNECT = 'WS_CONNECT',
-  WS_CONNECT_SUCCESS = 'WS_CONNECT_SUCCESS',
-  WS_CONNECT_FAILURE = 'WS_CONNECT_FAILURE',
-}
-
-export interface InitWsConnectionAction extends Action<ActionType.WS_CONNECT> {
-}
-
-export interface IWsConnectionSuccessAction extends Action<ActionType.WS_CONNECT_SUCCESS> {
-}
-
-export interface IWsConnectionFailureAction extends Action<ActionType.WS_CONNECT_FAILURE> {
-  readonly value: Frame | CloseEvent;
-}
-
-export type WebSocketAction =
-  | InitWsConnectionAction
-  | IWsConnectionFailureAction
-  | IWsConnectionSuccessAction;
-
-const initWsConnection: ActionCreator<InitWsConnectionAction> = () => ({
+export const initWsConnection: ActionCreator<InitWsConnectionAction> = () => ({
   type: ActionType.WS_CONNECT,
 });
 
-const wsConnectionSuccess: ActionCreator<IWsConnectionSuccessAction> = () => ({
+export const wsConnectionSuccess: ActionCreator<IWsConnectionSuccessAction> = () => ({
   type: ActionType.WS_CONNECT_SUCCESS,
 });
 
-const wsConnectionFailure: ActionCreator<IWsConnectionFailureAction> = (
+export const wsConnectionFailure: ActionCreator<IWsConnectionFailureAction> = (
   err: Frame | CloseEvent,
 ) => ({
   type: ActionType.WS_CONNECT_FAILURE,
   value: err,
 });
-
-export default {
-  initWsConnection,
-  wsConnectionFailure,
-  wsConnectionSuccess,
-};

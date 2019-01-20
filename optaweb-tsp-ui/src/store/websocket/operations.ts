@@ -15,31 +15,29 @@
  */
 
 import { ActionCreator } from 'redux';
-import tspActions, { IUpdateTSPSolutionAction } from '../tsp/actions';
+import { tspOperations } from '../tsp';
+import { IUpdateTSPSolutionAction } from '../tsp/types';
 import { ThunkCommand } from '../types';
-import actions, { WebSocketAction } from './actions';
+import * as actions from './actions';
+import { WebSocketAction } from './types';
+
+type ConnectClientThunk = ActionCreator<ThunkCommand<WebSocketAction | IUpdateTSPSolutionAction>>;
 
 /**
  * Connect TSP client to WebSocket.
  */
-const connectWs: ActionCreator<ThunkCommand<WebSocketAction | IUpdateTSPSolutionAction>> = () => (
-  dispatch, state, client,
-) => {
+export const connectClient: ConnectClientThunk = () => (dispatch, state, client) => {
   // dispatch WS connection initializing
   dispatch(actions.initWsConnection());
   client.connect(
     () => {
       // on connection, subscribe to the route topic
       dispatch(actions.wsConnectionSuccess());
-      client.subscribe(route => dispatch(tspActions.updateTSPSolution(route)));
+      client.subscribe(route => dispatch(tspOperations.updateTSPSolution(route)));
     },
     (err) => {
       // on error, schedule a reconnection attempt
       dispatch(actions.wsConnectionFailure(err));
-      setTimeout(() => dispatch(connectWs(client)), 1000);
+      setTimeout(() => dispatch(connectClient(client)), 1000);
     });
-};
-
-export default {
-  connect: connectWs,
 };

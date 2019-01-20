@@ -16,15 +16,18 @@
 
 import { ActionCreator } from 'redux';
 import { ThunkCommand } from '../types';
-import actions, {
+import * as actions from './actions';
+import {
   IAddLocationAction,
   IClearSolutionAction,
   IDeleteLocationAction,
+  ILatLng,
   ILoadDemoAction,
-} from './actions';
-import { ILatLng } from './types';
+} from './types';
 
-const addLocationOp: ActionCreator<ThunkCommand<IAddLocationAction>> = (
+export const updateTSPSolution = actions.updateTSPSolution;
+
+export const addLocation: ActionCreator<ThunkCommand<IAddLocationAction>> = (
   location: ILatLng,
 ) => (
   dispatch, state, client,
@@ -33,14 +36,14 @@ const addLocationOp: ActionCreator<ThunkCommand<IAddLocationAction>> = (
   client.addLocation(location);
 };
 
-const loadDemoOp: ActionCreator<ThunkCommand<ILoadDemoAction>> = () => (
+export const loadDemo: ActionCreator<ThunkCommand<ILoadDemoAction>> = () => (
   dispatch, state, client,
 ) => {
   dispatch(actions.loadDemo());
   client.loadDemo();
 };
 
-const deleteLocationOp: ActionCreator<ThunkCommand<IDeleteLocationAction>> = (
+export const deleteLocation: ActionCreator<ThunkCommand<IDeleteLocationAction>> = (
   locationId: number,
 ) => (
   dispatch, state, client,
@@ -49,16 +52,9 @@ const deleteLocationOp: ActionCreator<ThunkCommand<IDeleteLocationAction>> = (
   client.deleteLocation(locationId);
 };
 
-const clearSolutionOp: ActionCreator<ThunkCommand<IClearSolutionAction>> = () => (
+export const clearSolution: ActionCreator<ThunkCommand<IClearSolutionAction>> = () => (
   dispatch, state, client,
 ) => {
   dispatch(actions.clearSolution());
   client.clear();
-};
-
-export default {
-  addLocation: addLocationOp,
-  clearSolution: clearSolutionOp,
-  deleteLocation: deleteLocationOp,
-  loadDemo: loadDemoOp,
 };

@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import { ActionType, TspAction } from './actions';
-import { ITSPRouteWithSegments } from './types';
+import { ActionType, ITSPRouteWithSegments, TspAction } from './types';
 
 const initialTspState: ITSPRouteWithSegments = {
   distance: '0.00',

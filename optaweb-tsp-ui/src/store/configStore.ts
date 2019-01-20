@@ -21,9 +21,9 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import TspClient from '../websocket/TspClient';
-import tspReducer from './tsp/reducers';
+import tspReducer from './tsp';
 import { ITSPRouteWithSegments } from './tsp/types';
-import { wsReducer } from './websocket/reducers';
+import connectionReducer from './websocket';
 import { WebSocketConnectionStatus } from './websocket/types';
 
 export interface IAppState {
@@ -48,9 +48,9 @@ export default function configureStore(
   const enhancers = [middlewareEnhancer];
   const composedEnhancers = composeWithDevTools(...enhancers);
 
-  // combining reducers
+  // map reducers to state slices
   const rootReducer = combineReducers<IAppState>({
-    connectionStatus: wsReducer,
+    connectionStatus: connectionReducer,
     route: tspReducer,
   });
 

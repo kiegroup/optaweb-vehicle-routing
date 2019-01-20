@@ -14,8 +14,32 @@
  * limitations under the License.
  */
 
+import { Action } from 'redux';
+import { Frame } from 'webstomp-client';
+
 export enum WebSocketConnectionStatus {
   OPEN = 'OPEN',
   CLOSED = 'CLOSED',
   ERROR = 'ERROR',
 }
+
+export enum ActionType {
+  WS_CONNECT = 'WS_CONNECT',
+  WS_CONNECT_SUCCESS = 'WS_CONNECT_SUCCESS',
+  WS_CONNECT_FAILURE = 'WS_CONNECT_FAILURE',
+}
+
+export interface InitWsConnectionAction extends Action<ActionType.WS_CONNECT> {
+}
+
+export interface IWsConnectionSuccessAction extends Action<ActionType.WS_CONNECT_SUCCESS> {
+}
+
+export interface IWsConnectionFailureAction extends Action<ActionType.WS_CONNECT_FAILURE> {
+  readonly value: Frame | CloseEvent;
+}
+
+export type WebSocketAction =
+  | InitWsConnectionAction
+  | IWsConnectionFailureAction
+  | IWsConnectionSuccessAction;

@@ -14,70 +14,39 @@
  * limitations under the License.
  */
 
-import { Action, ActionCreator } from 'redux';
-import { ILatLng, ITSPRouteWithSegments } from './types';
+import { ActionCreator } from 'redux';
+import {
+  ActionType,
+  IAddLocationAction,
+  IClearSolutionAction,
+  IDeleteLocationAction,
+  ILatLng,
+  ILoadDemoAction,
+  ITSPRouteWithSegments,
+  IUpdateTSPSolutionAction,
+} from './types';
 
-export enum ActionType {
-  SOLUTION_UPDATES_DATA = 'SOLUTION_UPDATES_DATA',
-  DELETE_LOCATION = 'DELETE_LOCATION',
-  ADD_LOCATION = 'ADD_LOCATION',
-  LOAD_DEMO = 'LOAD_DEMO',
-  CLEAR_SOLUTION = 'CLEAR_SOLUTION',
-}
-
-export interface IAddLocationAction extends Action<ActionType.ADD_LOCATION> {
-  readonly value: ILatLng;
-}
-
-export interface IClearSolutionAction extends Action<ActionType.CLEAR_SOLUTION> {
-}
-
-export interface IDeleteLocationAction extends Action<ActionType.DELETE_LOCATION> {
-  readonly value: number;
-}
-
-export interface ILoadDemoAction extends Action<ActionType.LOAD_DEMO> {
-}
-
-export interface IUpdateTSPSolutionAction extends Action<ActionType.SOLUTION_UPDATES_DATA> {
-  readonly solution: ITSPRouteWithSegments;
-}
-
-export type TspAction =
-  | IAddLocationAction
-  | IClearSolutionAction
-  | IDeleteLocationAction
-  | IUpdateTSPSolutionAction;
-
-const addLocation: ActionCreator<IAddLocationAction> = (location: ILatLng) => ({
+export const addLocation: ActionCreator<IAddLocationAction> = (location: ILatLng) => ({
   type: ActionType.ADD_LOCATION,
   value: location,
 });
 
-const deleteLocation: ActionCreator<IDeleteLocationAction> = (id: number) => ({
+export const deleteLocation: ActionCreator<IDeleteLocationAction> = (id: number) => ({
   type: ActionType.DELETE_LOCATION,
   value: id,
 });
 
-const loadDemo: ActionCreator<ILoadDemoAction> = () => ({
+export const loadDemo: ActionCreator<ILoadDemoAction> = () => ({
   type: ActionType.LOAD_DEMO,
 });
 
-const clearSolution: ActionCreator<IClearSolutionAction> = () => ({
+export const clearSolution: ActionCreator<IClearSolutionAction> = () => ({
   type: ActionType.CLEAR_SOLUTION,
 });
 
-const updateTSPSolution: ActionCreator<IUpdateTSPSolutionAction> = (
+export const updateTSPSolution: ActionCreator<IUpdateTSPSolutionAction> = (
   solution: ITSPRouteWithSegments,
 ) => ({
   solution,
   type: ActionType.SOLUTION_UPDATES_DATA,
 });
-
-export default {
-  addLocation,
-  clearSolution,
-  deleteLocation,
-  loadDemo,
-  updateTSPSolution,
-};

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { Action } from 'redux';
+
 export interface ILatLng {
   readonly lat: number;
   readonly lng: number;
@@ -32,3 +34,35 @@ export interface ITSPRoute {
 export interface ITSPRouteWithSegments extends ITSPRoute {
   readonly segments: ILatLng[];
 }
+
+export enum ActionType {
+  SOLUTION_UPDATES_DATA = 'SOLUTION_UPDATES_DATA',
+  DELETE_LOCATION = 'DELETE_LOCATION',
+  ADD_LOCATION = 'ADD_LOCATION',
+  LOAD_DEMO = 'LOAD_DEMO',
+  CLEAR_SOLUTION = 'CLEAR_SOLUTION',
+}
+
+export interface IAddLocationAction extends Action<ActionType.ADD_LOCATION> {
+  readonly value: ILatLng;
+}
+
+export interface IClearSolutionAction extends Action<ActionType.CLEAR_SOLUTION> {
+}
+
+export interface IDeleteLocationAction extends Action<ActionType.DELETE_LOCATION> {
+  readonly value: number;
+}
+
+export interface ILoadDemoAction extends Action<ActionType.LOAD_DEMO> {
+}
+
+export interface IUpdateTSPSolutionAction extends Action<ActionType.SOLUTION_UPDATES_DATA> {
+  readonly solution: ITSPRouteWithSegments;
+}
+
+export type TspAction =
+  | IAddLocationAction
+  | IClearSolutionAction
+  | IDeleteLocationAction
+  | IUpdateTSPSolutionAction;

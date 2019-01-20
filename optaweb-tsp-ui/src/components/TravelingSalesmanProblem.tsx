@@ -16,7 +16,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../store/configStore';
-import operations from '../store/tsp/operations';
+import { tspOperations } from '../store/tsp';
 import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
 import LocationList from './LocationList';
 import TspMap from './TspMap';
@@ -26,10 +26,10 @@ interface IStateProps {
 }
 
 interface IDispatchProps {
-  removeHandler: typeof operations.deleteLocation;
-  loadHandler: typeof operations.loadDemo;
-  clearHandler: typeof operations.clearSolution;
-  addHandler: typeof operations.addLocation;
+  removeHandler: typeof tspOperations.deleteLocation;
+  loadHandler: typeof tspOperations.loadDemo;
+  clearHandler: typeof tspOperations.clearSolution;
+  addHandler: typeof tspOperations.addLocation;
 }
 
 type Props = IStateProps & IDispatchProps;
@@ -46,10 +46,10 @@ const mapStateToProps = ({ route }: IAppState): IStateProps => ({
 });
 
 const mapDispatchToProps: IDispatchProps = {
-  addHandler: operations.addLocation,
-  clearHandler: operations.clearSolution,
-  loadHandler: operations.loadDemo,
-  removeHandler: operations.deleteLocation,
+  addHandler: tspOperations.addLocation,
+  clearHandler: tspOperations.clearSolution,
+  loadHandler: tspOperations.loadDemo,
+  removeHandler: tspOperations.deleteLocation,
 };
 
 class TravelingSalesmanProblem extends React.Component<Props, IState> {
