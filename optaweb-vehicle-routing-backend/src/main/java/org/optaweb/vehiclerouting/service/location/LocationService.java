@@ -22,6 +22,7 @@ import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
@@ -44,8 +45,13 @@ public class LocationService {
         this.distanceMatrix = distanceMatrix;
     }
 
+    @Async
     public void loadDemo() {
         Arrays.stream(Belgium.values()).forEach(city -> addLocation(LatLng.valueOf(city.lat, city.lng)));
+    }
+
+    public int getDemoSize() {
+        return Belgium.values().length;
     }
 
     public void addLocation(LatLng latLng) {

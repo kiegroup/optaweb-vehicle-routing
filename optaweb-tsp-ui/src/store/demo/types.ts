@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting;
+import { Action } from 'redux';
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableAsync;
+export enum ActionType {
+  LOAD_DEMO = 'LOAD_DEMO',
+}
 
-@SpringBootApplication
-@EnableAsync
-public class OptaWebVehicleRoutingApplication {
+export interface ILoadDemoAction extends Action<ActionType.LOAD_DEMO> {
+  readonly size: number;
+}
 
-    public static void main(String[] args) {
-        SpringApplication.run(OptaWebVehicleRoutingApplication.class, args);
-    }
+export interface IDemo {
+  readonly isLoading: boolean;
+  readonly demoSize: number;
 }

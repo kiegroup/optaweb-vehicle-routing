@@ -21,6 +21,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import TspClient from '../websocket/TspClient';
+import demoReducer from './demo';
+import { IDemo } from './demo/types';
 import tspReducer from './tsp';
 import { ITSPRouteWithSegments } from './tsp/types';
 import connectionReducer from './websocket';
@@ -29,6 +31,7 @@ import { WebSocketConnectionStatus } from './websocket/types';
 export interface IAppState {
   readonly route: ITSPRouteWithSegments;
   readonly connectionStatus: WebSocketConnectionStatus;
+  readonly demo: IDemo;
 }
 
 export interface IAppStoreConfig {
@@ -51,6 +54,7 @@ export default function configureStore(
   // map reducers to state slices
   const rootReducer = combineReducers<IAppState>({
     connectionStatus: connectionReducer,
+    demo: demoReducer,
     route: tspReducer,
   });
 

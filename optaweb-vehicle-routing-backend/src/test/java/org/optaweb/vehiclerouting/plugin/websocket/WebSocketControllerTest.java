@@ -76,7 +76,9 @@ public class WebSocketControllerTest {
 
     @Test
     public void demo() {
-        webSocketController.demo();
+        int demoSize = 4651;
+        when(locationService.getDemoSize()).thenReturn(demoSize);
+        assertThat(webSocketController.demo()).isEqualTo(demoSize);
         verify(locationService).loadDemo();
     }
 

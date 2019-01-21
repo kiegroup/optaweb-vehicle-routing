@@ -36,6 +36,10 @@ describe('WebSocket client operations', () => {
   it('should fail connection and reconnect when client crashes', () => {
     const state: IAppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
+      demo: {
+        demoSize: 0,
+        isLoading: false,
+      },
       route,
     };
 
