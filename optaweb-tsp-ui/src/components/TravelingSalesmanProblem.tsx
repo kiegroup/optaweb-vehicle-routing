@@ -25,6 +25,7 @@ import TspMap from './TspMap';
 interface IStateProps {
   tsp: ITSPRouteWithSegments;
   domicileId: number;
+  isDemoLoading: boolean;
 }
 
 interface IDispatchProps {
@@ -43,8 +44,9 @@ interface IState {
   zoom: number;
 }
 
-const mapStateToProps = ({ route }: IAppState): IStateProps => ({
+const mapStateToProps = ({ route, demo }: IAppState): IStateProps => ({
   domicileId: tspSelectors.getDomicileId(route),
+  isDemoLoading: demo.isLoading,
   tsp: route,
 });
 
@@ -98,6 +100,7 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
       removeHandler,
       loadHandler,
       clearHandler,
+      isDemoLoading,
     } = this.props;
 
     return (
@@ -110,6 +113,7 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
           selectHandler={this.onSelectLocation}
           loadHandler={loadHandler}
           clearHandler={clearHandler}
+          isDemoLoading={isDemoLoading}
         />
         <TspMap
           center={center}
