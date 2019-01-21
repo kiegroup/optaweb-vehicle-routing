@@ -28,14 +28,23 @@ export interface ILocationListProps {
   maxDistance: number;
   route: ITSPRoute;
   domicileId: number;
+  isDemoLoading: boolean;
 }
 
-const renderEmptyLocationList = ({ loadHandler }: ILocationListProps) => {
+const renderEmptyLocationList = ({
+  loadHandler,
+  isDemoLoading,
+}: ILocationListProps) => {
   return (
     <Card>
       <CardHeader>Click map to add locations</CardHeader>
       <CardBody>
-        <Button type="button" style={{ width: '100%' }} onClick={loadHandler}>
+        <Button
+          type="button"
+          isDisabled={isDemoLoading}
+          style={{ width: '100%' }}
+          onClick={loadHandler}
+        >
           Load demo
         </Button>
       </CardBody>
@@ -50,6 +59,7 @@ const renderLocationList = ({
   selectHandler,
   clearHandler,
   maxDistance,
+  isDemoLoading,
 }: ILocationListProps) => {
   return (
     <Card>
@@ -62,7 +72,12 @@ const renderLocationList = ({
           distance={parseInt(distance, 10) || maxDistance}
         />
         <br />
-        <Button type="button" style={{ width: '100%' }} onClick={clearHandler}>
+        <Button
+          type="button"
+          isDisabled={isDemoLoading}
+          style={{ width: '100%' }}
+          onClick={clearHandler}
+        >
           Clear
         </Button>
         <br />
