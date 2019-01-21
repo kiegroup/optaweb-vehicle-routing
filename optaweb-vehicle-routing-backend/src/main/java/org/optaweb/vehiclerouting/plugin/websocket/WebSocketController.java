@@ -83,8 +83,9 @@ public class WebSocketController {
      * Load a demo consisting of a number of cities.
      */
     @MessageMapping("/demo")
-    public void demo() {
+    public int demo() {
         locationService.loadDemo();
+        return locationService.getDemoSize();
     }
 
     @MessageMapping("/clear")

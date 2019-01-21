@@ -16,6 +16,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../store/configStore';
+import { demoOperations } from '../store/demo';
 import { tspOperations, tspSelectors } from '../store/tsp';
 import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
 import LocationList from './LocationList';
@@ -28,7 +29,7 @@ interface IStateProps {
 
 interface IDispatchProps {
   removeHandler: typeof tspOperations.deleteLocation;
-  loadHandler: typeof tspOperations.loadDemo;
+  loadHandler: typeof demoOperations.loadDemo;
   clearHandler: typeof tspOperations.clearSolution;
   addHandler: typeof tspOperations.addLocation;
 }
@@ -50,7 +51,7 @@ const mapStateToProps = ({ route }: IAppState): IStateProps => ({
 const mapDispatchToProps: IDispatchProps = {
   addHandler: tspOperations.addLocation,
   clearHandler: tspOperations.clearSolution,
-  loadHandler: tspOperations.loadDemo,
+  loadHandler: demoOperations.loadDemo,
   removeHandler: tspOperations.deleteLocation,
 };
 

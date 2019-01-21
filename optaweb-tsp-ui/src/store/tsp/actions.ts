@@ -21,7 +21,6 @@ import {
   IClearSolutionAction,
   IDeleteLocationAction,
   ILatLng,
-  ILoadDemoAction,
   ITSPRouteWithSegments,
   IUpdateTSPSolutionAction,
 } from './types';
@@ -34,10 +33,6 @@ export const addLocation: ActionCreator<IAddLocationAction> = (location: ILatLng
 export const deleteLocation: ActionCreator<IDeleteLocationAction> = (id: number) => ({
   type: ActionType.DELETE_LOCATION,
   value: id,
-});
-
-export const loadDemo: ActionCreator<ILoadDemoAction> = () => ({
-  type: ActionType.LOAD_DEMO,
 });
 
 export const clearSolution: ActionCreator<IClearSolutionAction> = () => ({

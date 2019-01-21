@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting;
+import { ActionType, IDemo, ILoadDemoAction } from './types';
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.scheduling.annotation.EnableAsync;
-
-@SpringBootApplication
-@EnableAsync
-public class OptaWebVehicleRoutingApplication {
-
-    public static void main(String[] args) {
-        SpringApplication.run(OptaWebVehicleRoutingApplication.class, args);
+const demoReducer = (
+  state = {
+    demoSize: -1,
+    isLoading: false,
+  },
+  action: ILoadDemoAction,
+): IDemo => {
+  switch (action.type) {
+    case ActionType.LOAD_DEMO: {
+      return { isLoading: true, demoSize: action.size };
     }
-}
+    default:
+      return state;
+  }
+};
+
+export default demoReducer;

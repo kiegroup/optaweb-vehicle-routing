@@ -19,81 +19,49 @@ import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import TspClient from '../../websocket/TspClient';
 import { IAppState } from '../configStore';
+import { TspAction } from '../tsp/types';
 import { WebSocketAction, WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
-import reducer, { tspOperations, tspSelectors } from './index';
-import { initialTspState } from './reducers';
-import { ILatLng, IUpdateTSPSolutionAction } from './types';
+import reducer, { demoOperations } from './index';
+import { IDemo, ILoadDemoAction } from './types';
 
 jest.mock('../../websocket/TspClient');
 
-describe('TSP operations', () => {
+describe('Demo operations', () => {
   it('should dispatch actions and call client', () => {
+    let demoCallbackCapture: (demoSize: number) => void = uninitializedCallbackCapture;
+
     const tspClient = new TspClient('');
+    // @ts-ignore
+    tspClient.loadDemo.mockImplementation((demoCallback) => {
+      demoCallbackCapture = demoCallback;
+    });
 
     // mock store
     const middlewares: Middleware[] = [thunk.withExtraArgument(tspClient)];
     type DispatchExts = ThunkDispatch<IAppState, TspClient,
-      WebSocketAction | IUpdateTSPSolutionAction>;
+      WebSocketAction | TspAction | ILoadDemoAction>;
     const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
       createMockStore<IAppState, DispatchExts>(middlewares);
     const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
 
-    store.dispatch(tspOperations.clearSolution());
-    expect(store.getActions()).toEqual([actions.clearSolution()]);
-    expect(tspClient.clear).toHaveBeenCalledTimes(1);
+    // verify loadDemo operation calls the client
+    store.dispatch(demoOperations.loadDemo());
+    expect(tspClient.loadDemo).toHaveBeenCalledTimes(1);
 
-    store.clearActions();
-
-    const id = 3214;
-    store.dispatch(tspOperations.deleteLocation(id));
-    expect(store.getActions()).toEqual([actions.deleteLocation(id)]);
-    expect(tspClient.deleteLocation).toHaveBeenCalledTimes(1);
-    expect(tspClient.deleteLocation).toHaveBeenCalledWith(id);
-
-    store.clearActions();
-
-    const latLng: ILatLng = state.route[0];
-    store.dispatch(tspOperations.addLocation(latLng));
-    expect(store.getActions()).toEqual([actions.addLocation(latLng)]);
-    expect(tspClient.addLocation).toHaveBeenCalledTimes(1);
-    expect(tspClient.addLocation).toHaveBeenCalledWith(latLng);
+    // simulate client receives demo size and passes it to demo callback
+    const demoSize = 314354;
+    demoCallbackCapture(demoSize);
+    expect(store.getActions()).toEqual([actions.loadDemo(demoSize)]);
   });
 });
 
-describe('TSP reducers', () => {
-  it('clear solution', () => {
+describe('Demo reducers', () => {
+  it('load demo', () => {
+    const expectedState: IDemo = { isLoading: true, demoSize: 5 };
     expect(
-      reducer(state.route, actions.clearSolution()),
-    ).toEqual(state.route);
-  });
-  it('add location', () => {
-    expect(
-      reducer(state.route, actions.addLocation(state.route[2])),
-    ).toEqual(state.route);
-  });
-  it('delete location', () => {
-    expect(
-      reducer(state.route, actions.deleteLocation(1)),
-    ).toEqual(state.route);
-  });
-  it('update solution', () => {
-    expect(
-      reducer(initialTspState, actions.updateTSPSolution(state.route)),
-    ).toEqual(state.route);
-  });
-});
-
-describe('TSP selectors', () => {
-  it('domicile should be the first location ID', () => {
-    expect(
-      tspSelectors.getDomicileId(state.route),
-    ).toEqual(1);
-  });
-  it('domicile should not be a positive number if route is empty', () => {
-    expect(
-      tspSelectors.getDomicileId(initialTspState),
-    ).not.toBeGreaterThanOrEqual(0);
+      reducer(state.demo, actions.loadDemo(expectedState.demoSize)),
+    ).toEqual(expectedState);
   });
 });
 
@@ -124,4 +92,8 @@ const state: IAppState = {
     ],
     segments: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
   },
+};
+
+const uninitializedCallbackCapture = () => {
+  throw new Error('Error callback is uninitialized');
 };

@@ -38,7 +38,6 @@ export enum ActionType {
   SOLUTION_UPDATES_DATA = 'SOLUTION_UPDATES_DATA',
   DELETE_LOCATION = 'DELETE_LOCATION',
   ADD_LOCATION = 'ADD_LOCATION',
-  LOAD_DEMO = 'LOAD_DEMO',
   CLEAR_SOLUTION = 'CLEAR_SOLUTION',
 }
 
@@ -53,16 +52,12 @@ export interface IDeleteLocationAction extends Action<ActionType.DELETE_LOCATION
   readonly value: number;
 }
 
-export interface ILoadDemoAction extends Action<ActionType.LOAD_DEMO> {
-}
-
 export interface IUpdateTSPSolutionAction extends Action<ActionType.SOLUTION_UPDATES_DATA> {
   readonly solution: ITSPRouteWithSegments;
 }
 
 export type TspAction =
   | IAddLocationAction
-  | ILoadDemoAction
   | IClearSolutionAction
   | IDeleteLocationAction
   | IUpdateTSPSolutionAction;

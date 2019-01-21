@@ -46,7 +46,12 @@ export default class TspClient {
     this.stompClient.send('/app/place', JSON.stringify(latLng));
   }
 
-  loadDemo() {
+  loadDemo(callback: (demoSize: number) => any): void {
+    const subscription = this.stompClient.subscribe('/topic/demo', (message) => {
+      subscription.unsubscribe();
+      const demoSize: number = JSON.parse(message.body);
+      callback(demoSize);
+    });
     this.stompClient.send('/app/demo');
   }
 
