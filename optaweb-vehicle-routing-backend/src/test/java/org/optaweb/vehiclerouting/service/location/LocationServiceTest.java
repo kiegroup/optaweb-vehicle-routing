@@ -27,7 +27,6 @@ import org.optaweb.vehiclerouting.domain.Location;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -66,15 +65,6 @@ public class LocationServiceTest {
         verify(repository).removeLocation(location.getId());
         verify(optimizer).removeLocation(location);
         // TODO remove location from distance matrix
-    }
-
-    @Test
-    public void loadDemo() {
-        final int CITY_COUNT = Belgium.values().length;
-        locationService.loadDemo();
-        verify(repository, times(CITY_COUNT)).createLocation(any(LatLng.class));
-        verify(distanceMatrix, times(CITY_COUNT)).addLocation(any(Location.class));
-        verify(optimizer, times(CITY_COUNT)).addLocation(any(Location.class), any(DistanceMatrix.class));
     }
 
     @Test

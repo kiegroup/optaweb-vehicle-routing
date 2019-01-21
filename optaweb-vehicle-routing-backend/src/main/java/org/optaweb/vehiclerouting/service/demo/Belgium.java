@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.location;
+package org.optaweb.vehiclerouting.service.demo;
 
 public enum Belgium {
     AALST(50.933333, 4.033333),

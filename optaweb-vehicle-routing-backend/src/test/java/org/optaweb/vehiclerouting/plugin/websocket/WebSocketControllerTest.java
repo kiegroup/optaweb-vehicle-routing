@@ -25,6 +25,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.route.Route;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
@@ -43,6 +44,8 @@ public class WebSocketControllerTest {
     private RoutePublisherImpl routePublisher;
     @Mock
     private LocationService locationService;
+    @Mock
+    private DemoService demoService;
     @InjectMocks
     private WebSocketController webSocketController;
 
@@ -77,9 +80,9 @@ public class WebSocketControllerTest {
     @Test
     public void demo() {
         int demoSize = 4651;
-        when(locationService.getDemoSize()).thenReturn(demoSize);
+        when(demoService.getDemoSize()).thenReturn(demoSize);
         assertThat(webSocketController.demo()).isEqualTo(demoSize);
-        verify(locationService).loadDemo();
+        verify(demoService).loadDemo();
     }
 
     @Test
