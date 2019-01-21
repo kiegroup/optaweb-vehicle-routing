@@ -19,6 +19,8 @@ import { ThunkCommand } from '../types';
 import * as actions from './actions';
 import { ILoadDemoAction } from './types';
 
+export const demoLoaded = actions.demoLoaded;
+
 export const loadDemo: ActionCreator<ThunkCommand<ILoadDemoAction>> = () => (
   dispatch, state, client,
 ) => {

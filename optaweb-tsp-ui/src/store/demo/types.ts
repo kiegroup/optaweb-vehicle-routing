@@ -18,11 +18,19 @@ import { Action } from 'redux';
 
 export enum ActionType {
   LOAD_DEMO = 'LOAD_DEMO',
+  DEMO_LOADED = 'DEMO_LOADED',
 }
 
 export interface ILoadDemoAction extends Action<ActionType.LOAD_DEMO> {
   readonly size: number;
 }
+
+export interface IDemoLoadingFinishedAction extends Action<ActionType.DEMO_LOADED> {
+}
+
+export type DemoAction =
+  | ILoadDemoAction
+  | IDemoLoadingFinishedAction;
 
 export interface IDemo {
   readonly isLoading: boolean;

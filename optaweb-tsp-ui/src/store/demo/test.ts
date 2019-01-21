@@ -63,6 +63,13 @@ describe('Demo reducers', () => {
       reducer(state.demo, actions.loadDemo(expectedState.demoSize)),
     ).toEqual(expectedState);
   });
+  it('loading flag should be cleared when demo is loaded', () => {
+    const demoSize: number = 5;
+    const expectedState: IDemo = { isLoading: false, demoSize };
+    expect(
+      reducer({ isLoading: true, demoSize }, actions.demoLoaded()),
+    ).toEqual(expectedState);
+  });
 });
 
 const state: IAppState = {
