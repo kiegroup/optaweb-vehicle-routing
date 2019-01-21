@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.plugin.websocket;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.route.Route;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
@@ -40,14 +41,17 @@ public class WebSocketController {
     private final RouteListener routeListener;
     private final RoutePublisherImpl routePublisher;
     private final LocationService locationService;
+    private final DemoService demoService;
 
     @Autowired
     public WebSocketController(RouteListener routeListener,
                                RoutePublisherImpl routePublisher,
-                               LocationService locationService) {
+                               LocationService locationService,
+                               DemoService demoService) {
         this.routeListener = routeListener;
         this.routePublisher = routePublisher;
         this.locationService = locationService;
+        this.demoService = demoService;
     }
 
     /**
@@ -81,11 +85,12 @@ public class WebSocketController {
 
     /**
      * Load a demo consisting of a number of cities.
+     * @return number of demo locations
      */
     @MessageMapping("/demo")
     public int demo() {
-        locationService.loadDemo();
-        return locationService.getDemoSize();
+        demoService.loadDemo();
+        return demoService.getDemoSize();
     }
 
     @MessageMapping("/clear")
