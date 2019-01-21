@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-import { ActionType, IDemo, ILoadDemoAction } from './types';
+import { ActionType, DemoAction, IDemo } from './types';
 
 const demoReducer = (
   state = {
     demoSize: -1,
     isLoading: false,
   },
-  action: ILoadDemoAction,
+  action: DemoAction,
 ): IDemo => {
   switch (action.type) {
     case ActionType.LOAD_DEMO: {
       return { isLoading: true, demoSize: action.size };
+    }
+    case ActionType.DEMO_LOADED: {
+      return { ...state, isLoading: false };
     }
     default:
       return state;
