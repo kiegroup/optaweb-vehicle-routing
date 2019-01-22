@@ -38,6 +38,6 @@ export const connectClient: ConnectClientThunk = () => (dispatch, state, client)
     (err) => {
       // on error, schedule a reconnection attempt
       dispatch(actions.wsConnectionFailure(err));
-      setTimeout(() => dispatch(connectClient(client)), 1000);
+      setTimeout(() => dispatch(connectClient()), 1000);
     });
 };
