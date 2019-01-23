@@ -16,6 +16,9 @@
 
 package org.optaweb.vehiclerouting.service.location;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,9 +27,11 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -42,18 +47,24 @@ public class LocationServiceTest {
     @InjectMocks
     private LocationService locationService;
 
+    @Mock
+    ApplicationStartedEvent event;
+
     private final LatLng latLng = LatLng.valueOf(0.0, 1.0);
     private final Location location = new Location(1, latLng);
+
+    private Collection<Location> persistedLocations = Arrays.asList(location, location, location);
 
     @Before
     public void setUp() {
         when(repository.createLocation(any(LatLng.class))).thenReturn(location);
         when(repository.removeLocation(location.getId())).thenReturn(location);
+        when(repository.locations()).thenReturn(persistedLocations);
     }
 
     @Test
-    public void addLocation() {
-        locationService.addLocation(latLng);
+    public void createLocation() {
+        locationService.createLocation(latLng);
         verify(repository).createLocation(latLng);
         verify(distanceMatrix).addLocation(location);
         verify(optimizer).addLocation(eq(location), any(DistanceMatrix.class));
@@ -73,5 +84,13 @@ public class LocationServiceTest {
         verify(optimizer).clear();
         verify(distanceMatrix).clear();
         verify(repository).removeAll();
+    }
+
+    @Test
+    public void should_reload_on_startup() {
+        locationService.reload(event);
+        verify(repository).locations();
+        verify(distanceMatrix, times(persistedLocations.size())).addLocation(location);
+        verify(optimizer, times(persistedLocations.size())).addLocation(location, distanceMatrix);
     }
 }

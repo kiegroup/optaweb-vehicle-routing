@@ -68,7 +68,7 @@ public class WebSocketControllerTest {
         LatLng latLng = LatLng.valueOf(0.0, 1.0);
         PortableLocation request = new PortableLocation(321, latLng.getLatitude(), latLng.getLongitude());
         webSocketController.addLocation(request);
-        verify(locationService).addLocation(latLng);
+        verify(locationService).createLocation(latLng);
     }
 
     @Test
