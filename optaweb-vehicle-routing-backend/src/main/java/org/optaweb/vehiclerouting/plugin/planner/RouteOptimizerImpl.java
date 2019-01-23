@@ -141,7 +141,26 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         });
     }
 
-    private void stopSolver() {
+    boolean isSolving() {
+        if (solverFuture == null) {
+            return false;
+        }
+        assertSolverIsAlive();
+        return true;
+    }
+
+    private void assertSolverIsAlive() {
+        if (solverFuture.isDone()) {
+            try {
+                solverFuture.get();
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException("Solver has died", e);
+            }
+            throw new IllegalStateException("Solver has finished solving even though it operates in daemon mode.");
+        }
+    }
+
+    void stopSolver() {
         if (solverFuture != null) {
             // TODO what happens if solver hasn't started yet (solve() is called asynchronously)
             solver.terminateEarly();
@@ -150,7 +169,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 solverFuture.get();
                 solverFuture = null;
             } catch (InterruptedException | ExecutionException e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Failed to stop solver", e);
             }
         }
     }
@@ -172,7 +191,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         DistanceMap distanceMap = new DistanceMap(coreLocation, distanceMatrix.getRow(coreLocation));
         location.setTravelDistanceMap(distanceMap);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
-        if (!solver.isSolving()) {
+        if (!isSolving()) {
             List<Location> locationList = tsp.getLocationList();
             locationList.add(location);
             if (locationList.size() == 1) {
@@ -213,7 +232,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
     @Override
     public void removeLocation(org.optaweb.vehiclerouting.domain.Location coreLocation) {
         Location location = coreToPlanner(coreLocation);
-        if (!solver.isSolving()) {
+        if (!isSolving()) {
             if (tsp.getLocationList().size() != 1) {
                 throw new IllegalStateException("Impossible number of locations (" + tsp.getLocationList().size()
                         + ") when solver is not solving.\n" + tsp.getLocationList());
