@@ -121,7 +121,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
 
     private void publishRoute(TspSolution solution) {
         extractRoute(solution).ifPresent(route -> {
-            logger.info("New TSP with {} locations, {} visits, route: {}",
+            logger.debug("New TSP with {} locations, {} visits, route: {}",
                     solution.getLocationList().size(),
                     solution.getVisitList().size(),
                     route);
