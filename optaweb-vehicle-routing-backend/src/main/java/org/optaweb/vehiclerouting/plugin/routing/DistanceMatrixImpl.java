@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.plugin.routing;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
@@ -39,8 +40,9 @@ public class DistanceMatrixImpl implements DistanceMatrix {
     }
 
     @Override
-    public synchronized void addLocation(Location location) {
-        Map<Long, Double> distanceMap = new HashMap<>();
+    public void addLocation(Location location) {
+        // The map must be thread-safe because it is accessed from solver thread!
+        Map<Long, Double> distanceMap = new ConcurrentHashMap<>();
         distanceMap.put(location.getId(), 0.0);
         for (Map.Entry<Location, Map<Long, Double>> entry : matrix.entrySet()) {
             Location other = entry.getKey();
@@ -51,12 +53,12 @@ public class DistanceMatrixImpl implements DistanceMatrix {
     }
 
     @Override
-    public synchronized Map<Long, Double> getRow(Location location) {
+    public Map<Long, Double> getRow(Location location) {
         return matrix.get(location);
     }
 
     @Override
-    public synchronized void clear() {
+    public void clear() {
         matrix.clear();
     }
 }
