@@ -24,12 +24,15 @@ import java.util.stream.StreamSupport;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LocationRepositoryImpl implements LocationRepository {
 
+    private static final Logger logger = LoggerFactory.getLogger(LocationRepositoryImpl.class);
     private final LocationCrudRepository repository;
 
     @Autowired
@@ -40,7 +43,9 @@ public class LocationRepositoryImpl implements LocationRepository {
     @Override
     public Location createLocation(LatLng latLng) {
         LocationEntity locationEntity = repository.save(new LocationEntity(latLng.getLatitude(), latLng.getLongitude()));
-        return new Location(locationEntity.getId(), latLng);
+        Location location = new Location(locationEntity.getId(), latLng);
+        logger.info("Created {}", location);
+        return location;
     }
 
     @Override
@@ -59,8 +64,10 @@ public class LocationRepositoryImpl implements LocationRepository {
         LocationEntity locationEntity = maybeLocation.orElseThrow(() ->
                 new IllegalArgumentException("Location{id=" + id + "} doesn't exist.")
         );
-        return new Location(locationEntity.getId(),
+        Location location = new Location(locationEntity.getId(),
                 new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude()));
+        logger.info("Deleted {}", location);
+        return location;
     }
 
     @Override

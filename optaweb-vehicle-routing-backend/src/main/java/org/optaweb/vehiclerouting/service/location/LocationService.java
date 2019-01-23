@@ -18,8 +18,6 @@ package org.optaweb.vehiclerouting.service.location;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -29,8 +27,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LocationService {
-
-    private static final Logger logger = LoggerFactory.getLogger(LocationService.class);
 
     private final LocationRepository repository;
     private final RouteOptimizer optimizer;
@@ -45,11 +41,11 @@ public class LocationService {
     }
 
     @EventListener
-    public void reload(ApplicationStartedEvent event) {
+    public synchronized void reload(ApplicationStartedEvent event) {
         repository.locations().forEach(this::submitToPlanner);
     }
 
-    public void createLocation(LatLng latLng) {
+    public synchronized void createLocation(LatLng latLng) {
         submitToPlanner(repository.createLocation(latLng));
     }
 
@@ -57,16 +53,14 @@ public class LocationService {
         // TODO handle no route -> roll back the problem fact change
         distanceMatrix.addLocation(location);
         optimizer.addLocation(location, distanceMatrix);
-        logger.info("Created {}", location);
     }
 
-    public void removeLocation(long id) {
+    public synchronized void removeLocation(long id) {
         Location location = repository.removeLocation(id);
         optimizer.removeLocation(location);
-        logger.info("Deleted {}", location);
     }
 
-    public void clear() {
+    public synchronized void clear() {
         optimizer.clear();
         repository.removeAll();
         distanceMatrix.clear();
