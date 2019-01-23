@@ -38,7 +38,7 @@ public class DemoService {
     @Async
     public void loadDemo() {
         Arrays.stream(Belgium.values())
-                .forEach(city -> locationService.addLocation(LatLng.valueOf(city.lat, city.lng)));
+                .forEach(city -> locationService.createLocation(LatLng.valueOf(city.lat, city.lng)));
     }
 
     public int getDemoSize() {

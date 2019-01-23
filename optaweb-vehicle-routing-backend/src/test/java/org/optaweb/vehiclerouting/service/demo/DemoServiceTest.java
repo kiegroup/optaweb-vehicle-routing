@@ -45,6 +45,6 @@ public class DemoServiceTest {
     @Test
     public void loadDemo() {
         demoService.loadDemo();
-        verify(locationService, times(demoService.getDemoSize())).addLocation(any(LatLng.class));
+        verify(locationService, times(demoService.getDemoSize())).createLocation(any(LatLng.class));
     }
 }

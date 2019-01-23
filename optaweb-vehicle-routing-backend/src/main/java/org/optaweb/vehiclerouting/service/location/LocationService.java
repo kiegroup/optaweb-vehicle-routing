@@ -20,6 +20,8 @@ import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 /**
@@ -42,8 +44,16 @@ public class LocationService {
         this.distanceMatrix = distanceMatrix;
     }
 
-    public void addLocation(LatLng latLng) {
-        Location location = repository.createLocation(latLng);
+    @EventListener
+    public void reload(ApplicationStartedEvent event) {
+        repository.locations().forEach(this::submitToPlanner);
+    }
+
+    public void createLocation(LatLng latLng) {
+        submitToPlanner(repository.createLocation(latLng));
+    }
+
+    private void submitToPlanner(Location location) {
         // TODO handle no route -> roll back the problem fact change
         distanceMatrix.addLocation(location);
         optimizer.addLocation(location, distanceMatrix);

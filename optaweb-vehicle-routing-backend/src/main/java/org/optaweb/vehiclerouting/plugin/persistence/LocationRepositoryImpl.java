@@ -16,7 +16,10 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
@@ -38,6 +41,15 @@ public class LocationRepositoryImpl implements LocationRepository {
     public Location createLocation(LatLng latLng) {
         LocationEntity locationEntity = repository.save(new LocationEntity(latLng.getLatitude(), latLng.getLongitude()));
         return new Location(locationEntity.getId(), latLng);
+    }
+
+    @Override
+    public Collection<Location> locations() {
+        return StreamSupport.stream(repository.findAll().spliterator(), false)
+                .map(locationEntity -> new Location(
+                        locationEntity.getId(),
+                        new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
+                )).collect(Collectors.toList());
     }
 
     @Override
