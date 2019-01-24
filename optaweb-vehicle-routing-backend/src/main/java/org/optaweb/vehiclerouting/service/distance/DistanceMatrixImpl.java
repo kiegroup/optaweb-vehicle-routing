@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.routing;
+package org.optaweb.vehiclerouting.service.distance;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,23 +22,19 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
-import org.optaweb.vehiclerouting.service.route.Router;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-/**
- * Keeps the information about distances between every pair of locations.
- */
-@Component
+@Service
 public class DistanceMatrixImpl implements DistanceMatrix {
 
-    private final Router router;
+    private final DistanceCalculator distanceCalculator;
     private final DistanceRepository distanceRepository;
     private final Map<Location, Map<Long, Double>> matrix = new HashMap<>();
 
     @Autowired
-    public DistanceMatrixImpl(Router router, DistanceRepository distanceRepository) {
-        this.router = router;
+    public DistanceMatrixImpl(DistanceCalculator distanceCalculator, DistanceRepository distanceRepository) {
+        this.distanceCalculator = distanceCalculator;
         this.distanceRepository = distanceRepository;
     }
 
@@ -58,7 +54,7 @@ public class DistanceMatrixImpl implements DistanceMatrix {
     private double calculateOrRestoreDistance(Location from, Location to) {
         double distance = distanceRepository.getDistance(from, to);
         if (distance < 0) {
-            distance = router.getDistance(from.getLatLng(), to.getLatLng());
+            distance = distanceCalculator.getDistance(from.getLatLng(), to.getLatLng());
             distanceRepository.saveDistance(from, to, distance);
         }
         return distance;

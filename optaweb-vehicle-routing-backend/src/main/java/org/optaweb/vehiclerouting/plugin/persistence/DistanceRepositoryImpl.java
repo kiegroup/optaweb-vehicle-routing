@@ -19,7 +19,7 @@ package org.optaweb.vehiclerouting.plugin.persistence;
 import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.plugin.routing.DistanceRepository;
+import org.optaweb.vehiclerouting.service.distance.DistanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

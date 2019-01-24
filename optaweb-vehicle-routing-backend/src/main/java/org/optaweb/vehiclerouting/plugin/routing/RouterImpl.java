@@ -25,6 +25,7 @@ import com.graphhopper.GHResponse;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.PointList;
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
 import org.optaweb.vehiclerouting.service.route.Router;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +33,8 @@ import org.springframework.stereotype.Component;
  * Provides geographical information needed for route optimization.
  */
 @Component
-public class RouterImpl implements Router {
+public class RouterImpl implements Router,
+                                   DistanceCalculator {
 
     private final GraphHopperOSM graphHopper;
 

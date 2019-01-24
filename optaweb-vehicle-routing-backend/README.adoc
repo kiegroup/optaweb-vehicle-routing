@@ -19,6 +19,7 @@ org.optaweb.vehiclerouting
 │   └── websocket
 └── service
     ├── demo
+    ├── distance
     ├── location
     └── route
 ....

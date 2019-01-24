@@ -14,10 +14,13 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.routing;
+package org.optaweb.vehiclerouting.service.distance;
 
 import org.optaweb.vehiclerouting.domain.Location;
 
+/**
+ * Stores distances between locations.
+ */
 public interface DistanceRepository {
 
     void saveDistance(Location from, Location to, double distance);
