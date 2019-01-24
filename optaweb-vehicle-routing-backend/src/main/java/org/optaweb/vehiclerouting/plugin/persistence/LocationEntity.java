@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.plugin.persistence;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,12 +41,13 @@ public class LocationEntity {
     @Column(precision = 10, scale = 7)
     private BigDecimal longitude;
 
-    public LocationEntity() {
+    private LocationEntity() {
+        // for JPA
     }
 
     public LocationEntity(BigDecimal latitude, BigDecimal longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude = Objects.requireNonNull(latitude);
+        this.longitude = Objects.requireNonNull(longitude);
     }
 
     public long getId() {

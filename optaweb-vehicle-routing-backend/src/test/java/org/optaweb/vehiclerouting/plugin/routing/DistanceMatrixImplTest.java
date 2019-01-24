@@ -17,19 +17,40 @@
 package org.optaweb.vehiclerouting.plugin.routing;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.service.route.Router;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class DistanceMatrixImplTest {
 
+    @Mock
+    private Router router;
+    @Mock
+    private DistanceRepository distanceRepository;
+    @InjectMocks
+    private DistanceMatrixImpl distanceMatrix;
+
     @Test
-    public void test() {
-        DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockRouter());
+    public void should_calculate_distance_map() {
+        when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0); // empty repository
+        DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockRouter(), distanceRepository);
 
         Location l0 = location(100, 0);
         Location l1 = location(111, 1);
@@ -75,14 +96,63 @@ public class DistanceMatrixImplTest {
         assertThat(distanceMatrix.getRow(l9neg)).isNull();
     }
 
+    @Test
+    public void should_call_router_and_persist_distances_when_repo_is_empty() {
+        Location l1 = location(100, -1);
+        Location l2 = location(111, 20);
+        when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0);
+        when(router.getDistance(l1.getLatLng(), l2.getLatLng())).thenReturn(12.0);
+        when(router.getDistance(l2.getLatLng(), l1.getLatLng())).thenReturn(21.0);
+
+        // no calculation for the first location
+        distanceMatrix.addLocation(l1);
+        verifyZeroInteractions(router);
+        verifyZeroInteractions(distanceRepository);
+
+        distanceMatrix.addLocation(l2);
+
+        // getting distances from the repository (unsuccessful)
+        verify(distanceRepository).getDistance(l2, l1);
+        verify(distanceRepository).getDistance(l1, l2);
+
+        // distances are calculated and persisted
+        verify(distanceRepository).saveDistance(l2, l1, 21.0);
+        verify(distanceRepository).saveDistance(l1, l2, 12.0);
+    }
+
+    @Test
+    public void should_not_call_router_when_repo_is_full() {
+        Location l1 = location(1, 0);
+        Location l2 = location(2, 0);
+        when(distanceRepository.getDistance(l1, l2)).thenReturn(0.0);
+        when(distanceRepository.getDistance(l2, l1)).thenReturn(1.0);
+
+        // no calculation for the first location
+        distanceMatrix.addLocation(l1);
+        verifyZeroInteractions(router);
+        verifyZeroInteractions(distanceRepository);
+
+        distanceMatrix.addLocation(l2);
+
+        // get distances from the repository
+        verify(distanceRepository).getDistance(l2, l1);
+        verify(distanceRepository).getDistance(l1, l2);
+
+        // nothing to persist
+        verify(distanceRepository, never()).saveDistance(any(Location.class), any(Location.class), anyDouble());
+        // no calculation
+        verifyZeroInteractions(router);
+    }
+
     private static Location location(long id, int longitude) {
         return new Location(id, new LatLng(BigDecimal.ZERO, BigDecimal.valueOf(longitude)));
     }
 
-    private static class MockRouter extends RouterImpl {
+    private static class MockRouter implements Router {
 
-        MockRouter() {
-            super(null);
+        @Override
+        public List<LatLng> getRoute(LatLng from, LatLng to) {
+            throw new UnsupportedOperationException();
         }
 
         @Override
