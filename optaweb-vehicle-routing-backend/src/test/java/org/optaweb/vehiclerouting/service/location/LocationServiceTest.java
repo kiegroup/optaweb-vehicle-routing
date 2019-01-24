@@ -31,8 +31,10 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -92,5 +94,14 @@ public class LocationServiceTest {
         verify(repository).locations();
         verify(distanceMatrix, times(persistedLocations.size())).addLocation(location);
         verify(optimizer, times(persistedLocations.size())).addLocation(location, distanceMatrix);
+    }
+
+    @Test
+    public void should_not_optimize_and_roll_back_if_distance_calculation_fails() {
+        doThrow(RuntimeException.class).when(distanceMatrix).addLocation(any());
+        locationService.createLocation(latLng);
+        verifyZeroInteractions(optimizer);
+        // roll back
+        verify(repository).removeLocation(location.getId());
     }
 }
