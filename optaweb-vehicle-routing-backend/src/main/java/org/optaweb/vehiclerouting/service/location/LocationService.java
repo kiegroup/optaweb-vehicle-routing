@@ -18,6 +18,8 @@ package org.optaweb.vehiclerouting.service.location;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class LocationService {
+
+    private static final Logger logger = LoggerFactory.getLogger(LocationService.class);
 
     private final LocationRepository repository;
     private final RouteOptimizer optimizer;
@@ -46,12 +50,20 @@ public class LocationService {
     }
 
     public synchronized void createLocation(LatLng latLng) {
+        // TODO if (router.isLocationAvailable(latLng))
         submitToPlanner(repository.createLocation(latLng));
     }
 
     private void submitToPlanner(Location location) {
-        // TODO handle no route -> roll back the problem fact change
-        distanceMatrix.addLocation(location);
+        try {
+            distanceMatrix.addLocation(location);
+        } catch (Exception e) {
+            // TODO relay the error event to the client
+            logger.warn("Failed to calculate distances for {}, it will be discarded", location);
+            logger.debug("Details:", e);
+            repository.removeLocation(location.getId());
+            return; // do not proceed to optimizer
+        }
         optimizer.addLocation(location, distanceMatrix);
     }
 
