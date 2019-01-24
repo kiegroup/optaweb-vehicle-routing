@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
+import org.optaweb.vehiclerouting.service.route.Router;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -31,12 +32,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class DistanceMatrixImpl implements DistanceMatrix {
 
-    private final RouterImpl router;
+    private final Router router;
+    private final DistanceRepository distanceRepository;
     private final Map<Location, Map<Long, Double>> matrix = new HashMap<>();
 
     @Autowired
-    public DistanceMatrixImpl(RouterImpl router) {
+    public DistanceMatrixImpl(Router router, DistanceRepository distanceRepository) {
         this.router = router;
+        this.distanceRepository = distanceRepository;
     }
 
     @Override
@@ -46,10 +49,19 @@ public class DistanceMatrixImpl implements DistanceMatrix {
         distanceMap.put(location.getId(), 0.0);
         for (Map.Entry<Location, Map<Long, Double>> entry : matrix.entrySet()) {
             Location other = entry.getKey();
-            distanceMap.put(other.getId(), router.getDistance(location.getLatLng(), other.getLatLng()));
-            entry.getValue().put(location.getId(), router.getDistance(other.getLatLng(), location.getLatLng()));
+            distanceMap.put(other.getId(), calculateOrRestoreDistance(location, other));
+            entry.getValue().put(location.getId(), calculateOrRestoreDistance(other, location));
         }
         matrix.put(location, distanceMap);
+    }
+
+    private double calculateOrRestoreDistance(Location from, Location to) {
+        double distance = distanceRepository.getDistance(from, to);
+        if (distance < 0) {
+            distance = router.getDistance(from.getLatLng(), to.getLatLng());
+            distanceRepository.saveDistance(from, to, distance);
+        }
+        return distance;
     }
 
     @Override
