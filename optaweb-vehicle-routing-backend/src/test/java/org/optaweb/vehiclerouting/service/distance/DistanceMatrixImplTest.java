@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.routing;
+package org.optaweb.vehiclerouting.service.distance;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
@@ -27,7 +26,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.service.route.Router;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -41,7 +39,7 @@ import static org.mockito.Mockito.when;
 public class DistanceMatrixImplTest {
 
     @Mock
-    private Router router;
+    private DistanceCalculator distanceCalculator;
     @Mock
     private DistanceRepository distanceRepository;
     @InjectMocks
@@ -50,7 +48,7 @@ public class DistanceMatrixImplTest {
     @Test
     public void should_calculate_distance_map() {
         when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0); // empty repository
-        DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockRouter(), distanceRepository);
+        DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockDistanceCalculator(), distanceRepository);
 
         Location l0 = location(100, 0);
         Location l1 = location(111, 1);
@@ -101,12 +99,12 @@ public class DistanceMatrixImplTest {
         Location l1 = location(100, -1);
         Location l2 = location(111, 20);
         when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0);
-        when(router.getDistance(l1.getLatLng(), l2.getLatLng())).thenReturn(12.0);
-        when(router.getDistance(l2.getLatLng(), l1.getLatLng())).thenReturn(21.0);
+        when(distanceCalculator.getDistance(l1.getLatLng(), l2.getLatLng())).thenReturn(12.0);
+        when(distanceCalculator.getDistance(l2.getLatLng(), l1.getLatLng())).thenReturn(21.0);
 
         // no calculation for the first location
         distanceMatrix.addLocation(l1);
-        verifyZeroInteractions(router);
+        verifyZeroInteractions(distanceCalculator);
         verifyZeroInteractions(distanceRepository);
 
         distanceMatrix.addLocation(l2);
@@ -129,7 +127,7 @@ public class DistanceMatrixImplTest {
 
         // no calculation for the first location
         distanceMatrix.addLocation(l1);
-        verifyZeroInteractions(router);
+        verifyZeroInteractions(distanceCalculator);
         verifyZeroInteractions(distanceRepository);
 
         distanceMatrix.addLocation(l2);
@@ -141,19 +139,14 @@ public class DistanceMatrixImplTest {
         // nothing to persist
         verify(distanceRepository, never()).saveDistance(any(Location.class), any(Location.class), anyDouble());
         // no calculation
-        verifyZeroInteractions(router);
+        verifyZeroInteractions(distanceCalculator);
     }
 
     private static Location location(long id, int longitude) {
         return new Location(id, new LatLng(BigDecimal.ZERO, BigDecimal.valueOf(longitude)));
     }
 
-    private static class MockRouter implements Router {
-
-        @Override
-        public List<LatLng> getRoute(LatLng from, LatLng to) {
-            throw new UnsupportedOperationException();
-        }
+    private static class MockDistanceCalculator implements DistanceCalculator {
 
         @Override
         public double getDistance(LatLng from, LatLng to) {

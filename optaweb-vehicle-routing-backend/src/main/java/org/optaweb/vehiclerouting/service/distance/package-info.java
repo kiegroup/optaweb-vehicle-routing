@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.route;
-
-import java.util.List;
-
-import org.optaweb.vehiclerouting.domain.LatLng;
-
-public interface Router {
-
-    List<LatLng> getRoute(LatLng from, LatLng to);
-
-}
+/**
+ * Contains distance matrix calculation.
+ */
+package org.optaweb.vehiclerouting.service.distance;

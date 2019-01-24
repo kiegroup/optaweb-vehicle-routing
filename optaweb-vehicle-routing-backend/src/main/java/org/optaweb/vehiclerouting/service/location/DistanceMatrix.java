@@ -21,7 +21,7 @@ import java.util.Map;
 import org.optaweb.vehiclerouting.domain.Location;
 
 /**
- * Keeps the information about distances between every pair of locations.
+ * Holds distances between every pair of locations.
  */
 public interface DistanceMatrix {
 
@@ -32,8 +32,5 @@ public interface DistanceMatrix {
     // TODO replace with getDistance(LatLng, LatLng, VehicleType)
     Map<Long, Double> getRow(Location location);
 
-    /**
-     * Remove all data from the matrix.
-     */
     void clear();
 }
