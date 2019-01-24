@@ -16,6 +16,8 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
+import java.math.BigDecimal;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -39,6 +41,23 @@ public class LocationRepositoryImplTest {
     @Before
     public void setUp() {
         repository = new LocationRepositoryImpl(crudRepository);
+    }
+
+    @Test
+    public void db_schema() {
+        // https://wiki.openstreetmap.org/wiki/Node#Structure
+        final BigDecimal maxLatitude = new BigDecimal("90.0000000");
+        final BigDecimal maxLongitude = new BigDecimal("214.7483647");
+        final BigDecimal minLatitude = maxLatitude.negate();
+        final BigDecimal minLongitude = maxLongitude.negate();
+
+        LocationEntity minLocation = new LocationEntity(minLatitude, minLongitude);
+        LocationEntity maxLocation = new LocationEntity(maxLatitude, maxLongitude);
+        crudRepository.save(minLocation);
+        crudRepository.save(maxLocation);
+
+        assertThat(crudRepository.findById(minLocation.getId())).get().isEqualTo(minLocation);
+        assertThat(crudRepository.findById(maxLocation.getId())).get().isEqualTo(maxLocation);
     }
 
     @Test
