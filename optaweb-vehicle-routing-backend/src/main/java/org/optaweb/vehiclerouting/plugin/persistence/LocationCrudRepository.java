@@ -17,14 +17,10 @@
 package org.optaweb.vehiclerouting.plugin.persistence;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.rest.core.annotation.RestResource;
-import org.springframework.web.bind.annotation.CrossOrigin;
 
 /**
  * Location repository.
  */
-@CrossOrigin
-@RestResource(path = "locations") // FIXME disable REST
 public interface LocationCrudRepository extends CrudRepository<LocationEntity, Long> {
 
 }
