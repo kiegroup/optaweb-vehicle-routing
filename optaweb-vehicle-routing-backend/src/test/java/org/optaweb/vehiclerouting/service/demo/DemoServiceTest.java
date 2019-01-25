@@ -39,7 +39,7 @@ public class DemoServiceTest {
 
     @Test
     public void demoSize() {
-        Assertions.assertThat(demoService.getDemoSize()).isEqualTo(Belgium.values().length);
+        Assertions.assertThat(demoService.getDemoSize()).isEqualTo(1000);
     }
 
     @Test

@@ -37,11 +37,19 @@ public class DemoService {
 
     @Async
     public void loadDemo() {
-        Arrays.stream(Belgium.values())
-                .forEach(city -> locationService.createLocation(LatLng.valueOf(city.lat, city.lng)));
+        for (int i = 0; i < 25; i++) {
+            Arrays.stream(Belgium.values()).forEach(city -> locationService.createLocation(randomize(city)));
+        }
+    }
+
+    private LatLng randomize(Belgium city) {
+        return LatLng.valueOf(
+                city.lat + Math.random() * 0.08 - 0.04,
+                city.lng + Math.random() * 0.08 - 0.04
+        );
     }
 
     public int getDemoSize() {
-        return Belgium.values().length;
+        return Belgium.values().length * 25;
     }
 }
