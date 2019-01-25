@@ -23,6 +23,9 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("app.demo")
 public class DemoProperties {
 
+    /**
+     * Number of demo locations.
+     */
     private int size = Belgium.values().length;
 
     public int getSize() {
