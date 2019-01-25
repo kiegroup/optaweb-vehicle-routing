@@ -16,7 +16,7 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
-import org.assertj.core.api.Assertions;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -25,21 +25,32 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class DemoServiceTest {
 
     @Mock
+    private DemoProperties demoProperties;
+    @Mock
     private LocationService locationService;
     @InjectMocks
     private DemoService demoService;
 
+    private final int demoSize = 46134;
+
+    @Before
+    public void setUp() {
+        when(demoProperties.getSize()).thenReturn(demoSize);
+    }
+
     @Test
     public void demoSize() {
-        Assertions.assertThat(demoService.getDemoSize()).isEqualTo(1000);
+        assertThat(demoService.getDemoSize()).isEqualTo(demoSize);
     }
 
     @Test
