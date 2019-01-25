@@ -43,11 +43,11 @@ public class DistanceMatrixImpl implements DistanceMatrix {
         // The map must be thread-safe because it is accessed from solver thread!
         Map<Long, Double> distanceMap = new ConcurrentHashMap<>();
         distanceMap.put(location.getId(), 0.0);
-        for (Map.Entry<Location, Map<Long, Double>> entry : matrix.entrySet()) {
+        matrix.entrySet().stream().parallel().forEach(entry -> {
             Location other = entry.getKey();
             distanceMap.put(other.getId(), calculateOrRestoreDistance(location, other));
             entry.getValue().put(location.getId(), calculateOrRestoreDistance(other, location));
-        }
+        });
         matrix.put(location, distanceMap);
     }
 
