@@ -65,6 +65,11 @@ Contains outer layers such as optimization, persistence, routing and web.
 |Example
 |Description
 
+|app.demo.size
+|positive integer
+|42
+|Number of locations that will be created when user loads the demo.
+
 |app.optimizer.timeout
 |java.time.Duration
 |* 1m

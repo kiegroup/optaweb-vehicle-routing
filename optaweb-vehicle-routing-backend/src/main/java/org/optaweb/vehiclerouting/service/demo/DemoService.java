@@ -16,8 +16,6 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
-import java.util.Arrays;
-
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.springframework.scheduling.annotation.Async;
@@ -29,16 +27,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class DemoService {
 
+    private final DemoProperties properties;
     private final LocationService locationService;
 
-    public DemoService(LocationService locationService) {
+    public DemoService(DemoProperties properties, LocationService locationService) {
+        this.properties = properties;
         this.locationService = locationService;
     }
 
     @Async
     public void loadDemo() {
-        for (int i = 0; i < 25; i++) {
-            Arrays.stream(Belgium.values()).forEach(city -> locationService.createLocation(randomize(city)));
+        for (int i = 0; i < getDemoSize(); i++) {
+            // TODO retry if location service fails to create the location
+            locationService.createLocation(randomize(Belgium.values()[i % Belgium.values().length]));
         }
     }
 
@@ -50,6 +51,6 @@ public class DemoService {
     }
 
     public int getDemoSize() {
-        return Belgium.values().length * 25;
+        return properties.getSize();
     }
 }
