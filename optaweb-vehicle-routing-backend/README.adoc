@@ -108,6 +108,10 @@ https://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-system
 You can learn more about Spring Boot Externalized Configuration in
 https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Guide].
 
+[TIP]
+Use `src/main/resources/application-local.properties` to store your personal configuration
+without affecting Git working tree.
+
 == Dependency Rules
 
 Compile-time dependencies are only allowed in the direction from outer layers
