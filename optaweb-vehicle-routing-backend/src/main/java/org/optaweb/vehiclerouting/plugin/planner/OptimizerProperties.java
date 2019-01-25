@@ -27,6 +27,9 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties("app.optimizer")
 public class OptimizerProperties {
 
+    /**
+     * Timeout for route optimization.
+     */
     @DurationUnit(ChronoUnit.SECONDS)
     private Duration timeout = Duration.ofMinutes(1);
 

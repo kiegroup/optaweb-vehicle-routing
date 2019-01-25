@@ -27,6 +27,9 @@ import org.springframework.validation.annotation.Validated;
 @Validated
 public class RoutingProperties {
 
+    /**
+     * OpenStreetMap file name.
+     */
     @NotNull
     private String osmFile;
 
