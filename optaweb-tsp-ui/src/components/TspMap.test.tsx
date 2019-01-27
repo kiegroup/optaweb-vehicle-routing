@@ -16,38 +16,40 @@
 
 import { shallow } from 'enzyme';
 import * as React from 'react';
-import TspMap from './TspMap';
+import TspMap, { ITspMapProps } from './TspMap';
 
 describe('TSP Map View', () => {
   it('should render correctly', () => {
-    const props = {
+    const props: ITspMapProps = {
       center: {
         lat: 1.345678,
         lng: 1.345678,
       },
       clickHandler: jest.fn(),
-      distance: '10',
-      domicileId: 1,
       removeHandler: jest.fn(),
-      route: [
-        {
-          id: 1,
-          lat: 1.345678,
-          lng: 1.345678,
-        },
-        {
-          id: 2,
-          lat: 2.345678,
-          lng: 2.345678,
-        },
-        {
-          id: 3,
-          lat: 3.676111,
-          lng: 3.568333,
-        },
-      ],
-      segments: [[0.111222, 0.222333], [0.444555, 0.555666]] as Array<[number, number]>,
       selectedId: 1,
+      tsp: {
+        distance: '10',
+        domicileId: 1,
+        route: [
+          {
+            id: 1,
+            lat: 1.345678,
+            lng: 1.345678,
+          },
+          {
+            id: 2,
+            lat: 2.345678,
+            lng: 2.345678,
+          },
+          {
+            id: 3,
+            lat: 3.676111,
+            lng: 3.568333,
+          },
+        ],
+        segments: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
+      },
       zoom: 5,
     };
     expect.assertions(1);

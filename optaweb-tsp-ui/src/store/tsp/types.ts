@@ -14,49 +14,55 @@
  * limitations under the License.
  */
 
-export const SOLUTION_UPDATES_DATA = 'SOLUTION_UPDATES_DATA';
-export const DELETE_LOCATION = 'DELETE_LOCATION';
-export const ADD_LOCATION = 'ADD_LOCATION';
-export const ADD_DEMO_LOCATION = 'ADD_DEMO_LOCATION';
-export const CLEAR_SOLUTION = 'CLEAR_SOLUTION';
-export const WS_CONNECT = 'WS_CONNECT';
-export const WS_CONNECT_SUCCESS = 'WS_CONNECT_SUCCESS';
-export const WS_CONNECT_FAILURE = 'WS_CONNECT_FAILURE';
-
-export type SOLUTION_UPDATES_DATA = typeof SOLUTION_UPDATES_DATA;
-export type DELETE_LOCATION = typeof DELETE_LOCATION;
-export type ADD_LOCATION = typeof ADD_LOCATION;
-export type ADD_DEMO_LOCATION = typeof ADD_DEMO_LOCATION;
-export type CLEAR_SOLUTION = typeof CLEAR_SOLUTION;
-export type WS_CONNECT = typeof WS_CONNECT;
-export type WS_CONNECT_SUCCESS = typeof WS_CONNECT_SUCCESS;
-export type WS_CONNECT_FAILURE = typeof WS_CONNECT_FAILURE;
-
-export enum WS_CONNECTION_STATE {
-  OPEN,
-  CLOSED,
-  ERROR,
-}
+import { Action } from 'redux';
 
 export interface ILatLng {
-  lat: number;
-  lng: number;
+  readonly lat: number;
+  readonly lng: number;
 }
 
-export interface IdLatLng extends ILatLng {
-  id: number;
+export interface ILocation extends ILatLng {
+  readonly id: number;
 }
 
 export interface ITSPRoute {
-  route: IdLatLng[];
-  domicileId: number;
-  distance?: string;
+  readonly route: ILocation[];
+  readonly domicileId: number;
+  readonly distance: string;
 }
 
 export interface ITSPRouteWithSegments extends ITSPRoute {
-  segments: Array<[number, number]>;
+  readonly segments: ILatLng[];
 }
 
-export interface IWSConnection {
-  ws: WS_CONNECTION_STATE;
+export enum ActionType {
+  SOLUTION_UPDATES_DATA = 'SOLUTION_UPDATES_DATA',
+  DELETE_LOCATION = 'DELETE_LOCATION',
+  ADD_LOCATION = 'ADD_LOCATION',
+  LOAD_DEMO = 'LOAD_DEMO',
+  CLEAR_SOLUTION = 'CLEAR_SOLUTION',
 }
+
+export interface IAddLocationAction extends Action<ActionType.ADD_LOCATION> {
+  readonly value: ILatLng;
+}
+
+export interface IClearSolutionAction extends Action<ActionType.CLEAR_SOLUTION> {
+}
+
+export interface IDeleteLocationAction extends Action<ActionType.DELETE_LOCATION> {
+  readonly value: number;
+}
+
+export interface ILoadDemoAction extends Action<ActionType.LOAD_DEMO> {
+}
+
+export interface IUpdateTSPSolutionAction extends Action<ActionType.SOLUTION_UPDATES_DATA> {
+  readonly solution: ITSPRouteWithSegments;
+}
+
+export type TspAction =
+  | IAddLocationAction
+  | IClearSolutionAction
+  | IDeleteLocationAction
+  | IUpdateTSPSolutionAction;

@@ -35,12 +35,6 @@
       "severity": "warn"
     },
     "object-shorthand-properties-first": false,
-    "prefer-array-literal": [
-      true,
-      {
-        "allow-type-parameters": true
-      }
-    ],
     // This rule is here for now because of https://github.com/palantir/tslint-react/issues/120
     "variable-name": [
       true,

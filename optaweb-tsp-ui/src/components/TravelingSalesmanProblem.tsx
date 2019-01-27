@@ -14,39 +14,47 @@
  * limitations under the License.
  */
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { IAppState } from '../store/configStore';
+import { tspOperations } from '../store/tsp';
 import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
 import LocationList from './LocationList';
 import TspMap from './TspMap';
 
-export interface ITravelingSalesmanProblemProps {
+interface IStateProps {
   tsp: ITSPRouteWithSegments;
-  removeHandler: (id: number) => void;
-  loadHandler: () => void;
-  clearHandler: () => void;
-  addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
 }
 
-interface ITravelingSalesmanProblemState {
+interface IDispatchProps {
+  removeHandler: typeof tspOperations.deleteLocation;
+  loadHandler: typeof tspOperations.loadDemo;
+  clearHandler: typeof tspOperations.clearSolution;
+  addHandler: typeof tspOperations.addLocation;
+}
+
+type Props = IStateProps & IDispatchProps;
+
+interface IState {
   center: ILatLng;
   maxDistance: number;
   selectedId: number;
   zoom: number;
 }
 
-export default class TravelingSalesmanProblem extends React.Component<
-  ITravelingSalesmanProblemProps,
-  ITravelingSalesmanProblemState
-> {
-  static defaultProps = {
-    tsp: {
-      distance: '0',
-      domicileId: -1,
-      route: [],
-      segments: [],
-    },
-  };
+const mapStateToProps = ({ route }: IAppState): IStateProps => ({
+  tsp: route,
+});
 
-  constructor(props: ITravelingSalesmanProblemProps) {
+const mapDispatchToProps: IDispatchProps = {
+  addHandler: tspOperations.addLocation,
+  clearHandler: tspOperations.clearSolution,
+  loadHandler: tspOperations.loadDemo,
+  removeHandler: tspOperations.deleteLocation,
+};
+
+class TravelingSalesmanProblem extends React.Component<Props, IState> {
+
+  constructor(props: Props) {
     super(props);
 
     this.state = {
@@ -59,10 +67,15 @@ export default class TravelingSalesmanProblem extends React.Component<
       zoom: 9,
     };
     this.onSelectLocation = this.onSelectLocation.bind(this);
+    this.handleMapClick = this.handleMapClick.bind(this);
   }
 
   onSelectLocation(id: number) {
     this.setState({ selectedId: id });
+  }
+
+  handleMapClick(e: any) {
+    this.props.addHandler(e.latlng);
   }
 
   componentWillUpdate() {
@@ -77,19 +90,16 @@ export default class TravelingSalesmanProblem extends React.Component<
   render() {
     const { center, zoom, selectedId, maxDistance } = this.state;
     const {
-      tsp: { route, segments, domicileId, distance },
+      tsp,
       removeHandler,
       loadHandler,
       clearHandler,
-      addHandler,
     } = this.props;
 
     return (
       <div>
         <LocationList
-          route={route}
-          domicileId={domicileId}
-          distance={distance}
+          route={tsp}
           maxDistance={maxDistance}
           removeHandler={removeHandler}
           selectHandler={this.onSelectLocation}
@@ -100,13 +110,13 @@ export default class TravelingSalesmanProblem extends React.Component<
           center={center}
           zoom={zoom}
           selectedId={selectedId}
-          route={route}
-          segments={segments}
-          domicileId={domicileId}
-          clickHandler={addHandler}
+          clickHandler={this.handleMapClick}
           removeHandler={removeHandler}
+          tsp={tsp}
         />
       </div>
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(TravelingSalesmanProblem);

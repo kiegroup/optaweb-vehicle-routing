@@ -14,9 +14,16 @@
  * limitations under the License.
  */
 
-import * as tspOperations from './operations';
-import reducer from './reducers';
+/**
+ * ThunkCommand is a ThunkAction that has no result (it's typically something like
+ * `Promise<ActionAfterDataFetched>`, but sending messages over WebSocket usually has no response
+ * (with the exception of subscribe), so most of our operations are void).
+ *
+ * @template A Type of action(s) allowed to be dispatched.
+ */
+import { Action } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import TspClient from '../websocket/TspClient';
+import { IAppState } from './configStore';
 
-export { tspOperations };
-
-export default reducer;
+export type ThunkCommand<A extends Action> = ThunkAction<void, IAppState, TspClient, A>;

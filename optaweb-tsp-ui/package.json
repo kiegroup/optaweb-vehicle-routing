@@ -12,6 +12,7 @@
     "react-scripts-ts": "^4.0.8",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "sockjs-client": "^1.3.0",
     "webstomp-client": "^1.2.6"
   },

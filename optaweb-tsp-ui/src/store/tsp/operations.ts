@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,100 +14,47 @@
  * limitations under the License.
  */
 
-import { Dispatch } from 'redux';
-import * as SockJS from 'sockjs-client';
-import webstomp, { Client } from 'webstomp-client';
-import Creators from './actions';
-import { ILatLng } from './types';
+import { ActionCreator } from 'redux';
+import { ThunkCommand } from '../types';
+import * as actions from './actions';
+import {
+  IAddLocationAction,
+  IClearSolutionAction,
+  IDeleteLocationAction,
+  ILatLng,
+  ILoadDemoAction,
+} from './types';
 
-const {
-  addLocation,
-  clearSolution,
-  deleteLocation,
-  updateTSPSolution,
-  initWsConnection,
-  wsConnectionSuccess,
-  wsConnectionFailure,
-} = Creators;
+export const updateTSPSolution = actions.updateTSPSolution;
 
-interface IWSConnectionOpts {
-  socketUrl: string;
-}
-
-interface ITSPConfig extends IWSConnectionOpts {
-  dispatch: Dispatch;
-}
-
-let webSocket: WebSocket;
-let stompClient: Client;
-
-/**
- * Map dispatch function to socket events
- *
- * @param {Dispatch} dispatch
- */
-function mapDispatchToEvents(dispatch: Dispatch) {
-  stompClient.subscribe('/topic/route', (message) => {
-    const tsp = JSON.parse(message.body);
-    dispatch(updateTSPSolution(tsp));
-  });
-}
-
-/**
- * Connect TSP module to the websocket and use dispatch function issue
- * action about TSP
- *
- * @param {Dispatch} dispatch
- * @param {string} socketUrl
- */
-function connectWs({ dispatch, socketUrl }: ITSPConfig): void {
-  webSocket = new SockJS(socketUrl);
-  stompClient = webstomp.over(webSocket, { debug: true });
-
-  // dispatch WS connection initializing
-  dispatch(initWsConnection(socketUrl));
-  stompClient.connect(
-    {}, // no headers
-    () => {
-      // on connection, subscribe to the route topic
-      dispatch(wsConnectionSuccess(stompClient));
-      mapDispatchToEvents(dispatch);
-    },
-    (err) => {
-      // on error, schedule a reconnection attempt
-      dispatch(wsConnectionFailure(err));
-      setTimeout(() => connectWs({ dispatch, socketUrl }), 1000);
-    },
-  );
-}
-
-const addLocationOp = (location: ILatLng) => {
-  stompClient.send('/app/place', JSON.stringify(location));
-  return addLocation(location);
+export const addLocation: ActionCreator<ThunkCommand<IAddLocationAction>> = (
+  location: ILatLng,
+) => (
+  dispatch, state, client,
+) => {
+  dispatch(actions.addLocation(location));
+  client.addLocation(location);
 };
 
-const loadDemoOp = () => {
-  stompClient.send('/app/demo');
-  return addLocation();
+export const loadDemo: ActionCreator<ThunkCommand<ILoadDemoAction>> = () => (
+  dispatch, state, client,
+) => {
+  dispatch(actions.loadDemo());
+  client.loadDemo();
 };
 
-const deleteLocationOp = (locationId: number) => {
-  stompClient.send(
-    `/app/place/${locationId}/delete`,
-    JSON.stringify(locationId),
-  );
-  return deleteLocation(locationId);
+export const deleteLocation: ActionCreator<ThunkCommand<IDeleteLocationAction>> = (
+  locationId: number,
+) => (
+  dispatch, state, client,
+) => {
+  dispatch(actions.deleteLocation(locationId));
+  client.deleteLocation(locationId);
 };
 
-const clearSolutionOp = () => {
-  stompClient.send('/app/clear');
-  return clearSolution();
-};
-
-export default {
-  addLocation: addLocationOp,
-  clearSolution: clearSolutionOp,
-  connect: connectWs,
-  deleteLocation: deleteLocationOp,
-  loadDemo: loadDemoOp,
+export const clearSolution: ActionCreator<ThunkCommand<IClearSolutionAction>> = () => (
+  dispatch, state, client,
+) => {
+  dispatch(actions.clearSolution());
+  client.clear();
 };

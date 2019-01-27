@@ -17,78 +17,56 @@
 import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
 import ConnectionError from 'src/components/ConnectionError';
-import TravelingSalesmanProblem, {
-  ITravelingSalesmanProblemProps,
-} from '../components/TravelingSalesmanProblem';
+import TravelingSalesmanProblem from '../components/TravelingSalesmanProblem';
 import { IAppState } from '../store/configStore';
-import { ITSPRouteWithSegments, tspOperations } from '../store/tsp/index';
-import * as types from '../store/tsp/types';
+import { websocketOperations } from '../store/websocket';
+import { WebSocketConnectionStatus } from '../store/websocket/types';
 import './App.css';
 
-export interface IAppProps extends ITravelingSalesmanProblemProps {
-  tsp: ITSPRouteWithSegments & types.IWSConnection;
-  removeHandler: (id: number) => void;
-  loadHandler: () => void;
-  addHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
-  clearHandler: () => void;
+interface IStateProps {
+  connectionStatus: WebSocketConnectionStatus;
 }
 
-const mapStateToProps = ({ tsp }: IAppState) => ({ tsp });
+interface IDispatchProps {
+  connectClient: typeof websocketOperations.connectClient;
+}
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  loadHandler() {
-    dispatch(tspOperations.loadDemo());
-  },
-  addHandler(e: any) {
-    dispatch(tspOperations.addLocation(e.latlng));
-  },
-  clearHandler() {
-    dispatch(tspOperations.clearSolution());
-  },
-  removeHandler(id: number) {
-    dispatch(tspOperations.deleteLocation(id));
-  },
+type Props = IStateProps & IDispatchProps;
+
+const mapStateToProps = ({ connectionStatus }: IAppState): IStateProps => ({
+  connectionStatus,
 });
 
-class App extends React.Component<IAppProps> {
-  constructor(props: IAppProps) {
+const mapDispatchToProps: IDispatchProps = {
+  connectClient: websocketOperations.connectClient,
+};
+
+class App extends React.Component<Props> {
+  constructor(props: Props) {
     super(props);
-    this.onClickRemove = this.onClickRemove.bind(this);
   }
 
-  onClickRemove(id: number) {
-    const {
-      tsp: { domicileId, route },
-      removeHandler,
-    } = this.props;
-    if (id !== domicileId || route.length === 1) {
-      removeHandler(id);
-    }
+  componentDidMount(): void {
+    this.props.connectClient();
   }
 
   render() {
-    const { ws } = this.props.tsp;
+    const { connectionStatus } = this.props;
     return (
       <div>
-        {ws === types.WS_CONNECTION_STATE.ERROR && (
+        {connectionStatus === WebSocketConnectionStatus.ERROR && (
           <ConnectionError
             title="Oops... Connection error!"
             message="Please check your network connection."
             icon={<UnpluggedIcon />}
-            help={
-              'When connection is available the application will be functional again.'
-            }
+            help="When connection is available the application will be functional again."
           />
         )}
-        <TravelingSalesmanProblem {...this.props} />
+        <TravelingSalesmanProblem />
       </div>
     );
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -5,32 +5,33 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <LocationList
     clearHandler={[MockFunction]}
-    distance="10"
-    domicileId={1}
     loadHandler={[MockFunction]}
     maxDistance={1}
     removeHandler={[MockFunction]}
     route={
-      Array [
-        Object {
-          "id": 1,
-          "lat": 1.345678,
-          "lng": 1.345678,
-        },
-        Object {
-          "id": 2,
-          "lat": 2.345678,
-          "lng": 2.345678,
-        },
-        Object {
-          "id": 3,
-          "lat": 3.676111,
-          "lng": 3.568333,
-        },
-      ]
+      Object {
+        "distance": "10",
+        "domicileId": 1,
+        "route": Array [
+          Object {
+            "id": 1,
+            "lat": 1.345678,
+            "lng": 1.345678,
+          },
+          Object {
+            "id": 2,
+            "lat": 2.345678,
+            "lng": 2.345678,
+          },
+          Object {
+            "id": 3,
+            "lat": 3.676111,
+            "lng": 3.568333,
+          },
+        ],
+      }
     }
     selectHandler={[MockFunction]}
-    ws={0}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],
@@ -1037,14 +1038,17 @@ ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <LocationList
     clearHandler={[MockFunction]}
-    distance="10"
-    domicileId={1}
     loadHandler={[MockFunction]}
     maxDistance={1}
     removeHandler={[MockFunction]}
-    route={Array []}
+    route={
+      Object {
+        "distance": "0",
+        "domicileId": -1,
+        "route": Array [],
+      }
+    }
     selectHandler={[MockFunction]}
-    ws={0}
   />,
   Symbol(enzyme.__renderer__): Object {
     "batchedUpdates": [Function],

@@ -14,99 +14,39 @@
  * limitations under the License.
  */
 
-import { Client, Frame } from 'webstomp-client';
+import { ActionCreator } from 'redux';
 import {
-  ADD_LOCATION,
-  CLEAR_SOLUTION,
-  DELETE_LOCATION,
+  ActionType,
+  IAddLocationAction,
+  IClearSolutionAction,
+  IDeleteLocationAction,
   ILatLng,
+  ILoadDemoAction,
   ITSPRouteWithSegments,
-  SOLUTION_UPDATES_DATA,
-  WS_CONNECT,
-  WS_CONNECT_FAILURE,
-  WS_CONNECT_SUCCESS,
+  IUpdateTSPSolutionAction,
 } from './types';
 
-export interface IAddLocationAction {
-  readonly type: typeof ADD_LOCATION;
-  value?: ILatLng;
-}
-
-export interface IClearSolutionAction {
-  readonly type: typeof CLEAR_SOLUTION;
-}
-
-export interface IDeleteLocationAction {
-  readonly type: typeof DELETE_LOCATION;
-  value: number;
-}
-
-export interface IUpdateTSPSolutionAction {
-  readonly type: typeof SOLUTION_UPDATES_DATA;
-  solution: ITSPRouteWithSegments;
-}
-
-export interface InitWsConnectionAction {
-  readonly type: typeof WS_CONNECT;
-  value: string;
-}
-
-export interface IWsConnectionSuccessAction {
-  readonly type: typeof WS_CONNECT_SUCCESS;
-  value: Client;
-}
-
-export interface IWsConnectionFailureAction {
-  readonly type: typeof WS_CONNECT_FAILURE;
-  value: Frame | CloseEvent;
-}
-
-const addLocation = (location?: ILatLng): IAddLocationAction => ({
-  type: ADD_LOCATION,
+export const addLocation: ActionCreator<IAddLocationAction> = (location: ILatLng) => ({
+  type: ActionType.ADD_LOCATION,
   value: location,
 });
 
-const deleteLocation = (id: number): IDeleteLocationAction => ({
-  type: DELETE_LOCATION,
+export const deleteLocation: ActionCreator<IDeleteLocationAction> = (id: number) => ({
+  type: ActionType.DELETE_LOCATION,
   value: id,
 });
 
-const clearSolution = (): IClearSolutionAction => ({
-  type: CLEAR_SOLUTION,
+export const loadDemo: ActionCreator<ILoadDemoAction> = () => ({
+  type: ActionType.LOAD_DEMO,
 });
 
-const updateTSPSolution = (
+export const clearSolution: ActionCreator<IClearSolutionAction> = () => ({
+  type: ActionType.CLEAR_SOLUTION,
+});
+
+export const updateTSPSolution: ActionCreator<IUpdateTSPSolutionAction> = (
   solution: ITSPRouteWithSegments,
-): IUpdateTSPSolutionAction => ({
+) => ({
   solution,
-  type: SOLUTION_UPDATES_DATA,
+  type: ActionType.SOLUTION_UPDATES_DATA,
 });
-
-const initWsConnection = (socketUrl: string): InitWsConnectionAction => ({
-  type: WS_CONNECT,
-  value: socketUrl,
-});
-
-const wsConnectionSuccess = (
-  webstompSocket: Client,
-): IWsConnectionSuccessAction => ({
-  type: WS_CONNECT_SUCCESS,
-  value: webstompSocket,
-});
-
-const wsConnectionFailure = (
-  err: Frame | CloseEvent,
-): IWsConnectionFailureAction => ({
-  type: WS_CONNECT_FAILURE,
-  value: err,
-});
-
-export default {
-  addLocation,
-  clearSolution,
-  deleteLocation,
-  initWsConnection,
-  updateTSPSolution,
-  wsConnectionFailure,
-  wsConnectionSuccess,
-};

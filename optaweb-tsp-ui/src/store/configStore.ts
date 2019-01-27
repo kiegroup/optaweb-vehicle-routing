@@ -14,51 +14,53 @@
  * limitations under the License.
  */
 
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
+// it's possible to disable the extension in production
+// by importing from redux-devtools-extension/developmentOnly
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
-import tspReducer, {
-  ITSPRouteWithSegments,
-  IWSConnection,
-  tspOperations,
-} from './tsp/index';
+import thunk from 'redux-thunk';
+import TspClient from '../websocket/TspClient';
+import tspReducer from './tsp';
+import { ITSPRouteWithSegments } from './tsp/types';
+import connectionReducer from './websocket';
+import { WebSocketConnectionStatus } from './websocket/types';
 
 export interface IAppState {
-  tsp: ITSPRouteWithSegments & IWSConnection;
+  readonly route: ITSPRouteWithSegments;
+  readonly connectionStatus: WebSocketConnectionStatus;
 }
 
 export interface IAppStoreConfig {
-  socketUrl: string;
+  readonly socketUrl: string;
 }
 
 export default function configureStore(
   { socketUrl }: IAppStoreConfig,
   preloadedState?: IAppState,
-) {
-  // create logger middleware
-  const logger = createLogger();
+): Store<IAppState> {
 
-  /* eslint-disable no-underscore-dangle */
-  const composeEnhancers =
-    (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-  /* eslint-enable */
+  const tspClient = new TspClient(socketUrl);
 
-  // combining reducers
-  const rootReducer = combineReducers({ tsp: tspReducer });
+  const middlewares = [createLogger(), thunk.withExtraArgument(tspClient)];
+  const middlewareEnhancer = applyMiddleware(...middlewares);
 
-  const store = createStore(
-    rootReducer,
-    preloadedState,
-    composeEnhancers(applyMiddleware(logger)),
-  );
+  const enhancers = [middlewareEnhancer];
+  const composedEnhancers = composeWithDevTools(...enhancers);
 
-  tspOperations.connect({
-    dispatch: store.dispatch,
-    socketUrl,
+  // map reducers to state slices
+  const rootReducer = combineReducers<IAppState>({
+    connectionStatus: connectionReducer,
+    route: tspReducer,
   });
 
   /* if (process.env.NODE_ENV !== 'production' && module.hot) {
     module.hot.accept('./reducers', () => store.replaceReducer(rootReducer));
   } */
 
-  return store;
+  return createStore(
+    rootReducer,
+    preloadedState,
+    composedEnhancers,
+  );
 }

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import * as tspOperations from './operations';
+import * as websocketOperations from './operations';
 import reducer from './reducers';
 
-export { tspOperations };
+export { websocketOperations };
 
 export default reducer;

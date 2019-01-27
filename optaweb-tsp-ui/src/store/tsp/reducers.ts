@@ -14,40 +14,24 @@
  * limitations under the License.
  */
 
-import {
-  IDeleteLocationAction,
-  IUpdateTSPSolutionAction,
-  IWsConnectionFailureAction,
-  IWsConnectionSuccessAction,
-} from './actions';
-import * as types from './types';
+import { ActionType, ITSPRouteWithSegments, TspAction } from './types';
 
-export interface ITSPReducerState
-  extends types.ITSPRouteWithSegments,
-    types.IWSConnection {
-}
-
-const INITIAL_STATE: ITSPReducerState = {
+const initialTspState: ITSPRouteWithSegments = {
   distance: '0.00',
   domicileId: -1,
   route: [],
   segments: [],
-  ws: types.WS_CONNECTION_STATE.CLOSED,
 };
 
 export default function tspReducer(
-  state = INITIAL_STATE,
-  action:
-    | IDeleteLocationAction
-    | IUpdateTSPSolutionAction
-    | IWsConnectionSuccessAction
-    | IWsConnectionFailureAction,
-): ITSPReducerState {
+  state = initialTspState,
+  action: TspAction,
+): ITSPRouteWithSegments {
   switch (action.type) {
-    case types.SOLUTION_UPDATES_DATA: {
+    case ActionType.SOLUTION_UPDATES_DATA: {
       const { route, segments, distance } = action.solution;
       if (route.length === 0 && distance) {
-        return { ...INITIAL_STATE };
+        return { ...initialTspState };
       }
       return {
         ...state,
@@ -57,18 +41,11 @@ export default function tspReducer(
         segments,
       };
     }
-    case types.DELETE_LOCATION: {
+    case ActionType.DELETE_LOCATION: {
       if (state.route.length === 1) {
-        return { ...INITIAL_STATE };
+        return { ...initialTspState };
       }
       return state;
-    }
-    case types.WS_CONNECT_SUCCESS: {
-      return { ...state, ws: types.WS_CONNECTION_STATE.OPEN };
-    }
-
-    case types.WS_CONNECT_FAILURE: {
-      return { ...state, ws: types.WS_CONNECTION_STATE.ERROR };
     }
     default:
       return state;

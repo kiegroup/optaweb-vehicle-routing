@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-// import { render } from 'enzyme';
-// import React from 'react';
+import { ActionType, WebSocketAction, WebSocketConnectionStatus } from './types';
 
-describe('-- 🦆 TSP -- ', () => {
-  it('dummy test', () => {
-    expect({ expected: true, actual: true });
-  });
-});
-
-/* Application will mount */
-/*
- it('mount without crashing', () => {
-  mount(<App />).unmount();
-});
-*/
+export default function wsReducer(
+  state = WebSocketConnectionStatus.CLOSED,
+  action: WebSocketAction,
+): WebSocketConnectionStatus {
+  switch (action.type) {
+    case ActionType.WS_CONNECT_SUCCESS: {
+      return WebSocketConnectionStatus.OPEN;
+    }
+    case ActionType.WS_CONNECT_FAILURE: {
+      return WebSocketConnectionStatus.ERROR;
+    }
+    default:
+      return state;
+  }
+}

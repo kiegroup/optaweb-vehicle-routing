@@ -22,7 +22,7 @@ export interface ILocationProps {
   id: number;
   removeDisabled: boolean;
   removeHandler: (id: number) => void;
-  selectHandler: (e: any) => void; // FIXME: Event Type
+  selectHandler: (id: number) => void;
 }
 
 const Location: React.SFC<ILocationProps> = ({
