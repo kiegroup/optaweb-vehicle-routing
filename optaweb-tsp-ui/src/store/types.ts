@@ -23,7 +23,7 @@
  */
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import TspClient from '../websocket/TspClient';
+import WebSocketClient from '../websocket/WebSocketClient';
 import { IAppState } from './configStore';
 
-export type ThunkCommand<A extends Action> = ThunkAction<void, IAppState, TspClient, A>;
+export type ThunkCommand<A extends Action> = ThunkAction<void, IAppState, WebSocketClient, A>;

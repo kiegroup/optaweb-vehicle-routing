@@ -28,7 +28,7 @@ type ConnectClientThunk = ActionCreator<ThunkCommand<WebSocketAction
   | IDemoLoadingFinishedAction>>;
 
 /**
- * Connect TSP client to WebSocket.
+ * Connect the client to WebSocket.
  */
 export const connectClient: ConnectClientThunk = () => (dispatch, state, client) => {
   // dispatch WS connection initializing

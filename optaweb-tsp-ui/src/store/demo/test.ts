@@ -17,7 +17,7 @@
 import { Middleware } from 'redux';
 import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock-store';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import TspClient from '../../websocket/TspClient';
+import WebSocketClient from '../../websocket/WebSocketClient';
 import { IAppState } from '../configStore';
 import { RouteAction } from '../route/types';
 import { WebSocketAction, WebSocketConnectionStatus } from '../websocket/types';
@@ -25,21 +25,21 @@ import * as actions from './actions';
 import reducer, { demoOperations } from './index';
 import { IDemo, ILoadDemoAction } from './types';
 
-jest.mock('../../websocket/TspClient');
+jest.mock('../../websocket/WebSocketClient');
 
 describe('Demo operations', () => {
   it('should dispatch actions and call client', () => {
     let demoCallbackCapture: (demoSize: number) => void = uninitializedCallbackCapture;
 
-    const tspClient = new TspClient('');
+    const client = new WebSocketClient('');
     // @ts-ignore
-    tspClient.loadDemo.mockImplementation((demoCallback) => {
+    client.loadDemo.mockImplementation((demoCallback) => {
       demoCallbackCapture = demoCallback;
     });
 
     // mock store
-    const middlewares: Middleware[] = [thunk.withExtraArgument(tspClient)];
-    type DispatchExts = ThunkDispatch<IAppState, TspClient,
+    const middlewares: Middleware[] = [thunk.withExtraArgument(client)];
+    type DispatchExts = ThunkDispatch<IAppState, WebSocketClient,
       WebSocketAction | RouteAction | ILoadDemoAction>;
     const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
       createMockStore<IAppState, DispatchExts>(middlewares);
@@ -47,7 +47,7 @@ describe('Demo operations', () => {
 
     // verify loadDemo operation calls the client
     store.dispatch(demoOperations.loadDemo());
-    expect(tspClient.loadDemo).toHaveBeenCalledTimes(1);
+    expect(client.loadDemo).toHaveBeenCalledTimes(1);
 
     // simulate client receives demo size and passes it to demo callback
     const demoSize = 314354;

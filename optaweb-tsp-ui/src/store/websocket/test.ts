@@ -17,7 +17,7 @@
 import { Middleware } from 'redux';
 import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock-store';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import TspClient from '../../websocket/TspClient';
+import WebSocketClient from '../../websocket/WebSocketClient';
 import { IAppState } from '../configStore';
 import { routeOperations } from '../route';
 import { IRouteWithSegments, IUpdateRouteAction } from '../route/types';
@@ -25,7 +25,7 @@ import * as actions from './actions';
 import reducer, { websocketOperations } from './index';
 import { WebSocketAction, WebSocketConnectionStatus } from './types';
 
-jest.mock('../../websocket/TspClient');
+jest.mock('../../websocket/WebSocketClient');
 jest.useFakeTimers();
 
 const uninitializedCallbackCapture = () => {
@@ -47,21 +47,21 @@ describe('WebSocket client operations', () => {
     let successCallbackCapture: () => void = uninitializedCallbackCapture;
     let subscribeCallbackCap: (route: IRouteWithSegments) => void = uninitializedCallbackCapture;
 
-    const tspClient = new TspClient('');
+    const client = new WebSocketClient('');
     // @ts-ignore
-    tspClient.connect.mockImplementation((successCallback, errorCallback) => {
+    client.connect.mockImplementation((successCallback, errorCallback) => {
       successCallbackCapture = successCallback;
       errorCallbackCapture = errorCallback;
     });
 
     // @ts-ignore
-    tspClient.subscribe.mockImplementation((callback) => {
+    client.subscribe.mockImplementation((callback) => {
       subscribeCallbackCap = callback;
     });
 
     // mock store
-    const middlewares: Middleware[] = [thunk.withExtraArgument(tspClient)];
-    type DispatchExts = ThunkDispatch<IAppState, TspClient,
+    const middlewares: Middleware[] = [thunk.withExtraArgument(client)];
+    type DispatchExts = ThunkDispatch<IAppState, WebSocketClient,
       WebSocketAction | IUpdateRouteAction>;
     const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
       createMockStore<IAppState, DispatchExts>(middlewares);
@@ -92,7 +92,7 @@ describe('WebSocket client operations', () => {
       actions.initWsConnection(),
       actions.wsConnectionSuccess(),
     ]);
-    expect(tspClient.subscribe).toHaveBeenCalledTimes(1);
+    expect(client.subscribe).toHaveBeenCalledTimes(1);
 
     store.clearActions();
 
