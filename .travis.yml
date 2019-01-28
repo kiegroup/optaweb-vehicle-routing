@@ -8,7 +8,7 @@ jobs:
         directories:
           - "$HOME/.npm"
       before_install:
-        - "cd optaweb-tsp-ui"
+        - "cd optaweb-vehicle-routing-frontend"
       # most important checks first
       script:
         - npm run build

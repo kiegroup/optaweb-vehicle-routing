@@ -1,6 +1,6 @@
 {
-  "short_name": "OptaWeb TSP",
-  "name": "OptaWeb Traveling Salesman",
+  "short_name": "OptaWeb VRP",
+  "name": "OptaWeb Vehicle Routing",
   "icons": [
     {
       "src": "favicon.ico",
