@@ -29,10 +29,9 @@ describe('TSP Map View', () => {
       clickHandler: jest.fn(),
       domicileId: 1,
       removeHandler: jest.fn(),
-      selectedId: 1,
-      tsp: {
+      route: {
         distance: '10',
-        route: [
+        locations: [
           {
             id: 1,
             lat: 1.345678,
@@ -51,6 +50,7 @@ describe('TSP Map View', () => {
         ],
         segments: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
       },
+      selectedId: 1,
       zoom: 5,
     };
     expect.assertions(1);

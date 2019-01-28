@@ -16,7 +16,7 @@
 
 import * as SockJS from 'sockjs-client';
 import webstomp, { Client, Frame } from 'webstomp-client';
-import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
+import { ILatLng, IRouteWithSegments } from '../store/route/types';
 
 export default class TspClient {
 
@@ -63,7 +63,7 @@ export default class TspClient {
     this.stompClient.send('/app/clear');
   }
 
-  subscribe(subscriptionCallback: (route: ITSPRouteWithSegments) => any): void {
+  subscribe(subscriptionCallback: (route: IRouteWithSegments) => any): void {
     this.stompClient.subscribe('/topic/route', (message) => {
       const tsp = JSON.parse(message.body);
       subscriptionCallback(tsp);

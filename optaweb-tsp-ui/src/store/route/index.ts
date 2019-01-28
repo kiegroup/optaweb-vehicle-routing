@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import * as tspOperations from './operations';
+import * as routeOperations from './operations';
 import reducer from './reducers';
-import * as tspSelectors from './selectors';
+import * as routeSelectors from './selectors';
 
 export {
-  tspOperations,
-  tspSelectors,
+  routeOperations,
+  routeSelectors,
 };
 
 export default reducer;

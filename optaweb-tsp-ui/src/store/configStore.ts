@@ -23,13 +23,13 @@ import thunk from 'redux-thunk';
 import TspClient from '../websocket/TspClient';
 import demoReducer from './demo';
 import { IDemo } from './demo/types';
-import tspReducer from './tsp';
-import { ITSPRouteWithSegments } from './tsp/types';
+import routeReducer from './route';
+import { IRouteWithSegments } from './route/types';
 import connectionReducer from './websocket';
 import { WebSocketConnectionStatus } from './websocket/types';
 
 export interface IAppState {
-  readonly route: ITSPRouteWithSegments;
+  readonly route: IRouteWithSegments;
   readonly connectionStatus: WebSocketConnectionStatus;
   readonly demo: IDemo;
 }
@@ -55,7 +55,7 @@ export default function configureStore(
   const rootReducer = combineReducers<IAppState>({
     connectionStatus: connectionReducer,
     demo: demoReducer,
-    route: tspReducer,
+    route: routeReducer,
   });
 
   /* if (process.env.NODE_ENV !== 'production' && module.hot) {

@@ -17,14 +17,14 @@
 import { ActionCreator } from 'redux';
 import { demoOperations } from '../demo';
 import { IDemoLoadingFinishedAction } from '../demo/types';
-import { tspOperations } from '../tsp';
-import { IUpdateTSPSolutionAction } from '../tsp/types';
+import { routeOperations } from '../route';
+import { IUpdateRouteAction } from '../route/types';
 import { ThunkCommand } from '../types';
 import * as actions from './actions';
 import { WebSocketAction } from './types';
 
 type ConnectClientThunk = ActionCreator<ThunkCommand<WebSocketAction
-  | IUpdateTSPSolutionAction
+  | IUpdateRouteAction
   | IDemoLoadingFinishedAction>>;
 
 /**
@@ -38,8 +38,8 @@ export const connectClient: ConnectClientThunk = () => (dispatch, state, client)
       // on connection, subscribe to the route topic
       dispatch(actions.wsConnectionSuccess());
       client.subscribe((route) => {
-        dispatch(tspOperations.updateTSPSolution(route));
-        if (state().demo.isLoading && route.route.length === state().demo.demoSize) {
+        dispatch(routeOperations.updateRoute(route));
+        if (state().demo.isLoading && route.locations.length === state().demo.demoSize) {
           dispatch(demoOperations.demoLoaded());
         }
       });

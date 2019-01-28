@@ -16,7 +16,7 @@
 
 import { Button, Card, CardBody, CardHeader } from '@patternfly/react-core';
 import * as React from 'react';
-import { ITSPRoute } from '../store/tsp/types';
+import { IRoute } from '../store/route/types';
 import Location from './Location';
 import TripData from './TripData';
 
@@ -26,7 +26,7 @@ export interface ILocationListProps {
   loadHandler: () => void;
   clearHandler: () => void;
   maxDistance: number;
-  route: ITSPRoute;
+  route: IRoute;
   domicileId: number;
   isDemoLoading: boolean;
 }
@@ -53,7 +53,7 @@ const renderEmptyLocationList = ({
 };
 
 const renderLocationList = ({
-  route: { distance, route },
+  route: { distance, locations },
   domicileId,
   removeHandler,
   selectHandler,
@@ -66,7 +66,7 @@ const renderLocationList = ({
       <CardHeader>
         Distance: {distance}
         <br />
-        Locations: {route.length}
+        Locations: {locations.length}
         <TripData
           maxDistance={maxDistance}
           distance={parseInt(distance, 10) || maxDistance}
@@ -88,7 +88,7 @@ const renderLocationList = ({
         on the height of CardHeader (above).
         */}
         <div style={{ maxHeight: 'calc(100vh - 24px - 24px - 8px - 196px)', overflowY: 'auto' }}>
-          {route
+          {locations
             .slice(0) // clone the array because
             // sort is done in place (that would affect the route)
             .sort((a, b) => a.id - b.id)
@@ -96,7 +96,7 @@ const renderLocationList = ({
               <Location
                 key={location.id}
                 id={location.id}
-                removeDisabled={route.length > 1 && location.id === domicileId}
+                removeDisabled={locations.length > 1 && location.id === domicileId}
                 removeHandler={removeHandler}
                 selectHandler={selectHandler}
               />
@@ -116,7 +116,7 @@ const LocationList: React.SFC<ILocationListProps> = (
       style={{ zIndex: 500 }}
     >
       <div className="leaflet-control leaflet-bar">
-        {props.route.route.length === 0
+        {props.route.locations.length === 0
           ? renderEmptyLocationList(props)
           : renderLocationList(props)}
       </div>

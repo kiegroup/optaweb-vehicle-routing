@@ -17,9 +17,9 @@
 import { ActionCreator } from 'redux';
 import { ThunkCommand } from '../types';
 import * as actions from './actions';
-import { IAddLocationAction, IClearSolutionAction, IDeleteLocationAction, ILatLng } from './types';
+import { IAddLocationAction, IClearRouteAction, IDeleteLocationAction, ILatLng } from './types';
 
-export const updateTSPSolution = actions.updateTSPSolution;
+export const updateRoute = actions.updateRoute;
 
 export const addLocation: ActionCreator<ThunkCommand<IAddLocationAction>> = (
   location: ILatLng,
@@ -39,9 +39,9 @@ export const deleteLocation: ActionCreator<ThunkCommand<IDeleteLocationAction>> 
   client.deleteLocation(locationId);
 };
 
-export const clearSolution: ActionCreator<ThunkCommand<IClearSolutionAction>> = () => (
+export const clearRoute: ActionCreator<ThunkCommand<IClearRouteAction>> = () => (
   dispatch, state, client,
 ) => {
-  dispatch(actions.clearSolution());
+  dispatch(actions.clearRoute());
   client.clear();
 };

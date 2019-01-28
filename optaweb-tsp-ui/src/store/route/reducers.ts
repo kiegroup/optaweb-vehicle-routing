@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-import { ActionType, ITSPRouteWithSegments, TspAction } from './types';
+import { ActionType, IRouteWithSegments, RouteAction } from './types';
 
-export const initialTspState: ITSPRouteWithSegments = {
+export const initialRouteState: IRouteWithSegments = {
   distance: '0.00',
-  route: [],
+  locations: [],
   segments: [],
 };
 
-export default function tspReducer(
-  state = initialTspState,
-  action: TspAction,
-): ITSPRouteWithSegments {
+export default function routeReducer(
+  state = initialRouteState,
+  action: RouteAction,
+): IRouteWithSegments {
   switch (action.type) {
     case ActionType.SOLUTION_UPDATES_DATA: {
-      return action.solution;
+      return action.route;
     }
     case ActionType.DELETE_LOCATION: {
-      if (state.route.length === 1) {
-        return { ...initialTspState };
+      if (state.locations.length === 1) {
+        return { ...initialRouteState };
       }
       return state;
     }

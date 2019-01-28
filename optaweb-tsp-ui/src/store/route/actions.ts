@@ -18,11 +18,11 @@ import { ActionCreator } from 'redux';
 import {
   ActionType,
   IAddLocationAction,
-  IClearSolutionAction,
+  IClearRouteAction,
   IDeleteLocationAction,
   ILatLng,
-  ITSPRouteWithSegments,
-  IUpdateTSPSolutionAction,
+  IRouteWithSegments,
+  IUpdateRouteAction,
 } from './types';
 
 export const addLocation: ActionCreator<IAddLocationAction> = (location: ILatLng) => ({
@@ -35,13 +35,13 @@ export const deleteLocation: ActionCreator<IDeleteLocationAction> = (id: number)
   value: id,
 });
 
-export const clearSolution: ActionCreator<IClearSolutionAction> = () => ({
+export const clearRoute: ActionCreator<IClearRouteAction> = () => ({
   type: ActionType.CLEAR_SOLUTION,
 });
 
-export const updateTSPSolution: ActionCreator<IUpdateTSPSolutionAction> = (
-  solution: ITSPRouteWithSegments,
+export const updateRoute: ActionCreator<IUpdateRouteAction> = (
+  route: IRouteWithSegments,
 ) => ({
-  solution,
+  route,
   type: ActionType.SOLUTION_UPDATES_DATA,
 });

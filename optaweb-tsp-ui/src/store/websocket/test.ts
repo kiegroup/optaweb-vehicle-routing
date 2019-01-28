@@ -19,8 +19,8 @@ import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import TspClient from '../../websocket/TspClient';
 import { IAppState } from '../configStore';
-import { tspOperations } from '../tsp';
-import { ITSPRouteWithSegments, IUpdateTSPSolutionAction } from '../tsp/types';
+import { routeOperations } from '../route';
+import { IRouteWithSegments, IUpdateRouteAction } from '../route/types';
 import * as actions from './actions';
 import reducer, { websocketOperations } from './index';
 import { WebSocketAction, WebSocketConnectionStatus } from './types';
@@ -45,7 +45,7 @@ describe('WebSocket client operations', () => {
 
     let errorCallbackCapture: (err: any) => void = uninitializedCallbackCapture;
     let successCallbackCapture: () => void = uninitializedCallbackCapture;
-    let subscribeCallbackCap: (route: ITSPRouteWithSegments) => void = uninitializedCallbackCapture;
+    let subscribeCallbackCap: (route: IRouteWithSegments) => void = uninitializedCallbackCapture;
 
     const tspClient = new TspClient('');
     // @ts-ignore
@@ -62,7 +62,7 @@ describe('WebSocket client operations', () => {
     // mock store
     const middlewares: Middleware[] = [thunk.withExtraArgument(tspClient)];
     type DispatchExts = ThunkDispatch<IAppState, TspClient,
-      WebSocketAction | IUpdateTSPSolutionAction>;
+      WebSocketAction | IUpdateRouteAction>;
     const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
       createMockStore<IAppState, DispatchExts>(middlewares);
     const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
@@ -98,7 +98,7 @@ describe('WebSocket client operations', () => {
 
     // simulate response to subscription
     subscribeCallbackCap(route);
-    expect(store.getActions()).toEqual([tspOperations.updateTSPSolution(route)]);
+    expect(store.getActions()).toEqual([routeOperations.updateRoute(route)]);
   });
 });
 
@@ -115,9 +115,8 @@ describe('WebSocket reducers', () => {
   });
 });
 
-const route = {
+const route: IRouteWithSegments = {
   distance: '',
-  domicileId: 0,
-  route: [],
+  locations: [],
   segments: [],
 };
