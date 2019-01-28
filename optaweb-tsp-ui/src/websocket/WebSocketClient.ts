@@ -43,7 +43,7 @@ export default class WebSocketClient {
   }
 
   addLocation(latLng: ILatLng) {
-    this.stompClient.send('/app/place', JSON.stringify(latLng));
+    this.stompClient.send('/app/location', JSON.stringify(latLng));
   }
 
   loadDemo(callback: (demoSize: number) => any): void {
@@ -56,7 +56,7 @@ export default class WebSocketClient {
   }
 
   deleteLocation(locationId: number) {
-    this.stompClient.send(`/app/place/${locationId}/delete`, JSON.stringify(locationId));
+    this.stompClient.send(`/app/location/${locationId}/delete`, JSON.stringify(locationId));
   }
 
   clear() {

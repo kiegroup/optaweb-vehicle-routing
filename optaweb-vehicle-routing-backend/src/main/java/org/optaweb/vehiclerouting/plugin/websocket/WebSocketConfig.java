@@ -34,10 +34,10 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // /tsp-websocket is the HTTP URL for the endpoint to which a WebSocket client needs to connect
+        // /vrp-websocket is the HTTP URL for the endpoint to which a WebSocket client needs to connect
         // for the WebSocket handshake.
         registry
-                .addEndpoint("/tsp-websocket")
+                .addEndpoint("/vrp-websocket")
                 .setAllowedOrigins("*")
                 .withSockJS();
     }

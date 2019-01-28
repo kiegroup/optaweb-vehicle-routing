@@ -25,7 +25,7 @@ import configureStore from './store/configStore';
 import registerServiceWorker from './registerServiceWorker';
 
 const store = configureStore({
-  socketUrl: 'http://localhost:8080/tsp-websocket',
+  socketUrl: 'http://localhost:8080/vrp-websocket',
 });
 
 ReactDOM.render(
