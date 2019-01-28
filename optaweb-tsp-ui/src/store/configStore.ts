@@ -20,7 +20,7 @@ import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
-import TspClient from '../websocket/TspClient';
+import WebSocketClient from '../websocket/WebSocketClient';
 import demoReducer from './demo';
 import { IDemo } from './demo/types';
 import routeReducer from './route';
@@ -43,9 +43,9 @@ export default function configureStore(
   preloadedState?: IAppState,
 ): Store<IAppState> {
 
-  const tspClient = new TspClient(socketUrl);
+  const webSocketClient = new WebSocketClient(socketUrl);
 
-  const middlewares = [createLogger(), thunk.withExtraArgument(tspClient)];
+  const middlewares = [createLogger(), thunk.withExtraArgument(webSocketClient)];
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
   const enhancers = [middlewareEnhancer];

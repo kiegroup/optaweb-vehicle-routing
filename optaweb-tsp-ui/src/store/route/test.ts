@@ -17,7 +17,7 @@
 import { Middleware } from 'redux';
 import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock-store';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import TspClient from '../../websocket/TspClient';
+import WebSocketClient from '../../websocket/WebSocketClient';
 import { IAppState } from '../configStore';
 import { WebSocketAction, WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
@@ -25,15 +25,15 @@ import reducer, { routeOperations, routeSelectors } from './index';
 import { initialRouteState } from './reducers';
 import { ILatLng, IUpdateRouteAction } from './types';
 
-jest.mock('../../websocket/TspClient');
+jest.mock('../../websocket/WebSocketClient');
 
 describe('Route operations', () => {
   it('should dispatch actions and call client', () => {
-    const tspClient = new TspClient('');
+    const client = new WebSocketClient('');
 
     // mock store
-    const middlewares: Middleware[] = [thunk.withExtraArgument(tspClient)];
-    type DispatchExts = ThunkDispatch<IAppState, TspClient,
+    const middlewares: Middleware[] = [thunk.withExtraArgument(client)];
+    type DispatchExts = ThunkDispatch<IAppState, WebSocketClient,
       WebSocketAction | IUpdateRouteAction>;
     const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
       createMockStore<IAppState, DispatchExts>(middlewares);
@@ -41,23 +41,23 @@ describe('Route operations', () => {
 
     store.dispatch(routeOperations.clearRoute());
     expect(store.getActions()).toEqual([actions.clearRoute()]);
-    expect(tspClient.clear).toHaveBeenCalledTimes(1);
+    expect(client.clear).toHaveBeenCalledTimes(1);
 
     store.clearActions();
 
     const id = 3214;
     store.dispatch(routeOperations.deleteLocation(id));
     expect(store.getActions()).toEqual([actions.deleteLocation(id)]);
-    expect(tspClient.deleteLocation).toHaveBeenCalledTimes(1);
-    expect(tspClient.deleteLocation).toHaveBeenCalledWith(id);
+    expect(client.deleteLocation).toHaveBeenCalledTimes(1);
+    expect(client.deleteLocation).toHaveBeenCalledWith(id);
 
     store.clearActions();
 
     const latLng: ILatLng = state.route[0];
     store.dispatch(routeOperations.addLocation(latLng));
     expect(store.getActions()).toEqual([actions.addLocation(latLng)]);
-    expect(tspClient.addLocation).toHaveBeenCalledTimes(1);
-    expect(tspClient.addLocation).toHaveBeenCalledWith(latLng);
+    expect(client.addLocation).toHaveBeenCalledTimes(1);
+    expect(client.addLocation).toHaveBeenCalledWith(latLng);
   });
 });
 

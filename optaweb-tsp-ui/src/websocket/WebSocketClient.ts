@@ -18,7 +18,7 @@ import * as SockJS from 'sockjs-client';
 import webstomp, { Client, Frame } from 'webstomp-client';
 import { ILatLng, IRouteWithSegments } from '../store/route/types';
 
-export default class TspClient {
+export default class WebSocketClient {
 
   readonly socketUrl: string;
   webSocket: WebSocket;
@@ -65,8 +65,8 @@ export default class TspClient {
 
   subscribe(subscriptionCallback: (route: IRouteWithSegments) => any): void {
     this.stompClient.subscribe('/topic/route', (message) => {
-      const tsp = JSON.parse(message.body);
-      subscriptionCallback(tsp);
+      const route = JSON.parse(message.body);
+      subscriptionCallback(route);
     });
   }
 }
