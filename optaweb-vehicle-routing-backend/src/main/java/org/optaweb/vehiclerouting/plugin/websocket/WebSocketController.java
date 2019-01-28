@@ -51,7 +51,7 @@ public class WebSocketController {
     }
 
     /**
-     * Subscribe for updates of the TSP route.
+     * Subscribe for updates of the VRP route.
      * @return route message
      */
     @SubscribeMapping("/route")
@@ -65,7 +65,7 @@ public class WebSocketController {
      * Create new location.
      * @param request new location description
      */
-    @MessageMapping("/place") // TODO rename to location
+    @MessageMapping("/location")
     public void addLocation(PortableLocation request) {
         locationService.addLocation(new LatLng(request.getLatitude(), request.getLongitude()));
     }
@@ -74,7 +74,7 @@ public class WebSocketController {
      * Delete location.
      * @param id ID of the location to be deleted
      */
-    @MessageMapping({"/place/{id}/delete"}) // TODO rename to location
+    @MessageMapping({"/location/{id}/delete"})
     public void removeLocation(@DestinationVariable Long id) {
         locationService.removeLocation(id);
     }
