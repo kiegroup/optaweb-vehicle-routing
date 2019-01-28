@@ -56,7 +56,7 @@ public class RoutePublisherImplTest {
     @Test
     public void portableRoute_empty() {
         PortableRoute portableRoute = routePublisher.portableRoute(Route.empty());
-        assertThat(portableRoute.getRoute()).isEmpty();
+        assertThat(portableRoute.getLocations()).isEmpty();
         assertThat(portableRoute.getSegments()).isEmpty();
     }
 
@@ -77,7 +77,7 @@ public class RoutePublisherImplTest {
 
         PortableRoute portableRoute = routePublisher.portableRoute(route);
         assertThat(portableRoute.getDistance()).isEqualTo(distance);
-        assertThat(portableRoute.getRoute()).containsExactly(
+        assertThat(portableRoute.getLocations()).containsExactly(
                 PortableLocation.fromLocation(location1),
                 PortableLocation.fromLocation(location2)
         );

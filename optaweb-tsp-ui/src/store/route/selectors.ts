@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import { ITSPRouteWithSegments } from './types';
+import { IRoute } from './types';
 
-export const getDomicileId = (route: ITSPRouteWithSegments) => {
-  return route.route.length > 0 ? route.route[0].id : -1;
+export const getDomicileId = (route: IRoute) => {
+  return route.locations.length > 0 ? route.locations[0].id : -1;
 };

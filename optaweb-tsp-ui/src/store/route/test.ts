@@ -21,32 +21,32 @@ import TspClient from '../../websocket/TspClient';
 import { IAppState } from '../configStore';
 import { WebSocketAction, WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
-import reducer, { tspOperations, tspSelectors } from './index';
-import { initialTspState } from './reducers';
-import { ILatLng, IUpdateTSPSolutionAction } from './types';
+import reducer, { routeOperations, routeSelectors } from './index';
+import { initialRouteState } from './reducers';
+import { ILatLng, IUpdateRouteAction } from './types';
 
 jest.mock('../../websocket/TspClient');
 
-describe('TSP operations', () => {
+describe('Route operations', () => {
   it('should dispatch actions and call client', () => {
     const tspClient = new TspClient('');
 
     // mock store
     const middlewares: Middleware[] = [thunk.withExtraArgument(tspClient)];
     type DispatchExts = ThunkDispatch<IAppState, TspClient,
-      WebSocketAction | IUpdateTSPSolutionAction>;
+      WebSocketAction | IUpdateRouteAction>;
     const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
       createMockStore<IAppState, DispatchExts>(middlewares);
     const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
 
-    store.dispatch(tspOperations.clearSolution());
-    expect(store.getActions()).toEqual([actions.clearSolution()]);
+    store.dispatch(routeOperations.clearRoute());
+    expect(store.getActions()).toEqual([actions.clearRoute()]);
     expect(tspClient.clear).toHaveBeenCalledTimes(1);
 
     store.clearActions();
 
     const id = 3214;
-    store.dispatch(tspOperations.deleteLocation(id));
+    store.dispatch(routeOperations.deleteLocation(id));
     expect(store.getActions()).toEqual([actions.deleteLocation(id)]);
     expect(tspClient.deleteLocation).toHaveBeenCalledTimes(1);
     expect(tspClient.deleteLocation).toHaveBeenCalledWith(id);
@@ -54,17 +54,17 @@ describe('TSP operations', () => {
     store.clearActions();
 
     const latLng: ILatLng = state.route[0];
-    store.dispatch(tspOperations.addLocation(latLng));
+    store.dispatch(routeOperations.addLocation(latLng));
     expect(store.getActions()).toEqual([actions.addLocation(latLng)]);
     expect(tspClient.addLocation).toHaveBeenCalledTimes(1);
     expect(tspClient.addLocation).toHaveBeenCalledWith(latLng);
   });
 });
 
-describe('TSP reducers', () => {
-  it('clear solution', () => {
+describe('Route reducers', () => {
+  it('clear route', () => {
     expect(
-      reducer(state.route, actions.clearSolution()),
+      reducer(state.route, actions.clearRoute()),
     ).toEqual(state.route);
   });
   it('add location', () => {
@@ -77,22 +77,22 @@ describe('TSP reducers', () => {
       reducer(state.route, actions.deleteLocation(1)),
     ).toEqual(state.route);
   });
-  it('update solution', () => {
+  it('update route', () => {
     expect(
-      reducer(initialTspState, actions.updateTSPSolution(state.route)),
+      reducer(initialRouteState, actions.updateRoute(state.route)),
     ).toEqual(state.route);
   });
 });
 
-describe('TSP selectors', () => {
+describe('Route selectors', () => {
   it('domicile should be the first location ID', () => {
     expect(
-      tspSelectors.getDomicileId(state.route),
+      routeSelectors.getDomicileId(state.route),
     ).toEqual(1);
   });
   it('domicile should not be a positive number if route is empty', () => {
     expect(
-      tspSelectors.getDomicileId(initialTspState),
+      routeSelectors.getDomicileId(initialRouteState),
     ).not.toBeGreaterThanOrEqual(0);
   });
 });
@@ -105,7 +105,7 @@ const state: IAppState = {
   },
   route: {
     distance: '10',
-    route: [
+    locations: [
       {
         id: 1,
         lat: 1.345678,

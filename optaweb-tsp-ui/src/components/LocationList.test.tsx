@@ -30,7 +30,7 @@ describe('Location List Component', () => {
       removeHandler: jest.fn(),
       route: {
         distance: '0',
-        route: [],
+        locations: [],
       },
       selectHandler: jest.fn(),
     };
@@ -53,7 +53,7 @@ describe('Location List Component', () => {
       removeHandler: jest.fn(),
       route: {
         distance: '10',
-        route: [
+        locations: [
           {
             id: 1,
             lat: 1.345678,
@@ -77,7 +77,7 @@ describe('Location List Component', () => {
     const locationList = shallow(<LocationList {...props} />);
     expect(toJson(locationList)).toMatchSnapshot();
 
-    expect(locationList.find('Location')).toHaveLength(props.route.route.length);
+    expect(locationList.find('Location')).toHaveLength(props.route.locations.length);
   });
 
   it('clear button should be disabled when demo is loading', () => {
@@ -90,7 +90,7 @@ describe('Location List Component', () => {
       removeHandler: jest.fn(),
       route: {
         distance: '10',
-        route: [
+        locations: [
           {
             id: 1,
             lat: 1.345678,

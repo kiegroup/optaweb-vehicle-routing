@@ -25,12 +25,12 @@ export interface ILocation extends ILatLng {
   readonly id: number;
 }
 
-export interface ITSPRoute {
-  readonly route: ILocation[];
+export interface IRoute {
+  readonly locations: ILocation[];
   readonly distance: string;
 }
 
-export interface ITSPRouteWithSegments extends ITSPRoute {
+export interface IRouteWithSegments extends IRoute {
   readonly segments: ILatLng[];
 }
 
@@ -45,19 +45,19 @@ export interface IAddLocationAction extends Action<ActionType.ADD_LOCATION> {
   readonly value: ILatLng;
 }
 
-export interface IClearSolutionAction extends Action<ActionType.CLEAR_SOLUTION> {
+export interface IClearRouteAction extends Action<ActionType.CLEAR_SOLUTION> {
 }
 
 export interface IDeleteLocationAction extends Action<ActionType.DELETE_LOCATION> {
   readonly value: number;
 }
 
-export interface IUpdateTSPSolutionAction extends Action<ActionType.SOLUTION_UPDATES_DATA> {
-  readonly solution: ITSPRouteWithSegments;
+export interface IUpdateRouteAction extends Action<ActionType.SOLUTION_UPDATES_DATA> {
+  readonly route: IRouteWithSegments;
 }
 
-export type TspAction =
+export type RouteAction =
   | IAddLocationAction
-  | IClearSolutionAction
   | IDeleteLocationAction
-  | IUpdateTSPSolutionAction;
+  | IUpdateRouteAction
+  | IClearRouteAction;

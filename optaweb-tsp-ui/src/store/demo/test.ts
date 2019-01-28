@@ -19,7 +19,7 @@ import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import TspClient from '../../websocket/TspClient';
 import { IAppState } from '../configStore';
-import { TspAction } from '../tsp/types';
+import { RouteAction } from '../route/types';
 import { WebSocketAction, WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
 import reducer, { demoOperations } from './index';
@@ -40,7 +40,7 @@ describe('Demo operations', () => {
     // mock store
     const middlewares: Middleware[] = [thunk.withExtraArgument(tspClient)];
     type DispatchExts = ThunkDispatch<IAppState, TspClient,
-      WebSocketAction | TspAction | ILoadDemoAction>;
+      WebSocketAction | RouteAction | ILoadDemoAction>;
     const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
       createMockStore<IAppState, DispatchExts>(middlewares);
     const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
@@ -80,7 +80,7 @@ const state: IAppState = {
   },
   route: {
     distance: '10',
-    route: [
+    locations: [
       {
         id: 1,
         lat: 1.345678,

@@ -17,22 +17,22 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from '../store/configStore';
 import { demoOperations } from '../store/demo';
-import { tspOperations, tspSelectors } from '../store/tsp';
-import { ILatLng, ITSPRouteWithSegments } from '../store/tsp/types';
+import { routeOperations, routeSelectors } from '../store/route';
+import { ILatLng, IRouteWithSegments } from '../store/route/types';
 import LocationList from './LocationList';
 import TspMap from './TspMap';
 
 interface IStateProps {
-  tsp: ITSPRouteWithSegments;
+  route: IRouteWithSegments;
   domicileId: number;
   isDemoLoading: boolean;
 }
 
 interface IDispatchProps {
-  removeHandler: typeof tspOperations.deleteLocation;
+  removeHandler: typeof routeOperations.deleteLocation;
   loadHandler: typeof demoOperations.loadDemo;
-  clearHandler: typeof tspOperations.clearSolution;
-  addHandler: typeof tspOperations.addLocation;
+  clearHandler: typeof routeOperations.clearRoute;
+  addHandler: typeof routeOperations.addLocation;
 }
 
 type Props = IStateProps & IDispatchProps;
@@ -45,16 +45,16 @@ interface IState {
 }
 
 const mapStateToProps = ({ route, demo }: IAppState): IStateProps => ({
-  domicileId: tspSelectors.getDomicileId(route),
+  domicileId: routeSelectors.getDomicileId(route),
   isDemoLoading: demo.isLoading,
-  tsp: route,
+  route,
 });
 
 const mapDispatchToProps: IDispatchProps = {
-  addHandler: tspOperations.addLocation,
-  clearHandler: tspOperations.clearSolution,
+  addHandler: routeOperations.addLocation,
+  clearHandler: routeOperations.clearRoute,
   loadHandler: demoOperations.loadDemo,
-  removeHandler: tspOperations.deleteLocation,
+  removeHandler: routeOperations.deleteLocation,
 };
 
 class TravelingSalesmanProblem extends React.Component<Props, IState> {
@@ -84,7 +84,7 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
   }
 
   componentWillUpdate() {
-    const intDistance = parseInt(this.props.tsp.distance || '0', 10);
+    const intDistance = parseInt(this.props.route.distance || '0', 10);
     const { maxDistance: currentMax } = this.state;
 
     if ((currentMax === -1 && intDistance > 0) || currentMax < intDistance) {
@@ -95,7 +95,7 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
   render() {
     const { center, zoom, selectedId, maxDistance } = this.state;
     const {
-      tsp,
+      route,
       domicileId,
       removeHandler,
       loadHandler,
@@ -106,7 +106,7 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
     return (
       <div>
         <LocationList
-          route={tsp}
+          route={route}
           domicileId={domicileId}
           maxDistance={maxDistance}
           removeHandler={removeHandler}
@@ -121,7 +121,7 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
           selectedId={selectedId}
           clickHandler={this.handleMapClick}
           removeHandler={removeHandler}
-          tsp={tsp}
+          route={route}
           domicileId={domicileId}
         />
       </div>
