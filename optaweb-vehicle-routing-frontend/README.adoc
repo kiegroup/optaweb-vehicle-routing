@@ -1,5 +1,5 @@
-[[optaweb-traveling-salesman-ui]]
-= OptaWeb Traveling Salesman UI
+[[optaweb-vehicle-routing-frontend]]
+= OptaWeb Vehicle Routing Frontend
 
 [[available-scripts]]
 == Available Scripts
