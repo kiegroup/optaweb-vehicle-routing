@@ -39,16 +39,34 @@ public class DistanceMatrixImpl implements DistanceMatrix {
     }
 
     @Override
-    public void addLocation(Location location) {
-        // The map must be thread-safe because it is accessed from solver thread!
-        Map<Long, Double> distanceMap = new ConcurrentHashMap<>();
-        distanceMap.put(location.getId(), 0.0);
-        matrix.entrySet().stream().parallel().forEach(entry -> {
-            Location other = entry.getKey();
-            distanceMap.put(other.getId(), calculateOrRestoreDistance(location, other));
-            entry.getValue().put(location.getId(), calculateOrRestoreDistance(other, location));
+    public void addLocation(Location newLocation) {
+        // Matrix == distance rows.
+        // We're adding a whole new row with distances from the new location to existing ones.
+        // We're also creating a new column by "appending" a new cell to each existing row.
+        // This new column contains distances from each existing location to the new one.
+
+        // The map must be thread-safe because:
+        // - we're updating it from the parallel stream below
+        // - it is accessed from solver thread!
+        Map<Long, Double> distancesToOthers = new ConcurrentHashMap<>(); // the new row
+
+        // distance to self is 0
+        distancesToOthers.put(newLocation.getId(), 0.0);
+
+        // for all entries (rows) in the matrix:
+        matrix.entrySet().stream().parallel().forEach(distanceRow -> {
+            // entry key is the existing (other) location
+            Location other = distanceRow.getKey();
+            // entry value is the data (cells) in the row (distances from the entry key location to any other)
+            Map<Long, Double> distancesFromOther = distanceRow.getValue();
+            // add a new cell to the row with the distance from the entry key location to the new location
+            // (results in a new column at the end of the loop)
+            distancesFromOther.put(newLocation.getId(), calculateOrRestoreDistance(other, newLocation));
+            // add a cell the new distance's row
+            distancesToOthers.put(other.getId(), calculateOrRestoreDistance(newLocation, other));
         });
-        matrix.put(location, distanceMap);
+
+        matrix.put(newLocation, distancesToOthers);
     }
 
     private double calculateOrRestoreDistance(Location from, Location to) {
