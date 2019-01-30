@@ -84,7 +84,7 @@ public class LocationRepositoryImplTest {
 
     @Test
     public void get_and_remove_all_locations() {
-        int locationCount = 132;
+        int locationCount = 8;
         for (int i = 0; i < locationCount; i++) {
             repository.createLocation(LatLng.valueOf(1.0, i / 100.0));
         }
@@ -92,9 +92,10 @@ public class LocationRepositoryImplTest {
         assertThat(crudRepository.count()).isEqualTo(locationCount);
 
         // get a sample location entity from the repository
-        long testedId = 17;
-        assertThat(crudRepository.existsById(testedId)).isTrue();
-        LocationEntity testEntity = crudRepository.findById(testedId).orElseThrow(IllegalStateException::new);
+        assertThat(crudRepository.existsById((long) locationCount)).isTrue();
+        LocationEntity testEntity = crudRepository
+                .findById((long) locationCount)
+                .orElseThrow(IllegalStateException::new);
         Location testLocation = new Location(testEntity.getId(),
                 new LatLng(testEntity.getLatitude(), testEntity.getLongitude()));
 
