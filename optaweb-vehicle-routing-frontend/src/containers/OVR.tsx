@@ -15,12 +15,12 @@
  */
 import * as React from 'react';
 import { connect } from 'react-redux';
+import LocationList from '../components/LocationList';
+import TspMap from '../components/TspMap';
 import { IAppState } from '../store/configStore';
 import { demoOperations } from '../store/demo';
 import { routeOperations, routeSelectors } from '../store/route';
 import { ILatLng, IRouteWithSegments } from '../store/route/types';
-import LocationList from './LocationList';
-import TspMap from './TspMap';
 
 interface IStateProps {
   route: IRouteWithSegments;
