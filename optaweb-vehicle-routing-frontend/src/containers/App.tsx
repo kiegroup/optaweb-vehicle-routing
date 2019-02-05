@@ -18,12 +18,11 @@ import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import ConnectionError from 'src/components/ConnectionError';
-import TravelingSalesmanProblem from '../components/TravelingSalesmanProblem';
 import { IAppState } from '../store/configStore';
 import { websocketOperations } from '../store/websocket';
 import { WebSocketConnectionStatus } from '../store/websocket/types';
 import './App.css';
-
+import TravelingSalesmanProblem from './OVR';
 interface IStateProps {
   connectionStatus: WebSocketConnectionStatus;
 }
@@ -63,10 +62,14 @@ class App extends React.Component<Props> {
             help="When connection is available the application will be functional again."
           />
         )}
+
         <TravelingSalesmanProblem />
       </div>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
