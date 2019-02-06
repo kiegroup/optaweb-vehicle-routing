@@ -1,9 +1,5 @@
 {
-  "extends": [
-    "tslint:recommended",
-    "tslint-react",
-    "tslint-config-airbnb"
-  ],
+  "extends": ["tslint:recommended", "tslint-react", "tslint-config-airbnb"],
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
@@ -27,20 +23,12 @@
     // WHY CAN BE DANGEROUS: https://maarten.mulders.it/blog/2017/07/no-bind-or-arrow-in-jsx-props-why-how.html
     "jsx-no-lambda": false,
     "jsx-no-multiline-js": false,
-    "member-access": [
-      true,
-      "no-public"
-    ],
+    "member-access": [true, "no-public"],
     "no-console": {
       "severity": "warn"
     },
     "object-shorthand-properties-first": false,
     // This rule is here for now because of https://github.com/palantir/tslint-react/issues/120
-    "variable-name": [
-      true,
-      "ban-keywords",
-      "check-format",
-      "allow-pascal-case"
-    ]
+    "variable-name": [true, "ban-keywords", "check-format", "allow-pascal-case"]
   }
 }

@@ -13,15 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {
+  Page,
+  PageSection,
+  PageSectionVariants,
+  Split,
+  SplitItem,
+} from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Route } from 'react-router-dom';
 import LocationList from '../components/LocationList';
+import OVRHeader from '../components/OVRHeader';
 import TspMap from '../components/TspMap';
+import { Depots } from '../routes';
 import { IAppState } from '../store/configStore';
 import { demoOperations } from '../store/demo';
 import { routeOperations, routeSelectors } from '../store/route';
 import { ILatLng, IRouteWithSegments } from '../store/route/types';
-
+import OVRTheme, { OVRThemeConsumer } from '../themes/OVRTheme';
 interface IStateProps {
   route: IRouteWithSegments;
   domicileId: number;
@@ -58,7 +68,6 @@ const mapDispatchToProps: IDispatchProps = {
 };
 
 class TravelingSalesmanProblem extends React.Component<Props, IState> {
-
   constructor(props: Props) {
     super(props);
 
@@ -104,29 +113,55 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
     } = this.props;
 
     return (
-      <div>
-        <LocationList
-          route={route}
-          domicileId={domicileId}
-          maxDistance={maxDistance}
-          removeHandler={removeHandler}
-          selectHandler={this.onSelectLocation}
-          loadHandler={loadHandler}
-          clearHandler={clearHandler}
-          isDemoLoading={isDemoLoading}
-        />
-        <TspMap
-          center={center}
-          zoom={zoom}
-          selectedId={selectedId}
-          clickHandler={this.handleMapClick}
-          removeHandler={removeHandler}
-          route={route}
-          domicileId={domicileId}
-        />
-      </div>
+      <OVRTheme>
+        <OVRThemeConsumer>
+          {({ components }) => (
+            <React.Fragment>
+              {components ? components.Background : undefined}
+              <Page header={OVRHeader()}>
+                <PageSection variant={PageSectionVariants.light}>
+                  <React.Fragment>
+                    <Route path="/depots" component={Depots} />
+                    <Route path="/home" exact={true}>
+                      <Split>
+                        <SplitItem isMain={false}>
+                          <LocationList
+                            route={route}
+                            domicileId={domicileId}
+                            maxDistance={maxDistance}
+                            removeHandler={removeHandler}
+                            selectHandler={this.onSelectLocation}
+                            loadHandler={loadHandler}
+                            clearHandler={clearHandler}
+                            isDemoLoading={isDemoLoading}
+                          />
+                        </SplitItem>
+                        <SplitItem isMain={false}>
+                          <TspMap
+                            center={center}
+                            zoom={zoom}
+                            selectedId={selectedId}
+                            clickHandler={this.handleMapClick}
+                            removeHandler={removeHandler}
+                            route={route}
+                            domicileId={domicileId}
+                          />
+                        </SplitItem>
+                      </Split>
+                    </Route>
+                    >
+                  </React.Fragment>
+                </PageSection>
+              </Page>
+            </React.Fragment>
+          )}
+        </OVRThemeConsumer>
+      </OVRTheme>
     );
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TravelingSalesmanProblem);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TravelingSalesmanProblem);
