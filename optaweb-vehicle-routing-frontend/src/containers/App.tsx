@@ -17,12 +17,13 @@
 import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
 import ConnectionError from 'src/components/ConnectionError';
 import { IAppState } from '../store/configStore';
 import { websocketOperations } from '../store/websocket';
 import { WebSocketConnectionStatus } from '../store/websocket/types';
 import './App.css';
-import TravelingSalesmanProblem from './OVR';
+import OVR from './OVR';
 interface IStateProps {
   connectionStatus: WebSocketConnectionStatus;
 }
@@ -53,7 +54,7 @@ class App extends React.Component<Props> {
   render() {
     const { connectionStatus } = this.props;
     return (
-      <div>
+      <React.Fragment>
         {connectionStatus === WebSocketConnectionStatus.ERROR && (
           <ConnectionError
             title="Oops... Connection error!"
@@ -62,9 +63,10 @@ class App extends React.Component<Props> {
             help="When connection is available the application will be functional again."
           />
         )}
-
-        <TravelingSalesmanProblem />
-      </div>
+        <BrowserRouter>
+          <OVR />
+        </BrowserRouter>
+      </React.Fragment>
     );
   }
 }
