@@ -1,0 +1,99 @@
+/*
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import {
+  Button,
+  ButtonVariant,
+  Dropdown,
+  DropdownItem,
+  DropdownToggle,
+  Toolbar,
+  ToolbarGroup,
+  ToolbarItem,
+} from '@patternfly/react-core';
+import { BellIcon, CogIcon } from '@patternfly/react-icons';
+import * as React from 'react';
+
+export interface IPageToolbarProps {
+  keep?: false;
+}
+
+export function PageToolbar(props: IPageToolbarProps) {
+  const [openTennants, setOpenTennants] = React.useState(false);
+  const [openUser, setOpenUser] = React.useState(false);
+  return (
+    <Toolbar>
+      <ToolbarGroup>
+        <ToolbarItem>
+          <Dropdown
+            isPlain={true}
+            position="right"
+            // tslint:disable-next-line:no-console
+            onSelect={event => console.log(event)}
+            isOpen={openTennants}
+            toggle={
+              <DropdownToggle onToggle={() => setOpenTennants(!openTennants)}>
+                Tennant Name
+              </DropdownToggle>}
+            dropdownItems={[
+              <DropdownItem key={0}>ACMEE Corp</DropdownItem>,
+              <DropdownItem key={1}>Wayne Ent.</DropdownItem>,
+            ]}
+          />
+        </ToolbarItem>
+      </ToolbarGroup>
+      <ToolbarGroup>
+        <ToolbarItem>
+          <Button
+            id="horizontal-example-uid-01"
+            aria-label="Notifications actions"
+            variant={ButtonVariant.plain}
+          >
+            <BellIcon />
+          </Button>
+        </ToolbarItem>
+        <ToolbarItem>
+          <Button
+            id="horizontal-example-uid-02"
+            aria-label="Settings actions"
+            variant={ButtonVariant.plain}
+          >
+            <CogIcon />
+          </Button>
+        </ToolbarItem>
+        <ToolbarItem>
+          <Dropdown
+            isPlain={true}
+            position="right"
+            // tslint:disable-next-line:no-console
+            onSelect={event => console.log(event)}
+            isOpen={openUser}
+            toggle={
+              <DropdownToggle onToggle={() => setOpenUser(!openUser)}>
+                Daniele Fiungo
+              </DropdownToggle>}
+            dropdownItems={[
+              <DropdownItem key={0}>Oswald Cobblepot</DropdownItem>,
+              <DropdownItem key={1}>Bruce Wayne</DropdownItem>,
+            ]}
+          />
+        </ToolbarItem>
+      </ToolbarGroup>
+    </Toolbar>
+  );
+}
+
+export default PageToolbar;

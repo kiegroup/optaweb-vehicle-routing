@@ -111,15 +111,10 @@ const LocationList: React.SFC<ILocationListProps> = (
   props: ILocationListProps,
 ) => {
   return (
-    <div
-      className="leaflet-top leaflet-left leaflet-touch"
-      style={{ zIndex: 500 }}
-    >
-      <div className="leaflet-control leaflet-bar">
+      <div >
         {props.route.locations.length === 0
           ? renderEmptyLocationList(props)
           : renderLocationList(props)}
-      </div>
     </div>
   );
 };
