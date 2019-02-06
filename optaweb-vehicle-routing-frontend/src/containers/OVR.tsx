@@ -13,32 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {
-  Page,
-  PageSection,
-  PageSectionVariants,
-  Split,
-  SplitItem,
-} from '@patternfly/react-core';
+import { Page, PageSection, PageSectionVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { Route } from 'react-router-dom';
-import LocationList from '../components/LocationList';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import OVRHeader from '../components/OVRHeader';
-import TspMap from '../components/TspMap';
-import { Depots } from '../routes';
+import { Depots, Models } from '../routes';
 import { IAppState } from '../store/configStore';
 import { demoOperations } from '../store/demo';
 import { routeOperations, routeSelectors } from '../store/route';
 import { ILatLng, IRouteWithSegments } from '../store/route/types';
 import OVRTheme, { OVRThemeConsumer } from '../themes/OVRTheme';
-interface IStateProps {
+export interface IStateProps {
   route: IRouteWithSegments;
   domicileId: number;
   isDemoLoading: boolean;
 }
 
-interface IDispatchProps {
+export interface IDispatchProps {
   removeHandler: typeof routeOperations.deleteLocation;
   loadHandler: typeof demoOperations.loadDemo;
   clearHandler: typeof routeOperations.clearRoute;
@@ -47,7 +39,7 @@ interface IDispatchProps {
 
 type Props = IStateProps & IDispatchProps;
 
-interface IState {
+export interface IState {
   center: ILatLng;
   maxDistance: number;
   selectedId: number;
@@ -70,40 +62,10 @@ const mapDispatchToProps: IDispatchProps = {
 class TravelingSalesmanProblem extends React.Component<Props, IState> {
   constructor(props: Props) {
     super(props);
-
-    this.state = {
-      center: {
-        lat: 50.85,
-        lng: 4.35,
-      },
-      maxDistance: -1,
-      selectedId: NaN,
-      zoom: 9,
-    };
-    this.onSelectLocation = this.onSelectLocation.bind(this);
-    this.handleMapClick = this.handleMapClick.bind(this);
   }
-
-  onSelectLocation(id: number) {
-    this.setState({ selectedId: id });
-  }
-
-  handleMapClick(e: any) {
-    this.props.addHandler(e.latlng);
-  }
-
-  componentWillUpdate() {
-    const intDistance = parseInt(this.props.route.distance || '0', 10);
-    const { maxDistance: currentMax } = this.state;
-
-    if ((currentMax === -1 && intDistance > 0) || currentMax < intDistance) {
-      this.setState({ maxDistance: intDistance });
-    }
-  }
-
   render() {
-    const { center, zoom, selectedId, maxDistance } = this.state;
     const {
+      addHandler,
       route,
       domicileId,
       removeHandler,
@@ -111,49 +73,41 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
       clearHandler,
       isDemoLoading,
     } = this.props;
-
     return (
       <OVRTheme>
         <OVRThemeConsumer>
           {({ components }) => (
-            <React.Fragment>
-              {components ? components.Background : undefined}
-              <Page header={OVRHeader()}>
-                <PageSection variant={PageSectionVariants.light}>
-                  <React.Fragment>
-                    <Route path="/depots" component={Depots} />
-                    <Route path="/home" exact={true}>
-                      <Split>
-                        <SplitItem isMain={false}>
-                          <LocationList
-                            route={route}
-                            domicileId={domicileId}
-                            maxDistance={maxDistance}
-                            removeHandler={removeHandler}
-                            selectHandler={this.onSelectLocation}
-                            loadHandler={loadHandler}
-                            clearHandler={clearHandler}
-                            isDemoLoading={isDemoLoading}
-                          />
-                        </SplitItem>
-                        <SplitItem isMain={false}>
-                          <TspMap
-                            center={center}
-                            zoom={zoom}
-                            selectedId={selectedId}
-                            clickHandler={this.handleMapClick}
-                            removeHandler={removeHandler}
-                            route={route}
-                            domicileId={domicileId}
-                          />
-                        </SplitItem>
-                      </Split>
-                    </Route>
-                    >
-                  </React.Fragment>
-                </PageSection>
-              </Page>
-            </React.Fragment>
+            <Router>
+              <React.Fragment>
+                {components ? components.Background : undefined}
+                <Page header={OVRHeader()}>
+                  <PageSection variant={PageSectionVariants.default}>
+                    <Route
+                      path="/depots"
+                      exact={true}
+                      render={() => <Depots />}
+                    />
+                    <Route
+                      path="/models"
+                      exact={true}
+                      render={() => (
+                        <Models
+                          {...{
+                            addHandler,
+                            clearHandler,
+                            domicileId,
+                            isDemoLoading,
+                            loadHandler,
+                            removeHandler,
+                            route,
+                          }}
+                        />
+                      )}
+                    />
+                  </PageSection>
+                </Page>
+              </React.Fragment>
+            </Router>
           )}
         </OVRThemeConsumer>
       </OVRTheme>
