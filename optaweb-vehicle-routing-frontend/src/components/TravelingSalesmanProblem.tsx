@@ -20,6 +20,7 @@ import { demoOperations } from '../store/demo';
 import { routeOperations, routeSelectors } from '../store/route';
 import { ILatLng, IRouteWithSegments } from '../store/route/types';
 import LocationList from './LocationList';
+import { IResult } from './SearchBox';
 import TspMap from './TspMap';
 
 interface IStateProps {
@@ -73,6 +74,7 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
     };
     this.onSelectLocation = this.onSelectLocation.bind(this);
     this.handleMapClick = this.handleMapClick.bind(this);
+    this.handleSearchResultClick = this.handleSearchResultClick.bind(this);
   }
 
   onSelectLocation(id: number) {
@@ -81,6 +83,10 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
 
   handleMapClick(e: any) {
     this.props.addHandler(e.latlng);
+  }
+
+  handleSearchResultClick(result: IResult) {
+    this.props.addHandler(result.latLng);
   }
 
   componentWillUpdate() {
@@ -109,6 +115,7 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
           route={route}
           domicileId={domicileId}
           maxDistance={maxDistance}
+          addHandler={this.handleSearchResultClick}
           removeHandler={removeHandler}
           selectHandler={this.onSelectLocation}
           loadHandler={loadHandler}

@@ -22,6 +22,7 @@ import LocationList, { ILocationListProps } from './LocationList';
 describe('Location List Component', () => {
   it('should render correctly with no routes', () => {
     const props: ILocationListProps = {
+      addHandler: jest.fn(),
       clearHandler: jest.fn(),
       domicileId: -1,
       isDemoLoading: false,
@@ -45,6 +46,7 @@ describe('Location List Component', () => {
 
   it('should render correctly with a few routes', () => {
     const props: ILocationListProps = {
+      addHandler: jest.fn(),
       clearHandler: jest.fn(),
       domicileId: 1,
       isDemoLoading: false,
@@ -82,6 +84,7 @@ describe('Location List Component', () => {
 
   it('clear button should be disabled when demo is loading', () => {
     const props: ILocationListProps = {
+      addHandler: jest.fn(),
       clearHandler: jest.fn(),
       domicileId: 1,
       isDemoLoading: true,

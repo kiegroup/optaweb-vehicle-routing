@@ -18,10 +18,11 @@ import { Button, Card, CardBody, CardHeader } from '@patternfly/react-core';
 import * as React from 'react';
 import { IRoute } from '../store/route/types';
 import Location from './Location';
-import SearchBox from './SearchBox';
+import SearchBox, { IResult } from './SearchBox';
 import TripData from './TripData';
 
 export interface ILocationListProps {
+  addHandler: (result: IResult) => void;
   removeHandler: (id: number) => void;
   selectHandler: (id: number) => void;
   loadHandler: () => void;
@@ -56,6 +57,7 @@ const renderEmptyLocationList = ({
 const renderLocationList = ({
   route: { distance, locations },
   domicileId,
+  addHandler,
   removeHandler,
   selectHandler,
   clearHandler,
@@ -82,7 +84,7 @@ const renderLocationList = ({
           Clear
         </Button>
         <br />
-        <SearchBox />
+        <SearchBox addHandler={addHandler} />
       </CardHeader>
       <CardBody>
         {/*
