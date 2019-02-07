@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-import { TextInput } from '@patternfly/react-core';
+import { Button, Grid, GridItem, TextInput } from '@patternfly/react-core';
+import { PlusSquareIcon } from '@patternfly/react-icons';
 import { OpenStreetMapProvider, SearchResult } from 'leaflet-geosearch';
 import * as React from 'react';
 
@@ -23,8 +24,9 @@ interface IProps {
 }
 
 interface IState {
-  query: string;
   timeoutId?: number;
+  query: string;
+  results: string[];
 }
 
 class SearchBox extends React.Component<IProps, IState> {
@@ -33,12 +35,15 @@ class SearchBox extends React.Component<IProps, IState> {
     searchDelay: 500,
   };
 
-  private provider = new OpenStreetMapProvider();
+  private provider = new OpenStreetMapProvider({ params: { countrycodes: 'BE' } });
 
   constructor(props: IProps) {
     super(props);
 
-    this.state = { query: '' };
+    this.state = {
+      query: '',
+      results: [],
+    };
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
   }
@@ -47,22 +52,41 @@ class SearchBox extends React.Component<IProps, IState> {
     window.clearTimeout(this.state.timeoutId);
     const timeoutId = window.setTimeout(
       async () => {
-        const results: SearchResult[] = await this.provider.search({ query });
-        console.log(results);
+        const searchResults: SearchResult[] = await this.provider.search({ query });
+        console.log(searchResults);
+        this.setState({
+          results: searchResults.map(i => i.label),
+        });
       },
       this.props.searchDelay);
-    this.setState({ query, timeoutId });
+    this.setState({
+      query,
+      timeoutId,
+    });
   }
 
   render(): React.ReactNode {
-    const { query } = this.state;
+    const { query, results } = this.state;
     return (
-      <TextInput
-        value={query}
-        type="search"
-        onChange={this.handleTextInputChange}
-        aria-label="geosearch text input"
-      />
+      <div>
+        <TextInput
+          value={query}
+          type="search"
+          aria-label="geosearch text input"
+          onChange={this.handleTextInputChange}
+        />
+
+        {results.map((result, index) => (
+          <Grid key={index}>
+            <GridItem span={11}>{result}</GridItem>
+            <GridItem span={1}>
+              <Button variant="link" type="button">
+                <PlusSquareIcon />
+              </Button>
+            </GridItem>
+          </Grid>
+        ))}
+      </div>
     );
   }
 }

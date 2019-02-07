@@ -25,7 +25,7 @@ declare module 'leaflet-geosearch' {
   }
 
   interface EndpointUrlParams {
-    params: Map<string, string>;
+    params: object;
   }
 
   interface SearchParam {
