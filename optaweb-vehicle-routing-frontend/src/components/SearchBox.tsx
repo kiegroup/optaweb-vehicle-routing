@@ -14,19 +14,34 @@
  * limitations under the License.
  */
 
-import { Button, Grid, GridItem, TextInput } from '@patternfly/react-core';
+import {
+  Button,
+  Grid,
+  GridItem,
+  Text,
+  TextContent,
+  TextInput,
+  TextVariants,
+} from '@patternfly/react-core';
 import { PlusSquareIcon } from '@patternfly/react-icons';
-import { OpenStreetMapProvider, SearchResult } from 'leaflet-geosearch';
+import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import * as React from 'react';
+import { ILatLng } from '../store/route/types';
 
 interface IProps {
   searchDelay: number;
+  addHandler: (result: IResult) => void;
 }
 
 interface IState {
-  timeoutId?: number;
   query: string;
-  results: string[];
+  results: IResult[];
+  attributions: string[];
+}
+
+export interface IResult {
+  address: string;
+  latLng: ILatLng;
 }
 
 class SearchBox extends React.Component<IProps, IState> {
@@ -35,57 +50,101 @@ class SearchBox extends React.Component<IProps, IState> {
     searchDelay: 500,
   };
 
-  private provider = new OpenStreetMapProvider({ params: { countrycodes: 'BE' } });
+  private searchProvider = new OpenStreetMapProvider({ params: { countrycodes: 'BE' } });
+  private timeoutId: number;
 
   constructor(props: IProps) {
     super(props);
 
     this.state = {
+      attributions: [],
       query: '',
       results: [],
     };
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentWillUnmount() {
+    window.clearTimeout(this.timeoutId);
   }
 
   handleTextInputChange(query: string): void {
-    window.clearTimeout(this.state.timeoutId);
-    const timeoutId = window.setTimeout(
-      async () => {
-        const searchResults: SearchResult[] = await this.provider.search({ query });
-        console.log(searchResults);
-        this.setState({
-          results: searchResults.map(i => i.label),
-        });
-      },
-      this.props.searchDelay);
+    window.clearTimeout(this.timeoutId);
+    if (query.trim() !== '') {
+      this.timeoutId = window.setTimeout(
+        async () => {
+          const searchResults = await this.searchProvider.search({ query });
+          if (this.state.query !== query) {
+            return;
+          }
+          this.setState({
+            attributions: searchResults
+              .map(result => result.raw.licence)
+              // filter out duplicate elements
+              .filter((value, index, array) => array.indexOf(value) === index),
+            results: searchResults.map(result => ({
+              address: result.label,
+              latLng: { lat: result.y, lng: result.x },
+            })),
+          });
+        },
+        this.props.searchDelay);
+    } else {
+      this.setState({ results: [], attributions: [] });
+    }
+    this.setState({ query });
+  }
+
+  handleClick(index: number) {
+    this.props.addHandler(this.state.results[index]);
     this.setState({
-      query,
-      timeoutId,
+      attributions: [],
+      query: '',
+      results: [],
     });
   }
 
   render(): React.ReactNode {
-    const { query, results } = this.state;
+    const { attributions, query, results } = this.state;
     return (
       <div>
         <TextInput
           value={query}
           type="search"
+          placeholder={'Search to add a location...'}
           aria-label="geosearch text input"
           onChange={this.handleTextInputChange}
         />
 
         {results.map((result, index) => (
           <Grid key={index}>
-            <GridItem span={11}>{result}</GridItem>
+            <GridItem span={11}>
+              {result.address}
+            </GridItem>
             <GridItem span={1}>
-              <Button variant="link" type="button">
+              <Button
+                variant="link"
+                type="button"
+                onClick={() => this.handleClick(index)}
+              >
                 <PlusSquareIcon />
               </Button>
             </GridItem>
           </Grid>
         ))}
+
+        <TextContent>
+          {attributions.map((attribution, index) => (
+            <Text
+              key={index}
+              component={TextVariants.small}
+            >
+              {attribution}
+            </Text>
+          ))}
+        </TextContent>
       </div>
     );
   }

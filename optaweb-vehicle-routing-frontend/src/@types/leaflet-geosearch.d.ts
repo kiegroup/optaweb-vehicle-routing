@@ -33,7 +33,13 @@ declare module 'leaflet-geosearch' {
   }
 
   interface SearchResult {
+    /**
+     * Longitude.
+     */
     x: number;
+    /**
+     * Latitude.
+     */
     y: number;
     label: string;
     bounds: [
