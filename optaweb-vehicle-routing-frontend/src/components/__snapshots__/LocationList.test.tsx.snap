@@ -51,6 +51,9 @@ exports[`Location List Component clear button should be disabled when demo is lo
           Clear
         </Button>
         <br />
+        <SearchBox
+          searchDelay={500}
+        />
       </CardHeader>
       <CardBody
         className=""
@@ -143,6 +146,9 @@ exports[`Location List Component should render correctly with a few routes 1`] =
           Clear
         </Button>
         <br />
+        <SearchBox
+          searchDelay={500}
+        />
       </CardHeader>
       <CardBody
         className=""
