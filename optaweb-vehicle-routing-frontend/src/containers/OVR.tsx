@@ -18,7 +18,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import OVRHeader from '../components/OVRHeader';
-import { Depots, Models } from '../routes';
+import { Depots, Models, Route as ORoute, Vehicles, Visits } from '../routes';
 import { IAppState } from '../store/configStore';
 import { demoOperations } from '../store/demo';
 import { routeOperations, routeSelectors } from '../store/route';
@@ -59,7 +59,7 @@ const mapDispatchToProps: IDispatchProps = {
   removeHandler: routeOperations.deleteLocation,
 };
 
-class TravelingSalesmanProblem extends React.Component<Props, IState> {
+class OVR extends React.Component<Props, IState> {
   constructor(props: Props) {
     super(props);
   }
@@ -85,13 +85,8 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
                     <Route
                       path="/depots"
                       exact={true}
-                      render={() => <Depots />}
-                    />
-                    <Route
-                      path="/models"
-                      exact={true}
                       render={() => (
-                        <Models
+                        <Depots
                           {...{
                             addHandler,
                             clearHandler,
@@ -103,6 +98,26 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
                           }}
                         />
                       )}
+                    />
+                    <Route
+                      path="/models"
+                      exact={true}
+                      render={() => <Models />}
+                    />
+                    <Route
+                      path="/vehicles"
+                      exact={true}
+                      render={() => <Vehicles />}
+                    />
+                    <Route
+                      path="/visits"
+                      exact={true}
+                      render={() => <Visits />}
+                    />
+                    <Route
+                      path="/route"
+                      exact={true}
+                      render={() => <ORoute />}
                     />
                   </PageSection>
                 </Page>
@@ -118,4 +133,4 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(TravelingSalesmanProblem);
+)(OVR);
