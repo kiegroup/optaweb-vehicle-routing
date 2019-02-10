@@ -34,6 +34,7 @@ export interface ILocationListProps {
 }
 
 const renderEmptyLocationList = ({
+  addHandler,
   loadHandler,
   isDemoLoading,
 }: ILocationListProps) => {
@@ -41,6 +42,7 @@ const renderEmptyLocationList = ({
     <Card>
       <CardHeader>Click map to add locations</CardHeader>
       <CardBody>
+        <SearchBox addHandler={addHandler} />
         <Button
           type="button"
           isDisabled={isDemoLoading}
