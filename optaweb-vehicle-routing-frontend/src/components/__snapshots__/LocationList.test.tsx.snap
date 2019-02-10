@@ -218,6 +218,10 @@ exports[`Location List Component should render correctly with no routes 1`] = `
         className=""
         component="div"
       >
+        <SearchBox
+          addHandler={[MockFunction]}
+          searchDelay={500}
+        />
         <Button
           aria-label={null}
           className=""
