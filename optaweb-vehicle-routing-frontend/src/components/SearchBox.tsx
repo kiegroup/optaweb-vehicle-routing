@@ -14,15 +14,8 @@
  * limitations under the License.
  */
 
-import {
-  Button,
-  Grid,
-  GridItem,
-  Text,
-  TextContent,
-  TextInput,
-  TextVariants,
-} from '@patternfly/react-core';
+import '@patternfly/patternfly/patternfly.css';
+import { Button, Text, TextContent, TextInput, TextVariants } from '@patternfly/react-core';
 import { PlusSquareIcon } from '@patternfly/react-icons';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import * as React from 'react';
@@ -117,34 +110,45 @@ class SearchBox extends React.Component<IProps, IState> {
           aria-label="geosearch text input"
           onChange={this.handleTextInputChange}
         />
+        {results.length > 0 &&
+        <div className="pf-c-options-menu pf-m-expanded">
+          <ul className="pf-c-options-menu__menu">
+            {results.map((result, index) => (
+              <li key={`result${index}`}>
+                <div className="pf-c-options-menu__menu-item">
+                  {result.address}
+                  <Button
+                    className="pf-c-options-menu__menu-item-icon"
+                    variant="link"
+                    type="button"
+                    onClick={() => this.handleClick(index)}
+                  >
+                    <PlusSquareIcon />
+                  </Button>
+                </div>
+              </li>
+            ))}
 
-        {results.map((result, index) => (
-          <Grid key={index}>
-            <GridItem span={11}>
-              {result.address}
-            </GridItem>
-            <GridItem span={1}>
-              <Button
-                variant="link"
-                type="button"
-                onClick={() => this.handleClick(index)}
+            <li className="pf-c-options-menu__separator" role="separator" />
+
+            {attributions.map((attribution, index) => (
+              <li
+                key={`attrib${index}`}
+                className="pf-c-options-menu__menu-item pf-m-disabled"
               >
-                <PlusSquareIcon />
-              </Button>
-            </GridItem>
-          </Grid>
-        ))}
-
-        <TextContent>
-          {attributions.map((attribution, index) => (
-            <Text
-              key={index}
-              component={TextVariants.small}
-            >
-              {attribution}
-            </Text>
-          ))}
-        </TextContent>
+                <TextContent>
+                  <Text
+                    key={index}
+                    component={TextVariants.small}
+                  >
+                    {attribution}
+                  </Text>
+                </TextContent>
+              </li>
+            ))}
+          </ul>
+        </div>
+        }
       </div>
     );
   }
