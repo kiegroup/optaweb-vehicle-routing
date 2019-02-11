@@ -14,10 +14,113 @@
  * limitations under the License.
  */
 
+import {
+  FormSelect,
+  FormSelectOption,
+  Split,
+  SplitItem,
+} from '@patternfly/react-core';
 import * as React from 'react';
+import LocationList from 'src/components/LocationList';
+import TspMap from 'src/components/TspMap';
 
-const Route: React.SFC<{}> = (props: {}) => {
-  return <h1>Route</h1>;
-};
+import { IDispatchProps, IStateProps } from 'src/containers/OVR';
+import { ILatLng } from 'src/store/route/types';
 
-export default Route;
+export interface IRouteState {
+  center: ILatLng;
+  maxDistance: number;
+  selectedId: number;
+  zoom: number;
+}
+type IRouteProps = IDispatchProps & IStateProps;
+export default class Route extends React.Component<IRouteProps, IRouteState> {
+  constructor(props: IRouteProps) {
+    super(props);
+
+    this.state = {
+      center: {
+        lat: 50.85,
+        lng: 4.35,
+      },
+      maxDistance: -1,
+      selectedId: NaN,
+      zoom: 9,
+    };
+    this.onSelectLocation = this.onSelectLocation.bind(this);
+    this.handleMapClick = this.handleMapClick.bind(this);
+  }
+  handleMapClick(e: any) {
+    this.props.addHandler(e.latlng);
+  }
+
+  onSelectLocation(id: number) {
+    this.setState({ selectedId: id });
+  }
+  componentWillUpdate() {
+    if (this.props.route) {
+      const intDistance = parseInt(this.props.route.distance || '0', 10);
+      const { maxDistance: currentMax } = this.state;
+
+      if ((currentMax === -1 && intDistance > 0) || currentMax < intDistance) {
+        this.setState({ maxDistance: intDistance });
+      }
+    }
+  }
+  render() {
+    const { center, zoom, selectedId, maxDistance } = this.state;
+    const {
+      route,
+      domicileId,
+      removeHandler,
+      loadHandler,
+      clearHandler,
+      isDemoLoading,
+    } = this.props;
+    return route ? (
+      <Split gutter="md">
+        <SplitItem isMain={false}>
+          <FormSelect
+            value={''}
+            onChange={e => console.log(e)}
+            aria-label="FormSelect Input"
+          >
+            {[{ disabled: false, value: 'wip', label: 'Work in progress' }].map(
+              (option, index) => (
+                <FormSelectOption
+                  isDisabled={option.disabled}
+                  key={index}
+                  value={option.value}
+                  label={option.label}
+                />
+              ),
+            )}
+          </FormSelect>
+          <LocationList
+            route={route}
+            domicileId={domicileId}
+            maxDistance={maxDistance}
+            removeHandler={removeHandler}
+            selectHandler={this.onSelectLocation}
+            loadHandler={loadHandler}
+            clearHandler={clearHandler}
+            isDemoLoading={isDemoLoading}
+          />
+        </SplitItem>
+        <SplitItem isMain={true}>
+          <TspMap
+            center={center}
+            zoom={zoom}
+            selectedId={selectedId}
+            clickHandler={this.handleMapClick}
+            removeHandler={removeHandler}
+            route={route}
+            domicileId={domicileId}
+          />
+        </SplitItem>
+      </Split>
+    ) : (
+      <h2>...</h2>
+    );
+  }
+}

@@ -32,8 +32,7 @@ export interface IPageToolbarProps {
 }
 
 export function PageToolbar(props: IPageToolbarProps) {
-  const [openTennants, setOpenTennants] = React.useState(false);
-  const [openUser, setOpenUser] = React.useState(false);
+  const [openTenants, setOpenTenants] = React.useState(false);
   return (
     <Toolbar>
       <ToolbarGroup>
@@ -43,10 +42,10 @@ export function PageToolbar(props: IPageToolbarProps) {
             position="right"
             // tslint:disable-next-line:no-console
             onSelect={event => console.log(event)}
-            isOpen={openTennants}
+            isOpen={openTenants}
             toggle={
-              <DropdownToggle onToggle={() => setOpenTennants(!openTennants)}>
-                Tennant Name
+              <DropdownToggle onToggle={() => setOpenTenants(!openTenants)}>
+                Tenant Name
               </DropdownToggle>}
             dropdownItems={[
               <DropdownItem key={0}>ACMEE Corp</DropdownItem>,
@@ -73,23 +72,6 @@ export function PageToolbar(props: IPageToolbarProps) {
           >
             <CogIcon />
           </Button>
-        </ToolbarItem>
-        <ToolbarItem>
-          <Dropdown
-            isPlain={true}
-            position="right"
-            // tslint:disable-next-line:no-console
-            onSelect={event => console.log(event)}
-            isOpen={openUser}
-            toggle={
-              <DropdownToggle onToggle={() => setOpenUser(!openUser)}>
-                Daniele Fiungo
-              </DropdownToggle>}
-            dropdownItems={[
-              <DropdownItem key={0}>Oswald Cobblepot</DropdownItem>,
-              <DropdownItem key={1}>Bruce Wayne</DropdownItem>,
-            ]}
-          />
         </ToolbarItem>
       </ToolbarGroup>
     </Toolbar>

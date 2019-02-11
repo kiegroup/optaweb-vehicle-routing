@@ -117,7 +117,19 @@ class OVR extends React.Component<Props, IState> {
                     <Route
                       path="/route"
                       exact={true}
-                      render={() => <ORoute />}
+                      render={() => (
+                        <ORoute
+                          {...{
+                            addHandler,
+                            clearHandler,
+                            domicileId,
+                            isDemoLoading,
+                            loadHandler,
+                            removeHandler,
+                            route,
+                          }}
+                        />
+                      )}
                     />
                   </PageSection>
                 </Page>

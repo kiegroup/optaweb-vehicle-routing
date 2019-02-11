@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Button, Grid, GridItem } from '@patternfly/react-core';
+import { Button, DataListCell, DataListItem } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 
@@ -32,15 +32,19 @@ const Location: React.SFC<ILocationProps> = ({
   selectHandler,
 }: ILocationProps) => {
   return (
-    <Grid
-      gutter="md"
-      onMouseEnter={() => selectHandler(id)}
-      onMouseLeave={() => selectHandler(NaN)}
-    >
-      <GridItem span={9}>
-        {`Location ${id}`}
-      </GridItem>
-      <GridItem span={3}>
+    <DataListItem isExpanded={false} aria-labelledby={`aria-${id}`}>
+      <DataListCell
+        width={4}
+        onMouseEnter={() => selectHandler(id)}
+        onMouseLeave={() => selectHandler(NaN)}
+      >
+        <span aria-labelledby={`aria-${id}`}>Location {id}</span>
+      </DataListCell>
+      <DataListCell
+        width={1}
+        onMouseEnter={() => selectHandler(id)}
+        onMouseLeave={() => selectHandler(NaN)}
+      >
         <Button
           variant="link"
           isDisabled={removeDisabled}
@@ -49,8 +53,8 @@ const Location: React.SFC<ILocationProps> = ({
         >
           <TimesIcon />
         </Button>
-      </GridItem>
-    </Grid>
+      </DataListCell>
+    </DataListItem>
   );
 };
 

@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-import { Button, Card, CardBody, CardHeader } from '@patternfly/react-core';
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  DataList,
+} from '@patternfly/react-core';
 import * as React from 'react';
 import { IRoute } from '../store/route/types';
 import Location from './Location';
@@ -87,7 +93,13 @@ const renderLocationList = ({
         The calculated maxHeight is a hack because the last constant depends
         on the height of CardHeader (above).
         */}
-        <div style={{ maxHeight: 'calc(100vh - 24px - 24px - 8px - 196px)', overflowY: 'auto' }}>
+        <DataList
+          aria-label="simple-item1"
+          style={{
+            maxHeight: 'calc(100vh - 24px - 24px - 8px - 196px)',
+            overflowY: 'auto',
+          }}
+        >
           {locations
             .slice(0) // clone the array because
             // sort is done in place (that would affect the route)
@@ -96,12 +108,14 @@ const renderLocationList = ({
               <Location
                 key={location.id}
                 id={location.id}
-                removeDisabled={locations.length > 1 && location.id === domicileId}
+                removeDisabled={
+                  locations.length > 1 && location.id === domicileId
+                }
                 removeHandler={removeHandler}
                 selectHandler={selectHandler}
               />
             ))}
-        </div>
+        </DataList>
       </CardBody>
     </Card>
   );
@@ -111,10 +125,10 @@ const LocationList: React.SFC<ILocationListProps> = (
   props: ILocationListProps,
 ) => {
   return (
-      <div >
-        {props.route.locations.length === 0
-          ? renderEmptyLocationList(props)
-          : renderLocationList(props)}
+    <div>
+      {props.route.locations.length === 0
+        ? renderEmptyLocationList(props)
+        : renderLocationList(props)}
     </div>
   );
 };
