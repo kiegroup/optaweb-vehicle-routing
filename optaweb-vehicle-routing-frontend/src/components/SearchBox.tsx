@@ -21,12 +21,12 @@ import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import * as React from 'react';
 import { ILatLng } from '../store/route/types';
 
-interface IProps {
+export interface IProps {
   searchDelay: number;
   addHandler: (result: IResult) => void;
 }
 
-interface IState {
+export interface IState {
   query: string;
   results: IResult[];
   attributions: string[];
