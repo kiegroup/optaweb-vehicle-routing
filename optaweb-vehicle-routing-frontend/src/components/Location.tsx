@@ -32,19 +32,16 @@ const Location: React.SFC<ILocationProps> = ({
   selectHandler,
 }: ILocationProps) => {
   return (
-    <DataListItem isExpanded={false} aria-labelledby={`aria-${id}`}>
-      <DataListCell
-        width={4}
-        onMouseEnter={() => selectHandler(id)}
-        onMouseLeave={() => selectHandler(NaN)}
-      >
+    <DataListItem
+      isExpanded={false}
+      aria-labelledby={`aria-${id}`}
+      onMouseEnter={() => selectHandler(id)}
+      onMouseLeave={() => selectHandler(NaN)}
+    >
+      <DataListCell width={4}>
         <span aria-labelledby={`aria-${id}`}>Location {id}</span>
       </DataListCell>
-      <DataListCell
-        width={1}
-        onMouseEnter={() => selectHandler(id)}
-        onMouseLeave={() => selectHandler(NaN)}
-      >
+      <DataListCell width={1}>
         <Button
           variant="link"
           isDisabled={removeDisabled}

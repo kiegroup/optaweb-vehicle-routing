@@ -27,12 +27,13 @@ describe('Location Component', () => {
       removeHandler: jest.fn(),
       selectHandler: jest.fn(),
     };
-    expect.assertions(2);
+    expect.assertions(3);
     const location = shallow(<Location {...props} />);
     expect(toJson(location)).toMatchSnapshot();
-    location.find('Grid').simulate('mouseEnter');
+    location.find('DataListItem').simulate('mouseEnter');
     location.find('Button').simulate('click');
 
     expect(props.removeHandler).toHaveBeenCalledTimes(1);
+    expect(props.selectHandler).toHaveBeenCalledTimes(1);
   });
 });

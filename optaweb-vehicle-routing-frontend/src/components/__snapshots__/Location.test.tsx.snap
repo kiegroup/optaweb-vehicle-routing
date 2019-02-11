@@ -1,54 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Location Component should render correctly 1`] = `
-<Grid
+<DataListItem
+  aria-labelledby="aria-10"
   className=""
-  gutter="md"
-  lg={null}
-  md={null}
+  isExpanded={false}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
-  sm={null}
-  span={null}
-  xl={null}
 >
-  <GridItem
+  <DataListCell
     className=""
-    lg={null}
-    lgOffset={null}
-    lgRowSpan={null}
-    md={null}
-    mdOffset={null}
-    mdRowSpan={null}
-    offset={null}
-    rowSpan={null}
-    sm={null}
-    smOffset={null}
-    smRowSpan={null}
-    span={9}
-    xl={null}
-    xlOffset={null}
-    xlRowSpan={null}
+    width={4}
   >
-    Location 10
-  </GridItem>
-  <GridItem
+    <span
+      aria-labelledby="aria-10"
+    >
+      Location 
+      10
+    </span>
+  </DataListCell>
+  <DataListCell
     className=""
-    lg={null}
-    lgOffset={null}
-    lgRowSpan={null}
-    md={null}
-    mdOffset={null}
-    mdRowSpan={null}
-    offset={null}
-    rowSpan={null}
-    sm={null}
-    smOffset={null}
-    smRowSpan={null}
-    span={3}
-    xl={null}
-    xlOffset={null}
-    xlRowSpan={null}
+    width={1}
   >
     <Button
       aria-label={null}
@@ -69,6 +42,6 @@ exports[`Location Component should render correctly 1`] = `
         title={null}
       />
     </Button>
-  </GridItem>
-</Grid>
+  </DataListCell>
+</DataListItem>
 `;

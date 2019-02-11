@@ -46,7 +46,9 @@ exports[`Location List Component clear button should be disabled when demo is lo
       className=""
       component="div"
     >
-      <div
+      <DataList
+        aria-label="simple-item1"
+        className=""
         style={
           Object {
             "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
@@ -75,7 +77,7 @@ exports[`Location List Component clear button should be disabled when demo is lo
           removeHandler={[MockFunction]}
           selectHandler={[MockFunction]}
         />
-      </div>
+      </DataList>
     </CardBody>
   </Card>
 </div>
@@ -127,7 +129,9 @@ exports[`Location List Component should render correctly with a few routes 1`] =
       className=""
       component="div"
     >
-      <div
+      <DataList
+        aria-label="simple-item1"
+        className=""
         style={
           Object {
             "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
@@ -156,7 +160,7 @@ exports[`Location List Component should render correctly with a few routes 1`] =
           removeHandler={[MockFunction]}
           selectHandler={[MockFunction]}
         />
-      </div>
+      </DataList>
     </CardBody>
   </Card>
 </div>
