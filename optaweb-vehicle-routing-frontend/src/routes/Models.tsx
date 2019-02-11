@@ -14,10 +14,55 @@
  * limitations under the License.
  */
 
+import {
+  FormGroup,
+  PageSection,
+  Text,
+  TextContent,
+  TextInput,
+  TextVariants,
+} from '@patternfly/react-core';
+import { Table, TableBody, TableHeader } from '@patternfly/react-table';
 import * as React from 'react';
 
-const Models: React.SFC<{}> = (props: {}) => {
-  return <h1>Models</h1>;
+const rows = [['Model Name', 'Capacity', 'Roads', '']];
+const columns = ['Model Name', 'Capacity', 'Roads', ''];
+
+const Models: React.SFC<{}> = () => {
+  const [searchText, setSearchText] = React.useState('');
+  return (
+    <React.Fragment>
+      <PageSection>
+        <TextContent>
+          <Text component={TextVariants.h1}>Models</Text>
+        </TextContent>
+      </PageSection>
+      <PageSection>
+        <TextContent>
+          <FormGroup
+            label="Search model"
+            isRequired={false}
+            fieldId="search-model-input"
+            helperText="Please provide your full name"
+          >
+            <TextInput
+              isRequired={true}
+              type="text"
+              id="simple-form-name"
+              name="simple-form-name"
+              aria-describedby="simple-form-name-helper"
+              value={searchText}
+              onChange={newValue => setSearchText(newValue)}
+            />
+          </FormGroup>
+        </TextContent>
+        <Table caption="Table with Width Modifiers" cells={columns} rows={rows}>
+          <TableHeader />
+          <TableBody />
+        </Table>
+      </PageSection>
+    </React.Fragment>
+  );
 };
 
 export default Models;

@@ -86,7 +86,7 @@ export default class Depots extends React.Component<IDepotsProps, IDepotsState> 
             isDemoLoading={isDemoLoading}
           />
         </SplitItem>
-        <SplitItem isMain={false}>
+        <SplitItem isMain={true}>
           <TspMap
             center={center}
             zoom={zoom}

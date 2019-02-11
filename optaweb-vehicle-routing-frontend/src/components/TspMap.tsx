@@ -60,7 +60,7 @@ const TspMap: React.SFC<ITspMapProps> = ({
       center={center}
       zoom={zoom}
       onClick={clickHandler}
-      style={{ width: '100vw', height: '100vh' }}
+      style={{ width: '100%', height: '100vmin' }}
       zoomControl={false} // hide the default zoom control which is on top left
     >
       <TileLayer
