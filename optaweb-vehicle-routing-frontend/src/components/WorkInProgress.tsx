@@ -14,26 +14,18 @@
  * limitations under the License.
  */
 
+import { Bullseye, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { InProgressIcon } from '@patternfly/react-icons';
 import * as React from 'react';
-import { WorkInProgress } from 'src/components/WorkInProgress';
-import { IDispatchProps, IStateProps } from 'src/containers/OVR';
 
-export interface IDepotsState {
-  readonly tbc: string;
-}
-type IDepotsProps = IDispatchProps & IStateProps;
-export default class Depots extends React.Component<
-  IDepotsProps,
-  IDepotsState
-> {
-  constructor(props: IDepotsProps) {
-    super(props);
-
-    this.state = {
-      tbc: 'To Be completed',
-    };
-  }
-  render() {
-    return <WorkInProgress />;
-  }
+export function WorkInProgress() {
+  return (
+    <Bullseye>
+      <TextContent>
+        <Text component={TextVariants.h1}>
+          <InProgressIcon /> Work in progress
+        </Text>
+      </TextContent>
+    </Bullseye>
+  );
 }
