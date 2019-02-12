@@ -68,26 +68,29 @@ const renderLocationList = ({
   isDemoLoading,
 }: ILocationListProps) => {
   return (
-    <Card>
-      <CardHeader>
-        Distance: {distance}
-        <br />
-        Locations: {locations.length}
-        <TripData
-          maxDistance={maxDistance}
-          distance={parseInt(distance, 10) || maxDistance}
-        />
-        <br />
-        <Button
-          type="button"
-          isDisabled={isDemoLoading}
-          style={{ width: '100%' }}
-          onClick={clearHandler}
-        >
-          Clear
-        </Button>
-        <br />
-      </CardHeader>
+    <Card >
+      { /* TO BE REMOVED? Disabled*/
+        false && (
+        <CardHeader>
+          Distance: {distance}
+          <br />
+          Locations: {locations.length}
+          <TripData
+            maxDistance={maxDistance}
+            distance={parseInt(distance, 10) || maxDistance}
+          />
+          <br />
+          <Button
+            type="button"
+            isDisabled={isDemoLoading}
+            style={{ width: '100%' }}
+            onClick={clearHandler}
+          >
+            Clear
+          </Button>
+          <br />
+        </CardHeader>
+      )}
       <CardBody>
         {/*
         The calculated maxHeight is a hack because the last constant depends

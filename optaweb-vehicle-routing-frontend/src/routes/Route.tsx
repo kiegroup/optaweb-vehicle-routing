@@ -19,6 +19,9 @@ import {
   FormSelectOption,
   Split,
   SplitItem,
+  Text,
+  TextContent,
+  TextVariants,
 } from '@patternfly/react-core';
 import * as React from 'react';
 import LocationList from 'src/components/LocationList';
@@ -77,50 +80,53 @@ export default class Route extends React.Component<IRouteProps, IRouteState> {
       clearHandler,
       isDemoLoading,
     } = this.props;
-    return route ? (
-      <Split gutter="md">
-        <SplitItem isMain={false}>
-          <FormSelect
-            value={''}
-            onChange={e => console.log(e)}
-            aria-label="FormSelect Input"
-          >
-            {[{ disabled: false, value: 'wip', label: 'Work in progress' }].map(
-              (option, index) => (
-                <FormSelectOption
-                  isDisabled={option.disabled}
-                  key={index}
-                  value={option.value}
-                  label={option.label}
-                />
-              ),
-            )}
-          </FormSelect>
-          <LocationList
-            route={route}
-            domicileId={domicileId}
-            maxDistance={maxDistance}
-            removeHandler={removeHandler}
-            selectHandler={this.onSelectLocation}
-            loadHandler={loadHandler}
-            clearHandler={clearHandler}
-            isDemoLoading={isDemoLoading}
-          />
-        </SplitItem>
-        <SplitItem isMain={true}>
-          <TspMap
-            center={center}
-            zoom={zoom}
-            selectedId={selectedId}
-            clickHandler={this.handleMapClick}
-            removeHandler={removeHandler}
-            route={route}
-            domicileId={domicileId}
-          />
-        </SplitItem>
-      </Split>
-    ) : (
-      <h2>...</h2>
+    return (
+      <React.Fragment>
+        <TextContent>
+          <Text component={TextVariants.h1}>Route</Text>
+        </TextContent>
+        <Split gutter="md">
+          <SplitItem isMain={false}>
+            <FormSelect
+              value={''}
+              onChange={e => console.log(e)}
+              aria-label="FormSelect Input"
+            >
+              {[{ disabled: false, value: 'wip', label: 'Vehicle 4' }].map(
+                (option, index) => (
+                  <FormSelectOption
+                    isDisabled={option.disabled}
+                    key={index}
+                    value={option.value}
+                    label={option.label}
+                  />
+                ),
+              )}
+            </FormSelect>
+            <LocationList
+              route={route}
+              domicileId={domicileId}
+              maxDistance={maxDistance}
+              removeHandler={removeHandler}
+              selectHandler={this.onSelectLocation}
+              loadHandler={loadHandler}
+              clearHandler={clearHandler}
+              isDemoLoading={isDemoLoading}
+            />
+          </SplitItem>
+          <SplitItem isMain={true}>
+            <TspMap
+              center={center}
+              zoom={zoom}
+              selectedId={selectedId}
+              clickHandler={this.handleMapClick}
+              removeHandler={removeHandler}
+              route={route}
+              domicileId={domicileId}
+            />
+          </SplitItem>
+        </Split>
+      </React.Fragment>
     );
   }
 }

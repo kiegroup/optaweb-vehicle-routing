@@ -15,9 +15,15 @@
  */
 
 import * as React from 'react';
+import { WorkInProgress } from 'src/components/WorkInProgress';
 
-const Visits: React.SFC<{}> = (props: {}) => {
-  return <h1>Visits</h1>;
+const Visits: React.SFC<{}> = () => {
+  return (
+    <React.Fragment>
+      <h1>Visits</h1>
+      <WorkInProgress />
+    </React.Fragment>
+  );
 };
 
 export default Visits;
