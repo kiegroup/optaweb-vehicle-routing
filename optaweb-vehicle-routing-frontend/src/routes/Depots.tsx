@@ -16,24 +16,7 @@
 
 import * as React from 'react';
 import { WorkInProgress } from 'src/components/WorkInProgress';
-import { IDispatchProps, IStateProps } from 'src/containers/OVR';
 
-export interface IDepotsState {
-  readonly tbc: string;
-}
-type IDepotsProps = IDispatchProps & IStateProps;
-export default class Depots extends React.Component<
-  IDepotsProps,
-  IDepotsState
-> {
-  constructor(props: IDepotsProps) {
-    super(props);
-
-    this.state = {
-      tbc: 'To Be completed',
-    };
-  }
-  render() {
-    return <WorkInProgress />;
-  }
+export default function Depots() {
+  return <WorkInProgress />;
 }
