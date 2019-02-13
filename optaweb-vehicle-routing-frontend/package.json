@@ -2,7 +2,7 @@
   "private": true,
   "license": "Apache-2.0",
   "dependencies": {
-    "@patternfly/patternfly-next": "^1.0.175",
+    "@patternfly/patternfly": "^1.0.192",
     "@patternfly/react-core": "^1.51.6",
     "@patternfly/react-icons": "^2.10.6",
     "@patternfly/react-table": "^0.4.18",

@@ -27,11 +27,7 @@ import {
 import { BellIcon, CogIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 
-export interface IPageToolbarProps {
-  keep?: false;
-}
-
-export function PageToolbar(props: IPageToolbarProps) {
+export function PageToolbar() {
   const [openTenants, setOpenTenants] = React.useState(false);
   return (
     <Toolbar>

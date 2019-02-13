@@ -16,9 +16,9 @@
 import { Page, PageSection, PageSectionVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import OVRHeader from '../components/OVRHeader';
-import { Depots, Models, Route as ORoute, Vehicles, Visits } from '../routes';
+import { Depots, Models, Route as RoutePage, Vehicles, Visits } from '../routes';
 import { IAppState } from '../store/configStore';
 import { demoOperations } from '../store/demo';
 import { routeOperations, routeSelectors } from '../store/route';
@@ -37,7 +37,9 @@ export interface IDispatchProps {
   addHandler: typeof routeOperations.addLocation;
 }
 
-type Props = IStateProps & IDispatchProps;
+type Props = RouteComponentProps<any> &
+  IStateProps &
+  IDispatchProps;
 
 export interface IState {
   center: ILatLng;
@@ -77,64 +79,50 @@ class OVR extends React.Component<Props, IState> {
       <OVRTheme>
         <OVRThemeConsumer>
           {({ components }) => (
-            <Router>
-              <React.Fragment>
-                {components ? components.Background : undefined}
-                <Page header={OVRHeader()}>
-                  <PageSection variant={PageSectionVariants.default}>
-                    <Route
-                      path="/depots"
-                      exact={true}
-                      render={() => (
-                        <Depots
-                          {...{
-                            addHandler,
-                            clearHandler,
-                            domicileId,
-                            isDemoLoading,
-                            loadHandler,
-                            removeHandler,
-                            route,
-                          }}
-                        />
-                      )}
-                    />
-                    <Route
-                      path="/models"
-                      exact={true}
-                      render={() => <Models />}
-                    />
-                    <Route
-                      path="/vehicles"
-                      exact={true}
-                      render={() => <Vehicles />}
-                    />
-                    <Route
-                      path="/visits"
-                      exact={true}
-                      render={() => <Visits />}
-                    />
-                    <Route
-                      path="/route"
-                      exact={true}
-                      render={() => (
-                        <ORoute
-                          {...{
-                            addHandler,
-                            clearHandler,
-                            domicileId,
-                            isDemoLoading,
-                            loadHandler,
-                            removeHandler,
-                            route,
-                          }}
-                        />
-                      )}
-                    />
-                  </PageSection>
-                </Page>
-              </React.Fragment>
-            </Router>
+            <React.Fragment>
+              {components ? components.Background : undefined}
+              <Page header={OVRHeader()}>
+                <PageSection variant={PageSectionVariants.default}>
+                  <Route
+                    path="/depots"
+                    exact={true}
+                    render={() => <Depots />}
+                  />
+                  <Route
+                    path="/models"
+                    exact={true}
+                    render={() => <Models />}
+                  />
+                  <Route
+                    path="/vehicles"
+                    exact={true}
+                    render={() => <Vehicles />}
+                  />
+                  <Route
+                    path="/visits"
+                    exact={true}
+                    render={() => <Visits />}
+                  />
+                  <Route
+                    path="/route"
+                    exact={true}
+                    render={() => (
+                      <RoutePage
+                        {...{
+                          addHandler,
+                          clearHandler,
+                          domicileId,
+                          isDemoLoading,
+                          loadHandler,
+                          removeHandler,
+                          route,
+                        }}
+                      />
+                    )}
+                  />
+                </PageSection>
+              </Page>
+            </React.Fragment>
           )}
         </OVRThemeConsumer>
       </OVRTheme>
@@ -142,7 +130,9 @@ class OVR extends React.Component<Props, IState> {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(OVR);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(OVR),
+);

@@ -17,13 +17,11 @@
 import * as React from 'react';
 import { WorkInProgress } from 'src/components/WorkInProgress';
 
-const Vehicles: React.SFC<{}> = (props: {}) => {
+export default function Vehicles() {
   return (
     <React.Fragment>
       <h1>Vehicles</h1>
       <WorkInProgress />
     </React.Fragment>
   );
-};
-
-export default Vehicles;
+}
