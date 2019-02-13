@@ -19,7 +19,6 @@ import webstomp, { Client, Frame } from 'webstomp-client';
 import { ILatLng, IRouteWithSegments } from '../store/route/types';
 
 export default class WebSocketClient {
-
   readonly socketUrl: string;
   webSocket: WebSocket;
   stompClient: Client;

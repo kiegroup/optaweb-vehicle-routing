@@ -29,11 +29,9 @@ export enum ActionType {
   WS_CONNECT_FAILURE = 'WS_CONNECT_FAILURE',
 }
 
-export interface InitWsConnectionAction extends Action<ActionType.WS_CONNECT> {
-}
+export interface InitWsConnectionAction extends Action<ActionType.WS_CONNECT> {}
 
-export interface IWsConnectionSuccessAction extends Action<ActionType.WS_CONNECT_SUCCESS> {
-}
+export interface IWsConnectionSuccessAction extends Action<ActionType.WS_CONNECT_SUCCESS> {}
 
 export interface IWsConnectionFailureAction extends Action<ActionType.WS_CONNECT_FAILURE> {
   readonly value: Frame | CloseEvent;

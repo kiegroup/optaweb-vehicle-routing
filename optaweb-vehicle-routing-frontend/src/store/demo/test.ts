@@ -39,10 +39,15 @@ describe('Demo operations', () => {
 
     // mock store
     const middlewares: Middleware[] = [thunk.withExtraArgument(client)];
-    type DispatchExts = ThunkDispatch<IAppState, WebSocketClient,
-      WebSocketAction | RouteAction | ILoadDemoAction>;
-    const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
-      createMockStore<IAppState, DispatchExts>(middlewares);
+    type DispatchExts = ThunkDispatch<
+      IAppState,
+      WebSocketClient,
+      WebSocketAction | RouteAction | ILoadDemoAction
+    >;
+    const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> = createMockStore<
+      IAppState,
+      DispatchExts
+    >(middlewares);
     const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
 
     // verify loadDemo operation calls the client
@@ -59,16 +64,12 @@ describe('Demo operations', () => {
 describe('Demo reducers', () => {
   it('load demo', () => {
     const expectedState: IDemo = { isLoading: true, demoSize: 5 };
-    expect(
-      reducer(state.demo, actions.loadDemo(expectedState.demoSize)),
-    ).toEqual(expectedState);
+    expect(reducer(state.demo, actions.loadDemo(expectedState.demoSize))).toEqual(expectedState);
   });
   it('loading flag should be cleared when demo is loaded', () => {
     const demoSize: number = 5;
     const expectedState: IDemo = { isLoading: false, demoSize };
-    expect(
-      reducer({ isLoading: true, demoSize }, actions.demoLoaded()),
-    ).toEqual(expectedState);
+    expect(reducer({ isLoading: true, demoSize }, actions.demoLoaded())).toEqual(expectedState);
   });
 });
 

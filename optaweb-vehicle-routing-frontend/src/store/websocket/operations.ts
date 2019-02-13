@@ -23,9 +23,9 @@ import { ThunkCommand } from '../types';
 import * as actions from './actions';
 import { WebSocketAction } from './types';
 
-type ConnectClientThunk = ActionCreator<ThunkCommand<WebSocketAction
-  | IUpdateRouteAction
-  | IDemoLoadingFinishedAction>>;
+type ConnectClientThunk = ActionCreator<
+  ThunkCommand<WebSocketAction | IUpdateRouteAction | IDemoLoadingFinishedAction>
+>;
 
 /**
  * Connect the client to WebSocket.
@@ -48,5 +48,6 @@ export const connectClient: ConnectClientThunk = () => (dispatch, state, client)
       // on error, schedule a reconnection attempt
       dispatch(actions.wsConnectionFailure(err));
       setTimeout(() => dispatch(connectClient()), 1000);
-    });
+    },
+  );
 };

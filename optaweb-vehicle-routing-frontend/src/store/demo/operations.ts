@@ -22,7 +22,9 @@ import { ILoadDemoAction } from './types';
 export const demoLoaded = actions.demoLoaded;
 
 export const loadDemo: ActionCreator<ThunkCommand<ILoadDemoAction>> = () => (
-  dispatch, state, client,
+  dispatch,
+  state,
+  client,
 ) => {
   client.loadDemo((demoSize) => {
     dispatch(actions.loadDemo(demoSize));

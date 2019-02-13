@@ -25,12 +25,9 @@ export interface ILoadDemoAction extends Action<ActionType.LOAD_DEMO> {
   readonly size: number;
 }
 
-export interface IDemoLoadingFinishedAction extends Action<ActionType.DEMO_LOADED> {
-}
+export interface IDemoLoadingFinishedAction extends Action<ActionType.DEMO_LOADED> {}
 
-export type DemoAction =
-  | ILoadDemoAction
-  | IDemoLoadingFinishedAction;
+export type DemoAction = ILoadDemoAction | IDemoLoadingFinishedAction;
 
 export interface IDemo {
   readonly isLoading: boolean;

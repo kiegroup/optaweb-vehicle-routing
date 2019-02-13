@@ -45,8 +45,7 @@ export interface IAddLocationAction extends Action<ActionType.ADD_LOCATION> {
   readonly value: ILatLng;
 }
 
-export interface IClearRouteAction extends Action<ActionType.CLEAR_SOLUTION> {
-}
+export interface IClearRouteAction extends Action<ActionType.CLEAR_SOLUTION> {}
 
 export interface IDeleteLocationAction extends Action<ActionType.DELETE_LOCATION> {
   readonly value: number;

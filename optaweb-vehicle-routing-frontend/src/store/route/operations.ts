@@ -21,10 +21,10 @@ import { IAddLocationAction, IClearRouteAction, IDeleteLocationAction, ILatLng }
 
 export const updateRoute = actions.updateRoute;
 
-export const addLocation: ActionCreator<ThunkCommand<IAddLocationAction>> = (
-  location: ILatLng,
-) => (
-  dispatch, state, client,
+export const addLocation: ActionCreator<ThunkCommand<IAddLocationAction>> = (location: ILatLng) => (
+  dispatch,
+  state,
+  client,
 ) => {
   dispatch(actions.addLocation(location));
   client.addLocation(location);
@@ -32,15 +32,15 @@ export const addLocation: ActionCreator<ThunkCommand<IAddLocationAction>> = (
 
 export const deleteLocation: ActionCreator<ThunkCommand<IDeleteLocationAction>> = (
   locationId: number,
-) => (
-  dispatch, state, client,
-) => {
+) => (dispatch, state, client) => {
   dispatch(actions.deleteLocation(locationId));
   client.deleteLocation(locationId);
 };
 
 export const clearRoute: ActionCreator<ThunkCommand<IClearRouteAction>> = () => (
-  dispatch, state, client,
+  dispatch,
+  state,
+  client,
 ) => {
   dispatch(actions.clearRoute());
   client.clear();

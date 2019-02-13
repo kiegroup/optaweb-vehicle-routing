@@ -2,7 +2,9 @@
   "extends": [
     "tslint:recommended",
     "tslint-react",
-    "tslint-config-airbnb"
+    "tslint-config-airbnb",
+    "tslint-config-prettier",
+    "tslint-plugin-prettier"
   ],
   "linterOptions": {
     "exclude": [
@@ -35,6 +37,7 @@
       "severity": "warn"
     },
     "object-shorthand-properties-first": false,
+    "prettier": true,
     // This rule is here for now because of https://github.com/palantir/tslint-react/issues/120
     "variable-name": [
       true,

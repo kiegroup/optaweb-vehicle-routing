@@ -31,10 +31,7 @@ export interface ILocationListProps {
   isDemoLoading: boolean;
 }
 
-const renderEmptyLocationList = ({
-  loadHandler,
-  isDemoLoading,
-}: ILocationListProps) => {
+const renderEmptyLocationList = ({ loadHandler, isDemoLoading }: ILocationListProps) => {
   return (
     <Card>
       <CardHeader>Click map to add locations</CardHeader>
@@ -67,10 +64,7 @@ const renderLocationList = ({
         Distance: {distance}
         <br />
         Locations: {locations.length}
-        <TripData
-          maxDistance={maxDistance}
-          distance={parseInt(distance, 10) || maxDistance}
-        />
+        <TripData maxDistance={maxDistance} distance={parseInt(distance, 10) || maxDistance} />
         <br />
         <Button
           type="button"
@@ -92,7 +86,7 @@ const renderLocationList = ({
             .slice(0) // clone the array because
             // sort is done in place (that would affect the route)
             .sort((a, b) => a.id - b.id)
-            .map(location => (
+            .map((location) => (
               <Location
                 key={location.id}
                 id={location.id}
@@ -107,14 +101,9 @@ const renderLocationList = ({
   );
 };
 
-const LocationList: React.SFC<ILocationListProps> = (
-  props: ILocationListProps,
-) => {
+const LocationList: React.SFC<ILocationListProps> = (props: ILocationListProps) => {
   return (
-    <div
-      className="leaflet-top leaflet-left leaflet-touch"
-      style={{ zIndex: 500 }}
-    >
+    <div className="leaflet-top leaflet-left leaflet-touch" style={{ zIndex: 500 }}>
       <div className="leaflet-control leaflet-bar">
         {props.route.locations.length === 0
           ? renderEmptyLocationList(props)

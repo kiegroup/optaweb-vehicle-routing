@@ -39,9 +39,7 @@ export const clearRoute: ActionCreator<IClearRouteAction> = () => ({
   type: ActionType.CLEAR_SOLUTION,
 });
 
-export const updateRoute: ActionCreator<IUpdateRouteAction> = (
-  route: IRouteWithSegments,
-) => ({
+export const updateRoute: ActionCreator<IUpdateRouteAction> = (route: IRouteWithSegments) => ({
   route,
   type: ActionType.SOLUTION_UPDATES_DATA,
 });

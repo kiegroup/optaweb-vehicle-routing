@@ -23,7 +23,9 @@
     "coverage": "npm run test -- --coverage",
     "lint": "./node_modules/tslint/bin/tslint -p tsconfig.json --force",
     "lint:fix": "npm run lint -- --fix",
-    "eject": "react-scripts-ts eject"
+    "eject": "react-scripts-ts eject",
+    "prettier": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.15",
@@ -46,6 +48,8 @@
     "redux-devtools-extension": "^2.13.7",
     "redux-mock-store": "^1.5.3",
     "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1",
     "typescript": "^3.1.6"
   },
   "browserslist": [

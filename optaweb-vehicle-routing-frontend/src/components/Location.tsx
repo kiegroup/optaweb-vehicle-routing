@@ -37,9 +37,7 @@ const Location: React.SFC<ILocationProps> = ({
       onMouseEnter={() => selectHandler(id)}
       onMouseLeave={() => selectHandler(NaN)}
     >
-      <GridItem span={9}>
-        {`Location ${id}`}
-      </GridItem>
+      <GridItem span={9}>{`Location ${id}`}</GridItem>
       <GridItem span={3}>
         <Button
           variant="link"

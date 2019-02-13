@@ -61,10 +61,15 @@ describe('WebSocket client operations', () => {
 
     // mock store
     const middlewares: Middleware[] = [thunk.withExtraArgument(client)];
-    type DispatchExts = ThunkDispatch<IAppState, WebSocketClient,
-      WebSocketAction | IUpdateRouteAction>;
-    const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
-      createMockStore<IAppState, DispatchExts>(middlewares);
+    type DispatchExts = ThunkDispatch<
+      IAppState,
+      WebSocketClient,
+      WebSocketAction | IUpdateRouteAction
+    >;
+    const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> = createMockStore<
+      IAppState,
+      DispatchExts
+    >(middlewares);
     const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
 
     store.dispatch(websocketOperations.connectClient());
@@ -88,10 +93,7 @@ describe('WebSocket client operations', () => {
 
     // pretend client will reconnect successfully on the next attempt
     successCallbackCapture();
-    expect(store.getActions()).toEqual([
-      actions.initWsConnection(),
-      actions.wsConnectionSuccess(),
-    ]);
+    expect(store.getActions()).toEqual([actions.initWsConnection(), actions.wsConnectionSuccess()]);
     expect(client.subscribe).toHaveBeenCalledTimes(1);
 
     store.clearActions();
@@ -104,14 +106,14 @@ describe('WebSocket client operations', () => {
 
 describe('WebSocket reducers', () => {
   it('connection success should open connection status', () => {
-    expect(
-      reducer(WebSocketConnectionStatus.CLOSED, actions.wsConnectionSuccess()),
-    ).toEqual(WebSocketConnectionStatus.OPEN);
+    expect(reducer(WebSocketConnectionStatus.CLOSED, actions.wsConnectionSuccess())).toEqual(
+      WebSocketConnectionStatus.OPEN,
+    );
   });
   it('connection failure should fail connection status', () => {
-    expect(
-      reducer(WebSocketConnectionStatus.OPEN, actions.wsConnectionFailure()),
-    ).toEqual(WebSocketConnectionStatus.ERROR);
+    expect(reducer(WebSocketConnectionStatus.OPEN, actions.wsConnectionFailure())).toEqual(
+      WebSocketConnectionStatus.ERROR,
+    );
   });
 });
 

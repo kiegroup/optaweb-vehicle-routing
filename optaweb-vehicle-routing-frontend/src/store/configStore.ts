@@ -42,7 +42,6 @@ export default function configureStore(
   { socketUrl }: IAppStoreConfig,
   preloadedState?: IAppState,
 ): Store<IAppState> {
-
   const webSocketClient = new WebSocketClient(socketUrl);
 
   const middlewares = [createLogger(), thunk.withExtraArgument(webSocketClient)];
@@ -62,9 +61,5 @@ export default function configureStore(
     module.hot.accept('./reducers', () => store.replaceReducer(rootReducer));
   } */
 
-  return createStore(
-    rootReducer,
-    preloadedState,
-    composedEnhancers,
-  );
+  return createStore(rootReducer, preloadedState, composedEnhancers);
 }

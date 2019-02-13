@@ -33,10 +33,15 @@ describe('Route operations', () => {
 
     // mock store
     const middlewares: Middleware[] = [thunk.withExtraArgument(client)];
-    type DispatchExts = ThunkDispatch<IAppState, WebSocketClient,
-      WebSocketAction | IUpdateRouteAction>;
-    const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
-      createMockStore<IAppState, DispatchExts>(middlewares);
+    type DispatchExts = ThunkDispatch<
+      IAppState,
+      WebSocketClient,
+      WebSocketAction | IUpdateRouteAction
+    >;
+    const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> = createMockStore<
+      IAppState,
+      DispatchExts
+    >(middlewares);
     const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
 
     store.dispatch(routeOperations.clearRoute());
@@ -63,37 +68,25 @@ describe('Route operations', () => {
 
 describe('Route reducers', () => {
   it('clear route', () => {
-    expect(
-      reducer(state.route, actions.clearRoute()),
-    ).toEqual(state.route);
+    expect(reducer(state.route, actions.clearRoute())).toEqual(state.route);
   });
   it('add location', () => {
-    expect(
-      reducer(state.route, actions.addLocation(state.route[2])),
-    ).toEqual(state.route);
+    expect(reducer(state.route, actions.addLocation(state.route[2]))).toEqual(state.route);
   });
   it('delete location', () => {
-    expect(
-      reducer(state.route, actions.deleteLocation(1)),
-    ).toEqual(state.route);
+    expect(reducer(state.route, actions.deleteLocation(1))).toEqual(state.route);
   });
   it('update route', () => {
-    expect(
-      reducer(initialRouteState, actions.updateRoute(state.route)),
-    ).toEqual(state.route);
+    expect(reducer(initialRouteState, actions.updateRoute(state.route))).toEqual(state.route);
   });
 });
 
 describe('Route selectors', () => {
   it('domicile should be the first location ID', () => {
-    expect(
-      routeSelectors.getDomicileId(state.route),
-    ).toEqual(1);
+    expect(routeSelectors.getDomicileId(state.route)).toEqual(1);
   });
   it('domicile should not be a positive number if route is empty', () => {
-    expect(
-      routeSelectors.getDomicileId(initialRouteState),
-    ).not.toBeGreaterThanOrEqual(0);
+    expect(routeSelectors.getDomicileId(initialRouteState)).not.toBeGreaterThanOrEqual(0);
   });
 });
 

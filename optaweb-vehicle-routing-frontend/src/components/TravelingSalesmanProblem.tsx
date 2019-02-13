@@ -58,7 +58,6 @@ const mapDispatchToProps: IDispatchProps = {
 };
 
 class TravelingSalesmanProblem extends React.Component<Props, IState> {
-
   constructor(props: Props) {
     super(props);
 
@@ -129,4 +128,7 @@ class TravelingSalesmanProblem extends React.Component<Props, IState> {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TravelingSalesmanProblem);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(TravelingSalesmanProblem);

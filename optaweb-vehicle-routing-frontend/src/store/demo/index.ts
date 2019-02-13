@@ -17,8 +17,6 @@
 import * as demoOperations from './operations';
 import reducer from './reducers';
 
-export {
-  demoOperations,
-};
+export { demoOperations };
 
 export default reducer;

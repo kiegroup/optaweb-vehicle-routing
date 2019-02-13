@@ -16,14 +16,7 @@
 
 import * as L from 'leaflet';
 import * as React from 'react';
-import {
-  Map,
-  Marker,
-  Polyline,
-  TileLayer,
-  Tooltip,
-  ZoomControl,
-} from 'react-leaflet';
+import { Map, Marker, Polyline, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
 import { ILatLng, IRouteWithSegments } from '../store/route/types';
 
 export interface ITspMapProps {
@@ -68,7 +61,7 @@ const TspMap: React.SFC<ITspMapProps> = ({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ZoomControl position="topright" />
-      {route.locations.map(location => (
+      {route.locations.map((location) => (
         <Marker
           key={location.id}
           position={location}
