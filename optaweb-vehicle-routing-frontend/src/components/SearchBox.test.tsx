@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { Button } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { OpenStreetMapProvider, SearchResult } from 'leaflet-geosearch';
@@ -69,15 +70,40 @@ describe('Search box', () => {
     expect((searchBox.state() as IState).attributions).toEqual(licenses);
 
     // and an empty query is issued
-    searchBox.find('TextInput').simulate('change', ' ');
+    const emptyQuery = ' ';
+    searchBox.find('TextInput').simulate('change', emptyQuery);
     expect(toJson(searchBox)).toMatchSnapshot();
 
     // search is not invoked
     // @ts-ignore
     expect(OpenStreetMapProvider.mock.instances[0].search).toHaveBeenCalledTimes(0);
     // and results are cleared
-    expect((searchBox.state() as IState).results).toEqual([]);
-    expect((searchBox.state() as IState).attributions).toEqual([]);
+    expect(searchBox.state()).toEqual({ query: emptyQuery, results: [], attributions: [] });
+  });
+
+  it('should invoke add handler with the selected result and clear results', () => {
+    const mockAddHandler = jest.fn();
+    const props: IProps = {
+      addHandler: mockAddHandler,
+      searchDelay: 1,
+    };
+
+    const searchBox = shallow(<SearchBox {...props} />);
+
+    // when there are non-empty results
+    searchBox.setState({ results, attributions: licenses });
+    expect(toJson(searchBox)).toMatchSnapshot();
+
+    const resultItems = searchBox.findWhere(
+      node => node.key() !== null && node.key().startsWith('result'),
+    );
+    expect(resultItems).toHaveLength(results.length);
+
+    const selection = results.length / 2;
+    resultItems.at(selection).find(Button).simulate('click');
+    expect(props.addHandler).toHaveBeenLastCalledWith(results[selection]);
+
+    expect(searchBox.state()).toEqual({ query: '', results: [], attributions: [] });
   });
 });
 
