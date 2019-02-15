@@ -33,11 +33,11 @@ import org.mockito.stubbing.Answer1;
 import org.mockito.stubbing.VoidAnswer1;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
-import org.optaplanner.examples.tsp.domain.Domicile;
-import org.optaplanner.examples.tsp.domain.Standstill;
-import org.optaplanner.examples.tsp.domain.TspSolution;
-import org.optaplanner.examples.tsp.domain.Visit;
-import org.optaplanner.examples.tsp.domain.location.RoadLocation;
+import org.optaplanner.examples.vehiclerouting.domain.Customer;
+import org.optaplanner.examples.vehiclerouting.domain.Depot;
+import org.optaplanner.examples.vehiclerouting.domain.Standstill;
+import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
+import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
@@ -66,9 +66,9 @@ public class RouteOptimizerImplTest {
     @Mock
     private ApplicationEventPublisher eventPublisher;
     @Mock
-    private Solver<TspSolution> solver;
+    private Solver<VehicleRoutingSolution> solver;
     @Mock
-    private BestSolutionChangedEvent<TspSolution> bestSolutionChangedEvent;
+    private BestSolutionChangedEvent<VehicleRoutingSolution> bestSolutionChangedEvent;
     @Captor
     private ArgumentCaptor<RouteChangedEvent> routeChangedEventArgumentCaptor;
     @Mock
@@ -92,7 +92,7 @@ public class RouteOptimizerImplTest {
         // mimic solve() => isSolving(); terminateEarly() => !isSolving()
         isSolving = false;
         when(solver.isSolving()).thenAnswer((Answer<Boolean>) invocation -> isSolving);
-        when(solver.solve(any())).thenAnswer(answerVoid((VoidAnswer1<TspSolution>) solution -> isSolving = true));
+        when(solver.solve(any())).thenAnswer(answerVoid((VoidAnswer1<VehicleRoutingSolution>) solution -> isSolving = true));
         when(solver.terminateEarly()).thenAnswer((Answer<Boolean>) invocation -> {
             isSolving = false;
             return true;
@@ -119,7 +119,7 @@ public class RouteOptimizerImplTest {
 
     @Test
     public void publish_new_best_solution_if_all_fact_changes_processed() {
-        TspSolution solution = createSolution(location1, location2);
+        VehicleRoutingSolution solution = createSolution(location1, location2);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
 
@@ -132,7 +132,7 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void solution_with_domicile_only_should_be_published() {
+    public void solution_with_depot_only_should_be_published() {
         routeOptimizer.addLocation(location1, distanceMatrix);
         verify(eventPublisher).publishEvent(any(RouteChangedEvent.class));
         assertThat(solver.isSolving()).isFalse();
@@ -146,7 +146,7 @@ public class RouteOptimizerImplTest {
 
         assertThat(isSolving).isTrue();
         assertThat(solver.isSolving()).isTrue();
-        // solving has started after adding a second location (domicile + visit)
+        // solving has started after adding a second location (depot + visit)
         verify(solver).solve(any());
 
         // problem fact change only happens when adding location to a running solver
@@ -174,14 +174,14 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void removing_domicile_impossible_when_there_are_other_locations() {
+    public void removing_depot_impossible_when_there_are_other_locations() {
         // add 2 locations
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
 
         Assertions.assertThatThrownBy(() -> routeOptimizer.removeLocation(location1))
                 .isInstanceOf(UnsupportedOperationException.class)
-                .hasMessageContaining("domicile");
+                .hasMessageContaining("depot");
     }
 
     @Test
@@ -196,8 +196,8 @@ public class RouteOptimizerImplTest {
 
     @Test
     public void removing_location_from_solver_with_more_than_two_locations_must_happen_through_problem_fact_change() {
-        // set up a situation where solver is running with 1 domicile and 2 visits
-        TspSolution solution = createSolution(location1, location2, location3);
+        // set up a situation where solver is running with 1 depot and 2 visits
+        VehicleRoutingSolution solution = createSolution(location1, location2, location3);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
         routeOptimizer.addLocation(location1, distanceMatrix);
@@ -213,8 +213,8 @@ public class RouteOptimizerImplTest {
 
     @Test
     public void clear_should_stop_solver_and_publish_empty_solution() throws ExecutionException, InterruptedException {
-        // set up a situation where solver is running with 1 domicile and 2 visits
-        TspSolution solution = createSolution(location1, location2, location3);
+        // set up a situation where solver is running with 1 depot and 2 visits
+        VehicleRoutingSolution solution = createSolution(location1, location2, location3);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
         routeOptimizer.addLocation(location1, distanceMatrix);
@@ -239,23 +239,30 @@ public class RouteOptimizerImplTest {
         routeOptimizer.clear();
     }
 
-    private static TspSolution createSolution(Location... coreLocations) {
-        TspSolution solution = RouteOptimizerImpl.emptySolution();
-        RoadLocation domicileLocation = RouteOptimizerImpl.coreToPlanner(coreLocations[0]);
-        solution.getLocationList().add(domicileLocation);
-        Domicile domicile = new Domicile();
-        domicile.setLocation(domicileLocation);
-        solution.setDomicile(domicile);
+    private static VehicleRoutingSolution createSolution(Location... coreLocations) {
+        VehicleRoutingSolution solution = RouteOptimizerImpl.emptySolution();
+        RoadLocation depotLocation = RouteOptimizerImpl.coreToPlanner(coreLocations[0]);
+        solution.getLocationList().add(depotLocation);
+
+        Depot depot = new Depot();
+        depot.setLocation(depotLocation);
+        solution.getDepotList().add(depot);
+        solution.getVehicleList().get(0).setDepot(depot);
 
         // visits
-        Standstill previousStandstill = domicile;
+        Standstill previousStandstill = solution.getVehicleList().get(0);
 
         for (int i = 1; i < coreLocations.length; i++) {
-            Visit visit = new Visit();
-            visit.setLocation(RouteOptimizerImpl.coreToPlanner(coreLocations[i]));
-            visit.setPreviousStandstill(previousStandstill);
-            solution.getVisitList().add(visit);
-            previousStandstill = visit;
+            RoadLocation roadLocation = RouteOptimizerImpl.coreToPlanner(coreLocations[i]);
+            solution.getLocationList().add(roadLocation);
+
+            Customer customer = new Customer();
+            customer.setLocation(roadLocation);
+            customer.setPreviousStandstill(previousStandstill);
+            solution.getCustomerList().add(customer);
+
+            previousStandstill.setNextCustomer(customer);
+            previousStandstill = customer;
         }
         return solution;
     }

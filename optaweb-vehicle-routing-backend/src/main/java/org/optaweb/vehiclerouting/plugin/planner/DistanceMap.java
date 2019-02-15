@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.optaplanner.examples.tsp.domain.location.RoadLocation;
+import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.Location;
 
 /**
