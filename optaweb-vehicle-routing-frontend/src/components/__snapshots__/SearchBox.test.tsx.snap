@@ -1,5 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Search box should hide results when query is empty 1`] = `
+<div>
+  <TextInput
+    aria-label="geosearch text input"
+    className=""
+    isDisabled={false}
+    isReadOnly={false}
+    isRequired={false}
+    isValid={true}
+    onChange={[Function]}
+    placeholder="Search to add a location..."
+    type="search"
+    value=" "
+  />
+</div>
+`;
+
 exports[`Search box should render text input initially 1`] = `
 <div>
   <TextInput
@@ -187,22 +204,5 @@ exports[`Search box should show results when query is entered 1`] = `
       </li>
     </ul>
   </div>
-</div>
-`;
-
-exports[`Search box should show results when query is entered 2`] = `
-<div>
-  <TextInput
-    aria-label="geosearch text input"
-    className=""
-    isDisabled={false}
-    isReadOnly={false}
-    isRequired={false}
-    isValid={true}
-    onChange={[Function]}
-    placeholder="Search to add a location..."
-    type="search"
-    value=" "
-  />
 </div>
 `;
