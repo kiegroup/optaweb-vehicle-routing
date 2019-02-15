@@ -43,37 +43,6 @@ describe('Search box', () => {
       searchDelay: 1,
     };
 
-    const results: SearchResult[] = [
-      {
-        bounds: [[1, 2], [3, 4]],
-        label: 'London, ON, Canada',
-        raw: { licence: 'License 1' },
-        x: 101,
-        y: 102,
-      },
-      {
-        bounds: [[1, 2], [3, 4]],
-        label: 'London, OH, USA',
-        raw: { licence: 'License 2' },
-        x: 201,
-        y: 202,
-      },
-      {
-        bounds: [[1, 2], [3, 4]],
-        label: 'London, KY, USA',
-        raw: { licence: 'License 2' },
-        x: 301,
-        y: 302,
-      },
-      {
-        bounds: [[1, 2], [3, 4]],
-        label: 'London, UK',
-        raw: { licence: 'License 1' },
-        x: 401,
-        y: 402,
-      },
-    ];
-
     const searchBox = shallow(<SearchBox {...props} />);
     // @ts-ignore
     OpenStreetMapProvider.mock.instances[0].search.mockImplementation(() => results);
@@ -83,17 +52,64 @@ describe('Search box', () => {
     // @ts-ignore
     expect(OpenStreetMapProvider.mock.instances[0].search).toHaveBeenCalledTimes(1);
     expect((searchBox.state() as IState).results).toHaveLength(results.length);
-    expect((searchBox.state() as IState).attributions).toEqual(['License 1', 'License 2']);
+    expect((searchBox.state() as IState).attributions).toEqual(licenses);
+  });
 
-    // when query is empty
+  it('should hide results when query is empty', () => {
+    const props: IProps = {
+      addHandler: jest.fn(),
+      searchDelay: 1,
+    };
+
+    const searchBox = shallow(<SearchBox {...props} />);
+
+    // when there are non-empty results
+    searchBox.setState({ results, attributions: licenses });
+    expect((searchBox.state() as IState).results).toEqual(results);
+    expect((searchBox.state() as IState).attributions).toEqual(licenses);
+
+    // and an empty query is issued
     searchBox.find('TextInput').simulate('change', ' ');
-    await jest.runAllTimers();
     expect(toJson(searchBox)).toMatchSnapshot();
+
     // search is not invoked
     // @ts-ignore
-    expect(OpenStreetMapProvider.mock.instances[0].search).toHaveBeenCalledTimes(1);
-    // results are empty
+    expect(OpenStreetMapProvider.mock.instances[0].search).toHaveBeenCalledTimes(0);
+    // and results are cleared
     expect((searchBox.state() as IState).results).toEqual([]);
     expect((searchBox.state() as IState).attributions).toEqual([]);
   });
 });
+
+const licenses = ['License 1', 'License 2'];
+
+const results: SearchResult[] = [
+  {
+    bounds: [[1, 2], [3, 4]],
+    label: 'London, ON, Canada',
+    raw: { licence: licenses[0] },
+    x: 101,
+    y: 102,
+  },
+  {
+    bounds: [[1, 2], [3, 4]],
+    label: 'London, OH, USA',
+    raw: { licence: licenses[1] },
+    x: 201,
+    y: 202,
+  },
+  {
+    bounds: [[1, 2], [3, 4]],
+    label: 'London, KY, USA',
+    raw: { licence: licenses[1] },
+    x: 301,
+    y: 302,
+  },
+  {
+    bounds: [[1, 2], [3, 4]],
+    label: 'London, UK',
+    raw: { licence: licenses[0] },
+    x: 401,
+    y: 402,
+  },
+];
