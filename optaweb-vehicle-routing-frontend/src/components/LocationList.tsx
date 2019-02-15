@@ -24,7 +24,6 @@ import {
 import * as React from 'react';
 import { IRoute } from '../store/route/types';
 import Location from './Location';
-import TripData from './TripData';
 
 export interface ILocationListProps {
   removeHandler: (id: number) => void;
@@ -59,68 +58,33 @@ const renderEmptyLocationList = ({
 };
 
 const renderLocationList = ({
-  route: { distance, locations },
+  route: { locations },
   domicileId,
   removeHandler,
   selectHandler,
-  clearHandler,
-  maxDistance,
-  isDemoLoading,
 }: ILocationListProps) => {
   return (
-    <Card >
-      { /* TO BE REMOVED? Disabled*/
-        false && (
-        <CardHeader>
-          Distance: {distance}
-          <br />
-          Locations: {locations.length}
-          <TripData
-            maxDistance={maxDistance}
-            distance={parseInt(distance, 10) || maxDistance}
+    <DataList
+      aria-label="simple-item1"
+      style={{
+        maxHeight: 'calc(100vh - 24px - 24px - 8px - 196px)',
+        overflowY: 'auto',
+      }}
+    >
+      {locations
+        .slice(0) // clone the array because
+        // sort is done in place (that would affect the route)
+        .sort((a, b) => a.id - b.id)
+        .map(location => (
+          <Location
+            key={location.id}
+            id={location.id}
+            removeDisabled={locations.length > 1 && location.id === domicileId}
+            removeHandler={removeHandler}
+            selectHandler={selectHandler}
           />
-          <br />
-          <Button
-            type="button"
-            isDisabled={isDemoLoading}
-            style={{ width: '100%' }}
-            onClick={clearHandler}
-          >
-            Clear
-          </Button>
-          <br />
-        </CardHeader>
-      )}
-      <CardBody>
-        {/*
-        The calculated maxHeight is a hack because the last constant depends
-        on the height of CardHeader (above).
-        */}
-        <DataList
-          aria-label="simple-item1"
-          style={{
-            maxHeight: 'calc(100vh - 24px - 24px - 8px - 196px)',
-            overflowY: 'auto',
-          }}
-        >
-          {locations
-            .slice(0) // clone the array because
-            // sort is done in place (that would affect the route)
-            .sort((a, b) => a.id - b.id)
-            .map(location => (
-              <Location
-                key={location.id}
-                id={location.id}
-                removeDisabled={
-                  locations.length > 1 && location.id === domicileId
-                }
-                removeHandler={removeHandler}
-                selectHandler={selectHandler}
-              />
-            ))}
-        </DataList>
-      </CardBody>
-    </Card>
+        ))}
+    </DataList>
   );
 };
 
