@@ -17,6 +17,175 @@ exports[`Search box should hide results when query is empty 1`] = `
 </div>
 `;
 
+exports[`Search box should invoke add handler with the selected result and clear results 1`] = `
+<div>
+  <TextInput
+    aria-label="geosearch text input"
+    className=""
+    isDisabled={false}
+    isReadOnly={false}
+    isRequired={false}
+    isValid={true}
+    onChange={[Function]}
+    placeholder="Search to add a location..."
+    type="search"
+    value=""
+  />
+  <div
+    className="pf-c-options-menu pf-m-expanded"
+  >
+    <ul
+      className="pf-c-options-menu__menu"
+    >
+      <li
+        key="result0"
+      >
+        <div
+          className="pf-c-options-menu__menu-item"
+        >
+          <Button
+            aria-label={null}
+            className="pf-c-options-menu__menu-item-icon"
+            component="button"
+            isActive={false}
+            isBlock={false}
+            isDisabled={false}
+            isFocus={false}
+            isHover={false}
+            onClick={[Function]}
+            type="button"
+            variant="link"
+          >
+            <PlusSquareIcon
+              color="currentColor"
+              size="sm"
+              title={null}
+            />
+          </Button>
+        </div>
+      </li>
+      <li
+        key="result1"
+      >
+        <div
+          className="pf-c-options-menu__menu-item"
+        >
+          <Button
+            aria-label={null}
+            className="pf-c-options-menu__menu-item-icon"
+            component="button"
+            isActive={false}
+            isBlock={false}
+            isDisabled={false}
+            isFocus={false}
+            isHover={false}
+            onClick={[Function]}
+            type="button"
+            variant="link"
+          >
+            <PlusSquareIcon
+              color="currentColor"
+              size="sm"
+              title={null}
+            />
+          </Button>
+        </div>
+      </li>
+      <li
+        key="result2"
+      >
+        <div
+          className="pf-c-options-menu__menu-item"
+        >
+          <Button
+            aria-label={null}
+            className="pf-c-options-menu__menu-item-icon"
+            component="button"
+            isActive={false}
+            isBlock={false}
+            isDisabled={false}
+            isFocus={false}
+            isHover={false}
+            onClick={[Function]}
+            type="button"
+            variant="link"
+          >
+            <PlusSquareIcon
+              color="currentColor"
+              size="sm"
+              title={null}
+            />
+          </Button>
+        </div>
+      </li>
+      <li
+        key="result3"
+      >
+        <div
+          className="pf-c-options-menu__menu-item"
+        >
+          <Button
+            aria-label={null}
+            className="pf-c-options-menu__menu-item-icon"
+            component="button"
+            isActive={false}
+            isBlock={false}
+            isDisabled={false}
+            isFocus={false}
+            isHover={false}
+            onClick={[Function]}
+            type="button"
+            variant="link"
+          >
+            <PlusSquareIcon
+              color="currentColor"
+              size="sm"
+              title={null}
+            />
+          </Button>
+        </div>
+      </li>
+      <li
+        className="pf-c-options-menu__separator"
+        role="separator"
+      />
+      <li
+        className="pf-c-options-menu__menu-item pf-m-disabled"
+        key="attrib0"
+      >
+        <TextContent
+          className=""
+        >
+          <Text
+            className=""
+            component="small"
+            key="0"
+          >
+            License 1
+          </Text>
+        </TextContent>
+      </li>
+      <li
+        className="pf-c-options-menu__menu-item pf-m-disabled"
+        key="attrib1"
+      >
+        <TextContent
+          className=""
+        >
+          <Text
+            className=""
+            component="small"
+            key="1"
+          >
+            License 2
+          </Text>
+        </TextContent>
+      </li>
+    </ul>
+  </div>
+</div>
+`;
+
 exports[`Search box should render text input initially 1`] = `
 <div>
   <TextInput
