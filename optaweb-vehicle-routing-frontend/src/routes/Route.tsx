@@ -89,6 +89,7 @@ export default class Route extends React.Component<IRouteProps, IRouteState> {
           <SplitItem isMain={false}>
             <FormSelect
               value={''}
+              // tslint:disable-next-line:no-console
               onChange={e => console.log(e)}
               aria-label="FormSelect Input"
             >
