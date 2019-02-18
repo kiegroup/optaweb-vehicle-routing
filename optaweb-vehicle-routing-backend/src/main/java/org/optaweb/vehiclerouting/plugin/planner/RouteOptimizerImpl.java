@@ -36,6 +36,9 @@ import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
+import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
+import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
@@ -207,24 +210,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 startSolver();
             }
         } else {
-            solver.addProblemFactChange(scoreDirector -> {
-                VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
-                workingSolution.setLocationList(new ArrayList<>(workingSolution.getLocationList()));
-
-                scoreDirector.beforeProblemFactAdded(location);
-                workingSolution.getLocationList().add(location);
-                scoreDirector.afterProblemFactAdded(location);
-
-                Customer customer = new Customer();
-                customer.setId(location.getId());
-                customer.setLocation(location);
-
-                scoreDirector.beforeEntityAdded(customer);
-                workingSolution.getCustomerList().add(customer);
-                scoreDirector.afterEntityAdded(customer);
-
-                scoreDirector.triggerVariableListeners();
-            });
+            solver.addProblemFactChange(new AddCustomer(location));
         }
     }
 
@@ -252,53 +238,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 solution.getVehicleList().get(0).setNextCustomer(null);
                 publishRoute(solution);
             } else {
-                solver.addProblemFactChanges(Arrays.asList(
-                        scoreDirector -> {
-                            VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
-                            Customer customer = workingSolution.getCustomerList().stream()
-                                    .filter(v -> v.getLocation().getId().equals(location.getId()))
-                                    .findFirst()
-                                    .orElseThrow(() -> new IllegalArgumentException(
-                                            "Invalid request for removing customer at " + location));
-
-                            // Fix the next customer and set its previousStandstill to the removed customer's previousStandstill
-                            for (Customer nextCustomer : workingSolution.getCustomerList()) {
-                                if (nextCustomer.getPreviousStandstill().equals(customer)) {
-                                    scoreDirector.beforeVariableChanged(nextCustomer, "previousStandstill");
-                                    nextCustomer.setPreviousStandstill(customer.getPreviousStandstill());
-                                    scoreDirector.afterVariableChanged(nextCustomer, "previousStandstill");
-                                    break;
-                                }
-                            }
-
-                            // Remove the customer
-                            scoreDirector.beforeEntityRemoved(customer);
-                            if (!workingSolution.getCustomerList().remove(customer)) {
-                                throw new IllegalStateException("This is impossible.");
-                            }
-                            scoreDirector.afterEntityRemoved(customer);
-
-                            scoreDirector.triggerVariableListeners();
-                        },
-                        scoreDirector -> {
-                            VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
-
-                            Location workingLocation = scoreDirector.lookUpWorkingObject(location);
-                            if (workingLocation == null) {
-                                throw new IllegalStateException("Can't look up working copy of " + location);
-                            }
-                            // shallow clone fact list
-                            // TODO think if we can fail fast when user forgets to make the clone (PLANNER)
-                            workingSolution.setLocationList(new ArrayList<>(workingSolution.getLocationList()));
-                            scoreDirector.beforeProblemFactRemoved(workingLocation);
-                            if (!workingSolution.getLocationList().remove(workingLocation)) {
-                                throw new IllegalStateException("This is a bug.");
-                            }
-                            scoreDirector.afterProblemFactRemoved(workingLocation);
-
-                            scoreDirector.triggerVariableListeners();
-                        }
-                ));
+                solver.addProblemFactChanges(Arrays.asList(new RemoveCustomer(location), new RemoveLocation(location)));
             }
         }
     }
