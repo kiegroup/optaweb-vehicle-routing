@@ -38,8 +38,6 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.examples.vehiclerouting.app.VehicleRoutingApp;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
@@ -90,23 +88,8 @@ public class SolverTest {
     @Test
     public void removing_customers_should_not_fail() throws InterruptedException, ExecutionException {
         VehicleRoutingSolution solution = RouteOptimizerImpl.emptySolution();
-
-        Location location1 = location(1);
-        solution.getLocationList().add(location1);
-
-        Depot depot = new Depot();
-        depot.setId(location1.getId());
-        depot.setLocation(location1);
-        solution.getDepotList().add(depot);
-        solution.getVehicleList().get(0).setDepot(depot);
-
-        Location location2 = location(2);
-        solution.getLocationList().add(location2);
-
-        Customer customer = new Customer();
-        customer.setId(location2.getId());
-        customer.setLocation(location2);
-        solution.getCustomerList().add(customer);
+        RouteOptimizerImpl.addDepot(solution, location(1));
+        RouteOptimizerImpl.addCustomer(solution, location(2));
 
         sf.getSolverConfig().setDaemon(true);
         Solver<VehicleRoutingSolution> solver = sf.buildSolver();

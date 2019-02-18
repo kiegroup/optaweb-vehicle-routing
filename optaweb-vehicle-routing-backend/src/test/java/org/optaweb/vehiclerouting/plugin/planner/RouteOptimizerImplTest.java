@@ -34,10 +34,8 @@ import org.mockito.stubbing.VoidAnswer1;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.Standstill;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
@@ -53,6 +51,7 @@ import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.optaweb.vehiclerouting.plugin.planner.RouteOptimizerImpl.coreToPlanner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RouteOptimizerImplTest {
@@ -241,26 +240,17 @@ public class RouteOptimizerImplTest {
 
     private static VehicleRoutingSolution createSolution(Location... coreLocations) {
         VehicleRoutingSolution solution = RouteOptimizerImpl.emptySolution();
-        RoadLocation depotLocation = RouteOptimizerImpl.coreToPlanner(coreLocations[0]);
-        solution.getLocationList().add(depotLocation);
+        RouteOptimizerImpl.addDepot(solution, coreToPlanner(coreLocations[0]));
 
-        Depot depot = new Depot();
-        depot.setLocation(depotLocation);
-        solution.getDepotList().add(depot);
-        solution.getVehicleList().get(0).setDepot(depot);
-
-        // visits
-        Standstill previousStandstill = solution.getVehicleList().get(0);
-
+        // create customers
         for (int i = 1; i < coreLocations.length; i++) {
-            RoadLocation roadLocation = RouteOptimizerImpl.coreToPlanner(coreLocations[i]);
-            solution.getLocationList().add(roadLocation);
+            RouteOptimizerImpl.addCustomer(solution, coreToPlanner(coreLocations[i]));
+        }
 
-            Customer customer = new Customer();
-            customer.setLocation(roadLocation);
+        // visit all customers
+        Standstill previousStandstill = solution.getVehicleList().get(0);
+        for (Customer customer : solution.getCustomerList()) {
             customer.setPreviousStandstill(previousStandstill);
-            solution.getCustomerList().add(customer);
-
             previousStandstill.setNextCustomer(customer);
             previousStandstill = customer;
         }

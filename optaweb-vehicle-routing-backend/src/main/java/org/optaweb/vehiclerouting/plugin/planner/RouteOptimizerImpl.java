@@ -115,6 +115,23 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         ));
     }
 
+    static void addDepot(VehicleRoutingSolution solution, Location location) {
+        Depot depot = new Depot();
+        depot.setId(location.getId());
+        depot.setLocation(location);
+        solution.getDepotList().add(depot);
+        solution.getVehicleList().get(0).setDepot(depot);
+        solution.getLocationList().add(location);
+    }
+
+    static void addCustomer(VehicleRoutingSolution solution, Location location) {
+        Customer customer = new Customer();
+        customer.setId(location.getId());
+        customer.setLocation(location);
+        solution.getCustomerList().add(customer);
+        solution.getLocationList().add(location);
+    }
+
     private void publishRoute(VehicleRoutingSolution solution) {
         extractRoute(solution).ifPresent(route -> {
             logger.debug("New solution with\n"
@@ -193,21 +210,18 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         location.setTravelDistanceMap(distanceMap);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (!isSolving()) {
-            List<Location> locationList = solution.getLocationList();
-            locationList.add(location);
-            if (locationList.size() == 1) {
-                Depot depot = new Depot();
-                depot.setId(location.getId());
-                depot.setLocation(location);
-                solution.getDepotList().add(depot);
-                solution.getVehicleList().get(0).setDepot(depot);
-                publishRoute(solution);
-            } else if (locationList.size() == 2) {
-                Customer customer = new Customer();
-                customer.setId(location.getId());
-                customer.setLocation(location);
-                solution.getCustomerList().add(customer);
-                startSolver();
+            switch (solution.getLocationList().size()) {
+                case 0:
+                    addDepot(solution, location);
+                    publishRoute(solution);
+                    break;
+                case 1:
+                    addCustomer(solution, location);
+                    startSolver();
+                    break;
+                default:
+                    throw new IllegalStateException("Illegal number of locations when solver is not solving: "
+                            + solution.getLocationList().size());
             }
         } else {
             solver.addProblemFactChange(new AddCustomer(location));
