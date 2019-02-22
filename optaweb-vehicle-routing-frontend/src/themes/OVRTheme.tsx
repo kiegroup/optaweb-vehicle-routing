@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+import filter from '@patternfly/patternfly/assets/images/background-filter.svg';
+import pfbg_1200 from '@patternfly/patternfly/assets/images/pfbg_1200.jpg';
+import pfbg_576 from '@patternfly/patternfly/assets/images/pfbg_576.jpg';
+import pfbg_576_2x from '@patternfly/patternfly/assets/images/pfbg_576@2x.jpg';
+import pfbg_768 from '@patternfly/patternfly/assets/images/pfbg_768.jpg';
+import pfbg_768_2x from '@patternfly/patternfly/assets/images/pfbg_768@2x.jpg';
 import {
   BackgroundImage,
   BackgroundImageSrc,
@@ -24,13 +30,12 @@ import * as React from 'react';
 
 const defaultProps: IOVRThemeProviderProps = {
   bgImages: {
-    [BackgroundImageSrc.lg]: '/assets/images/pfbg_1200.jpg',
-    [BackgroundImageSrc.sm]: '/assets/images/pfbg_768.jpg',
-    [BackgroundImageSrc.sm2x]: '/assets/images/pfbg_768@2x.jpg',
-    [BackgroundImageSrc.xs]: '/assets/images/pfbg_576.jpg',
-    [BackgroundImageSrc.xs2x]: '/assets/images/pfbg_576@2x.jpg',
-    [BackgroundImageSrc.filter]:
-      '/assets/images/background-filter.svg#image_overlay',
+    [BackgroundImageSrc.lg]: pfbg_1200,
+    [BackgroundImageSrc.sm]: pfbg_768,
+    [BackgroundImageSrc.sm2x]: pfbg_768_2x,
+    [BackgroundImageSrc.xs]: pfbg_576,
+    [BackgroundImageSrc.xs2x]: pfbg_576_2x,
+    [BackgroundImageSrc.filter]: `${filter}#image_overlay`,
   },
   brandImg: '/assets/images/optaPlannerLogo200px.png',
 };
