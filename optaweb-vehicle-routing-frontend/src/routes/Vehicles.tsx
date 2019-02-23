@@ -17,11 +17,8 @@
 import * as React from 'react';
 import { WorkInProgress } from 'src/components/WorkInProgress';
 
-export default function Vehicles() {
-  return (
-    <React.Fragment>
-      <h1>Vehicles</h1>
-      <WorkInProgress />
-    </React.Fragment>
-  );
-}
+const Vehicles = () => {
+  return <WorkInProgress />;
+};
+
+export default Vehicles;

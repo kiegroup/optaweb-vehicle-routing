@@ -17,13 +17,8 @@
 import * as React from 'react';
 import { WorkInProgress } from 'src/components/WorkInProgress';
 
-const Visits: React.SFC<{}> = () => {
-  return (
-    <React.Fragment>
-      <h1>Visits</h1>
-      <WorkInProgress />
-    </React.Fragment>
-  );
+const Visits = () => {
+  return <WorkInProgress />;
 };
 
 export default Visits;

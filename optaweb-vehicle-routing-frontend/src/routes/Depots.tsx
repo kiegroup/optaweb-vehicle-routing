@@ -17,6 +17,8 @@
 import * as React from 'react';
 import { WorkInProgress } from 'src/components/WorkInProgress';
 
-export default function Depots() {
+const Depots = () => {
   return <WorkInProgress />;
-}
+};
+
+export default Depots;
