@@ -91,13 +91,9 @@ const renderLocationList = ({
 const LocationList: React.SFC<ILocationListProps> = (
   props: ILocationListProps,
 ) => {
-  return (
-    <div>
-      {props.route.locations.length === 0
-        ? renderEmptyLocationList(props)
-        : renderLocationList(props)}
-    </div>
-  );
+  return props.route.locations.length === 0
+    ? renderEmptyLocationList(props)
+    : renderLocationList(props);
 };
 
 export default LocationList;

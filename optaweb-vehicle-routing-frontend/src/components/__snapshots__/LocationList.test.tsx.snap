@@ -1,79 +1,75 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Location List Component should render correctly with a few routes 1`] = `
-<div>
-  <DataList
-    aria-label="simple-item1"
-    className=""
-    style={
-      Object {
-        "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
-        "overflowY": "auto",
-      }
+<DataList
+  aria-label="simple-item1"
+  className=""
+  style={
+    Object {
+      "maxHeight": "calc(100vh - 24px - 24px - 8px - 196px)",
+      "overflowY": "auto",
     }
-  >
-    <Location
-      id={1}
-      key="1"
-      removeDisabled={true}
-      removeHandler={[MockFunction]}
-      selectHandler={[MockFunction]}
-    />
-    <Location
-      id={2}
-      key="2"
-      removeDisabled={false}
-      removeHandler={[MockFunction]}
-      selectHandler={[MockFunction]}
-    />
-    <Location
-      id={3}
-      key="3"
-      removeDisabled={false}
-      removeHandler={[MockFunction]}
-      selectHandler={[MockFunction]}
-    />
-  </DataList>
-</div>
+  }
+>
+  <Location
+    id={1}
+    key="1"
+    removeDisabled={true}
+    removeHandler={[MockFunction]}
+    selectHandler={[MockFunction]}
+  />
+  <Location
+    id={2}
+    key="2"
+    removeDisabled={false}
+    removeHandler={[MockFunction]}
+    selectHandler={[MockFunction]}
+  />
+  <Location
+    id={3}
+    key="3"
+    removeDisabled={false}
+    removeHandler={[MockFunction]}
+    selectHandler={[MockFunction]}
+  />
+</DataList>
 `;
 
 exports[`Location List Component should render correctly with no routes 1`] = `
-<div>
-  <Card
+<Card
+  className=""
+  component="article"
+>
+  <CardHeader
     className=""
-    component="article"
+    component="div"
   >
-    <CardHeader
+    Click map to add locations
+  </CardHeader>
+  <CardBody
+    className=""
+    component="div"
+  >
+    <Button
+      aria-label={null}
       className=""
-      component="div"
-    >
-      Click map to add locations
-    </CardHeader>
-    <CardBody
-      className=""
-      component="div"
-    >
-      <Button
-        aria-label={null}
-        className=""
-        component="button"
-        isActive={false}
-        isBlock={false}
-        isDisabled={false}
-        isFocus={false}
-        isHover={false}
-        onClick={[MockFunction]}
-        style={
-          Object {
-            "width": "100%",
-          }
+      component="button"
+      isActive={false}
+      isBlock={false}
+      isDisabled={false}
+      isFocus={false}
+      isHover={false}
+      onClick={[MockFunction]}
+      style={
+        Object {
+          "width": "100%",
         }
-        type="button"
-        variant="primary"
-      >
-        Load demo
-      </Button>
-    </CardBody>
-  </Card>
-</div>
+      }
+      type="button"
+      variant="primary"
+    >
+      Load demo
+    </Button>
+  </CardBody>
+</Card>
 `;
