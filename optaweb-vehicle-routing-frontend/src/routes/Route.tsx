@@ -24,11 +24,41 @@ import {
   TextVariants,
 } from '@patternfly/react-core';
 import * as React from 'react';
+import { connect } from 'react-redux';
 import LocationList from 'src/components/LocationList';
 import TspMap from 'src/components/TspMap';
+import { ILatLng, IRouteWithSegments } from 'src/store/route/types';
+import { IAppState } from '../store/configStore';
+import { demoOperations } from '../store/demo';
+import { routeOperations, routeSelectors } from '../store/route';
 
-import { IDispatchProps, IStateProps } from 'src/containers/OVR';
-import { ILatLng } from 'src/store/route/types';
+export interface IStateProps {
+  route: IRouteWithSegments;
+  domicileId: number;
+  isDemoLoading: boolean;
+}
+
+export interface IDispatchProps {
+  removeHandler: typeof routeOperations.deleteLocation;
+  loadHandler: typeof demoOperations.loadDemo;
+  clearHandler: typeof routeOperations.clearRoute;
+  addHandler: typeof routeOperations.addLocation;
+}
+
+const mapStateToProps = ({ route, demo }: IAppState): IStateProps => ({
+  domicileId: routeSelectors.getDomicileId(route),
+  isDemoLoading: demo.isLoading,
+  route,
+});
+
+const mapDispatchToProps: IDispatchProps = {
+  addHandler: routeOperations.addLocation,
+  clearHandler: routeOperations.clearRoute,
+  loadHandler: demoOperations.loadDemo,
+  removeHandler: routeOperations.deleteLocation,
+};
+
+type IRouteProps = IDispatchProps & IStateProps;
 
 export interface IRouteState {
   center: ILatLng;
@@ -36,8 +66,8 @@ export interface IRouteState {
   selectedId: number;
   zoom: number;
 }
-type IRouteProps = IDispatchProps & IStateProps;
-export default class Route extends React.Component<IRouteProps, IRouteState> {
+
+class Route extends React.Component<IRouteProps, IRouteState> {
   constructor(props: IRouteProps) {
     super(props);
 
@@ -53,6 +83,7 @@ export default class Route extends React.Component<IRouteProps, IRouteState> {
     this.onSelectLocation = this.onSelectLocation.bind(this);
     this.handleMapClick = this.handleMapClick.bind(this);
   }
+
   handleMapClick(e: any) {
     this.props.addHandler(e.latlng);
   }
@@ -60,6 +91,7 @@ export default class Route extends React.Component<IRouteProps, IRouteState> {
   onSelectLocation(id: number) {
     this.setState({ selectedId: id });
   }
+
   componentWillUpdate() {
     if (this.props.route) {
       const intDistance = parseInt(this.props.route.distance || '0', 10);
@@ -70,6 +102,7 @@ export default class Route extends React.Component<IRouteProps, IRouteState> {
       }
     }
   }
+
   render() {
     const { center, zoom, selectedId, maxDistance } = this.state;
     const {
@@ -131,3 +164,8 @@ export default class Route extends React.Component<IRouteProps, IRouteState> {
     );
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Route);

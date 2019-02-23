@@ -15,66 +15,19 @@
  */
 import { Page, PageSection, PageSectionVariants } from '@patternfly/react-core';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { Route, RouteComponentProps, withRouter } from 'react-router-dom';
 import OVRHeader from '../components/OVRHeader';
 import { Depots, Models, Route as RoutePage, Vehicles, Visits } from '../routes';
-import { IAppState } from '../store/configStore';
-import { demoOperations } from '../store/demo';
-import { routeOperations, routeSelectors } from '../store/route';
-import { ILatLng, IRouteWithSegments } from '../store/route/types';
 import OVRTheme, { OVRThemeConsumer } from '../themes/OVRTheme';
-export interface IStateProps {
-  route: IRouteWithSegments;
-  domicileId: number;
-  isDemoLoading: boolean;
-}
 
-export interface IDispatchProps {
-  removeHandler: typeof routeOperations.deleteLocation;
-  loadHandler: typeof demoOperations.loadDemo;
-  clearHandler: typeof routeOperations.clearRoute;
-  addHandler: typeof routeOperations.addLocation;
-}
+type Props = RouteComponentProps<any>;
 
-type Props = RouteComponentProps<any> &
-  IStateProps &
-  IDispatchProps;
-
-export interface IState {
-  center: ILatLng;
-  maxDistance: number;
-  selectedId: number;
-  zoom: number;
-}
-
-const mapStateToProps = ({ route, demo }: IAppState): IStateProps => ({
-  domicileId: routeSelectors.getDomicileId(route),
-  isDemoLoading: demo.isLoading,
-  route,
-});
-
-const mapDispatchToProps: IDispatchProps = {
-  addHandler: routeOperations.addLocation,
-  clearHandler: routeOperations.clearRoute,
-  loadHandler: demoOperations.loadDemo,
-  removeHandler: routeOperations.deleteLocation,
-};
-
-class OVR extends React.Component<Props, IState> {
+class OVR extends React.Component<Props> {
   constructor(props: Props) {
     super(props);
   }
+
   render() {
-    const {
-      addHandler,
-      route,
-      domicileId,
-      removeHandler,
-      loadHandler,
-      clearHandler,
-      isDemoLoading,
-    } = this.props;
     return (
       <OVRTheme>
         <OVRThemeConsumer>
@@ -106,19 +59,7 @@ class OVR extends React.Component<Props, IState> {
                   <Route
                     path="/route"
                     exact={true}
-                    render={() => (
-                      <RoutePage
-                        {...{
-                          addHandler,
-                          clearHandler,
-                          domicileId,
-                          isDemoLoading,
-                          loadHandler,
-                          removeHandler,
-                          route,
-                        }}
-                      />
-                    )}
+                    render={() => <RoutePage />}
                   />
                 </PageSection>
               </Page>
@@ -130,9 +71,4 @@ class OVR extends React.Component<Props, IState> {
   }
 }
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(OVR),
-);
+export default withRouter((OVR));
