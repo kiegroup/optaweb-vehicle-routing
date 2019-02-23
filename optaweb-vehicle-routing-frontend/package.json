@@ -2,8 +2,8 @@
   "private": true,
   "license": "Apache-2.0",
   "dependencies": {
-    "@patternfly/patternfly": "^1.0.207",
-    "@patternfly/react-core": "^1.51.6",
+    "@patternfly/patternfly": "^1.0.208",
+    "@patternfly/react-core": "^1.52.0",
     "@patternfly/react-icons": "^2.10.6",
     "@patternfly/react-table": "^0.4.18",
     "leaflet": "^1.4.0",
