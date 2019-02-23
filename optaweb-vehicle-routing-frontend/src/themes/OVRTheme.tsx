@@ -40,9 +40,7 @@ const defaultProps: IOVRThemeProviderProps = {
   brandImg: '/assets/images/optaPlannerLogo200px.png',
 };
 
-const PatternFlyContext = React.createContext<
-  IOVRThemeProviderState & IOVRThemeProviderProps
->({
+const PatternFlyContext = React.createContext<IOVRThemeProviderState & IOVRThemeProviderProps>({
   ...defaultProps,
   components: {
     Background: undefined,
@@ -62,22 +60,23 @@ export interface IOVRThemeProviderState {
   };
 }
 
-class OVRThemeProvider extends React.Component<
-  IOVRThemeProviderProps,
-  IOVRThemeProviderState
-> {
+class OVRThemeProvider extends React.Component<IOVRThemeProviderProps, IOVRThemeProviderState> {
+
   static defaultProps = defaultProps;
+
   constructor(props: IOVRThemeProviderProps) {
     super(props);
   }
+
   componentDidMount() {
     this.setState({
       components: {
         Background: <BackgroundImage src={this.props.bgImages!} />,
-        Brand: <Brand src={this.props.brandImg} alt="Patternfly Logo" />,
+        Brand: <Brand src={this.props.brandImg} alt="OptaPlanner Logo" />,
       },
     });
   }
+
   render() {
     return (
       <PatternFlyContext.Provider value={{ ...this.state, ...this.props }}>
@@ -86,6 +85,7 @@ class OVRThemeProvider extends React.Component<
     );
   }
 }
+
 export default OVRThemeProvider;
 
 export const OVRThemeConsumer = PatternFlyContext.Consumer;
