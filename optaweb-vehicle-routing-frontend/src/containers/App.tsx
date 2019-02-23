@@ -14,65 +14,19 @@
  * limitations under the License.
  */
 
-import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import ConnectionError from 'src/components/ConnectionError';
-import { IAppState } from '../store/configStore';
-import { websocketOperations } from '../store/websocket';
-import { WebSocketConnectionStatus } from '../store/websocket/types';
+import ConnectionManager from 'src/containers/ConnectionManager';
 import './App.css';
 import OVR from './OVR';
 
-interface IStateProps {
-  connectionStatus: WebSocketConnectionStatus;
+export default function App() {
+  return (
+    <React.Fragment>
+      <ConnectionManager />
+      <BrowserRouter>
+        <OVR />
+      </BrowserRouter>
+    </React.Fragment>
+  );
 }
-
-interface IDispatchProps {
-  connectClient: typeof websocketOperations.connectClient;
-}
-
-type Props = IStateProps & IDispatchProps;
-
-const mapStateToProps = ({ connectionStatus }: IAppState): IStateProps => ({
-  connectionStatus,
-});
-
-const mapDispatchToProps: IDispatchProps = {
-  connectClient: websocketOperations.connectClient,
-};
-
-class App extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
-  }
-
-  componentDidMount(): void {
-    this.props.connectClient();
-  }
-
-  render() {
-    const { connectionStatus } = this.props;
-    return (
-      <React.Fragment>
-        {connectionStatus === WebSocketConnectionStatus.ERROR && (
-          <ConnectionError
-            title="Oops... Connection error!"
-            message="Please check your network connection."
-            icon={<UnpluggedIcon />}
-            help="When connection is available the application will be functional again."
-          />
-        )}
-        <BrowserRouter>
-          <OVR />
-        </BrowserRouter>
-      </React.Fragment>
-    );
-  }
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App);

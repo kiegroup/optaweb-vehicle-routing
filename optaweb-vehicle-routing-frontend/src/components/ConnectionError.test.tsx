@@ -24,6 +24,7 @@ describe('Connection Error Component', () => {
     const props: IConnectionErrorProps = {
       help: 'help',
       icon: <i>Icon</i>,
+      isOpen: true,
       message: 'message',
       title: 'title',
     };

@@ -22,21 +22,18 @@ export interface IConnectionErrorProps {
   message: string;
   icon?: React.ReactNode;
   help?: string;
+  isOpen: boolean;
 }
 
 const renderHelpBlock = (help?: string) => {
-  return help ? (
-    <Text component={TextVariants.small}>{help}</Text>
-  ) : (
-    ''
-  );
+  return help ? <Text component={TextVariants.small}>{help}</Text> : '';
 };
 
 const ConnectionError: React.SFC<IConnectionErrorProps> = (
-  { title, message, icon, help }: IConnectionErrorProps,
+  { title, message, icon, help, isOpen }: IConnectionErrorProps,
 ) => {
   return (
-    <Modal title={title} isOpen={true}>
+    <Modal title={title} isOpen={isOpen}>
       <TextContent>
         <Text component={TextVariants.h3}>
           {icon}
