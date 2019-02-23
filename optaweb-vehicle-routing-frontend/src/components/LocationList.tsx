@@ -67,7 +67,7 @@ const renderLocationList = ({
     <DataList
       aria-label="simple-item1"
       style={{
-        maxHeight: 'calc(100vh - 24px - 24px - 8px - 196px)',
+        maxHeight: 'calc(100vh - 228px)',
         overflowY: 'auto',
       }}
     >

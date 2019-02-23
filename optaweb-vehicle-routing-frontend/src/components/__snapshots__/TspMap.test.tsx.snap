@@ -11,7 +11,7 @@ exports[`TSP Map View should render correctly 1`] = `
   onClick={[MockFunction]}
   style={
     Object {
-      "height": "100vmin",
+      "height": "calc(100vh - 192px)",
       "width": "100%",
     }
   }
