@@ -34,27 +34,27 @@ export default function App() {
           <Route
             path="/depots"
             exact={true}
-            render={() => <Depots />}
+            component={Depots}
           />
           <Route
             path="/models"
             exact={true}
-            render={() => <Models />}
+            component={Models}
           />
           <Route
             path="/vehicles"
             exact={true}
-            render={() => <Vehicles />}
+            component={Vehicles}
           />
           <Route
             path="/visits"
             exact={true}
-            render={() => <Visits />}
+            component={Visits}
           />
           <Route
             path="/route"
             exact={true}
-            render={() => <RoutePage />}
+            component={RoutePage}
           />
         </PageSection>
       </Page>
