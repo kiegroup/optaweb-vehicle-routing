@@ -24,8 +24,7 @@ const OVRHeader = () => (
   <OVRThemeConsumer>
     {({ components }: IOVRThemeProviderState) => {
       return (
-        components &&
-        components.Brand && (
+        components && components.Brand && (
           <PageHeader
             logo={components.Brand}
             toolbar={<OVRPageToolbar />}
