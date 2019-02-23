@@ -16,9 +16,10 @@
 import { Page, PageSection, PageSectionVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { Route, RouteComponentProps, withRouter } from 'react-router-dom';
+import Background from '../components/Background';
 import OVRHeader from '../components/OVRHeader';
 import { Depots, Models, Route as RoutePage, Vehicles, Visits } from '../routes';
-import OVRTheme, { OVRThemeConsumer } from '../themes/OVRTheme';
+import OVRTheme from '../themes/OVRTheme';
 
 type Props = RouteComponentProps<any>;
 
@@ -30,42 +31,38 @@ class OVR extends React.Component<Props> {
   render() {
     return (
       <OVRTheme>
-        <OVRThemeConsumer>
-          {({ components }) => (
-            <React.Fragment>
-              {components ? components.Background : undefined}
-              <Page header={OVRHeader()}>
-                <PageSection variant={PageSectionVariants.default}>
-                  <Route
-                    path="/depots"
-                    exact={true}
-                    render={() => <Depots />}
-                  />
-                  <Route
-                    path="/models"
-                    exact={true}
-                    render={() => <Models />}
-                  />
-                  <Route
-                    path="/vehicles"
-                    exact={true}
-                    render={() => <Vehicles />}
-                  />
-                  <Route
-                    path="/visits"
-                    exact={true}
-                    render={() => <Visits />}
-                  />
-                  <Route
-                    path="/route"
-                    exact={true}
-                    render={() => <RoutePage />}
-                  />
-                </PageSection>
-              </Page>
-            </React.Fragment>
-          )}
-        </OVRThemeConsumer>
+        <React.Fragment>
+          <Background />
+          <Page header={OVRHeader()}>
+            <PageSection variant={PageSectionVariants.default}>
+              <Route
+                path="/depots"
+                exact={true}
+                render={() => <Depots />}
+              />
+              <Route
+                path="/models"
+                exact={true}
+                render={() => <Models />}
+              />
+              <Route
+                path="/vehicles"
+                exact={true}
+                render={() => <Vehicles />}
+              />
+              <Route
+                path="/visits"
+                exact={true}
+                render={() => <Visits />}
+              />
+              <Route
+                path="/route"
+                exact={true}
+                render={() => <RoutePage />}
+              />
+            </PageSection>
+          </Page>
+        </React.Fragment>
       </OVRTheme>
     );
   }
