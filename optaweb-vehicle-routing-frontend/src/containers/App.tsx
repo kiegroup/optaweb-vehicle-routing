@@ -14,19 +14,50 @@
  * limitations under the License.
  */
 
+import { Page, PageSection, PageSectionVariants } from '@patternfly/react-core';
 import * as React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import ConnectionManager from 'src/containers/ConnectionManager';
+import Background from '../components/Background';
+import OVRHeader from '../components/OVRHeader';
+import { Depots, Models, Route as RoutePage, Vehicles, Visits } from '../routes';
+import OVRTheme from '../themes/OVRTheme';
 import './App.css';
-import OVR from './OVR';
 
 export default function App() {
   return (
-    <React.Fragment>
+    <OVRTheme>
       <ConnectionManager />
-      <BrowserRouter>
-        <OVR />
-      </BrowserRouter>
-    </React.Fragment>
+      <Background />
+      <Page header={OVRHeader()}>
+        <PageSection variant={PageSectionVariants.default}>
+          <Route
+            path="/depots"
+            exact={true}
+            render={() => <Depots />}
+          />
+          <Route
+            path="/models"
+            exact={true}
+            render={() => <Models />}
+          />
+          <Route
+            path="/vehicles"
+            exact={true}
+            render={() => <Vehicles />}
+          />
+          <Route
+            path="/visits"
+            exact={true}
+            render={() => <Visits />}
+          />
+          <Route
+            path="/route"
+            exact={true}
+            render={() => <RoutePage />}
+          />
+        </PageSection>
+      </Page>
+    </OVRTheme>
   );
 }
