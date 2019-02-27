@@ -14,7 +14,16 @@
  * limitations under the License.
  */
 
-import { Split, SplitItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import {
+  Button,
+  Grid,
+  GridItem,
+  Split,
+  SplitItem,
+  Text,
+  TextContent,
+  TextVariants,
+} from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import LocationList from 'src/components/LocationList';
@@ -100,11 +109,11 @@ class Demo extends React.Component<IDemoProps, IDemoState> {
     } = this.props;
     return (
       <React.Fragment>
-        <TextContent>
-          <Text component={TextVariants.h1}>Demo</Text>
-        </TextContent>
         <Split gutter="md">
           <SplitItem isMain={false}>
+            <TextContent>
+              <Text component={TextVariants.h1}>Demo</Text>
+            </TextContent>
             <SearchBox addHandler={this.handleSearchResultClick} />
             <div
               style={{
@@ -124,6 +133,35 @@ class Demo extends React.Component<IDemoProps, IDemoState> {
             </div>
           </SplitItem>
           <SplitItem isMain={true}>
+            <Split gutter="md">
+              <SplitItem isMain={true}>
+                <Grid>
+                  <GridItem span={6}>Locations: {route.locations.length}</GridItem>
+                  <GridItem span={6}>Distance: {route.distance}</GridItem>
+                </Grid>
+              </SplitItem>
+              <SplitItem isMain={false}>
+                {route.locations.length === 0 &&
+                <Button
+                  type="button"
+                  isDisabled={isDemoLoading}
+                  style={{ marginBottom: 16 }}
+                  onClick={loadHandler}
+                >
+                  Load demo
+                </Button>
+                ||
+                <Button
+                  type="button"
+                  isDisabled={isDemoLoading}
+                  style={{ marginBottom: 16 }}
+                  onClick={clearHandler}
+                >
+                  Clear
+                </Button>
+                }
+              </SplitItem>
+            </Split>
             <TspMap
               center={center}
               zoom={zoom}
