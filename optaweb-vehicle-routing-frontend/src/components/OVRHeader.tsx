@@ -14,25 +14,16 @@
  * limitations under the License.
  */
 
-import { PageHeader } from '@patternfly/react-core';
+import { Brand, PageHeader } from '@patternfly/react-core';
 import * as React from 'react';
-import { IOVRThemeProviderState, OVRThemeConsumer } from '../themes/OVRTheme';
 import OVRPageNav from './OVRPageNav';
 import OVRPageToolbar from './OVRPageToolbar';
 
 const OVRHeader = () => (
-  <OVRThemeConsumer>
-    {({ components }: IOVRThemeProviderState) => {
-      return (
-        components && components.Brand && (
-          <PageHeader
-            logo={components.Brand}
-            toolbar={<OVRPageToolbar />}
-            topNav={<OVRPageNav />}
-          />
-        )
-      );
-    }}
-  </OVRThemeConsumer>
+  <PageHeader
+    logo={<Brand src="/assets/images/optaPlannerLogo200px.png" alt="OptaPlanner Logo" />}
+    toolbar={<OVRPageToolbar />}
+    topNav={<OVRPageNav />}
+  />
 );
 export default OVRHeader;

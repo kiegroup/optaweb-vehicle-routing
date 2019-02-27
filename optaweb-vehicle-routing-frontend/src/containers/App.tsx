@@ -21,12 +21,11 @@ import ConnectionManager from 'src/containers/ConnectionManager';
 import Background from '../components/Background';
 import OVRHeader from '../components/OVRHeader';
 import { Depots, Models, Route as RoutePage, Vehicles, Visits } from '../routes';
-import OVRTheme from '../themes/OVRTheme';
 import './App.css';
 
 export default function App() {
   return (
-    <OVRTheme>
+    <React.Fragment>
       <ConnectionManager />
       <Background />
       <Page header={OVRHeader()}>
@@ -58,6 +57,6 @@ export default function App() {
           />
         </PageSection>
       </Page>
-    </OVRTheme>
+    </React.Fragment>
   );
 }
