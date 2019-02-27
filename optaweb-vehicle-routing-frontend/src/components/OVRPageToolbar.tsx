@@ -30,7 +30,9 @@ import * as React from 'react';
 export function PageToolbar() {
   const [openTenants, setOpenTenants] = React.useState(false);
   return (
-    <Toolbar>
+    <Toolbar
+      style={{ display: 'none' }} // TODO remove this when we start using tenants
+    >
       <ToolbarGroup>
         <ToolbarItem>
           <Dropdown
