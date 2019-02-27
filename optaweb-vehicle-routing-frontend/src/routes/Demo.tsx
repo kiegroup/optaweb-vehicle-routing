@@ -115,7 +115,6 @@ class Demo extends React.Component<IDemoProps, IDemoState> {
               <LocationList
                 route={route}
                 domicileId={domicileId}
-                maxDistance={0}
                 removeHandler={removeHandler}
                 selectHandler={this.onSelectLocation}
                 loadHandler={loadHandler}

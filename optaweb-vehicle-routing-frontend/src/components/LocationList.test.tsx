@@ -26,7 +26,6 @@ describe('Location List Component', () => {
       domicileId: -1,
       isDemoLoading: false,
       loadHandler: jest.fn(),
-      maxDistance: 1,
       removeHandler: jest.fn(),
       route: {
         distance: '0',
@@ -49,7 +48,6 @@ describe('Location List Component', () => {
       domicileId: 1,
       isDemoLoading: false,
       loadHandler: jest.fn(),
-      maxDistance: 1,
       removeHandler: jest.fn(),
       route: {
         distance: '10',

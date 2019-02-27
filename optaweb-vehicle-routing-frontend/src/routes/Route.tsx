@@ -62,7 +62,6 @@ type IRouteProps = IDispatchProps & IStateProps;
 
 export interface IRouteState {
   center: ILatLng;
-  maxDistance: number;
   selectedId: number;
   zoom: number;
 }
@@ -76,7 +75,6 @@ class Route extends React.Component<IRouteProps, IRouteState> {
         lat: 50.85,
         lng: 4.35,
       },
-      maxDistance: -1,
       selectedId: NaN,
       zoom: 9,
     };
@@ -92,19 +90,8 @@ class Route extends React.Component<IRouteProps, IRouteState> {
     this.setState({ selectedId: id });
   }
 
-  componentWillUpdate() {
-    if (this.props.route) {
-      const intDistance = parseInt(this.props.route.distance || '0', 10);
-      const { maxDistance: currentMax } = this.state;
-
-      if ((currentMax === -1 && intDistance > 0) || currentMax < intDistance) {
-        this.setState({ maxDistance: intDistance });
-      }
-    }
-  }
-
   render() {
-    const { center, zoom, selectedId, maxDistance } = this.state;
+    const { center, zoom, selectedId } = this.state;
     const {
       route,
       domicileId,
@@ -146,7 +133,6 @@ class Route extends React.Component<IRouteProps, IRouteState> {
               <LocationList
                 route={route}
                 domicileId={domicileId}
-                maxDistance={maxDistance}
                 removeHandler={removeHandler}
                 selectHandler={this.onSelectLocation}
                 loadHandler={loadHandler}

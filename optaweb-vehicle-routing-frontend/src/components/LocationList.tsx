@@ -30,7 +30,6 @@ export interface ILocationListProps {
   selectHandler: (id: number) => void;
   loadHandler: () => void;
   clearHandler: () => void;
-  maxDistance: number;
   route: IRoute;
   domicileId: number;
   isDemoLoading: boolean;
