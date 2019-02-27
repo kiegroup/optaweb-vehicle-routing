@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-import {
-  FormSelect,
-  FormSelectOption,
-  Split,
-  SplitItem,
-  Text,
-  TextContent,
-  TextVariants,
-} from '@patternfly/react-core';
+import { Split, SplitItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import LocationList from 'src/components/LocationList';
 import TspMap from 'src/components/TspMap';
 import { ILatLng, IRouteWithSegments } from 'src/store/route/types';
+import SearchBox, { IResult } from '../components/SearchBox';
 import { IAppState } from '../store/configStore';
 import { demoOperations } from '../store/demo';
 import { routeOperations, routeSelectors } from '../store/route';
@@ -58,17 +51,16 @@ const mapDispatchToProps: IDispatchProps = {
   removeHandler: routeOperations.deleteLocation,
 };
 
-type IRouteProps = IDispatchProps & IStateProps;
+type IDemoProps = IDispatchProps & IStateProps;
 
-export interface IRouteState {
+export interface IDemoState {
   center: ILatLng;
-  maxDistance: number;
   selectedId: number;
   zoom: number;
 }
 
-class Route extends React.Component<IRouteProps, IRouteState> {
-  constructor(props: IRouteProps) {
+class Demo extends React.Component<IDemoProps, IDemoState> {
+  constructor(props: IDemoProps) {
     super(props);
 
     this.state = {
@@ -76,35 +68,28 @@ class Route extends React.Component<IRouteProps, IRouteState> {
         lat: 50.85,
         lng: 4.35,
       },
-      maxDistance: -1,
       selectedId: NaN,
       zoom: 9,
     };
-    this.onSelectLocation = this.onSelectLocation.bind(this);
     this.handleMapClick = this.handleMapClick.bind(this);
+    this.handleSearchResultClick = this.handleSearchResultClick.bind(this);
+    this.onSelectLocation = this.onSelectLocation.bind(this);
   }
 
   handleMapClick(e: any) {
     this.props.addHandler(e.latlng);
   }
 
+  handleSearchResultClick(result: IResult) {
+    this.props.addHandler(result.latLng);
+  }
+
   onSelectLocation(id: number) {
     this.setState({ selectedId: id });
   }
 
-  componentWillUpdate() {
-    if (this.props.route) {
-      const intDistance = parseInt(this.props.route.distance || '0', 10);
-      const { maxDistance: currentMax } = this.state;
-
-      if ((currentMax === -1 && intDistance > 0) || currentMax < intDistance) {
-        this.setState({ maxDistance: intDistance });
-      }
-    }
-  }
-
   render() {
-    const { center, zoom, selectedId, maxDistance } = this.state;
+    const { center, zoom, selectedId } = this.state;
     const {
       route,
       domicileId,
@@ -116,27 +101,11 @@ class Route extends React.Component<IRouteProps, IRouteState> {
     return (
       <React.Fragment>
         <TextContent>
-          <Text component={TextVariants.h1}>Route</Text>
+          <Text component={TextVariants.h1}>Demo</Text>
         </TextContent>
         <Split gutter="md">
           <SplitItem isMain={false}>
-            <FormSelect
-              value={''}
-              // tslint:disable-next-line:no-console
-              onChange={e => console.log(e)}
-              aria-label="FormSelect Input"
-            >
-              {[{ disabled: false, value: 'wip', label: 'Vehicle 4' }].map(
-                (option, index) => (
-                  <FormSelectOption
-                    isDisabled={option.disabled}
-                    key={index}
-                    value={option.value}
-                    label={option.label}
-                  />
-                ),
-              )}
-            </FormSelect>
+            <SearchBox addHandler={this.handleSearchResultClick} />
             <div
               style={{
                 maxHeight: 'calc(100vh - 228px)',
@@ -146,7 +115,7 @@ class Route extends React.Component<IRouteProps, IRouteState> {
               <LocationList
                 route={route}
                 domicileId={domicileId}
-                maxDistance={maxDistance}
+                maxDistance={0}
                 removeHandler={removeHandler}
                 selectHandler={this.onSelectLocation}
                 loadHandler={loadHandler}
@@ -175,4 +144,4 @@ class Route extends React.Component<IRouteProps, IRouteState> {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(Route);
+)(Demo);

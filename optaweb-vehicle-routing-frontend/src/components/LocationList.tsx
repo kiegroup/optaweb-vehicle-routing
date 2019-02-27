@@ -66,10 +66,6 @@ const renderLocationList = ({
   return (
     <DataList
       aria-label="simple-item1"
-      style={{
-        maxHeight: 'calc(100vh - 228px)',
-        overflowY: 'auto',
-      }}
     >
       {locations
         .slice(0) // clone the array because

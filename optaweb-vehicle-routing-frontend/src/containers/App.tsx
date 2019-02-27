@@ -20,7 +20,7 @@ import { Route } from 'react-router-dom';
 import ConnectionManager from 'src/containers/ConnectionManager';
 import Background from '../components/Background';
 import OVRHeader from '../components/OVRHeader';
-import { Depots, Models, Route as RoutePage, Vehicles, Visits } from '../routes';
+import { Demo, Depots, Models, Route as RoutePage, Vehicles, Visits } from '../routes';
 import './App.css';
 
 export default function App() {
@@ -54,6 +54,11 @@ export default function App() {
             path="/route"
             exact={true}
             component={RoutePage}
+          />
+          <Route
+            path="/demo"
+            exact={true}
+            component={Demo}
           />
         </PageSection>
       </Page>

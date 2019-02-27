@@ -37,6 +37,9 @@ const PageNav = () => {
         <NavItem itemId={'route'}>
           <Link to="/route">Route</Link>
         </NavItem>
+        <NavItem itemId={'demo'}>
+          <Link to="/demo">Demo</Link>
+        </NavItem>
       </NavList>
     </Nav>
   );
