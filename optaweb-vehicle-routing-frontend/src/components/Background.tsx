@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import filter from '@patternfly/patternfly/assets/images/background-filter.svg';
-import pfbg_1200 from '@patternfly/patternfly/assets/images/pfbg_1200.jpg';
-import pfbg_576 from '@patternfly/patternfly/assets/images/pfbg_576.jpg';
-import pfbg_576_2x from '@patternfly/patternfly/assets/images/pfbg_576@2x.jpg';
-import pfbg_768 from '@patternfly/patternfly/assets/images/pfbg_768.jpg';
-import pfbg_768_2x from '@patternfly/patternfly/assets/images/pfbg_768@2x.jpg';
 import { BackgroundImage, BackgroundImageSrc } from '@patternfly/react-core';
+import filter from '@patternfly/react-core/dist/styles/assets/images/background-filter.svg';
+import pfbg_1200 from '@patternfly/react-core/dist/styles/assets/images/pfbg_1200.jpg';
+import pfbg_576 from '@patternfly/react-core/dist/styles/assets/images/pfbg_576.jpg';
+import pfbg_576_2x from '@patternfly/react-core/dist/styles/assets/images/pfbg_576@2x.jpg';
+import pfbg_768 from '@patternfly/react-core/dist/styles/assets/images/pfbg_768.jpg';
+import pfbg_768_2x from '@patternfly/react-core/dist/styles/assets/images/pfbg_768@2x.jpg';
 import * as React from 'react';
 
 const bgImages = {
