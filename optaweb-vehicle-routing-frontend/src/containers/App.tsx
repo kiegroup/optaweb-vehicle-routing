@@ -20,7 +20,7 @@ import { Route } from 'react-router-dom';
 import ConnectionManager from 'src/containers/ConnectionManager';
 import Background from '../components/Background';
 import OVRHeader from '../components/OVRHeader';
-import { Demo, Depots, Models, Route as RoutePage, Vehicles, Visits } from '../routes';
+import { Demo, Route as RoutePage, Vehicles, Visits } from '../routes';
 import './App.css';
 
 export default function App() {
@@ -36,16 +36,6 @@ export default function App() {
             overflowY: 'auto',
           }}
         >
-          <Route
-            path="/depots"
-            exact={true}
-            component={Depots}
-          />
-          <Route
-            path="/models"
-            exact={true}
-            component={Models}
-          />
           <Route
             path="/vehicles"
             exact={true}

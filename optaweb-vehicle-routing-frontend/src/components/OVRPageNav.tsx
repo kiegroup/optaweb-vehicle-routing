@@ -22,12 +22,6 @@ const PageNav = () => {
   return (
     <Nav aria-label="Nav">
       <NavList variant={NavVariants.horizontal}>
-        <NavItem itemId={'/depots'}>
-          <Link to="/depots">Depots</Link>
-        </NavItem>
-        <NavItem itemId={'models'}>
-          <Link to="/models">Models</Link>
-        </NavItem>
         <NavItem itemId={'vehicles'}>
           <Link to="/vehicles">Vehicles</Link>
         </NavItem>

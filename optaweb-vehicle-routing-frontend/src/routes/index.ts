@@ -15,10 +15,8 @@
  */
 
 import Demo from './Demo';
-import Depots from './Depots';
-import Models from './Models';
 import Route from './Route';
 import Vehicles from './Vehicles';
 import Visits from './Visits';
 
-export { Demo, Depots, Models, Vehicles, Visits, Route };
+export { Demo, Vehicles, Visits, Route };
