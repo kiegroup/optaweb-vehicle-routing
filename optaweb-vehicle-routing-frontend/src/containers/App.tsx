@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Page, PageSection, PageSectionVariants } from '@patternfly/react-core';
+import { Page, PageSection } from '@patternfly/react-core';
 import * as React from 'react';
 import { Route } from 'react-router-dom';
 import ConnectionManager from 'src/containers/ConnectionManager';
@@ -29,7 +29,13 @@ export default function App() {
       <ConnectionManager />
       <Background />
       <Page header={OVRHeader()}>
-        <PageSection variant={PageSectionVariants.default}>
+        <PageSection
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            overflowY: 'auto',
+          }}
+        >
           <Route
             path="/depots"
             exact={true}

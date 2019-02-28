@@ -63,23 +63,25 @@ const renderLocationList = ({
   selectHandler,
 }: ILocationListProps) => {
   return (
-    <DataList
-      aria-label="simple-item1"
-    >
-      {locations
-        .slice(0) // clone the array because
-        // sort is done in place (that would affect the route)
-        .sort((a, b) => a.id - b.id)
-        .map(location => (
-          <Location
-            key={location.id}
-            id={location.id}
-            removeDisabled={locations.length > 1 && location.id === domicileId}
-            removeHandler={removeHandler}
-            selectHandler={selectHandler}
-          />
-        ))}
-    </DataList>
+    <div style={{ overflowY: 'auto' }}>
+      <DataList
+        aria-label="simple-item1"
+      >
+        {locations
+          .slice(0) // clone the array because
+          // sort is done in place (that would affect the route)
+          .sort((a, b) => a.id - b.id)
+          .map(location => (
+            <Location
+              key={location.id}
+              id={location.id}
+              removeDisabled={locations.length > 1 && location.id === domicileId}
+              removeHandler={removeHandler}
+              selectHandler={selectHandler}
+            />
+          ))}
+      </DataList>
+    </div>
   );
 };
 

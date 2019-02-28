@@ -109,30 +109,30 @@ class Demo extends React.Component<IDemoProps, IDemoState> {
     } = this.props;
     return (
       <React.Fragment>
-        <Split gutter="md">
-          <SplitItem isMain={false}>
+        <Split gutter="md" style={{ overflowY: 'auto' }}>
+          <SplitItem
+            isMain={false}
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
             <TextContent>
               <Text component={TextVariants.h1}>Demo</Text>
             </TextContent>
             <SearchBox addHandler={this.handleSearchResultClick} />
-            <div
-              style={{
-                maxHeight: 'calc(100vh - 228px)',
-                overflowY: 'auto',
-              }}
-            >
-              <LocationList
-                route={route}
-                domicileId={domicileId}
-                removeHandler={removeHandler}
-                selectHandler={this.onSelectLocation}
-                loadHandler={loadHandler}
-                clearHandler={clearHandler}
-                isDemoLoading={isDemoLoading}
-              />
-            </div>
+            <LocationList
+              route={route}
+              domicileId={domicileId}
+              removeHandler={removeHandler}
+              selectHandler={this.onSelectLocation}
+              loadHandler={loadHandler}
+              clearHandler={clearHandler}
+              isDemoLoading={isDemoLoading}
+            />
           </SplitItem>
-          <SplitItem isMain={true}>
+
+          <SplitItem
+            isMain={true}
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
             <Split gutter="md">
               <SplitItem isMain={true}>
                 <Grid>
