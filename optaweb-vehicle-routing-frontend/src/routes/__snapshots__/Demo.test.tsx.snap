@@ -1,0 +1,584 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Demo page clear button should be disabled when demo is loading 1`] = `
+<Split
+  className=""
+  component="div"
+  gutter="md"
+  style={
+    Object {
+      "overflowY": "auto",
+    }
+  }
+>
+  <SplitItem
+    className=""
+    isMain={false}
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
+  >
+    <TextContent
+      className=""
+    >
+      <Text
+        className=""
+        component="h1"
+      >
+        Demo
+      </Text>
+    </TextContent>
+    <SearchBox
+      addHandler={[Function]}
+      searchDelay={500}
+    />
+    <LocationList
+      clearHandler={[MockFunction]}
+      domicileId={1}
+      isDemoLoading={true}
+      loadHandler={[MockFunction]}
+      removeHandler={[MockFunction]}
+      route={
+        Object {
+          "distance": "10",
+          "locations": Array [
+            Object {
+              "id": 1,
+              "lat": 1.345678,
+              "lng": 1.345678,
+            },
+            Object {
+              "id": 2,
+              "lat": 2.345678,
+              "lng": 2.345678,
+            },
+            Object {
+              "id": 3,
+              "lat": 3.676111,
+              "lng": 3.568333,
+            },
+          ],
+          "segments": Array [],
+        }
+      }
+      selectHandler={[Function]}
+    />
+  </SplitItem>
+  <SplitItem
+    className=""
+    isMain={true}
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
+  >
+    <Split
+      className=""
+      component="div"
+      gutter="md"
+    >
+      <SplitItem
+        className=""
+        isMain={true}
+      >
+        <Grid
+          className=""
+          gutter={null}
+          lg={null}
+          md={null}
+          sm={null}
+          span={null}
+          xl={null}
+        >
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={6}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            Locations: 
+            3
+          </GridItem>
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={6}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            Distance: 
+            10
+          </GridItem>
+        </Grid>
+      </SplitItem>
+      <SplitItem
+        className=""
+        isMain={false}
+      >
+        <Button
+          aria-label={null}
+          className=""
+          component="button"
+          isActive={false}
+          isBlock={false}
+          isDisabled={true}
+          isFocus={false}
+          isHover={false}
+          onClick={[MockFunction]}
+          style={
+            Object {
+              "marginBottom": 16,
+            }
+          }
+          type="button"
+          variant="primary"
+        >
+          Clear
+        </Button>
+      </SplitItem>
+    </Split>
+    <TspMap
+      center={
+        Object {
+          "lat": 50.85,
+          "lng": 4.35,
+        }
+      }
+      clickHandler={[Function]}
+      domicileId={1}
+      removeHandler={[MockFunction]}
+      route={
+        Object {
+          "distance": "10",
+          "locations": Array [
+            Object {
+              "id": 1,
+              "lat": 1.345678,
+              "lng": 1.345678,
+            },
+            Object {
+              "id": 2,
+              "lat": 2.345678,
+              "lng": 2.345678,
+            },
+            Object {
+              "id": 3,
+              "lat": 3.676111,
+              "lng": 3.568333,
+            },
+          ],
+          "segments": Array [],
+        }
+      }
+      selectedId={NaN}
+      zoom={9}
+    />
+  </SplitItem>
+</Split>
+`;
+
+exports[`Demo page should render correctly with a few routes 1`] = `
+<Split
+  className=""
+  component="div"
+  gutter="md"
+  style={
+    Object {
+      "overflowY": "auto",
+    }
+  }
+>
+  <SplitItem
+    className=""
+    isMain={false}
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
+  >
+    <TextContent
+      className=""
+    >
+      <Text
+        className=""
+        component="h1"
+      >
+        Demo
+      </Text>
+    </TextContent>
+    <SearchBox
+      addHandler={[Function]}
+      searchDelay={500}
+    />
+    <LocationList
+      clearHandler={[MockFunction]}
+      domicileId={1}
+      isDemoLoading={false}
+      loadHandler={[MockFunction]}
+      removeHandler={[MockFunction]}
+      route={
+        Object {
+          "distance": "10",
+          "locations": Array [
+            Object {
+              "id": 1,
+              "lat": 1.345678,
+              "lng": 1.345678,
+            },
+            Object {
+              "id": 2,
+              "lat": 2.345678,
+              "lng": 2.345678,
+            },
+            Object {
+              "id": 3,
+              "lat": 3.676111,
+              "lng": 3.568333,
+            },
+          ],
+          "segments": Array [],
+        }
+      }
+      selectHandler={[Function]}
+    />
+  </SplitItem>
+  <SplitItem
+    className=""
+    isMain={true}
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
+  >
+    <Split
+      className=""
+      component="div"
+      gutter="md"
+    >
+      <SplitItem
+        className=""
+        isMain={true}
+      >
+        <Grid
+          className=""
+          gutter={null}
+          lg={null}
+          md={null}
+          sm={null}
+          span={null}
+          xl={null}
+        >
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={6}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            Locations: 
+            3
+          </GridItem>
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={6}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            Distance: 
+            10
+          </GridItem>
+        </Grid>
+      </SplitItem>
+      <SplitItem
+        className=""
+        isMain={false}
+      >
+        <Button
+          aria-label={null}
+          className=""
+          component="button"
+          isActive={false}
+          isBlock={false}
+          isDisabled={false}
+          isFocus={false}
+          isHover={false}
+          onClick={[MockFunction]}
+          style={
+            Object {
+              "marginBottom": 16,
+            }
+          }
+          type="button"
+          variant="primary"
+        >
+          Clear
+        </Button>
+      </SplitItem>
+    </Split>
+    <TspMap
+      center={
+        Object {
+          "lat": 50.85,
+          "lng": 4.35,
+        }
+      }
+      clickHandler={[Function]}
+      domicileId={1}
+      removeHandler={[MockFunction]}
+      route={
+        Object {
+          "distance": "10",
+          "locations": Array [
+            Object {
+              "id": 1,
+              "lat": 1.345678,
+              "lng": 1.345678,
+            },
+            Object {
+              "id": 2,
+              "lat": 2.345678,
+              "lng": 2.345678,
+            },
+            Object {
+              "id": 3,
+              "lat": 3.676111,
+              "lng": 3.568333,
+            },
+          ],
+          "segments": Array [],
+        }
+      }
+      selectedId={NaN}
+      zoom={9}
+    />
+  </SplitItem>
+</Split>
+`;
+
+exports[`Demo page should render correctly with no routes 1`] = `
+<Split
+  className=""
+  component="div"
+  gutter="md"
+  style={
+    Object {
+      "overflowY": "auto",
+    }
+  }
+>
+  <SplitItem
+    className=""
+    isMain={false}
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
+  >
+    <TextContent
+      className=""
+    >
+      <Text
+        className=""
+        component="h1"
+      >
+        Demo
+      </Text>
+    </TextContent>
+    <SearchBox
+      addHandler={[Function]}
+      searchDelay={500}
+    />
+    <LocationList
+      clearHandler={[MockFunction]}
+      domicileId={-1}
+      isDemoLoading={false}
+      loadHandler={[MockFunction]}
+      removeHandler={[MockFunction]}
+      route={
+        Object {
+          "distance": "0",
+          "locations": Array [],
+          "segments": Array [],
+        }
+      }
+      selectHandler={[Function]}
+    />
+  </SplitItem>
+  <SplitItem
+    className=""
+    isMain={true}
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
+  >
+    <Split
+      className=""
+      component="div"
+      gutter="md"
+    >
+      <SplitItem
+        className=""
+        isMain={true}
+      >
+        <Grid
+          className=""
+          gutter={null}
+          lg={null}
+          md={null}
+          sm={null}
+          span={null}
+          xl={null}
+        >
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={6}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            Locations: 
+            0
+          </GridItem>
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={6}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            Distance: 
+            0
+          </GridItem>
+        </Grid>
+      </SplitItem>
+      <SplitItem
+        className=""
+        isMain={false}
+      >
+        <Button
+          aria-label={null}
+          className=""
+          component="button"
+          isActive={false}
+          isBlock={false}
+          isDisabled={false}
+          isFocus={false}
+          isHover={false}
+          onClick={[MockFunction]}
+          style={
+            Object {
+              "marginBottom": 16,
+            }
+          }
+          type="button"
+          variant="primary"
+        >
+          Load demo
+        </Button>
+      </SplitItem>
+    </Split>
+    <TspMap
+      center={
+        Object {
+          "lat": 50.85,
+          "lng": 4.35,
+        }
+      }
+      clickHandler={[Function]}
+      domicileId={-1}
+      removeHandler={[MockFunction]}
+      route={
+        Object {
+          "distance": "0",
+          "locations": Array [],
+          "segments": Array [],
+        }
+      }
+      selectedId={NaN}
+      zoom={9}
+    />
+  </SplitItem>
+</Split>
+`;

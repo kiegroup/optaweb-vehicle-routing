@@ -26,13 +26,13 @@ import {
 } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import LocationList from 'src/components/LocationList';
-import TspMap from 'src/components/TspMap';
-import { ILatLng, IRouteWithSegments } from 'src/store/route/types';
+import LocationList from '../components/LocationList';
 import SearchBox, { IResult } from '../components/SearchBox';
+import TspMap from '../components/TspMap';
 import { IAppState } from '../store/configStore';
 import { demoOperations } from '../store/demo';
 import { routeOperations, routeSelectors } from '../store/route';
+import { ILatLng, IRouteWithSegments } from '../store/route/types';
 
 export interface IStateProps {
   route: IRouteWithSegments;
@@ -60,7 +60,7 @@ const mapDispatchToProps: IDispatchProps = {
   removeHandler: routeOperations.deleteLocation,
 };
 
-type IDemoProps = IDispatchProps & IStateProps;
+export type IDemoProps = IDispatchProps & IStateProps;
 
 export interface IDemoState {
   center: ILatLng;
@@ -68,7 +68,7 @@ export interface IDemoState {
   zoom: number;
 }
 
-class Demo extends React.Component<IDemoProps, IDemoState> {
+export class Demo extends React.Component<IDemoProps, IDemoState> {
   constructor(props: IDemoProps) {
     super(props);
 
@@ -108,72 +108,70 @@ class Demo extends React.Component<IDemoProps, IDemoState> {
       isDemoLoading,
     } = this.props;
     return (
-      <React.Fragment>
-        <Split gutter="md" style={{ overflowY: 'auto' }}>
-          <SplitItem
-            isMain={false}
-            style={{ display: 'flex', flexDirection: 'column' }}
-          >
-            <TextContent>
-              <Text component={TextVariants.h1}>Demo</Text>
-            </TextContent>
-            <SearchBox addHandler={this.handleSearchResultClick} />
-            <LocationList
-              route={route}
-              domicileId={domicileId}
-              removeHandler={removeHandler}
-              selectHandler={this.onSelectLocation}
-              loadHandler={loadHandler}
-              clearHandler={clearHandler}
-              isDemoLoading={isDemoLoading}
-            />
-          </SplitItem>
+      <Split gutter="md" style={{ overflowY: 'auto' }}>
+        <SplitItem
+          isMain={false}
+          style={{ display: 'flex', flexDirection: 'column' }}
+        >
+          <TextContent>
+            <Text component={TextVariants.h1}>Demo</Text>
+          </TextContent>
+          <SearchBox addHandler={this.handleSearchResultClick} />
+          <LocationList
+            route={route}
+            domicileId={domicileId}
+            removeHandler={removeHandler}
+            selectHandler={this.onSelectLocation}
+            loadHandler={loadHandler}
+            clearHandler={clearHandler}
+            isDemoLoading={isDemoLoading}
+          />
+        </SplitItem>
 
-          <SplitItem
-            isMain={true}
-            style={{ display: 'flex', flexDirection: 'column' }}
-          >
-            <Split gutter="md">
-              <SplitItem isMain={true}>
-                <Grid>
-                  <GridItem span={6}>Locations: {route.locations.length}</GridItem>
-                  <GridItem span={6}>Distance: {route.distance}</GridItem>
-                </Grid>
-              </SplitItem>
-              <SplitItem isMain={false}>
-                {route.locations.length === 0 &&
-                <Button
-                  type="button"
-                  isDisabled={isDemoLoading}
-                  style={{ marginBottom: 16 }}
-                  onClick={loadHandler}
-                >
-                  Load demo
-                </Button>
-                ||
-                <Button
-                  type="button"
-                  isDisabled={isDemoLoading}
-                  style={{ marginBottom: 16 }}
-                  onClick={clearHandler}
-                >
-                  Clear
-                </Button>
-                }
-              </SplitItem>
-            </Split>
-            <TspMap
-              center={center}
-              zoom={zoom}
-              selectedId={selectedId}
-              clickHandler={this.handleMapClick}
-              removeHandler={removeHandler}
-              route={route}
-              domicileId={domicileId}
-            />
-          </SplitItem>
-        </Split>
-      </React.Fragment>
+        <SplitItem
+          isMain={true}
+          style={{ display: 'flex', flexDirection: 'column' }}
+        >
+          <Split gutter="md">
+            <SplitItem isMain={true}>
+              <Grid>
+                <GridItem span={6}>Locations: {route.locations.length}</GridItem>
+                <GridItem span={6}>Distance: {route.distance}</GridItem>
+              </Grid>
+            </SplitItem>
+            <SplitItem isMain={false}>
+              {route.locations.length === 0 &&
+              <Button
+                type="button"
+                isDisabled={isDemoLoading}
+                style={{ marginBottom: 16 }}
+                onClick={loadHandler}
+              >
+                Load demo
+              </Button>
+              ||
+              <Button
+                type="button"
+                isDisabled={isDemoLoading}
+                style={{ marginBottom: 16 }}
+                onClick={clearHandler}
+              >
+                Clear
+              </Button>
+              }
+            </SplitItem>
+          </Split>
+          <TspMap
+            center={center}
+            zoom={zoom}
+            selectedId={selectedId}
+            clickHandler={this.handleMapClick}
+            removeHandler={removeHandler}
+            route={route}
+            domicileId={domicileId}
+          />
+        </SplitItem>
+      </Split>
     );
   }
 }
