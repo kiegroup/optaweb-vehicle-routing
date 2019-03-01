@@ -108,6 +108,7 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
       isDemoLoading,
     } = this.props;
     return (
+      // FIXME find a way to avoid these style customizations
       <Split gutter="md" style={{ overflowY: 'auto' }}>
         <SplitItem
           isMain={false}
