@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "src",
     "outDir": "build/dist",
     "module": "esnext",
     "target": "es5",
@@ -21,13 +21,9 @@
     "skipLibCheck": true
   },
   "exclude": [
-    "acceptance-tests",
     "build",
     "coverage",
-    "jest",
-    "node_modules",
-    "scripts",
-    "src/setupTests.ts",
-    "webpack"
+    "local",
+    "node_modules"
   ]
 }

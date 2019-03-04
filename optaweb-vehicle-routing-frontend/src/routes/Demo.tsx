@@ -24,15 +24,15 @@ import {
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
+import LocationList from 'components/LocationList';
+import SearchBox, { IResult } from 'components/SearchBox';
+import TspMap from 'components/TspMap';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import LocationList from '../components/LocationList';
-import SearchBox, { IResult } from '../components/SearchBox';
-import TspMap from '../components/TspMap';
-import { IAppState } from '../store/configStore';
-import { demoOperations } from '../store/demo';
-import { routeOperations, routeSelectors } from '../store/route';
-import { ILatLng, IRouteWithSegments } from '../store/route/types';
+import { IAppState } from 'store/configStore';
+import { demoOperations } from 'store/demo';
+import { routeOperations, routeSelectors } from 'store/route';
+import { ILatLng, IRouteWithSegments } from 'store/route/types';
 
 export interface IStateProps {
   route: IRouteWithSegments;

@@ -19,7 +19,7 @@ import { Button, Text, TextContent, TextInput, TextVariants } from '@patternfly/
 import { PlusSquareIcon } from '@patternfly/react-icons';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import * as React from 'react';
-import { ILatLng } from '../store/route/types';
+import { ILatLng } from 'store/route/types';
 
 export interface IProps {
   searchDelay: number;

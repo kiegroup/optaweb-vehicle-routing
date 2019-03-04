@@ -22,7 +22,7 @@ import {
   DataList,
 } from '@patternfly/react-core';
 import * as React from 'react';
-import { IRoute } from '../store/route/types';
+import { IRoute } from 'store/route/types';
 import Location from './Location';
 
 export interface ILocationListProps {

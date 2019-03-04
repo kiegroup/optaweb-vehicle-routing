@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+import { WorkInProgress } from 'components/WorkInProgress';
 import * as React from 'react';
-import { WorkInProgress } from 'src/components/WorkInProgress';
 
 const Vehicles = () => {
   return <WorkInProgress />;
