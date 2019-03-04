@@ -25,7 +25,7 @@ import { Demo, Route as RoutePage, Vehicles, Visits } from './routes';
 
 const App: React.FC = () => {
   return (
-    <React.Fragment>
+    <>
       <ConnectionManager />
       <Background />
       <Page header={<Header />}>
@@ -58,7 +58,7 @@ const App: React.FC = () => {
           />
         </PageSection>
       </Page>
-    </React.Fragment>
+    </>
   );
 };
 

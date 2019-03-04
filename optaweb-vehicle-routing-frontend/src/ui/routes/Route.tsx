@@ -101,7 +101,7 @@ class Route extends React.Component<IRouteProps, IRouteState> {
       isDemoLoading,
     } = this.props;
     return (
-      <React.Fragment>
+      <>
         <TextContent>
           <Text component={TextVariants.h1}>Route</Text>
         </TextContent>
@@ -153,7 +153,7 @@ class Route extends React.Component<IRouteProps, IRouteState> {
             />
           </SplitItem>
         </Split>
-      </React.Fragment>
+      </>
     );
   }
 }

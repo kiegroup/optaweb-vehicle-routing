@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Search box should hide results when query is empty 1`] = `
-<div>
+<Fragment>
   <TextInput
     aria-label="geosearch text input"
     className=""
@@ -14,11 +14,11 @@ exports[`Search box should hide results when query is empty 1`] = `
     type="search"
     value=" "
   />
-</div>
+</Fragment>
 `;
 
 exports[`Search box should invoke add handler with the selected result and clear results 1`] = `
-<div>
+<Fragment>
   <TextInput
     aria-label="geosearch text input"
     className=""
@@ -188,11 +188,11 @@ exports[`Search box should invoke add handler with the selected result and clear
       </li>
     </ul>
   </div>
-</div>
+</Fragment>
 `;
 
 exports[`Search box should render text input initially 1`] = `
-<div>
+<Fragment>
   <TextInput
     aria-label="geosearch text input"
     className=""
@@ -205,11 +205,11 @@ exports[`Search box should render text input initially 1`] = `
     type="search"
     value=""
   />
-</div>
+</Fragment>
 `;
 
 exports[`Search box should show results when query is entered 1`] = `
-<div>
+<Fragment>
   <TextInput
     aria-label="geosearch text input"
     className=""
@@ -383,5 +383,5 @@ exports[`Search box should show results when query is entered 1`] = `
       </li>
     </ul>
   </div>
-</div>
+</Fragment>
 `;
