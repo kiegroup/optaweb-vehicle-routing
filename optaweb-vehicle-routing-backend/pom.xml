@@ -112,6 +112,9 @@
               <avoidCallsTo>java.lang.StringBuilder</avoidCallsTo>
               <avoidCallsTo>org.slf4j</avoidCallsTo>
             </avoidCallsTo>
+            <excludedTestClasses>
+              org.optaweb.vehiclerouting.plugin.persistence.integration_tests.*
+            </excludedTestClasses>
           </configuration>
         </plugin>
       </plugins>

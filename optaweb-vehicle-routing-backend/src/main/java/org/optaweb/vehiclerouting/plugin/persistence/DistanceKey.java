@@ -40,6 +40,14 @@ public class DistanceKey implements Serializable {
         this.toId = toId;
     }
 
+    Long getFromId() {
+        return fromId;
+    }
+
+    Long getToId() {
+        return toId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
