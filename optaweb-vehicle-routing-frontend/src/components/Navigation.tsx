@@ -18,7 +18,7 @@ import { Nav, NavItem, NavList, NavVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-const PageNav = () => {
+const Navigation = () => {
   return (
     <Nav aria-label="Nav">
       <NavList variant={NavVariants.horizontal}>
@@ -39,4 +39,4 @@ const PageNav = () => {
   );
 };
 
-export default PageNav;
+export default Navigation;

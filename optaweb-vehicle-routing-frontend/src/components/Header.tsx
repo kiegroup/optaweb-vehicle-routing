@@ -16,14 +16,14 @@
 
 import { Brand, PageHeader } from '@patternfly/react-core';
 import * as React from 'react';
-import OVRPageNav from './OVRPageNav';
-import OVRPageToolbar from './OVRPageToolbar';
+import Navigation from './Navigation';
+import Toolbar from './Toolbar';
 
-const OVRHeader = () => (
+const Header = () => (
   <PageHeader
     logo={<Brand src="/assets/images/optaPlannerLogo200px.png" alt="OptaPlanner Logo" />}
-    toolbar={<OVRPageToolbar />}
-    topNav={<OVRPageNav />}
+    toolbar={<Toolbar />}
+    topNav={<Navigation />}
   />
 );
-export default OVRHeader;
+export default Header;

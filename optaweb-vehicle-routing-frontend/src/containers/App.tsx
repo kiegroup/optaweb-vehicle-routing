@@ -19,7 +19,7 @@ import * as React from 'react';
 import { Route } from 'react-router-dom';
 import ConnectionManager from 'src/containers/ConnectionManager';
 import Background from '../components/Background';
-import OVRHeader from '../components/OVRHeader';
+import Header from '../components/Header';
 import { Demo, Route as RoutePage, Vehicles, Visits } from '../routes';
 import './App.css';
 
@@ -28,7 +28,7 @@ export default function App() {
     <React.Fragment>
       <ConnectionManager />
       <Background />
-      <Page header={OVRHeader()}>
+      <Page header={Header()}>
         <PageSection
           style={{
             display: 'flex',
