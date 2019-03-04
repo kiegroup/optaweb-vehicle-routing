@@ -15,12 +15,12 @@
  */
 
 import { Page, PageSection } from '@patternfly/react-core';
+import Background from 'components/Background';
+import Header from 'components/Header';
+import ConnectionManager from 'containers/ConnectionManager';
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import ConnectionManager from 'src/containers/ConnectionManager';
-import Background from '../components/Background';
-import Header from '../components/Header';
-import { Demo, Route as RoutePage, Vehicles, Visits } from '../routes';
+import { Demo, Route as RoutePage, Vehicles, Visits } from 'routes';
 import './App.css';
 
 export default function App() {

@@ -15,8 +15,8 @@
  */
 
 import * as SockJS from 'sockjs-client';
+import { ILatLng, IRouteWithSegments } from 'store/route/types';
 import webstomp, { Client, Frame } from 'webstomp-client';
-import { ILatLng, IRouteWithSegments } from '../store/route/types';
 
 export default class WebSocketClient {
 

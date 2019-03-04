@@ -15,12 +15,12 @@
  */
 
 import { UnpluggedIcon } from '@patternfly/react-icons';
+import ConnectionError from 'components/ConnectionError';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import ConnectionError from '../components/ConnectionError';
-import { IAppState } from '../store/configStore';
-import { websocketOperations } from '../store/websocket';
-import { WebSocketConnectionStatus } from '../store/websocket/types';
+import { IAppState } from 'store/configStore';
+import { websocketOperations } from 'store/websocket';
+import { WebSocketConnectionStatus } from 'store/websocket/types';
 
 interface IStateProps {
   connectionStatus: WebSocketConnectionStatus;

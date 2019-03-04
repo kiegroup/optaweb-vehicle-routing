@@ -17,7 +17,7 @@
 import { Middleware } from 'redux';
 import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock-store';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import WebSocketClient from '../../websocket/WebSocketClient';
+import WebSocketClient from 'websocket/WebSocketClient';
 import { IAppState } from '../configStore';
 import { routeOperations } from '../route';
 import { IRouteWithSegments, IUpdateRouteAction } from '../route/types';
@@ -25,7 +25,7 @@ import * as actions from './actions';
 import reducer, { websocketOperations } from './index';
 import { WebSocketAction, WebSocketConnectionStatus } from './types';
 
-jest.mock('../../websocket/WebSocketClient');
+jest.mock('websocket/WebSocketClient');
 jest.useFakeTimers();
 
 const uninitializedCallbackCapture = () => {

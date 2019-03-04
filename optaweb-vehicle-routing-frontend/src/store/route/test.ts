@@ -17,7 +17,7 @@
 import { Middleware } from 'redux';
 import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock-store';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import WebSocketClient from '../../websocket/WebSocketClient';
+import WebSocketClient from 'websocket/WebSocketClient';
 import { IAppState } from '../configStore';
 import { WebSocketAction, WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
@@ -25,7 +25,7 @@ import reducer, { routeOperations, routeSelectors } from './index';
 import { initialRouteState } from './reducers';
 import { ILatLng, IUpdateRouteAction } from './types';
 
-jest.mock('../../websocket/WebSocketClient');
+jest.mock('websocket/WebSocketClient');
 
 describe('Route operations', () => {
   it('should dispatch actions and call client', () => {

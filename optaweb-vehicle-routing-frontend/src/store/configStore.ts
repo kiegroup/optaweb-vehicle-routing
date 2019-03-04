@@ -20,7 +20,7 @@ import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
-import WebSocketClient from '../websocket/WebSocketClient';
+import WebSocketClient from 'websocket/WebSocketClient';
 import demoReducer from './demo';
 import { IDemo } from './demo/types';
 import routeReducer from './route';
