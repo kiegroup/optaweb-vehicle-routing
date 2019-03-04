@@ -43,6 +43,10 @@ public class LocationTest {
         assertThat(location).isNotEqualTo(new Location(0, latLng1));
         // null
         assertThat(location).isNotEqualTo(null);
+        // different class
+        assertThat(location).isNotEqualTo(latLng0);
+        // same object -> OK
+        assertThat(location).isEqualTo(location);
         // same properties -> OK
         assertThat(location).isEqualTo(new Location(0, latLng0));
     }
