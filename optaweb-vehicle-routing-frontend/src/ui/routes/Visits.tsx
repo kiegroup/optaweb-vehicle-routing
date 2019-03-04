@@ -67,7 +67,7 @@ class Visits extends React.Component<IProps> {
       isDemoLoading,
     } = this.props;
     return (
-      <React.Fragment>
+      <>
         <TextContent>
           <Text component={TextVariants.h1}>Visits ({route.locations.length})</Text>
         </TextContent>
@@ -81,7 +81,7 @@ class Visits extends React.Component<IProps> {
           domicileId={domicileId}
           isDemoLoading={isDemoLoading}
         />
-      </React.Fragment>
+      </>
     );
   }
 }

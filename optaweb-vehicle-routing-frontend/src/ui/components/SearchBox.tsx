@@ -102,7 +102,7 @@ class SearchBox extends React.Component<IProps, IState> {
   render() {
     const { attributions, query, results } = this.state;
     return (
-      <div>
+      <>
         <TextInput
           value={query}
           type="search"
@@ -149,7 +149,7 @@ class SearchBox extends React.Component<IProps, IState> {
           </ul>
         </div>
         }
-      </div>
+      </>
     );
   }
 }
