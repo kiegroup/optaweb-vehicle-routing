@@ -28,7 +28,7 @@ export default function App() {
     <React.Fragment>
       <ConnectionManager />
       <Background />
-      <Page header={Header()}>
+      <Page header={<Header />}>
         <PageSection
           style={{
             display: 'flex',
