@@ -23,7 +23,7 @@ import ConnectionManager from './connection/ConnectionManager';
 import Header from './header/Header';
 import { Demo, Route as RoutePage, Vehicles, Visits } from './routes';
 
-export default function App() {
+const App: React.FC = () => {
   return (
     <React.Fragment>
       <ConnectionManager />
@@ -60,4 +60,6 @@ export default function App() {
       </Page>
     </React.Fragment>
   );
-}
+};
+
+export default App;

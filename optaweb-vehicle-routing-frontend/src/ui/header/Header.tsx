@@ -19,11 +19,12 @@ import * as React from 'react';
 import Navigation from './Navigation';
 import Toolbar from './Toolbar';
 
-const Header = () => (
+const Header: React.FC = () => (
   <PageHeader
     logo={<Brand src="/assets/images/optaPlannerLogo200px.png" alt="OptaPlanner Logo" />}
     toolbar={<Toolbar />}
     topNav={<Navigation />}
   />
 );
+
 export default Header;

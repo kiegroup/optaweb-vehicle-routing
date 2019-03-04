@@ -27,7 +27,7 @@ import {
 import { BellIcon, CogIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 
-const ToolbarComponent = () => {
+const ToolbarComponent: React.FC = () => {
   const [openTenants, setOpenTenants] = React.useState(false);
   return (
     <Toolbar
