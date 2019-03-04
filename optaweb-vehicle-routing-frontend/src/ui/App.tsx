@@ -21,7 +21,7 @@ import './App.css';
 import Background from './components/Background';
 import ConnectionManager from './connection/ConnectionManager';
 import Header from './header/Header';
-import { Demo, Route as RoutePage, Vehicles, Visits } from './routes';
+import { Demo, Route as RoutePage, Vehicles, Visits } from './pages';
 
 const App: React.FC = () => {
   return (
