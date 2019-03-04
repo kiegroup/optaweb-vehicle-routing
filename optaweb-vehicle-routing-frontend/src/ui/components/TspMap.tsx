@@ -36,7 +36,7 @@ export interface ITspMapProps {
   domicileId: number;
 }
 
-const TspMap: React.SFC<ITspMapProps> = ({
+const TspMap: React.FC<ITspMapProps> = ({
   center,
   zoom,
   selectedId,

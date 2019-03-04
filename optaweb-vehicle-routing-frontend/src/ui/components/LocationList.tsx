@@ -35,10 +35,10 @@ export interface ILocationListProps {
   isDemoLoading: boolean;
 }
 
-const renderEmptyLocationList = ({
+const renderEmptyLocationList: React.FC<ILocationListProps> = ({
   loadHandler,
   isDemoLoading,
-}: ILocationListProps) => {
+}) => {
   return (
     <Card>
       <CardHeader>Click map to add locations</CardHeader>
@@ -56,12 +56,12 @@ const renderEmptyLocationList = ({
   );
 };
 
-const renderLocationList = ({
+const renderLocationList: React.FC<ILocationListProps> = ({
   route: { locations },
   domicileId,
   removeHandler,
   selectHandler,
-}: ILocationListProps) => {
+}) => {
   return (
     <div style={{ overflowY: 'auto' }}>
       <DataList
@@ -85,9 +85,7 @@ const renderLocationList = ({
   );
 };
 
-const LocationList: React.SFC<ILocationListProps> = (
-  props: ILocationListProps,
-) => {
+const LocationList: React.FC<ILocationListProps> = (props) => {
   return props.route.locations.length === 0
     ? renderEmptyLocationList(props)
     : renderLocationList(props);

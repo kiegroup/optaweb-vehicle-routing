@@ -57,7 +57,7 @@ class Visits extends React.Component<IProps> {
     super(props);
   }
 
-  render(): React.ReactNode {
+  render() {
     const {
       route,
       domicileId,

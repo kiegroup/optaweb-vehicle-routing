@@ -29,8 +29,8 @@ const renderHelpBlock = (help?: string) => {
   return help ? <Text component={TextVariants.small}>{help}</Text> : '';
 };
 
-const ConnectionError: React.SFC<IConnectionErrorProps> = (
-  { title, message, icon, help, isOpen }: IConnectionErrorProps,
+const ConnectionError: React.FC<IConnectionErrorProps> = (
+  { title, message, icon, help, isOpen },
 ) => {
   return (
     <Modal title={title} isOpen={isOpen}>

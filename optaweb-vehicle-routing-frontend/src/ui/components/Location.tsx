@@ -25,12 +25,12 @@ export interface ILocationProps {
   selectHandler: (id: number) => void;
 }
 
-const Location: React.SFC<ILocationProps> = ({
+const Location: React.FC<ILocationProps> = ({
   id,
   removeDisabled,
   removeHandler,
   selectHandler,
-}: ILocationProps) => {
+}) => {
   return (
     <DataListItem
       isExpanded={false}

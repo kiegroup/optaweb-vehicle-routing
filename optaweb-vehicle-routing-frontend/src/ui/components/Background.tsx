@@ -32,7 +32,7 @@ const bgImages = {
   [BackgroundImageSrc.filter]: `${filter}#image_overlay`,
 };
 
-const Background = () => (
+const Background: React.FC = () => (
   <BackgroundImage src={bgImages} />
 );
 

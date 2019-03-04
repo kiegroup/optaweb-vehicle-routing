@@ -99,7 +99,7 @@ class SearchBox extends React.Component<IProps, IState> {
     });
   }
 
-  render(): React.ReactNode {
+  render() {
     const { attributions, query, results } = this.state;
     return (
       <div>
