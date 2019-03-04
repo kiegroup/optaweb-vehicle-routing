@@ -15,13 +15,13 @@
  */
 
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
-import LocationList from 'components/LocationList';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from 'store/configStore';
 import { demoOperations } from 'store/demo';
 import { routeOperations, routeSelectors } from 'store/route';
 import { IRoute } from 'store/route/types';
+import LocationList from 'ui/components/LocationList';
 
 interface IStateProps {
   route: IRoute;
