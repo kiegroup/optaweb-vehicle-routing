@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Toolbar component should match snapshot 1`] = `
+<Toolbar
+  className={null}
+  style={
+    Object {
+      "display": "none",
+    }
+  }
+>
+  <ToolbarGroup
+    className={null}
+  >
+    <ToolbarItem
+      className={null}
+    >
+      <Dropdown
+        className=""
+        direction="down"
+        dropdownItems={
+          Array [
+            <Item
+              className=""
+              component="a"
+              href="#"
+              isDisabled={false}
+              isHovered={false}
+            >
+              ACMEE Corp
+            </Item>,
+            <Item
+              className=""
+              component="a"
+              href="#"
+              isDisabled={false}
+              isHovered={false}
+            >
+              Wayne Ent.
+            </Item>,
+          ]
+        }
+        isOpen={false}
+        isPlain={true}
+        onSelect={[Function]}
+        position="right"
+        toggle={
+          <DropdownToggle
+            className=""
+            iconComponent={[Function]}
+            id=""
+            isActive={false}
+            isFocused={false}
+            isHovered={false}
+            isOpen={false}
+            isPlain={false}
+            onToggle={[Function]}
+            parentRef={null}
+          >
+            Tenant Name
+          </DropdownToggle>
+        }
+      />
+    </ToolbarItem>
+  </ToolbarGroup>
+  <ToolbarGroup
+    className={null}
+  >
+    <ToolbarItem
+      className={null}
+    >
+      <Button
+        aria-label="Notifications actions"
+        className=""
+        component="button"
+        id="horizontal-example-uid-01"
+        isActive={false}
+        isBlock={false}
+        isDisabled={false}
+        isFocus={false}
+        isHover={false}
+        type="button"
+        variant="plain"
+      >
+        <BellIcon
+          color="currentColor"
+          size="sm"
+          title={null}
+        />
+      </Button>
+    </ToolbarItem>
+    <ToolbarItem
+      className={null}
+    >
+      <Button
+        aria-label="Settings actions"
+        className=""
+        component="button"
+        id="horizontal-example-uid-02"
+        isActive={false}
+        isBlock={false}
+        isDisabled={false}
+        isFocus={false}
+        isHover={false}
+        type="button"
+        variant="plain"
+      >
+        <CogIcon
+          color="currentColor"
+          size="sm"
+          title={null}
+        />
+      </Button>
+    </ToolbarItem>
+  </ToolbarGroup>
+</Toolbar>
+`;

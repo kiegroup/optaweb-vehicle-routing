@@ -25,7 +25,7 @@ jest.mock('leaflet-geosearch');
 jest.useFakeTimers();
 
 beforeEach(() => {
-  (OpenStreetMapProvider as unknown as jest.MockInstance<OpenStreetMapProvider>).mockReset();
+  (OpenStreetMapProvider as unknown as jest.MockInstance<OpenStreetMapProvider, []>).mockReset();
 });
 
 describe('Search box', () => {

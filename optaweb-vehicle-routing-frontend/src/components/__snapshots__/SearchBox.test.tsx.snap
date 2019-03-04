@@ -33,6 +33,11 @@ exports[`Search box should invoke add handler with the selected result and clear
   />
   <div
     className="pf-c-options-menu pf-m-expanded"
+    style={
+      Object {
+        "zIndex": 1100,
+      }
+    }
   >
     <ul
       className="pf-c-options-menu__menu"
@@ -219,6 +224,11 @@ exports[`Search box should show results when query is entered 1`] = `
   />
   <div
     className="pf-c-options-menu pf-m-expanded"
+    style={
+      Object {
+        "zIndex": 1100,
+      }
+    }
   >
     <ul
       className="pf-c-options-menu__menu"

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-import { Progress } from '@patternfly/react-core';
+import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import * as React from 'react';
+import Header from './Header';
 
-export interface ITripDataProps {
-  distance: number;
-  maxDistance: number;
-}
-
-export default function TripData({ distance, maxDistance }: ITripDataProps) {
-  return (
-    <Progress
-      value={Math.floor((distance / maxDistance) * 100)}
-      title={`Max: ${maxDistance}, Current: ${distance} km`}
-      valueText={`${distance} km`}
-      measureLocation={'none'}
-    />
-  );
-}
+describe('Header component', () => {
+  it('should match snapshot', () => {
+    const header = shallow(<Header />);
+    expect(toJson(header)).toMatchSnapshot();
+  });
+});

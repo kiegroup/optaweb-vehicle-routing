@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,11 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import ConnectionError, { IConnectionErrorProps } from './ConnectionError';
+import Toolbar from './Toolbar';
 
-describe('Connection Error Component', () => {
-  it('should render correctly', () => {
-    const props: IConnectionErrorProps = {
-      help: 'help',
-      icon: <i>Icon</i>,
-      isOpen: true,
-      message: 'message',
-      title: 'title',
-    };
-
-    expect.assertions(1);
-    const connectionError = shallow(<ConnectionError {...props} />);
-    expect(toJson(connectionError)).toMatchSnapshot();
+describe('Toolbar component', () => {
+  it('should match snapshot', () => {
+    const toolbar = shallow(<Toolbar />);
+    expect(toJson(toolbar)).toMatchSnapshot();
   });
 });

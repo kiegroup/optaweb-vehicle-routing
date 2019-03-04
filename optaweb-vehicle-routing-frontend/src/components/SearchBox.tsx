@@ -111,7 +111,7 @@ class SearchBox extends React.Component<IProps, IState> {
           onChange={this.handleTextInputChange}
         />
         {results.length > 0 &&
-        <div className="pf-c-options-menu pf-m-expanded">
+        <div className="pf-c-options-menu pf-m-expanded" style={{ zIndex: 1100 }}>
           <ul className="pf-c-options-menu__menu">
             {results.map((result, index) => (
               <li key={`result${index}`}>

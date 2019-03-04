@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,9 @@
  * limitations under the License.
  */
 
-// import { render } from 'enzyme';
-// import React from 'react';
-// import App from './App';
+import Demo from './Demo';
+import Route from './Route';
+import Vehicles from './Vehicles';
+import Visits from './Visits';
 
-describe('-- TSP App tests --', () => {
-  it('renders without crashing', () => {
-    // const store = configureStore();
-    // render(<App store={store} />);
-  });
-});
-
-/* Application will mount */
-/*
- it('mount without crashing', () => {
-  mount(<App />).unmount();
-});
-*/
+export { Demo, Vehicles, Visits, Route };

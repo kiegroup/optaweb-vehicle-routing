@@ -14,27 +14,28 @@
  * limitations under the License.
  */
 
-import { Button, Card, CardBody, CardHeader } from '@patternfly/react-core';
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  DataList,
+} from '@patternfly/react-core';
 import * as React from 'react';
 import { IRoute } from '../store/route/types';
 import Location from './Location';
-import SearchBox, { IResult } from './SearchBox';
-import TripData from './TripData';
 
 export interface ILocationListProps {
-  addHandler: (result: IResult) => void;
   removeHandler: (id: number) => void;
   selectHandler: (id: number) => void;
   loadHandler: () => void;
   clearHandler: () => void;
-  maxDistance: number;
   route: IRoute;
   domicileId: number;
   isDemoLoading: boolean;
 }
 
 const renderEmptyLocationList = ({
-  addHandler,
   loadHandler,
   isDemoLoading,
 }: ILocationListProps) => {
@@ -42,7 +43,6 @@ const renderEmptyLocationList = ({
     <Card>
       <CardHeader>Click map to add locations</CardHeader>
       <CardBody>
-        <SearchBox addHandler={addHandler} />
         <Button
           type="button"
           isDisabled={isDemoLoading}
@@ -57,77 +57,40 @@ const renderEmptyLocationList = ({
 };
 
 const renderLocationList = ({
-  route: { distance, locations },
+  route: { locations },
   domicileId,
-  addHandler,
   removeHandler,
   selectHandler,
-  clearHandler,
-  maxDistance,
-  isDemoLoading,
 }: ILocationListProps) => {
   return (
-    <Card>
-      <CardHeader>
-        Distance: {distance}
-        <br />
-        Locations: {locations.length}
-        <TripData
-          maxDistance={maxDistance}
-          distance={parseInt(distance, 10) || maxDistance}
-        />
-        <br />
-        <Button
-          type="button"
-          isDisabled={isDemoLoading}
-          style={{ width: '100%' }}
-          onClick={clearHandler}
-        >
-          Clear
-        </Button>
-        <br />
-        <SearchBox addHandler={addHandler} />
-      </CardHeader>
-      <CardBody>
-        {/*
-        The calculated maxHeight is a hack because the last constant depends
-        on the height of CardHeader (above).
-        */}
-        <div style={{ maxHeight: 'calc(100vh - 24px - 24px - 8px - 196px)', overflowY: 'auto' }}>
-          {locations
-            .slice(0) // clone the array because
-            // sort is done in place (that would affect the route)
-            .sort((a, b) => a.id - b.id)
-            .map(location => (
-              <Location
-                key={location.id}
-                id={location.id}
-                removeDisabled={locations.length > 1 && location.id === domicileId}
-                removeHandler={removeHandler}
-                selectHandler={selectHandler}
-              />
-            ))}
-        </div>
-      </CardBody>
-    </Card>
+    <div style={{ overflowY: 'auto' }}>
+      <DataList
+        aria-label="simple-item1"
+      >
+        {locations
+          .slice(0) // clone the array because
+          // sort is done in place (that would affect the route)
+          .sort((a, b) => a.id - b.id)
+          .map(location => (
+            <Location
+              key={location.id}
+              id={location.id}
+              removeDisabled={locations.length > 1 && location.id === domicileId}
+              removeHandler={removeHandler}
+              selectHandler={selectHandler}
+            />
+          ))}
+      </DataList>
+    </div>
   );
 };
 
 const LocationList: React.SFC<ILocationListProps> = (
   props: ILocationListProps,
 ) => {
-  return (
-    <div
-      className="leaflet-top leaflet-left leaflet-touch"
-      style={{ zIndex: 500 }}
-    >
-      <div className="leaflet-control leaflet-bar">
-        {props.route.locations.length === 0
-          ? renderEmptyLocationList(props)
-          : renderLocationList(props)}
-      </div>
-    </div>
-  );
+  return props.route.locations.length === 0
+    ? renderEmptyLocationList(props)
+    : renderLocationList(props);
 };
 
 export default LocationList;

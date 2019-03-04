@@ -14,59 +14,50 @@
  * limitations under the License.
  */
 
-import { UnpluggedIcon } from '@patternfly/react-icons';
+import { Page, PageSection } from '@patternfly/react-core';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import ConnectionError from 'src/components/ConnectionError';
-import TravelingSalesmanProblem from '../components/TravelingSalesmanProblem';
-import { IAppState } from '../store/configStore';
-import { websocketOperations } from '../store/websocket';
-import { WebSocketConnectionStatus } from '../store/websocket/types';
+import { Route } from 'react-router-dom';
+import ConnectionManager from 'src/containers/ConnectionManager';
+import Background from '../components/Background';
+import Header from '../components/Header';
+import { Demo, Route as RoutePage, Vehicles, Visits } from '../routes';
 import './App.css';
 
-interface IStateProps {
-  connectionStatus: WebSocketConnectionStatus;
-}
-
-interface IDispatchProps {
-  connectClient: typeof websocketOperations.connectClient;
-}
-
-type Props = IStateProps & IDispatchProps;
-
-const mapStateToProps = ({ connectionStatus }: IAppState): IStateProps => ({
-  connectionStatus,
-});
-
-const mapDispatchToProps: IDispatchProps = {
-  connectClient: websocketOperations.connectClient,
-};
-
-class App extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
-  }
-
-  componentDidMount(): void {
-    this.props.connectClient();
-  }
-
-  render() {
-    const { connectionStatus } = this.props;
-    return (
-      <div>
-        {connectionStatus === WebSocketConnectionStatus.ERROR && (
-          <ConnectionError
-            title="Oops... Connection error!"
-            message="Please check your network connection."
-            icon={<UnpluggedIcon />}
-            help="When connection is available the application will be functional again."
+export default function App() {
+  return (
+    <React.Fragment>
+      <ConnectionManager />
+      <Background />
+      <Page header={<Header />}>
+        <PageSection
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            overflowY: 'auto',
+          }}
+        >
+          <Route
+            path="/vehicles"
+            exact={true}
+            component={Vehicles}
           />
-        )}
-        <TravelingSalesmanProblem />
-      </div>
-    );
-  }
+          <Route
+            path="/visits"
+            exact={true}
+            component={Visits}
+          />
+          <Route
+            path="/route"
+            exact={true}
+            component={RoutePage}
+          />
+          <Route
+            path="/demo"
+            exact={true}
+            component={Demo}
+          />
+        </PageSection>
+      </Page>
+    </React.Fragment>
+  );
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
