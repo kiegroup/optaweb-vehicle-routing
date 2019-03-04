@@ -16,60 +16,65 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
-import org.junit.Before;
+import java.util.Optional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-@DataJpaTest
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class DistanceRepositoryImplTest {
 
-    @Autowired
+    @Mock
     private DistanceCrudRepository crudRepository;
+    @InjectMocks
     private DistanceRepositoryImpl repository;
+    @Captor
+    private ArgumentCaptor<DistanceEntity> distanceEntityArgumentCaptor;
+    @Mock
+    private DistanceEntity distanceEntity;
 
-    @Before
-    public void setUp() {
-        repository = new DistanceRepositoryImpl(crudRepository);
-    }
-
-    @Test
-    public void crudRepository() {
-        DistanceKey key = new DistanceKey(1, 2);
-        DistanceEntity entity = new DistanceEntity(key, 73.0107);
-
-        DistanceEntity savedEntity = crudRepository.save(entity);
-        assertThat(savedEntity).isEqualTo(entity);
-
-        assertThat(crudRepository.count()).isOne();
-        assertThat(crudRepository.findById(key)).get().isEqualTo(entity);
-
-        crudRepository.deleteById(key);
-        assertThat(crudRepository.count()).isZero();
-    }
+    private Location from = new Location(1, LatLng.valueOf(7, -4.0));
+    private Location to = new Location(2, LatLng.valueOf(5, 9.0));
 
     @Test
-    public void should_return_saved_distance() {
-        Location location1 = new Location(1, LatLng.valueOf(7, -4.0));
-        Location location2 = new Location(2, LatLng.valueOf(5, 9.0));
-
+    public void should_save_distance() {
         double distance = 95676.6417;
-        repository.saveDistance(location1, location2, distance);
-        assertThat(repository.getDistance(location1, location2)).isEqualTo(distance);
+        repository.saveDistance(from, to, distance);
+        verify(crudRepository).save(distanceEntityArgumentCaptor.capture());
+        DistanceEntity distanceEntity = distanceEntityArgumentCaptor.getValue();
+        assertThat(distanceEntity.getDistance()).isEqualTo(distance);
+        assertThat(distanceEntity.getKey().getFromId()).isEqualTo(from.getId());
+        assertThat(distanceEntity.getKey().getToId()).isEqualTo(to.getId());
+    }
+
+    @Test
+    public void should_return_distance_when_entity_is_found() {
+        DistanceKey distanceKey = new DistanceKey(from.getId(), to.getId());
+        when(crudRepository.findById(distanceKey)).thenReturn(Optional.of(distanceEntity));
+        final double distance = 1.0305;
+        when(distanceEntity.getDistance()).thenReturn(distance);
+        assertThat(repository.getDistance(from, to)).isEqualTo(distance);
     }
 
     @Test
     public void should_return_negative_number_when_distance_not_found() {
-        Location location1 = new Location(1, LatLng.valueOf(7, -4.0));
-        Location location2 = new Location(2, LatLng.valueOf(5, 9.0));
-
-        assertThat(repository.getDistance(location1, location2)).isNegative();
+        when(crudRepository.findById(any(DistanceKey.class))).thenReturn(Optional.empty());
+        assertThat(repository.getDistance(from, to))
+                .isNegative()
+                // Shouldn't be necessary but improves mutation coverage report because Pitest does -(x + 1) mutation,
+                // which turns -1 into -0, so this test wouldn't kill that mutation without the following:
+                .isNotZero();
     }
 }

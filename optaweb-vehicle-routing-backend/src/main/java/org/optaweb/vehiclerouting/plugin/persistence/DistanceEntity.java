@@ -41,6 +41,10 @@ public class DistanceEntity {
         this.distance = Objects.requireNonNull(distance);
     }
 
+    DistanceKey getKey() {
+        return key;
+    }
+
     public Double getDistance() {
         return distance;
     }
