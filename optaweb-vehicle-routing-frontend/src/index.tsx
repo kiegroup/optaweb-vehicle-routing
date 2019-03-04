@@ -19,10 +19,10 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import App from './containers/App';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import configureStore from './store/configStore';
+import App from './ui/App';
 
 const store = configureStore({
   socketUrl: 'http://localhost:8080/vrp-websocket',
