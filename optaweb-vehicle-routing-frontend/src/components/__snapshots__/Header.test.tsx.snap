@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header component should match snapshot 1`] = `
+<PageHeader
+  =""
+  aria-label="Toggle global navigation"
+  avatar={null}
+  className=""
+  isNavOpen={true}
+  logo={
+    <Brand
+      alt="OptaPlanner Logo"
+      className=""
+      src="/assets/images/optaPlannerLogo200px.png"
+    />
+  }
+  logoProps={null}
+  onNavToggle={[Function]}
+  showNavToggle={false}
+  toolbar={<ToolbarComponent />}
+  topNav={<Navigation />}
+/>
+`;
