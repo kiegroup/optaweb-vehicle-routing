@@ -97,7 +97,11 @@
           <configuration>
             <reportsDirectory>local/pit-reports</reportsDirectory>
             <timestampedReports>true</timestampedReports>
-            <timeoutConstant>1000</timeoutConstant>
+            <!--
+              Experimental. Using more than 2 threads doesn't reduce execution time further
+              and leads to minion timeouts.
+            -->
+            <threads>2</threads>
             <mutators>
               <!-- See http://pitest.org/quickstart/mutators/ -->
               <mutator>DEFAULTS</mutator>
@@ -114,7 +118,7 @@
               <avoidCallsTo>org.slf4j</avoidCallsTo>
             </avoidCallsTo>
             <excludedTestClasses>
-              org.optaweb.vehiclerouting.plugin.persistence.integration_tests.*
+              <param>*IntegrationTest</param>
             </excludedTestClasses>
           </configuration>
         </plugin>

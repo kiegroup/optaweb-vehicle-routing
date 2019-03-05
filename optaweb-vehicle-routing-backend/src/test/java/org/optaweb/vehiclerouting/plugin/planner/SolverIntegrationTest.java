@@ -53,9 +53,9 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SolverTest {
+public class SolverIntegrationTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(SolverTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(SolverIntegrationTest.class);
 
     @Mock
     private Map<RoadLocation, Double> distanceMap;
