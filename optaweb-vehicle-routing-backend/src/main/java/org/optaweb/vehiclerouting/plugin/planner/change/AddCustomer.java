@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.plugin.planner.change;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
@@ -29,7 +30,7 @@ public class AddCustomer implements ProblemFactChange<VehicleRoutingSolution> {
     private final Location location;
 
     public AddCustomer(Location location) {
-        this.location = location;
+        this.location = Objects.requireNonNull(location);
     }
 
     @Override

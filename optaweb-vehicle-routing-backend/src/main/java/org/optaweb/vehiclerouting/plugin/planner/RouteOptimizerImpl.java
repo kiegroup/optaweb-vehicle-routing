@@ -73,7 +73,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         solution = emptySolution();
     }
 
-    static VehicleRoutingSolution emptySolution() {
+    public static VehicleRoutingSolution emptySolution() {
         VehicleRoutingSolution solution = new VehicleRoutingSolution();
         solution.setLocationList(new ArrayList<>());
         solution.setCustomerList(new ArrayList<>());
