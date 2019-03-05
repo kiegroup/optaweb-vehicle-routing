@@ -34,6 +34,24 @@
   </parent>
 
   <properties>
+    <checkstyle.header.template><![CDATA[
+^\/\*$\n^
+\* Copyright \d\d\d\d Red Hat, Inc\. and\/or its affiliates\.$\n^
+\*$\n^
+\* Licensed under the Apache License, Version 2\.0 \(the &quot;License&quot;\);$\n^
+\* you may not use this file except in compliance with the License\.$\n^
+\* You may obtain a copy of the License at$\n^
+\*$\n^
+\*     http:\/\/www\.apache\.org\/licenses\/LICENSE-2\.0$\n^
+\*$\n^
+\* Unless required by applicable law or agreed to in writing, software$\n^
+\* distributed under the License is distributed on an &quot;AS IS&quot; BASIS,$\n^
+\* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied\.$\n^
+\* See the License for the specific language governing permissions and$\n^
+\* limitations under the License\.$\n^
+\*\/$
+]]>
+    </checkstyle.header.template>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
@@ -191,6 +209,60 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration>
+              <checkstyleRules>
+                <module name="Checker">
+                  <!-- Checks for whitespace. -->
+                  <module name="FileTabCharacter">
+                    <property name="severity" value="error"/>
+                    <property name="eachLine" value="true"/>
+                  </module>
+                  <module name="TreeWalker">
+                    <!-- Import settings: getting rid of redundant import, forbid star notation,
+                         defined order of imports. -->
+                    <module name="RedundantImport"/>
+                    <module name="AvoidStarImport">
+                      <property name="allowClassImports" value="false"/>
+                      <property name="allowStaticMemberImports" value="false"/>
+                    </module>
+                    <module name="CustomImportOrder">
+                      <property name="customImportOrderRules"
+                                value="STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE###STATIC"/>
+                      <property name="specialImportsRegExp" value="^javax\."/>
+                      <property name="standardPackageRegExp" value="^java\."/>
+                      <property name="sortImportsInGroupAlphabetically" value="true"/>
+                      <property name="separateLineBetweenGroups" value="true"/>
+                    </module>
+                    <module name="UnusedImports"/>
+                    <module name="NeedBraces">
+                      <property name="tokens" value="LITERAL_IF, LITERAL_ELSE, LITERAL_FOR, LITERAL_WHILE, LITERAL_DO"/>
+                    </module>
+                    <module name="EqualsHashCode"/>
+                  </module>
+                  <module name="RegexpHeader">
+                    <property name="header" value="${checkstyle.header.template}"/>
+                    <property name="fileExtensions" value="java"/>
+                  </module>
+                </module>
+              </checkstyleRules>
+              <includeTestSourceDirectory>true</includeTestSourceDirectory>
+              <includeResources>true</includeResources>
+              <includeTestResources>true</includeTestResources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
