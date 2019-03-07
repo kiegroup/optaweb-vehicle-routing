@@ -45,20 +45,20 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     @Override
     public void onApplicationEvent(RouteChangedEvent event) {
         // TODO persist the best solution
-        bestRoute = new Route(event.getDistance(), event.getRoute(), segments(event.getRoute()));
+        bestRoute = new Route(event.getDistance(), event.getRoute(), paths(event.getRoute()));
         publisher.publish(bestRoute);
     }
 
-    private List<List<LatLng>> segments(List<Location> route) {
-        List<List<LatLng>> segments = new ArrayList<>();
+    private List<List<LatLng>> paths(List<Location> route) {
+        List<List<LatLng>> paths = new ArrayList<>();
         for (int i = 1; i < route.size() + 1; i++) {
             // "trick" to get N -> 0 distance at the end of the loop
             Location fromLocation = route.get(i - 1);
             Location toLocation = route.get(i % route.size());
-            List<LatLng> latLngs = router.getRoute(fromLocation.getLatLng(), toLocation.getLatLng());
-            segments.add(latLngs);
+            List<LatLng> latLngs = router.getPath(fromLocation.getLatLng(), toLocation.getLatLng());
+            paths.add(latLngs);
         }
-        return segments;
+        return paths;
     }
 
     public Route getBestRoute() {

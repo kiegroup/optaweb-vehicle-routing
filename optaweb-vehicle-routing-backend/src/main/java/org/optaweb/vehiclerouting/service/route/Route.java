@@ -26,12 +26,12 @@ public class Route {
 
     private final String distance;
     private final List<Location> route;
-    private final List<List<LatLng>> segments;
+    private final List<List<LatLng>> paths;
 
-    public Route(String distance, List<Location> route, List<List<LatLng>> segments) {
+    public Route(String distance, List<Location> route, List<List<LatLng>> paths) {
         this.distance = distance;
         this.route = route;
-        this.segments = segments;
+        this.paths = paths;
     }
 
     public static Route empty() {
@@ -46,7 +46,7 @@ public class Route {
         return route;
     }
 
-    public List<List<LatLng>> getSegments() {
-        return segments;
+    public List<List<LatLng>> getPaths() {
+        return paths;
     }
 }

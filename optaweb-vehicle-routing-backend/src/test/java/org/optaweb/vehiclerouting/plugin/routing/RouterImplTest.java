@@ -94,7 +94,7 @@ public class RouterImplTest {
         pointList.add(latLng3.getLatitude().doubleValue(), latLng3.getLongitude().doubleValue());
 
         // act & assert
-        List<LatLng> route = routing.getRoute(from, to);
+        List<LatLng> route = routing.getPath(from, to);
         assertThat(route).containsExactly(
                 latLng1,
                 latLng2,

@@ -50,7 +50,7 @@ public class RoutePublisherImpl implements RoutePublisher {
                 .map(PortableLocation::fromLocation)
                 .collect(Collectors.toList());
         List<List<PortableLocation>> portableSegments = new ArrayList<>();
-        for (List<LatLng> segment : route.getSegments()) {
+        for (List<LatLng> segment : route.getPaths()) {
             List<PortableLocation> portableSegment = segment.stream()
                     .map(PortableLocation::fromLatLng)
                     .collect(Collectors.toList());

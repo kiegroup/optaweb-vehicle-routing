@@ -22,6 +22,6 @@ import org.optaweb.vehiclerouting.domain.LatLng;
 
 public interface Router {
 
-    List<LatLng> getRoute(LatLng from, LatLng to);
+    List<LatLng> getPath(LatLng from, LatLng to);
 
 }

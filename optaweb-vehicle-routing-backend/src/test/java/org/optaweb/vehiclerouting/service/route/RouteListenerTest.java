@@ -52,27 +52,27 @@ public class RouteListenerTest {
 
     @Test
     public void onApplicationEvent() {
-        final LatLng latLng1 = LatLng.valueOf(0.0, 0.1);
-        final LatLng latLng2 = LatLng.valueOf(2.0, -0.2);
-        final LatLng checkpoint12 = LatLng.valueOf(12, 12);
-        final LatLng checkpoint21 = LatLng.valueOf(21, 21);
-        List<LatLng> segment1 = Arrays.asList(latLng1, checkpoint12, latLng2);
-        List<LatLng> segment2 = Arrays.asList(latLng2, checkpoint21, latLng1);
-        when(router.getRoute(latLng1, latLng2)).thenReturn(segment1);
-        when(router.getRoute(latLng2, latLng1)).thenReturn(segment2);
+        final LatLng depotLatLng = LatLng.valueOf(0.0, 0.1);
+        final LatLng visitLatLng = LatLng.valueOf(2.0, -0.2);
+        final LatLng checkpoint1 = LatLng.valueOf(12, 12);
+        final LatLng checkpoint2 = LatLng.valueOf(21, 21);
+        List<LatLng> path1 = Arrays.asList(depotLatLng, checkpoint1, checkpoint2, visitLatLng);
+        List<LatLng> path2 = Arrays.asList(visitLatLng, checkpoint2, checkpoint1, depotLatLng);
+        when(router.getPath(depotLatLng, visitLatLng)).thenReturn(path1);
+        when(router.getPath(visitLatLng, depotLatLng)).thenReturn(path2);
 
-        final Location location1 = new Location(1, latLng1);
-        final Location location2 = new Location(2, latLng2);
+        final Location depot = new Location(1, depotLatLng);
+        final Location visit = new Location(2, visitLatLng);
         final String distance = "xy";
-        RouteChangedEvent event = new RouteChangedEvent(this, distance, Arrays.asList(location1, location2));
+        RouteChangedEvent event = new RouteChangedEvent(this, distance, Arrays.asList(depot, visit));
 
         routeListener.onApplicationEvent(event);
         verify(publisher).publish(routeArgumentCaptor.capture());
 
         Route route = routeArgumentCaptor.getValue();
         assertThat(route.getDistance()).isEqualTo(distance);
-        assertThat(route.getRoute()).containsExactly(location1, location2);
-        assertThat(route.getSegments()).containsExactly(segment1, segment2);
+        assertThat(route.getRoute()).containsExactly(depot, visit);
+        assertThat(route.getPaths()).containsExactly(path1, path2);
 
         assertThat(routeListener.getBestRoute()).isEqualTo(route);
     }
@@ -82,6 +82,6 @@ public class RouteListenerTest {
         Route bestRoute = routeListener.getBestRoute();
         assertThat(bestRoute.getDistance()).isEqualTo("0");
         assertThat(bestRoute.getRoute()).isEmpty();
-        assertThat(bestRoute.getSegments()).isEmpty();
+        assertThat(bestRoute.getPaths()).isEmpty();
     }
 }
