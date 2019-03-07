@@ -18,9 +18,11 @@ package org.optaweb.vehiclerouting.service.route;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 
@@ -45,11 +47,14 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     @Override
     public void onApplicationEvent(RouteChangedEvent event) {
         // TODO persist the best solution
-        bestRoutingPlan = new RoutingPlan(event.getDistance(), event.getRoute(), paths(event.getRoute()));
+        List<RouteWithTrack> routes = event.routes().stream()
+                .map(route -> new RouteWithTrack(route, track(route.visits())))
+                .collect(Collectors.toList());
+        bestRoutingPlan = new RoutingPlan(event.distance(), routes);
         publisher.publish(bestRoutingPlan);
     }
 
-    private List<List<LatLng>> paths(List<Location> route) {
+    private List<List<LatLng>> track(List<Location> route) {
         List<List<LatLng>> paths = new ArrayList<>();
         for (int i = 1; i < route.size() + 1; i++) {
             // "trick" to get N -> 0 distance at the end of the loop

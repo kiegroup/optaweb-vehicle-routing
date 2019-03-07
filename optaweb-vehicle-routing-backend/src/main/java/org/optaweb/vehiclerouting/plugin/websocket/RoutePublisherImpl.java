@@ -17,12 +17,13 @@
 package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.service.route.RoutingPlan;
 import org.optaweb.vehiclerouting.service.route.RoutePublisher;
+import org.optaweb.vehiclerouting.service.route.RoutingPlan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
@@ -42,20 +43,24 @@ public class RoutePublisherImpl implements RoutePublisher {
 
     @Override
     public void publish(RoutingPlan routingPlan) {
-        webSocket.convertAndSend("/topic/route", portableRoute(routingPlan));
+        webSocket.convertAndSend("/topic/route", portable(routingPlan));
     }
 
-    PortableRoute portableRoute(RoutingPlan routingPlan) {
-        List<PortableLocation> portableRoute = routingPlan.getRoute().stream()
+    PortableRoute portable(RoutingPlan routingPlan) {
+        if (routingPlan.routes().isEmpty()) {
+            return new PortableRoute(routingPlan.distance(), Collections.emptyList(), Collections.emptyList());
+        }
+        // FIXME don't ignore other routes (as soon as we add more vehicles)
+        List<PortableLocation> portableRoute = routingPlan.routes().get(0).visits().stream()
                 .map(PortableLocation::fromLocation)
                 .collect(Collectors.toList());
         List<List<PortableLocation>> portableSegments = new ArrayList<>();
-        for (List<LatLng> segment : routingPlan.getPaths()) {
+        for (List<LatLng> segment : routingPlan.routes().get(0).track()) {
             List<PortableLocation> portableSegment = segment.stream()
                     .map(PortableLocation::fromLatLng)
                     .collect(Collectors.toList());
             portableSegments.add(portableSegment);
         }
-        return new PortableRoute(routingPlan.getDistance(), portableRoute, portableSegments);
+        return new PortableRoute(routingPlan.distance(), portableRoute, portableSegments);
     }
 }

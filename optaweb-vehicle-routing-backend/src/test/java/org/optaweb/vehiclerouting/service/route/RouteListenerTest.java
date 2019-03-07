@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.service.route;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
@@ -29,6 +30,8 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Route;
+import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -51,7 +54,7 @@ public class RouteListenerTest {
     }
 
     @Test
-    public void onApplicationEvent() {
+    public void listener_should_publish_routing_plan_when_an_update_event_occurs() {
         final LatLng depotLatLng = LatLng.valueOf(0.0, 0.1);
         final LatLng visitLatLng = LatLng.valueOf(2.0, -0.2);
         final LatLng checkpoint1 = LatLng.valueOf(12, 12);
@@ -64,24 +67,27 @@ public class RouteListenerTest {
         final Location depot = new Location(1, depotLatLng);
         final Location visit = new Location(2, visitLatLng);
         final String distance = "xy";
-        RouteChangedEvent event = new RouteChangedEvent(this, distance, Arrays.asList(depot, visit));
+
+        Route route = new Route(depot, visit);
+        RouteChangedEvent event = new RouteChangedEvent(this, distance, Collections.singletonList(route));
 
         routeListener.onApplicationEvent(event);
         verify(publisher).publish(routeArgumentCaptor.capture());
 
         RoutingPlan routingPlan = routeArgumentCaptor.getValue();
-        assertThat(routingPlan.getDistance()).isEqualTo(distance);
-        assertThat(routingPlan.getRoute()).containsExactly(depot, visit);
-        assertThat(routingPlan.getPaths()).containsExactly(path1, path2);
+        assertThat(routingPlan.distance()).isEqualTo(distance);
+        assertThat(routingPlan.routes()).hasSize(1);
+        RouteWithTrack routeWithTrack = routingPlan.routes().iterator().next();
+        assertThat(routeWithTrack.visits()).containsExactly(depot, visit);
+        assertThat(routeWithTrack.track()).containsExactly(path1, path2);
 
         assertThat(routeListener.getBestRoutingPlan()).isEqualTo(routingPlan);
     }
 
     @Test
-    public void new_RouteListener_should_return_empty_best_route() {
+    public void new_listener_should_return_empty_best_route() {
         RoutingPlan bestRoutingPlan = routeListener.getBestRoutingPlan();
-        assertThat(bestRoutingPlan.getDistance()).isEqualTo("0");
-        assertThat(bestRoutingPlan.getRoute()).isEmpty();
-        assertThat(bestRoutingPlan.getPaths()).isEmpty();
+        assertThat(bestRoutingPlan.distance()).isEqualTo("0");
+        assertThat(bestRoutingPlan.routes()).isEmpty();
     }
 }

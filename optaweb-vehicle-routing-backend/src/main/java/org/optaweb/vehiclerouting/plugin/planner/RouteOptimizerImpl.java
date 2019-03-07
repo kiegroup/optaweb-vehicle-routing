@@ -36,6 +36,7 @@ import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
@@ -91,7 +92,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         );
     }
 
-    private static Optional<List<org.optaweb.vehiclerouting.domain.Location>> extractRoute(VehicleRoutingSolution solution) {
+    private static Optional<List<org.optaweb.vehiclerouting.domain.Route>> extractRoute(VehicleRoutingSolution solution) {
         // TODO race condition, if a rest thread deletes that location in the middle of this method happening on the solver thread
         // TODO make sure that location is still in the repository
         // TODO maybe repair the solution OR ignore if it's inconsistent (log WARNING)
@@ -100,12 +101,12 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         if (depot == null) {
             return Optional.of(new ArrayList<>());
         }
-        List<org.optaweb.vehiclerouting.domain.Location> route = new ArrayList<>();
-        addLocationToRoute(route, depot.getLocation());
+        List<org.optaweb.vehiclerouting.domain.Location> visits = new ArrayList<>();
+        addLocationToRoute(visits, depot.getLocation());
         for (Customer customer = vehicle.getNextCustomer(); customer != null; customer = customer.getNextCustomer()) {
-            addLocationToRoute(route, customer.getLocation());
+            addLocationToRoute(visits, customer.getLocation());
         }
-        return Optional.of(route);
+        return Optional.of(Collections.singletonList(new Route(visits)));
     }
 
     private static void addLocationToRoute(List<org.optaweb.vehiclerouting.domain.Location> route, Location location) {
@@ -133,18 +134,18 @@ public class RouteOptimizerImpl implements RouteOptimizer,
     }
 
     private void publishRoute(VehicleRoutingSolution solution) {
-        extractRoute(solution).ifPresent(route -> {
+        extractRoute(solution).ifPresent(routes -> {
             logger.debug("New solution with\n"
                             + "  customers: {}\n"
                             + "  depots:    {}\n"
                             + "  vehicles:  {}\n"
-                            + "Route: {}",
+                            + "Routes: {}",
                     solution.getCustomerList().size(),
                     solution.getDepotList().size(),
                     solution.getVehicleList().size(),
-                    route);
+                    routes);
             String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
-            publisher.publishEvent(new RouteChangedEvent(this, distanceString, route));
+            publisher.publishEvent(new RouteChangedEvent(this, distanceString, routes));
         });
     }
 

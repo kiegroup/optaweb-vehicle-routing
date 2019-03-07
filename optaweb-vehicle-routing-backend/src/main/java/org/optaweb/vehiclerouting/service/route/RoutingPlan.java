@@ -19,34 +19,27 @@ package org.optaweb.vehiclerouting.service.route;
 import java.util.Collections;
 import java.util.List;
 
-import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 
 public class RoutingPlan {
 
     private final String distance;
-    private final List<Location> route;
-    private final List<List<LatLng>> paths;
+    private final List<RouteWithTrack> routes;
 
-    public RoutingPlan(String distance, List<Location> route, List<List<LatLng>> paths) {
+    public RoutingPlan(String distance, List<RouteWithTrack> routes) {
         this.distance = distance;
-        this.route = route;
-        this.paths = paths;
+        this.routes = routes;
     }
 
     public static RoutingPlan empty() {
-        return new RoutingPlan("0", Collections.emptyList(), Collections.emptyList());
+        return new RoutingPlan("0", Collections.emptyList());
     }
 
-    public String getDistance() {
+    public String distance() {
         return distance;
     }
 
-    public List<Location> getRoute() {
-        return route;
-    }
-
-    public List<List<LatLng>> getPaths() {
-        return paths;
+    public List<RouteWithTrack> routes() {
+        return routes;
     }
 }

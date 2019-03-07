@@ -127,7 +127,8 @@ public class RouteOptimizerImplTest {
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
 
-        assertThat(event.getRoute()).containsExactly(location1, location2);
+        assertThat(event.routes()).hasSize(1);
+        assertThat(event.routes().iterator().next().visits()).containsExactly(location1, location2);
     }
 
     @Test
@@ -230,7 +231,7 @@ public class RouteOptimizerImplTest {
 
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
-        assertThat(event.getRoute()).isEmpty();
+        assertThat(event.routes()).isEmpty();
     }
 
     @Test

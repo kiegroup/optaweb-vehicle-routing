@@ -16,10 +16,10 @@
 
 package org.optaweb.vehiclerouting.service.route;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Route;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -29,25 +29,25 @@ import org.springframework.context.ApplicationEvent;
 public class RouteChangedEvent extends ApplicationEvent {
 
     private final String distance;
-    private final List<Location> route;
+    private final Collection<Route> routes;
 
     /**
      * Create a new ApplicationEvent.
      * @param source the object on which the event initially occurred (never {@code null})
-     * @param distance route distance
-     * @param route list of locations
+     * @param distance total distance of all vehicle routes
+     * @param routes vehicle routes
      */
-    public RouteChangedEvent(Object source, String distance, List<Location> route) {
+    public RouteChangedEvent(Object source, String distance, Collection<Route> routes) {
         super(source);
         this.distance = Objects.requireNonNull(distance);
-        this.route = Objects.requireNonNull(route);
+        this.routes = Objects.requireNonNull(routes);
     }
 
-    public List<Location> getRoute() {
-        return route;
+    public Collection<Route> routes() {
+        return routes;
     }
 
-    public String getDistance() {
+    public String distance() {
         return distance;
     }
 }
