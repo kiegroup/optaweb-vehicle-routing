@@ -27,7 +27,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
-import org.optaweb.vehiclerouting.service.route.Route;
+import org.optaweb.vehiclerouting.service.route.RoutingPlan;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -54,8 +54,8 @@ public class WebSocketControllerTest {
     @Before
     public void setUp() {
         portableRoute = new PortableRoute("xy", Collections.emptyList(), Collections.emptyList());
-        when(routeListener.getBestRoute()).thenReturn(Route.empty());
-        when(routePublisher.portableRoute(any(Route.class))).thenReturn(portableRoute);
+        when(routeListener.getBestRoutingPlan()).thenReturn(RoutingPlan.empty());
+        when(routePublisher.portableRoute(any(RoutingPlan.class))).thenReturn(portableRoute);
     }
 
     @Test

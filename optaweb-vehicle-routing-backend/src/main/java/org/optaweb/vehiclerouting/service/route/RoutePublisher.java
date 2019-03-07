@@ -18,5 +18,5 @@ package org.optaweb.vehiclerouting.service.route;
 
 public interface RoutePublisher {
 
-    void publish(Route route);
+    void publish(RoutingPlan routingPlan);
 }

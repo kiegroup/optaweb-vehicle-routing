@@ -34,19 +34,19 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     private final RoutePublisher publisher;
 
     // TODO maybe remove state from the service and get best route from a repository
-    private Route bestRoute;
+    private RoutingPlan bestRoutingPlan;
 
     public RouteListener(Router router, RoutePublisher publisher) {
         this.router = router;
         this.publisher = publisher;
-        bestRoute = Route.empty();
+        bestRoutingPlan = RoutingPlan.empty();
     }
 
     @Override
     public void onApplicationEvent(RouteChangedEvent event) {
         // TODO persist the best solution
-        bestRoute = new Route(event.getDistance(), event.getRoute(), paths(event.getRoute()));
-        publisher.publish(bestRoute);
+        bestRoutingPlan = new RoutingPlan(event.getDistance(), event.getRoute(), paths(event.getRoute()));
+        publisher.publish(bestRoutingPlan);
     }
 
     private List<List<LatLng>> paths(List<Location> route) {
@@ -61,7 +61,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
         return paths;
     }
 
-    public Route getBestRoute() {
-        return bestRoute;
+    public RoutingPlan getBestRoutingPlan() {
+        return bestRoutingPlan;
     }
 }

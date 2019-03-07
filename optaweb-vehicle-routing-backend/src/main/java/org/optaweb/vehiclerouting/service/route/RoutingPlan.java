@@ -22,20 +22,20 @@ import java.util.List;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 
-public class Route {
+public class RoutingPlan {
 
     private final String distance;
     private final List<Location> route;
     private final List<List<LatLng>> paths;
 
-    public Route(String distance, List<Location> route, List<List<LatLng>> paths) {
+    public RoutingPlan(String distance, List<Location> route, List<List<LatLng>> paths) {
         this.distance = distance;
         this.route = route;
         this.paths = paths;
     }
 
-    public static Route empty() {
-        return new Route("0", Collections.emptyList(), Collections.emptyList());
+    public static RoutingPlan empty() {
+        return new RoutingPlan("0", Collections.emptyList(), Collections.emptyList());
     }
 
     public String getDistance() {

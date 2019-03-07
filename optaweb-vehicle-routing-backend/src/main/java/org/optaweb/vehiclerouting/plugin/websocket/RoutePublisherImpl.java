@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.service.route.Route;
+import org.optaweb.vehiclerouting.service.route.RoutingPlan;
 import org.optaweb.vehiclerouting.service.route.RoutePublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -41,21 +41,21 @@ public class RoutePublisherImpl implements RoutePublisher {
     }
 
     @Override
-    public void publish(Route route) {
-        webSocket.convertAndSend("/topic/route", portableRoute(route));
+    public void publish(RoutingPlan routingPlan) {
+        webSocket.convertAndSend("/topic/route", portableRoute(routingPlan));
     }
 
-    PortableRoute portableRoute(Route route) {
-        List<PortableLocation> portableRoute = route.getRoute().stream()
+    PortableRoute portableRoute(RoutingPlan routingPlan) {
+        List<PortableLocation> portableRoute = routingPlan.getRoute().stream()
                 .map(PortableLocation::fromLocation)
                 .collect(Collectors.toList());
         List<List<PortableLocation>> portableSegments = new ArrayList<>();
-        for (List<LatLng> segment : route.getPaths()) {
+        for (List<LatLng> segment : routingPlan.getPaths()) {
             List<PortableLocation> portableSegment = segment.stream()
                     .map(PortableLocation::fromLatLng)
                     .collect(Collectors.toList());
             portableSegments.add(portableSegment);
         }
-        return new PortableRoute(route.getDistance(), portableRoute, portableSegments);
+        return new PortableRoute(routingPlan.getDistance(), portableRoute, portableSegments);
     }
 }

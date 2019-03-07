@@ -42,7 +42,7 @@ public class RouteListenerTest {
     @Mock
     private RoutePublisher publisher;
     @Captor
-    private ArgumentCaptor<Route> routeArgumentCaptor;
+    private ArgumentCaptor<RoutingPlan> routeArgumentCaptor;
     @InjectMocks
     private RouteListener routeListener;
 
@@ -69,19 +69,19 @@ public class RouteListenerTest {
         routeListener.onApplicationEvent(event);
         verify(publisher).publish(routeArgumentCaptor.capture());
 
-        Route route = routeArgumentCaptor.getValue();
-        assertThat(route.getDistance()).isEqualTo(distance);
-        assertThat(route.getRoute()).containsExactly(depot, visit);
-        assertThat(route.getPaths()).containsExactly(path1, path2);
+        RoutingPlan routingPlan = routeArgumentCaptor.getValue();
+        assertThat(routingPlan.getDistance()).isEqualTo(distance);
+        assertThat(routingPlan.getRoute()).containsExactly(depot, visit);
+        assertThat(routingPlan.getPaths()).containsExactly(path1, path2);
 
-        assertThat(routeListener.getBestRoute()).isEqualTo(route);
+        assertThat(routeListener.getBestRoutingPlan()).isEqualTo(routingPlan);
     }
 
     @Test
     public void new_RouteListener_should_return_empty_best_route() {
-        Route bestRoute = routeListener.getBestRoute();
-        assertThat(bestRoute.getDistance()).isEqualTo("0");
-        assertThat(bestRoute.getRoute()).isEmpty();
-        assertThat(bestRoute.getPaths()).isEmpty();
+        RoutingPlan bestRoutingPlan = routeListener.getBestRoutingPlan();
+        assertThat(bestRoutingPlan.getDistance()).isEqualTo("0");
+        assertThat(bestRoutingPlan.getRoute()).isEmpty();
+        assertThat(bestRoutingPlan.getPaths()).isEmpty();
     }
 }

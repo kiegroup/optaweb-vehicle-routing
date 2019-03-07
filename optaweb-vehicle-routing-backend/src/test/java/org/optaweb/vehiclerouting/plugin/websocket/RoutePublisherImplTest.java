@@ -28,7 +28,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.service.route.Route;
+import org.optaweb.vehiclerouting.service.route.RoutingPlan;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,13 +49,13 @@ public class RoutePublisherImplTest {
 
     @Test
     public void publish() {
-        routePublisher.publish(Route.empty());
+        routePublisher.publish(RoutingPlan.empty());
         Mockito.verify(webSocket).convertAndSend(anyString(), any(PortableRoute.class));
     }
 
     @Test
     public void portableRoute_empty() {
-        PortableRoute portableRoute = routePublisher.portableRoute(Route.empty());
+        PortableRoute portableRoute = routePublisher.portableRoute(RoutingPlan.empty());
         assertThat(portableRoute.getLocations()).isEmpty();
         assertThat(portableRoute.getSegments()).isEmpty();
     }
@@ -73,9 +73,13 @@ public class RoutePublisherImplTest {
         final Location location2 = new Location(2, latLng2);
         final String distance = "xy";
 
-        Route route = new Route(distance, Arrays.asList(location1, location2), Arrays.asList(segment1, segment2));
+        RoutingPlan routingPlan = new RoutingPlan(
+                distance,
+                Arrays.asList(location1, location2),
+                Arrays.asList(segment1, segment2)
+        );
 
-        PortableRoute portableRoute = routePublisher.portableRoute(route);
+        PortableRoute portableRoute = routePublisher.portableRoute(routingPlan);
         assertThat(portableRoute.getDistance()).isEqualTo(distance);
         assertThat(portableRoute.getLocations()).containsExactly(
                 PortableLocation.fromLocation(location1),

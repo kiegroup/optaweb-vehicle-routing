@@ -15,6 +15,6 @@
  */
 
 /**
- * Handles {@link org.optaweb.vehiclerouting.service.route.Route route} updates.
+ * Handles {@link org.optaweb.vehiclerouting.service.route.RoutingPlan route} updates.
  */
 package org.optaweb.vehiclerouting.service.route;
