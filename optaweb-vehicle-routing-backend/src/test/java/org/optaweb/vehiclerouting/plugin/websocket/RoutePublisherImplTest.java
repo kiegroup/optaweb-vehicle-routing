@@ -53,14 +53,14 @@ public class RoutePublisherImplTest {
     @Test
     public void publish() {
         routePublisher.publish(RoutingPlan.empty());
-        Mockito.verify(webSocket).convertAndSend(anyString(), any(PortableRoute.class));
+        Mockito.verify(webSocket).convertAndSend(anyString(), any(PortableRoutingPlan.class));
     }
 
     @Test
     public void portableRoute_empty() {
-        PortableRoute portableRoute = routePublisher.portable(RoutingPlan.empty());
-        assertThat(portableRoute.getLocations()).isEmpty();
-        assertThat(portableRoute.getSegments()).isEmpty();
+        PortableRoutingPlan portablePlan = routePublisher.portable(RoutingPlan.empty());
+        assertThat(portablePlan.getRoutes()).isEmpty();
+        assertThat(portablePlan.getDistance()).isEqualTo("0");
     }
 
     @Test
@@ -83,19 +83,23 @@ public class RoutePublisherImplTest {
 
         RoutingPlan routingPlan = new RoutingPlan(distance, Collections.singletonList(route));
 
-        PortableRoute portableRoute = routePublisher.portable(routingPlan);
-        assertThat(portableRoute.getDistance()).isEqualTo(distance);
-        assertThat(portableRoute.getLocations()).containsExactly(
+        PortableRoutingPlan portableRoutingPlan = routePublisher.portable(routingPlan);
+        assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);
+        assertThat(portableRoutingPlan.getRoutes()).hasSize(1);
+
+        PortableRoute portableRoute = portableRoutingPlan.getRoutes().iterator().next();
+
+        assertThat(portableRoute.getVisits()).containsExactly(
                 PortableLocation.fromLocation(location1),
                 PortableLocation.fromLocation(location2)
         );
-        assertThat(portableRoute.getSegments()).hasSize(2);
-        assertThat(portableRoute.getSegments().get(0)).containsExactly(
+        assertThat(portableRoute.getTrack()).hasSize(2);
+        assertThat(portableRoute.getTrack().get(0)).containsExactly(
                 PortableLocation.fromLatLng(location1.getLatLng()),
                 PortableLocation.fromLatLng(checkpoint12),
                 PortableLocation.fromLatLng(location2.getLatLng())
         );
-        assertThat(portableRoute.getSegments().get(1)).containsExactly(
+        assertThat(portableRoute.getTrack().get(1)).containsExactly(
                 PortableLocation.fromLatLng(location2.getLatLng()),
                 PortableLocation.fromLatLng(checkpoint21),
                 PortableLocation.fromLatLng(location1.getLatLng())

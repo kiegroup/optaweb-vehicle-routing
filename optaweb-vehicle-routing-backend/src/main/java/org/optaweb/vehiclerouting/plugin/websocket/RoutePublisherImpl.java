@@ -17,11 +17,11 @@
 package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.route.RoutePublisher;
 import org.optaweb.vehiclerouting.service.route.RoutingPlan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,21 +46,29 @@ public class RoutePublisherImpl implements RoutePublisher {
         webSocket.convertAndSend("/topic/route", portable(routingPlan));
     }
 
-    PortableRoute portable(RoutingPlan routingPlan) {
-        if (routingPlan.routes().isEmpty()) {
-            return new PortableRoute(routingPlan.distance(), Collections.emptyList(), Collections.emptyList());
-        }
-        // FIXME don't ignore other routes (as soon as we add more vehicles)
-        List<PortableLocation> portableRoute = routingPlan.routes().get(0).visits().stream()
-                .map(PortableLocation::fromLocation)
+    PortableRoutingPlan portable(RoutingPlan routingPlan) {
+        List<PortableRoute> routes = routingPlan.routes().stream()
+                .map(routeWithTrack -> new PortableRoute(
+                        portableVisits(routeWithTrack.visits()),
+                        portableTrack(routeWithTrack.track())))
                 .collect(Collectors.toList());
-        List<List<PortableLocation>> portableSegments = new ArrayList<>();
-        for (List<LatLng> segment : routingPlan.routes().get(0).track()) {
+        return new PortableRoutingPlan(routingPlan.distance(), routes);
+    }
+
+    private List<List<PortableLocation>> portableTrack(List<List<LatLng>> track) {
+        ArrayList<List<PortableLocation>> portableTrack = new ArrayList<>();
+        for (List<LatLng> segment : track) {
             List<PortableLocation> portableSegment = segment.stream()
                     .map(PortableLocation::fromLatLng)
                     .collect(Collectors.toList());
-            portableSegments.add(portableSegment);
+            portableTrack.add(portableSegment);
         }
-        return new PortableRoute(routingPlan.distance(), portableRoute, portableSegments);
+        return portableTrack;
+    }
+
+    private List<PortableLocation> portableVisits(List<Location> visits) {
+        return visits.stream()
+                .map(PortableLocation::fromLocation)
+                .collect(Collectors.toList());
     }
 }

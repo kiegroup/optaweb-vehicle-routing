@@ -59,7 +59,7 @@ public class WebSocketController {
      * @return route message
      */
     @SubscribeMapping("/route")
-    public PortableRoute subscribe() {
+    public PortableRoutingPlan subscribe() {
         logger.info("Subscribed");
         RoutingPlan routingPlan = routeListener.getBestRoutingPlan();
         return routePublisher.portable(routingPlan);

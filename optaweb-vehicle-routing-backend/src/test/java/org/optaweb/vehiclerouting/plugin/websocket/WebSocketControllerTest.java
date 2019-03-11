@@ -49,18 +49,18 @@ public class WebSocketControllerTest {
     @InjectMocks
     private WebSocketController webSocketController;
 
-    private PortableRoute portableRoute;
+    private PortableRoutingPlan portableRoutingPlan;
 
     @Before
     public void setUp() {
-        portableRoute = new PortableRoute("xy", Collections.emptyList(), Collections.emptyList());
+        portableRoutingPlan = new PortableRoutingPlan("xy", Collections.emptyList());
         when(routeListener.getBestRoutingPlan()).thenReturn(RoutingPlan.empty());
-        when(routePublisher.portable(any(RoutingPlan.class))).thenReturn(portableRoute);
+        when(routePublisher.portable(any(RoutingPlan.class))).thenReturn(portableRoutingPlan);
     }
 
     @Test
     public void subscribe() {
-        assertThat(webSocketController.subscribe()).isEqualTo(portableRoute);
+        assertThat(webSocketController.subscribe()).isEqualTo(portableRoutingPlan);
     }
 
     @Test

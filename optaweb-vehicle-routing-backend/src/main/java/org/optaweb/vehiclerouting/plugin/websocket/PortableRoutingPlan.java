@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,27 +16,26 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
- * Vehicle route representation convenient for marshalling.
+ * Routing plan representation convenient for marshalling.
  */
-public class PortableRoute {
+public class PortableRoutingPlan {
 
-    private final List<PortableLocation> visits;
-    // TODO flatten & remove ID (List<PortableLatLng>)
-    private final List<List<PortableLocation>> track;
+    private final String distance;
+    private final Collection<PortableRoute> routes;
 
-    public PortableRoute(List<PortableLocation> visits, List<List<PortableLocation>> track) {
-        this.visits = visits;
-        this.track = track;
+    public PortableRoutingPlan(String distance, Collection<PortableRoute> routes) {
+        this.distance = distance;
+        this.routes = routes;
     }
 
-    public List<PortableLocation> getVisits() {
-        return visits;
+    public String getDistance() {
+        return distance;
     }
 
-    public List<List<PortableLocation>> getTrack() {
-        return track;
+    public Collection<PortableRoute> getRoutes() {
+        return routes;
     }
 }
