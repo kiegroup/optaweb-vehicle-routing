@@ -37,9 +37,10 @@ export const connectClient: ConnectClientThunk = () => (dispatch, state, client)
     () => {
       // on connection, subscribe to the route topic
       dispatch(actions.wsConnectionSuccess());
-      client.subscribe((route) => {
-        dispatch(routeOperations.updateRoute(route));
-        if (state().demo.isLoading && route.locations.length === state().demo.demoSize) {
+      client.subscribe((plan) => {
+        dispatch(routeOperations.updateRoute(plan));
+        // TODO use plan.visits.length
+        if (state().demo.isLoading && plan.routes[0].visits.length === state().demo.demoSize) {
           dispatch(demoOperations.demoLoaded());
         }
       });

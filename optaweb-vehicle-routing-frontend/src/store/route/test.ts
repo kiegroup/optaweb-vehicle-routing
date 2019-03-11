@@ -53,7 +53,7 @@ describe('Route operations', () => {
 
     store.clearActions();
 
-    const latLng: ILatLng = state.route.segments[0];
+    const latLng: ILatLng = state.plan.routes[0].track[0];
     store.dispatch(routeOperations.addLocation(latLng));
     expect(store.getActions()).toEqual([actions.addLocation(latLng)]);
     expect(client.addLocation).toHaveBeenCalledTimes(1);
@@ -64,36 +64,45 @@ describe('Route operations', () => {
 describe('Route reducers', () => {
   it('clear route', () => {
     expect(
-      reducer(state.route, actions.clearRoute()),
-    ).toEqual(state.route);
+      reducer(state.plan, actions.clearRoute()),
+    ).toEqual(state.plan);
   });
   it('add location', () => {
     expect(
-      reducer(state.route, actions.addLocation(state.route.segments[2])),
-    ).toEqual(state.route);
+      reducer(state.plan, actions.addLocation(state.plan.routes[0].track[0])),
+    ).toEqual(state.plan);
   });
   it('delete location', () => {
     expect(
-      reducer(state.route, actions.deleteLocation(1)),
-    ).toEqual(state.route);
+      reducer(state.plan, actions.deleteLocation(1)),
+    ).toEqual(state.plan);
   });
   it('update route', () => {
     expect(
-      reducer(initialRouteState, actions.updateRoute(state.route)),
-    ).toEqual(state.route);
+      reducer(initialRouteState, actions.updateRoute(state.plan)),
+    ).toEqual(state.plan);
   });
 });
 
 describe('Route selectors', () => {
   it('domicile should be the first location ID', () => {
     expect(
-      routeSelectors.getDomicileId(state.route),
+      routeSelectors.getDomicileId(state.plan),
     ).toEqual(1);
   });
   it('domicile should not be a positive number if route is empty', () => {
     expect(
       routeSelectors.getDomicileId(initialRouteState),
     ).not.toBeGreaterThanOrEqual(0);
+  });
+  it('visits should contain visits from all routes', () => {
+    const visits = routeSelectors.getVisits(state.plan);
+    expect(visits).toHaveLength(5);
+    expect(visits).toContain(state.plan.routes[0].visits[0]);
+    expect(visits).toContain(state.plan.routes[0].visits[1]);
+    expect(visits).toContain(state.plan.routes[0].visits[2]);
+    expect(visits).toContain(state.plan.routes[1].visits[0]);
+    expect(visits).toContain(state.plan.routes[1].visits[1]);
   });
 });
 
@@ -103,25 +112,46 @@ const state: IAppState = {
     demoSize: 0,
     isLoading: false,
   },
-  route: {
+  plan: {
     distance: '10',
-    locations: [
+    routes: [
       {
-        id: 1,
-        lat: 1.345678,
-        lng: 1.345678,
+        visits: [
+          {
+            id: 1,
+            lat: 1.345678,
+            lng: 1.345678,
+          },
+          {
+            id: 2,
+            lat: 2.345678,
+            lng: 2.345678,
+          },
+          {
+            id: 3,
+            lat: 3.676111,
+            lng: 3.568333,
+          },
+        ],
+
+        track: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
       },
       {
-        id: 2,
-        lat: 2.345678,
-        lng: 2.345678,
-      },
-      {
-        id: 3,
-        lat: 3.676111,
-        lng: 3.568333,
+        visits: [
+          {
+            id: 4,
+            lat: 4.345678,
+            lng: 4.345678,
+          },
+          {
+            id: 5,
+            lat: 5.345678,
+            lng: 5.345678,
+          },
+        ],
+
+        track: [{ lat: 0.41, lng: 0.42 }, { lat: 0.51, lng: 0.52 }],
       },
     ],
-    segments: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
   },
 };

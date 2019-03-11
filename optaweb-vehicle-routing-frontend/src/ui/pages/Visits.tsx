@@ -20,19 +20,19 @@ import { connect } from 'react-redux';
 import { IAppState } from 'store/configStore';
 import { demoOperations } from 'store/demo';
 import { routeOperations, routeSelectors } from 'store/route';
-import { IRoute } from 'store/route/types';
+import { ILocation } from 'store/route/types';
 import LocationList from 'ui/components/LocationList';
 
 interface IStateProps {
-  route: IRoute;
+  visits: ILocation[];
   domicileId: number;
   isDemoLoading: boolean;
 }
 
-const mapStateToProps = ({ route, demo }: IAppState): IStateProps => ({
-  domicileId: routeSelectors.getDomicileId(route),
+const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
+  domicileId: routeSelectors.getDomicileId(plan),
   isDemoLoading: demo.isLoading,
-  route,
+  visits: routeSelectors.getVisits(plan),
 });
 
 export interface IDispatchProps {
@@ -59,7 +59,7 @@ class Visits extends React.Component<IProps> {
 
   render() {
     const {
-      route,
+      visits,
       domicileId,
       removeHandler,
       loadHandler,
@@ -69,15 +69,16 @@ class Visits extends React.Component<IProps> {
     return (
       <>
         <TextContent>
-          <Text component={TextVariants.h1}>Visits ({route.locations.length})</Text>
+          <Text component={TextVariants.h1}>Visits ({visits.length})</Text>
         </TextContent>
         {/* TODO do not show depots */}
+        {/* TODO do not show load demo button */}
         <LocationList
           removeHandler={removeHandler}
           selectHandler={() => undefined}
           loadHandler={loadHandler}
           clearHandler={clearHandler}
-          route={route}
+          locations={visits}
           domicileId={domicileId}
           isDemoLoading={isDemoLoading}
         />

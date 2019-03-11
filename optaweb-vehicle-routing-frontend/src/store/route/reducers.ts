@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-import { ActionType, IRouteWithSegments, RouteAction } from './types';
+import { ActionType, IRoutingPlan, RouteAction } from './types';
 
-export const initialRouteState: IRouteWithSegments = {
+export const initialRouteState: IRoutingPlan = {
   distance: '0.00',
-  locations: [],
-  segments: [],
+  routes: [],
 };
 
 export default function routeReducer(
   state = initialRouteState,
   action: RouteAction,
-): IRouteWithSegments {
+): IRoutingPlan {
   switch (action.type) {
-    case ActionType.SOLUTION_UPDATES_DATA: {
-      return action.route;
+    case ActionType.UPDATE_ROUTING_PLAN: {
+      return action.plan;
     }
     case ActionType.DELETE_LOCATION: {
-      if (state.locations.length === 1) {
+      // FIXME assuming there's only 1 vehicle
+      if (state.routes.length === 1 && state.routes[0].visits.length === 1) {
         return { ...initialRouteState };
       }
       return state;

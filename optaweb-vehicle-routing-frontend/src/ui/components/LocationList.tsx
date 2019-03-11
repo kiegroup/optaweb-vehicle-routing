@@ -14,15 +14,9 @@
  * limitations under the License.
  */
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  DataList,
-} from '@patternfly/react-core';
+import { Button, Card, CardBody, CardHeader, DataList } from '@patternfly/react-core';
 import * as React from 'react';
-import { IRoute } from 'store/route/types';
+import { ILocation } from 'store/route/types';
 import Location from './Location';
 
 export interface ILocationListProps {
@@ -30,7 +24,7 @@ export interface ILocationListProps {
   selectHandler: (id: number) => void;
   loadHandler: () => void;
   clearHandler: () => void;
-  route: IRoute;
+  locations: ILocation[];
   domicileId: number;
   isDemoLoading: boolean;
 }
@@ -57,7 +51,7 @@ const renderEmptyLocationList: React.FC<ILocationListProps> = ({
 };
 
 const renderLocationList: React.FC<ILocationListProps> = ({
-  route: { locations },
+  locations,
   domicileId,
   removeHandler,
   selectHandler,
@@ -86,7 +80,7 @@ const renderLocationList: React.FC<ILocationListProps> = ({
 };
 
 const LocationList: React.FC<ILocationListProps> = (props) => {
-  return props.route.locations.length === 0
+  return props.locations.length === 0
     ? renderEmptyLocationList(props)
     : renderLocationList(props);
 };

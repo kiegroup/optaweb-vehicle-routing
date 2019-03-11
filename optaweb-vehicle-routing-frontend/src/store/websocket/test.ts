@@ -20,7 +20,7 @@ import thunk, { ThunkDispatch } from 'redux-thunk';
 import WebSocketClient from 'websocket/WebSocketClient';
 import { IAppState } from '../configStore';
 import { routeOperations } from '../route';
-import { IRouteWithSegments, IUpdateRouteAction } from '../route/types';
+import { IRoutingPlan, IUpdateRouteAction } from '../route/types';
 import * as actions from './actions';
 import reducer, { websocketOperations } from './index';
 import { WebSocketAction, WebSocketConnectionStatus } from './types';
@@ -40,12 +40,12 @@ describe('WebSocket client operations', () => {
         demoSize: 0,
         isLoading: false,
       },
-      route,
+      plan,
     };
 
     let errorCallbackCapture: (err: any) => void = uninitializedCallbackCapture;
     let successCallbackCapture: () => void = uninitializedCallbackCapture;
-    let subscribeCallbackCap: (route: IRouteWithSegments) => void = uninitializedCallbackCapture;
+    let subscribeCallbackCap: (plan: IRoutingPlan) => void = uninitializedCallbackCapture;
 
     const client = new WebSocketClient('');
     // @ts-ignore
@@ -97,8 +97,8 @@ describe('WebSocket client operations', () => {
     store.clearActions();
 
     // simulate response to subscription
-    subscribeCallbackCap(route);
-    expect(store.getActions()).toEqual([routeOperations.updateRoute(route)]);
+    subscribeCallbackCap(plan);
+    expect(store.getActions()).toEqual([routeOperations.updateRoute(plan)]);
   });
 });
 
@@ -115,8 +115,7 @@ describe('WebSocket reducers', () => {
   });
 });
 
-const route: IRouteWithSegments = {
+const plan: IRoutingPlan = {
   distance: '',
-  locations: [],
-  segments: [],
+  routes: [],
 };

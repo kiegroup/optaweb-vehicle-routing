@@ -40,30 +40,8 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
       domicileId={1}
       isDemoLoading={true}
       loadHandler={[MockFunction]}
+      locations={Array []}
       removeHandler={[MockFunction]}
-      route={
-        Object {
-          "distance": "10",
-          "locations": Array [
-            Object {
-              "id": 1,
-              "lat": 1.345678,
-              "lng": 1.345678,
-            },
-            Object {
-              "id": 2,
-              "lat": 2.345678,
-              "lng": 2.345678,
-            },
-            Object {
-              "id": 3,
-              "lat": 3.676111,
-              "lng": 3.568333,
-            },
-          ],
-          "segments": Array [],
-        }
-      }
       selectHandler={[Function]}
     />
   </SplitItem>
@@ -177,8 +155,8 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
       removeHandler={[MockFunction]}
       route={
         Object {
-          "distance": "10",
-          "locations": Array [
+          "track": Array [],
+          "visits": Array [
             Object {
               "id": 1,
               "lat": 1.345678,
@@ -195,7 +173,6 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
               "lng": 3.568333,
             },
           ],
-          "segments": Array [],
         }
       }
       selectedId={NaN}
@@ -245,30 +222,8 @@ exports[`Demo page should render correctly with a few routes 1`] = `
       domicileId={1}
       isDemoLoading={false}
       loadHandler={[MockFunction]}
+      locations={Array []}
       removeHandler={[MockFunction]}
-      route={
-        Object {
-          "distance": "10",
-          "locations": Array [
-            Object {
-              "id": 1,
-              "lat": 1.345678,
-              "lng": 1.345678,
-            },
-            Object {
-              "id": 2,
-              "lat": 2.345678,
-              "lng": 2.345678,
-            },
-            Object {
-              "id": 3,
-              "lat": 3.676111,
-              "lng": 3.568333,
-            },
-          ],
-          "segments": Array [],
-        }
-      }
       selectHandler={[Function]}
     />
   </SplitItem>
@@ -382,8 +337,8 @@ exports[`Demo page should render correctly with a few routes 1`] = `
       removeHandler={[MockFunction]}
       route={
         Object {
-          "distance": "10",
-          "locations": Array [
+          "track": Array [],
+          "visits": Array [
             Object {
               "id": 1,
               "lat": 1.345678,
@@ -400,7 +355,6 @@ exports[`Demo page should render correctly with a few routes 1`] = `
               "lng": 3.568333,
             },
           ],
-          "segments": Array [],
         }
       }
       selectedId={NaN}
@@ -450,14 +404,8 @@ exports[`Demo page should render correctly with no routes 1`] = `
       domicileId={-1}
       isDemoLoading={false}
       loadHandler={[MockFunction]}
+      locations={Array []}
       removeHandler={[MockFunction]}
-      route={
-        Object {
-          "distance": "0",
-          "locations": Array [],
-          "segments": Array [],
-        }
-      }
       selectHandler={[Function]}
     />
   </SplitItem>
@@ -571,9 +519,8 @@ exports[`Demo page should render correctly with no routes 1`] = `
       removeHandler={[MockFunction]}
       route={
         Object {
-          "distance": "0",
-          "locations": Array [],
-          "segments": Array [],
+          "track": Array [],
+          "visits": Array [],
         }
       }
       selectedId={NaN}

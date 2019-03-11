@@ -24,7 +24,7 @@ import {
   Tooltip,
   ZoomControl,
 } from 'react-leaflet';
-import { ILatLng, IRouteWithSegments } from 'store/route/types';
+import { ILatLng, IRouteWithTrack } from 'store/route/types';
 
 export interface ITspMapProps {
   center: ILatLng;
@@ -32,7 +32,7 @@ export interface ITspMapProps {
   selectedId: number;
   clickHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
   removeHandler: (id: number) => void;
-  route: IRouteWithSegments;
+  route: IRouteWithTrack;
   domicileId: number;
 }
 
@@ -69,7 +69,7 @@ const TspMap: React.FC<ITspMapProps> = ({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ZoomControl position="topright" />
-      {route.locations.map(location => (
+      {route.visits.map(location => (
         <Marker
           key={location.id}
           position={location}
@@ -86,7 +86,7 @@ const TspMap: React.FC<ITspMapProps> = ({
           </Tooltip>
         </Marker>
       ))}
-      <Polyline positions={route.segments} fill={false} />
+      <Polyline positions={route.track} fill={false} />
     </Map>
   );
 };

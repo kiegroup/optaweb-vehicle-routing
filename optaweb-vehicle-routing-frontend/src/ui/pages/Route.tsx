@@ -28,12 +28,13 @@ import { connect } from 'react-redux';
 import { IAppState } from 'store/configStore';
 import { demoOperations } from 'store/demo';
 import { routeOperations, routeSelectors } from 'store/route';
-import { ILatLng, IRouteWithSegments } from 'store/route/types';
+import { ILatLng, ILocation, IRouteWithTrack } from 'store/route/types';
 import LocationList from 'ui/components/LocationList';
 import TspMap from 'ui/components/TspMap';
 
 export interface IStateProps {
-  route: IRouteWithSegments;
+  locations: ILocation[];
+  route: IRouteWithTrack;
   domicileId: number;
   isDemoLoading: boolean;
 }
@@ -45,10 +46,12 @@ export interface IDispatchProps {
   addHandler: typeof routeOperations.addLocation;
 }
 
-const mapStateToProps = ({ route, demo }: IAppState): IStateProps => ({
-  domicileId: routeSelectors.getDomicileId(route),
+const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
+  domicileId: routeSelectors.getDomicileId(plan),
   isDemoLoading: demo.isLoading,
-  route,
+  locations: routeSelectors.getVisits(plan),
+  // FIXME temporarily ignoring other routes
+  route: plan.routes.length === 0 ? { visits: [], track: [] } : plan.routes[0],
 });
 
 const mapDispatchToProps: IDispatchProps = {
@@ -94,6 +97,7 @@ class Route extends React.Component<IRouteProps, IRouteState> {
     const { center, zoom, selectedId } = this.state;
     const {
       route,
+      locations,
       domicileId,
       removeHandler,
       loadHandler,
@@ -131,7 +135,7 @@ class Route extends React.Component<IRouteProps, IRouteState> {
               }}
             >
               <LocationList
-                route={route}
+                locations={locations}
                 domicileId={domicileId}
                 removeHandler={removeHandler}
                 selectHandler={this.onSelectLocation}

@@ -59,10 +59,13 @@ const emptyRouteProps: IDemoProps = {
   isDemoLoading: false,
   loadHandler: jest.fn(),
   removeHandler: jest.fn(),
+
+  distance: '0',
+  locations: [],
   route: {
-    distance: '0',
-    locations: [],
-    segments: [],
+    visits: [],
+
+    track: [],
   },
 };
 
@@ -73,9 +76,11 @@ const threeLocationsProps: IDemoProps = {
   isDemoLoading: false,
   loadHandler: jest.fn(),
   removeHandler: jest.fn(),
+
+  distance: '10',
+  locations: [],
   route: {
-    distance: '10',
-    locations: [
+    visits: [
       {
         id: 1,
         lat: 1.345678,
@@ -92,6 +97,7 @@ const threeLocationsProps: IDemoProps = {
         lng: 3.568333,
       },
     ],
-    segments: [],
+
+    track: [],
   },
 };

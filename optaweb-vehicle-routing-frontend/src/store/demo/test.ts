@@ -78,26 +78,31 @@ const state: IAppState = {
     demoSize: 0,
     isLoading: false,
   },
-  route: {
+  plan: {
     distance: '10',
-    locations: [
+    routes: [
       {
-        id: 1,
-        lat: 1.345678,
-        lng: 1.345678,
-      },
-      {
-        id: 2,
-        lat: 2.345678,
-        lng: 2.345678,
-      },
-      {
-        id: 3,
-        lat: 3.676111,
-        lng: 3.568333,
+        visits: [
+          {
+            id: 1,
+            lat: 1.345678,
+            lng: 1.345678,
+          },
+          {
+            id: 2,
+            lat: 2.345678,
+            lng: 2.345678,
+          },
+          {
+            id: 3,
+            lat: 3.676111,
+            lng: 3.568333,
+          },
+        ],
+
+        track: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
       },
     ],
-    segments: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
   },
 };
 

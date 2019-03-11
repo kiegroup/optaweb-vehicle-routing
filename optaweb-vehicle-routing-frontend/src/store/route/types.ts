@@ -26,16 +26,22 @@ export interface ILocation extends ILatLng {
 }
 
 export interface IRoute {
-  readonly locations: ILocation[];
-  readonly distance: string;
+  readonly visits: ILocation[];
 }
 
-export interface IRouteWithSegments extends IRoute {
-  readonly segments: ILatLng[];
+export interface IRouteWithTrack extends IRoute {
+  readonly track: ILatLng[];
+}
+
+export interface IRoutingPlan {
+  readonly distance: string;
+  readonly routes: IRouteWithTrack[];
+  // TODO visits: ILocation[];
+  // TODO depot: ILocation;
 }
 
 export enum ActionType {
-  SOLUTION_UPDATES_DATA = 'SOLUTION_UPDATES_DATA',
+  UPDATE_ROUTING_PLAN = 'UPDATE_ROUTING_PLAN',
   DELETE_LOCATION = 'DELETE_LOCATION',
   ADD_LOCATION = 'ADD_LOCATION',
   CLEAR_SOLUTION = 'CLEAR_SOLUTION',
@@ -52,8 +58,8 @@ export interface IDeleteLocationAction extends Action<ActionType.DELETE_LOCATION
   readonly value: number;
 }
 
-export interface IUpdateRouteAction extends Action<ActionType.SOLUTION_UPDATES_DATA> {
-  readonly route: IRouteWithSegments;
+export interface IUpdateRouteAction extends Action<ActionType.UPDATE_ROUTING_PLAN> {
+  readonly plan: IRoutingPlan;
 }
 
 export type RouteAction =

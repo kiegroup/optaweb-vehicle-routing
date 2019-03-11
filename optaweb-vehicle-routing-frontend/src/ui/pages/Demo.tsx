@@ -29,13 +29,15 @@ import { connect } from 'react-redux';
 import { IAppState } from 'store/configStore';
 import { demoOperations } from 'store/demo';
 import { routeOperations, routeSelectors } from 'store/route';
-import { ILatLng, IRouteWithSegments } from 'store/route/types';
+import { ILatLng, ILocation, IRouteWithTrack } from 'store/route/types';
 import LocationList from 'ui/components/LocationList';
 import SearchBox, { IResult } from 'ui/components/SearchBox';
 import TspMap from 'ui/components/TspMap';
 
 export interface IStateProps {
-  route: IRouteWithSegments;
+  distance: string;
+  locations: ILocation[];
+  route: IRouteWithTrack;
   domicileId: number;
   isDemoLoading: boolean;
 }
@@ -47,10 +49,13 @@ export interface IDispatchProps {
   addHandler: typeof routeOperations.addLocation;
 }
 
-const mapStateToProps = ({ route, demo }: IAppState): IStateProps => ({
-  domicileId: routeSelectors.getDomicileId(route),
+const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
+  distance: plan.distance,
+  domicileId: routeSelectors.getDomicileId(plan),
   isDemoLoading: demo.isLoading,
-  route,
+  locations: routeSelectors.getVisits(plan),
+  // FIXME temporarily ignoring other routes
+  route: plan.routes.length === 0 ? { visits: [], track: [] } : plan.routes[0],
 });
 
 const mapDispatchToProps: IDispatchProps = {
@@ -100,6 +105,8 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
   render() {
     const { center, zoom, selectedId } = this.state;
     const {
+      distance,
+      locations,
       route,
       domicileId,
       removeHandler,
@@ -119,7 +126,7 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
           </TextContent>
           <SearchBox addHandler={this.handleSearchResultClick} />
           <LocationList
-            route={route}
+            locations={locations}
             domicileId={domicileId}
             removeHandler={removeHandler}
             selectHandler={this.onSelectLocation}
@@ -136,12 +143,12 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
           <Split gutter="md">
             <SplitItem isMain={true}>
               <Grid>
-                <GridItem span={6}>Locations: {route.locations.length}</GridItem>
-                <GridItem span={6}>Distance: {route.distance}</GridItem>
+                <GridItem span={6}>Locations: {route.visits.length}</GridItem>
+                <GridItem span={6}>Distance: {distance}</GridItem>
               </Grid>
             </SplitItem>
             <SplitItem isMain={false}>
-              {route.locations.length === 0 &&
+              {route.visits.length === 0 &&
               <Button
                 type="button"
                 isDisabled={isDemoLoading}
