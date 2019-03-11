@@ -53,7 +53,7 @@ describe('Route operations', () => {
 
     store.clearActions();
 
-    const latLng: ILatLng = state.route[0];
+    const latLng: ILatLng = state.route.segments[0];
     store.dispatch(routeOperations.addLocation(latLng));
     expect(store.getActions()).toEqual([actions.addLocation(latLng)]);
     expect(client.addLocation).toHaveBeenCalledTimes(1);
@@ -69,7 +69,7 @@ describe('Route reducers', () => {
   });
   it('add location', () => {
     expect(
-      reducer(state.route, actions.addLocation(state.route[2])),
+      reducer(state.route, actions.addLocation(state.route.segments[2])),
     ).toEqual(state.route);
   });
   it('delete location', () => {
