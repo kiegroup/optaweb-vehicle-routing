@@ -165,6 +165,19 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.6.0.1398</version>
+          <executions>
+            <execution>
+              <phase>verify</phase>
+              <goals>
+                <goal>sonar</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -208,11 +221,10 @@
       </build>
     </profile>
     <profile>
-      <!-- Code coverage disabled by default (use -Dcode-coverage to activate it) -->
-      <id>code-coverage</id>
+      <id>jacoco</id>
       <activation>
         <property>
-          <name>code-coverage</name>
+          <name>env.TRAVIS</name>
         </property>
       </activation>
       <dependencies>
@@ -242,6 +254,29 @@
           <plugin>
             <groupId>org.jacoco</groupId>
             <artifactId>jacoco-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>sonar</id>
+      <activation>
+        <property>
+          <name>env.TRAVIS</name>
+        </property>
+      </activation>
+      <properties>
+        <sonar.projectKey>kiegroup_optaweb-vehicle-routing</sonar.projectKey>
+        <sonar.organization>kiegroup</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io/</sonar.host.url>
+        <!--suppress UnresolvedMavenProperty -->
+        <sonar.login>${env.SONARCLOUD_TOKEN}</sonar.login>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonarsource.scanner.maven</groupId>
+            <artifactId>sonar-maven-plugin</artifactId>
           </plugin>
         </plugins>
       </build>
