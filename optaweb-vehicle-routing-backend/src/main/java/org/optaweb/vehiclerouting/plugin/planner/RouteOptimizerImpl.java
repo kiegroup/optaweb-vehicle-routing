@@ -19,9 +19,7 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -35,7 +33,6 @@ import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
@@ -79,8 +76,9 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         solution.setLocationList(new ArrayList<>());
         solution.setCustomerList(new ArrayList<>());
         solution.setDepotList(new ArrayList<>());
-        solution.setVehicleList(Collections.singletonList(new Vehicle()));
+        solution.setVehicleList(Arrays.asList(new Vehicle(), new Vehicle()));
         solution.getVehicleList().get(0).setId(1L);
+        solution.getVehicleList().get(1).setId(2L);
         solution.setScore(HardSoftLongScore.ZERO);
         return solution;
     }
@@ -92,36 +90,12 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         );
     }
 
-    private static Optional<List<org.optaweb.vehiclerouting.domain.Route>> extractRoute(VehicleRoutingSolution solution) {
-        // TODO race condition, if a rest thread deletes that location in the middle of this method happening on the solver thread
-        // TODO make sure that location is still in the repository
-        // TODO maybe repair the solution OR ignore if it's inconsistent (log WARNING)
-        Vehicle vehicle = solution.getVehicleList().get(0);
-        Depot depot = vehicle.getDepot();
-        if (depot == null) {
-            return Optional.of(new ArrayList<>());
-        }
-        List<org.optaweb.vehiclerouting.domain.Location> visits = new ArrayList<>();
-        addLocationToRoute(visits, depot.getLocation());
-        for (Customer customer = vehicle.getNextCustomer(); customer != null; customer = customer.getNextCustomer()) {
-            addLocationToRoute(visits, customer.getLocation());
-        }
-        return Optional.of(Collections.singletonList(new Route(visits)));
-    }
-
-    private static void addLocationToRoute(List<org.optaweb.vehiclerouting.domain.Location> route, Location location) {
-        route.add(new org.optaweb.vehiclerouting.domain.Location(
-                location.getId(),
-                LatLng.valueOf(location.getLatitude(), location.getLongitude())
-        ));
-    }
-
     static void addDepot(VehicleRoutingSolution solution, Location location) {
         Depot depot = new Depot();
         depot.setId(location.getId());
         depot.setLocation(location);
         solution.getDepotList().add(depot);
-        solution.getVehicleList().get(0).setDepot(depot);
+        solution.getVehicleList().forEach(vehicle -> vehicle.setDepot(depot));
         solution.getLocationList().add(location);
     }
 
@@ -134,19 +108,18 @@ public class RouteOptimizerImpl implements RouteOptimizer,
     }
 
     private void publishRoute(VehicleRoutingSolution solution) {
-        extractRoute(solution).ifPresent(routes -> {
-            logger.debug("New solution with\n"
-                            + "  customers: {}\n"
-                            + "  depots:    {}\n"
-                            + "  vehicles:  {}\n"
-                            + "Routes: {}",
-                    solution.getCustomerList().size(),
-                    solution.getDepotList().size(),
-                    solution.getVehicleList().size(),
-                    routes);
-            String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
-            publisher.publishEvent(new RouteChangedEvent(this, distanceString, routes));
-        });
+        List<Route> routes = SolutionUtil.routes(solution);
+        logger.debug("New solution with\n"
+                        + "  customers: {}\n"
+                        + "  depots:    {}\n"
+                        + "  vehicles:  {}\n"
+                        + "Routes: {}",
+                solution.getCustomerList().size(),
+                solution.getDepotList().size(),
+                solution.getVehicleList().size(),
+                routes);
+        String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
+        publisher.publishEvent(new RouteChangedEvent(this, distanceString, routes));
     }
 
     private void startSolver() {
@@ -200,6 +173,9 @@ public class RouteOptimizerImpl implements RouteOptimizer,
             return;
         }
         solution = bestSolutionChangedEvent.getNewBestSolution();
+        // TODO Race condition, if a servlet thread deletes that location in the middle of this method happening
+        //      on the solver thread. Make sure that location is still in the repository.
+        //      Maybe repair the solution OR ignore if it's inconsistent (log a WARNING).
         publishRoute(solution);
     }
 
@@ -239,7 +215,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
             }
             solution.getLocationList().remove(0);
             solution.getDepotList().remove(0);
-            solution.getVehicleList().get(0).setDepot(null);
+            solution.getVehicleList().forEach(vehicle -> vehicle.setDepot(null));
             publishRoute(solution);
         } else {
             if (solution.getDepotList().get(0).getLocation().getId().equals(location.getId())) {
