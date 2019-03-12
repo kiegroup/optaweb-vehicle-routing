@@ -19,7 +19,6 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,6 +43,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.task.AsyncTaskExecutor;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.AdditionalAnswers.answer;
 import static org.mockito.AdditionalAnswers.answerVoid;
 import static org.mockito.ArgumentMatchers.any;
@@ -179,7 +179,7 @@ public class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
 
-        Assertions.assertThatThrownBy(() -> routeOptimizer.removeLocation(location1))
+        assertThatThrownBy(() -> routeOptimizer.removeLocation(location1))
                 .isInstanceOf(UnsupportedOperationException.class)
                 .hasMessageContaining("depot");
     }
