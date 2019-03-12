@@ -32,14 +32,14 @@ public class SolutionUtilTest {
 
     @Test
     public void empty_solution_should_have_zero_routes() {
-        VehicleRoutingSolution solution = RouteOptimizerImpl.emptySolution();
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         List<Route> routes = SolutionUtil.routes(solution);
         assertThat(routes).isEmpty();
     }
 
     @Test
     public void nonempty_uninitialized_solution_should_have_zero_routes() {
-        VehicleRoutingSolution solution = RouteOptimizerImpl.emptySolution();
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
 
         RoadLocation roadLocation1 = new RoadLocation(1, 1.0, 1.0);
         RoadLocation roadLocation2 = new RoadLocation(2, 2.0, 2.0);
@@ -60,7 +60,7 @@ public class SolutionUtilTest {
 
     @Test
     public void initialized_solution_should_have_one_route_per_vehicle() {
-        VehicleRoutingSolution solution = RouteOptimizerImpl.emptySolution();
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
 
         RoadLocation roadLocation1 = new RoadLocation(1, 1.0, 1.0);
         RoadLocation roadLocation2 = new RoadLocation(2, 2.0, 2.0);

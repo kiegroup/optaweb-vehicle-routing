@@ -25,7 +25,7 @@ import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.plugin.planner.RouteOptimizerImpl;
+import org.optaweb.vehiclerouting.plugin.planner.SolutionUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -40,7 +40,7 @@ public class AddCustomerTest {
 
     @Test
     public void add_customer_should_add_location_and_create_customer() {
-        VehicleRoutingSolution solution = RouteOptimizerImpl.emptySolution();
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         Location location = new RoadLocation(1, 1.0, 2.0);

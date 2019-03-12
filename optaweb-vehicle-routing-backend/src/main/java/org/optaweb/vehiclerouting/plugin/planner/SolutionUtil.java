@@ -17,8 +17,10 @@
 package org.optaweb.vehiclerouting.plugin.planner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
@@ -30,6 +32,18 @@ import org.optaweb.vehiclerouting.domain.Route;
 public class SolutionUtil {
 
     private SolutionUtil() {
+    }
+
+    public static VehicleRoutingSolution emptySolution() {
+        VehicleRoutingSolution solution = new VehicleRoutingSolution();
+        solution.setLocationList(new ArrayList<>());
+        solution.setCustomerList(new ArrayList<>());
+        solution.setDepotList(new ArrayList<>());
+        solution.setVehicleList(Arrays.asList(new Vehicle(), new Vehicle()));
+        solution.getVehicleList().get(0).setId(1L);
+        solution.getVehicleList().get(1).setId(2L);
+        solution.setScore(HardSoftLongScore.ZERO);
+        return solution;
     }
 
     static List<Route> routes(VehicleRoutingSolution solution) {

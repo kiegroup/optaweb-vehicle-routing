@@ -24,7 +24,7 @@ import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.plugin.planner.RouteOptimizerImpl;
+import org.optaweb.vehiclerouting.plugin.planner.SolutionUtil;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -38,7 +38,7 @@ public class RemoveLocationTest {
 
     @Test
     public void remove_location() {
-        VehicleRoutingSolution solution = RouteOptimizerImpl.emptySolution();
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         Location location = new RoadLocation(1, 2.0, 3.0);

@@ -17,19 +17,16 @@
 package org.optaweb.vehiclerouting.plugin.planner;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
@@ -68,19 +65,8 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         this.executor = executor;
 
         this.solver.addEventListener(this);
-        solution = emptySolution();
-    }
-
-    public static VehicleRoutingSolution emptySolution() {
-        VehicleRoutingSolution solution = new VehicleRoutingSolution();
-        solution.setLocationList(new ArrayList<>());
-        solution.setCustomerList(new ArrayList<>());
-        solution.setDepotList(new ArrayList<>());
-        solution.setVehicleList(Arrays.asList(new Vehicle(), new Vehicle()));
-        solution.getVehicleList().get(0).setId(1L);
-        solution.getVehicleList().get(1).setId(2L);
-        solution.setScore(HardSoftLongScore.ZERO);
-        return solution;
+        // TODO make initial solution a dependency?
+        solution = SolutionUtil.emptySolution();
     }
 
     static RoadLocation coreToPlanner(org.optaweb.vehiclerouting.domain.Location location) {
@@ -237,7 +223,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
     @Override
     public void clear() {
         stopSolver();
-        solution = emptySolution();
+        solution = SolutionUtil.emptySolution();
         publishRoute(solution);
     }
 }

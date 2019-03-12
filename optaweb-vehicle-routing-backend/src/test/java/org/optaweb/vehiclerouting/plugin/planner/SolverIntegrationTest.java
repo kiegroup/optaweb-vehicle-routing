@@ -82,12 +82,12 @@ public class SolverIntegrationTest {
     @Test
     public void solver_in_daemon_mode_should_not_fail_on_empty_solution() {
         sf.getSolverConfig().setDaemon(true);
-        sf.buildSolver().solve(RouteOptimizerImpl.emptySolution());
+        sf.buildSolver().solve(SolutionUtil.emptySolution());
     }
 
     @Test
     public void removing_customers_should_not_fail() throws InterruptedException, ExecutionException {
-        VehicleRoutingSolution solution = RouteOptimizerImpl.emptySolution();
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         RouteOptimizerImpl.addDepot(solution, location(1));
         RouteOptimizerImpl.addCustomer(solution, location(2));
 
