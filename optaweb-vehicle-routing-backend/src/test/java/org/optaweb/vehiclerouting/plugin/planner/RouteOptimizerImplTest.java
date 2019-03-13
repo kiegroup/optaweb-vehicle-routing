@@ -133,10 +133,15 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void solution_with_depot_only_should_be_published() {
+    public void solution_with_depot_and_no_visits_should_be_published() {
         routeOptimizer.addLocation(location1, distanceMatrix);
-        verify(eventPublisher).publishEvent(any(RouteChangedEvent.class));
+
+        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
+        RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
+
         assertThat(solver.isSolving()).isFalse();
+        assertThat(event.routes()).isNotEmpty();
+        assertThat(event.routes().iterator().next().visits()).containsExactly(location1);
     }
 
     @Test
