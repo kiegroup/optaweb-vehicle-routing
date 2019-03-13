@@ -248,6 +248,7 @@ public class RouteOptimizerImplTest {
     private static VehicleRoutingSolution createSolution(Location... coreLocations) {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         Depot depot = SolutionUtil.addDepot(solution, coreToPlanner(coreLocations[0]));
+        SolutionUtil.addVehicle(solution, 1);
         SolutionUtil.moveAllVehiclesTo(solution, depot);
 
         // create customers

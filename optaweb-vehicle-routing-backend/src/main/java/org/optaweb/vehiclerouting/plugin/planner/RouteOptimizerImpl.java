@@ -65,7 +65,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
 
         this.solver.addEventListener(this);
         // TODO make initial solution a dependency?
-        solution = SolutionUtil.emptySolution();
+        solution = SolutionUtil.initialSolution();
     }
 
     static RoadLocation coreToPlanner(org.optaweb.vehiclerouting.domain.Location location) {
@@ -206,7 +206,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
     @Override
     public void clear() {
         stopSolver();
-        solution = SolutionUtil.emptySolution();
+        solution = SolutionUtil.initialSolution();
         publishRoute(solution);
     }
 }

@@ -17,7 +17,6 @@
 package org.optaweb.vehiclerouting.plugin.planner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
@@ -34,16 +33,35 @@ public class SolutionUtil {
     private SolutionUtil() {
     }
 
+    /**
+     * Create an empty solution. Empty solution has zero locations, depots, customers and vehicles and a zero score.
+     * @return empty solution
+     */
     public static VehicleRoutingSolution emptySolution() {
         VehicleRoutingSolution solution = new VehicleRoutingSolution();
         solution.setLocationList(new ArrayList<>());
         solution.setCustomerList(new ArrayList<>());
         solution.setDepotList(new ArrayList<>());
-        solution.setVehicleList(Arrays.asList(new Vehicle(), new Vehicle()));
-        solution.getVehicleList().get(0).setId(1L);
-        solution.getVehicleList().get(1).setId(2L);
+        solution.setVehicleList(new ArrayList<>());
         solution.setScore(HardSoftLongScore.ZERO);
         return solution;
+    }
+
+    /**
+     * Create an initial solution with no locations and a single vehicle.
+     * @return initial solution
+     */
+    static VehicleRoutingSolution initialSolution() {
+        VehicleRoutingSolution solution = emptySolution();
+        addVehicle(solution, 1);
+        addVehicle(solution, 2);
+        return solution;
+    }
+
+    static void addVehicle(VehicleRoutingSolution solution, long id) {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setId(id);
+        solution.getVehicleList().add(vehicle);
     }
 
     static List<Route> routes(VehicleRoutingSolution solution) {

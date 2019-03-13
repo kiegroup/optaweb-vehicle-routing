@@ -36,7 +36,7 @@ public class SolutionUtilTest {
         assertThat(solution.getLocationList()).isEmpty();
         assertThat(solution.getCustomerList()).isEmpty();
         assertThat(solution.getDepotList()).isEmpty();
-        assertThat(solution.getVehicleList()).hasSize(2);
+        assertThat(solution.getVehicleList()).isEmpty();
     }
 
     @Test
@@ -54,7 +54,11 @@ public class SolutionUtilTest {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         RoadLocation roadLocation = new RoadLocation(1, 1.0, 1.0);
         Depot depot = SolutionUtil.addDepot(solution, roadLocation);
+
+        SolutionUtil.addVehicle(solution, 1);
+        SolutionUtil.addVehicle(solution, 2);
         SolutionUtil.moveAllVehiclesTo(solution, depot);
+
         assertThat(solution.getVehicleList()).allMatch(vehicle -> vehicle.getDepot() == depot);
     }
 

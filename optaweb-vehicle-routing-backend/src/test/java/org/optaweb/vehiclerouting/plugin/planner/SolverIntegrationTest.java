@@ -90,6 +90,7 @@ public class SolverIntegrationTest {
     public void removing_customers_should_not_fail() throws InterruptedException, ExecutionException {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         Depot depot = SolutionUtil.addDepot(solution, location(1));
+        SolutionUtil.addVehicle(solution, 1);
         SolutionUtil.moveAllVehiclesTo(solution, depot);
         SolutionUtil.addCustomer(solution, location(2));
 
