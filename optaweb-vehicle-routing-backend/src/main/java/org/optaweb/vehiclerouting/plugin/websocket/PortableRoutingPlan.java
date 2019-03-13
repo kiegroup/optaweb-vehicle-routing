@@ -16,7 +16,7 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
-import java.util.Collection;
+import java.util.List;
 
 /**
  * Routing plan representation convenient for marshalling.
@@ -24,9 +24,9 @@ import java.util.Collection;
 public class PortableRoutingPlan {
 
     private final String distance;
-    private final Collection<PortableRoute> routes;
+    private final List<PortableRoute> routes;
 
-    public PortableRoutingPlan(String distance, Collection<PortableRoute> routes) {
+    public PortableRoutingPlan(String distance, List<PortableRoute> routes) {
         this.distance = distance;
         this.routes = routes;
     }
@@ -35,7 +35,7 @@ public class PortableRoutingPlan {
         return distance;
     }
 
-    public Collection<PortableRoute> getRoutes() {
+    public List<PortableRoute> getRoutes() {
         return routes;
     }
 }
