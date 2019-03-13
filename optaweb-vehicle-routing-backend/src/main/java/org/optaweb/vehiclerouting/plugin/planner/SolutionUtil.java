@@ -30,6 +30,9 @@ import org.optaweb.vehiclerouting.domain.Route;
 
 public class SolutionUtil {
 
+    public static final int DEFAULT_CUSTOMER_DEMAND = 1;
+    public static final int DEFAULT_VEHICLE_CAPACITY = 10;
+
     private SolutionUtil() {
     }
 
@@ -53,14 +56,19 @@ public class SolutionUtil {
      */
     static VehicleRoutingSolution initialSolution() {
         VehicleRoutingSolution solution = emptySolution();
-        addVehicle(solution, 1);
-        addVehicle(solution, 2);
+        addVehicle(solution, 1, DEFAULT_VEHICLE_CAPACITY);
+        addVehicle(solution, 2, DEFAULT_VEHICLE_CAPACITY);
         return solution;
     }
 
     static void addVehicle(VehicleRoutingSolution solution, long id) {
+        addVehicle(solution, id, 0);
+    }
+
+    private static void addVehicle(VehicleRoutingSolution solution, long id, int capacity) {
         Vehicle vehicle = new Vehicle();
         vehicle.setId(id);
+        vehicle.setCapacity(capacity);
         solution.getVehicleList().add(vehicle);
     }
 
@@ -99,9 +107,14 @@ public class SolutionUtil {
     }
 
     static Customer addCustomer(VehicleRoutingSolution solution, Location location) {
+        return addCustomer(solution, location, 0);
+    }
+
+    static Customer addCustomer(VehicleRoutingSolution solution, Location location, int demand) {
         Customer customer = new Customer();
         customer.setId(location.getId());
         customer.setLocation(location);
+        customer.setDemand(demand);
         solution.getCustomerList().add(customer);
         solution.getLocationList().add(location);
         return customer;

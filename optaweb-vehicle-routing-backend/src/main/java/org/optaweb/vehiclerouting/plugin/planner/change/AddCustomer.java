@@ -24,6 +24,7 @@ import org.optaplanner.core.impl.solver.ProblemFactChange;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.plugin.planner.SolutionUtil;
 
 public class AddCustomer implements ProblemFactChange<VehicleRoutingSolution> {
 
@@ -45,6 +46,7 @@ public class AddCustomer implements ProblemFactChange<VehicleRoutingSolution> {
         Customer customer = new Customer();
         customer.setId(location.getId());
         customer.setLocation(location);
+        customer.setDemand(SolutionUtil.DEFAULT_CUSTOMER_DEMAND);
 
         scoreDirector.beforeEntityAdded(customer);
         workingSolution.getCustomerList().add(customer);

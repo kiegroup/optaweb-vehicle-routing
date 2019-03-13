@@ -67,6 +67,7 @@ public class SolutionUtilTest {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         RoadLocation roadLocation = new RoadLocation(1, 1.0, 1.0);
         Customer customer = SolutionUtil.addCustomer(solution, roadLocation);
+        assertThat(customer.getDemand()).isEqualTo(0);
         assertThat(solution.getLocationList()).containsExactly(roadLocation);
         assertThat(solution.getCustomerList()).containsExactly(customer);
         assertThat(solution.getCustomerList().get(0).getLocation()).isSameAs(roadLocation);

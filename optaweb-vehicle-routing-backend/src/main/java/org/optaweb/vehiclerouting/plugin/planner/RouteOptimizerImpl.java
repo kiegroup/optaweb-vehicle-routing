@@ -162,7 +162,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                     publishRoute(solution);
                     break;
                 case 1:
-                    SolutionUtil.addCustomer(solution, location);
+                    SolutionUtil.addCustomer(solution, location, SolutionUtil.DEFAULT_CUSTOMER_DEMAND);
                     startSolver();
                     break;
                 default:

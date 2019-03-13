@@ -57,6 +57,7 @@ public class AddCustomerTest {
         Customer customer = solution.getCustomerList().get(0);
         assertThat(customer.getId()).isEqualTo(location.getId());
         assertThat(customer.getLocation()).isEqualTo(location);
+        assertThat(customer.getDemand()).isEqualTo(SolutionUtil.DEFAULT_CUSTOMER_DEMAND);
 
         verify(scoreDirector).triggerVariableListeners();
     }
