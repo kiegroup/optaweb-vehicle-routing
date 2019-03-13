@@ -24,6 +24,8 @@ import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -106,5 +108,10 @@ public class SolutionUtilTest {
 
         List<Route> routes = SolutionUtil.routes(solution);
         assertThat(routes).hasSameSizeAs(solution.getVehicleList());
+        Location depotLocation = new Location(
+                depot.getLocation().getId(),
+                LatLng.valueOf(depot.getLocation().getLatitude(), depot.getLocation().getLongitude())
+        );
+        assertThat(routes).allMatch(route -> route.depot().equals(depotLocation));
     }
 }

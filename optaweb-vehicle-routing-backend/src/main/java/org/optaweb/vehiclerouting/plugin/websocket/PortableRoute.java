@@ -17,19 +17,26 @@
 package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Vehicle route representation convenient for marshalling.
  */
 public class PortableRoute {
 
+    private final PortableLocation depot;
     private final List<PortableLocation> visits;
     // TODO flatten & remove ID (List<PortableLatLng>)
     private final List<List<PortableLocation>> track;
 
-    public PortableRoute(List<PortableLocation> visits, List<List<PortableLocation>> track) {
-        this.visits = visits;
-        this.track = track;
+    public PortableRoute(PortableLocation depot, List<PortableLocation> visits, List<List<PortableLocation>> track) {
+        this.depot = Objects.requireNonNull(depot);
+        this.visits = Objects.requireNonNull(visits);
+        this.track = Objects.requireNonNull(track);
+    }
+
+    public PortableLocation getDepot() {
+        return depot;
     }
 
     public List<PortableLocation> getVisits() {

@@ -87,7 +87,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 solution.getVehicleList().size(),
                 routes);
         String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
-        publisher.publishEvent(new RouteChangedEvent(this, distanceString, routes));
+        publisher.publishEvent(new RouteChangedEvent(this, distanceString, SolutionUtil.depot(solution), routes));
     }
 
     private void startSolver() {

@@ -18,21 +18,25 @@ package org.optaweb.vehiclerouting.service.route;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 
 public class RoutingPlan {
 
     private final String distance;
+    private final Location depot;
     private final List<RouteWithTrack> routes;
 
-    public RoutingPlan(String distance, List<RouteWithTrack> routes) {
+    public RoutingPlan(String distance, Location depot, List<RouteWithTrack> routes) {
         this.distance = distance;
+        this.depot = depot;
         this.routes = routes;
     }
 
     public static RoutingPlan empty() {
-        return new RoutingPlan("0", Collections.emptyList());
+        return new RoutingPlan("0", null, Collections.emptyList());
     }
 
     public String distance() {
@@ -41,5 +45,9 @@ public class RoutingPlan {
 
     public List<RouteWithTrack> routes() {
         return routes;
+    }
+
+    public Optional<Location> depot() {
+        return depot == null ? Optional.empty() : Optional.of(depot);
     }
 }

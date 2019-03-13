@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.service.route;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,18 +49,24 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     public void onApplicationEvent(RouteChangedEvent event) {
         // TODO persist the best solution
         List<RouteWithTrack> routes = event.routes().stream()
-                .map(route -> new RouteWithTrack(route, track(route.visits())))
+                .map(route -> new RouteWithTrack(route, track(route.depot(), route.visits())))
                 .collect(Collectors.toList());
-        bestRoutingPlan = new RoutingPlan(event.distance(), routes);
+        bestRoutingPlan = new RoutingPlan(event.distance(), event.depot(), routes);
         publisher.publish(bestRoutingPlan);
     }
 
-    private List<List<LatLng>> track(List<Location> route) {
+    private List<List<LatLng>> track(Location depot, List<Location> route) {
+        if (route.isEmpty()) {
+            return Collections.emptyList();
+        }
+        ArrayList<Location> itinerary = new ArrayList<>();
+        itinerary.add(depot);
+        itinerary.addAll(route);
+        itinerary.add(depot);
         List<List<LatLng>> paths = new ArrayList<>();
-        for (int i = 1; i < route.size() + 1; i++) {
-            // "trick" to get N -> 0 distance at the end of the loop
-            Location fromLocation = route.get(i - 1);
-            Location toLocation = route.get(i % route.size());
+        for (int i = 0; i < itinerary.size() - 1; i++) {
+            Location fromLocation = itinerary.get(i);
+            Location toLocation = itinerary.get(i + 1);
             List<LatLng> latLngs = router.getPath(fromLocation.getLatLng(), toLocation.getLatLng());
             paths.add(latLngs);
         }

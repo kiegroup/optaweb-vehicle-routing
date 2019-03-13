@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -77,24 +78,25 @@ public class RoutePublisherImplTest {
         final String distance = "xy";
 
         RouteWithTrack route1 = new RouteWithTrack(
-                new Route(location1, location2),
+                new Route(location1, Collections.singletonList(location2)),
                 Arrays.asList(segment12, segment21)
         );
         RouteWithTrack route2 = new RouteWithTrack(
-                new Route(location1, location3),
+                new Route(location1, Collections.singletonList(location3)),
                 Arrays.asList(segment13, segment31)
         );
 
-        RoutingPlan routingPlan = new RoutingPlan(distance, Arrays.asList(route1, route2));
+        RoutingPlan routingPlan = new RoutingPlan(distance, location1, Arrays.asList(route1, route2));
 
         PortableRoutingPlan portableRoutingPlan = routePublisher.portable(routingPlan);
         assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);
+        assertThat(portableRoutingPlan.getDepot()).isEqualTo(PortableLocation.fromLocation(location1));
         assertThat(portableRoutingPlan.getRoutes()).hasSize(2);
 
         PortableRoute portableRoute1 = portableRoutingPlan.getRoutes().get(0);
 
+        assertThat(portableRoute1.getDepot()).isEqualTo(PortableLocation.fromLocation(location1));
         assertThat(portableRoute1.getVisits()).containsExactly(
-                PortableLocation.fromLocation(location1),
                 PortableLocation.fromLocation(location2)
         );
         assertThat(portableRoute1.getTrack()).hasSize(2);
@@ -111,8 +113,8 @@ public class RoutePublisherImplTest {
 
         PortableRoute portableRoute2 = portableRoutingPlan.getRoutes().get(1);
 
+        assertThat(portableRoute2.getDepot()).isEqualTo(PortableLocation.fromLocation(location1));
         assertThat(portableRoute2.getVisits()).containsExactly(
-                PortableLocation.fromLocation(location1),
                 PortableLocation.fromLocation(location3)
         );
         assertThat(portableRoute2.getTrack()).hasSize(2);

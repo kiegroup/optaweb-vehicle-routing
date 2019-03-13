@@ -20,7 +20,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -35,6 +34,7 @@ import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -49,8 +49,44 @@ public class RouteListenerTest {
     @InjectMocks
     private RouteListener routeListener;
 
-    @Before
-    public void setUp() {
+    @Test
+    public void new_listener_should_return_empty_best_route() {
+        RoutingPlan bestRoutingPlan = routeListener.getBestRoutingPlan();
+        assertThat(bestRoutingPlan.distance()).isEqualTo("0");
+        assertThat(bestRoutingPlan.routes()).isEmpty();
+    }
+
+    @Test
+    public void event_with_no_routes_should_be_published_as_an_empty_routing_plan() {
+        RouteChangedEvent event = new RouteChangedEvent(this, "", null, Collections.emptyList());
+        routeListener.onApplicationEvent(event);
+        verifyZeroInteractions(router);
+        verify(publisher).publish(routeArgumentCaptor.capture());
+
+        RoutingPlan routingPlan = routeArgumentCaptor.getValue();
+        assertThat(routingPlan.depot()).isNotPresent();
+        assertThat(routingPlan.routes()).isEmpty();
+    }
+
+    @Test
+    public void event_with_no_visits_and_a_depot_should_be_published_as_plan_with_empty_routes() {
+        final LatLng depotLatLng = LatLng.valueOf(0.0, 0.1);
+        final Location depot = new Location(1, depotLatLng);
+        Route route = new Route(depot, Collections.emptyList());
+
+        RouteChangedEvent event = new RouteChangedEvent(this, "0 km", depot, Collections.singletonList(route));
+        routeListener.onApplicationEvent(event);
+
+        verifyZeroInteractions(router);
+        verify(publisher).publish(routeArgumentCaptor.capture());
+
+        RoutingPlan routingPlan = routeArgumentCaptor.getValue();
+        assertThat(routingPlan.depot()).contains(depot);
+        assertThat(routingPlan.routes()).hasSize(1);
+        RouteWithTrack routeWithTrack = routingPlan.routes().iterator().next();
+        assertThat(routeWithTrack.depot()).isEqualTo(depot);
+        assertThat(routeWithTrack.visits()).isEmpty();
+        assertThat(routeWithTrack.track()).isEmpty();
     }
 
     @Test
@@ -68,26 +104,21 @@ public class RouteListenerTest {
         final Location visit = new Location(2, visitLatLng);
         final String distance = "xy";
 
-        Route route = new Route(depot, visit);
-        RouteChangedEvent event = new RouteChangedEvent(this, distance, Collections.singletonList(route));
+        Route route = new Route(depot, Collections.singletonList(visit));
+        RouteChangedEvent event = new RouteChangedEvent(this, distance, depot, Collections.singletonList(route));
 
         routeListener.onApplicationEvent(event);
         verify(publisher).publish(routeArgumentCaptor.capture());
 
         RoutingPlan routingPlan = routeArgumentCaptor.getValue();
         assertThat(routingPlan.distance()).isEqualTo(distance);
+        assertThat(routingPlan.depot()).contains(depot);
         assertThat(routingPlan.routes()).hasSize(1);
         RouteWithTrack routeWithTrack = routingPlan.routes().iterator().next();
-        assertThat(routeWithTrack.visits()).containsExactly(depot, visit);
+        assertThat(routeWithTrack.depot()).isEqualTo(depot);
+        assertThat(routeWithTrack.visits()).containsExactly(visit);
         assertThat(routeWithTrack.track()).containsExactly(path1, path2);
 
         assertThat(routeListener.getBestRoutingPlan()).isEqualTo(routingPlan);
-    }
-
-    @Test
-    public void new_listener_should_return_empty_best_route() {
-        RoutingPlan bestRoutingPlan = routeListener.getBestRoutingPlan();
-        assertThat(bestRoutingPlan.distance()).isEqualTo("0");
-        assertThat(bestRoutingPlan.routes()).isEmpty();
     }
 }

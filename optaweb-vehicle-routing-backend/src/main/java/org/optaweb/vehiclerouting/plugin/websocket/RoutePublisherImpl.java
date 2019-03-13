@@ -47,12 +47,14 @@ public class RoutePublisherImpl implements RoutePublisher {
     }
 
     PortableRoutingPlan portable(RoutingPlan routingPlan) {
+        PortableLocation depot = routingPlan.depot().map(PortableLocation::fromLocation).orElse(null);
         List<PortableRoute> routes = routingPlan.routes().stream()
                 .map(routeWithTrack -> new PortableRoute(
+                        depot,
                         portableVisits(routeWithTrack.visits()),
                         portableTrack(routeWithTrack.track())))
                 .collect(Collectors.toList());
-        return new PortableRoutingPlan(routingPlan.distance(), routes);
+        return new PortableRoutingPlan(routingPlan.distance(), depot, routes);
     }
 
     private List<List<PortableLocation>> portableTrack(List<List<LatLng>> track) {

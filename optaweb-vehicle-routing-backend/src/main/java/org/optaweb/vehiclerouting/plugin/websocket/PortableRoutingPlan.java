@@ -24,10 +24,12 @@ import java.util.List;
 public class PortableRoutingPlan {
 
     private final String distance;
+    private final PortableLocation depot;
     private final List<PortableRoute> routes;
 
-    public PortableRoutingPlan(String distance, List<PortableRoute> routes) {
+    public PortableRoutingPlan(String distance, PortableLocation depot, List<PortableRoute> routes) {
         this.distance = distance;
+        this.depot = depot;
         this.routes = routes;
     }
 
@@ -37,5 +39,9 @@ public class PortableRoutingPlan {
 
     public List<PortableRoute> getRoutes() {
         return routes;
+    }
+
+    public PortableLocation getDepot() {
+        return depot;
     }
 }

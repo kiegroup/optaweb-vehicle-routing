@@ -17,22 +17,24 @@
 package org.optaweb.vehiclerouting.domain;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
- * Vehicle's itinerary (sequence of visits).
+ * Vehicle's itinerary (sequence of visits) and depot.
  */
 public class Route {
 
+    private final Location depot;
     private final List<Location> visits;
 
-    public Route(Location... visits) {
-        this.visits = Arrays.asList(visits);
+    public Route(Location depot, List<Location> visits) {
+        this.depot = Objects.requireNonNull(depot);
+        this.visits = new ArrayList<>(visits);
     }
 
-    public Route(List<Location> visits) {
-        this.visits = new ArrayList<>(visits);
+    public Location depot() {
+        return depot;
     }
 
     public List<Location> visits() {

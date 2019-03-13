@@ -26,7 +26,7 @@ public class RouteWithTrack extends Route {
     private final List<List<LatLng>> track;
 
     public RouteWithTrack(Route route, List<List<LatLng>> paths) {
-        super(route.visits());
+        super(route.depot(), route.visits());
         this.track = paths;
     }
 

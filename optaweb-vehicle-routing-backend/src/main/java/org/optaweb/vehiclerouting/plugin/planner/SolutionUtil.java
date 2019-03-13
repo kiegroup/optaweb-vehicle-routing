@@ -85,16 +85,29 @@ public class SolutionUtil {
             for (Customer customer = vehicle.getNextCustomer(); customer != null; customer = customer.getNextCustomer()) {
                 addLocationToRoute(visits, customer.getLocation());
             }
-            routes.add(new Route(visits));
+            routes.add(new Route(domainLocation(depot.getLocation()), visits));
         }
         return routes;
     }
 
-    private static void addLocationToRoute(List<org.optaweb.vehiclerouting.domain.Location> route, Location location) {
-        route.add(new org.optaweb.vehiclerouting.domain.Location(
+    private static org.optaweb.vehiclerouting.domain.Location domainLocation(Location location) {
+        return new org.optaweb.vehiclerouting.domain.Location(
                 location.getId(),
                 LatLng.valueOf(location.getLatitude(), location.getLongitude())
-        ));
+        );
+    }
+
+    private static void addLocationToRoute(List<org.optaweb.vehiclerouting.domain.Location> route, Location location) {
+        route.add(domainLocation(location));
+    }
+
+    /**
+     * Get solution's depot.
+     * @param solution the solution in which to look for the depot
+     * @return first depot from the solution or null if there are no depots
+     */
+    static org.optaweb.vehiclerouting.domain.Location depot(VehicleRoutingSolution solution) {
+        return solution.getDepotList().size() > 0 ? domainLocation(solution.getDepotList().get(0).getLocation()) : null;
     }
 
     static Depot addDepot(VehicleRoutingSolution solution, Location location) {

@@ -53,7 +53,7 @@ public class WebSocketControllerTest {
 
     @Before
     public void setUp() {
-        portableRoutingPlan = new PortableRoutingPlan("xy", Collections.emptyList());
+        portableRoutingPlan = new PortableRoutingPlan("xy", null, Collections.emptyList());
         when(routeListener.getBestRoutingPlan()).thenReturn(RoutingPlan.empty());
         when(routePublisher.portable(any(RoutingPlan.class))).thenReturn(portableRoutingPlan);
     }
