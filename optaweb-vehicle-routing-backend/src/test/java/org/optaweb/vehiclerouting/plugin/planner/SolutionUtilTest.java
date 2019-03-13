@@ -31,6 +31,44 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class SolutionUtilTest {
 
     @Test
+    public void empty_solution_should_be_empty() {
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        assertThat(solution.getLocationList()).isEmpty();
+        assertThat(solution.getCustomerList()).isEmpty();
+        assertThat(solution.getDepotList()).isEmpty();
+        assertThat(solution.getVehicleList()).hasSize(2);
+    }
+
+    @Test
+    public void adding_depot_should_create_depot_and_add_location() {
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        RoadLocation roadLocation = new RoadLocation(1, 1.0, 1.0);
+        Depot depot = SolutionUtil.addDepot(solution, roadLocation);
+        assertThat(solution.getLocationList()).containsExactly(roadLocation);
+        assertThat(solution.getDepotList()).containsExactly(depot);
+        assertThat(solution.getDepotList().get(0).getLocation()).isSameAs(roadLocation);
+    }
+
+    @Test
+    public void move_all_vehicles_to_a_depot() {
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        RoadLocation roadLocation = new RoadLocation(1, 1.0, 1.0);
+        Depot depot = SolutionUtil.addDepot(solution, roadLocation);
+        SolutionUtil.moveAllVehiclesTo(solution, depot);
+        assertThat(solution.getVehicleList()).allMatch(vehicle -> vehicle.getDepot() == depot);
+    }
+
+    @Test
+    public void adding_customer_should_create_customer_and_add_location() {
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        RoadLocation roadLocation = new RoadLocation(1, 1.0, 1.0);
+        Customer customer = SolutionUtil.addCustomer(solution, roadLocation);
+        assertThat(solution.getLocationList()).containsExactly(roadLocation);
+        assertThat(solution.getCustomerList()).containsExactly(customer);
+        assertThat(solution.getCustomerList().get(0).getLocation()).isSameAs(roadLocation);
+    }
+
+    @Test
     public void empty_solution_should_have_zero_routes() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         List<Route> routes = SolutionUtil.routes(solution);
@@ -41,18 +79,8 @@ public class SolutionUtilTest {
     public void nonempty_uninitialized_solution_should_have_zero_routes() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
 
-        RoadLocation roadLocation1 = new RoadLocation(1, 1.0, 1.0);
-        RoadLocation roadLocation2 = new RoadLocation(2, 2.0, 2.0);
-        solution.getLocationList().add(roadLocation1);
-        solution.getLocationList().add(roadLocation2);
-
-        Depot depot = new Depot();
-        depot.setLocation(roadLocation1);
-        solution.getDepotList().add(depot);
-
-        Customer customer = new Customer();
-        customer.setLocation(roadLocation2);
-        solution.getCustomerList().add(customer);
+        SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
+        SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
 
         List<Route> routes = SolutionUtil.routes(solution);
         assertThat(routes).isEmpty();
@@ -62,18 +90,8 @@ public class SolutionUtilTest {
     public void initialized_solution_should_have_one_route_per_vehicle() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
 
-        RoadLocation roadLocation1 = new RoadLocation(1, 1.0, 1.0);
-        RoadLocation roadLocation2 = new RoadLocation(2, 2.0, 2.0);
-        solution.getLocationList().add(roadLocation1);
-        solution.getLocationList().add(roadLocation2);
-
-        Depot depot = new Depot();
-        depot.setLocation(roadLocation1);
-        solution.getDepotList().add(depot);
-
-        Customer customer = new Customer();
-        customer.setLocation(roadLocation2);
-        solution.getCustomerList().add(customer);
+        Depot depot = SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
+        Customer customer = SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
 
         for (Vehicle vehicle : solution.getVehicleList()) {
             vehicle.setDepot(depot);

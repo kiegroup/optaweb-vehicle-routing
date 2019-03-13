@@ -38,6 +38,7 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.examples.vehiclerouting.app.VehicleRoutingApp;
+import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
@@ -88,8 +89,9 @@ public class SolverIntegrationTest {
     @Test
     public void removing_customers_should_not_fail() throws InterruptedException, ExecutionException {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        RouteOptimizerImpl.addDepot(solution, location(1));
-        RouteOptimizerImpl.addCustomer(solution, location(2));
+        Depot depot = SolutionUtil.addDepot(solution, location(1));
+        SolutionUtil.moveAllVehiclesTo(solution, depot);
+        SolutionUtil.addCustomer(solution, location(2));
 
         sf.getSolverConfig().setDaemon(true);
         Solver<VehicleRoutingSolution> solver = sf.buildSolver();

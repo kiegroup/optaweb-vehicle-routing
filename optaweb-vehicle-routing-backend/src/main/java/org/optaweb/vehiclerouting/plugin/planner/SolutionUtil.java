@@ -70,4 +70,26 @@ public class SolutionUtil {
                 LatLng.valueOf(location.getLatitude(), location.getLongitude())
         ));
     }
+
+    static Depot addDepot(VehicleRoutingSolution solution, Location location) {
+        Depot depot = new Depot();
+        depot.setId(location.getId());
+        depot.setLocation(location);
+        solution.getDepotList().add(depot);
+        solution.getLocationList().add(location);
+        return depot;
+    }
+
+    static Customer addCustomer(VehicleRoutingSolution solution, Location location) {
+        Customer customer = new Customer();
+        customer.setId(location.getId());
+        customer.setLocation(location);
+        solution.getCustomerList().add(customer);
+        solution.getLocationList().add(location);
+        return customer;
+    }
+
+    static void moveAllVehiclesTo(VehicleRoutingSolution solution, Depot depot) {
+        solution.getVehicleList().forEach(vehicle -> vehicle.setDepot(depot));
+    }
 }

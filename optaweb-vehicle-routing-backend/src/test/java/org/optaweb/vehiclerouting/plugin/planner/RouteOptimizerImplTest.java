@@ -33,6 +33,7 @@ import org.mockito.stubbing.VoidAnswer1;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
+import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.Standstill;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.domain.LatLng;
@@ -241,11 +242,12 @@ public class RouteOptimizerImplTest {
 
     private static VehicleRoutingSolution createSolution(Location... coreLocations) {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        RouteOptimizerImpl.addDepot(solution, coreToPlanner(coreLocations[0]));
+        Depot depot = SolutionUtil.addDepot(solution, coreToPlanner(coreLocations[0]));
+        SolutionUtil.moveAllVehiclesTo(solution, depot);
 
         // create customers
         for (int i = 1; i < coreLocations.length; i++) {
-            RouteOptimizerImpl.addCustomer(solution, coreToPlanner(coreLocations[i]));
+            SolutionUtil.addCustomer(solution, coreToPlanner(coreLocations[i]));
         }
 
         // visit all customers

@@ -25,7 +25,6 @@ import java.util.concurrent.Future;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
@@ -74,23 +73,6 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 location.getLatLng().getLatitude().doubleValue(),
                 location.getLatLng().getLongitude().doubleValue()
         );
-    }
-
-    static void addDepot(VehicleRoutingSolution solution, Location location) {
-        Depot depot = new Depot();
-        depot.setId(location.getId());
-        depot.setLocation(location);
-        solution.getDepotList().add(depot);
-        solution.getVehicleList().forEach(vehicle -> vehicle.setDepot(depot));
-        solution.getLocationList().add(location);
-    }
-
-    static void addCustomer(VehicleRoutingSolution solution, Location location) {
-        Customer customer = new Customer();
-        customer.setId(location.getId());
-        customer.setLocation(location);
-        solution.getCustomerList().add(customer);
-        solution.getLocationList().add(location);
     }
 
     private void publishRoute(VehicleRoutingSolution solution) {
@@ -175,11 +157,12 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         if (!isSolving()) {
             switch (solution.getLocationList().size()) {
                 case 0:
-                    addDepot(solution, location);
+                    Depot depot = SolutionUtil.addDepot(solution, location);
+                    SolutionUtil.moveAllVehiclesTo(solution, depot);
                     publishRoute(solution);
                     break;
                 case 1:
-                    addCustomer(solution, location);
+                    SolutionUtil.addCustomer(solution, location);
                     startSolver();
                     break;
                 default:
@@ -201,7 +184,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
             }
             solution.getLocationList().remove(0);
             solution.getDepotList().remove(0);
-            solution.getVehicleList().forEach(vehicle -> vehicle.setDepot(null));
+            SolutionUtil.moveAllVehiclesTo(solution, null);
             publishRoute(solution);
         } else {
             if (solution.getDepotList().get(0).getLocation().getId().equals(location.getId())) {
