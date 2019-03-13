@@ -182,8 +182,8 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 throw new IllegalStateException("Impossible number of locations (" + solution.getLocationList().size()
                         + ") when solver is not solving.\n" + solution.getLocationList());
             }
-            solution.getLocationList().remove(0);
-            solution.getDepotList().remove(0);
+            solution.getLocationList().clear();
+            solution.getDepotList().clear();
             SolutionUtil.moveAllVehiclesTo(solution, null);
             publishRoute(solution);
         } else {
@@ -193,7 +193,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
             if (solution.getCustomerList().size() == 1) {
                 // depot and 1 customer remaining
                 stopSolver();
-                solution.getCustomerList().remove(0);
+                solution.getCustomerList().clear();
                 solution.getLocationList().removeIf(l -> l.getId().equals(location.getId()));
                 solution.getVehicleList().get(0).setNextCustomer(null);
                 publishRoute(solution);
