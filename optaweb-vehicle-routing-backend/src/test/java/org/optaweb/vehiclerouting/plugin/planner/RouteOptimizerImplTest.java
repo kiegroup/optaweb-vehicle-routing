@@ -52,7 +52,7 @@ import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.optaweb.vehiclerouting.plugin.planner.RouteOptimizerImpl.coreToPlanner;
+import static org.optaweb.vehiclerouting.plugin.planner.SolutionUtil.planningLocation;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RouteOptimizerImplTest {
@@ -248,15 +248,15 @@ public class RouteOptimizerImplTest {
         routeOptimizer.clear();
     }
 
-    private static VehicleRoutingSolution createSolution(Location... coreLocations) {
+    private static VehicleRoutingSolution createSolution(Location... domainLocations) {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        Depot depot = SolutionUtil.addDepot(solution, coreToPlanner(coreLocations[0]));
+        Depot depot = SolutionUtil.addDepot(solution, planningLocation(domainLocations[0]));
         SolutionUtil.addVehicle(solution, 1);
         SolutionUtil.moveAllVehiclesTo(solution, depot);
 
         // create customers
-        for (int i = 1; i < coreLocations.length; i++) {
-            SolutionUtil.addCustomer(solution, coreToPlanner(coreLocations[i]));
+        for (int i = 1; i < domainLocations.length; i++) {
+            SolutionUtil.addCustomer(solution, planningLocation(domainLocations[i]));
         }
 
         // visit all customers

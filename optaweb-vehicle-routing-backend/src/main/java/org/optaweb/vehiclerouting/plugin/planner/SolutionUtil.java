@@ -25,6 +25,7 @@ import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
+import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Route;
 
@@ -98,6 +99,13 @@ public class SolutionUtil {
         return new org.optaweb.vehiclerouting.domain.Location(
                 location.getId(),
                 LatLng.valueOf(location.getLatitude(), location.getLongitude())
+        );
+    }
+
+    static RoadLocation planningLocation(org.optaweb.vehiclerouting.domain.Location location) {
+        return new RoadLocation(location.getId(),
+                location.getLatLng().getLatitude().doubleValue(),
+                location.getLatLng().getLongitude().doubleValue()
         );
     }
 

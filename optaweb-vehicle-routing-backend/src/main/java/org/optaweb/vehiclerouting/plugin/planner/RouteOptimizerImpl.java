@@ -68,13 +68,6 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         solution = SolutionUtil.initialSolution();
     }
 
-    static RoadLocation coreToPlanner(org.optaweb.vehiclerouting.domain.Location location) {
-        return new RoadLocation(location.getId(),
-                location.getLatLng().getLatitude().doubleValue(),
-                location.getLatLng().getLongitude().doubleValue()
-        );
-    }
-
     private void publishRoute(VehicleRoutingSolution solution) {
         List<Route> routes = SolutionUtil.routes(solution);
         logger.debug("New solution with\n"
@@ -148,10 +141,10 @@ public class RouteOptimizerImpl implements RouteOptimizer,
     }
 
     @Override
-    public void addLocation(org.optaweb.vehiclerouting.domain.Location coreLocation,
+    public void addLocation(org.optaweb.vehiclerouting.domain.Location domainLocation,
                             DistanceMatrix distanceMatrix) {
-        RoadLocation location = coreToPlanner(coreLocation);
-        DistanceMap distanceMap = new DistanceMap(coreLocation, distanceMatrix.getRow(coreLocation));
+        RoadLocation location = SolutionUtil.planningLocation(domainLocation);
+        DistanceMap distanceMap = new DistanceMap(domainLocation, distanceMatrix.getRow(domainLocation));
         location.setTravelDistanceMap(distanceMap);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (!isSolving()) {
@@ -175,8 +168,8 @@ public class RouteOptimizerImpl implements RouteOptimizer,
     }
 
     @Override
-    public void removeLocation(org.optaweb.vehiclerouting.domain.Location coreLocation) {
-        Location location = coreToPlanner(coreLocation);
+    public void removeLocation(org.optaweb.vehiclerouting.domain.Location domainLocation) {
+        Location location = SolutionUtil.planningLocation(domainLocation);
         if (!isSolving()) {
             if (solution.getLocationList().size() != 1) {
                 throw new IllegalStateException("Impossible number of locations (" + solution.getLocationList().size()
