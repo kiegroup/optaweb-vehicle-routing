@@ -37,7 +37,7 @@ import TspMap from 'ui/components/TspMap';
 export interface IStateProps {
   distance: string;
   depot?: ILocation;
-  locations: ILocation[];
+  visits: ILocation[];
   routes: IRouteWithTrack[];
   isDemoLoading: boolean;
 }
@@ -53,8 +53,8 @@ const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
   depot: plan.depot,
   distance: plan.distance,
   isDemoLoading: demo.isLoading,
-  locations: routeSelectors.getVisits(plan),
   routes: plan.routes,
+  visits: routeSelectors.getVisits(plan),
 });
 
 const mapDispatchToProps: IDispatchProps = {
@@ -106,7 +106,7 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
     const {
       distance,
       depot,
-      locations,
+      visits,
       routes,
       removeHandler,
       loadHandler,
@@ -126,7 +126,7 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
           <SearchBox addHandler={this.handleSearchResultClick} />
           <LocationList
             depot={depot}
-            locations={locations}
+            visits={visits}
             removeHandler={removeHandler}
             selectHandler={this.onSelectLocation}
             loadHandler={loadHandler}
@@ -142,8 +142,8 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
           <Split gutter="md">
             <SplitItem isMain={true}>
               <Grid>
-                <GridItem span={6}>Locations: {locations.length}</GridItem>
-                <GridItem span={6}>Distance: {distance}</GridItem>
+                <GridItem span={6}>{`Visits: ${visits.length}`}</GridItem>
+                <GridItem span={6}>{`Distance: ${distance}`}</GridItem>
               </Grid>
             </SplitItem>
             <SplitItem isMain={false}>

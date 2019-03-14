@@ -46,7 +46,9 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
       }
       isDemoLoading={true}
       loadHandler={[MockFunction]}
-      locations={
+      removeHandler={[MockFunction]}
+      selectHandler={[Function]}
+      visits={
         Array [
           Object {
             "id": 2,
@@ -60,8 +62,6 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
           },
         ]
       }
-      removeHandler={[MockFunction]}
-      selectHandler={[Function]}
     />
   </SplitItem>
   <SplitItem
@@ -110,8 +110,7 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Locations: 
-            2
+            Visits: 2
           </GridItem>
           <GridItem
             className=""
@@ -131,8 +130,7 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Distance: 
-            10
+            Distance: 10
           </GridItem>
         </Grid>
       </SplitItem>
@@ -255,7 +253,9 @@ exports[`Demo page should render correctly with a few routes 1`] = `
       }
       isDemoLoading={false}
       loadHandler={[MockFunction]}
-      locations={
+      removeHandler={[MockFunction]}
+      selectHandler={[Function]}
+      visits={
         Array [
           Object {
             "id": 2,
@@ -269,8 +269,6 @@ exports[`Demo page should render correctly with a few routes 1`] = `
           },
         ]
       }
-      removeHandler={[MockFunction]}
-      selectHandler={[Function]}
     />
   </SplitItem>
   <SplitItem
@@ -319,8 +317,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Locations: 
-            2
+            Visits: 2
           </GridItem>
           <GridItem
             className=""
@@ -340,8 +337,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Distance: 
-            10
+            Distance: 10
           </GridItem>
         </Grid>
       </SplitItem>
@@ -457,9 +453,9 @@ exports[`Demo page should render correctly with no routes 1`] = `
       clearHandler={[MockFunction]}
       isDemoLoading={false}
       loadHandler={[MockFunction]}
-      locations={Array []}
       removeHandler={[MockFunction]}
       selectHandler={[Function]}
+      visits={Array []}
     />
   </SplitItem>
   <SplitItem
@@ -508,8 +504,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Locations: 
-            0
+            Visits: 0
           </GridItem>
           <GridItem
             className=""
@@ -529,8 +524,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Distance: 
-            0
+            Distance: 0
           </GridItem>
         </Grid>
       </SplitItem>

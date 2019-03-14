@@ -34,7 +34,7 @@ import TspMap from 'ui/components/TspMap';
 
 export interface IStateProps {
   depot?: ILocation;
-  locations: ILocation[];
+  visits: ILocation[];
   routes: IRouteWithTrack[];
   isDemoLoading: boolean;
 }
@@ -49,8 +49,8 @@ export interface IDispatchProps {
 const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
   depot: plan.depot,
   isDemoLoading: demo.isLoading,
-  locations: routeSelectors.getVisits(plan),
   routes: plan.routes,
+  visits: routeSelectors.getVisits(plan),
 });
 
 const mapDispatchToProps: IDispatchProps = {
@@ -96,7 +96,7 @@ class Route extends React.Component<IRouteProps, IRouteState> {
     const { center, zoom, selectedId } = this.state;
     const {
       depot,
-      locations,
+      visits,
       routes,
       removeHandler,
       loadHandler,
@@ -135,7 +135,7 @@ class Route extends React.Component<IRouteProps, IRouteState> {
             >
               <LocationList
                 depot={depot}
-                locations={locations}
+                visits={visits}
                 removeHandler={removeHandler}
                 selectHandler={this.onSelectLocation}
                 loadHandler={loadHandler}

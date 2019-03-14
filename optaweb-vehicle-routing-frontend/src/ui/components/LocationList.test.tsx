@@ -26,9 +26,9 @@ describe('Location List Component', () => {
       clearHandler: jest.fn(),
       isDemoLoading: false,
       loadHandler: jest.fn(),
-      locations: [],
       removeHandler: jest.fn(),
       selectHandler: jest.fn(),
+      visits: [],
     };
     expect.assertions(2);
     const locationList = shallow(<LocationList {...props} />);
@@ -49,7 +49,9 @@ describe('Location List Component', () => {
       },
       isDemoLoading: false,
       loadHandler: jest.fn(),
-      locations: [
+      removeHandler: jest.fn(),
+      selectHandler: jest.fn(),
+      visits: [
         {
           id: 2,
           lat: 2.345678,
@@ -61,13 +63,11 @@ describe('Location List Component', () => {
           lng: 3.568333,
         },
       ],
-      removeHandler: jest.fn(),
-      selectHandler: jest.fn(),
     };
     expect.assertions(2);
     const locationList = shallow(<LocationList {...props} />);
     expect(toJson(locationList)).toMatchSnapshot();
 
-    expect(locationList.find(Location)).toHaveLength(props.locations.length + 1);
+    expect(locationList.find(Location)).toHaveLength(props.visits.length + 1);
   });
 });

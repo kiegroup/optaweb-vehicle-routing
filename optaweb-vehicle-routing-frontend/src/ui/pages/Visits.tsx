@@ -79,7 +79,7 @@ class Visits extends React.Component<IProps> {
           loadHandler={loadHandler}
           clearHandler={clearHandler}
           depot={depot}
-          locations={visits}
+          visits={visits}
           isDemoLoading={isDemoLoading}
         />
       </>
