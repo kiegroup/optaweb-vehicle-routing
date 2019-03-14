@@ -96,6 +96,8 @@ public class SolutionUtilTest {
     @Test
     public void initialized_solution_should_have_one_route_per_vehicle() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        SolutionUtil.addVehicle(solution, 1);
+        SolutionUtil.addVehicle(solution, 2);
 
         Depot depot = SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
         Customer customer = SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
@@ -112,6 +114,11 @@ public class SolutionUtilTest {
                 depot.getLocation().getId(),
                 LatLng.valueOf(depot.getLocation().getLatitude(), depot.getLocation().getLongitude())
         );
-        assertThat(routes).allMatch(route -> route.depot().equals(depotLocation));
+
+        for (Route route : routes) {
+            assertThat(route.depot()).isEqualTo(depotLocation);
+            // visits should exclude depot
+            assertThat(route.visits()).hasSize(1);
+        }
     }
 }

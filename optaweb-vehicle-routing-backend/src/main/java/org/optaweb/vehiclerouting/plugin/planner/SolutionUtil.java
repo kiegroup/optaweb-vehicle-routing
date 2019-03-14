@@ -86,7 +86,6 @@ public class SolutionUtil {
                 break;
             }
             List<org.optaweb.vehiclerouting.domain.Location> visits = new ArrayList<>();
-            addLocationToRoute(visits, depot.getLocation());
             for (Customer customer = vehicle.getNextCustomer(); customer != null; customer = customer.getNextCustomer()) {
                 addLocationToRoute(visits, customer.getLocation());
             }

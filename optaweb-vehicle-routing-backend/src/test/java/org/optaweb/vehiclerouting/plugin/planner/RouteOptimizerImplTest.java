@@ -38,6 +38,7 @@ import org.optaplanner.examples.vehiclerouting.domain.Standstill;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.springframework.context.ApplicationEventPublisher;
@@ -130,7 +131,10 @@ public class RouteOptimizerImplTest {
 
         assertThat(event.depot()).isEqualTo(location1);
         assertThat(event.routes()).isNotEmpty();
-        assertThat(event.routes().iterator().next().visits()).containsExactly(location1, location2);
+        for (Route route : event.routes()) {
+            assertThat(route.depot()).isEqualTo(location1);
+            assertThat(route.visits()).containsExactly(location2);
+        }
     }
 
     @Test
@@ -142,8 +146,11 @@ public class RouteOptimizerImplTest {
 
         assertThat(solver.isSolving()).isFalse();
         assertThat(event.depot()).isEqualTo(location1);
-        assertThat(event.routes()).isNotEmpty();
-        assertThat(event.routes().iterator().next().visits()).containsExactly(location1);
+        assertThat(event.routes()).hasSameSizeAs(SolutionUtil.initialSolution().getVehicleList());
+        for (Route route : event.routes()) {
+            assertThat(route.depot()).isEqualTo(location1);
+            assertThat(route.visits()).isEmpty();
+        }
     }
 
     @Test
