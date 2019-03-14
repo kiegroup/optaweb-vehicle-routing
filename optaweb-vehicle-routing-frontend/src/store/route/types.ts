@@ -35,9 +35,9 @@ export interface IRouteWithTrack extends IRoute {
 
 export interface IRoutingPlan {
   readonly distance: string;
-  readonly routes: IRouteWithTrack[];
+  readonly depot?: ILocation;
   // TODO visits: ILocation[];
-  // TODO depot: ILocation;
+  readonly routes: IRouteWithTrack[];
 }
 
 export enum ActionType {

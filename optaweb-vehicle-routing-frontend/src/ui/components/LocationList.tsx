@@ -24,8 +24,8 @@ export interface ILocationListProps {
   selectHandler: (id: number) => void;
   loadHandler: () => void;
   clearHandler: () => void;
+  depot?: ILocation;
   locations: ILocation[];
-  domicileId: number;
   isDemoLoading: boolean;
 }
 
@@ -51,8 +51,8 @@ const renderEmptyLocationList: React.FC<ILocationListProps> = ({
 };
 
 const renderLocationList: React.FC<ILocationListProps> = ({
+  depot,
   locations,
-  domicileId,
   removeHandler,
   selectHandler,
 }) => {
@@ -61,6 +61,13 @@ const renderLocationList: React.FC<ILocationListProps> = ({
       <DataList
         aria-label="simple-item1"
       >
+        {depot && <Location
+          key={depot.id}
+          id={depot.id}
+          removeDisabled={locations.length > 0}
+          removeHandler={removeHandler}
+          selectHandler={selectHandler}
+        />}
         {locations
           .slice(0) // clone the array because
           // sort is done in place (that would affect the route)
@@ -69,7 +76,7 @@ const renderLocationList: React.FC<ILocationListProps> = ({
             <Location
               key={location.id}
               id={location.id}
-              removeDisabled={locations.length > 1 && location.id === domicileId}
+              removeDisabled={false}
               removeHandler={removeHandler}
               selectHandler={selectHandler}
             />
@@ -80,7 +87,7 @@ const renderLocationList: React.FC<ILocationListProps> = ({
 };
 
 const LocationList: React.FC<ILocationListProps> = (props) => {
-  return props.locations.length === 0
+  return props.locations.length === 0 && props.depot === undefined
     ? renderEmptyLocationList(props)
     : renderLocationList(props);
 };

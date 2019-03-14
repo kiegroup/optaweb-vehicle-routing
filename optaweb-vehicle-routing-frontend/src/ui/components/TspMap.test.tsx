@@ -27,15 +27,15 @@ describe('TSP Map View', () => {
         lng: 1.345678,
       },
       clickHandler: jest.fn(),
-      domicileId: 1,
       removeHandler: jest.fn(),
-      route: {
+
+      depot: {
+        id: 1,
+        lat: 1.345678,
+        lng: 1.345678,
+      },
+      routes: [{
         visits: [
-          {
-            id: 1,
-            lat: 1.345678,
-            lng: 1.345678,
-          },
           {
             id: 2,
             lat: 2.345678,
@@ -49,7 +49,7 @@ describe('TSP Map View', () => {
         ],
 
         track: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
-      },
+      }],
       selectedId: 1,
       zoom: 5,
     };

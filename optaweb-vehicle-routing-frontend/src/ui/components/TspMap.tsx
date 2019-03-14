@@ -16,15 +16,8 @@
 
 import * as L from 'leaflet';
 import * as React from 'react';
-import {
-  Map,
-  Marker,
-  Polyline,
-  TileLayer,
-  Tooltip,
-  ZoomControl,
-} from 'react-leaflet';
-import { ILatLng, IRouteWithTrack } from 'store/route/types';
+import { Map, Marker, Polyline, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
+import { ILatLng, ILocation, IRouteWithTrack } from 'store/route/types';
 
 export interface ITspMapProps {
   center: ILatLng;
@@ -32,29 +25,63 @@ export interface ITspMapProps {
   selectedId: number;
   clickHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
   removeHandler: (id: number) => void;
-  route: IRouteWithTrack;
-  domicileId: number;
+  depot?: ILocation;
+  routes: IRouteWithTrack[];
 }
+
+// TODO unlimited unique (random) colors
+const colors = ['deepskyblue', 'crimson', 'seagreen', 'slateblue', 'gold', 'darkorange'];
+
+function color(index: number) {
+  return colors[index % colors.length];
+}
+
+const homeIcon = L.icon({
+  iconAnchor: [12, 12],
+  iconSize: [24, 24],
+  iconUrl: 'if_big_house-home_2222740.png',
+  popupAnchor: [0, -10],
+  shadowAnchor: [16, 2],
+  shadowSize: [50, 16],
+  shadowUrl: 'if_big_house-home_2222740_shadow.png',
+});
+
+const defaultIcon = new L.Icon.Default();
+
+const marker = (
+  removeHandler: (id: number) => void,
+  selectedId: number,
+  location: ILocation,
+  isDepot: boolean,
+) => {
+  const icon = isDepot ? homeIcon : defaultIcon;
+  return (
+    <Marker
+      key={location.id}
+      position={location}
+      icon={icon}
+      onClick={() => removeHandler(location.id)}
+    >
+      <Tooltip
+        // The permanent and non-permanent tooltips are different components
+        // and need to have different keys
+        key={location.id + (location.id === selectedId ? 'T' : 't')}
+        permanent={location.id === selectedId}
+      >
+        {`Location ${location.id} [Lat=${location.lat}, Lng=${location.lng}]`}
+      </Tooltip>
+    </Marker>);
+};
 
 const TspMap: React.FC<ITspMapProps> = ({
   center,
   zoom,
   selectedId,
-  route,
-  domicileId,
+  depot,
+  routes,
   clickHandler,
   removeHandler,
 }) => {
-  const homeIcon = L.icon({
-    iconAnchor: [12, 12],
-    iconSize: [24, 24],
-    iconUrl: 'if_big_house-home_2222740.png',
-    popupAnchor: [0, -10],
-    shadowAnchor: [16, 2],
-    shadowSize: [50, 16],
-    shadowUrl: 'if_big_house-home_2222740_shadow.png',
-  });
-  const defaultIcon = new L.Icon.Default();
   return (
     <Map
       center={center}
@@ -69,24 +96,20 @@ const TspMap: React.FC<ITspMapProps> = ({
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <ZoomControl position="topright" />
-      {route.visits.map(location => (
-        <Marker
-          key={location.id}
-          position={location}
-          icon={location.id === domicileId ? homeIcon : defaultIcon}
-          onClick={() => removeHandler(location.id)}
-        >
-          <Tooltip
-            // The permanent and non-permanent tooltips are different components
-            // and need to have different keys
-            key={location.id + (location.id === selectedId ? 'T' : 't')}
-            permanent={location.id === selectedId}
-          >
-            {`Location ${location.id} [Lat=${location.lat}, Lng=${location.lng}]`}
-          </Tooltip>
-        </Marker>
+      {depot && marker(removeHandler, selectedId, depot, true)}
+      {routes.map(route => (
+        route.visits
+          .filter(location => depot && location.id !== depot.id)
+          .map(location => marker(removeHandler, selectedId, location, false))
       ))}
-      <Polyline positions={route.track} fill={false} />
+      {routes.map((route, index) => (
+        <Polyline
+          key={index} // FIXME use unique id (not iteration index)
+          positions={route.track}
+          fill={false}
+          color={color(index)}
+        />
+      ))}
     </Map>
   );
 };

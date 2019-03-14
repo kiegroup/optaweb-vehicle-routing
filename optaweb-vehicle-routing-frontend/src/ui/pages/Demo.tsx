@@ -36,9 +36,9 @@ import TspMap from 'ui/components/TspMap';
 
 export interface IStateProps {
   distance: string;
+  depot?: ILocation;
   locations: ILocation[];
-  route: IRouteWithTrack;
-  domicileId: number;
+  routes: IRouteWithTrack[];
   isDemoLoading: boolean;
 }
 
@@ -50,12 +50,11 @@ export interface IDispatchProps {
 }
 
 const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
+  depot: plan.depot,
   distance: plan.distance,
-  domicileId: routeSelectors.getDomicileId(plan),
   isDemoLoading: demo.isLoading,
   locations: routeSelectors.getVisits(plan),
-  // FIXME temporarily ignoring other routes
-  route: plan.routes.length === 0 ? { visits: [], track: [] } : plan.routes[0],
+  routes: plan.routes,
 });
 
 const mapDispatchToProps: IDispatchProps = {
@@ -106,9 +105,9 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
     const { center, zoom, selectedId } = this.state;
     const {
       distance,
+      depot,
       locations,
-      route,
-      domicileId,
+      routes,
       removeHandler,
       loadHandler,
       clearHandler,
@@ -126,8 +125,8 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
           </TextContent>
           <SearchBox addHandler={this.handleSearchResultClick} />
           <LocationList
+            depot={depot}
             locations={locations}
-            domicileId={domicileId}
             removeHandler={removeHandler}
             selectHandler={this.onSelectLocation}
             loadHandler={loadHandler}
@@ -143,12 +142,12 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
           <Split gutter="md">
             <SplitItem isMain={true}>
               <Grid>
-                <GridItem span={6}>Locations: {route.visits.length}</GridItem>
+                <GridItem span={6}>Locations: {locations.length}</GridItem>
                 <GridItem span={6}>Distance: {distance}</GridItem>
               </Grid>
             </SplitItem>
             <SplitItem isMain={false}>
-              {route.visits.length === 0 &&
+              {routes.length === 0 &&
               <Button
                 type="button"
                 isDisabled={isDemoLoading}
@@ -175,8 +174,8 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
             selectedId={selectedId}
             clickHandler={this.handleMapClick}
             removeHandler={removeHandler}
-            route={route}
-            domicileId={domicileId}
+            depot={depot}
+            routes={routes}
           />
         </SplitItem>
       </Split>

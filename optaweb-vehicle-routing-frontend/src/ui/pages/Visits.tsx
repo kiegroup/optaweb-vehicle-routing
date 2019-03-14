@@ -24,13 +24,13 @@ import { ILocation } from 'store/route/types';
 import LocationList from 'ui/components/LocationList';
 
 interface IStateProps {
+  depot?: ILocation;
   visits: ILocation[];
-  domicileId: number;
   isDemoLoading: boolean;
 }
 
 const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
-  domicileId: routeSelectors.getDomicileId(plan),
+  depot: plan.depot,
   isDemoLoading: demo.isLoading,
   visits: routeSelectors.getVisits(plan),
 });
@@ -59,8 +59,8 @@ class Visits extends React.Component<IProps> {
 
   render() {
     const {
+      depot,
       visits,
-      domicileId,
       removeHandler,
       loadHandler,
       clearHandler,
@@ -78,8 +78,8 @@ class Visits extends React.Component<IProps> {
           selectHandler={() => undefined}
           loadHandler={loadHandler}
           clearHandler={clearHandler}
+          depot={depot}
           locations={visits}
-          domicileId={domicileId}
           isDemoLoading={isDemoLoading}
         />
       </>

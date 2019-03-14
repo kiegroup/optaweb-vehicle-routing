@@ -17,13 +17,13 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
+import Location from './Location';
 import LocationList, { ILocationListProps } from './LocationList';
 
 describe('Location List Component', () => {
   it('should render correctly with no routes', () => {
     const props: ILocationListProps = {
       clearHandler: jest.fn(),
-      domicileId: -1,
       isDemoLoading: false,
       loadHandler: jest.fn(),
       locations: [],
@@ -42,15 +42,14 @@ describe('Location List Component', () => {
   it('should render correctly with a few routes', () => {
     const props: ILocationListProps = {
       clearHandler: jest.fn(),
-      domicileId: 1,
+      depot: {
+        id: 1,
+        lat: 1.345678,
+        lng: 1.345678,
+      },
       isDemoLoading: false,
       loadHandler: jest.fn(),
       locations: [
-        {
-          id: 1,
-          lat: 1.345678,
-          lng: 1.345678,
-        },
         {
           id: 2,
           lat: 2.345678,
@@ -69,6 +68,6 @@ describe('Location List Component', () => {
     const locationList = shallow(<LocationList {...props} />);
     expect(toJson(locationList)).toMatchSnapshot();
 
-    expect(locationList.find('Location')).toHaveLength(props.locations.length);
+    expect(locationList.find(Location)).toHaveLength(props.locations.length + 1);
   });
 });

@@ -16,13 +16,6 @@
 
 import { ILocation, IRoutingPlan } from './types';
 
-export const getDomicileId = (plan: IRoutingPlan) => {
-  if (plan.routes.length === 0) {
-    return -1;
-  }
-  return plan.routes[0].visits.length > 0 ? plan.routes[0].visits[0].id : -1;
-};
-
 function reducer<T>(accumulator: T[], currentValue: T[]): T[] {
   return accumulator.concat(currentValue);
 }

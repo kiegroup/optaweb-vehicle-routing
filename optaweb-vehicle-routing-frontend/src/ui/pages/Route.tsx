@@ -33,9 +33,9 @@ import LocationList from 'ui/components/LocationList';
 import TspMap from 'ui/components/TspMap';
 
 export interface IStateProps {
+  depot?: ILocation;
   locations: ILocation[];
-  route: IRouteWithTrack;
-  domicileId: number;
+  routes: IRouteWithTrack[];
   isDemoLoading: boolean;
 }
 
@@ -47,11 +47,10 @@ export interface IDispatchProps {
 }
 
 const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
-  domicileId: routeSelectors.getDomicileId(plan),
+  depot: plan.depot,
   isDemoLoading: demo.isLoading,
   locations: routeSelectors.getVisits(plan),
-  // FIXME temporarily ignoring other routes
-  route: plan.routes.length === 0 ? { visits: [], track: [] } : plan.routes[0],
+  routes: plan.routes,
 });
 
 const mapDispatchToProps: IDispatchProps = {
@@ -96,9 +95,9 @@ class Route extends React.Component<IRouteProps, IRouteState> {
   render() {
     const { center, zoom, selectedId } = this.state;
     const {
-      route,
+      depot,
       locations,
-      domicileId,
+      routes,
       removeHandler,
       loadHandler,
       clearHandler,
@@ -135,8 +134,8 @@ class Route extends React.Component<IRouteProps, IRouteState> {
               }}
             >
               <LocationList
+                depot={depot}
                 locations={locations}
-                domicileId={domicileId}
                 removeHandler={removeHandler}
                 selectHandler={this.onSelectLocation}
                 loadHandler={loadHandler}
@@ -152,8 +151,8 @@ class Route extends React.Component<IRouteProps, IRouteState> {
               selectedId={selectedId}
               clickHandler={this.handleMapClick}
               removeHandler={removeHandler}
-              route={route}
-              domicileId={domicileId}
+              depot={depot}
+              routes={routes}
             />
           </SplitItem>
         </Split>

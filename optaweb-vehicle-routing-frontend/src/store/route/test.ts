@@ -85,16 +85,6 @@ describe('Route reducers', () => {
 });
 
 describe('Route selectors', () => {
-  it('domicile should be the first location ID', () => {
-    expect(
-      routeSelectors.getDomicileId(state.plan),
-    ).toEqual(1);
-  });
-  it('domicile should not be a positive number if route is empty', () => {
-    expect(
-      routeSelectors.getDomicileId(initialRouteState),
-    ).not.toBeGreaterThanOrEqual(0);
-  });
   it('visits should contain visits from all routes', () => {
     const visits = routeSelectors.getVisits(state.plan);
     expect(visits).toHaveLength(5);
