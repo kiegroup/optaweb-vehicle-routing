@@ -25,7 +25,7 @@ import org.optaweb.vehiclerouting.domain.Route;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * Event published when the best route has been changed either by discovering a better route or changing
+ * Event published when the routing plan has been updated either by discovering a better route or by changing
  * the set of locations.
  */
 public class RouteChangedEvent extends ApplicationEvent {
@@ -48,6 +48,10 @@ public class RouteChangedEvent extends ApplicationEvent {
         this.routes = Objects.requireNonNull(routes);
     }
 
+    /**
+     * Routes of all vehicles.
+     * @return vehicle routes
+     */
     public Collection<Route> routes() {
         return routes;
     }

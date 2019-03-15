@@ -29,6 +29,11 @@ public class Route {
     private final Location depot;
     private final List<Location> visits;
 
+    /**
+     * Create a vehicle route.
+     * @param depot vehicle's depot (not null)
+     * @param visits list of visits (not null)
+     */
     public Route(Location depot, List<Location> visits) {
         this.depot = Objects.requireNonNull(depot);
         this.visits = new ArrayList<>(Objects.requireNonNull(visits));
@@ -45,10 +50,18 @@ public class Route {
         }
     }
 
+    /**
+     * Depot in which the route starts and ends.
+     * @return route's depot (never null)
+     */
     public Location depot() {
         return depot;
     }
 
+    /**
+     * List of vehicle's visits (not including the depot).
+     * @return list of visits
+     */
     public List<Location> visits() {
         return Collections.unmodifiableList(visits);
     }
