@@ -16,7 +16,10 @@
 
 package org.optaweb.vehiclerouting.domain;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Vehicle's itinerary including detailed geographical description of the route.
@@ -25,12 +28,25 @@ public class RouteWithTrack extends Route {
 
     private final List<List<LatLng>> track;
 
-    public RouteWithTrack(Route route, List<List<LatLng>> paths) {
+    /**
+     * Create a route with track. When route is empty (no visits), track must be empty too and vice-versa
+     * (non-empty route must have a non-empty track).
+     * @param route vehicle route (not null)
+     * @param track track going through all visits (not null)
+     */
+    public RouteWithTrack(Route route, List<List<LatLng>> track) {
         super(route.depot(), route.visits());
-        this.track = paths;
+        this.track = new ArrayList<>(Objects.requireNonNull(track));
+        if (route.visits().isEmpty() && !track.isEmpty() || !route.visits().isEmpty() && track.isEmpty()) {
+            throw new IllegalArgumentException("Route and track must be either both empty or both non-empty");
+        }
     }
 
+    /**
+     * Vehicle's track that goes from vehicle's depot through all visits and returns to the depot.
+     * @return vehicles track (not null)
+     */
     public List<List<LatLng>> track() {
-        return track;
+        return Collections.unmodifiableList(track);
     }
 }

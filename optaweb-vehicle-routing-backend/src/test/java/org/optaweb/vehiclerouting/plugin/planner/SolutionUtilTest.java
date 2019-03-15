@@ -29,6 +29,7 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class SolutionUtilTest {
 
@@ -120,5 +121,13 @@ public class SolutionUtilTest {
             // visits should exclude depot
             assertThat(route.visits()).hasSize(1);
         }
+    }
+
+    @Test
+    public void vehicle_without_a_depot_is_illegal() {
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
+        SolutionUtil.addVehicle(solution, 1);
+        assertThatThrownBy(() -> SolutionUtil.routes(solution)).isInstanceOf(IllegalStateException.class);
     }
 }

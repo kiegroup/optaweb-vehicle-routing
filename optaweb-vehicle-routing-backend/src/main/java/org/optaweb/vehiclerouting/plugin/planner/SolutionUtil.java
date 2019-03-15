@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.plugin.planner;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
@@ -86,17 +87,20 @@ public class SolutionUtil {
     }
 
     /**
-     * Extract routes from the solution.
+     * Extract routes from the solution. Includes empty routes of vehicles that stay in the depot.
      * @param solution solution
      * @return one route per vehicle
      */
     static List<Route> routes(VehicleRoutingSolution solution) {
         // TODO include unconnected customers in the result
+        if (solution.getDepotList().isEmpty()) {
+            return Collections.emptyList();
+        }
         ArrayList<Route> routes = new ArrayList<>();
         for (Vehicle vehicle : solution.getVehicleList()) {
             Depot depot = vehicle.getDepot();
             if (depot == null) {
-                break;
+                throw new IllegalStateException("Vehicle (id=" + vehicle.getId() + ") is not in the depot. That's not allowed");
             }
             List<org.optaweb.vehiclerouting.domain.Location> visits = new ArrayList<>();
             for (Customer customer = vehicle.getNextCustomer(); customer != null; customer = customer.getNextCustomer()) {
