@@ -57,8 +57,10 @@ public class RoutingConfig {
         String osmPath = OSM_DIR + routingProperties.getOsmFile();
         logger.info("OSM file: {}", osmPath);
         if (!new File(osmPath).exists()) {
-            throw new IllegalStateException("The osmPath (" + new File(osmPath).getAbsolutePath() + ") does not exist.\n" +
-                    "Download the osm file from http://download.geofabrik.de/ first.");
+            throw new IllegalStateException(
+                    "The osmPath (" + new File(osmPath).getAbsolutePath() + ") does not exist.\n"
+                            + "Download the osm file from http://download.geofabrik.de/ first."
+            );
         }
         graphHopper.setOSMFile(osmPath);
         graphHopper.setGraphHopperLocation(GH_DIR + osmPath.replaceFirst(".*/(.*)\\.osm\\.pbf$", "$1"));

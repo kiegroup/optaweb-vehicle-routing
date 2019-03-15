@@ -61,9 +61,11 @@ public class DistanceMap implements Map<RoadLocation, Double> {
     @Override
     public Double get(Object key) {
         if (!containsKey(key)) {
-            throw new IllegalArgumentException("Distance from " + location + " to " + key
-                    + " hasn't been recorded.\n"
-                    + "We only know distances to " + distanceMap.keySet());
+            throw new IllegalArgumentException(
+                    "Distance from " + location
+                            + " to " + key
+                            + " hasn't been recorded.\n"
+                            + "We only know distances to " + distanceMap.keySet());
         }
         return distanceMap.get(((RoadLocation) key).getId());
     }

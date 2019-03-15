@@ -99,8 +99,10 @@ public class LocationRepositoryIntegrationTest {
         LocationEntity testEntity = crudRepository
                 .findById((long) locationCount)
                 .orElseThrow(IllegalStateException::new);
-        Location testLocation = new Location(testEntity.getId(),
-                new LatLng(testEntity.getLatitude(), testEntity.getLongitude()));
+        Location testLocation = new Location(
+                testEntity.getId(),
+                new LatLng(testEntity.getLatitude(), testEntity.getLongitude())
+        );
 
         assertThat(repository.locations())
                 .hasSize(locationCount)

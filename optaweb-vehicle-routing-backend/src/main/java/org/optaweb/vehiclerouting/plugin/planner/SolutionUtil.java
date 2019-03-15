@@ -124,7 +124,8 @@ public class SolutionUtil {
      * @return planning location
      */
     static RoadLocation planningLocation(org.optaweb.vehiclerouting.domain.Location location) {
-        return new RoadLocation(location.getId(),
+        return new RoadLocation(
+                location.getId(),
                 location.getLatLng().getLatitude().doubleValue(),
                 location.getLatLng().getLongitude().doubleValue()
         );

@@ -70,15 +70,13 @@ public class RouteOptimizerImpl implements RouteOptimizer,
 
     private void publishRoute(VehicleRoutingSolution solution) {
         List<Route> routes = SolutionUtil.routes(solution);
-        logger.debug("New solution with\n"
-                        + "  customers: {}\n"
-                        + "  depots:    {}\n"
-                        + "  vehicles:  {}\n"
-                        + "Routes: {}",
-                solution.getCustomerList().size(),
+        logger.debug(
+                "New solution with {} depots, {} vehicles, {} customers\nRoutes: {}",
                 solution.getDepotList().size(),
                 solution.getVehicleList().size(),
-                routes);
+                solution.getCustomerList().size(),
+                routes
+        );
         String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
         publisher.publishEvent(new RouteChangedEvent(this, distanceString, SolutionUtil.depot(solution), routes));
     }
@@ -163,8 +161,10 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                     startSolver();
                     break;
                 default:
-                    throw new IllegalStateException("Illegal number of locations when solver is not solving: "
-                            + solution.getLocationList().size());
+                    throw new IllegalStateException(
+                            "Illegal number of locations when solver is not solving: "
+                                    + solution.getLocationList().size()
+                    );
             }
         } else {
             solver.addProblemFactChange(new AddCustomer(location));
@@ -176,8 +176,11 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         Location location = SolutionUtil.planningLocation(domainLocation);
         if (!isSolving()) {
             if (solution.getLocationList().size() != 1) {
-                throw new IllegalStateException("Impossible number of locations (" + solution.getLocationList().size()
-                        + ") when solver is not solving.\n" + solution.getLocationList());
+                throw new IllegalStateException(
+                        "Impossible number of locations (" + solution.getLocationList().size()
+                                + ") when solver is not solving.\n"
+                                + solution.getLocationList()
+                );
             }
             solution.getLocationList().clear();
             solution.getDepotList().clear();
