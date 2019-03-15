@@ -29,6 +29,9 @@ import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Route;
 
+/**
+ * Provides common operations on solution that are not part of its API.
+ */
 public class SolutionUtil {
 
     public static final int DEFAULT_CUSTOMER_DEMAND = 1;
@@ -66,6 +69,11 @@ public class SolutionUtil {
         return solution;
     }
 
+    /**
+     * Add vehicle with zero capacity.
+     * @param solution solution
+     * @param id vehicle id
+     */
     static void addVehicle(VehicleRoutingSolution solution, long id) {
         addVehicle(solution, id, 0);
     }
@@ -77,6 +85,11 @@ public class SolutionUtil {
         solution.getVehicleList().add(vehicle);
     }
 
+    /**
+     * Extract routes from the solution.
+     * @param solution solution
+     * @return one route per vehicle
+     */
     static List<Route> routes(VehicleRoutingSolution solution) {
         // TODO include unconnected customers in the result
         ArrayList<Route> routes = new ArrayList<>();
@@ -101,6 +114,11 @@ public class SolutionUtil {
         );
     }
 
+    /**
+     * Translate domain location to a planning location.
+     * @param location domain location
+     * @return planning location
+     */
     static RoadLocation planningLocation(org.optaweb.vehiclerouting.domain.Location location) {
         return new RoadLocation(location.getId(),
                 location.getLatLng().getLatitude().doubleValue(),
@@ -121,6 +139,12 @@ public class SolutionUtil {
         return solution.getDepotList().size() > 0 ? domainLocation(solution.getDepotList().get(0).getLocation()) : null;
     }
 
+    /**
+     * Add depot.
+     * @param solution solution
+     * @param location depot's location
+     * @return the new depot
+     */
     static Depot addDepot(VehicleRoutingSolution solution, Location location) {
         Depot depot = new Depot();
         depot.setId(location.getId());
@@ -130,10 +154,23 @@ public class SolutionUtil {
         return depot;
     }
 
+    /**
+     * Add customer with zero demand.
+     * @param solution solution
+     * @param location customer's location
+     * @return the new customer
+     */
     static Customer addCustomer(VehicleRoutingSolution solution, Location location) {
         return addCustomer(solution, location, 0);
     }
 
+    /**
+     * Add customer with demand.
+     * @param solution solution
+     * @param location customer's location
+     * @param demand customer's demand
+     * @return the new customer
+     */
     static Customer addCustomer(VehicleRoutingSolution solution, Location location, int demand) {
         Customer customer = new Customer();
         customer.setId(location.getId());
@@ -144,6 +181,11 @@ public class SolutionUtil {
         return customer;
     }
 
+    /**
+     * Move all vehicles to the specified depot.
+     * @param solution solution
+     * @param depot new vehicles' depot. May be null.
+     */
     static void moveAllVehiclesTo(VehicleRoutingSolution solution, Depot depot) {
         solution.getVehicleList().forEach(vehicle -> vehicle.setDepot(depot));
     }
