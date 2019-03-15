@@ -129,10 +129,14 @@ public class RouteOptimizerImpl implements RouteOptimizer,
 
     @Override
     public void bestSolutionChanged(BestSolutionChangedEvent<VehicleRoutingSolution> bestSolutionChangedEvent) {
+        // CAUTION! This runs on the solver thread. Implications:
+        // 1. The method should be as quick as possible to avoid blocking solver unnecessarily.
+        // 2. This place is a potential source of race conditions.
         if (!bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()) {
             logger.info("Ignoring a new best solution that has some problem facts missing");
             return;
         }
+        // TODO do not store best solution, just publish it
         solution = bestSolutionChangedEvent.getNewBestSolution();
         // TODO Race condition, if a servlet thread deletes that location in the middle of this method happening
         //      on the solver thread. Make sure that location is still in the repository.
