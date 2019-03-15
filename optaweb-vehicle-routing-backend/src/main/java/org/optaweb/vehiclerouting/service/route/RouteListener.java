@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
+import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 

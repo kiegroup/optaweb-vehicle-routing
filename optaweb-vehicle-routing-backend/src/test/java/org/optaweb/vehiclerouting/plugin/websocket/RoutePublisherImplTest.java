@@ -30,7 +30,7 @@ import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
-import org.optaweb.vehiclerouting.service.route.RoutingPlan;
+import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import static org.assertj.core.api.Assertions.assertThat;

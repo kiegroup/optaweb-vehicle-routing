@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.route;
+package org.optaweb.vehiclerouting.domain;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 
 /**
  * Route plan for the whole vehicle fleet.

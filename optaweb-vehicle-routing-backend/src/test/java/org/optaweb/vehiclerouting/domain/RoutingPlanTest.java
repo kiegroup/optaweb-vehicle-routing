@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.route;
+package org.optaweb.vehiclerouting.domain;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.Test;
-import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.domain.Route;
-import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
