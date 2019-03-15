@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.domain;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,7 +31,18 @@ public class Route {
 
     public Route(Location depot, List<Location> visits) {
         this.depot = Objects.requireNonNull(depot);
-        this.visits = new ArrayList<>(visits);
+        this.visits = new ArrayList<>(Objects.requireNonNull(visits));
+        // TODO Probably remove this check when we have more types: new Route(Depot depot, List<Visit> visits).
+        //      Then visits obviously cannot contain the depot. But will we still require that no visit has the same
+        //      location as the depot? (I don't think so).
+        if (visits.contains(depot)) {
+            throw new IllegalArgumentException("Depot (" + depot + ") must not be one of the visits (" + visits + ")");
+        }
+        long uniqueVisits = visits.stream().distinct().count();
+        if (uniqueVisits < visits.size()) {
+            long duplicates = visits.size() - uniqueVisits;
+            throw new IllegalArgumentException("Some customer have been visited multiple times (" + duplicates + ")");
+        }
     }
 
     public Location depot() {
@@ -38,6 +50,6 @@ public class Route {
     }
 
     public List<Location> visits() {
-        return visits;
+        return Collections.unmodifiableList(visits);
     }
 }
