@@ -69,15 +69,16 @@ public class RouteOptimizerImpl implements RouteOptimizer,
     }
 
     private void publishRoute(VehicleRoutingSolution solution) {
-        List<Route> routes = SolutionUtil.routes(solution);
-        logger.debug(
-                "New solution with {} depots, {} vehicles, {} customers\nRoutes: {}",
+        String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
+        logger.info(
+                "New solution with {} depots, {} vehicles, {} customers, distance: {}",
                 solution.getDepotList().size(),
                 solution.getVehicleList().size(),
                 solution.getCustomerList().size(),
-                routes
+                distanceString
         );
-        String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
+        List<Route> routes = SolutionUtil.routes(solution);
+        logger.debug("Routes: {}", routes);
         publisher.publishEvent(new RouteChangedEvent(this, distanceString, SolutionUtil.depot(solution), routes));
     }
 
