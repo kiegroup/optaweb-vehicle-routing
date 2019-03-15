@@ -54,6 +54,7 @@ public class RouteListenerTest {
     public void new_listener_should_return_empty_best_route() {
         RoutingPlan bestRoutingPlan = routeListener.getBestRoutingPlan();
         assertThat(bestRoutingPlan.distance()).isEqualTo("0");
+        assertThat(bestRoutingPlan.depot()).isEmpty();
         assertThat(bestRoutingPlan.routes()).isEmpty();
     }
 
@@ -65,7 +66,7 @@ public class RouteListenerTest {
         verify(publisher).publish(routeArgumentCaptor.capture());
 
         RoutingPlan routingPlan = routeArgumentCaptor.getValue();
-        assertThat(routingPlan.depot()).isNotPresent();
+        assertThat(routingPlan.depot()).isEmpty();
         assertThat(routingPlan.routes()).isEmpty();
     }
 
