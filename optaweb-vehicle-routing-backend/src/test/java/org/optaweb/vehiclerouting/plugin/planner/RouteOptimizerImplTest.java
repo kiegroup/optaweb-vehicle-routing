@@ -129,7 +129,7 @@ public class RouteOptimizerImplTest {
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
 
-        assertThat(event.depot()).isEqualTo(location1);
+        assertThat(event.depot()).contains(location1);
         assertThat(event.routes()).isNotEmpty();
         for (Route route : event.routes()) {
             assertThat(route.depot()).isEqualTo(location1);
@@ -145,7 +145,7 @@ public class RouteOptimizerImplTest {
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
 
         assertThat(solver.isSolving()).isFalse();
-        assertThat(event.depot()).isEqualTo(location1);
+        assertThat(event.depot()).contains(location1);
         assertThat(event.routes()).hasSameSizeAs(SolutionUtil.initialSolution().getVehicleList());
         for (Route route : event.routes()) {
             assertThat(route.depot()).isEqualTo(location1);
@@ -246,7 +246,7 @@ public class RouteOptimizerImplTest {
 
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
-        assertThat(event.depot()).isNull();
+        assertThat(event.depot()).isEmpty();
         assertThat(event.routes()).isEmpty();
     }
 

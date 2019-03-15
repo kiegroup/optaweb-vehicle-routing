@@ -51,7 +51,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
         List<RouteWithTrack> routes = event.routes().stream()
                 .map(route -> new RouteWithTrack(route, track(route.depot(), route.visits())))
                 .collect(Collectors.toList());
-        bestRoutingPlan = new RoutingPlan(event.distance(), event.depot(), routes);
+        bestRoutingPlan = new RoutingPlan(event.distance(), event.depot().orElse(null), routes);
         publisher.publish(bestRoutingPlan);
     }
 

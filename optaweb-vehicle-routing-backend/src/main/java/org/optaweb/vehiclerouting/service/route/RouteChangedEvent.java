@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.service.route;
 
 import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
@@ -57,9 +58,9 @@ public class RouteChangedEvent extends ApplicationEvent {
 
     /**
      * The depot location.
-     * @return depot location. May be null if there are no locations.
+     * @return depot location
      */
-    public Location depot() {
-        return depot;
+    public Optional<Location> depot() {
+        return Optional.ofNullable(depot);
     }
 }

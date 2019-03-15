@@ -48,6 +48,6 @@ public class RoutingPlan {
     }
 
     public Optional<Location> depot() {
-        return depot == null ? Optional.empty() : Optional.of(depot);
+        return Optional.ofNullable(depot);
     }
 }
