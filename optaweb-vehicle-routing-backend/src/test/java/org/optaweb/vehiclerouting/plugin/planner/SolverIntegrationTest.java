@@ -79,7 +79,7 @@ public class SolverIntegrationTest {
         executor.awaitTermination(1, TimeUnit.SECONDS);
     }
 
-    @Ignore
+    @Ignore("Solver fails fast on empty value ranges") // TODO file an OptaPlanner ticket for empty value ranges
     @Test
     public void solver_in_daemon_mode_should_not_fail_on_empty_solution() {
         sf.getSolverConfig().setDaemon(true);
