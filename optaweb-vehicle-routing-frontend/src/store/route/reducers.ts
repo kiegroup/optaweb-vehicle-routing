@@ -29,13 +29,6 @@ export default function routeReducer(
     case ActionType.UPDATE_ROUTING_PLAN: {
       return action.plan;
     }
-    case ActionType.DELETE_LOCATION: {
-      // FIXME assuming there's only 1 vehicle
-      if (state.routes.length === 1 && state.routes[0].visits.length === 1) {
-        return { ...initialRouteState };
-      }
-      return state;
-    }
     default:
       return state;
   }
