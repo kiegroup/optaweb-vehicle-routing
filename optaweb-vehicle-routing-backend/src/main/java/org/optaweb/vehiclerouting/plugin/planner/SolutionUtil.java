@@ -75,15 +75,16 @@ public class SolutionUtil {
      * @param solution solution
      * @param id vehicle id
      */
-    static void addVehicle(VehicleRoutingSolution solution, long id) {
-        addVehicle(solution, id, 0);
+    static Vehicle addVehicle(VehicleRoutingSolution solution, long id) {
+        return addVehicle(solution, id, 0);
     }
 
-    private static void addVehicle(VehicleRoutingSolution solution, long id, int capacity) {
+    private static Vehicle addVehicle(VehicleRoutingSolution solution, long id, int capacity) {
         Vehicle vehicle = new Vehicle();
         vehicle.setId(id);
         vehicle.setCapacity(capacity);
         solution.getVehicleList().add(vehicle);
+        return vehicle;
     }
 
     /**
@@ -104,6 +105,9 @@ public class SolutionUtil {
             }
             List<org.optaweb.vehiclerouting.domain.Location> visits = new ArrayList<>();
             for (Customer customer = vehicle.getNextCustomer(); customer != null; customer = customer.getNextCustomer()) {
+                if (!solution.getCustomerList().contains(customer)) {
+                    throw new IllegalStateException("Customer (" + customer + ") doesn't exist");
+                }
                 addLocationToRoute(visits, customer.getLocation());
             }
             routes.add(new Route(domainLocation(depot.getLocation()), visits));

@@ -130,4 +130,17 @@ public class SolutionUtilTest {
         SolutionUtil.addVehicle(solution, 1);
         assertThatThrownBy(() -> SolutionUtil.routes(solution)).isInstanceOf(IllegalStateException.class);
     }
+
+    @Test
+    public void fail_fast_if_vehicles_next_customer_doesnt_exist() {
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        Depot depot = SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
+        Vehicle vehicle = SolutionUtil.addVehicle(solution, 1);
+        SolutionUtil.moveAllVehiclesTo(solution, depot);
+        Customer customer = SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
+        vehicle.setNextCustomer(customer);
+        solution.getCustomerList().clear();
+        solution.getLocationList().clear();
+        assertThatThrownBy(() -> SolutionUtil.routes(solution)).isInstanceOf(IllegalStateException.class);
+    }
 }
