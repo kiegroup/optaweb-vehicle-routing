@@ -196,7 +196,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 stopSolver();
                 solution.getCustomerList().clear();
                 solution.getLocationList().removeIf(l -> l.getId().equals(location.getId()));
-                solution.getVehicleList().get(0).setNextCustomer(null);
+                solution.getVehicleList().forEach(vehicle -> vehicle.setNextCustomer(null));
                 publishRoute(solution);
             } else {
                 solver.addProblemFactChanges(Arrays.asList(new RemoveCustomer(location), new RemoveLocation(location)));

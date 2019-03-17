@@ -189,6 +189,48 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
+    public void solution_update_event_should_only_have_empty_routes_when_last_visit_removed() {
+        // FIXME This test shouldn't be needed. This is a problem with bad encapsulation of the planning domain in
+        //   optaplanner-examples. Once we introduce our own planning domain with a better API, the test should be
+        //   replaced/simplified/removed.
+
+        // Prepare a solution with 1 depot, 2 vehicles, 1 customer and both vehicles visiting to that customer
+        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        Depot depot = SolutionUtil.addDepot(solution, planningLocation(location1));
+        SolutionUtil.addVehicle(solution, 1);
+        SolutionUtil.addVehicle(solution, 2);
+        SolutionUtil.moveAllVehiclesTo(solution, depot);
+        Customer customer = SolutionUtil.addCustomer(solution, planningLocation(location2));
+        solution.getVehicleList().forEach(vehicle -> vehicle.setNextCustomer(customer));
+        assertThat(SolutionUtil.routes(solution)).allMatch(route -> route.visits().size() == 1);
+
+        // Start solver by adding two locations
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        routeOptimizer.addLocation(location2, distanceMatrix);
+
+        // Pretend solver found a new best best solution
+        when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
+        when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
+        routeOptimizer.bestSolutionChanged(bestSolutionChangedEvent);
+
+        clearInvocations(eventPublisher);
+
+        routeOptimizer.removeLocation(location2);
+        assertThat(routeOptimizer.isSolving()).isFalse();
+
+        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
+        RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
+
+        // no customer -> all routes should be empty
+        assertThat(event.distance()).isEqualTo("0.00");
+        assertThat(event.depot()).isPresent();
+        assertThat(event.routes()).hasSameSizeAs(solution.getVehicleList());
+        for (Route route : event.routes()) {
+            assertThat(route.visits()).isEmpty();
+        }
+    }
+
+    @Test
     public void removing_depot_impossible_when_there_are_other_locations() {
         // add 2 locations
         routeOptimizer.addLocation(location1, distanceMatrix);
@@ -227,7 +269,7 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void clear_should_stop_solver_and_publish_empty_solution() throws ExecutionException, InterruptedException {
+    public void clear_should_stop_solver_and_publish_initial_solution() throws ExecutionException, InterruptedException {
         // set up a situation where solver is running with 1 depot and 2 visits
         VehicleRoutingSolution solution = createSolution(location1, location2, location3);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
@@ -255,6 +297,12 @@ public class RouteOptimizerImplTest {
         routeOptimizer.clear();
     }
 
+    /**
+     * Create a solution with 1 vehicle with depot being the first location and visiting all customers specified by
+     * the rest of locations.
+     * @param domainLocations depot and customer locations
+     * @return initialized solution
+     */
     private static VehicleRoutingSolution createSolution(Location... domainLocations) {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         Depot depot = SolutionUtil.addDepot(solution, planningLocation(domainLocations[0]));
