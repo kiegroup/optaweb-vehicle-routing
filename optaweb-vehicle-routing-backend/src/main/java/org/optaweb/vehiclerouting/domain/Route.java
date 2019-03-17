@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Vehicle's itinerary (sequence of visits) and depot.
@@ -64,5 +65,13 @@ public class Route {
      */
     public List<Location> visits() {
         return Collections.unmodifiableList(visits);
+    }
+
+    @Override
+    public String toString() {
+        return "Route{" +
+                "depot=" + depot.getId() +
+                ", visits=" + visits.stream().map(Location::getId).collect(Collectors.toList()) +
+                '}';
     }
 }
