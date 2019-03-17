@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
@@ -197,6 +198,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 solution.getCustomerList().clear();
                 solution.getLocationList().removeIf(l -> l.getId().equals(location.getId()));
                 solution.getVehicleList().forEach(vehicle -> vehicle.setNextCustomer(null));
+                solution.setScore(HardSoftLongScore.ZERO);
                 publishRoute(solution);
             } else {
                 solver.addProblemFactChanges(Arrays.asList(new RemoveCustomer(location), new RemoveLocation(location)));

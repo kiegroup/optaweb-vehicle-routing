@@ -30,6 +30,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Answer1;
 import org.mockito.stubbing.VoidAnswer1;
+import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
@@ -203,6 +204,7 @@ public class RouteOptimizerImplTest {
         Customer customer = SolutionUtil.addCustomer(solution, planningLocation(location2));
         solution.getVehicleList().forEach(vehicle -> vehicle.setNextCustomer(customer));
         assertThat(SolutionUtil.routes(solution)).allMatch(route -> route.visits().size() == 1);
+        solution.setScore(HardSoftLongScore.ofSoft(-1000)); // set non-zero travel distance
 
         // Start solver by adding two locations
         routeOptimizer.addLocation(location1, distanceMatrix);
@@ -222,7 +224,7 @@ public class RouteOptimizerImplTest {
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
 
         // no customer -> all routes should be empty
-        assertThat(event.distance()).isEqualTo("0.00");
+        assertThat(event.distance()).isEqualTo("0.00"); // expect zero travel distance
         assertThat(event.depot()).isPresent();
         assertThat(event.routes()).hasSameSizeAs(solution.getVehicleList());
         for (Route route : event.routes()) {
