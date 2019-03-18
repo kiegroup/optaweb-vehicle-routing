@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Button, Card, CardBody, CardHeader, DataList } from '@patternfly/react-core';
+import { Bullseye, DataList } from '@patternfly/react-core';
 import * as React from 'react';
 import { ILocation } from 'store/route/types';
 import Location from './Location';
@@ -22,31 +22,15 @@ import Location from './Location';
 export interface ILocationListProps {
   removeHandler: (id: number) => void;
   selectHandler: (id: number) => void;
-  loadHandler: () => void;
-  clearHandler: () => void;
   depot: ILocation | null;
   visits: ILocation[];
-  isDemoLoading: boolean;
 }
 
-const renderEmptyLocationList: React.FC<ILocationListProps> = ({
-  loadHandler,
-  isDemoLoading,
-}) => {
+const renderEmptyLocationList: React.FC<ILocationListProps> = () => {
   return (
-    <Card>
-      <CardHeader>Click map to add locations</CardHeader>
-      <CardBody>
-        <Button
-          type="button"
-          isDisabled={isDemoLoading}
-          style={{ width: '100%' }}
-          onClick={loadHandler}
-        >
-          Load demo
-        </Button>
-      </CardBody>
-    </Card>
+    <DataList aria-label="empty location list">
+      <Bullseye>No locations</Bullseye>
+    </DataList>
   );
 };
 

@@ -18,7 +18,6 @@ import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from 'store/configStore';
-import { demoOperations } from 'store/demo';
 import { routeOperations, routeSelectors } from 'store/route';
 import { ILocation } from 'store/route/types';
 import LocationList from 'ui/components/LocationList';
@@ -26,26 +25,20 @@ import LocationList from 'ui/components/LocationList';
 interface IStateProps {
   depot: ILocation | null;
   visits: ILocation[];
-  isDemoLoading: boolean;
 }
 
-const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
+const mapStateToProps = ({ plan }: IAppState): IStateProps => ({
   depot: plan.depot,
-  isDemoLoading: demo.isLoading,
   visits: routeSelectors.getVisits(plan),
 });
 
 export interface IDispatchProps {
   removeHandler: typeof routeOperations.deleteLocation;
-  loadHandler: typeof demoOperations.loadDemo;
-  clearHandler: typeof routeOperations.clearRoute;
   addHandler: typeof routeOperations.addLocation;
 }
 
 const mapDispatchToProps: IDispatchProps = {
   addHandler: routeOperations.addLocation,
-  clearHandler: routeOperations.clearRoute,
-  loadHandler: demoOperations.loadDemo,
   removeHandler: routeOperations.deleteLocation,
 };
 
@@ -62,9 +55,6 @@ class Visits extends React.Component<IProps> {
       depot,
       visits,
       removeHandler,
-      loadHandler,
-      clearHandler,
-      isDemoLoading,
     } = this.props;
     return (
       <>
@@ -72,15 +62,11 @@ class Visits extends React.Component<IProps> {
           <Text component={TextVariants.h1}>Visits ({visits.length})</Text>
         </TextContent>
         {/* TODO do not show depots */}
-        {/* TODO do not show load demo button */}
         <LocationList
           removeHandler={removeHandler}
           selectHandler={() => undefined}
-          loadHandler={loadHandler}
-          clearHandler={clearHandler}
           depot={depot}
           visits={visits}
-          isDemoLoading={isDemoLoading}
         />
       </>
     );

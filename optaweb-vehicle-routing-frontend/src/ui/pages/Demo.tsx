@@ -129,9 +129,6 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
             visits={visits}
             removeHandler={removeHandler}
             selectHandler={this.onSelectLocation}
-            loadHandler={loadHandler}
-            clearHandler={clearHandler}
-            isDemoLoading={isDemoLoading}
           />
         </SplitItem>
 

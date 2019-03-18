@@ -26,7 +26,6 @@ import {
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from 'store/configStore';
-import { demoOperations } from 'store/demo';
 import { routeOperations, routeSelectors } from 'store/route';
 import { ILatLng, ILocation, IRouteWithTrack } from 'store/route/types';
 import LocationList from 'ui/components/LocationList';
@@ -36,27 +35,21 @@ export interface IStateProps {
   depot: ILocation | null;
   visits: ILocation[];
   routes: IRouteWithTrack[];
-  isDemoLoading: boolean;
 }
 
 export interface IDispatchProps {
   removeHandler: typeof routeOperations.deleteLocation;
-  loadHandler: typeof demoOperations.loadDemo;
-  clearHandler: typeof routeOperations.clearRoute;
   addHandler: typeof routeOperations.addLocation;
 }
 
-const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
+const mapStateToProps = ({ plan }: IAppState): IStateProps => ({
   depot: plan.depot,
-  isDemoLoading: demo.isLoading,
   routes: plan.routes,
   visits: routeSelectors.getVisits(plan),
 });
 
 const mapDispatchToProps: IDispatchProps = {
   addHandler: routeOperations.addLocation,
-  clearHandler: routeOperations.clearRoute,
-  loadHandler: demoOperations.loadDemo,
   removeHandler: routeOperations.deleteLocation,
 };
 
@@ -99,9 +92,6 @@ class Route extends React.Component<IRouteProps, IRouteState> {
       visits,
       routes,
       removeHandler,
-      loadHandler,
-      clearHandler,
-      isDemoLoading,
     } = this.props;
     return (
       <>
@@ -138,9 +128,6 @@ class Route extends React.Component<IRouteProps, IRouteState> {
                 visits={visits}
                 removeHandler={removeHandler}
                 selectHandler={this.onSelectLocation}
-                loadHandler={loadHandler}
-                clearHandler={clearHandler}
-                isDemoLoading={isDemoLoading}
               />
             </div>
           </SplitItem>

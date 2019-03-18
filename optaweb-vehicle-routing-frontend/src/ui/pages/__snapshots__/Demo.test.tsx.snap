@@ -36,7 +36,6 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
       searchDelay={500}
     />
     <LocationList
-      clearHandler={[MockFunction]}
       depot={
         Object {
           "id": 1,
@@ -44,8 +43,6 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
           "lng": 1.345678,
         }
       }
-      isDemoLoading={true}
-      loadHandler={[MockFunction]}
       removeHandler={[MockFunction]}
       selectHandler={[Function]}
       visits={
@@ -243,7 +240,6 @@ exports[`Demo page should render correctly with a few routes 1`] = `
       searchDelay={500}
     />
     <LocationList
-      clearHandler={[MockFunction]}
       depot={
         Object {
           "id": 1,
@@ -251,8 +247,6 @@ exports[`Demo page should render correctly with a few routes 1`] = `
           "lng": 1.345678,
         }
       }
-      isDemoLoading={false}
-      loadHandler={[MockFunction]}
       removeHandler={[MockFunction]}
       selectHandler={[Function]}
       visits={
@@ -450,10 +444,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
       searchDelay={500}
     />
     <LocationList
-      clearHandler={[MockFunction]}
       depot={null}
-      isDemoLoading={false}
-      loadHandler={[MockFunction]}
       removeHandler={[MockFunction]}
       selectHandler={[Function]}
       visits={Array []}

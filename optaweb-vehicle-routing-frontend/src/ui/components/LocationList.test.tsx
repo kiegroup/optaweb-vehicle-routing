@@ -23,34 +23,23 @@ import LocationList, { ILocationListProps } from './LocationList';
 describe('Location List Component', () => {
   it('should render correctly with no routes', () => {
     const props: ILocationListProps = {
-      clearHandler: jest.fn(),
-      isDemoLoading: false,
-      loadHandler: jest.fn(),
       removeHandler: jest.fn(),
       selectHandler: jest.fn(),
 
       depot: null,
       visits: [],
     };
-    expect.assertions(2);
     const locationList = shallow(<LocationList {...props} />);
     expect(toJson(locationList)).toMatchSnapshot();
-
-    locationList.find('Button').simulate('click');
-
-    expect(props.loadHandler).toHaveBeenCalledTimes(1);
   });
 
   it('should render correctly with a few routes', () => {
     const props: ILocationListProps = {
-      clearHandler: jest.fn(),
       depot: {
         id: 1,
         lat: 1.345678,
         lng: 1.345678,
       },
-      isDemoLoading: false,
-      loadHandler: jest.fn(),
       removeHandler: jest.fn(),
       selectHandler: jest.fn(),
       visits: [
