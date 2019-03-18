@@ -18,6 +18,7 @@ import { ActionCreator } from 'redux';
 import { demoOperations } from '../demo';
 import { IDemoLoadingFinishedAction } from '../demo/types';
 import { routeOperations } from '../route';
+import { getVisits } from '../route/selectors';
 import { IUpdateRouteAction } from '../route/types';
 import { ThunkCommand } from '../types';
 import * as actions from './actions';
@@ -40,7 +41,7 @@ export const connectClient: ConnectClientThunk = () => (dispatch, state, client)
       client.subscribe((plan) => {
         dispatch(routeOperations.updateRoute(plan));
         // TODO use plan.visits.length
-        if (state().demo.isLoading && plan.routes[0].visits.length === state().demo.demoSize) {
+        if (state().demo.isLoading && getVisits(plan).length + 1 === state().demo.demoSize) {
           dispatch(demoOperations.demoLoaded());
         }
       });

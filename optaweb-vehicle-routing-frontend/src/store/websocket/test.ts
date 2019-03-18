@@ -19,6 +19,7 @@ import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import WebSocketClient from 'websocket/WebSocketClient';
 import { IAppState } from '../configStore';
+import { demoOperations } from '../demo';
 import { routeOperations } from '../route';
 import { IRoutingPlan, IUpdateRouteAction } from '../route/types';
 import * as actions from './actions';
@@ -40,7 +41,7 @@ describe('WebSocket client operations', () => {
         demoSize: 0,
         isLoading: false,
       },
-      plan,
+      plan: emptyPlan,
     };
 
     let errorCallbackCapture: (err: any) => void = uninitializedCallbackCapture;
@@ -97,8 +98,63 @@ describe('WebSocket client operations', () => {
     store.clearActions();
 
     // simulate response to subscription
-    subscribeCallbackCap(plan);
-    expect(store.getActions()).toEqual([routeOperations.updateRoute(plan)]);
+    subscribeCallbackCap(emptyPlan);
+    expect(store.getActions()).toEqual([routeOperations.updateRoute(emptyPlan)]);
+  });
+  it('should finish demo loading when all locations are loaded', () => {
+    const state: IAppState = {
+      connectionStatus: WebSocketConnectionStatus.CLOSED,
+      demo: {
+        demoSize: 6,
+        isLoading: true,
+      },
+      plan: emptyPlan,
+    };
+
+    let successCallbackCapture: () => void = uninitializedCallbackCapture;
+    let subscribeCallbackCap: (plan: IRoutingPlan) => void = uninitializedCallbackCapture;
+
+    const client = new WebSocketClient('');
+    // @ts-ignore
+    client.connect.mockImplementation((successCallback) => {
+      successCallbackCapture = successCallback;
+    });
+
+    // @ts-ignore
+    client.subscribe.mockImplementation((callback) => {
+      subscribeCallbackCap = callback;
+    });
+
+    // mock store
+    const middlewares: Middleware[] = [thunk.withExtraArgument(client)];
+    type DispatchExts = ThunkDispatch<IAppState, WebSocketClient,
+      WebSocketAction | IUpdateRouteAction>;
+    const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
+      createMockStore<IAppState, DispatchExts>(middlewares);
+    const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
+
+    // connect the client
+    store.dispatch(websocketOperations.connectClient());
+    expect(store.getActions()).toEqual([actions.initWsConnection()]);
+
+    // simulate successful client connection
+    successCallbackCapture();
+    expect(store.getActions()).toEqual([
+      actions.initWsConnection(),
+      actions.wsConnectionSuccess(),
+    ]);
+
+    expect(client.subscribe).toHaveBeenCalledTimes(1);
+
+    store.clearActions();
+
+    // simulate receiving plan with number of visits matching the expected demo size
+    subscribeCallbackCap(planWithTwoRoutes);
+    // DEMO_LOADED should be dispatched
+    expect(store.getActions()).toEqual([
+      routeOperations.updateRoute(planWithTwoRoutes),
+      demoOperations.demoLoaded(),
+    ]);
   });
 });
 
@@ -115,8 +171,56 @@ describe('WebSocket reducers', () => {
   });
 });
 
-const plan: IRoutingPlan = {
+const emptyPlan: IRoutingPlan = {
   depot: null,
   distance: '',
   routes: [],
+};
+
+const planWithTwoRoutes: IRoutingPlan = {
+  depot: {
+    id: 1,
+    lat: 1.345678,
+    lng: 1.345678,
+  },
+  distance: '1.0',
+  routes: [
+    {
+      visits: [
+        {
+          id: 2,
+          lat: 2.345678,
+          lng: 2.345678,
+        },
+        {
+          id: 3,
+          lat: 3.676111,
+          lng: 3.568333,
+        },
+      ],
+
+      track: [],
+    },
+    {
+      visits: [
+        {
+          id: 4,
+          lat: 1.345678,
+          lng: 1.345678,
+        },
+        {
+          id: 5,
+          lat: 2.345678,
+          lng: 2.345678,
+        },
+        {
+          id: 6,
+          lat: 3.676111,
+          lng: 3.568333,
+        },
+      ],
+
+      track: [],
+    },
+  ],
 };
