@@ -26,14 +26,13 @@ import {
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from 'store/configStore';
-import { routeOperations, routeSelectors } from 'store/route';
+import { routeOperations } from 'store/route';
 import { ILatLng, ILocation, IRouteWithTrack } from 'store/route/types';
 import LocationList from 'ui/components/LocationList';
 import TspMap from 'ui/components/TspMap';
 
 export interface IStateProps {
   depot: ILocation | null;
-  visits: ILocation[];
   routes: IRouteWithTrack[];
 }
 
@@ -45,7 +44,6 @@ export interface IDispatchProps {
 const mapStateToProps = ({ plan }: IAppState): IStateProps => ({
   depot: plan.depot,
   routes: plan.routes,
-  visits: routeSelectors.getVisits(plan),
 });
 
 const mapDispatchToProps: IDispatchProps = {
@@ -58,6 +56,7 @@ type IRouteProps = IDispatchProps & IStateProps;
 export interface IRouteState {
   center: ILatLng;
   selectedId: number;
+  selectedRouteId: number;
   zoom: number;
 }
 
@@ -71,6 +70,7 @@ class Route extends React.Component<IRouteProps, IRouteState> {
         lng: 4.35,
       },
       selectedId: NaN,
+      selectedRouteId: 0,
       zoom: 9,
     };
     this.onSelectLocation = this.onSelectLocation.bind(this);
@@ -86,13 +86,18 @@ class Route extends React.Component<IRouteProps, IRouteState> {
   }
 
   render() {
-    const { center, zoom, selectedId } = this.state;
+    const { center, zoom, selectedId, selectedRouteId } = this.state;
     const {
       depot,
-      visits,
       routes,
       removeHandler,
     } = this.props;
+
+    // FIXME quick hack to preserve route color by keeping its index
+    const filteredRoutes = routes.map((value, index) => {
+      return index === selectedRouteId ? value : { visits: [], track: [] };
+    });
+    const filteredVisits: ILocation[] = routes.length > 0 ? routes[selectedRouteId].visits : [];
     return (
       <>
         <TextContent>
@@ -101,18 +106,20 @@ class Route extends React.Component<IRouteProps, IRouteState> {
         <Split gutter="md">
           <SplitItem isMain={false}>
             <FormSelect
-              value={''}
-              // tslint:disable-next-line:no-console
-              onChange={e => console.log(e)}
+              isDisabled={routes.length === 0}
+              value={selectedRouteId}
+              onChange={(e) => {
+                this.setState({ selectedRouteId: parseInt(e as unknown as string, 10) });
+              }}
               aria-label="FormSelect Input"
             >
-              {[{ disabled: false, value: 'wip', label: 'Vehicle 4' }].map(
+              {routes.map(
                 (option, index) => (
                   <FormSelectOption
-                    isDisabled={option.disabled}
+                    isDisabled={false}
                     key={index}
-                    value={option.value}
-                    label={option.label}
+                    value={index}
+                    label={`Route ${index}`}
                   />
                 ),
               )}
@@ -125,7 +132,7 @@ class Route extends React.Component<IRouteProps, IRouteState> {
             >
               <LocationList
                 depot={depot}
-                visits={visits}
+                visits={filteredVisits}
                 removeHandler={removeHandler}
                 selectHandler={this.onSelectLocation}
               />
@@ -139,7 +146,7 @@ class Route extends React.Component<IRouteProps, IRouteState> {
               clickHandler={this.handleMapClick}
               removeHandler={removeHandler}
               depot={depot}
-              routes={routes}
+              routes={filteredRoutes}
             />
           </SplitItem>
         </Split>
