@@ -98,9 +98,7 @@ const TspMap: React.FC<ITspMapProps> = ({
       <ZoomControl position="topright" />
       {depot && marker(removeHandler, selectedId, depot, true)}
       {routes.map(route => (
-        route.visits
-          .filter(location => depot && location.id !== depot.id)
-          .map(location => marker(removeHandler, selectedId, location, false))
+        route.visits.map(location => marker(removeHandler, selectedId, location, false))
       ))}
       {routes.map((route, index) => (
         <Polyline
