@@ -451,6 +451,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
     />
     <LocationList
       clearHandler={[MockFunction]}
+      depot={null}
       isDemoLoading={false}
       loadHandler={[MockFunction]}
       removeHandler={[MockFunction]}
@@ -562,6 +563,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
         }
       }
       clickHandler={[Function]}
+      depot={null}
       removeHandler={[MockFunction]}
       routes={Array []}
       selectedId={NaN}

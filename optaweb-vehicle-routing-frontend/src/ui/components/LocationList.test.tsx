@@ -28,6 +28,8 @@ describe('Location List Component', () => {
       loadHandler: jest.fn(),
       removeHandler: jest.fn(),
       selectHandler: jest.fn(),
+
+      depot: null,
       visits: [],
     };
     expect.assertions(2);

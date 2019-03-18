@@ -116,6 +116,7 @@ describe('WebSocket reducers', () => {
 });
 
 const plan: IRoutingPlan = {
+  depot: null,
   distance: '',
   routes: [],
 };

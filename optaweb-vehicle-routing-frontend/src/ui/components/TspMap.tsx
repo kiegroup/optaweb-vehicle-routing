@@ -25,7 +25,7 @@ export interface ITspMapProps {
   selectedId: number;
   clickHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
   removeHandler: (id: number) => void;
-  depot?: ILocation;
+  depot: ILocation | null;
   routes: IRouteWithTrack[];
 }
 

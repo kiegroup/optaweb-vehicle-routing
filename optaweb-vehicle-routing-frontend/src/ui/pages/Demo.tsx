@@ -36,7 +36,7 @@ import TspMap from 'ui/components/TspMap';
 
 export interface IStateProps {
   distance: string;
-  depot?: ILocation;
+  depot: ILocation | null;
   visits: ILocation[];
   routes: IRouteWithTrack[];
   isDemoLoading: boolean;

@@ -103,6 +103,7 @@ const state: IAppState = {
     isLoading: false,
   },
   plan: {
+    depot: null,
     distance: '10',
     routes: [
       {

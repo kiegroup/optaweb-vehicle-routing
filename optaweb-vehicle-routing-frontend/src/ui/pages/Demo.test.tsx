@@ -59,6 +59,7 @@ const emptyRouteProps: IDemoProps = {
   loadHandler: jest.fn(),
   removeHandler: jest.fn(),
 
+  depot: null,
   distance: '0',
   routes: [],
   visits: [],

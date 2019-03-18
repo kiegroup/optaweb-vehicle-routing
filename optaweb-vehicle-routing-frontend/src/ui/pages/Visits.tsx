@@ -24,7 +24,7 @@ import { ILocation } from 'store/route/types';
 import LocationList from 'ui/components/LocationList';
 
 interface IStateProps {
-  depot?: ILocation;
+  depot: ILocation | null;
   visits: ILocation[];
   isDemoLoading: boolean;
 }

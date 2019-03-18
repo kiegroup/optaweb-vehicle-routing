@@ -24,7 +24,7 @@ export interface ILocationListProps {
   selectHandler: (id: number) => void;
   loadHandler: () => void;
   clearHandler: () => void;
-  depot?: ILocation;
+  depot: ILocation | null;
   visits: ILocation[];
   isDemoLoading: boolean;
 }
@@ -87,7 +87,7 @@ const renderLocationList: React.FC<ILocationListProps> = ({
 };
 
 const LocationList: React.FC<ILocationListProps> = (props) => {
-  return props.visits.length === 0 && props.depot === undefined
+  return props.visits.length === 0 && props.depot === null
     ? renderEmptyLocationList(props)
     : renderLocationList(props);
 };
