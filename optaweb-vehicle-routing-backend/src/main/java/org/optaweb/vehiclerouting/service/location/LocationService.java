@@ -49,12 +49,12 @@ public class LocationService {
         repository.locations().forEach(this::submitToPlanner);
     }
 
-    public synchronized void createLocation(LatLng latLng) {
+    public synchronized boolean createLocation(LatLng latLng) {
         // TODO if (router.isLocationAvailable(latLng))
-        submitToPlanner(repository.createLocation(latLng));
+        return submitToPlanner(repository.createLocation(latLng));
     }
 
-    private void submitToPlanner(Location location) {
+    private boolean submitToPlanner(Location location) {
         try {
             distanceMatrix.addLocation(location);
         } catch (Exception e) {
@@ -62,9 +62,10 @@ public class LocationService {
             logger.warn("Failed to calculate distances for {}, it will be discarded", location);
             logger.debug("Details:", e);
             repository.removeLocation(location.getId());
-            return; // do not proceed to optimizer
+            return false; // do not proceed to optimizer
         }
         optimizer.addLocation(location, distanceMatrix);
+        return true;
     }
 
     public synchronized void removeLocation(long id) {

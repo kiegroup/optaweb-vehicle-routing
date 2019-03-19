@@ -29,6 +29,7 @@ import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
@@ -66,7 +67,7 @@ public class LocationServiceTest {
 
     @Test
     public void createLocation() {
-        locationService.createLocation(latLng);
+        assertThat(locationService.createLocation(latLng)).isTrue();
         verify(repository).createLocation(latLng);
         verify(distanceMatrix).addLocation(location);
         verify(optimizer).addLocation(eq(location), any(DistanceMatrix.class));
@@ -99,7 +100,7 @@ public class LocationServiceTest {
     @Test
     public void should_not_optimize_and_roll_back_if_distance_calculation_fails() {
         doThrow(RuntimeException.class).when(distanceMatrix).addLocation(any());
-        locationService.createLocation(latLng);
+        assertThat(locationService.createLocation(latLng)).isFalse();
         verifyZeroInteractions(optimizer);
         // roll back
         verify(repository).removeLocation(location.getId());
