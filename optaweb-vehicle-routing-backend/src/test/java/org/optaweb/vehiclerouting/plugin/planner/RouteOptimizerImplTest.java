@@ -224,7 +224,7 @@ public class RouteOptimizerImplTest {
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
 
         // no customer -> all routes should be empty
-        assertThat(event.distance()).isEqualTo("0.00"); // expect zero travel distance
+        assertThat(event.distance()).isEqualTo("0h 0m 0s"); // expect zero travel distance
         assertThat(event.depot()).isPresent();
         assertThat(event.routes()).hasSameSizeAs(solution.getVehicleList());
         for (Route route : event.routes()) {

@@ -52,6 +52,7 @@ public class SolutionUtil {
         solution.setDepotList(new ArrayList<>());
         solution.setVehicleList(new ArrayList<>());
         solution.setScore(HardSoftLongScore.ZERO);
+        solution.setDistanceUnitOfMeasurement("sec");
         return solution;
     }
 

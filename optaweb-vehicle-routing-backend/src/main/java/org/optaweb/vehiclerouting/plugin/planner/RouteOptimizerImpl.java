@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -70,7 +69,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
     }
 
     private void publishRoute(VehicleRoutingSolution solution) {
-        String distanceString = solution.getDistanceString(new DecimalFormat("#,##0.00"));
+        String distanceString = solution.getDistanceString(null).replaceFirst(" \\d+ms$", "");
         logger.info(
                 "New solution with {} depots, {} vehicles, {} customers, distance: {}",
                 solution.getDepotList().size(),

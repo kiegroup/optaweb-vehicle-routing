@@ -56,7 +56,7 @@ public class RouterImpl implements Router,
     }
 
     @Override
-    public double getDistance(LatLng from, LatLng to) {
+    public long travelTimeMillis(LatLng from, LatLng to) {
         GHRequest ghRequest = new GHRequest(
                 from.getLatitude().doubleValue(),
                 from.getLongitude().doubleValue(),
@@ -67,6 +67,6 @@ public class RouterImpl implements Router,
         if (ghResponse.hasErrors()) {
             throw new RuntimeException("No route", ghResponse.getErrors().get(0));
         }
-        return ghResponse.getBest().getDistance();
+        return ghResponse.getBest().getTime();
     }
 }
