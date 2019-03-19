@@ -127,7 +127,7 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Distance: 10
+            Total travel time: 10
           </GridItem>
         </Grid>
       </SplitItem>
@@ -331,7 +331,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Distance: 10
+            Total travel time: 10
           </GridItem>
         </Grid>
       </SplitItem>
@@ -516,7 +516,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Distance: 0
+            Total travel time: 0
           </GridItem>
         </Grid>
       </SplitItem>

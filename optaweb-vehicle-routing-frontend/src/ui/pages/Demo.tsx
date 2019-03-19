@@ -140,7 +140,7 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
             <SplitItem isMain={true}>
               <Grid>
                 <GridItem span={6}>{`Visits: ${visits.length}`}</GridItem>
-                <GridItem span={6}>{`Distance: ${distance}`}</GridItem>
+                <GridItem span={6}>{`Total travel time: ${distance}`}</GridItem>
               </Grid>
             </SplitItem>
             <SplitItem isMain={false}>
