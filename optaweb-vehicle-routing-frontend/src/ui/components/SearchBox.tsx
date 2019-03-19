@@ -104,6 +104,7 @@ class SearchBox extends React.Component<IProps, IState> {
     return (
       <>
         <TextInput
+          style={{ marginBottom: 10 }}
           value={query}
           type="search"
           placeholder={'Search to add a location...'}

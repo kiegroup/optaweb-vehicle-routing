@@ -15,6 +15,7 @@
  */
 
 import {
+  Form,
   FormSelect,
   FormSelectOption,
   Split,
@@ -104,39 +105,38 @@ class Route extends React.Component<IRouteProps, IRouteState> {
           <Text component={TextVariants.h1}>Route</Text>
         </TextContent>
         <Split gutter="md">
-          <SplitItem isMain={false}>
-            <FormSelect
-              isDisabled={routes.length === 0}
-              value={selectedRouteId}
-              onChange={(e) => {
-                this.setState({ selectedRouteId: parseInt(e as unknown as string, 10) });
-              }}
-              aria-label="FormSelect Input"
-            >
-              {routes.map(
-                (option, index) => (
-                  <FormSelectOption
-                    isDisabled={false}
-                    key={index}
-                    value={index}
-                    label={`Route ${index}`}
-                  />
-                ),
-              )}
-            </FormSelect>
-            <div
-              style={{
-                maxHeight: 'calc(100vh - 228px)',
-                overflowY: 'auto',
-              }}
-            >
-              <LocationList
-                depot={depot}
-                visits={filteredVisits}
-                removeHandler={removeHandler}
-                selectHandler={this.onSelectLocation}
-              />
-            </div>
+          <SplitItem
+            isMain={false}
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
+            <Form>
+              <FormSelect
+                style={{ backgroundColor: 'white', marginBottom: 10 }}
+                isDisabled={routes.length === 0}
+                value={selectedRouteId}
+                onChange={(e) => {
+                  this.setState({ selectedRouteId: parseInt(e as unknown as string, 10) });
+                }}
+                aria-label="FormSelect Input"
+              >
+                {routes.map(
+                  (option, index) => (
+                    <FormSelectOption
+                      isDisabled={false}
+                      key={index}
+                      value={index}
+                      label={`Route ${index}`}
+                    />
+                  ),
+                )}
+              </FormSelect>
+            </Form>
+            <LocationList
+              depot={depot}
+              visits={filteredVisits}
+              removeHandler={removeHandler}
+              selectHandler={this.onSelectLocation}
+            />
           </SplitItem>
           <SplitItem isMain={true}>
             <TspMap

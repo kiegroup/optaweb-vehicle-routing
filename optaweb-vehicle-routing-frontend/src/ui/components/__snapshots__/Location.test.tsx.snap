@@ -15,8 +15,7 @@ exports[`Location Component should render correctly 1`] = `
     <span
       aria-labelledby="aria-10"
     >
-      Location 
-      10
+      Location 10
     </span>
   </DataListCell>
   <DataListCell

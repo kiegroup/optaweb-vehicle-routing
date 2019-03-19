@@ -39,7 +39,7 @@ const Location: React.FC<ILocationProps> = ({
       onMouseLeave={() => selectHandler(NaN)}
     >
       <DataListCell width={4}>
-        <span aria-labelledby={`aria-${id}`}>Location {id}</span>
+        <span aria-labelledby={`aria-${id}`}>{`Location ${id}`}</span>
       </DataListCell>
       <DataListCell width={1}>
         <Button
