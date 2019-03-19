@@ -67,7 +67,8 @@ public class DistanceMap implements Map<RoadLocation, Double> {
                             + " hasn't been recorded.\n"
                             + "We only know distances to " + distanceMap.keySet());
         }
-        return distanceMap.get(((RoadLocation) key).getId());
+        // convert millis to secs (required by optaplanner-examples' vehicle routing solution)
+        return distanceMap.get(((RoadLocation) key).getId()) / 1000;
     }
 
     @Override
