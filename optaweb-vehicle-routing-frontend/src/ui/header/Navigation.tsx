@@ -16,27 +16,29 @@
 
 import { Nav, NavItem, NavList, NavVariants } from '@patternfly/react-core';
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
+import { Link, withRouter } from 'react-router-dom';
 
-const Navigation: React.FC = () => {
+const Navigation = withRouter(({ location }: RouteComponentProps) => {
   return (
     <Nav aria-label="Nav">
       <NavList variant={NavVariants.horizontal}>
-        <NavItem itemId={'vehicles'}>
-          <Link to="/vehicles">Vehicles</Link>
-        </NavItem>
-        <NavItem itemId={'visits'}>
-          <Link to="/visits">Visits</Link>
-        </NavItem>
-        <NavItem itemId={'route'}>
-          <Link to="/route">Route</Link>
-        </NavItem>
-        <NavItem itemId={'demo'}>
-          <Link to="/demo">Demo</Link>
-        </NavItem>
+        {['Vehicles', 'Visits', 'Route', 'Demo'].map((label) => {
+          const itemId = label.toLowerCase();
+          const path = `/${itemId}`;
+          return (
+            <NavItem
+              key={itemId}
+              itemId={itemId}
+              isActive={location.pathname === path}
+            >
+              <Link to={path}>{label}</Link>
+            </NavItem>
+          );
+        })}
       </NavList>
     </Nav>
   );
-};
+});
 
 export default Navigation;
