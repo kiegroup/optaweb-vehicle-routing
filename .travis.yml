@@ -20,3 +20,4 @@ jobs:
       jdk: openjdk8
       before_install:
         - "cd optaweb-vehicle-routing-backend"
+      script: ./mvnw install -Pjacoco,sonar

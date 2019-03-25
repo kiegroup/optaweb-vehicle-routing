@@ -222,11 +222,6 @@
     </profile>
     <profile>
       <id>jacoco</id>
-      <activation>
-        <property>
-          <name>env.TRAVIS</name>
-        </property>
-      </activation>
       <dependencies>
         <dependency>
           <groupId>org.jacoco</groupId>
@@ -260,11 +255,6 @@
     </profile>
     <profile>
       <id>sonar</id>
-      <activation>
-        <property>
-          <name>env.TRAVIS</name>
-        </property>
-      </activation>
       <properties>
         <sonar.projectKey>kiegroup_optaweb-vehicle-routing</sonar.projectKey>
         <sonar.organization>kiegroup</sonar.organization>
