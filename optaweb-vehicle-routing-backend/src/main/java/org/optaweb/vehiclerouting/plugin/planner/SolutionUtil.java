@@ -57,7 +57,7 @@ public class SolutionUtil {
     }
 
     /**
-     * Create an initial solution with no locations and a single vehicle.
+     * Create an initial solution with no locations and some vehicles.
      * @return initial solution
      */
     static VehicleRoutingSolution initialSolution() {
@@ -75,6 +75,7 @@ public class SolutionUtil {
      * Add vehicle with zero capacity.
      * @param solution solution
      * @param id vehicle id
+     * @return the new vehicle
      */
     static Vehicle addVehicle(VehicleRoutingSolution solution, long id) {
         return addVehicle(solution, id, 0);
