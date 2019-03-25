@@ -1,7 +1,7 @@
 = OptaWeb Vehicle Routing
 
-image:https://travis-ci.org/kiegroup/optaweb-vehicle-routing.svg?branch=master[
-"Build Status", link="https://travis-ci.org/kiegroup/optaweb-vehicle-routing"]
+image:https://travis-ci.com/kiegroup/optaweb-vehicle-routing.svg?branch=master[
+"Build Status", link="https://travis-ci.com/kiegroup/optaweb-vehicle-routing"]
 
 Web application for solving the https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html[Vehicle Routing Problem]
 using https://www.optaplanner.org/[OptaPlanner].
