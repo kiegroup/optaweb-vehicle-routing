@@ -147,7 +147,7 @@ public class SolutionUtil {
      * @return first depot from the solution or null if there are no depots
      */
     static org.optaweb.vehiclerouting.domain.Location depot(VehicleRoutingSolution solution) {
-        return solution.getDepotList().size() > 0 ? domainLocation(solution.getDepotList().get(0).getLocation()) : null;
+        return solution.getDepotList().isEmpty() ? null : domainLocation(solution.getDepotList().get(0).getLocation());
     }
 
     /**

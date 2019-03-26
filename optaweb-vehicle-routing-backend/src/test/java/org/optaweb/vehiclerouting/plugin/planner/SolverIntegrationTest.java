@@ -83,7 +83,7 @@ public class SolverIntegrationTest {
     @Test
     public void solver_in_daemon_mode_should_not_fail_on_empty_solution() {
         sf.getSolverConfig().setDaemon(true);
-        sf.buildSolver().solve(SolutionUtil.emptySolution());
+        assertThat(sf.buildSolver().solve(SolutionUtil.emptySolution())).isNotNull();
     }
 
     @Test
