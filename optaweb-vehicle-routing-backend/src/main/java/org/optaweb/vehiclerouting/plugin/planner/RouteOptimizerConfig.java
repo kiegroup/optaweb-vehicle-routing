@@ -21,8 +21,8 @@ import java.time.Duration;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
-import org.optaplanner.examples.tsp.app.TspApp;
-import org.optaplanner.examples.tsp.domain.TspSolution;
+import org.optaplanner.examples.vehiclerouting.app.VehicleRoutingApp;
+import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,8 +43,8 @@ public class RouteOptimizerConfig {
     }
 
     @Bean
-    public Solver<TspSolution> solver() {
-        SolverFactory<TspSolution> sf = SolverFactory.createFromXmlResource(TspApp.SOLVER_CONFIG);
+    public Solver<VehicleRoutingSolution> solver() {
+        SolverFactory<VehicleRoutingSolution> sf = SolverFactory.createFromXmlResource(VehicleRoutingApp.SOLVER_CONFIG);
         Duration timeout = optimizerProperties.getTimeout();
         sf.getSolverConfig().setTerminationConfig(new TerminationConfig().withSecondsSpentLimit(timeout.getSeconds()));
         sf.getSolverConfig().setDaemon(true);

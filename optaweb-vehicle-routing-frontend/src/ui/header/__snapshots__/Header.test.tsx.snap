@@ -18,6 +18,6 @@ exports[`Header component should match snapshot 1`] = `
   onNavToggle={[Function]}
   showNavToggle={false}
   toolbar={<ToolbarComponent />}
-  topNav={<Navigation />}
+  topNav={<withRouter() />}
 />
 `;

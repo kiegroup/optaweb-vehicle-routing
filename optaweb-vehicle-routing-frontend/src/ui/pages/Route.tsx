@@ -15,6 +15,7 @@
  */
 
 import {
+  Form,
   FormSelect,
   FormSelectOption,
   Split,
@@ -26,35 +27,28 @@ import {
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from 'store/configStore';
-import { demoOperations } from 'store/demo';
-import { routeOperations, routeSelectors } from 'store/route';
-import { ILatLng, IRouteWithSegments } from 'store/route/types';
+import { routeOperations } from 'store/route';
+import { ILatLng, ILocation, IRouteWithTrack } from 'store/route/types';
 import LocationList from 'ui/components/LocationList';
 import TspMap from 'ui/components/TspMap';
 
 export interface IStateProps {
-  route: IRouteWithSegments;
-  domicileId: number;
-  isDemoLoading: boolean;
+  depot: ILocation | null;
+  routes: IRouteWithTrack[];
 }
 
 export interface IDispatchProps {
   removeHandler: typeof routeOperations.deleteLocation;
-  loadHandler: typeof demoOperations.loadDemo;
-  clearHandler: typeof routeOperations.clearRoute;
   addHandler: typeof routeOperations.addLocation;
 }
 
-const mapStateToProps = ({ route, demo }: IAppState): IStateProps => ({
-  domicileId: routeSelectors.getDomicileId(route),
-  isDemoLoading: demo.isLoading,
-  route,
+const mapStateToProps = ({ plan }: IAppState): IStateProps => ({
+  depot: plan.depot,
+  routes: plan.routes,
 });
 
 const mapDispatchToProps: IDispatchProps = {
   addHandler: routeOperations.addLocation,
-  clearHandler: routeOperations.clearRoute,
-  loadHandler: demoOperations.loadDemo,
   removeHandler: routeOperations.deleteLocation,
 };
 
@@ -63,6 +57,7 @@ type IRouteProps = IDispatchProps & IStateProps;
 export interface IRouteState {
   center: ILatLng;
   selectedId: number;
+  selectedRouteId: number;
   zoom: number;
 }
 
@@ -76,6 +71,7 @@ class Route extends React.Component<IRouteProps, IRouteState> {
         lng: 4.35,
       },
       selectedId: NaN,
+      selectedRouteId: 0,
       zoom: 9,
     };
     this.onSelectLocation = this.onSelectLocation.bind(this);
@@ -91,55 +87,56 @@ class Route extends React.Component<IRouteProps, IRouteState> {
   }
 
   render() {
-    const { center, zoom, selectedId } = this.state;
+    const { center, zoom, selectedId, selectedRouteId } = this.state;
     const {
-      route,
-      domicileId,
+      depot,
+      routes,
       removeHandler,
-      loadHandler,
-      clearHandler,
-      isDemoLoading,
     } = this.props;
+
+    // FIXME quick hack to preserve route color by keeping its index
+    const filteredRoutes = routes.map((value, index) => {
+      return index === selectedRouteId ? value : { visits: [], track: [] };
+    });
+    const filteredVisits: ILocation[] = routes.length > 0 ? routes[selectedRouteId].visits : [];
     return (
       <>
         <TextContent>
           <Text component={TextVariants.h1}>Route</Text>
         </TextContent>
         <Split gutter="md">
-          <SplitItem isMain={false}>
-            <FormSelect
-              value={''}
-              // tslint:disable-next-line:no-console
-              onChange={e => console.log(e)}
-              aria-label="FormSelect Input"
-            >
-              {[{ disabled: false, value: 'wip', label: 'Vehicle 4' }].map(
-                (option, index) => (
-                  <FormSelectOption
-                    isDisabled={option.disabled}
-                    key={index}
-                    value={option.value}
-                    label={option.label}
-                  />
-                ),
-              )}
-            </FormSelect>
-            <div
-              style={{
-                maxHeight: 'calc(100vh - 228px)',
-                overflowY: 'auto',
-              }}
-            >
-              <LocationList
-                route={route}
-                domicileId={domicileId}
-                removeHandler={removeHandler}
-                selectHandler={this.onSelectLocation}
-                loadHandler={loadHandler}
-                clearHandler={clearHandler}
-                isDemoLoading={isDemoLoading}
-              />
-            </div>
+          <SplitItem
+            isMain={false}
+            style={{ display: 'flex', flexDirection: 'column' }}
+          >
+            <Form>
+              <FormSelect
+                style={{ backgroundColor: 'white', marginBottom: 10 }}
+                isDisabled={routes.length === 0}
+                value={selectedRouteId}
+                onChange={(e) => {
+                  this.setState({ selectedRouteId: parseInt(e as unknown as string, 10) });
+                }}
+                aria-label="FormSelect Input"
+              >
+                {routes.map(
+                  (option, index) => (
+                    <FormSelectOption
+                      isDisabled={false}
+                      key={index}
+                      value={index}
+                      label={`Route ${index}`}
+                    />
+                  ),
+                )}
+              </FormSelect>
+            </Form>
+            <LocationList
+              depot={depot}
+              visits={filteredVisits}
+              removeHandler={removeHandler}
+              selectHandler={this.onSelectLocation}
+            />
           </SplitItem>
           <SplitItem isMain={true}>
             <TspMap
@@ -148,8 +145,8 @@ class Route extends React.Component<IRouteProps, IRouteState> {
               selectedId={selectedId}
               clickHandler={this.handleMapClick}
               removeHandler={removeHandler}
-              route={route}
-              domicileId={domicileId}
+              depot={depot}
+              routes={filteredRoutes}
             />
           </SplitItem>
         </Split>

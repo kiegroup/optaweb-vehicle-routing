@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.optaplanner.examples.tsp.domain.location.RoadLocation;
+import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.Location;
 
 /**
@@ -61,11 +61,14 @@ public class DistanceMap implements Map<RoadLocation, Double> {
     @Override
     public Double get(Object key) {
         if (!containsKey(key)) {
-            throw new IllegalArgumentException("Distance from " + location + " to " + key
-                    + " hasn't been recorded.\n"
-                    + "We only know distances to " + distanceMap.keySet());
+            throw new IllegalArgumentException(
+                    "Distance from " + location
+                            + " to " + key
+                            + " hasn't been recorded.\n"
+                            + "We only know distances to " + distanceMap.keySet());
         }
-        return distanceMap.get(((RoadLocation) key).getId());
+        // convert millis to secs (required by optaplanner-examples' vehicle routing solution)
+        return distanceMap.get(((RoadLocation) key).getId()) / 1000;
     }
 
     @Override

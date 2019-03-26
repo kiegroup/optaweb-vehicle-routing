@@ -65,4 +65,12 @@ public enum Belgium {
 
     public final double lat;
     public final double lng;
+
+    @Override
+    public String toString() {
+        return name() +
+                "[lat=" + lat +
+                ", lng=" + lng +
+                ']';
+    }
 }

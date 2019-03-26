@@ -14,51 +14,29 @@
  * limitations under the License.
  */
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  DataList,
-} from '@patternfly/react-core';
+import { Bullseye, DataList } from '@patternfly/react-core';
 import * as React from 'react';
-import { IRoute } from 'store/route/types';
+import { ILocation } from 'store/route/types';
 import Location from './Location';
 
 export interface ILocationListProps {
   removeHandler: (id: number) => void;
   selectHandler: (id: number) => void;
-  loadHandler: () => void;
-  clearHandler: () => void;
-  route: IRoute;
-  domicileId: number;
-  isDemoLoading: boolean;
+  depot: ILocation | null;
+  visits: ILocation[];
 }
 
-const renderEmptyLocationList: React.FC<ILocationListProps> = ({
-  loadHandler,
-  isDemoLoading,
-}) => {
+const renderEmptyLocationList: React.FC<ILocationListProps> = () => {
   return (
-    <Card>
-      <CardHeader>Click map to add locations</CardHeader>
-      <CardBody>
-        <Button
-          type="button"
-          isDisabled={isDemoLoading}
-          style={{ width: '100%' }}
-          onClick={loadHandler}
-        >
-          Load demo
-        </Button>
-      </CardBody>
-    </Card>
+    <DataList aria-label="empty location list">
+      <Bullseye>No locations</Bullseye>
+    </DataList>
   );
 };
 
 const renderLocationList: React.FC<ILocationListProps> = ({
-  route: { locations },
-  domicileId,
+  depot,
+  visits,
   removeHandler,
   selectHandler,
 }) => {
@@ -67,15 +45,22 @@ const renderLocationList: React.FC<ILocationListProps> = ({
       <DataList
         aria-label="simple-item1"
       >
-        {locations
+        {depot && <Location
+          key={depot.id}
+          id={depot.id}
+          removeDisabled={visits.length > 0}
+          removeHandler={removeHandler}
+          selectHandler={selectHandler}
+        />}
+        {visits
           .slice(0) // clone the array because
           // sort is done in place (that would affect the route)
           .sort((a, b) => a.id - b.id)
-          .map(location => (
+          .map(visit => (
             <Location
-              key={location.id}
-              id={location.id}
-              removeDisabled={locations.length > 1 && location.id === domicileId}
+              key={visit.id}
+              id={visit.id}
+              removeDisabled={false}
               removeHandler={removeHandler}
               selectHandler={selectHandler}
             />
@@ -86,7 +71,7 @@ const renderLocationList: React.FC<ILocationListProps> = ({
 };
 
 const LocationList: React.FC<ILocationListProps> = (props) => {
-  return props.route.locations.length === 0
+  return props.visits.length === 0 && props.depot === null
     ? renderEmptyLocationList(props)
     : renderLocationList(props);
 };

@@ -14,8 +14,16 @@
  * limitations under the License.
  */
 
-import { IRoute } from './types';
+import { ILocation, IRoutingPlan } from './types';
 
-export const getDomicileId = (route: IRoute) => {
-  return route.locations.length > 0 ? route.locations[0].id : -1;
+function reducer<T>(accumulator: T[], currentValue: T[]): T[] {
+  return accumulator.concat(currentValue);
+}
+
+export const getVisits = (plan: IRoutingPlan): ILocation[] => {
+  if (plan.routes.length === 0) {
+    return [];
+  }
+
+  return plan.routes.map(route => route.visits).reduce(reducer, []);
 };

@@ -27,6 +27,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class DemoService {
 
+    static final int MAX_TRIES = 10;
+
     private final DemoProperties properties;
     private final LocationService locationService;
 
@@ -38,8 +40,16 @@ public class DemoService {
     @Async
     public void loadDemo() {
         for (int i = 0; i < getDemoSize(); i++) {
-            // TODO retry if location service fails to create the location
-            locationService.createLocation(randomize(Belgium.values()[i % Belgium.values().length]));
+            // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
+            Belgium city = Belgium.values()[i % Belgium.values().length];
+            int tries = 0;
+            while (tries < MAX_TRIES && !locationService.createLocation(randomize(city))) {
+                tries++;
+            }
+            if (tries == MAX_TRIES) {
+                throw new RuntimeException("Impossible to create a new location near " + city
+                                                   + " after " + tries + " attempts");
+            }
         }
     }
 

@@ -18,34 +18,27 @@ import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { IAppState } from 'store/configStore';
-import { demoOperations } from 'store/demo';
 import { routeOperations, routeSelectors } from 'store/route';
-import { IRoute } from 'store/route/types';
+import { ILocation } from 'store/route/types';
 import LocationList from 'ui/components/LocationList';
 
 interface IStateProps {
-  route: IRoute;
-  domicileId: number;
-  isDemoLoading: boolean;
+  depot: ILocation | null;
+  visits: ILocation[];
 }
 
-const mapStateToProps = ({ route, demo }: IAppState): IStateProps => ({
-  domicileId: routeSelectors.getDomicileId(route),
-  isDemoLoading: demo.isLoading,
-  route,
+const mapStateToProps = ({ plan }: IAppState): IStateProps => ({
+  depot: plan.depot,
+  visits: routeSelectors.getVisits(plan),
 });
 
 export interface IDispatchProps {
   removeHandler: typeof routeOperations.deleteLocation;
-  loadHandler: typeof demoOperations.loadDemo;
-  clearHandler: typeof routeOperations.clearRoute;
   addHandler: typeof routeOperations.addLocation;
 }
 
 const mapDispatchToProps: IDispatchProps = {
   addHandler: routeOperations.addLocation,
-  clearHandler: routeOperations.clearRoute,
-  loadHandler: demoOperations.loadDemo,
   removeHandler: routeOperations.deleteLocation,
 };
 
@@ -59,27 +52,21 @@ class Visits extends React.Component<IProps> {
 
   render() {
     const {
-      route,
-      domicileId,
+      depot,
+      visits,
       removeHandler,
-      loadHandler,
-      clearHandler,
-      isDemoLoading,
     } = this.props;
     return (
       <>
         <TextContent>
-          <Text component={TextVariants.h1}>Visits ({route.locations.length})</Text>
+          <Text component={TextVariants.h1}>Visits ({visits.length})</Text>
         </TextContent>
         {/* TODO do not show depots */}
         <LocationList
           removeHandler={removeHandler}
           selectHandler={() => undefined}
-          loadHandler={loadHandler}
-          clearHandler={clearHandler}
-          route={route}
-          domicileId={domicileId}
-          isDemoLoading={isDemoLoading}
+          depot={depot}
+          visits={visits}
         />
       </>
     );

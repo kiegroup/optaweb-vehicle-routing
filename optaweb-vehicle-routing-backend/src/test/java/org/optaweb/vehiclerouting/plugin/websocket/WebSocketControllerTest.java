@@ -25,9 +25,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
-import org.optaweb.vehiclerouting.service.route.Route;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,18 +49,18 @@ public class WebSocketControllerTest {
     @InjectMocks
     private WebSocketController webSocketController;
 
-    private PortableRoute portableRoute;
+    private PortableRoutingPlan portableRoutingPlan;
 
     @Before
     public void setUp() {
-        portableRoute = new PortableRoute("xy", Collections.emptyList(), Collections.emptyList());
-        when(routeListener.getBestRoute()).thenReturn(Route.empty());
-        when(routePublisher.portableRoute(any(Route.class))).thenReturn(portableRoute);
+        portableRoutingPlan = new PortableRoutingPlan("xy", null, Collections.emptyList());
+        when(routeListener.getBestRoutingPlan()).thenReturn(RoutingPlan.empty());
+        when(routePublisher.portable(any(RoutingPlan.class))).thenReturn(portableRoutingPlan);
     }
 
     @Test
     public void subscribe() {
-        assertThat(webSocketController.subscribe()).isEqualTo(portableRoute);
+        assertThat(webSocketController.subscribe()).isEqualTo(portableRoutingPlan);
     }
 
     @Test

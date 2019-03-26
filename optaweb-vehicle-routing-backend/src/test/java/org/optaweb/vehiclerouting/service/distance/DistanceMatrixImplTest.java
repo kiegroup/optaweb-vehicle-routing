@@ -98,9 +98,11 @@ public class DistanceMatrixImplTest {
     public void should_call_router_and_persist_distances_when_repo_is_empty() {
         Location l1 = location(100, -1);
         Location l2 = location(111, 20);
+        long dist12 = 12;
+        long dist21 = 21;
         when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0);
-        when(distanceCalculator.getDistance(l1.getLatLng(), l2.getLatLng())).thenReturn(12.0);
-        when(distanceCalculator.getDistance(l2.getLatLng(), l1.getLatLng())).thenReturn(21.0);
+        when(distanceCalculator.travelTimeMillis(l1.getLatLng(), l2.getLatLng())).thenReturn(dist12);
+        when(distanceCalculator.travelTimeMillis(l2.getLatLng(), l1.getLatLng())).thenReturn(dist21);
 
         // no calculation for the first location
         distanceMatrix.addLocation(l1);
@@ -114,8 +116,8 @@ public class DistanceMatrixImplTest {
         verify(distanceRepository).getDistance(l1, l2);
 
         // distances are calculated and persisted
-        verify(distanceRepository).saveDistance(l2, l1, 21.0);
-        verify(distanceRepository).saveDistance(l1, l2, 12.0);
+        verify(distanceRepository).saveDistance(l2, l1, dist21);
+        verify(distanceRepository).saveDistance(l1, l2, dist12);
     }
 
     @Test
@@ -149,9 +151,9 @@ public class DistanceMatrixImplTest {
     private static class MockDistanceCalculator implements DistanceCalculator {
 
         @Override
-        public double getDistance(LatLng from, LatLng to) {
+        public long travelTimeMillis(LatLng from, LatLng to) {
             // imagine 1D space (all locations on equator)
-            return to.getLongitude().doubleValue() - from.getLongitude().doubleValue();
+            return (long) (to.getLongitude().doubleValue() - from.getLongitude().doubleValue());
         }
     }
 }

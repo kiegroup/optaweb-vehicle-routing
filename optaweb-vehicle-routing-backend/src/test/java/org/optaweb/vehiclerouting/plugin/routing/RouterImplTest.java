@@ -57,13 +57,14 @@ public class RouterImplTest {
     }
 
     @Test
-    public void getDistance_should_return_graphhopper_distance() {
+    public void travel_time_should_return_graphhopper_time() {
         // arrange
         RouterImpl routing = new RouterImpl(graphHopper);
-        when(pathWrapper.getDistance()).thenReturn(Math.PI);
+        long travelTimeMillis = 135 * 60 * 60 * 1000;
+        when(pathWrapper.getTime()).thenReturn(travelTimeMillis);
 
         // act & assert
-        assertThat(routing.getDistance(from, to)).isEqualTo(Math.PI);
+        assertThat(routing.travelTimeMillis(from, to)).isEqualTo(travelTimeMillis);
     }
 
     @Test
@@ -74,7 +75,7 @@ public class RouterImplTest {
         when(ghResponse.getErrors()).thenReturn(Collections.singletonList(new RuntimeException()));
 
         // act & assert
-        assertThatThrownBy(() -> routing.getDistance(from, to))
+        assertThatThrownBy(() -> routing.travelTimeMillis(from, to))
                 .isNotInstanceOf(NullPointerException.class)
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("No route");
@@ -94,7 +95,7 @@ public class RouterImplTest {
         pointList.add(latLng3.getLatitude().doubleValue(), latLng3.getLongitude().doubleValue());
 
         // act & assert
-        List<LatLng> route = routing.getRoute(from, to);
+        List<LatLng> route = routing.getPath(from, to);
         assertThat(route).containsExactly(
                 latLng1,
                 latLng2,

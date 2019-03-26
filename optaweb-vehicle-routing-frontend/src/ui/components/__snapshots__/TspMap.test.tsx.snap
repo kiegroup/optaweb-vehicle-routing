@@ -121,7 +121,9 @@ exports[`TSP Map View should render correctly 1`] = `
     </ForwardRef(Leaflet(Tooltip))>
   </ForwardRef(Leaflet(Marker))>
   <ForwardRef(Leaflet(Polyline))
+    color="deepskyblue"
     fill={false}
+    key="0"
     positions={
       Array [
         Object {

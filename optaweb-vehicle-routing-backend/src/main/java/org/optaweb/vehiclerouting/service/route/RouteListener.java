@@ -17,10 +17,14 @@
 package org.optaweb.vehiclerouting.service.route;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.RouteWithTrack;
+import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 
@@ -34,34 +38,43 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     private final RoutePublisher publisher;
 
     // TODO maybe remove state from the service and get best route from a repository
-    private Route bestRoute;
+    private RoutingPlan bestRoutingPlan;
 
     public RouteListener(Router router, RoutePublisher publisher) {
         this.router = router;
         this.publisher = publisher;
-        bestRoute = Route.empty();
+        bestRoutingPlan = RoutingPlan.empty();
     }
 
     @Override
     public void onApplicationEvent(RouteChangedEvent event) {
         // TODO persist the best solution
-        bestRoute = new Route(event.getDistance(), event.getRoute(), segments(event.getRoute()));
-        publisher.publish(bestRoute);
+        List<RouteWithTrack> routes = event.routes().stream()
+                .map(route -> new RouteWithTrack(route, track(route.depot(), route.visits())))
+                .collect(Collectors.toList());
+        bestRoutingPlan = new RoutingPlan(event.distance(), event.depot().orElse(null), routes);
+        publisher.publish(bestRoutingPlan);
     }
 
-    private List<List<LatLng>> segments(List<Location> route) {
-        List<List<LatLng>> segments = new ArrayList<>();
-        for (int i = 1; i < route.size() + 1; i++) {
-            // "trick" to get N -> 0 distance at the end of the loop
-            Location fromLocation = route.get(i - 1);
-            Location toLocation = route.get(i % route.size());
-            List<LatLng> latLngs = router.getRoute(fromLocation.getLatLng(), toLocation.getLatLng());
-            segments.add(latLngs);
+    private List<List<LatLng>> track(Location depot, List<Location> route) {
+        if (route.isEmpty()) {
+            return Collections.emptyList();
         }
-        return segments;
+        ArrayList<Location> itinerary = new ArrayList<>();
+        itinerary.add(depot);
+        itinerary.addAll(route);
+        itinerary.add(depot);
+        List<List<LatLng>> paths = new ArrayList<>();
+        for (int i = 0; i < itinerary.size() - 1; i++) {
+            Location fromLocation = itinerary.get(i);
+            Location toLocation = itinerary.get(i + 1);
+            List<LatLng> latLngs = router.getPath(fromLocation.getLatLng(), toLocation.getLatLng());
+            paths.add(latLngs);
+        }
+        return paths;
     }
 
-    public Route getBestRoute() {
-        return bestRoute;
+    public RoutingPlan getBestRoutingPlan() {
+        return bestRoutingPlan;
     }
 }

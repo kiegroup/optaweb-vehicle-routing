@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,39 +14,34 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.route;
+package org.optaweb.vehiclerouting.plugin.websocket;
 
-import java.util.Collections;
 import java.util.List;
 
-import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.domain.Location;
-
-public class Route {
+/**
+ * Routing plan representation convenient for marshalling.
+ */
+public class PortableRoutingPlan {
 
     private final String distance;
-    private final List<Location> route;
-    private final List<List<LatLng>> segments;
+    private final PortableLocation depot;
+    private final List<PortableRoute> routes;
 
-    public Route(String distance, List<Location> route, List<List<LatLng>> segments) {
+    public PortableRoutingPlan(String distance, PortableLocation depot, List<PortableRoute> routes) {
         this.distance = distance;
-        this.route = route;
-        this.segments = segments;
-    }
-
-    public static Route empty() {
-        return new Route("0", Collections.emptyList(), Collections.emptyList());
+        this.depot = depot;
+        this.routes = routes;
     }
 
     public String getDistance() {
         return distance;
     }
 
-    public List<Location> getRoute() {
-        return route;
+    public List<PortableRoute> getRoutes() {
+        return routes;
     }
 
-    public List<List<LatLng>> getSegments() {
-        return segments;
+    public PortableLocation getDepot() {
+        return depot;
     }
 }

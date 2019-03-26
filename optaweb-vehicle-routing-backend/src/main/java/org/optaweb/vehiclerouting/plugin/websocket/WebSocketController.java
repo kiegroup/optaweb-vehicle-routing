@@ -17,9 +17,9 @@
 package org.optaweb.vehiclerouting.plugin.websocket;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
-import org.optaweb.vehiclerouting.service.route.Route;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,10 +59,10 @@ public class WebSocketController {
      * @return route message
      */
     @SubscribeMapping("/route")
-    public PortableRoute subscribe() {
+    public PortableRoutingPlan subscribe() {
         logger.info("Subscribed");
-        Route route = routeListener.getBestRoute();
-        return routePublisher.portableRoute(route);
+        RoutingPlan routingPlan = routeListener.getBestRoutingPlan();
+        return routePublisher.portable(routingPlan);
     }
 
     /**

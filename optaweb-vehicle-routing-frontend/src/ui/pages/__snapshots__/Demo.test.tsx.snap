@@ -36,35 +36,29 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
       searchDelay={500}
     />
     <LocationList
-      clearHandler={[MockFunction]}
-      domicileId={1}
-      isDemoLoading={true}
-      loadHandler={[MockFunction]}
-      removeHandler={[MockFunction]}
-      route={
+      depot={
         Object {
-          "distance": "10",
-          "locations": Array [
-            Object {
-              "id": 1,
-              "lat": 1.345678,
-              "lng": 1.345678,
-            },
-            Object {
-              "id": 2,
-              "lat": 2.345678,
-              "lng": 2.345678,
-            },
-            Object {
-              "id": 3,
-              "lat": 3.676111,
-              "lng": 3.568333,
-            },
-          ],
-          "segments": Array [],
+          "id": 1,
+          "lat": 1.345678,
+          "lng": 1.345678,
         }
       }
+      removeHandler={[MockFunction]}
       selectHandler={[Function]}
+      visits={
+        Array [
+          Object {
+            "id": 2,
+            "lat": 2.345678,
+            "lng": 2.345678,
+          },
+          Object {
+            "id": 3,
+            "lat": 3.676111,
+            "lng": 3.568333,
+          },
+        ]
+      }
     />
   </SplitItem>
   <SplitItem
@@ -113,8 +107,7 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Locations: 
-            3
+            Visits: 2
           </GridItem>
           <GridItem
             className=""
@@ -134,8 +127,7 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Distance: 
-            10
+            Total travel time: 10
           </GridItem>
         </Grid>
       </SplitItem>
@@ -173,30 +165,37 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
         }
       }
       clickHandler={[Function]}
-      domicileId={1}
-      removeHandler={[MockFunction]}
-      route={
+      depot={
         Object {
-          "distance": "10",
-          "locations": Array [
-            Object {
-              "id": 1,
-              "lat": 1.345678,
-              "lng": 1.345678,
-            },
-            Object {
-              "id": 2,
-              "lat": 2.345678,
-              "lng": 2.345678,
-            },
-            Object {
-              "id": 3,
-              "lat": 3.676111,
-              "lng": 3.568333,
-            },
-          ],
-          "segments": Array [],
+          "id": 1,
+          "lat": 1.345678,
+          "lng": 1.345678,
         }
+      }
+      removeHandler={[MockFunction]}
+      routes={
+        Array [
+          Object {
+            "track": Array [],
+            "visits": Array [
+              Object {
+                "id": 1,
+                "lat": 1.345678,
+                "lng": 1.345678,
+              },
+              Object {
+                "id": 2,
+                "lat": 2.345678,
+                "lng": 2.345678,
+              },
+              Object {
+                "id": 3,
+                "lat": 3.676111,
+                "lng": 3.568333,
+              },
+            ],
+          },
+        ]
       }
       selectedId={NaN}
       zoom={9}
@@ -241,35 +240,29 @@ exports[`Demo page should render correctly with a few routes 1`] = `
       searchDelay={500}
     />
     <LocationList
-      clearHandler={[MockFunction]}
-      domicileId={1}
-      isDemoLoading={false}
-      loadHandler={[MockFunction]}
-      removeHandler={[MockFunction]}
-      route={
+      depot={
         Object {
-          "distance": "10",
-          "locations": Array [
-            Object {
-              "id": 1,
-              "lat": 1.345678,
-              "lng": 1.345678,
-            },
-            Object {
-              "id": 2,
-              "lat": 2.345678,
-              "lng": 2.345678,
-            },
-            Object {
-              "id": 3,
-              "lat": 3.676111,
-              "lng": 3.568333,
-            },
-          ],
-          "segments": Array [],
+          "id": 1,
+          "lat": 1.345678,
+          "lng": 1.345678,
         }
       }
+      removeHandler={[MockFunction]}
       selectHandler={[Function]}
+      visits={
+        Array [
+          Object {
+            "id": 2,
+            "lat": 2.345678,
+            "lng": 2.345678,
+          },
+          Object {
+            "id": 3,
+            "lat": 3.676111,
+            "lng": 3.568333,
+          },
+        ]
+      }
     />
   </SplitItem>
   <SplitItem
@@ -318,8 +311,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Locations: 
-            3
+            Visits: 2
           </GridItem>
           <GridItem
             className=""
@@ -339,8 +331,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Distance: 
-            10
+            Total travel time: 10
           </GridItem>
         </Grid>
       </SplitItem>
@@ -378,30 +369,37 @@ exports[`Demo page should render correctly with a few routes 1`] = `
         }
       }
       clickHandler={[Function]}
-      domicileId={1}
-      removeHandler={[MockFunction]}
-      route={
+      depot={
         Object {
-          "distance": "10",
-          "locations": Array [
-            Object {
-              "id": 1,
-              "lat": 1.345678,
-              "lng": 1.345678,
-            },
-            Object {
-              "id": 2,
-              "lat": 2.345678,
-              "lng": 2.345678,
-            },
-            Object {
-              "id": 3,
-              "lat": 3.676111,
-              "lng": 3.568333,
-            },
-          ],
-          "segments": Array [],
+          "id": 1,
+          "lat": 1.345678,
+          "lng": 1.345678,
         }
+      }
+      removeHandler={[MockFunction]}
+      routes={
+        Array [
+          Object {
+            "track": Array [],
+            "visits": Array [
+              Object {
+                "id": 1,
+                "lat": 1.345678,
+                "lng": 1.345678,
+              },
+              Object {
+                "id": 2,
+                "lat": 2.345678,
+                "lng": 2.345678,
+              },
+              Object {
+                "id": 3,
+                "lat": 3.676111,
+                "lng": 3.568333,
+              },
+            ],
+          },
+        ]
       }
       selectedId={NaN}
       zoom={9}
@@ -446,19 +444,10 @@ exports[`Demo page should render correctly with no routes 1`] = `
       searchDelay={500}
     />
     <LocationList
-      clearHandler={[MockFunction]}
-      domicileId={-1}
-      isDemoLoading={false}
-      loadHandler={[MockFunction]}
+      depot={null}
       removeHandler={[MockFunction]}
-      route={
-        Object {
-          "distance": "0",
-          "locations": Array [],
-          "segments": Array [],
-        }
-      }
       selectHandler={[Function]}
+      visits={Array []}
     />
   </SplitItem>
   <SplitItem
@@ -507,8 +496,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Locations: 
-            0
+            Visits: 0
           </GridItem>
           <GridItem
             className=""
@@ -528,8 +516,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
             xlOffset={null}
             xlRowSpan={null}
           >
-            Distance: 
-            0
+            Total travel time: 0
           </GridItem>
         </Grid>
       </SplitItem>
@@ -567,15 +554,9 @@ exports[`Demo page should render correctly with no routes 1`] = `
         }
       }
       clickHandler={[Function]}
-      domicileId={-1}
+      depot={null}
       removeHandler={[MockFunction]}
-      route={
-        Object {
-          "distance": "0",
-          "locations": Array [],
-          "segments": Array [],
-        }
-      }
+      routes={Array []}
       selectedId={NaN}
       zoom={9}
     />

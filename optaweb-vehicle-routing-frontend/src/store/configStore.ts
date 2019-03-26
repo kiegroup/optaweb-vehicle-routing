@@ -24,12 +24,12 @@ import WebSocketClient from 'websocket/WebSocketClient';
 import demoReducer from './demo';
 import { IDemo } from './demo/types';
 import routeReducer from './route';
-import { IRouteWithSegments } from './route/types';
+import { IRoutingPlan } from './route/types';
 import connectionReducer from './websocket';
 import { WebSocketConnectionStatus } from './websocket/types';
 
 export interface IAppState {
-  readonly route: IRouteWithSegments;
+  readonly plan: IRoutingPlan;
   readonly connectionStatus: WebSocketConnectionStatus;
   readonly demo: IDemo;
 }
@@ -55,7 +55,7 @@ export default function configureStore(
   const rootReducer = combineReducers<IAppState>({
     connectionStatus: connectionReducer,
     demo: demoReducer,
-    route: routeReducer,
+    plan: routeReducer,
   });
 
   /* if (process.env.NODE_ENV !== 'production' && module.hot) {

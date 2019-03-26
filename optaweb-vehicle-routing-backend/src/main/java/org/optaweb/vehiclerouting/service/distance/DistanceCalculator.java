@@ -23,5 +23,11 @@ import org.optaweb.vehiclerouting.domain.LatLng;
  */
 public interface DistanceCalculator {
 
-    double getDistance(LatLng from, LatLng to);
+    /**
+     * Calculate ravel time in milliseconds.
+     * @param from origin
+     * @param to destination
+     * @return travel time in milliseconds
+     */
+    long travelTimeMillis(LatLng from, LatLng to);
 }

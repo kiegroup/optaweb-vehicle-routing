@@ -29,14 +29,16 @@ import { connect } from 'react-redux';
 import { IAppState } from 'store/configStore';
 import { demoOperations } from 'store/demo';
 import { routeOperations, routeSelectors } from 'store/route';
-import { ILatLng, IRouteWithSegments } from 'store/route/types';
+import { ILatLng, ILocation, IRouteWithTrack } from 'store/route/types';
 import LocationList from 'ui/components/LocationList';
 import SearchBox, { IResult } from 'ui/components/SearchBox';
 import TspMap from 'ui/components/TspMap';
 
 export interface IStateProps {
-  route: IRouteWithSegments;
-  domicileId: number;
+  distance: string;
+  depot: ILocation | null;
+  visits: ILocation[];
+  routes: IRouteWithTrack[];
   isDemoLoading: boolean;
 }
 
@@ -47,10 +49,12 @@ export interface IDispatchProps {
   addHandler: typeof routeOperations.addLocation;
 }
 
-const mapStateToProps = ({ route, demo }: IAppState): IStateProps => ({
-  domicileId: routeSelectors.getDomicileId(route),
+const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
+  depot: plan.depot,
+  distance: plan.distance,
   isDemoLoading: demo.isLoading,
-  route,
+  routes: plan.routes,
+  visits: routeSelectors.getVisits(plan),
 });
 
 const mapDispatchToProps: IDispatchProps = {
@@ -100,8 +104,10 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
   render() {
     const { center, zoom, selectedId } = this.state;
     const {
-      route,
-      domicileId,
+      distance,
+      depot,
+      visits,
+      routes,
       removeHandler,
       loadHandler,
       clearHandler,
@@ -119,13 +125,10 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
           </TextContent>
           <SearchBox addHandler={this.handleSearchResultClick} />
           <LocationList
-            route={route}
-            domicileId={domicileId}
+            depot={depot}
+            visits={visits}
             removeHandler={removeHandler}
             selectHandler={this.onSelectLocation}
-            loadHandler={loadHandler}
-            clearHandler={clearHandler}
-            isDemoLoading={isDemoLoading}
           />
         </SplitItem>
 
@@ -136,12 +139,12 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
           <Split gutter="md">
             <SplitItem isMain={true}>
               <Grid>
-                <GridItem span={6}>Locations: {route.locations.length}</GridItem>
-                <GridItem span={6}>Distance: {route.distance}</GridItem>
+                <GridItem span={6}>{`Visits: ${visits.length}`}</GridItem>
+                <GridItem span={6}>{`Total travel time: ${distance}`}</GridItem>
               </Grid>
             </SplitItem>
             <SplitItem isMain={false}>
-              {route.locations.length === 0 &&
+              {routes.length === 0 &&
               <Button
                 type="button"
                 isDisabled={isDemoLoading}
@@ -168,8 +171,8 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
             selectedId={selectedId}
             clickHandler={this.handleMapClick}
             removeHandler={removeHandler}
-            route={route}
-            domicileId={domicileId}
+            depot={depot}
+            routes={routes}
           />
         </SplitItem>
       </Split>

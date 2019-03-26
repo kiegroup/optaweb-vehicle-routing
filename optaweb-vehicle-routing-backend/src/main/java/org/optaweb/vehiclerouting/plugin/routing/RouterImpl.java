@@ -43,20 +43,20 @@ public class RouterImpl implements Router,
     }
 
     @Override
-    public List<LatLng> getRoute(LatLng from, LatLng to) {
-        GHRequest segmentRq = new GHRequest(
+    public List<LatLng> getPath(LatLng from, LatLng to) {
+        GHRequest ghRequest = new GHRequest(
                 from.getLatitude().doubleValue(),
                 from.getLongitude().doubleValue(),
                 to.getLatitude().doubleValue(),
                 to.getLongitude().doubleValue());
-        PointList points = graphHopper.route(segmentRq).getBest().getPoints();
+        PointList points = graphHopper.route(ghRequest).getBest().getPoints();
         return StreamSupport.stream(points.spliterator(), false)
                 .map(ghPoint3D -> LatLng.valueOf(ghPoint3D.lat, ghPoint3D.lon))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public double getDistance(LatLng from, LatLng to) {
+    public long travelTimeMillis(LatLng from, LatLng to) {
         GHRequest ghRequest = new GHRequest(
                 from.getLatitude().doubleValue(),
                 from.getLongitude().doubleValue(),
@@ -67,6 +67,6 @@ public class RouterImpl implements Router,
         if (ghResponse.hasErrors()) {
             throw new RuntimeException("No route", ghResponse.getErrors().get(0));
         }
-        return ghResponse.getBest().getDistance();
+        return ghResponse.getBest().getTime();
     }
 }

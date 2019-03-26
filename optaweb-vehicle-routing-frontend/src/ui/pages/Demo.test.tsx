@@ -55,27 +55,42 @@ describe('Demo page', () => {
 const emptyRouteProps: IDemoProps = {
   addHandler: jest.fn(),
   clearHandler: jest.fn(),
-  domicileId: -1,
   isDemoLoading: false,
   loadHandler: jest.fn(),
   removeHandler: jest.fn(),
-  route: {
-    distance: '0',
-    locations: [],
-    segments: [],
-  },
+
+  depot: null,
+  distance: '0',
+  routes: [],
+  visits: [],
 };
 
 const threeLocationsProps: IDemoProps = {
   addHandler: jest.fn(),
   clearHandler: jest.fn(),
-  domicileId: 1,
   isDemoLoading: false,
   loadHandler: jest.fn(),
   removeHandler: jest.fn(),
-  route: {
-    distance: '10',
-    locations: [
+
+  depot: {
+    id: 1,
+    lat: 1.345678,
+    lng: 1.345678,
+  },
+  distance: '10',
+  visits: [{
+    id: 2,
+    lat: 2.345678,
+    lng: 2.345678,
+  },
+    {
+      id: 3,
+      lat: 3.676111,
+      lng: 3.568333,
+    }],
+
+  routes: [{
+    visits: [
       {
         id: 1,
         lat: 1.345678,
@@ -92,6 +107,7 @@ const threeLocationsProps: IDemoProps = {
         lng: 3.568333,
       },
     ],
-    segments: [],
-  },
+
+    track: [],
+  }],
 };

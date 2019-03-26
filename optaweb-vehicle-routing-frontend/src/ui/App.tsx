@@ -16,7 +16,7 @@
 
 import { Page, PageSection } from '@patternfly/react-core';
 import * as React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import Background from './components/Background';
 import ConnectionManager from './connection/ConnectionManager';
@@ -36,26 +36,28 @@ const App: React.FC = () => {
             overflowY: 'auto',
           }}
         >
-          <Route
-            path="/vehicles"
-            exact={true}
-            component={Vehicles}
-          />
-          <Route
-            path="/visits"
-            exact={true}
-            component={Visits}
-          />
-          <Route
-            path="/route"
-            exact={true}
-            component={RoutePage}
-          />
-          <Route
-            path="/demo"
-            exact={true}
-            component={Demo}
-          />
+          <Switch>
+            <Route
+              path="/vehicles"
+              exact={true}
+              component={Vehicles}
+            />
+            <Route
+              path="/visits"
+              exact={true}
+              component={Visits}
+            />
+            <Route
+              path="/route"
+              exact={true}
+              component={RoutePage}
+            />
+            <Route
+              path="/demo"
+              exact={true}
+              component={Demo}
+            />
+          </Switch>
         </PageSection>
       </Page>
     </>

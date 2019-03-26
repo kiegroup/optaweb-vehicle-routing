@@ -21,7 +21,7 @@ import {
   IClearRouteAction,
   IDeleteLocationAction,
   ILatLng,
-  IRouteWithSegments,
+  IRoutingPlan,
   IUpdateRouteAction,
 } from './types';
 
@@ -40,8 +40,8 @@ export const clearRoute: ActionCreator<IClearRouteAction> = () => ({
 });
 
 export const updateRoute: ActionCreator<IUpdateRouteAction> = (
-  route: IRouteWithSegments,
+  plan: IRoutingPlan,
 ) => ({
-  route,
-  type: ActionType.SOLUTION_UPDATES_DATA,
+  plan,
+  type: ActionType.UPDATE_ROUTING_PLAN,
 });

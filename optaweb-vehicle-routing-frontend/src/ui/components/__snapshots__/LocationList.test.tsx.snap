@@ -38,40 +38,15 @@ exports[`Location List Component should render correctly with a few routes 1`] =
 `;
 
 exports[`Location List Component should render correctly with no routes 1`] = `
-<Card
+<DataList
+  aria-label="empty location list"
   className=""
-  component="article"
 >
-  <CardHeader
+  <Bullseye
     className=""
     component="div"
   >
-    Click map to add locations
-  </CardHeader>
-  <CardBody
-    className=""
-    component="div"
-  >
-    <Button
-      aria-label={null}
-      className=""
-      component="button"
-      isActive={false}
-      isBlock={false}
-      isDisabled={false}
-      isFocus={false}
-      isHover={false}
-      onClick={[MockFunction]}
-      style={
-        Object {
-          "width": "100%",
-        }
-      }
-      type="button"
-      variant="primary"
-    >
-      Load demo
-    </Button>
-  </CardBody>
-</Card>
+    No locations
+  </Bullseye>
+</DataList>
 `;

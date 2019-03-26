@@ -16,38 +16,55 @@
 
 package org.optaweb.vehiclerouting.service.route;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Route;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * Event published when the best route has been changed either by discovering a better route or changing
+ * Event published when the routing plan has been updated either by discovering a better route or by changing
  * the set of locations.
  */
 public class RouteChangedEvent extends ApplicationEvent {
 
     private final String distance;
-    private final List<Location> route;
+    private final Location depot;
+    private final Collection<Route> routes;
 
     /**
      * Create a new ApplicationEvent.
      * @param source the object on which the event initially occurred (never {@code null})
-     * @param distance route distance
-     * @param route list of locations
+     * @param distance total distance of all vehicle routes
+     * @param depot depot location. May be null if there are no locations.
+     * @param routes vehicle routes
      */
-    public RouteChangedEvent(Object source, String distance, List<Location> route) {
+    public RouteChangedEvent(Object source, String distance, Location depot, Collection<Route> routes) {
         super(source);
         this.distance = Objects.requireNonNull(distance);
-        this.route = Objects.requireNonNull(route);
+        this.depot = depot;
+        this.routes = Objects.requireNonNull(routes);
     }
 
-    public List<Location> getRoute() {
-        return route;
+    /**
+     * Routes of all vehicles.
+     * @return vehicle routes
+     */
+    public Collection<Route> routes() {
+        return routes;
     }
 
-    public String getDistance() {
+    public String distance() {
         return distance;
+    }
+
+    /**
+     * The depot location.
+     * @return depot location
+     */
+    public Optional<Location> depot() {
+        return Optional.ofNullable(depot);
     }
 }
