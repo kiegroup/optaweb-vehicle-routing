@@ -105,7 +105,10 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         if (solverFuture.isDone()) {
             try {
                 solverFuture.get();
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Solver has died", e);
+            } catch (ExecutionException e) {
                 throw new RuntimeException("Solver has died", e);
             }
             throw new IllegalStateException("Solver has finished solving even though it operates in daemon mode.");
@@ -120,7 +123,10 @@ public class RouteOptimizerImpl implements RouteOptimizer,
             try {
                 solverFuture.get();
                 solverFuture = null;
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException("Failed to stop solver", e);
+            } catch (ExecutionException e) {
                 throw new RuntimeException("Failed to stop solver", e);
             }
         }
