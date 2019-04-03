@@ -39,17 +39,14 @@ public class WebSocketController {
     private static final Logger logger = LoggerFactory.getLogger(WebSocketController.class);
 
     private final RouteListener routeListener;
-    private final RoutePublisherImpl routePublisher;
     private final LocationService locationService;
     private final DemoService demoService;
 
     @Autowired
     public WebSocketController(RouteListener routeListener,
-                               RoutePublisherImpl routePublisher,
                                LocationService locationService,
                                DemoService demoService) {
         this.routeListener = routeListener;
-        this.routePublisher = routePublisher;
         this.locationService = locationService;
         this.demoService = demoService;
     }
@@ -62,7 +59,7 @@ public class WebSocketController {
     public PortableRoutingPlan subscribe() {
         logger.info("Subscribed");
         RoutingPlan routingPlan = routeListener.getBestRoutingPlan();
-        return routePublisher.portable(routingPlan);
+        return RoutePublisherImpl.portable(routingPlan);
     }
 
     /**

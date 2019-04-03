@@ -53,7 +53,7 @@ public class RouteListenerTest {
     @Test
     public void new_listener_should_return_empty_best_route() {
         RoutingPlan bestRoutingPlan = routeListener.getBestRoutingPlan();
-        assertThat(bestRoutingPlan.distance()).isEqualTo("0");
+        assertThat(bestRoutingPlan.distance()).isEmpty();
         assertThat(bestRoutingPlan.depot()).isEmpty();
         assertThat(bestRoutingPlan.routes()).isEmpty();
     }

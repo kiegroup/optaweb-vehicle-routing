@@ -24,7 +24,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
@@ -36,6 +35,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RoutePublisherImplTest {
@@ -48,14 +48,15 @@ public class RoutePublisherImplTest {
     @Test
     public void publish() {
         routePublisher.publish(RoutingPlan.empty());
-        Mockito.verify(webSocket).convertAndSend(anyString(), any(PortableRoutingPlan.class));
+        verify(webSocket).convertAndSend(anyString(), any(PortableRoutingPlan.class));
     }
 
     @Test
     public void portable_routing_plan_empty() {
-        PortableRoutingPlan portablePlan = routePublisher.portable(RoutingPlan.empty());
+        PortableRoutingPlan portablePlan = RoutePublisherImpl.portable(RoutingPlan.empty());
+        assertThat(portablePlan.getDistance()).isEmpty();
+        assertThat(portablePlan.getDepot()).isNull();
         assertThat(portablePlan.getRoutes()).isEmpty();
-        assertThat(portablePlan.getDistance()).isEqualTo("0");
     }
 
     @Test
@@ -88,7 +89,7 @@ public class RoutePublisherImplTest {
 
         RoutingPlan routingPlan = new RoutingPlan(distance, location1, Arrays.asList(route1, route2));
 
-        PortableRoutingPlan portableRoutingPlan = routePublisher.portable(routingPlan);
+        PortableRoutingPlan portableRoutingPlan = RoutePublisherImpl.portable(routingPlan);
         assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);
         assertThat(portableRoutingPlan.getDepot()).isEqualTo(PortableLocation.fromLocation(location1));
         assertThat(portableRoutingPlan.getRoutes()).hasSize(2);
