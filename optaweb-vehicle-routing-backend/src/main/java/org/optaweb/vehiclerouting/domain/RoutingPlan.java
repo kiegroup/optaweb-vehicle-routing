@@ -51,7 +51,7 @@ public class RoutingPlan {
      * @return empty routing plan
      */
     public static RoutingPlan empty() {
-        return new RoutingPlan("0", null, Collections.emptyList());
+        return new RoutingPlan("", null, Collections.emptyList());
     }
 
     /**

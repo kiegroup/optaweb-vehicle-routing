@@ -17,21 +17,23 @@
 package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.Collections;
+import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,26 +43,28 @@ public class WebSocketControllerTest {
     @Mock
     private RouteListener routeListener;
     @Mock
-    private RoutePublisherImpl routePublisher;
-    @Mock
     private LocationService locationService;
     @Mock
     private DemoService demoService;
     @InjectMocks
     private WebSocketController webSocketController;
 
-    private PortableRoutingPlan portableRoutingPlan;
-
-    @Before
-    public void setUp() {
-        portableRoutingPlan = new PortableRoutingPlan("xy", null, Collections.emptyList());
-        when(routeListener.getBestRoutingPlan()).thenReturn(RoutingPlan.empty());
-        when(routePublisher.portable(any(RoutingPlan.class))).thenReturn(portableRoutingPlan);
-    }
-
     @Test
     public void subscribe() {
-        assertThat(webSocketController.subscribe()).isEqualTo(portableRoutingPlan);
+        // arrange
+        String distance = "some distance";
+        Location depot = new Location(1, LatLng.valueOf(3, 5));
+        List<RouteWithTrack> routes = Collections.singletonList(mock(RouteWithTrack.class));
+        RoutingPlan plan = new RoutingPlan(distance, depot, routes);
+        when(routeListener.getBestRoutingPlan()).thenReturn(plan);
+
+        // act
+        PortableRoutingPlan portableRoutingPlan = webSocketController.subscribe();
+
+        // assert
+        assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);
+        assertThat(portableRoutingPlan.getDepot()).isEqualTo(PortableLocation.fromLocation(depot));
+        assertThat(portableRoutingPlan.getRoutes()).hasSize(1);
     }
 
     @Test
