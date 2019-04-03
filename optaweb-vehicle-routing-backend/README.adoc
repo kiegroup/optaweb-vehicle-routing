@@ -70,6 +70,8 @@ Contains outer layers such as optimization, persistence, routing and web.
 
 == Configuration
 
+// TODO configuration using external properties
+
 [cols="m,d,a,d",options="header"]
 |===
 
@@ -124,6 +126,20 @@ https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-featu
 [TIP]
 Use `src/main/resources/application-local.properties` to store your personal configuration
 without affecting Git working tree.
+
+== Logging
+
+Our logging backend is Logback. Its configuration file is `src/main/resources/logback.xml`.
+Some of the logging levels can be changed using a system property during Maven build
+or when running the packaged application using `java -jar` command.
+
+For example, to enable debug logging of the application code (including tests),
+use `-Dlogging.level.org.optaweb.vehiclerouting=debug`.
+
+Available logging level properties:
+[glossary]
+logging.level.org.optaweb.vehiclerouting:: Application logging level.
+logging.level.org.optaplanner:: OptaPlanner logging level.
 
 == Dependency Rules
 
