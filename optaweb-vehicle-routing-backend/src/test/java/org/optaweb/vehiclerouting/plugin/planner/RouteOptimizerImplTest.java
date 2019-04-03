@@ -46,6 +46,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.task.AsyncTaskExecutor;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.AdditionalAnswers.answer;
 import static org.mockito.AdditionalAnswers.answerVoid;
@@ -297,6 +298,23 @@ public class RouteOptimizerImplTest {
     @Test
     public void clear_should_not_fail_when_solver_is_not_solving() {
         routeOptimizer.clear();
+    }
+
+    @Test
+    public void reset_interrupted_flag() throws ExecutionException, InterruptedException {
+        when(solverFuture.isDone()).thenReturn(true);
+        when(solverFuture.get()).thenThrow(InterruptedException.class);
+        // start solver by adding 2 locations
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        routeOptimizer.addLocation(location2, distanceMatrix);
+
+        assertThatExceptionOfType(RuntimeException.class)
+                .isThrownBy(() -> routeOptimizer.removeLocation(location2));
+        assertThat(Thread.interrupted()).isTrue();
+
+        assertThatExceptionOfType(RuntimeException.class)
+                .isThrownBy(() -> routeOptimizer.clear());
+        assertThat(Thread.interrupted()).isTrue();
     }
 
     /**
