@@ -23,8 +23,9 @@
     </encoder>
   </appender>
 
-  <!-- To override the debug log level from the command line, use the VM option "-Dlogback.level.org.optaplanner=trace" -->
-  <logger name="org.optaplanner" level="${logback.level.org.optaplanner:-info}"/>
+  <!-- To override a log level from command line, use the VM option "-Dlogging.level.<logger_name>=<level>" -->
+  <logger name="org.optaplanner" level="${logging.level.org.optaplanner:-info}"/>
+  <logger name="org.optaweb.vehiclerouting" level="${logging.level.org.optaweb.vehiclerouting:-info}"/>
 
   <root level="info">
     <appender-ref ref="consoleAppender"/>
