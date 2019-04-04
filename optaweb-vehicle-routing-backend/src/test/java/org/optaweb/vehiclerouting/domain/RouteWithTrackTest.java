@@ -23,7 +23,9 @@ import java.util.List;
 import org.junit.Test;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 public class RouteWithTrackTest {
 
@@ -34,8 +36,8 @@ public class RouteWithTrackTest {
     @Test
     public void constructor_args_not_null() {
         Route route = new Route(depot, emptyList());
-        assertThatThrownBy(() -> new RouteWithTrack(route, null)).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new Route(null, emptyList())).isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new RouteWithTrack(route, null));
+        assertThatNullPointerException().isThrownBy(() -> new Route(null, emptyList()));
     }
 
     @Test
@@ -45,7 +47,8 @@ public class RouteWithTrackTest {
         track.add(Arrays.asList(LatLng.valueOf(1.0, 2.0)));
 
         RouteWithTrack routeWithTrack = new RouteWithTrack(route, track);
-        assertThatThrownBy(() -> routeWithTrack.track().clear()).isInstanceOf(UnsupportedOperationException.class);
+        assertThatExceptionOfType(UnsupportedOperationException.class)
+                .isThrownBy(() -> routeWithTrack.track().clear());
     }
 
     @Test
@@ -54,7 +57,7 @@ public class RouteWithTrackTest {
         ArrayList<List<LatLng>> track = new ArrayList<>();
         track.add(Arrays.asList(LatLng.valueOf(1.0, 2.0)));
 
-        assertThatThrownBy(() -> new RouteWithTrack(emptyRoute, track)).isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> new RouteWithTrack(emptyRoute, track));
     }
 
     @Test
@@ -62,6 +65,6 @@ public class RouteWithTrackTest {
         Route route = new Route(depot, Arrays.asList(visit1, visit2));
         ArrayList<List<LatLng>> emptyTrack = new ArrayList<>();
 
-        assertThatThrownBy(() -> new RouteWithTrack(route, emptyTrack)).isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> new RouteWithTrack(route, emptyTrack));
     }
 }

@@ -19,15 +19,15 @@ package org.optaweb.vehiclerouting.plugin.persistence;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 public class DistanceEntityTest {
 
     @Test
     public void constructor_params_must_not_be_null() {
         DistanceKey dKey = new DistanceKey(1, 2);
-        assertThatThrownBy(() -> new DistanceEntity(null, 10.0)).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new DistanceEntity(dKey, null)).isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new DistanceEntity(null, 10.0));
+        assertThatNullPointerException().isThrownBy(() -> new DistanceEntity(dKey, null));
     }
 
     @Test

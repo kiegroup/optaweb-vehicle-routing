@@ -26,7 +26,7 @@ import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -65,9 +65,9 @@ public class DemoServiceTest {
     public void retry_when_adding_location_fails() {
         when(demoProperties.getSize()).thenReturn(1);
         when(locationService.createLocation(any())).thenReturn(false);
-        assertThatThrownBy(() -> demoService.loadDemo())
-                .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining(Belgium.values()[0].toString());
+        assertThatExceptionOfType(RuntimeException.class)
+                .isThrownBy(() -> demoService.loadDemo())
+                .withMessageContaining(Belgium.values()[0].toString());
         verify(locationService, times(DemoService.MAX_TRIES)).createLocation(any(LatLng.class));
     }
 }

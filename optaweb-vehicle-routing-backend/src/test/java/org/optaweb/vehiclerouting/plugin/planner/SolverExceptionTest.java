@@ -35,7 +35,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.task.AsyncTaskExecutor;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -90,10 +90,10 @@ public class SolverExceptionTest {
     }
 
     private static void assertTestExceptionThrownDuring(ThrowingCallable runnable, String message) {
-        assertThatThrownBy(runnable)
-                .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining(message)
-                .hasRootCauseInstanceOf(TestException.class);
+        assertThatExceptionOfType(RuntimeException.class)
+                .isThrownBy(runnable)
+                .withMessageContaining(message)
+                .withRootCauseExactlyInstanceOf(TestException.class);
     }
 
     private static class TestException extends RuntimeException {

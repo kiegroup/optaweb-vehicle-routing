@@ -22,7 +22,9 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 public class RoutingPlanTest {
 
@@ -31,14 +33,13 @@ public class RoutingPlanTest {
 
     @Test
     public void constructor_args_not_null() {
-        assertThatThrownBy(() -> new RoutingPlan(null, depot, emptyList())).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new RoutingPlan("", depot, null)).isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new RoutingPlan(null, depot, emptyList()));
+        assertThatNullPointerException().isThrownBy(() -> new RoutingPlan("", depot, null));
     }
 
     @Test
     public void no_routes_without_a_depot() {
-        assertThatThrownBy(() -> new RoutingPlan("", null, Arrays.asList(emptyRoute)))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> new RoutingPlan("", null, Arrays.asList(emptyRoute)));
     }
 
     @Test
@@ -47,6 +48,7 @@ public class RoutingPlanTest {
         routes.add(emptyRoute);
         RoutingPlan routingPlan = new RoutingPlan("", depot, routes);
 
-        assertThatThrownBy(() -> routingPlan.routes().clear()).isInstanceOf(UnsupportedOperationException.class);
+        assertThatExceptionOfType(UnsupportedOperationException.class)
+                .isThrownBy(() -> routingPlan.routes().clear());
     }
 }

@@ -21,14 +21,14 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 public class LocationEntityTest {
 
     @Test
     public void constructor_params_must_not_be_null() {
-        assertThatThrownBy(() -> new LocationEntity(null, BigDecimal.ZERO)).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new LocationEntity(BigDecimal.ZERO, null)).isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new LocationEntity(null, BigDecimal.ZERO));
+        assertThatNullPointerException().isThrownBy(() -> new LocationEntity(BigDecimal.ZERO, null));
     }
 
     @Test

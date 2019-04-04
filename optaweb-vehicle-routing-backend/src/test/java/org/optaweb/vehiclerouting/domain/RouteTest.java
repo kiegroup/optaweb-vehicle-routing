@@ -22,7 +22,9 @@ import java.util.Collections;
 
 import org.junit.Test;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 public class RouteTest {
 
@@ -32,25 +34,25 @@ public class RouteTest {
 
     @Test
     public void constructor_args_not_null() {
-        assertThatThrownBy(() -> new Route(depot, null)).isInstanceOf(NullPointerException.class);
-        assertThatThrownBy(() -> new Route(null, Collections.emptyList())).isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new Route(depot, null));
+        assertThatNullPointerException().isThrownBy(() -> new Route(null, Collections.emptyList()));
     }
 
     @Test
     public void visits_should_not_contain_depot() {
-        assertThatThrownBy(() -> new Route(depot, Arrays.asList(depot, visit1)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(depot.toString());
-        assertThatThrownBy(() -> new Route(depot, Arrays.asList(visit1, depot, visit2)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(depot.toString());
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new Route(depot, Arrays.asList(depot, visit1)))
+                .withMessageContaining(depot.toString());
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new Route(depot, Arrays.asList(visit1, depot, visit2)))
+                .withMessageContaining(depot.toString());
     }
 
     @Test
     public void no_customer_should_be_visited_twice_by_the_same_vehicle() {
-        assertThatThrownBy(() -> new Route(depot, Arrays.asList(visit1, visit1)))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("(1)");
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> new Route(depot, Arrays.asList(visit1, visit1)))
+                .withMessageContaining("(1)");
     }
 
     @Test
@@ -59,6 +61,7 @@ public class RouteTest {
         visits.add(visit1);
         Route route = new Route(depot, visits);
 
-        assertThatThrownBy(() -> route.visits().clear()).isInstanceOf(UnsupportedOperationException.class);
+        assertThatExceptionOfType(UnsupportedOperationException.class)
+                .isThrownBy(() -> route.visits().clear());
     }
 }
