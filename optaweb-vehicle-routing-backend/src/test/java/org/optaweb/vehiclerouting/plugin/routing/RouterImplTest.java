@@ -82,7 +82,7 @@ public class RouterImplTest {
     }
 
     @Test
-    public void getRoute_should_return_graphopper_route() {
+    public void getRoute_should_return_graphhopper_route() {
         // arrange
         RouterImpl routing = new RouterImpl(graphHopper);
 
