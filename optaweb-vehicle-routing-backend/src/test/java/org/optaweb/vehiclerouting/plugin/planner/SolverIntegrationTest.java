@@ -64,6 +64,7 @@ public class SolverIntegrationTest {
     private SolverFactory<VehicleRoutingSolution> sf;
     private ExecutorService executor;
     private ProblemFactChangeProcessingMonitor monitor;
+    private Future<VehicleRoutingSolution> futureSolution;
 
     @Before
     public void setUp() {
@@ -87,7 +88,7 @@ public class SolverIntegrationTest {
     }
 
     @Test
-    public void removing_customers_should_not_fail() throws InterruptedException, ExecutionException {
+    public void removing_customers_should_not_fail() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         Depot depot = SolutionUtil.addDepot(solution, location(1));
         SolutionUtil.addVehicle(solution, 1);
@@ -97,31 +98,49 @@ public class SolverIntegrationTest {
         sf.getSolverConfig().setDaemon(true);
         Solver<VehicleRoutingSolution> solver = sf.buildSolver();
         solver.addEventListener(monitor);
-        Future<VehicleRoutingSolution> futureSolution = executor.submit(() -> solver.solve(solution));
+        startSolver(solver, solution);
 
         for (int id = 3; id < 6; id++) {
             logger.info("Add customer ({})", id);
-            monitor.startProblemFactChange();
+            monitor.beforeProblemFactChange();
             solver.addProblemFactChange(new AddCustomer(location(id)));
-            assertThat(monitor.awaitProblemFactChangeCompletion(1000)).isTrue();
+            assertThat(monitor.awaitAllProblemFactChanges(1000)).isTrue();
         }
 
-        List<Integer> integers = Arrays.asList(5, 2, 3);
-        for (int id : integers) {
+        List<Integer> customerIds = Arrays.asList(5, 2, 3);
+        for (int id : customerIds) {
             logger.info("Remove customer ({})", id);
             Location removeLocation = location(id);
             assertThat(solver.isEveryProblemFactChangeProcessed()).isTrue();
-            monitor.startProblemFactChange();
+            monitor.beforeProblemFactChange();
             solver.addProblemFactChanges(Arrays.asList(new RemoveCustomer(removeLocation), new RemoveLocation(removeLocation)));
-            assertThat(solver.isEveryProblemFactChangeProcessed()).isFalse();
-            if (!monitor.awaitProblemFactChangeCompletion(1000)) {
-                assertThat(futureSolution.get()).isNotNull();
+            assertThat(solver.isEveryProblemFactChangeProcessed()).isFalse(); // probably not 100% safe
+            // Notice that it's not possible to check individual problem fact changes completion.
+            // When we receive a BestSolutionChangedEvent with unprocessed PFCs, we don't know how many of them there are.
+            if (!monitor.awaitAllProblemFactChanges(1000)) {
+                assertThat(terminateSolver(solver)).isNotNull();
                 fail("Problem fact change hasn't been completed.");
             }
         }
 
+        assertThat(terminateSolver(solver)).isNotNull();
+    }
+
+    private void startSolver(Solver<VehicleRoutingSolution> solver, VehicleRoutingSolution solution) {
+        futureSolution = executor.submit(() -> solver.solve(solution));
+    }
+
+    private VehicleRoutingSolution terminateSolver(Solver<VehicleRoutingSolution> solver) {
         solver.terminateEarly();
-        assertThat(futureSolution.get()).isNotNull();
+        try {
+            return futureSolution.get();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            fail("Interrupted", e);
+        } catch (ExecutionException e) {
+            fail("Solving failed", e);
+        }
+        throw new AssertionError();
     }
 
     private Location location(long id) {
@@ -137,16 +156,23 @@ public class SolverIntegrationTest {
 
         private Semaphore problemFactChanges = new Semaphore(0);
 
-        void startProblemFactChange() {
-            problemFactChanges.drainPermits();
-            problemFactChanges.tryAcquire();
+        void beforeProblemFactChange() {
+            int permitsDrained = problemFactChanges.drainPermits();
+            logger.debug("Before PFC (permits drained: {})", permitsDrained);
         }
 
-        boolean awaitProblemFactChangeCompletion(int milliseconds) throws InterruptedException {
-            logger.debug("WAIT", problemFactChanges.availablePermits(), problemFactChanges.getQueueLength());
-            if (problemFactChanges.tryAcquire(milliseconds, TimeUnit.MILLISECONDS)) {
-                logger.info("Problem Fact Change DONE");
-                return true;
+        boolean awaitAllProblemFactChanges(int milliseconds) {
+            // Available permits may rarely be > 0 if the PFC completes before we start waiting,
+            // or if the solution has improved since we called beforePFC() => the test is not completely reliable.
+            logger.debug("WAIT (completed PFCs: {})", problemFactChanges.availablePermits());
+            try {
+                if (problemFactChanges.tryAcquire(milliseconds, TimeUnit.MILLISECONDS)) {
+                    logger.info("Problem Fact Change DONE");
+                    return true;
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                fail("Interrupted", e);
             }
             return false;
         }
