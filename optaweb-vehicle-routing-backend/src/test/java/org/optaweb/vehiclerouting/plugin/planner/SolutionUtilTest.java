@@ -29,7 +29,7 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 public class SolutionUtilTest {
 
@@ -128,7 +128,7 @@ public class SolutionUtilTest {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
         SolutionUtil.addVehicle(solution, 1);
-        assertThatThrownBy(() -> SolutionUtil.routes(solution)).isInstanceOf(IllegalStateException.class);
+        assertThatIllegalStateException().isThrownBy(() -> SolutionUtil.routes(solution));
     }
 
     @Test
@@ -141,6 +141,6 @@ public class SolutionUtilTest {
         vehicle.setNextCustomer(customer);
         solution.getCustomerList().clear();
         solution.getLocationList().clear();
-        assertThatThrownBy(() -> SolutionUtil.routes(solution)).isInstanceOf(IllegalStateException.class);
+        assertThatIllegalStateException().isThrownBy(() -> SolutionUtil.routes(solution));
     }
 }

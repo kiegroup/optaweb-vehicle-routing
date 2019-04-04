@@ -21,13 +21,13 @@ import java.math.BigDecimal;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 public class LocationTest {
 
     @Test
     public void constructor_params_must_not_be_null() {
-        assertThatThrownBy(() -> new Location(0, null)).isInstanceOf(NullPointerException.class);
+        assertThatNullPointerException().isThrownBy(() -> new Location(0, null));
     }
 
     @Test

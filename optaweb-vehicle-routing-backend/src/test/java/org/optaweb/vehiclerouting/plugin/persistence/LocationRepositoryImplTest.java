@@ -30,7 +30,7 @@ import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
@@ -84,9 +84,9 @@ public class LocationRepositoryImplTest {
 
         // removing nonexistent location should fail and its ID should appear in the exception message
         int uniqueNonexistentId = 7173;
-        assertThatThrownBy(() -> repository.removeLocation(uniqueNonexistentId))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(String.valueOf(uniqueNonexistentId));
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> repository.removeLocation(uniqueNonexistentId))
+                .withMessageContaining(String.valueOf(uniqueNonexistentId));
     }
 
     @Test

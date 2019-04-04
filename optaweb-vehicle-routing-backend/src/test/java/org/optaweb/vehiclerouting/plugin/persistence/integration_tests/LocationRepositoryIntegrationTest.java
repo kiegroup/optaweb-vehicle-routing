@@ -31,7 +31,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 @DataJpaTest
 @RunWith(SpringRunner.class)
@@ -75,14 +75,12 @@ public class LocationRepositoryIntegrationTest {
         assertThat(removed).isEqualTo(location);
 
         // removing the same location twice should fail
-        assertThatThrownBy(() -> repository.removeLocation(location.getId()))
-                .isInstanceOf(IllegalArgumentException.class);
+        assertThatIllegalArgumentException().isThrownBy(() -> repository.removeLocation(location.getId()));
 
         // removing nonexistent location should fail and its ID should appear in the exception message
         int uniqueNonexistentId = 7173;
-        assertThatThrownBy(() -> repository.removeLocation(uniqueNonexistentId))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining(String.valueOf(uniqueNonexistentId));
+        assertThatIllegalArgumentException().isThrownBy(() -> repository.removeLocation(uniqueNonexistentId))
+                .withMessageContaining(String.valueOf(uniqueNonexistentId));
     }
 
     @Test
