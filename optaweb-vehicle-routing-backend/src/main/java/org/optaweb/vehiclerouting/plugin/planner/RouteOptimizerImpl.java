@@ -195,7 +195,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
             publishRoute(solution);
         } else {
             if (solution.getDepotList().get(0).getLocation().getId().equals(location.getId())) {
-                throw new UnsupportedOperationException("You can only remove depot if there are no customers.");
+                throw new IllegalStateException("You can only remove depot if there are no customers.");
             }
             if (solution.getCustomerList().size() == 1) {
                 // depot and 1 customer remaining
