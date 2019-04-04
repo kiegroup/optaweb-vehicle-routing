@@ -46,6 +46,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.task.AsyncTaskExecutor;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.AdditionalAnswers.answer;
@@ -297,7 +298,7 @@ public class RouteOptimizerImplTest {
 
     @Test
     public void clear_should_not_fail_when_solver_is_not_solving() {
-        routeOptimizer.clear();
+        assertThatCode(() -> routeOptimizer.clear()).doesNotThrowAnyException();
     }
 
     @Test
