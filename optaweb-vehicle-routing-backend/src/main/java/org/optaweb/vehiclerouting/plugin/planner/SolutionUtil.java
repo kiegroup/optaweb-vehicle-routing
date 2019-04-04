@@ -39,6 +39,7 @@ public class SolutionUtil {
     public static final int DEFAULT_VEHICLE_CAPACITY = 10;
 
     private SolutionUtil() {
+        throw new AssertionError("Utility class");
     }
 
     /**
