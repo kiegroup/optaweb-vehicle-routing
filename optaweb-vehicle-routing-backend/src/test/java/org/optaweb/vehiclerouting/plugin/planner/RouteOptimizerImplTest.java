@@ -48,7 +48,7 @@ import org.springframework.core.task.AsyncTaskExecutor;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.AdditionalAnswers.answer;
 import static org.mockito.AdditionalAnswers.answerVoid;
 import static org.mockito.ArgumentMatchers.any;
@@ -240,9 +240,9 @@ public class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
 
-        assertThatThrownBy(() -> routeOptimizer.removeLocation(location1))
-                .isInstanceOf(UnsupportedOperationException.class)
-                .hasMessageContaining("depot");
+        assertThatIllegalStateException()
+                .isThrownBy(() -> routeOptimizer.removeLocation(location1))
+                .withMessageContaining("depot");
     }
 
     @Test
