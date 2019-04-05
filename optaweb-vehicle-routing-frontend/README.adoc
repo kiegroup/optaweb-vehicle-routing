@@ -1,6 +1,11 @@
 [[optaweb-vehicle-routing-frontend]]
 = OptaWeb Vehicle Routing Frontend
 
+image:https://david-dm.org/kiegroup/optaweb-vehicle-routing/status.svg?path=optaweb-vehicle-routing-frontend[
+"dependencies Status", link="https://david-dm.org/kiegroup/optaweb-vehicle-routing?path=optaweb-vehicle-routing-frontend"]
+image:https://david-dm.org/kiegroup/optaweb-vehicle-routing/dev-status.svg?path=optaweb-vehicle-routing-frontend[
+"devDependencies Status", link="https://david-dm.org/kiegroup/optaweb-vehicle-routing?path=optaweb-vehicle-routing-frontend&type=dev"]
+
 [[available-scripts]]
 == Available Scripts
 
