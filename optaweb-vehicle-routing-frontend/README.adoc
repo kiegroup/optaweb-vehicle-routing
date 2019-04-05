@@ -71,6 +71,22 @@ for small and middle deployments, and you shouldn’t feel obligated to
 use this feature. However we understand that this tool wouldn’t be
 useful if you couldn’t customize it when you are ready for it.
 
+== Change Backend Location
+Use an environment variable called `REACT_APP_BACKEND_URL` to change backend URL
+when running `npm start` or `npm run build`. For example:
+
+[literal]
+....
+REACT_APP_BACKEND_URL=http://10.0.0.123:8081
+....
+
+Note that environment variables will be "baked" inside the JS bundle during npm build,
+so you'll need to know backend location before building and deploying frontend.
+
+Learn more about React environment variables in
+https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables[
+Adding Custom Environment Variables].
+
 [[browserslist-support]]
 == Browserslist Support
 

@@ -25,7 +25,7 @@ import configureStore from './store/configStore';
 import App from './ui/App';
 
 const store = configureStore({
-  socketUrl: 'http://localhost:8080/vrp-websocket',
+  socketUrl: `${process.env.REACT_APP_BACKEND_URL}/vrp-websocket`,
 });
 
 ReactDOM.render(

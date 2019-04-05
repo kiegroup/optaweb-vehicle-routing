@@ -98,6 +98,16 @@ Contains outer layers such as optimization, persistence, routing and web.
 |Name of the OSM file that should be loaded by GraphHopper.
  The file must be placed under `local/openstreetmap/`.
 
+|server.address
+|IP address or hostname
+|10.0.0.123, my-vrp.geo-1.openshiftapps.com
+|Network address to which the server should bind.
+
+|server.port
+|Port number
+|4000, 8081
+|Server HTTP port.
+
 |===
 
 There are multiple ways how to set configuration properties.
@@ -126,6 +136,10 @@ https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-featu
 [TIP]
 Use `src/main/resources/application-local.properties` to store your personal configuration
 without affecting Git working tree.
+
+See also the complete list of
+https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[
+common application properties] available in Spring Boot.
 
 == Logging
 
