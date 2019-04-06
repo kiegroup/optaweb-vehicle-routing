@@ -53,6 +53,20 @@
             </configuration>
           </execution>
           <execution>
+            <id>npm test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>test</arguments>
+              <environmentVariables>
+                <!-- Prevent CRA scripts from running Jest in watch mode -->
+                <CI>true</CI>
+              </environmentVariables>
+            </configuration>
+          </execution>
+          <execution>
             <id>npm run build</id>
             <goals>
               <goal>npm</goal>
