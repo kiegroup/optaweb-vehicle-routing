@@ -362,6 +362,18 @@
       </build>
     </profile>
     <profile>
+      <!-- Skip Sonar plugin execution if SONARCLOUD_TOKEN is not set. -->
+      <id>skipSonar</id>
+      <activation>
+        <property>
+          <name>!env.SONARCLOUD_TOKEN</name>
+        </property>
+      </activation>
+      <properties>
+        <sonar.skip>true</sonar.skip>
+      </properties>
+    </profile>
+    <profile>
       <!-- Don't set sonar.pullrequest properties when the Travis build is not triggered by PR (for example by push
            to branch or by cron). Sonar plugin would fail because the content of these properties would be invalid. -->
       <!-- See https://docs.travis-ci.com/user/environment-variables/ for list of Travis environment variables.-->
