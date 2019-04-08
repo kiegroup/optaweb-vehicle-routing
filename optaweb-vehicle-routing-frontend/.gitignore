@@ -18,6 +18,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# SonarQube Scanner working dir
+# Runs on Travis but can be run locally with npx (see travis-sonarcloud.sh)
+/.scannerwork
+
 /target
 /local
 
