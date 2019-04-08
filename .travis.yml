@@ -7,15 +7,17 @@ jobs:
       cache:
         directories:
           - "$HOME/.npm"
+          - "$HOME/.sonar/cache"
       before_install:
         - "cd optaweb-vehicle-routing-frontend"
       # most important checks first
       script:
         - npm run build
-        - npm test
+        - npm run coverage # test with coverage report
         # check that git working tree is clean after running npm install
         # the git command returns 1 and fails the build if there are any uncommitted changes
         - npm install && git diff HEAD --exit-code
+      after_script: ./travis-sonarcloud.sh
     - language: java
       jdk: openjdk8
       cache:
