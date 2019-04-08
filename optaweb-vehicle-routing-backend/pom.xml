@@ -285,13 +285,7 @@
 
   <profiles>
     <profile>
-      <!-- Mutation coverage disabled by default (use -Dmutation-coverage to activate it) -->
-      <id>mutation-coverage</id>
-      <activation>
-        <property>
-          <name>mutation-coverage</name>
-        </property>
-      </activation>
+      <id>mutationCoverage</id>
       <build>
         <plugins>
           <plugin>
@@ -376,8 +370,8 @@
     <profile>
       <!-- Don't set sonar.pullrequest properties when the Travis build is not triggered by PR (for example by push
            to branch or by cron). Sonar plugin would fail because the content of these properties would be invalid. -->
-      <!-- See https://docs.travis-ci.com/user/environment-variables/ for list of Travis environment variables.-->
-      <id>pullrequest</id>
+      <!-- See https://docs.travis-ci.com/user/environment-variables/ for list of Travis environment variables. -->
+      <id>pullRequest</id>
       <activation>
         <property>
           <name>env.TRAVIS_EVENT_TYPE</name>
