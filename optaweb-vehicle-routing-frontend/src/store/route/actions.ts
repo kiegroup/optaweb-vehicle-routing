@@ -39,9 +39,7 @@ export const clearRoute: ActionCreator<ClearRouteAction> = () => ({
   type: ActionType.CLEAR_SOLUTION,
 });
 
-export const updateRoute: ActionCreator<UpdateRouteAction> = (
-  plan: RoutingPlan,
-) => ({
+export const updateRoute: ActionCreator<UpdateRouteAction> = (plan: RoutingPlan) => ({
   plan,
   type: ActionType.UPDATE_ROUTING_PLAN,
 });

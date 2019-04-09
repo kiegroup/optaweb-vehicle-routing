@@ -16,10 +16,7 @@
 
 import { ActionType, WebSocketAction, WebSocketConnectionStatus } from './types';
 
-export default function wsReducer(
-  state = WebSocketConnectionStatus.CLOSED,
-  action: WebSocketAction,
-): WebSocketConnectionStatus {
+const wsReducer = (state = WebSocketConnectionStatus.CLOSED, action: WebSocketAction): WebSocketConnectionStatus => {
   switch (action.type) {
     case ActionType.WS_CONNECT_SUCCESS: {
       return WebSocketConnectionStatus.OPEN;
@@ -30,4 +27,6 @@ export default function wsReducer(
     default:
       return state;
   }
-}
+};
+
+export default wsReducer;

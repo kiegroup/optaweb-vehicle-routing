@@ -42,7 +42,7 @@ describe('WebSocket client operations', () => {
 
     let errorCallbackCapture: (err: any) => void = uninitializedCallbackCapture;
     let successCallbackCapture: () => void = uninitializedCallbackCapture;
-    let subscribeCallbackCap: (plan: RoutingPlan) => void = uninitializedCallbackCapture;
+    let subscribeCallbackCapture: (plan: RoutingPlan) => void = uninitializedCallbackCapture;
 
     const { store, client } = mockStore(state);
 
@@ -54,7 +54,7 @@ describe('WebSocket client operations', () => {
 
     // @ts-ignore
     client.subscribe.mockImplementation((callback) => {
-      subscribeCallbackCap = callback;
+      subscribeCallbackCapture = callback;
     });
 
     store.dispatch(websocketOperations.connectClient());
@@ -87,7 +87,7 @@ describe('WebSocket client operations', () => {
     store.clearActions();
 
     // simulate response to subscription
-    subscribeCallbackCap(emptyPlan);
+    subscribeCallbackCapture(emptyPlan);
     expect(store.getActions()).toEqual([routeOperations.updateRoute(emptyPlan)]);
   });
   it('should finish demo loading when all locations are loaded', () => {
