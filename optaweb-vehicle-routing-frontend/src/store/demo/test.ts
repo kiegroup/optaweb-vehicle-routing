@@ -14,36 +14,22 @@
  * limitations under the License.
  */
 
-import { Middleware } from 'redux';
-import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock-store';
-import thunk, { ThunkDispatch } from 'redux-thunk';
-import WebSocketClient from 'websocket/WebSocketClient';
-import { RouteAction } from '../route/types';
+import { mockStore } from '../mockStore';
 import { IAppState } from '../types';
-import { WebSocketAction, WebSocketConnectionStatus } from '../websocket/types';
+import { WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
 import reducer, { demoOperations } from './index';
-import { IDemo, ILoadDemoAction } from './types';
-
-jest.mock('websocket/WebSocketClient');
+import { IDemo } from './types';
 
 describe('Demo operations', () => {
   it('should dispatch actions and call client', () => {
-    let demoCallbackCapture: (demoSize: number) => void = uninitializedCallbackCapture;
+    const { store, client } = mockStore(state);
 
-    const client = new WebSocketClient('');
+    let demoCallbackCapture: (demoSize: number) => void = uninitializedCallbackCapture;
     // @ts-ignore
     client.loadDemo.mockImplementation((demoCallback) => {
       demoCallbackCapture = demoCallback;
     });
-
-    // mock store
-    const middlewares: Middleware[] = [thunk.withExtraArgument(client)];
-    type DispatchExts = ThunkDispatch<IAppState, WebSocketClient,
-      WebSocketAction | RouteAction | ILoadDemoAction>;
-    const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
-      createMockStore<IAppState, DispatchExts>(middlewares);
-    const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
 
     // verify loadDemo operation calls the client
     store.dispatch(demoOperations.loadDemo());

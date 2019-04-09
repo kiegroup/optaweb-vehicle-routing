@@ -14,30 +14,17 @@
  * limitations under the License.
  */
 
-import { Middleware } from 'redux';
-import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock-store';
-import thunk, { ThunkDispatch } from 'redux-thunk';
-import WebSocketClient from 'websocket/WebSocketClient';
+import { mockStore } from '../mockStore';
 import { IAppState } from '../types';
-import { WebSocketAction, WebSocketConnectionStatus } from '../websocket/types';
+import { WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
 import reducer, { routeOperations, routeSelectors } from './index';
 import { initialRouteState } from './reducers';
-import { ILatLng, IUpdateRouteAction } from './types';
-
-jest.mock('websocket/WebSocketClient');
+import { ILatLng } from './types';
 
 describe('Route operations', () => {
   it('should dispatch actions and call client', () => {
-    const client = new WebSocketClient('');
-
-    // mock store
-    const middlewares: Middleware[] = [thunk.withExtraArgument(client)];
-    type DispatchExts = ThunkDispatch<IAppState, WebSocketClient,
-      WebSocketAction | IUpdateRouteAction>;
-    const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
-      createMockStore<IAppState, DispatchExts>(middlewares);
-    const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
+    const { store, client } = mockStore(state);
 
     store.dispatch(routeOperations.clearRoute());
     expect(store.getActions()).toEqual([actions.clearRoute()]);
