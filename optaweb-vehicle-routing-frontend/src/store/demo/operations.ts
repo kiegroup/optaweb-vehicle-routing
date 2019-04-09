@@ -21,9 +21,7 @@ import { LoadDemoAction } from './types';
 
 export const demoLoaded = actions.demoLoaded;
 
-export const loadDemo: ActionCreator<ThunkCommand<LoadDemoAction>> = () => (
-  dispatch, state, client,
-) => {
+export const loadDemo: ActionCreator<ThunkCommand<LoadDemoAction>> = () => (dispatch, state, client) => {
   client.loadDemo((demoSize) => {
     dispatch(actions.loadDemo(demoSize));
   });

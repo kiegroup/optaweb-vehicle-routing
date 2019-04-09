@@ -16,13 +16,12 @@
 
 import { ActionType, Demo, DemoAction } from './types';
 
-const demoReducer = (
-  state = {
-    demoSize: -1,
-    isLoading: false,
-  },
-  action: DemoAction,
-): Demo => {
+const initialState: Demo = {
+  isLoading: false,
+  demoSize: -1,
+};
+
+const demoReducer = (state = initialState, action: DemoAction): Demo => {
   switch (action.type) {
     case ActionType.LOAD_DEMO: {
       return { isLoading: true, demoSize: action.size };

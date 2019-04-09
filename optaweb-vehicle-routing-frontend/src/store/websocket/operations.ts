@@ -24,9 +24,12 @@ import { ThunkCommand } from '../types';
 import * as actions from './actions';
 import { WebSocketAction } from './types';
 
-type ConnectClientThunk = ActionCreator<ThunkCommand<WebSocketAction
+type ConnectClientThunkAction =
+  | WebSocketAction
   | UpdateRouteAction
-  | DemoLoadingFinishedAction>>;
+  | DemoLoadingFinishedAction;
+
+type ConnectClientThunk = ActionCreator<ThunkCommand<ConnectClientThunkAction>>;
 
 /**
  * Connect the client to WebSocket.

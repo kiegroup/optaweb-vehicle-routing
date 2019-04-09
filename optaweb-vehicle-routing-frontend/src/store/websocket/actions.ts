@@ -31,9 +31,7 @@ export const wsConnectionSuccess: ActionCreator<WsConnectionSuccessAction> = () 
   type: ActionType.WS_CONNECT_SUCCESS,
 });
 
-export const wsConnectionFailure: ActionCreator<WsConnectionFailureAction> = (
-  err: Frame | CloseEvent,
-) => ({
+export const wsConnectionFailure: ActionCreator<WsConnectionFailureAction> = (err: Frame | CloseEvent) => ({
   type: ActionType.WS_CONNECT_FAILURE,
   value: err,
 });
