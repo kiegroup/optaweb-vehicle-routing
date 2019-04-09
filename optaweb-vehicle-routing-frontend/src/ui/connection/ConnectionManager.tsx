@@ -17,26 +17,26 @@
 import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { IAppState } from 'store/types';
+import { AppState } from 'store/types';
 import { websocketOperations } from 'store/websocket';
 import { WebSocketConnectionStatus } from 'store/websocket/types';
 import ConnectionError from 'ui/connection/ConnectionError';
 
-interface IStateProps {
+interface StateProps {
   connectionStatus: WebSocketConnectionStatus;
 }
 
-interface IDispatchProps {
+interface DispatchProps {
   connectClient: typeof websocketOperations.connectClient;
 }
 
-type Props = IStateProps & IDispatchProps;
+type Props = StateProps & DispatchProps;
 
-const mapStateToProps = ({ connectionStatus }: IAppState): IStateProps => ({
+const mapStateToProps = ({ connectionStatus }: AppState): StateProps => ({
   connectionStatus,
 });
 
-const mapDispatchToProps: IDispatchProps = {
+const mapDispatchToProps: DispatchProps = {
   connectClient: websocketOperations.connectClient,
 };
 

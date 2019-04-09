@@ -15,11 +15,11 @@
  */
 
 import { mockStore } from '../mockStore';
-import { IAppState } from '../types';
+import { AppState } from '../types';
 import { WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
 import reducer, { demoOperations } from './index';
-import { IDemo } from './types';
+import { Demo } from './types';
 
 describe('Demo operations', () => {
   it('should dispatch actions and call client', () => {
@@ -44,21 +44,21 @@ describe('Demo operations', () => {
 
 describe('Demo reducers', () => {
   it('load demo', () => {
-    const expectedState: IDemo = { isLoading: true, demoSize: 5 };
+    const expectedState: Demo = { isLoading: true, demoSize: 5 };
     expect(
       reducer(state.demo, actions.loadDemo(expectedState.demoSize)),
     ).toEqual(expectedState);
   });
   it('loading flag should be cleared when demo is loaded', () => {
     const demoSize: number = 5;
-    const expectedState: IDemo = { isLoading: false, demoSize };
+    const expectedState: Demo = { isLoading: false, demoSize };
     expect(
       reducer({ isLoading: true, demoSize }, actions.demoLoaded()),
     ).toEqual(expectedState);
   });
 });
 
-const state: IAppState = {
+const state: AppState = {
   connectionStatus: WebSocketConnectionStatus.CLOSED,
   demo: {
     demoSize: 0,

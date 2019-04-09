@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { ActionType, DemoAction, IDemo } from './types';
+import { ActionType, Demo, DemoAction } from './types';
 
 const demoReducer = (
   state = {
@@ -22,7 +22,7 @@ const demoReducer = (
     isLoading: false,
   },
   action: DemoAction,
-): IDemo => {
+): Demo => {
   switch (action.type) {
     case ActionType.LOAD_DEMO: {
       return { isLoading: true, demoSize: action.size };

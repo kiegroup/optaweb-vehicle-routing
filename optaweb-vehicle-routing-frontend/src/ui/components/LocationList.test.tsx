@@ -18,11 +18,11 @@ import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
 import Location from './Location';
-import LocationList, { ILocationListProps } from './LocationList';
+import LocationList, { LocationListProps } from './LocationList';
 
 describe('Location List Component', () => {
   it('should render correctly with no routes', () => {
-    const props: ILocationListProps = {
+    const props: LocationListProps = {
       removeHandler: jest.fn(),
       selectHandler: jest.fn(),
       depot: null,
@@ -33,7 +33,7 @@ describe('Location List Component', () => {
   });
 
   it('should render correctly with a few routes', () => {
-    const props: ILocationListProps = {
+    const props: LocationListProps = {
       removeHandler: jest.fn(),
       selectHandler: jest.fn(),
       depot: {

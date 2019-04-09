@@ -17,11 +17,11 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import ConnectionError, { IConnectionErrorProps } from './ConnectionError';
+import ConnectionError, { ConnectionErrorProps } from './ConnectionError';
 
 describe('Connection Error Component', () => {
   it('should render correctly', () => {
-    const props: IConnectionErrorProps = {
+    const props: ConnectionErrorProps = {
       title: 'title',
       message: 'message',
       icon: <i>Icon</i>,

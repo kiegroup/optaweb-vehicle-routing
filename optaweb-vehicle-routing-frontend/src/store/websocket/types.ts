@@ -32,14 +32,14 @@ export enum ActionType {
 export interface InitWsConnectionAction extends Action<ActionType.WS_CONNECT> {
 }
 
-export interface IWsConnectionSuccessAction extends Action<ActionType.WS_CONNECT_SUCCESS> {
+export interface WsConnectionSuccessAction extends Action<ActionType.WS_CONNECT_SUCCESS> {
 }
 
-export interface IWsConnectionFailureAction extends Action<ActionType.WS_CONNECT_FAILURE> {
+export interface WsConnectionFailureAction extends Action<ActionType.WS_CONNECT_FAILURE> {
   readonly value: Frame | CloseEvent;
 }
 
 export type WebSocketAction =
   | InitWsConnectionAction
-  | IWsConnectionFailureAction
-  | IWsConnectionSuccessAction;
+  | WsConnectionFailureAction
+  | WsConnectionSuccessAction;

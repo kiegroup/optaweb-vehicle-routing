@@ -17,11 +17,11 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import TspMap, { ITspMapProps } from './TspMap';
+import TspMap, { TspMapProps } from './TspMap';
 
 describe('TSP Map View', () => {
   it('should render correctly', () => {
-    const props: ITspMapProps = {
+    const props: TspMapProps = {
       clickHandler: jest.fn(),
       removeHandler: jest.fn(),
       selectedId: 1,

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-// tslint:disable:interface-name
 // tslint:disable:max-classes-per-file
 declare module 'leaflet-geosearch' {
 

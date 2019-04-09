@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { ActionType, IDemoLoadingFinishedAction, ILoadDemoAction } from './types';
+import { ActionType, DemoLoadingFinishedAction, LoadDemoAction } from './types';
 
-export const loadDemo = (size: number): ILoadDemoAction => ({
+export const loadDemo = (size: number): LoadDemoAction => ({
   type: ActionType.LOAD_DEMO,
   size,
 });
 
-export const demoLoaded = (): IDemoLoadingFinishedAction => ({
+export const demoLoaded = (): DemoLoadingFinishedAction => ({
   type: ActionType.DEMO_LOADED,
 });

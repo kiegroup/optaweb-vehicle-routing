@@ -21,18 +21,18 @@ export enum ActionType {
   DEMO_LOADED = 'DEMO_LOADED',
 }
 
-export interface ILoadDemoAction extends Action<ActionType.LOAD_DEMO> {
+export interface LoadDemoAction extends Action<ActionType.LOAD_DEMO> {
   readonly size: number;
 }
 
-export interface IDemoLoadingFinishedAction extends Action<ActionType.DEMO_LOADED> {
+export interface DemoLoadingFinishedAction extends Action<ActionType.DEMO_LOADED> {
 }
 
 export type DemoAction =
-  | ILoadDemoAction
-  | IDemoLoadingFinishedAction;
+  | LoadDemoAction
+  | DemoLoadingFinishedAction;
 
-export interface IDemo {
+export interface Demo {
   readonly isLoading: boolean;
   readonly demoSize: number;
 }

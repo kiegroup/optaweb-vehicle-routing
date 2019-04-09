@@ -28,28 +28,28 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { demoOperations } from 'store/demo';
 import { routeOperations, routeSelectors } from 'store/route';
-import { ILatLng, ILocation, IRouteWithTrack } from 'store/route/types';
-import { IAppState } from 'store/types';
+import { LatLng, Location, RouteWithTrack } from 'store/route/types';
+import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
-import SearchBox, { IResult } from 'ui/components/SearchBox';
+import SearchBox, { Result } from 'ui/components/SearchBox';
 import TspMap from 'ui/components/TspMap';
 
-export interface IStateProps {
+export interface StateProps {
   distance: string;
-  depot: ILocation | null;
-  visits: ILocation[];
-  routes: IRouteWithTrack[];
+  depot: Location | null;
+  visits: Location[];
+  routes: RouteWithTrack[];
   isDemoLoading: boolean;
 }
 
-export interface IDispatchProps {
+export interface DispatchProps {
   loadHandler: typeof demoOperations.loadDemo;
   clearHandler: typeof routeOperations.clearRoute;
   addHandler: typeof routeOperations.addLocation;
   removeHandler: typeof routeOperations.deleteLocation;
 }
 
-const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
+const mapStateToProps = ({ plan, demo }: AppState): StateProps => ({
   distance: plan.distance,
   depot: plan.depot,
   visits: routeSelectors.getVisits(plan),
@@ -57,22 +57,22 @@ const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
   isDemoLoading: demo.isLoading,
 });
 
-const mapDispatchToProps: IDispatchProps = {
+const mapDispatchToProps: DispatchProps = {
   loadHandler: demoOperations.loadDemo,
   clearHandler: routeOperations.clearRoute,
   addHandler: routeOperations.addLocation,
   removeHandler: routeOperations.deleteLocation,
 };
 
-export type IDemoProps = IDispatchProps & IStateProps;
+export type IDemoProps = DispatchProps & StateProps;
 
-export interface IDemoState {
+export interface DemoState {
   selectedId: number;
-  center: ILatLng;
+  center: LatLng;
   zoom: number;
 }
 
-export class Demo extends React.Component<IDemoProps, IDemoState> {
+export class Demo extends React.Component<IDemoProps, DemoState> {
   constructor(props: IDemoProps) {
     super(props);
 
@@ -93,7 +93,7 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
     this.props.addHandler(e.latlng);
   }
 
-  handleSearchResultClick(result: IResult) {
+  handleSearchResultClick(result: Result) {
     this.props.addHandler(result.latLng);
   }
 

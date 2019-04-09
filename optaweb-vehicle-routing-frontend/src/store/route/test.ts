@@ -15,12 +15,12 @@
  */
 
 import { mockStore } from '../mockStore';
-import { IAppState } from '../types';
+import { AppState } from '../types';
 import { WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
 import reducer, { routeOperations, routeSelectors } from './index';
 import { initialRouteState } from './reducers';
-import { ILatLng } from './types';
+import { LatLng } from './types';
 
 describe('Route operations', () => {
   it('should dispatch actions and call client', () => {
@@ -40,7 +40,7 @@ describe('Route operations', () => {
 
     store.clearActions();
 
-    const latLng: ILatLng = state.plan.routes[0].track[0];
+    const latLng: LatLng = state.plan.routes[0].track[0];
     store.dispatch(routeOperations.addLocation(latLng));
     expect(store.getActions()).toEqual([actions.addLocation(latLng)]);
     expect(client.addLocation).toHaveBeenCalledTimes(1);
@@ -83,7 +83,7 @@ describe('Route selectors', () => {
   });
 });
 
-const state: IAppState = {
+const state: AppState = {
   connectionStatus: WebSocketConnectionStatus.CLOSED,
   demo: {
     demoSize: 0,

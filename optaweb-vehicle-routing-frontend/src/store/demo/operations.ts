@@ -17,11 +17,11 @@
 import { ActionCreator } from 'redux';
 import { ThunkCommand } from '../types';
 import * as actions from './actions';
-import { ILoadDemoAction } from './types';
+import { LoadDemoAction } from './types';
 
 export const demoLoaded = actions.demoLoaded;
 
-export const loadDemo: ActionCreator<ThunkCommand<ILoadDemoAction>> = () => (
+export const loadDemo: ActionCreator<ThunkCommand<LoadDemoAction>> = () => (
   dispatch, state, client,
 ) => {
   client.loadDemo((demoSize) => {

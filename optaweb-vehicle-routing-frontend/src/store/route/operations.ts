@@ -17,12 +17,12 @@
 import { ActionCreator } from 'redux';
 import { ThunkCommand } from '../types';
 import * as actions from './actions';
-import { IAddLocationAction, IClearRouteAction, IDeleteLocationAction, ILatLng } from './types';
+import { AddLocationAction, ClearRouteAction, DeleteLocationAction, LatLng } from './types';
 
 export const updateRoute = actions.updateRoute;
 
-export const addLocation: ActionCreator<ThunkCommand<IAddLocationAction>> = (
-  location: ILatLng,
+export const addLocation: ActionCreator<ThunkCommand<AddLocationAction>> = (
+  location: LatLng,
 ) => (
   dispatch, state, client,
 ) => {
@@ -30,7 +30,7 @@ export const addLocation: ActionCreator<ThunkCommand<IAddLocationAction>> = (
   client.addLocation(location);
 };
 
-export const deleteLocation: ActionCreator<ThunkCommand<IDeleteLocationAction>> = (
+export const deleteLocation: ActionCreator<ThunkCommand<DeleteLocationAction>> = (
   locationId: number,
 ) => (
   dispatch, state, client,
@@ -39,7 +39,7 @@ export const deleteLocation: ActionCreator<ThunkCommand<IDeleteLocationAction>> 
   client.deleteLocation(locationId);
 };
 
-export const clearRoute: ActionCreator<ThunkCommand<IClearRouteAction>> = () => (
+export const clearRoute: ActionCreator<ThunkCommand<ClearRouteAction>> = () => (
   dispatch, state, client,
 ) => {
   dispatch(actions.clearRoute());

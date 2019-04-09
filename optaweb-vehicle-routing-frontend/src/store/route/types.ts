@@ -16,28 +16,28 @@
 
 import { Action } from 'redux';
 
-export interface ILatLng {
+export interface LatLng {
   readonly lat: number;
   readonly lng: number;
 }
 
-export interface ILocation extends ILatLng {
+export interface Location extends LatLng {
   readonly id: number;
 }
 
-export interface IRoute {
-  readonly visits: ILocation[];
+export interface Route {
+  readonly visits: Location[];
 }
 
-export interface IRouteWithTrack extends IRoute {
-  readonly track: ILatLng[];
+export interface RouteWithTrack extends Route {
+  readonly track: LatLng[];
 }
 
-export interface IRoutingPlan {
+export interface RoutingPlan {
   readonly distance: string;
-  readonly depot: ILocation | null;
-  // TODO visits: ILocation[];
-  readonly routes: IRouteWithTrack[];
+  readonly depot: Location | null;
+  // TODO visits: Location[];
+  readonly routes: RouteWithTrack[];
 }
 
 export enum ActionType {
@@ -47,23 +47,23 @@ export enum ActionType {
   CLEAR_SOLUTION = 'CLEAR_SOLUTION',
 }
 
-export interface IAddLocationAction extends Action<ActionType.ADD_LOCATION> {
-  readonly value: ILatLng;
+export interface AddLocationAction extends Action<ActionType.ADD_LOCATION> {
+  readonly value: LatLng;
 }
 
-export interface IClearRouteAction extends Action<ActionType.CLEAR_SOLUTION> {
+export interface ClearRouteAction extends Action<ActionType.CLEAR_SOLUTION> {
 }
 
-export interface IDeleteLocationAction extends Action<ActionType.DELETE_LOCATION> {
+export interface DeleteLocationAction extends Action<ActionType.DELETE_LOCATION> {
   readonly value: number;
 }
 
-export interface IUpdateRouteAction extends Action<ActionType.UPDATE_ROUTING_PLAN> {
-  readonly plan: IRoutingPlan;
+export interface UpdateRouteAction extends Action<ActionType.UPDATE_ROUTING_PLAN> {
+  readonly plan: RoutingPlan;
 }
 
 export type RouteAction =
-  | IAddLocationAction
-  | IDeleteLocationAction
-  | IUpdateRouteAction
-  | IClearRouteAction;
+  | AddLocationAction
+  | DeleteLocationAction
+  | UpdateRouteAction
+  | ClearRouteAction;

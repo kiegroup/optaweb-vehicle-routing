@@ -18,31 +18,31 @@ import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { routeOperations, routeSelectors } from 'store/route';
-import { ILocation } from 'store/route/types';
-import { IAppState } from 'store/types';
+import { Location } from 'store/route/types';
+import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
 
-interface IStateProps {
-  depot: ILocation | null;
-  visits: ILocation[];
+interface StateProps {
+  depot: Location | null;
+  visits: Location[];
 }
 
-const mapStateToProps = ({ plan }: IAppState): IStateProps => ({
+const mapStateToProps = ({ plan }: AppState): StateProps => ({
   depot: plan.depot,
   visits: routeSelectors.getVisits(plan),
 });
 
-export interface IDispatchProps {
+export interface DispatchProps {
   addHandler: typeof routeOperations.addLocation;
   removeHandler: typeof routeOperations.deleteLocation;
 }
 
-const mapDispatchToProps: IDispatchProps = {
+const mapDispatchToProps: DispatchProps = {
   addHandler: routeOperations.addLocation,
   removeHandler: routeOperations.deleteLocation,
 };
 
-type IProps = IStateProps & IDispatchProps;
+type IProps = StateProps & DispatchProps;
 
 class Visits extends React.Component<IProps> {
 

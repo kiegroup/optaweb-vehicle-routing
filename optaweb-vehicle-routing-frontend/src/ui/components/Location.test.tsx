@@ -17,11 +17,11 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import Location, { ILocationProps } from './Location';
+import Location, { LocationProps } from './Location';
 
 describe('Location Component', () => {
   it('should render correctly', () => {
-    const props: ILocationProps = {
+    const props: LocationProps = {
       id: 10,
       removeDisabled: false,
       removeHandler: jest.fn(),

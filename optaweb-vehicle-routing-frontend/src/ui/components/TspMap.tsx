@@ -17,16 +17,16 @@
 import * as L from 'leaflet';
 import * as React from 'react';
 import { Map, Marker, Polyline, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
-import { ILatLng, ILocation, IRouteWithTrack } from 'store/route/types';
+import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 
-export interface ITspMapProps {
-  center: ILatLng;
+export interface TspMapProps {
+  center: LatLng;
   zoom: number;
   selectedId: number;
   clickHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
   removeHandler: (id: number) => void;
-  depot: ILocation | null;
-  routes: IRouteWithTrack[];
+  depot: Location | null;
+  routes: RouteWithTrack[];
 }
 
 // TODO unlimited unique (random) colors
@@ -51,7 +51,7 @@ const defaultIcon = new L.Icon.Default();
 const marker = (
   removeHandler: (id: number) => void,
   selectedId: number,
-  location: ILocation,
+  location: Location,
   isDepot: boolean,
 ) => {
   const icon = isDepot ? homeIcon : defaultIcon;
@@ -73,7 +73,7 @@ const marker = (
     </Marker>);
 };
 
-const TspMap: React.FC<ITspMapProps> = ({
+const TspMap: React.FC<TspMapProps> = ({
   center,
   zoom,
   selectedId,

@@ -17,8 +17,8 @@
 import { demoOperations } from '../demo';
 import { mockStore } from '../mockStore';
 import { routeOperations } from '../route';
-import { IRoutingPlan } from '../route/types';
-import { IAppState } from '../types';
+import { RoutingPlan } from '../route/types';
+import { AppState } from '../types';
 import * as actions from './actions';
 import reducer, { websocketOperations } from './index';
 import { WebSocketConnectionStatus } from './types';
@@ -31,7 +31,7 @@ const uninitializedCallbackCapture = () => {
 
 describe('WebSocket client operations', () => {
   it('should fail connection and reconnect when client crashes', () => {
-    const state: IAppState = {
+    const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
       demo: {
         demoSize: 0,
@@ -42,7 +42,7 @@ describe('WebSocket client operations', () => {
 
     let errorCallbackCapture: (err: any) => void = uninitializedCallbackCapture;
     let successCallbackCapture: () => void = uninitializedCallbackCapture;
-    let subscribeCallbackCap: (plan: IRoutingPlan) => void = uninitializedCallbackCapture;
+    let subscribeCallbackCap: (plan: RoutingPlan) => void = uninitializedCallbackCapture;
 
     const { store, client } = mockStore(state);
 
@@ -91,7 +91,7 @@ describe('WebSocket client operations', () => {
     expect(store.getActions()).toEqual([routeOperations.updateRoute(emptyPlan)]);
   });
   it('should finish demo loading when all locations are loaded', () => {
-    const state: IAppState = {
+    const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
       demo: {
         demoSize: 6,
@@ -108,7 +108,7 @@ describe('WebSocket client operations', () => {
       successCallbackCapture = successCallback;
     });
 
-    let subscribeCallbackCap: (plan: IRoutingPlan) => void = uninitializedCallbackCapture;
+    let subscribeCallbackCap: (plan: RoutingPlan) => void = uninitializedCallbackCapture;
     // @ts-ignore
     client.subscribe.mockImplementation((callback) => {
       subscribeCallbackCap = callback;
@@ -152,13 +152,13 @@ describe('WebSocket reducers', () => {
   });
 });
 
-const emptyPlan: IRoutingPlan = {
+const emptyPlan: RoutingPlan = {
   distance: '',
   depot: null,
   routes: [],
 };
 
-const planWithTwoRoutes: IRoutingPlan = {
+const planWithTwoRoutes: RoutingPlan = {
   distance: '1.0',
   depot: {
     id: 1,

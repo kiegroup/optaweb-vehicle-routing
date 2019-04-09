@@ -19,19 +19,19 @@ import { Frame } from 'webstomp-client';
 import {
   ActionType,
   InitWsConnectionAction,
-  IWsConnectionFailureAction,
-  IWsConnectionSuccessAction,
+  WsConnectionFailureAction,
+  WsConnectionSuccessAction,
 } from './types';
 
 export const initWsConnection: ActionCreator<InitWsConnectionAction> = () => ({
   type: ActionType.WS_CONNECT,
 });
 
-export const wsConnectionSuccess: ActionCreator<IWsConnectionSuccessAction> = () => ({
+export const wsConnectionSuccess: ActionCreator<WsConnectionSuccessAction> = () => ({
   type: ActionType.WS_CONNECT_SUCCESS,
 });
 
-export const wsConnectionFailure: ActionCreator<IWsConnectionFailureAction> = (
+export const wsConnectionFailure: ActionCreator<WsConnectionFailureAction> = (
   err: Frame | CloseEvent,
 ) => ({
   type: ActionType.WS_CONNECT_FAILURE,

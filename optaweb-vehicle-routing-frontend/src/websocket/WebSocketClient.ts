@@ -15,7 +15,7 @@
  */
 
 import * as SockJS from 'sockjs-client';
-import { ILatLng, IRoutingPlan } from 'store/route/types';
+import { LatLng, RoutingPlan } from 'store/route/types';
 import webstomp, { Client, Frame } from 'webstomp-client';
 
 export default class WebSocketClient {
@@ -42,7 +42,7 @@ export default class WebSocketClient {
     );
   }
 
-  addLocation(latLng: ILatLng) {
+  addLocation(latLng: LatLng) {
     this.stompClient.send('/app/location', JSON.stringify(latLng));
   }
 
@@ -63,7 +63,7 @@ export default class WebSocketClient {
     this.stompClient.send('/app/clear');
   }
 
-  subscribe(subscriptionCallback: (plan: IRoutingPlan) => any): void {
+  subscribe(subscriptionCallback: (plan: RoutingPlan) => any): void {
     this.stompClient.subscribe('/topic/route', (message) => {
       const plan = JSON.parse(message.body);
       subscriptionCallback(plan);

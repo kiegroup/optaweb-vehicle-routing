@@ -16,17 +16,17 @@
 
 import { ActionCreator } from 'redux';
 import { demoOperations } from '../demo';
-import { IDemoLoadingFinishedAction } from '../demo/types';
+import { DemoLoadingFinishedAction } from '../demo/types';
 import { routeOperations } from '../route';
 import { getVisits } from '../route/selectors';
-import { IUpdateRouteAction } from '../route/types';
+import { UpdateRouteAction } from '../route/types';
 import { ThunkCommand } from '../types';
 import * as actions from './actions';
 import { WebSocketAction } from './types';
 
 type ConnectClientThunk = ActionCreator<ThunkCommand<WebSocketAction
-  | IUpdateRouteAction
-  | IDemoLoadingFinishedAction>>;
+  | UpdateRouteAction
+  | DemoLoadingFinishedAction>>;
 
 /**
  * Connect the client to WebSocket.

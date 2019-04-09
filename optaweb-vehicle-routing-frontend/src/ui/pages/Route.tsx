@@ -27,41 +27,41 @@ import {
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { routeOperations } from 'store/route';
-import { ILatLng, ILocation, IRouteWithTrack } from 'store/route/types';
-import { IAppState } from 'store/types';
+import { LatLng, Location, RouteWithTrack } from 'store/route/types';
+import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
 import TspMap from 'ui/components/TspMap';
 
-export interface IStateProps {
-  depot: ILocation | null;
-  routes: IRouteWithTrack[];
+export interface StateProps {
+  depot: Location | null;
+  routes: RouteWithTrack[];
 }
 
-export interface IDispatchProps {
+export interface DispatchProps {
   addHandler: typeof routeOperations.addLocation;
   removeHandler: typeof routeOperations.deleteLocation;
 }
 
-const mapStateToProps = ({ plan }: IAppState): IStateProps => ({
+const mapStateToProps = ({ plan }: AppState): StateProps => ({
   depot: plan.depot,
   routes: plan.routes,
 });
 
-const mapDispatchToProps: IDispatchProps = {
+const mapDispatchToProps: DispatchProps = {
   addHandler: routeOperations.addLocation,
   removeHandler: routeOperations.deleteLocation,
 };
 
-type IRouteProps = IDispatchProps & IStateProps;
+type IRouteProps = DispatchProps & StateProps;
 
-export interface IRouteState {
+export interface RouteState {
   selectedId: number;
   selectedRouteId: number;
-  center: ILatLng;
+  center: LatLng;
   zoom: number;
 }
 
-class Route extends React.Component<IRouteProps, IRouteState> {
+class Route extends React.Component<IRouteProps, RouteState> {
   constructor(props: IRouteProps) {
     super(props);
 
@@ -98,7 +98,7 @@ class Route extends React.Component<IRouteProps, IRouteState> {
     const filteredRoutes = routes.map((value, index) => {
       return index === selectedRouteId ? value : { visits: [], track: [] };
     });
-    const filteredVisits: ILocation[] = routes.length > 0 ? routes[selectedRouteId].visits : [];
+    const filteredVisits: Location[] = routes.length > 0 ? routes[selectedRouteId].visits : [];
     return (
       <>
         <TextContent>
