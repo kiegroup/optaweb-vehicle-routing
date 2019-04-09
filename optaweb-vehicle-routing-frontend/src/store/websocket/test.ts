@@ -14,19 +14,15 @@
  * limitations under the License.
  */
 
-import { Middleware } from 'redux';
-import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock-store';
-import thunk, { ThunkDispatch } from 'redux-thunk';
-import WebSocketClient from 'websocket/WebSocketClient';
 import { demoOperations } from '../demo';
+import { mockStore } from '../mockStore';
 import { routeOperations } from '../route';
-import { IRoutingPlan, IUpdateRouteAction } from '../route/types';
+import { IRoutingPlan } from '../route/types';
 import { IAppState } from '../types';
 import * as actions from './actions';
 import reducer, { websocketOperations } from './index';
-import { WebSocketAction, WebSocketConnectionStatus } from './types';
+import { WebSocketConnectionStatus } from './types';
 
-jest.mock('websocket/WebSocketClient');
 jest.useFakeTimers();
 
 const uninitializedCallbackCapture = () => {
@@ -48,7 +44,8 @@ describe('WebSocket client operations', () => {
     let successCallbackCapture: () => void = uninitializedCallbackCapture;
     let subscribeCallbackCap: (plan: IRoutingPlan) => void = uninitializedCallbackCapture;
 
-    const client = new WebSocketClient('');
+    const { store, client } = mockStore(state);
+
     // @ts-ignore
     client.connect.mockImplementation((successCallback, errorCallback) => {
       successCallbackCapture = successCallback;
@@ -59,14 +56,6 @@ describe('WebSocket client operations', () => {
     client.subscribe.mockImplementation((callback) => {
       subscribeCallbackCap = callback;
     });
-
-    // mock store
-    const middlewares: Middleware[] = [thunk.withExtraArgument(client)];
-    type DispatchExts = ThunkDispatch<IAppState, WebSocketClient,
-      WebSocketAction | IUpdateRouteAction>;
-    const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
-      createMockStore<IAppState, DispatchExts>(middlewares);
-    const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
 
     store.dispatch(websocketOperations.connectClient());
     expect(store.getActions()).toEqual([actions.initWsConnection()]);
@@ -111,27 +100,19 @@ describe('WebSocket client operations', () => {
       plan: emptyPlan,
     };
 
-    let successCallbackCapture: () => void = uninitializedCallbackCapture;
-    let subscribeCallbackCap: (plan: IRoutingPlan) => void = uninitializedCallbackCapture;
+    const { store, client } = mockStore(state);
 
-    const client = new WebSocketClient('');
+    let successCallbackCapture: () => void = uninitializedCallbackCapture;
     // @ts-ignore
     client.connect.mockImplementation((successCallback) => {
       successCallbackCapture = successCallback;
     });
 
+    let subscribeCallbackCap: (plan: IRoutingPlan) => void = uninitializedCallbackCapture;
     // @ts-ignore
     client.subscribe.mockImplementation((callback) => {
       subscribeCallbackCap = callback;
     });
-
-    // mock store
-    const middlewares: Middleware[] = [thunk.withExtraArgument(client)];
-    type DispatchExts = ThunkDispatch<IAppState, WebSocketClient,
-      WebSocketAction | IUpdateRouteAction>;
-    const mockStoreCreator: MockStoreCreator<IAppState, DispatchExts> =
-      createMockStore<IAppState, DispatchExts>(middlewares);
-    const store: MockStoreEnhanced<IAppState, DispatchExts> = mockStoreCreator(state);
 
     // connect the client
     store.dispatch(websocketOperations.connectClient());
