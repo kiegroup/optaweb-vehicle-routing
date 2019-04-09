@@ -172,55 +172,43 @@ describe('WebSocket reducers', () => {
 });
 
 const emptyPlan: IRoutingPlan = {
-  depot: null,
   distance: '',
+  depot: null,
   routes: [],
 };
 
 const planWithTwoRoutes: IRoutingPlan = {
+  distance: '1.0',
   depot: {
     id: 1,
     lat: 1.345678,
     lng: 1.345678,
   },
-  distance: '1.0',
-  routes: [
-    {
-      visits: [
-        {
-          id: 2,
-          lat: 2.345678,
-          lng: 2.345678,
-        },
-        {
-          id: 3,
-          lat: 3.676111,
-          lng: 3.568333,
-        },
-      ],
-
-      track: [],
-    },
-    {
-      visits: [
-        {
-          id: 4,
-          lat: 1.345678,
-          lng: 1.345678,
-        },
-        {
-          id: 5,
-          lat: 2.345678,
-          lng: 2.345678,
-        },
-        {
-          id: 6,
-          lat: 3.676111,
-          lng: 3.568333,
-        },
-      ],
-
-      track: [],
-    },
-  ],
+  routes: [{
+    visits: [{
+      id: 2,
+      lat: 2.345678,
+      lng: 2.345678,
+    }, {
+      id: 3,
+      lat: 3.676111,
+      lng: 3.568333,
+    }],
+    track: [],
+  }, {
+    visits: [{
+      id: 4,
+      lat: 1.345678,
+      lng: 1.345678,
+    }, {
+      id: 5,
+      lat: 2.345678,
+      lng: 2.345678,
+    }, {
+      id: 6,
+      lat: 3.676111,
+      lng: 3.568333,
+    }],
+    track: [],
+  }],
 };

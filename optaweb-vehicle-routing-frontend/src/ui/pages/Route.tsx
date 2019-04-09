@@ -38,8 +38,8 @@ export interface IStateProps {
 }
 
 export interface IDispatchProps {
-  removeHandler: typeof routeOperations.deleteLocation;
   addHandler: typeof routeOperations.addLocation;
+  removeHandler: typeof routeOperations.deleteLocation;
 }
 
 const mapStateToProps = ({ plan }: IAppState): IStateProps => ({
@@ -55,9 +55,9 @@ const mapDispatchToProps: IDispatchProps = {
 type IRouteProps = IDispatchProps & IStateProps;
 
 export interface IRouteState {
-  center: ILatLng;
   selectedId: number;
   selectedRouteId: number;
+  center: ILatLng;
   zoom: number;
 }
 
@@ -66,12 +66,12 @@ class Route extends React.Component<IRouteProps, IRouteState> {
     super(props);
 
     this.state = {
+      selectedId: NaN,
+      selectedRouteId: 0,
       center: {
         lat: 50.85,
         lng: 4.35,
       },
-      selectedId: NaN,
-      selectedRouteId: 0,
       zoom: 9,
     };
     this.onSelectLocation = this.onSelectLocation.bind(this);

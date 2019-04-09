@@ -103,46 +103,36 @@ const state: IAppState = {
     isLoading: false,
   },
   plan: {
-    depot: null,
     distance: '10',
-    routes: [
-      {
-        visits: [
-          {
-            id: 1,
-            lat: 1.345678,
-            lng: 1.345678,
-          },
-          {
-            id: 2,
-            lat: 2.345678,
-            lng: 2.345678,
-          },
-          {
-            id: 3,
-            lat: 3.676111,
-            lng: 3.568333,
-          },
-        ],
+    depot: null,
+    routes: [{
+      visits: [{
+        id: 1,
+        lat: 1.345678,
+        lng: 1.345678,
+      }, {
+        id: 2,
+        lat: 2.345678,
+        lng: 2.345678,
+      }, {
+        id: 3,
+        lat: 3.676111,
+        lng: 3.568333,
+      }],
 
-        track: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
-      },
-      {
-        visits: [
-          {
-            id: 4,
-            lat: 4.345678,
-            lng: 4.345678,
-          },
-          {
-            id: 5,
-            lat: 5.345678,
-            lng: 5.345678,
-          },
-        ],
+      track: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
+    }, {
+      visits: [{
+        id: 4,
+        lat: 4.345678,
+        lng: 4.345678,
+      }, {
+        id: 5,
+        lat: 5.345678,
+        lng: 5.345678,
+      }],
 
-        track: [{ lat: 0.41, lng: 0.42 }, { lat: 0.51, lng: 0.52 }],
-      },
-    ],
+      track: [{ lat: 0.41, lng: 0.42 }, { lat: 0.51, lng: 0.52 }],
+    }],
   },
 };

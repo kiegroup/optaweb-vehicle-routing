@@ -17,8 +17,8 @@
 import { ActionType, IDemoLoadingFinishedAction, ILoadDemoAction } from './types';
 
 export const loadDemo = (size: number): ILoadDemoAction => ({
-  size,
   type: ActionType.LOAD_DEMO,
+  size,
 });
 
 export const demoLoaded = (): IDemoLoadingFinishedAction => ({
