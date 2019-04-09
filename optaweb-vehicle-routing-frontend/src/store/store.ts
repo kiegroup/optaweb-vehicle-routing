@@ -30,7 +30,7 @@ export interface IAppStoreConfig {
   readonly socketUrl: string;
 }
 
-export default function configureStore(
+export function configureStore(
   { socketUrl }: IAppStoreConfig,
   preloadedState?: IAppState,
 ): Store<IAppState> {

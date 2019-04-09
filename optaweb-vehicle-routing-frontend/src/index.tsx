@@ -21,7 +21,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
-import configureStore from './store/configStore';
+import { configureStore } from './store/store';
 import App from './ui/App';
 
 const store = configureStore({
