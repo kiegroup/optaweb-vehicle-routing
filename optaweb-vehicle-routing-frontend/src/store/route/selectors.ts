@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { ILocation, IRoutingPlan } from './types';
+import { Location, RoutingPlan } from './types';
 
 function reducer<T>(accumulator: T[], currentValue: T[]): T[] {
   return accumulator.concat(currentValue);
 }
 
-export const getVisits = (plan: IRoutingPlan): ILocation[] => {
+export const getVisits = (plan: RoutingPlan): Location[] => {
   if (plan.routes.length === 0) {
     return [];
   }

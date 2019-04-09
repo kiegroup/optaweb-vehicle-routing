@@ -17,30 +17,30 @@
 import { ActionCreator } from 'redux';
 import {
   ActionType,
-  IAddLocationAction,
-  IClearRouteAction,
-  IDeleteLocationAction,
-  ILatLng,
-  IRoutingPlan,
-  IUpdateRouteAction,
+  AddLocationAction,
+  ClearRouteAction,
+  DeleteLocationAction,
+  LatLng,
+  RoutingPlan,
+  UpdateRouteAction,
 } from './types';
 
-export const addLocation: ActionCreator<IAddLocationAction> = (location: ILatLng) => ({
+export const addLocation: ActionCreator<AddLocationAction> = (location: LatLng) => ({
   type: ActionType.ADD_LOCATION,
   value: location,
 });
 
-export const deleteLocation: ActionCreator<IDeleteLocationAction> = (id: number) => ({
+export const deleteLocation: ActionCreator<DeleteLocationAction> = (id: number) => ({
   type: ActionType.DELETE_LOCATION,
   value: id,
 });
 
-export const clearRoute: ActionCreator<IClearRouteAction> = () => ({
+export const clearRoute: ActionCreator<ClearRouteAction> = () => ({
   type: ActionType.CLEAR_SOLUTION,
 });
 
-export const updateRoute: ActionCreator<IUpdateRouteAction> = (
-  plan: IRoutingPlan,
+export const updateRoute: ActionCreator<UpdateRouteAction> = (
+  plan: RoutingPlan,
 ) => ({
   plan,
   type: ActionType.UPDATE_ROUTING_PLAN,

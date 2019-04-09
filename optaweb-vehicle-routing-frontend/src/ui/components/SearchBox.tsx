@@ -19,25 +19,25 @@ import { Button, Text, TextContent, TextInput, TextVariants } from '@patternfly/
 import { PlusSquareIcon } from '@patternfly/react-icons';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import * as React from 'react';
-import { ILatLng } from 'store/route/types';
+import { LatLng } from 'store/route/types';
 
-export interface IProps {
+export interface Props {
   searchDelay: number;
-  addHandler: (result: IResult) => void;
+  addHandler: (result: Result) => void;
 }
 
-export interface IState {
+export interface State {
   query: string;
-  results: IResult[];
+  results: Result[];
   attributions: string[];
 }
 
-export interface IResult {
+export interface Result {
   address: string;
-  latLng: ILatLng;
+  latLng: LatLng;
 }
 
-class SearchBox extends React.Component<IProps, IState> {
+class SearchBox extends React.Component<Props, State> {
 
   static defaultProps = {
     searchDelay: 500,
@@ -46,7 +46,7 @@ class SearchBox extends React.Component<IProps, IState> {
   private searchProvider = new OpenStreetMapProvider({ params: { countrycodes: 'BE' } });
   private timeoutId: number;
 
-  constructor(props: IProps) {
+  constructor(props: Props) {
     super(props);
 
     this.state = {

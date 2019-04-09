@@ -17,7 +17,7 @@
 import { Modal, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
 
-export interface IConnectionErrorProps {
+export interface ConnectionErrorProps {
   title: string;
   message: string;
   icon?: React.ReactNode;
@@ -29,7 +29,7 @@ const renderHelpBlock = (help?: string) => {
   return help ? <Text component={TextVariants.small}>{help}</Text> : '';
 };
 
-const ConnectionError: React.FC<IConnectionErrorProps> = (
+const ConnectionError: React.FC<ConnectionErrorProps> = (
   { title, message, icon, help, isOpen },
 ) => {
   return (

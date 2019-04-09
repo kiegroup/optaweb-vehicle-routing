@@ -18,14 +18,14 @@ import { Button, DataListCell, DataListItem } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 
-export interface ILocationProps {
+export interface LocationProps {
   id: number;
   removeDisabled: boolean;
   removeHandler: (id: number) => void;
   selectHandler: (id: number) => void;
 }
 
-const Location: React.FC<ILocationProps> = ({
+const Location: React.FC<LocationProps> = ({
   id,
   removeDisabled,
   removeHandler,

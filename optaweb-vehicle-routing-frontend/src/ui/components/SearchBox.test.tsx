@@ -19,7 +19,7 @@ import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { OpenStreetMapProvider, SearchResult } from 'leaflet-geosearch';
 import * as React from 'react';
-import SearchBox, { IProps, IState } from './SearchBox';
+import SearchBox, { Props, State } from './SearchBox';
 
 jest.mock('leaflet-geosearch');
 jest.useFakeTimers();
@@ -30,7 +30,7 @@ beforeEach(() => {
 
 describe('Search box', () => {
   it('should render text input initially', () => {
-    const props: IProps = {
+    const props: Props = {
       addHandler: jest.fn(),
       searchDelay: 1,
     };
@@ -39,7 +39,7 @@ describe('Search box', () => {
   });
 
   it('should show results when query is entered', async () => {
-    const props: IProps = {
+    const props: Props = {
       addHandler: jest.fn(),
       searchDelay: 1,
     };
@@ -52,12 +52,12 @@ describe('Search box', () => {
     expect(toJson(searchBox)).toMatchSnapshot();
     // @ts-ignore
     expect(OpenStreetMapProvider.mock.instances[0].search).toHaveBeenCalledTimes(1);
-    expect((searchBox.state() as IState).results).toHaveLength(results.length);
-    expect((searchBox.state() as IState).attributions).toEqual(licenses);
+    expect((searchBox.state() as State).results).toHaveLength(results.length);
+    expect((searchBox.state() as State).attributions).toEqual(licenses);
   });
 
   it('should hide results when query is empty', () => {
-    const props: IProps = {
+    const props: Props = {
       addHandler: jest.fn(),
       searchDelay: 1,
     };
@@ -66,8 +66,8 @@ describe('Search box', () => {
 
     // when there are non-empty results
     searchBox.setState({ results, attributions: licenses });
-    expect((searchBox.state() as IState).results).toEqual(results);
-    expect((searchBox.state() as IState).attributions).toEqual(licenses);
+    expect((searchBox.state() as State).results).toEqual(results);
+    expect((searchBox.state() as State).attributions).toEqual(licenses);
 
     // and an empty query is issued
     const emptyQuery = ' ';
@@ -83,7 +83,7 @@ describe('Search box', () => {
 
   it('should invoke add handler with the selected result and clear results', () => {
     const mockAddHandler = jest.fn();
-    const props: IProps = {
+    const props: Props = {
       addHandler: mockAddHandler,
       searchDelay: 1,
     };

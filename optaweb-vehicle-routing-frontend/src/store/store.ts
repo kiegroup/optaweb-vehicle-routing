@@ -23,17 +23,17 @@ import thunk from 'redux-thunk';
 import WebSocketClient from 'websocket/WebSocketClient';
 import demoReducer from './demo';
 import routeReducer from './route';
-import { IAppState } from './types';
+import { AppState } from './types';
 import connectionReducer from './websocket';
 
-export interface IAppStoreConfig {
+export interface StoreConfig {
   readonly socketUrl: string;
 }
 
 export function configureStore(
-  { socketUrl }: IAppStoreConfig,
-  preloadedState?: IAppState,
-): Store<IAppState> {
+  { socketUrl }: StoreConfig,
+  preloadedState?: AppState,
+): Store<AppState> {
 
   const webSocketClient = new WebSocketClient(socketUrl);
 
@@ -44,7 +44,7 @@ export function configureStore(
   const composedEnhancers = composeWithDevTools(...enhancers);
 
   // map reducers to state slices
-  const rootReducer = combineReducers<IAppState>({
+  const rootReducer = combineReducers<AppState>({
     connectionStatus: connectionReducer,
     demo: demoReducer,
     plan: routeReducer,

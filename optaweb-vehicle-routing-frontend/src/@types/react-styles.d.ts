@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-// tslint:disable:interface-name
-// tslint:disable:variable-name
 declare module '@patternfly/react-styles' {
   export interface StyleDeclarationStatic {
     __className: string;

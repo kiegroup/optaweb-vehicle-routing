@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { ActionType, IRoutingPlan, RouteAction } from './types';
+import { ActionType, RouteAction, RoutingPlan } from './types';
 
-export const initialRouteState: IRoutingPlan = {
+export const initialRouteState: RoutingPlan = {
   distance: '0.00',
   depot: null,
   routes: [],
@@ -25,7 +25,7 @@ export const initialRouteState: IRoutingPlan = {
 export default function routeReducer(
   state = initialRouteState,
   action: RouteAction,
-): IRoutingPlan {
+): RoutingPlan {
   switch (action.type) {
     case ActionType.UPDATE_ROUTING_PLAN: {
       return action.plan;

@@ -16,17 +16,17 @@
 
 import { Bullseye, DataList } from '@patternfly/react-core';
 import * as React from 'react';
-import { ILocation } from 'store/route/types';
-import Location from './Location';
+import { Location } from 'store/route/types';
+import LocationItem from './Location';
 
-export interface ILocationListProps {
+export interface LocationListProps {
   removeHandler: (id: number) => void;
   selectHandler: (id: number) => void;
-  depot: ILocation | null;
-  visits: ILocation[];
+  depot: Location | null;
+  visits: Location[];
 }
 
-const renderEmptyLocationList: React.FC<ILocationListProps> = () => {
+const renderEmptyLocationList: React.FC<LocationListProps> = () => {
   return (
     <DataList aria-label="empty location list">
       <Bullseye>No locations</Bullseye>
@@ -34,7 +34,7 @@ const renderEmptyLocationList: React.FC<ILocationListProps> = () => {
   );
 };
 
-const renderLocationList: React.FC<ILocationListProps> = ({
+const renderLocationList: React.FC<LocationListProps> = ({
   depot,
   visits,
   removeHandler,
@@ -45,7 +45,7 @@ const renderLocationList: React.FC<ILocationListProps> = ({
       <DataList
         aria-label="simple-item1"
       >
-        {depot && <Location
+        {depot && <LocationItem
           key={depot.id}
           id={depot.id}
           removeDisabled={visits.length > 0}
@@ -57,7 +57,7 @@ const renderLocationList: React.FC<ILocationListProps> = ({
           // sort is done in place (that would affect the route)
           .sort((a, b) => a.id - b.id)
           .map(visit => (
-            <Location
+            <LocationItem
               key={visit.id}
               id={visit.id}
               removeDisabled={false}
@@ -70,7 +70,7 @@ const renderLocationList: React.FC<ILocationListProps> = ({
   );
 };
 
-const LocationList: React.FC<ILocationListProps> = (props) => {
+const LocationList: React.FC<LocationListProps> = (props) => {
   return props.visits.length === 0 && props.depot === null
     ? renderEmptyLocationList(props)
     : renderLocationList(props);
