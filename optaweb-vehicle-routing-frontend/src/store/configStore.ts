@@ -22,17 +22,9 @@ import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import WebSocketClient from 'websocket/WebSocketClient';
 import demoReducer from './demo';
-import { IDemo } from './demo/types';
 import routeReducer from './route';
-import { IRoutingPlan } from './route/types';
+import { IAppState } from './types';
 import connectionReducer from './websocket';
-import { WebSocketConnectionStatus } from './websocket/types';
-
-export interface IAppState {
-  readonly plan: IRoutingPlan;
-  readonly connectionStatus: WebSocketConnectionStatus;
-  readonly demo: IDemo;
-}
 
 export interface IAppStoreConfig {
   readonly socketUrl: string;

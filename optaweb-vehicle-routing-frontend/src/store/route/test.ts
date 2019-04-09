@@ -18,7 +18,7 @@ import { Middleware } from 'redux';
 import createMockStore, { MockStoreCreator, MockStoreEnhanced } from 'redux-mock-store';
 import thunk, { ThunkDispatch } from 'redux-thunk';
 import WebSocketClient from 'websocket/WebSocketClient';
-import { IAppState } from '../configStore';
+import { IAppState } from '../types';
 import { WebSocketAction, WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
 import reducer, { routeOperations, routeSelectors } from './index';
