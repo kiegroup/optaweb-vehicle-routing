@@ -50,9 +50,9 @@ class SearchBox extends React.Component<IProps, IState> {
     super(props);
 
     this.state = {
-      attributions: [],
       query: '',
       results: [],
+      attributions: [],
     };
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
@@ -73,14 +73,15 @@ class SearchBox extends React.Component<IProps, IState> {
             return;
           }
           this.setState({
+            results: searchResults
+              .map(result => ({
+                address: result.label,
+                latLng: { lat: result.y, lng: result.x },
+              })),
             attributions: searchResults
               .map(result => result.raw.licence)
               // filter out duplicate elements
               .filter((value, index, array) => array.indexOf(value) === index),
-            results: searchResults.map(result => ({
-              address: result.label,
-              latLng: { lat: result.y, lng: result.x },
-            })),
           });
         },
         this.props.searchDelay);
@@ -93,9 +94,9 @@ class SearchBox extends React.Component<IProps, IState> {
   handleClick(index: number) {
     this.props.addHandler(this.state.results[index]);
     this.setState({
-      attributions: [],
       query: '',
       results: [],
+      attributions: [],
     });
   }
 

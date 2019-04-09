@@ -109,33 +109,28 @@ describe('Search box', () => {
 
 const licenses = ['License 1', 'License 2'];
 
-const results: SearchResult[] = [
-  {
-    bounds: [[1, 2], [3, 4]],
-    label: 'London, ON, Canada',
-    raw: { licence: licenses[0] },
-    x: 101,
-    y: 102,
-  },
-  {
-    bounds: [[1, 2], [3, 4]],
-    label: 'London, OH, USA',
-    raw: { licence: licenses[1] },
-    x: 201,
-    y: 202,
-  },
-  {
-    bounds: [[1, 2], [3, 4]],
-    label: 'London, KY, USA',
-    raw: { licence: licenses[1] },
-    x: 301,
-    y: 302,
-  },
-  {
-    bounds: [[1, 2], [3, 4]],
-    label: 'London, UK',
-    raw: { licence: licenses[0] },
-    x: 401,
-    y: 402,
-  },
-];
+const results: SearchResult[] = [{
+  label: 'London, ON, Canada',
+  x: 101,
+  y: 102,
+  bounds: [[1, 2], [3, 4]],
+  raw: { licence: licenses[0] },
+}, {
+  label: 'London, OH, USA',
+  x: 201,
+  y: 202,
+  bounds: [[1, 2], [3, 4]],
+  raw: { licence: licenses[1] },
+}, {
+  label: 'London, KY, USA',
+  x: 301,
+  y: 302,
+  bounds: [[1, 2], [3, 4]],
+  raw: { licence: licenses[1] },
+}, {
+  label: 'London, UK',
+  x: 401,
+  y: 402,
+  bounds: [[1, 2], [3, 4]],
+  raw: { licence: licenses[0] },
+}];

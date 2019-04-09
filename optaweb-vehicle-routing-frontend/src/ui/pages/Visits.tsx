@@ -33,8 +33,8 @@ const mapStateToProps = ({ plan }: IAppState): IStateProps => ({
 });
 
 export interface IDispatchProps {
-  removeHandler: typeof routeOperations.deleteLocation;
   addHandler: typeof routeOperations.addLocation;
+  removeHandler: typeof routeOperations.deleteLocation;
 }
 
 const mapDispatchToProps: IDispatchProps = {

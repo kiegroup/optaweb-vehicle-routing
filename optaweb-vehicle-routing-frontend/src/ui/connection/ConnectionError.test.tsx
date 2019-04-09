@@ -22,11 +22,11 @@ import ConnectionError, { IConnectionErrorProps } from './ConnectionError';
 describe('Connection Error Component', () => {
   it('should render correctly', () => {
     const props: IConnectionErrorProps = {
-      help: 'help',
-      icon: <i>Icon</i>,
-      isOpen: true,
-      message: 'message',
       title: 'title',
+      message: 'message',
+      icon: <i>Icon</i>,
+      help: 'help',
+      isOpen: true,
     };
 
     expect.assertions(1);

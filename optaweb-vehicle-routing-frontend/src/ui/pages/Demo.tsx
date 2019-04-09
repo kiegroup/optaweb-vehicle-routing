@@ -43,32 +43,32 @@ export interface IStateProps {
 }
 
 export interface IDispatchProps {
-  removeHandler: typeof routeOperations.deleteLocation;
   loadHandler: typeof demoOperations.loadDemo;
   clearHandler: typeof routeOperations.clearRoute;
   addHandler: typeof routeOperations.addLocation;
+  removeHandler: typeof routeOperations.deleteLocation;
 }
 
 const mapStateToProps = ({ plan, demo }: IAppState): IStateProps => ({
-  depot: plan.depot,
   distance: plan.distance,
-  isDemoLoading: demo.isLoading,
-  routes: plan.routes,
+  depot: plan.depot,
   visits: routeSelectors.getVisits(plan),
+  routes: plan.routes,
+  isDemoLoading: demo.isLoading,
 });
 
 const mapDispatchToProps: IDispatchProps = {
-  addHandler: routeOperations.addLocation,
-  clearHandler: routeOperations.clearRoute,
   loadHandler: demoOperations.loadDemo,
+  clearHandler: routeOperations.clearRoute,
+  addHandler: routeOperations.addLocation,
   removeHandler: routeOperations.deleteLocation,
 };
 
 export type IDemoProps = IDispatchProps & IStateProps;
 
 export interface IDemoState {
-  center: ILatLng;
   selectedId: number;
+  center: ILatLng;
   zoom: number;
 }
 
@@ -77,11 +77,11 @@ export class Demo extends React.Component<IDemoProps, IDemoState> {
     super(props);
 
     this.state = {
+      selectedId: NaN,
       center: {
         lat: 50.85,
         lng: 4.35,
       },
-      selectedId: NaN,
       zoom: 9,
     };
     this.handleMapClick = this.handleMapClick.bind(this);

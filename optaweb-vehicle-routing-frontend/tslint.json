@@ -35,6 +35,7 @@
     "no-console": {
       "severity": "warn"
     },
+    "object-literal-sort-keys": false,
     "object-shorthand-properties-first": false,
     // This rule is here for now because of https://github.com/palantir/tslint-react/issues/120
     "variable-name": [

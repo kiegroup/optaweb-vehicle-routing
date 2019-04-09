@@ -25,7 +25,6 @@ describe('Location List Component', () => {
     const props: ILocationListProps = {
       removeHandler: jest.fn(),
       selectHandler: jest.fn(),
-
       depot: null,
       visits: [],
     };
@@ -35,13 +34,13 @@ describe('Location List Component', () => {
 
   it('should render correctly with a few routes', () => {
     const props: ILocationListProps = {
+      removeHandler: jest.fn(),
+      selectHandler: jest.fn(),
       depot: {
         id: 1,
         lat: 1.345678,
         lng: 1.345678,
       },
-      removeHandler: jest.fn(),
-      selectHandler: jest.fn(),
       visits: [
         {
           id: 2,
