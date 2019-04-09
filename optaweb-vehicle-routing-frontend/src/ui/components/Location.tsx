@@ -31,6 +31,7 @@ const Location: React.FC<ILocationProps> = ({
   removeHandler,
   selectHandler,
 }) => {
+  const [clicked, setClicked] = React.useState(false);
   return (
     <DataListItem
       isExpanded={false}
@@ -44,8 +45,11 @@ const Location: React.FC<ILocationProps> = ({
       <DataListCell width={1}>
         <Button
           variant="link"
-          isDisabled={removeDisabled}
-          onClick={() => removeHandler(id)}
+          isDisabled={removeDisabled || clicked}
+          onClick={() => {
+            setClicked(true);
+            removeHandler(id);
+          }}
           type="button"
         >
           <TimesIcon />
