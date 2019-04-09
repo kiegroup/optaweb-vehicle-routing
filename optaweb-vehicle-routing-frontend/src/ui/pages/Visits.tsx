@@ -17,9 +17,9 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { IAppState } from 'store/configStore';
 import { routeOperations, routeSelectors } from 'store/route';
 import { ILocation } from 'store/route/types';
+import { IAppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
 
 interface IStateProps {

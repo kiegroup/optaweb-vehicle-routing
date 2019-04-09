@@ -24,6 +24,14 @@
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import WebSocketClient from 'websocket/WebSocketClient';
-import { IAppState } from './configStore';
+import { IDemo } from './demo/types';
+import { IRoutingPlan } from './route/types';
+import { WebSocketConnectionStatus } from './websocket/types';
 
 export type ThunkCommand<A extends Action> = ThunkAction<void, IAppState, WebSocketClient, A>;
+
+export interface IAppState {
+  readonly plan: IRoutingPlan;
+  readonly connectionStatus: WebSocketConnectionStatus;
+  readonly demo: IDemo;
+}

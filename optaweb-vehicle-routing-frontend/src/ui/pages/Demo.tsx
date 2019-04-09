@@ -26,10 +26,10 @@ import {
 } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { IAppState } from 'store/configStore';
 import { demoOperations } from 'store/demo';
 import { routeOperations, routeSelectors } from 'store/route';
 import { ILatLng, ILocation, IRouteWithTrack } from 'store/route/types';
+import { IAppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
 import SearchBox, { IResult } from 'ui/components/SearchBox';
 import TspMap from 'ui/components/TspMap';

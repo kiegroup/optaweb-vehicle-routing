@@ -17,7 +17,7 @@
 import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { IAppState } from 'store/configStore';
+import { IAppState } from 'store/types';
 import { websocketOperations } from 'store/websocket';
 import { WebSocketConnectionStatus } from 'store/websocket/types';
 import ConnectionError from 'ui/connection/ConnectionError';
