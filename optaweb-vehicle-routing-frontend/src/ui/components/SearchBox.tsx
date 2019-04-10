@@ -23,6 +23,7 @@ import { LatLng } from 'store/route/types';
 
 export interface Props {
   searchDelay: number;
+  countryCodeSearchFilter: string | null;
   addHandler: (result: Result) => void;
 }
 
@@ -43,7 +44,7 @@ class SearchBox extends React.Component<Props, State> {
     searchDelay: 500,
   };
 
-  private searchProvider = new OpenStreetMapProvider({ params: { countrycodes: 'BE' } });
+  private searchProvider: OpenStreetMapProvider;
   private timeoutId: number;
 
   constructor(props: Props) {
@@ -54,6 +55,10 @@ class SearchBox extends React.Component<Props, State> {
       results: [],
       attributions: [],
     };
+
+    const searchParams = props.countryCodeSearchFilter ? { countrycodes: props.countryCodeSearchFilter } : {};
+
+    this.searchProvider = new OpenStreetMapProvider({ params: searchParams });
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);

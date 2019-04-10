@@ -23,7 +23,7 @@ import thunk from 'redux-thunk';
 import WebSocketClient from 'websocket/WebSocketClient';
 import demoReducer from './demo';
 import routeReducer from './route';
-import { AppState } from './types';
+import { AppState, ServerInfo } from './types';
 import connectionReducer from './websocket';
 
 export interface StoreConfig {
@@ -43,9 +43,14 @@ export function configureStore(
   const enhancers = [middlewareEnhancer];
   const composedEnhancers = composeWithDevTools(...enhancers);
 
+  const fakeServerInfoReducer = (): ServerInfo => {
+    return { country: 'BE' };
+  };
+
   // map reducers to state slices
   const rootReducer = combineReducers<AppState>({
     connectionStatus: connectionReducer,
+    serverInfo: fakeServerInfoReducer,
     demo: demoReducer,
     plan: routeReducer,
   });

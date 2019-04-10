@@ -85,6 +85,9 @@ describe('Route selectors', () => {
 
 const state: AppState = {
   connectionStatus: WebSocketConnectionStatus.CLOSED,
+  serverInfo: {
+    country: null,
+  },
   demo: {
     demoSize: 0,
     isLoading: false,

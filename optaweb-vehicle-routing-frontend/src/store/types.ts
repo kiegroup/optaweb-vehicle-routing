@@ -30,7 +30,12 @@ import { WebSocketConnectionStatus } from './websocket/types';
 
 export type ThunkCommand<A extends Action> = ThunkAction<void, AppState, WebSocketClient, A>;
 
+export interface ServerInfo {
+  country: string | null;
+}
+
 export interface AppState {
+  readonly serverInfo: ServerInfo;
   readonly plan: RoutingPlan;
   readonly connectionStatus: WebSocketConnectionStatus;
   readonly demo: Demo;
