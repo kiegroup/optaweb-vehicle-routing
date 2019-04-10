@@ -30,7 +30,16 @@ export default class WebSocketClient {
 
   connect(successCallback: () => any, errorCallback: (err: CloseEvent | Frame) => any) {
     this.webSocket = new SockJS(this.socketUrl);
-    this.stompClient = webstomp.over(this.webSocket, { debug: true });
+    this.stompClient = webstomp.over(this.webSocket, {
+      debug: true,
+      // Because webstomp first reads ws.protocol:
+      // https://github.com/JSteunou/webstomp-client/blob/1.2.6/src/client.js#L152
+      // but SockJS doesn't specify it:
+      // https://github.com/sockjs/sockjs-client/blob/v1.3.0/lib/main.js#L43
+      // so finally this will be used to set accept-version header to '1.2' (verify in browser console):
+      // (see also https://github.com/JSteunou/webstomp-client/issues/75)
+      protocols: ['v12.stomp'],
+    });
     this.stompClient.connect(
       {}, // no headers
       () => {
