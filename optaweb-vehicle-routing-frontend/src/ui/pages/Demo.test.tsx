@@ -58,8 +58,10 @@ const emptyRouteProps: IDemoProps = {
   addHandler: jest.fn(),
   removeHandler: jest.fn(),
 
-  isDemoLoading: false,
   distance: '0',
+  isDemoLoading: false,
+  countryCodeSearchFilter: null,
+
   depot: null,
   routes: [],
   visits: [],
@@ -71,8 +73,9 @@ const threeLocationsProps: IDemoProps = {
   addHandler: jest.fn(),
   removeHandler: jest.fn(),
 
-  isDemoLoading: false,
   distance: '10',
+  isDemoLoading: false,
+  countryCodeSearchFilter: 'XY',
 
   depot: {
     id: 1,

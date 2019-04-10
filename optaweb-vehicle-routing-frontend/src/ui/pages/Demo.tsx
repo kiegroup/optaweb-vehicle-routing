@@ -14,16 +14,7 @@
  * limitations under the License.
  */
 
-import {
-  Button,
-  Grid,
-  GridItem,
-  Split,
-  SplitItem,
-  Text,
-  TextContent,
-  TextVariants,
-} from '@patternfly/react-core';
+import { Button, Grid, GridItem, Split, SplitItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { demoOperations } from 'store/demo';
@@ -40,6 +31,7 @@ export interface StateProps {
   visits: Location[];
   routes: RouteWithTrack[];
   isDemoLoading: boolean;
+  countryCodeSearchFilter: string | null;
 }
 
 export interface DispatchProps {
@@ -49,12 +41,13 @@ export interface DispatchProps {
   removeHandler: typeof routeOperations.deleteLocation;
 }
 
-const mapStateToProps = ({ plan, demo }: AppState): StateProps => ({
+const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
   distance: plan.distance,
   depot: plan.depot,
   visits: routeSelectors.getVisits(plan),
   routes: plan.routes,
   isDemoLoading: demo.isLoading,
+  countryCodeSearchFilter: serverInfo.country,
 });
 
 const mapDispatchToProps: DispatchProps = {
@@ -108,10 +101,11 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
       depot,
       visits,
       routes,
+      isDemoLoading,
+      countryCodeSearchFilter,
       removeHandler,
       loadHandler,
       clearHandler,
-      isDemoLoading,
     } = this.props;
     return (
       // FIXME find a way to avoid these style customizations
@@ -123,7 +117,10 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
           <TextContent>
             <Text component={TextVariants.h1}>Demo</Text>
           </TextContent>
-          <SearchBox addHandler={this.handleSearchResultClick} />
+          <SearchBox
+            countryCodeSearchFilter={countryCodeSearchFilter}
+            addHandler={this.handleSearchResultClick}
+          />
           <LocationList
             depot={depot}
             visits={visits}

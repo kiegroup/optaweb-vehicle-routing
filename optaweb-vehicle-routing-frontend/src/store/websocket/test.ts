@@ -33,6 +33,9 @@ describe('WebSocket client operations', () => {
   it('should fail connection and reconnect when client crashes', () => {
     const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
+      serverInfo: {
+        country: null,
+      },
       demo: {
         demoSize: 0,
         isLoading: false,
@@ -93,6 +96,9 @@ describe('WebSocket client operations', () => {
   it('should finish demo loading when all locations are loaded', () => {
     const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
+      serverInfo: {
+        country: null,
+      },
       demo: {
         demoSize: 6,
         isLoading: true,
