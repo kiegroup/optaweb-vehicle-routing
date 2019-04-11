@@ -56,7 +56,7 @@ describe('WebSocket client operations', () => {
     });
 
     // @ts-ignore
-    client.subscribe.mockImplementation((callback) => {
+    client.subscribeToRoute.mockImplementation((callback) => {
       subscribeCallbackCapture = callback;
     });
 
@@ -85,7 +85,7 @@ describe('WebSocket client operations', () => {
       actions.initWsConnection(),
       actions.wsConnectionSuccess(),
     ]);
-    expect(client.subscribe).toHaveBeenCalledTimes(1);
+    expect(client.subscribeToRoute).toHaveBeenCalledTimes(1);
 
     store.clearActions();
 
@@ -93,6 +93,7 @@ describe('WebSocket client operations', () => {
     subscribeCallbackCapture(emptyPlan);
     expect(store.getActions()).toEqual([routeOperations.updateRoute(emptyPlan)]);
   });
+
   it('should finish demo loading when all locations are loaded', () => {
     const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
@@ -116,7 +117,7 @@ describe('WebSocket client operations', () => {
 
     let subscribeCallbackCap: (plan: RoutingPlan) => void = uninitializedCallbackCapture;
     // @ts-ignore
-    client.subscribe.mockImplementation((callback) => {
+    client.subscribeToRoute.mockImplementation((callback) => {
       subscribeCallbackCap = callback;
     });
 
@@ -131,16 +132,16 @@ describe('WebSocket client operations', () => {
       actions.wsConnectionSuccess(),
     ]);
 
-    expect(client.subscribe).toHaveBeenCalledTimes(1);
+    expect(client.subscribeToRoute).toHaveBeenCalledTimes(1);
 
     store.clearActions();
 
     // simulate receiving plan with number of visits matching the expected demo size
     subscribeCallbackCap(planWithTwoRoutes);
-    // DEMO_LOADED should be dispatched
+    // FINISH_LOADING should be dispatched
     expect(store.getActions()).toEqual([
       routeOperations.updateRoute(planWithTwoRoutes),
-      demoOperations.demoLoaded(),
+      demoOperations.finishLoading(),
     ]);
   });
 });

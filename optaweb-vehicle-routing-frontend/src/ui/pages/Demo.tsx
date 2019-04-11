@@ -35,7 +35,7 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
-  loadHandler: typeof demoOperations.loadDemo;
+  loadHandler: typeof demoOperations.requestDemo;
   clearHandler: typeof routeOperations.clearRoute;
   addHandler: typeof routeOperations.addLocation;
   removeHandler: typeof routeOperations.deleteLocation;
@@ -51,7 +51,7 @@ const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
 });
 
 const mapDispatchToProps: DispatchProps = {
-  loadHandler: demoOperations.loadDemo,
+  loadHandler: demoOperations.requestDemo,
   clearHandler: routeOperations.clearRoute,
   addHandler: routeOperations.addLocation,
   removeHandler: routeOperations.deleteLocation,
