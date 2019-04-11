@@ -17,20 +17,25 @@
 import { Action } from 'redux';
 
 export enum ActionType {
-  LOAD_DEMO = 'LOAD_DEMO',
-  DEMO_LOADED = 'DEMO_LOADED',
+  REQUEST_DEMO = 'REQUEST_DEMO',
+  START_LOADING = 'START_LOADING',
+  FINISH_LOADING = 'FINISH_LOADING',
 }
 
-export interface LoadDemoAction extends Action<ActionType.LOAD_DEMO> {
+export interface RequestDemoAction extends Action<ActionType.REQUEST_DEMO> {
+}
+
+export interface StartLoadingAction extends Action<ActionType.START_LOADING> {
   readonly size: number;
 }
 
-export interface DemoLoadingFinishedAction extends Action<ActionType.DEMO_LOADED> {
+export interface FinishLoadingAction extends Action<ActionType.FINISH_LOADING> {
 }
 
 export type DemoAction =
-  | LoadDemoAction
-  | DemoLoadingFinishedAction;
+  | RequestDemoAction
+  | StartLoadingAction
+  | FinishLoadingAction;
 
 export interface Demo {
   readonly isLoading: boolean;

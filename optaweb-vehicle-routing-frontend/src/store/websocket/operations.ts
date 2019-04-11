@@ -16,7 +16,7 @@
 
 import { ActionCreator } from 'redux';
 import { demoOperations } from '../demo';
-import { DemoLoadingFinishedAction } from '../demo/types';
+import { FinishLoadingAction, StartLoadingAction } from '../demo/types';
 import { routeOperations } from '../route';
 import { getVisits } from '../route/selectors';
 import { UpdateRouteAction } from '../route/types';
@@ -27,7 +27,8 @@ import { WebSocketAction } from './types';
 type ConnectClientThunkAction =
   | WebSocketAction
   | UpdateRouteAction
-  | DemoLoadingFinishedAction;
+  | StartLoadingAction
+  | FinishLoadingAction;
 
 type ConnectClientThunk = ActionCreator<ThunkCommand<ConnectClientThunkAction>>;
 
@@ -41,12 +42,15 @@ export const connectClient: ConnectClientThunk = () => (dispatch, state, client)
     () => {
       // on connection, subscribe to the route topic
       dispatch(actions.wsConnectionSuccess());
-      client.subscribe((plan) => {
+      client.subscribeToRoute((plan) => {
         dispatch(routeOperations.updateRoute(plan));
         // TODO use plan.visits.length
         if (state().demo.isLoading && getVisits(plan).length + 1 === state().demo.demoSize) {
-          dispatch(demoOperations.demoLoaded());
+          dispatch(demoOperations.finishLoading());
         }
+      });
+      client.subscribeToDemo((demoSize) => {
+        dispatch(demoOperations.startLoading(demoSize));
       });
     },
     (err) => {

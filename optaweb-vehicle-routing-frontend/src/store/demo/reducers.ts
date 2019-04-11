@@ -23,10 +23,13 @@ const initialState: Demo = {
 
 const demoReducer = (state = initialState, action: DemoAction): Demo => {
   switch (action.type) {
-    case ActionType.LOAD_DEMO: {
-      return { isLoading: true, demoSize: action.size };
+    case ActionType.REQUEST_DEMO: {
+      return { ...initialState, isLoading: true };
     }
-    case ActionType.DEMO_LOADED: {
+    case ActionType.START_LOADING: {
+      return { ...state, isLoading: true, demoSize: action.size };
+    }
+    case ActionType.FINISH_LOADING: {
       return { ...state, isLoading: false };
     }
     default:

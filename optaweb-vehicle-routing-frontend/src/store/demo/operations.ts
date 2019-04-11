@@ -17,12 +17,14 @@
 import { ActionCreator } from 'redux';
 import { ThunkCommand } from '../types';
 import * as actions from './actions';
-import { LoadDemoAction } from './types';
+import { RequestDemoAction } from './types';
 
-export const demoLoaded = actions.demoLoaded;
+export const finishLoading = actions.finishLoading;
 
-export const loadDemo: ActionCreator<ThunkCommand<LoadDemoAction>> = () => (dispatch, state, client) => {
-  client.loadDemo((demoSize) => {
-    dispatch(actions.loadDemo(demoSize));
-  });
-};
+export const startLoading = actions.startLoading;
+
+export const requestDemo: ActionCreator<ThunkCommand<RequestDemoAction>> = () =>
+  (dispatch, state, client) => {
+    dispatch(actions.requestDemo());
+    client.loadDemo();
+  };

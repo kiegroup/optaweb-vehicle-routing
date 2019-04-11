@@ -22,38 +22,47 @@ import reducer, { demoOperations } from './index';
 import { Demo } from './types';
 
 describe('Demo operations', () => {
-  it('should dispatch actions and call client', () => {
+  it('demo request should call loadDemo() on client', () => {
     const { store, client } = mockStore(state);
 
-    let demoCallbackCapture: (demoSize: number) => void = uninitializedCallbackCapture;
-    // @ts-ignore
-    client.loadDemo.mockImplementation((demoCallback) => {
-      demoCallbackCapture = demoCallback;
-    });
-
-    // verify loadDemo operation calls the client
-    store.dispatch(demoOperations.loadDemo());
+    // verify requestDemo operation calls the client
+    store.dispatch(demoOperations.requestDemo());
     expect(client.loadDemo).toHaveBeenCalledTimes(1);
 
-    // simulate client receives demo size and passes it to demo callback
-    const demoSize = 314354;
-    demoCallbackCapture(demoSize);
-    expect(store.getActions()).toEqual([actions.loadDemo(demoSize)]);
+    expect(store.getActions()).toEqual([actions.requestDemo()]);
   });
 });
 
 describe('Demo reducers', () => {
-  it('load demo', () => {
-    const expectedState: Demo = { isLoading: true, demoSize: 5 };
+  it('request demo', () => {
+    const initialState: Demo = { isLoading: false, demoSize: 798 };
+    const expectedState: Demo = { isLoading: true, demoSize: -1 };
     expect(
-      reducer(state.demo, actions.loadDemo(expectedState.demoSize)),
+      reducer(initialState, actions.requestDemo()),
+    ).toEqual(expectedState);
+  });
+  it('start loading when loading requested', () => {
+    const demoSize: number = 5;
+    const initialState: Demo = { isLoading: true, demoSize: -1 };
+    const expectedState: Demo = { isLoading: true, demoSize };
+    expect(
+      reducer(initialState, actions.startLoading(demoSize)),
+    ).toEqual(expectedState);
+  });
+  it('start loading when loading requested by someone else', () => {
+    const demoSize: number = 5;
+    const initialState: Demo = { isLoading: false, demoSize: -1 };
+    const expectedState: Demo = { isLoading: true, demoSize };
+    expect(
+      reducer(initialState, actions.startLoading(demoSize)),
     ).toEqual(expectedState);
   });
   it('loading flag should be cleared when demo is loaded', () => {
     const demoSize: number = 5;
+    const initialState: Demo = { isLoading: true, demoSize };
     const expectedState: Demo = { isLoading: false, demoSize };
     expect(
-      reducer({ isLoading: true, demoSize }, actions.demoLoaded()),
+      reducer(initialState, actions.finishLoading()),
     ).toEqual(expectedState);
   });
 });
@@ -88,8 +97,4 @@ const state: AppState = {
       track: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
     }],
   },
-};
-
-const uninitializedCallbackCapture = () => {
-  throw new Error('Error callback is uninitialized');
 };
