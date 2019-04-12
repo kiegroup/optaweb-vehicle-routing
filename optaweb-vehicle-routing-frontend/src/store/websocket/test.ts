@@ -34,7 +34,7 @@ describe('WebSocket client operations', () => {
     const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
       serverInfo: {
-        country: null,
+        countryCodes: [],
       },
       demo: {
         demoSize: 0,
@@ -98,7 +98,7 @@ describe('WebSocket client operations', () => {
     const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
       serverInfo: {
-        country: null,
+        countryCodes: [],
       },
       demo: {
         demoSize: 6,

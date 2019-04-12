@@ -17,6 +17,7 @@
 import * as SockJS from 'sockjs-client';
 import { LatLng, RoutingPlan } from 'store/route/types';
 import webstomp, { Client, Frame } from 'webstomp-client';
+import { ServerInfo } from '../store/server/types';
 
 export default class WebSocketClient {
 
@@ -65,6 +66,13 @@ export default class WebSocketClient {
 
   clear() {
     this.stompClient.send('/app/clear');
+  }
+
+  subscribeToServerInfo(subscriptionCallback: (serverInfo: ServerInfo) => any): void {
+    this.stompClient.subscribe('/topic/serverInfo', (message) => {
+      const serverInfo = JSON.parse(message.body);
+      subscriptionCallback(serverInfo);
+    });
   }
 
   subscribeToRoute(subscriptionCallback: (plan: RoutingPlan) => any): void {

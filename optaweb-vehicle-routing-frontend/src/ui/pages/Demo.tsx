@@ -31,7 +31,7 @@ export interface StateProps {
   visits: Location[];
   routes: RouteWithTrack[];
   isDemoLoading: boolean;
-  countryCodeSearchFilter: string | null;
+  countryCodeSearchFilter: string[];
 }
 
 export interface DispatchProps {
@@ -47,7 +47,7 @@ const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
   visits: routeSelectors.getVisits(plan),
   routes: plan.routes,
   isDemoLoading: demo.isLoading,
-  countryCodeSearchFilter: serverInfo.country,
+  countryCodeSearchFilter: serverInfo.countryCodes,
 });
 
 const mapDispatchToProps: DispatchProps = {

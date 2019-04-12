@@ -59,7 +59,7 @@ public class WebSocketControllerTest {
         when(routeListener.getBestRoutingPlan()).thenReturn(plan);
 
         // act
-        PortableRoutingPlan portableRoutingPlan = webSocketController.subscribe();
+        PortableRoutingPlan portableRoutingPlan = webSocketController.subscribeToRouteTopic();
 
         // assert
         assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);

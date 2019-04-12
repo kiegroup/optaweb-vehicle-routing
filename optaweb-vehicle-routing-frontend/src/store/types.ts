@@ -26,13 +26,10 @@ import { ThunkAction } from 'redux-thunk';
 import WebSocketClient from 'websocket/WebSocketClient';
 import { Demo } from './demo/types';
 import { RoutingPlan } from './route/types';
+import { ServerInfo } from './server/types';
 import { WebSocketConnectionStatus } from './websocket/types';
 
 export type ThunkCommand<A extends Action> = ThunkAction<void, AppState, WebSocketClient, A>;
-
-export interface ServerInfo {
-  country: string | null;
-}
 
 export interface AppState {
   readonly serverInfo: ServerInfo;
