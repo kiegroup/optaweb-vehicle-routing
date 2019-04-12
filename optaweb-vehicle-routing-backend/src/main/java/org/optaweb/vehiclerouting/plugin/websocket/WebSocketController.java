@@ -20,9 +20,8 @@ import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
+import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -36,19 +35,29 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class WebSocketController {
 
-    private static final Logger logger = LoggerFactory.getLogger(WebSocketController.class);
-
     private final RouteListener routeListener;
+    private final RegionService regionService;
     private final LocationService locationService;
     private final DemoService demoService;
 
     @Autowired
     public WebSocketController(RouteListener routeListener,
+                               RegionService regionService,
                                LocationService locationService,
                                DemoService demoService) {
         this.routeListener = routeListener;
+        this.regionService = regionService;
         this.locationService = locationService;
         this.demoService = demoService;
+    }
+
+    /**
+     * Subscribe to server info topic.
+     * @return server info
+     */
+    @SubscribeMapping("/serverInfo")
+    public ServerInfo subscribeToServerInfoTopic() {
+        return new ServerInfo(regionService.countryCodes());
     }
 
     /**
@@ -56,8 +65,7 @@ public class WebSocketController {
      * @return route message
      */
     @SubscribeMapping("/route")
-    public PortableRoutingPlan subscribe() {
-        logger.info("Subscribed");
+    public PortableRoutingPlan subscribeToRouteTopic() {
         RoutingPlan routingPlan = routeListener.getBestRoutingPlan();
         return RoutePublisherImpl.portable(routingPlan);
     }

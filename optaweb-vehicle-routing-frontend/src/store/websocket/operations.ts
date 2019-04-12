@@ -20,6 +20,8 @@ import { FinishLoadingAction, StartLoadingAction } from '../demo/types';
 import { routeOperations } from '../route';
 import { getVisits } from '../route/selectors';
 import { UpdateRouteAction } from '../route/types';
+import { serverOperations } from '../server';
+import { ServerInfoAction } from '../server/types';
 import { ThunkCommand } from '../types';
 import * as actions from './actions';
 import { WebSocketAction } from './types';
@@ -28,7 +30,8 @@ type ConnectClientThunkAction =
   | WebSocketAction
   | UpdateRouteAction
   | StartLoadingAction
-  | FinishLoadingAction;
+  | FinishLoadingAction
+  | ServerInfoAction;
 
 type ConnectClientThunk = ActionCreator<ThunkCommand<ConnectClientThunkAction>>;
 
@@ -42,6 +45,9 @@ export const connectClient: ConnectClientThunk = () => (dispatch, state, client)
     () => {
       // on connection, subscribe to the route topic
       dispatch(actions.wsConnectionSuccess());
+      client.subscribeToServerInfo((serverInfo) => {
+        dispatch(serverOperations.serverInfo(serverInfo));
+      });
       client.subscribeToRoute((plan) => {
         dispatch(routeOperations.updateRoute(plan));
         // TODO use plan.visits.length

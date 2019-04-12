@@ -32,7 +32,7 @@ describe('Search box', () => {
   it('should render text input initially', () => {
     const props: Props = {
       addHandler: jest.fn(),
-      countryCodeSearchFilter: 'XY',
+      countryCodeSearchFilter: ['XY'],
       searchDelay: 1,
     };
     const searchBox = shallow(<SearchBox {...props} />);
@@ -42,7 +42,7 @@ describe('Search box', () => {
   it('should show results when query is entered', async () => {
     const props: Props = {
       addHandler: jest.fn(),
-      countryCodeSearchFilter: 'XY',
+      countryCodeSearchFilter: ['XY'],
       searchDelay: 1,
     };
 
@@ -61,7 +61,7 @@ describe('Search box', () => {
   it('should hide results when query is empty', () => {
     const props: Props = {
       addHandler: jest.fn(),
-      countryCodeSearchFilter: 'XY',
+      countryCodeSearchFilter: ['XY'],
       searchDelay: 1,
     };
 
@@ -88,7 +88,7 @@ describe('Search box', () => {
     const mockAddHandler = jest.fn();
     const props: Props = {
       addHandler: mockAddHandler,
-      countryCodeSearchFilter: 'XY',
+      countryCodeSearchFilter: ['XY'],
       searchDelay: 1,
     };
 

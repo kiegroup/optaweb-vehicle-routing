@@ -23,7 +23,7 @@ import { LatLng } from 'store/route/types';
 
 export interface Props {
   searchDelay: number;
-  countryCodeSearchFilter: string | null;
+  countryCodeSearchFilter: string[];
   addHandler: (result: Result) => void;
 }
 
@@ -56,12 +56,16 @@ class SearchBox extends React.Component<Props, State> {
       attributions: [],
     };
 
-    const searchParams = props.countryCodeSearchFilter ? { countrycodes: props.countryCodeSearchFilter } : {};
-
-    this.searchProvider = new OpenStreetMapProvider({ params: searchParams });
+    this.searchProvider = new OpenStreetMapProvider({ params: { countrycodes: props.countryCodeSearchFilter } });
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentWillUpdate(nextProps: Readonly<Props>, nextState: Readonly<State>, nextContext: any): void {
+    this.searchProvider = new OpenStreetMapProvider({
+      params: { countrycodes: nextProps.countryCodeSearchFilter },
+    });
   }
 
   componentWillUnmount() {
@@ -103,6 +107,7 @@ class SearchBox extends React.Component<Props, State> {
       results: [],
       attributions: [],
     });
+    // TODO focus text input
   }
 
   render() {

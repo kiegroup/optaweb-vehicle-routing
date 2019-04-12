@@ -60,7 +60,7 @@ const emptyRouteProps: IDemoProps = {
 
   distance: '0',
   isDemoLoading: false,
-  countryCodeSearchFilter: null,
+  countryCodeSearchFilter: [],
 
   depot: null,
   routes: [],
@@ -75,7 +75,7 @@ const threeLocationsProps: IDemoProps = {
 
   distance: '10',
   isDemoLoading: false,
-  countryCodeSearchFilter: 'XY',
+  countryCodeSearchFilter: ['XY'],
 
   depot: {
     id: 1,
