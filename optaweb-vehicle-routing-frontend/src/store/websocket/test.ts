@@ -49,14 +49,12 @@ describe('WebSocket client operations', () => {
 
     const { store, client } = mockStore(state);
 
-    // @ts-ignore
-    client.connect.mockImplementation((successCallback, errorCallback) => {
+    client.connect = jest.fn().mockImplementation((successCallback, errorCallback) => {
       successCallbackCapture = successCallback;
       errorCallbackCapture = errorCallback;
     });
 
-    // @ts-ignore
-    client.subscribeToRoute.mockImplementation((callback) => {
+    client.subscribeToRoute = jest.fn().mockImplementation((callback) => {
       subscribeCallbackCapture = callback;
     });
 
@@ -110,20 +108,17 @@ describe('WebSocket client operations', () => {
     const { store, client } = mockStore(state);
 
     let successCallbackCapture: () => void = uninitializedCallbackCapture;
-    // @ts-ignore
-    client.connect.mockImplementation((successCallback) => {
+    client.connect = jest.fn().mockImplementation((successCallback) => {
       successCallbackCapture = successCallback;
     });
 
     let routeSubscriptionCallback: (plan: RoutingPlan) => void = uninitializedCallbackCapture;
-    // @ts-ignore
-    client.subscribeToRoute.mockImplementation((callback) => {
+    client.subscribeToRoute = jest.fn().mockImplementation((callback) => {
       routeSubscriptionCallback = callback;
     });
 
     let demoSubscriptionCallback: (demoSize: number) => void = uninitializedCallbackCapture;
-    // @ts-ignore
-    client.subscribeToDemo.mockImplementation((callback) => {
+    client.subscribeToDemo = jest.fn().mockImplementation((callback) => {
       demoSubscriptionCallback = callback;
     });
 

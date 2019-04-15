@@ -93,11 +93,12 @@ class SearchBox extends React.Component<Props, State> {
               .filter((value, index, array) => array.indexOf(value) === index),
           });
         },
-        this.props.searchDelay);
+        this.props.searchDelay,
+      );
+      this.setState({ query });
     } else {
-      this.setState({ results: [], attributions: [] });
+      this.setState({ query, results: [], attributions: [] });
     }
-    this.setState({ query });
   }
 
   handleClick(index: number) {
