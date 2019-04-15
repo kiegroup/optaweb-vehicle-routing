@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Button } from '@patternfly/react-core';
+import { Button, TextInput } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { OpenStreetMapProvider, SearchResult } from 'leaflet-geosearch';
@@ -25,8 +25,12 @@ jest.mock('leaflet-geosearch');
 jest.useFakeTimers();
 
 beforeEach(() => {
-  (OpenStreetMapProvider as unknown as jest.MockInstance<OpenStreetMapProvider, []>).mockReset();
+  // Clear all instances and calls to constructor and all methods:
+  (OpenStreetMapProvider as unknown as jest.MockInstance<OpenStreetMapProvider, []>).mockClear();
 });
+
+const searchProviderMock = () =>
+  (OpenStreetMapProvider as unknown as jest.MockInstance<OpenStreetMapProvider, []>).mock;
 
 describe('Search box', () => {
   it('should render text input initially', () => {
@@ -47,15 +51,18 @@ describe('Search box', () => {
     };
 
     const searchBox = shallow(<SearchBox {...props} />);
-    // @ts-ignore
-    OpenStreetMapProvider.mock.instances[0].search.mockImplementation(() => results);
-    searchBox.find('TextInput').simulate('change', 'London');
+    expect(searchProviderMock().instances).toHaveLength(1);
+    // text input change triggers a component update
+    searchBox.find(TextInput).simulate('change', 'London');
+    // which in turn creates a new searchProvider instance
+    expect(searchProviderMock().instances).toHaveLength(2);
+    // so we can't provide the mock implementation earlier than here
+    searchProviderMock().instances[1].search = jest.fn().mockImplementation(() => results);
     await jest.runAllTimers();
-    expect(toJson(searchBox)).toMatchSnapshot();
-    // @ts-ignore
-    expect(OpenStreetMapProvider.mock.instances[0].search).toHaveBeenCalledTimes(1);
+    expect(searchProviderMock().instances[1].search).toHaveBeenCalledTimes(1);
     expect((searchBox.state() as State).results).toHaveLength(results.length);
     expect((searchBox.state() as State).attributions).toEqual(licenses);
+    expect(toJson(searchBox)).toMatchSnapshot();
   });
 
   it('should hide results when query is empty', () => {
@@ -66,20 +73,22 @@ describe('Search box', () => {
     };
 
     const searchBox = shallow(<SearchBox {...props} />);
+    expect(searchProviderMock().instances).toHaveLength(1);
 
     // when there are non-empty results
     searchBox.setState({ results, attributions: licenses });
+    expect(searchProviderMock().instances).toHaveLength(2);
     expect((searchBox.state() as State).results).toEqual(results);
     expect((searchBox.state() as State).attributions).toEqual(licenses);
 
     // and an empty query is issued
     const emptyQuery = ' ';
-    searchBox.find('TextInput').simulate('change', emptyQuery);
+    searchBox.find(TextInput).simulate('change', emptyQuery);
+    expect(searchProviderMock().instances).toHaveLength(3);
     expect(toJson(searchBox)).toMatchSnapshot();
 
     // search is not invoked
-    // @ts-ignore
-    expect(OpenStreetMapProvider.mock.instances[0].search).toHaveBeenCalledTimes(0);
+    expect(searchProviderMock().instances[2].search).toHaveBeenCalledTimes(0);
     // and results are cleared
     expect(searchBox.state()).toEqual({ query: emptyQuery, results: [], attributions: [] });
   });
