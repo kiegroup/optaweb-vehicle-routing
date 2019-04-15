@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-import { ActionType, ServerInfo, ServerInfoAction } from './types';
+import * as actions from './actions';
+import reducer from './index';
+import { initialServerState } from './reducers';
+import { ServerInfo } from './types';
 
-export const initialServerState: ServerInfo = {
-  countryCodes: [],
-};
-
-const routeReducer = (state = initialServerState, action: ServerInfoAction): ServerInfo => {
-  switch (action.type) {
-    case ActionType.SERVER_INFO: {
-      return action.value;
-    }
-    default:
-      return state;
-  }
-};
-
-export default routeReducer;
+describe('Server reducer', () => {
+  const serverInfo: ServerInfo = {
+    countryCodes: ['CZ', 'SK'],
+  };
+  it('server info', () => {
+    expect(
+      reducer(initialServerState, actions.serverInfo(serverInfo)),
+    ).toEqual(serverInfo);
+  });
+});
