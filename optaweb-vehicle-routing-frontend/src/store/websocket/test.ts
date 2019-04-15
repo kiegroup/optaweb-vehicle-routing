@@ -18,6 +18,8 @@ import { demoOperations } from '../demo';
 import { mockStore } from '../mockStore';
 import { routeOperations } from '../route';
 import { RoutingPlan } from '../route/types';
+import { serverOperations } from '../server';
+import { ServerInfo } from '../server/types';
 import { AppState } from '../types';
 import * as actions from './actions';
 import reducer, { websocketOperations } from './index';
@@ -155,6 +157,48 @@ describe('WebSocket client operations', () => {
       routeOperations.updateRoute(planWithTwoRoutes),
       demoOperations.finishLoading(),
     ]);
+  });
+
+  it('should dispatch server info', () => {
+    const state: AppState = {
+      connectionStatus: WebSocketConnectionStatus.CLOSED,
+      serverInfo: {
+        countryCodes: [],
+      },
+      demo: {
+        demoSize: 0,
+        isLoading: false,
+      },
+      plan: emptyPlan,
+    };
+
+    const { store, client } = mockStore(state);
+
+    let successCallbackCapture: () => void = uninitializedCallbackCapture;
+    client.connect = jest.fn().mockImplementation((successCallback) => {
+      successCallbackCapture = successCallback;
+    });
+
+    let serverInfoSubscriptionCallback: (info: ServerInfo) => void = uninitializedCallbackCapture;
+    client.subscribeToServerInfo = jest.fn().mockImplementation((callback) => {
+      serverInfoSubscriptionCallback = callback;
+    });
+
+    // successfully connect the client
+    store.dispatch(websocketOperations.connectClient());
+    successCallbackCapture();
+
+    // should be subscribed serverInfo topic
+    expect(client.subscribeToServerInfo).toHaveBeenCalledTimes(1);
+
+    store.clearActions();
+
+    // when server info arrives
+    const serverInfo: ServerInfo = { countryCodes: ['AB', 'XY'] };
+    serverInfoSubscriptionCallback(serverInfo);
+
+    // action should be dispatched
+    expect(store.getActions()).toEqual([serverOperations.serverInfo(serverInfo)]);
   });
 });
 
