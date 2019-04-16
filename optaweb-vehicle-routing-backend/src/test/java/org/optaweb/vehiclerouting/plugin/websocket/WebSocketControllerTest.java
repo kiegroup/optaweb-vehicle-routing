@@ -31,6 +31,7 @@ import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
+import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 
@@ -77,11 +78,20 @@ public class WebSocketControllerTest {
         List<String> countryCodes = Arrays.asList("XY", "WZ");
         when(regionService.countryCodes()).thenReturn(countryCodes);
 
+        LatLng southWest = LatLng.valueOf(-1.0, -2.0);
+        LatLng northEast = LatLng.valueOf(1.0, 2.0);
+        BoundingBox boundingBox = new BoundingBox(southWest, northEast);
+        when(regionService.boundingBox()).thenReturn(boundingBox);
+
         // act
         ServerInfo serverInfo = webSocketController.subscribeToServerInfoTopic();
 
         // assert
         assertThat(serverInfo.getCountryCodes()).isEqualTo(countryCodes);
+        assertThat(serverInfo.getBoundingBox()).containsExactly(
+                PortableLocation.fromLatLng(southWest),
+                PortableLocation.fromLatLng(northEast)
+        );
     }
 
     @Test

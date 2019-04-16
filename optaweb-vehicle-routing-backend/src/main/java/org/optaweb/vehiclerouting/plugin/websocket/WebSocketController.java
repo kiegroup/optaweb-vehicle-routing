@@ -16,10 +16,14 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
+import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +61,11 @@ public class WebSocketController {
      */
     @SubscribeMapping("/serverInfo")
     public ServerInfo subscribeToServerInfoTopic() {
-        return new ServerInfo(regionService.countryCodes());
+        BoundingBox boundingBox = regionService.boundingBox();
+        List<PortableLocation> portableBoundingBox = Arrays.asList(
+                PortableLocation.fromLatLng(boundingBox.getSouthWest()),
+                PortableLocation.fromLatLng(boundingBox.getNorthEast()));
+        return new ServerInfo(portableBoundingBox, regionService.countryCodes());
     }
 
     /**

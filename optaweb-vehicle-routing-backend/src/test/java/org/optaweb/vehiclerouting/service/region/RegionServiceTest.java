@@ -19,11 +19,15 @@ package org.optaweb.vehiclerouting.service.region;
 import java.util.Arrays;
 import java.util.List;
 
+import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.storage.GraphHopperStorage;
+import com.graphhopper.util.shapes.BBox;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.optaweb.vehiclerouting.domain.LatLng;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -33,8 +37,12 @@ public class RegionServiceTest {
 
     @Mock
     private RegionProperties regionProperties;
+    @Mock
+    private GraphHopperOSM graphHopper;
     @InjectMocks
     private RegionService regionService;
+    @Mock
+    private GraphHopperStorage graphHopperStorage;
 
     @Test
     public void should_return_country_codes_from_properties() {
@@ -42,5 +50,21 @@ public class RegionServiceTest {
         when(regionProperties.getCountryCodes()).thenReturn(countryCodes);
 
         assertThat(regionService.countryCodes()).isEqualTo(countryCodes);
+    }
+
+    @Test
+    public void should_return_graphHopper_bounds() {
+        when(graphHopper.getGraphHopperStorage()).thenReturn(graphHopperStorage);
+        double minLat_Y = -90;
+        double minLon_X = -180;
+        double maxLat_Y = 90;
+        double maxLon_X = 180;
+        BBox bbox = new BBox(minLon_X, maxLon_X, minLat_Y, maxLat_Y);
+        when(graphHopperStorage.getBounds()).thenReturn(bbox);
+
+        BoundingBox boundingBox = regionService.boundingBox();
+
+        assertThat(boundingBox.getSouthWest()).isEqualTo(LatLng.valueOf(minLat_Y, minLon_X));
+        assertThat(boundingBox.getNorthEast()).isEqualTo(LatLng.valueOf(maxLat_Y, maxLon_X));
     }
 }
