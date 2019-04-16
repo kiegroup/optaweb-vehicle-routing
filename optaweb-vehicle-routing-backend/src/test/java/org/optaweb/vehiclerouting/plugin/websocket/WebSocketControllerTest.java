@@ -16,6 +16,7 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,6 +31,7 @@ import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
+import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,6 +45,8 @@ public class WebSocketControllerTest {
     @Mock
     private RouteListener routeListener;
     @Mock
+    private RegionService regionService;
+    @Mock
     private LocationService locationService;
     @Mock
     private DemoService demoService;
@@ -50,7 +54,7 @@ public class WebSocketControllerTest {
     private WebSocketController webSocketController;
 
     @Test
-    public void subscribe() {
+    public void subscribeToRouteTopic() {
         // arrange
         String distance = "some distance";
         Location depot = new Location(1, LatLng.valueOf(3, 5));
@@ -65,6 +69,19 @@ public class WebSocketControllerTest {
         assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);
         assertThat(portableRoutingPlan.getDepot()).isEqualTo(PortableLocation.fromLocation(depot));
         assertThat(portableRoutingPlan.getRoutes()).hasSize(1);
+    }
+
+    @Test
+    public void subscribeToServerInfo() {
+        // arrange
+        List<String> countryCodes = Arrays.asList("XY", "WZ");
+        when(regionService.countryCodes()).thenReturn(countryCodes);
+
+        // act
+        ServerInfo serverInfo = webSocketController.subscribeToServerInfoTopic();
+
+        // assert
+        assertThat(serverInfo.getCountryCodes()).isEqualTo(countryCodes);
     }
 
     @Test
