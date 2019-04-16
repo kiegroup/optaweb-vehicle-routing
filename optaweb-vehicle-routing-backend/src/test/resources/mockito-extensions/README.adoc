@@ -1,0 +1,6 @@
+The Mockito extension file link:org.mockito.plugins.MockMaker[org.mockito.plugins.MockMaker]
+enables
+https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html#39[
+Mocking final types].
+
+Needed to mock `com.graphhopper.storage.GraphHopperStorage`.
