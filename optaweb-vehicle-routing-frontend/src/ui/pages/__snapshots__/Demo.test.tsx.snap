@@ -33,6 +33,7 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
     </TextContent>
     <SearchBox
       addHandler={[Function]}
+      boundingBox={null}
       countryCodeSearchFilter={
         Array [
           "XY",
@@ -236,6 +237,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
     </TextContent>
     <SearchBox
       addHandler={[Function]}
+      boundingBox={null}
       countryCodeSearchFilter={
         Array [
           "XY",
@@ -439,6 +441,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
     </TextContent>
     <SearchBox
       addHandler={[Function]}
+      boundingBox={null}
       countryCodeSearchFilter={Array []}
       searchDelay={500}
     />

@@ -23,6 +23,7 @@ import { LatLng } from 'store/route/types';
 
 export interface Props {
   searchDelay: number;
+  boundingBox: [LatLng, LatLng] | null;
   countryCodeSearchFilter: string[];
   addHandler: (result: Result) => void;
 }
@@ -37,6 +38,14 @@ export interface Result {
   address: string;
   latLng: LatLng;
 }
+
+const searchParams = (props: Props) => ({
+  countrycodes: props.countryCodeSearchFilter,
+  viewbox: props.boundingBox ?
+    [props.boundingBox[0].lng, props.boundingBox[0].lat, props.boundingBox[1].lng, props.boundingBox[1].lat]
+    : undefined,
+  bounded: !!props.boundingBox,
+});
 
 class SearchBox extends React.Component<Props, State> {
 
@@ -56,16 +65,14 @@ class SearchBox extends React.Component<Props, State> {
       attributions: [],
     };
 
-    this.searchProvider = new OpenStreetMapProvider({ params: { countrycodes: props.countryCodeSearchFilter } });
+    this.searchProvider = new OpenStreetMapProvider({ params: searchParams(props) });
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
   componentWillUpdate(nextProps: Readonly<Props>, nextState: Readonly<State>, nextContext: any): void {
-    this.searchProvider = new OpenStreetMapProvider({
-      params: { countrycodes: nextProps.countryCodeSearchFilter },
-    });
+    this.searchProvider = new OpenStreetMapProvider({ params: searchParams(nextProps) });
   }
 
   componentWillUnmount() {
