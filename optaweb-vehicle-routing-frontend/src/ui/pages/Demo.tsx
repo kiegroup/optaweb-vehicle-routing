@@ -121,6 +121,7 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
             <Text component={TextVariants.h1}>Demo</Text>
           </TextContent>
           <SearchBox
+            boundingBox={boundingBox}
             countryCodeSearchFilter={countryCodeSearchFilter}
             addHandler={this.handleSearchResultClick}
           />
