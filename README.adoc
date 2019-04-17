@@ -86,17 +86,23 @@ See
 xref:optaweb-vehicle-routing-backend/README.adoc#development-guide[Backend Development Guide]
 to learn how to run backend during development.
 
-[TIP]
-.Use a different OSM file
-====
-If you want to try a different region than Belgium, download an OSM file from Geofabrik
-and use an argument when starting the backend to change the data file:
+== Configuring the Working Region
+
+If you want to try a different region than Belgium, download an OSM file from
+http://download.geofabrik.de/[Geofabrik]
+and select it with `app.routing.osmfile` property when starting the backend.
+
+Don't forget to use `app.region.country-codes` property to override geosearch results constraint.
+
+There is currently only one out-of-the-box data set for Belgium
+so the *Load demo* button won't work with other regions.
 
 [source,shell]
 ----
-java -jar target/optaweb-vehicle-routing-backend-*.jar --app.routing.osmfile=massachusetts-latest.osm.pbf
+java -jar target/optaweb-vehicle-routing-backend-*.jar \
+--app.routing.osmfile=massachusetts-latest.osm.pbf \
+--app.region.country-codes=US
 ----
-====
 
 [CAUTION]
 .Using large OSM files

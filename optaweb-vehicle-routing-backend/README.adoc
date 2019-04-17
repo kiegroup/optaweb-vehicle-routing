@@ -92,6 +92,11 @@ Contains outer layers such as optimization, persistence, routing and web.
  * P2dT21h (PnDTnHnMn.nS)
 |How long the solver should run after a location change occurs.
 
+|app.region.country-codes
+|List of https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2[ISO 3166-1 alpha-2] country codes
+|`US`, `GB,IE`, `DE,AT,CH`, may be empty
+|Restricts geosearch results.
+
 |app.routing.osmFile
 |String
 |belgium-latest.osm.pbf
