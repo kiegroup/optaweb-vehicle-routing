@@ -31,6 +31,7 @@ export interface StateProps {
   visits: Location[];
   routes: RouteWithTrack[];
   isDemoLoading: boolean;
+  boundingBox: [LatLng, LatLng] | null;
   countryCodeSearchFilter: string[];
 }
 
@@ -47,6 +48,7 @@ const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
   visits: routeSelectors.getVisits(plan),
   routes: plan.routes,
   isDemoLoading: demo.isLoading,
+  boundingBox: serverInfo.boundingBox,
   countryCodeSearchFilter: serverInfo.countryCodes,
 });
 
@@ -95,13 +97,14 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
   }
 
   render() {
-    const { center, zoom, selectedId } = this.state;
+    const { selectedId } = this.state;
     const {
       distance,
       depot,
       visits,
       routes,
       isDemoLoading,
+      boundingBox,
       countryCodeSearchFilter,
       removeHandler,
       loadHandler,
@@ -163,8 +166,7 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
             </SplitItem>
           </Split>
           <TspMap
-            center={center}
-            zoom={zoom}
+            boundingBox={boundingBox}
             selectedId={selectedId}
             clickHandler={this.handleMapClick}
             removeHandler={removeHandler}

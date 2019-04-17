@@ -60,6 +60,7 @@ const emptyRouteProps: IDemoProps = {
 
   distance: '0',
   isDemoLoading: false,
+  boundingBox: null,
   countryCodeSearchFilter: [],
 
   depot: null,
@@ -75,6 +76,7 @@ const threeLocationsProps: IDemoProps = {
 
   distance: '10',
   isDemoLoading: false,
+  boundingBox: null,
   countryCodeSearchFilter: ['XY'],
 
   depot: {

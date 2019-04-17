@@ -36,6 +36,7 @@ describe('WebSocket client operations', () => {
     const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
       serverInfo: {
+        boundingBox: null,
         countryCodes: [],
       },
       demo: {
@@ -98,6 +99,7 @@ describe('WebSocket client operations', () => {
     const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
       serverInfo: {
+        boundingBox: null,
         countryCodes: [],
       },
       demo: {
@@ -163,6 +165,7 @@ describe('WebSocket client operations', () => {
     const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
       serverInfo: {
+        boundingBox: null,
         countryCodes: [],
       },
       demo: {
@@ -194,7 +197,10 @@ describe('WebSocket client operations', () => {
     store.clearActions();
 
     // when server info arrives
-    const serverInfo: ServerInfo = { countryCodes: ['AB', 'XY'] };
+    const serverInfo: ServerInfo = {
+      boundingBox: null,
+      countryCodes: ['AB', 'XY'],
+    };
     serverInfoSubscriptionCallback(serverInfo);
 
     // action should be dispatched

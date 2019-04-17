@@ -35,6 +35,7 @@ import TspMap from 'ui/components/TspMap';
 export interface StateProps {
   depot: Location | null;
   routes: RouteWithTrack[];
+  boundingBox: [LatLng, LatLng] | null;
 }
 
 export interface DispatchProps {
@@ -42,9 +43,10 @@ export interface DispatchProps {
   removeHandler: typeof routeOperations.deleteLocation;
 }
 
-const mapStateToProps = ({ plan }: AppState): StateProps => ({
+const mapStateToProps = ({ plan, serverInfo }: AppState): StateProps => ({
   depot: plan.depot,
   routes: plan.routes,
+  boundingBox: serverInfo.boundingBox,
 });
 
 const mapDispatchToProps: DispatchProps = {
@@ -87,8 +89,9 @@ class Route extends React.Component<IRouteProps, RouteState> {
   }
 
   render() {
-    const { center, zoom, selectedId, selectedRouteId } = this.state;
+    const { selectedId, selectedRouteId } = this.state;
     const {
+      boundingBox,
       depot,
       routes,
       removeHandler,
@@ -140,8 +143,7 @@ class Route extends React.Component<IRouteProps, RouteState> {
           </SplitItem>
           <SplitItem isMain={true}>
             <TspMap
-              center={center}
-              zoom={zoom}
+              boundingBox={boundingBox}
               selectedId={selectedId}
               clickHandler={this.handleMapClick}
               removeHandler={removeHandler}

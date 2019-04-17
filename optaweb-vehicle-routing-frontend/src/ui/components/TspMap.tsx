@@ -16,17 +16,16 @@
 
 import * as L from 'leaflet';
 import * as React from 'react';
-import { Map, Marker, Polyline, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
+import { Map, Marker, Polyline, Rectangle, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 
 export interface TspMapProps {
-  center: LatLng;
-  zoom: number;
   selectedId: number;
   clickHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
   removeHandler: (id: number) => void;
   depot: Location | null;
   routes: RouteWithTrack[];
+  boundingBox: [LatLng, LatLng] | null;
 }
 
 // TODO unlimited unique (random) colors
@@ -74,16 +73,19 @@ const marker = (
 };
 
 const TspMap: React.FC<TspMapProps> = ({
-  center,
-  zoom,
+  boundingBox,
   selectedId,
   depot,
   routes,
   clickHandler,
   removeHandler,
 }) => {
+  const bounds = boundingBox ? new L.LatLngBounds(boundingBox[0], boundingBox[1]) : undefined;
+  const center = bounds ? undefined : new L.LatLng(0, 0);
+  const zoom = bounds ? undefined : 2;
   return (
     <Map
+      bounds={bounds}
       center={center}
       zoom={zoom}
       onClick={clickHandler}
@@ -108,6 +110,14 @@ const TspMap: React.FC<TspMapProps> = ({
           color={color(index)}
         />
       ))}
+      {bounds &&
+      <Rectangle
+        bounds={bounds}
+        color={'seagreen'}
+        fill={false}
+        dashArray={'10,5'}
+        weight={1}
+      />}
     </Map>
   );
 };
