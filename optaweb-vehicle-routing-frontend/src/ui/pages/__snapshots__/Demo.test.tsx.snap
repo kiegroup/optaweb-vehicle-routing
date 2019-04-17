@@ -163,12 +163,7 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
       </SplitItem>
     </Split>
     <TspMap
-      center={
-        Object {
-          "lat": 50.85,
-          "lng": 4.35,
-        }
-      }
+      boundingBox={null}
       clickHandler={[Function]}
       depot={
         Object {
@@ -203,7 +198,6 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
         ]
       }
       selectedId={NaN}
-      zoom={9}
     />
   </SplitItem>
 </Split>
@@ -372,12 +366,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
       </SplitItem>
     </Split>
     <TspMap
-      center={
-        Object {
-          "lat": 50.85,
-          "lng": 4.35,
-        }
-      }
+      boundingBox={null}
       clickHandler={[Function]}
       depot={
         Object {
@@ -412,7 +401,6 @@ exports[`Demo page should render correctly with a few routes 1`] = `
         ]
       }
       selectedId={NaN}
-      zoom={9}
     />
   </SplitItem>
 </Split>
@@ -558,18 +546,12 @@ exports[`Demo page should render correctly with no routes 1`] = `
       </SplitItem>
     </Split>
     <TspMap
-      center={
-        Object {
-          "lat": 50.85,
-          "lng": 4.35,
-        }
-      }
+      boundingBox={null}
       clickHandler={[Function]}
       depot={null}
       removeHandler={[MockFunction]}
       routes={Array []}
       selectedId={NaN}
-      zoom={9}
     />
   </SplitItem>
 </Split>

@@ -17,6 +17,7 @@
 import { ActionType, ServerInfo, ServerInfoAction } from './types';
 
 export const initialServerState: ServerInfo = {
+  boundingBox: null,
   countryCodes: [],
 };
 

@@ -20,11 +20,32 @@ import * as React from 'react';
 import TspMap, { TspMapProps } from './TspMap';
 
 describe('TSP Map View', () => {
-  it('should render correctly', () => {
+  it('should show the whole world when bounding box is null', () => {
     const props: TspMapProps = {
       clickHandler: jest.fn(),
       removeHandler: jest.fn(),
       selectedId: 1,
+      depot: {
+        id: 1,
+        lat: 1.345678,
+        lng: 1.345678,
+      },
+      routes: [{
+        visits: [],
+        track: [],
+      }],
+      boundingBox: null,
+    };
+    const tspMap = shallow(<TspMap {...props} />);
+    expect(toJson(tspMap)).toMatchSnapshot();
+  });
+
+  it('should pan and zoom to show bounding box', () => {
+    const props: TspMapProps = {
+      clickHandler: jest.fn(),
+      removeHandler: jest.fn(),
+      selectedId: 1,
+      boundingBox: [{ lat: -1, lng: -2 }, { lat: 10, lng: 20 }],
       depot: {
         id: 1,
         lat: 1.345678,
@@ -42,13 +63,7 @@ describe('TSP Map View', () => {
         }],
         track: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
       }],
-      center: {
-        lat: 1.345678,
-        lng: 1.345678,
-      },
-      zoom: 5,
     };
-    expect.assertions(1);
     const tspMap = shallow(<TspMap {...props} />);
     expect(toJson(tspMap)).toMatchSnapshot();
   });

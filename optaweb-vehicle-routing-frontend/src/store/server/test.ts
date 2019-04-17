@@ -21,6 +21,7 @@ import { ServerInfo } from './types';
 
 describe('Server reducer', () => {
   const serverInfo: ServerInfo = {
+    boundingBox: null,
     countryCodes: ['CZ', 'SK'],
   };
   it('server info', () => {

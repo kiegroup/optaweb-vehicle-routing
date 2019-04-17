@@ -70,6 +70,7 @@ describe('Demo reducers', () => {
 const state: AppState = {
   connectionStatus: WebSocketConnectionStatus.CLOSED,
   serverInfo: {
+    boundingBox: null,
     countryCodes: [],
   },
   demo: {
