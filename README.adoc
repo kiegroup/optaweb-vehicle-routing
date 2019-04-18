@@ -90,7 +90,7 @@ to learn how to run backend during development.
 
 If you want to try a different region than Belgium, download an OSM file from
 http://download.geofabrik.de/[Geofabrik]
-and select it with `app.routing.osmfile` property when starting the backend.
+and select it with `app.routing.osm-file` property when starting the backend.
 
 Don't forget to use `app.region.country-codes` property to override geosearch results constraint.
 
@@ -100,7 +100,7 @@ so the *Load demo* button won't work with other regions.
 [source,shell]
 ----
 java -jar target/optaweb-vehicle-routing-backend-*.jar \
---app.routing.osmfile=massachusetts-latest.osm.pbf \
+--app.routing.osm-file=massachusetts-latest.osm.pbf \
 --app.region.country-codes=US
 ----
 
