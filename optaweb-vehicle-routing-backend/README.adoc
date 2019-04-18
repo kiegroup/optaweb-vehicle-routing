@@ -97,7 +97,7 @@ Contains outer layers such as optimization, persistence, routing and web.
 |`US`, `GB,IE`, `DE,AT,CH`, may be empty
 |Restricts geosearch results.
 
-|app.routing.osmFile
+|app.routing.osm-file
 |String
 |belgium-latest.osm.pbf
 |Name of the OSM file that should be loaded by GraphHopper.
