@@ -18,8 +18,8 @@ package org.optaweb.vehiclerouting.service.region;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
+import org.optaweb.vehiclerouting.domain.CountryCodeValidator;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -34,14 +34,13 @@ public class RegionProperties {
 
     /**
      * Get country codes matching the loaded OSM file (working region).
-     * @return list of country codes (never null)
+     * @return list of country codes (never {@code null})
      */
     public List<String> getCountryCodes() {
         return Collections.unmodifiableList(countryCodes);
     }
 
     public void setCountryCodes(List<String> countryCodes) {
-        // TODO validation (all items must be ISO 3166-1)
-        this.countryCodes = Objects.requireNonNull(countryCodes);
+        this.countryCodes = CountryCodeValidator.validate(countryCodes);
     }
 }
