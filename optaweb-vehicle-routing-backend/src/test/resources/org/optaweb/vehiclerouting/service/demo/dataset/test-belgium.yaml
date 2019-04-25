@@ -1,0 +1,23 @@
+---
+name: "Belgium test"
+depot:
+  label: "Brussels"
+  lat: 50.85
+  lng: 4.35
+visits:
+  - label: "Aalst"
+    lat: 50.933333
+    lng: 4.033333
+  - label: "Châtelet"
+    lat: 50.4
+    lng: 4.516667
+  - label: "La Louvière"
+    lat: 50.466667
+    lng: 4.183333
+  - label: "Sint-Niklaas"
+    lat: 51.166667
+    lng: 4.133333
+  # random order
+  - lng: 2.883333
+    lat: 50.85
+    label: "Ypres"
