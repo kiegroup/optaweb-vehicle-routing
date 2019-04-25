@@ -23,6 +23,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.service.demo.dataset.DataSet;
+import org.optaweb.vehiclerouting.service.demo.dataset.Location;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,20 +41,35 @@ public class DemoServiceTest {
     private DemoProperties demoProperties;
     @Mock
     private LocationService locationService;
+    @Mock
+    private DataSetReader dataSetReader;
     @InjectMocks
     private DemoService demoService;
 
-    private final int demoSize = 7;
+    private DataSet dataSet;
 
     @Before
     public void setUp() {
-        when(demoProperties.getSize()).thenReturn(demoSize);
+        when(demoProperties.getSize()).thenReturn(-1);
         when(locationService.createLocation(any())).thenReturn(true);
+        dataSet = new DataSet();
+        dataSet.setDepot(new Location("Hello", 1.0, 7));
+        dataSet.getVisits().add(new Location("X Y", 2.0, 9));
+        when(dataSetReader.demoDataSet()).thenReturn(dataSet);
     }
 
     @Test
-    public void demoSize() {
-        assertThat(demoService.getDemoSize()).isEqualTo(demoSize);
+    public void demo_size_should_equal_visits_plus_depot() {
+        assertThat(demoService.getDemoSize()).isEqualTo(dataSet.getVisits().size() + 1);
+    }
+
+    @Test
+    public void demo_size_can_be_overridden_with_a_property() {
+        int demoSizeProperty = 1321;
+        when(demoProperties.getSize()).thenReturn(demoSizeProperty);
+        assertThat(demoService.getDemoSize()).isEqualTo(demoSizeProperty);
+        when(demoProperties.getSize()).thenReturn(0);
+        assertThat(demoService.getDemoSize()).isZero();
     }
 
     @Test
@@ -63,11 +80,10 @@ public class DemoServiceTest {
 
     @Test
     public void retry_when_adding_location_fails() {
-        when(demoProperties.getSize()).thenReturn(1);
         when(locationService.createLocation(any())).thenReturn(false);
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> demoService.loadDemo())
-                .withMessageContaining(Belgium.values()[0].toString());
+                .withMessageContaining(dataSet.getDepot().toString());
         verify(locationService, times(DemoService.MAX_TRIES)).createLocation(any(LatLng.class));
     }
 }

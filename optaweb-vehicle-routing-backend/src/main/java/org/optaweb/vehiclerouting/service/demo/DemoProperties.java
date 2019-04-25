@@ -26,8 +26,9 @@ public class DemoProperties {
     /**
      * Number of demo locations.
      */
-    private int size = Belgium.values().length;
+    private int size = -1;
 
+    // TODO remove this, make demo size a parameter of /demo WebSocket message
     public int getSize() {
         return size;
     }

@@ -1,0 +1,124 @@
+---
+name: "Belgium cities"
+depot:
+  label: "Brussels"
+  lat: 50.85
+  lng: 4.35
+visits:
+  - label: "Aalst"
+    lat: 50.933333
+    lng: 4.033333
+  - label: "Anderlecht"
+    lat: 50.833333
+    lng: 4.333333
+  - label: "Antwerp"
+    lat: 51.217778
+    lng: 4.400278
+  - label: "Beringen"
+    lat: 51.033333
+    lng: 5.216667
+  - label: "Bruges"
+    lat: 51.216667
+    lng: 3.233333
+  - label: "Charleroi"
+    lat: 50.4
+    lng: 4.433333
+  - label: "Chatelet"
+    lat: 50.4
+    lng: 4.516667
+  - label: "Dendermonde"
+    lat: 51.033333
+    lng: 4.1
+  - label: "Geel"
+    lat: 51.166667
+    lng: 5.0
+  - label: "Genk"
+    lat: 50.966667
+    lng: 5.5
+  - label: "Ghent"
+    lat: 51.05
+    lng: 3.733333
+  - label: "Halle"
+    lat: 50.733333
+    lng: 4.233333
+  - label: "Hasselt"
+    lat: 50.93
+    lng: 5.3375
+  - label: "Ixelles"
+    lat: 50.833333
+    lng: 4.366667
+  - label: "Kortrijk"
+    lat: 50.833333
+    lng: 3.266667
+  - label: "La Louviere"
+    lat: 50.466667
+    lng: 4.183333
+  - label: "Leuven"
+    lat: 50.883333
+    lng: 4.7
+  - label: "Liege"
+    lat: 50.633333
+    lng: 5.566667
+  - label: "Lier"
+    lat: 51.133333
+    lng: 4.566667
+  - label: "Lokeren"
+    lat: 51.1
+    lng: 3.983333
+  - label: "Mechelen"
+    lat: 51.016667
+    lng: 4.466667
+  - label: "Molenbeek"
+    lat: 50.857778
+    lng: 4.315833
+  - label: "Mons"
+    lat: 50.45
+    lng: 3.95
+  - label: "Namur"
+    lat: 50.466667
+    lng: 4.866667
+  - label: "Ninove"
+    lat: 50.833333
+    lng: 4.016667
+  - label: "Roeselare"
+    lat: 50.933333
+    lng: 3.116667
+  - label: "Schaerbeek"
+    lat: 50.866667
+    lng: 4.383333
+  - label: "Seraing"
+    lat: 50.583333
+    lng: 5.5
+  - label: "Sint Niklaas"
+    lat: 51.166667
+    lng: 4.133333
+  - label: "Sint Truiden"
+    lat: 50.8
+    lng: 5.183333
+  - label: "Tienen"
+    lat: 50.8
+    lng: 4.933333
+  - label: "Tournai"
+    lat: 50.6
+    lng: 3.383333
+  - label: "Turnhout"
+    lat: 51.316667
+    lng: 4.95
+  - label: "Uccle"
+    lat: 50.8
+    lng: 4.333333
+  - label: "Verviers"
+    lat: 50.583333
+    lng: 5.85
+  - label: "Vilvoorde"
+    lat: 50.933333
+    lng: 4.416667
+  - label: "Waregem"
+    lat: 50.883333
+    lng: 3.416667
+  - label: "Wavre"
+    lat: 50.716667
+    lng: 4.6
+  - label: "Ypres"
+    lat: 50.85
+    lng: 2.883333

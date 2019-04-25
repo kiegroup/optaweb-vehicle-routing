@@ -17,6 +17,8 @@
 package org.optaweb.vehiclerouting.service.demo;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.service.demo.dataset.DataSet;
+import org.optaweb.vehiclerouting.service.demo.dataset.Location;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -31,36 +33,49 @@ public class DemoService {
 
     private final DemoProperties properties;
     private final LocationService locationService;
+    private final DataSetReader dataSetReader;
 
-    public DemoService(DemoProperties properties, LocationService locationService) {
+    public DemoService(DemoProperties properties, LocationService locationService, DataSetReader dataSetReader) {
         this.properties = properties;
         this.locationService = locationService;
+        this.dataSetReader = dataSetReader;
     }
 
     @Async
     public void loadDemo() {
-        for (int i = 0; i < getDemoSize(); i++) {
+        DataSet dataSet = dataSetReader.demoDataSet();
+
+        // Add depot
+        addWithRetry(dataSet.getDepot());
+
+        for (int i = 0; i < getDemoSize() - 1; i++) {
             // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
-            Belgium city = Belgium.values()[i % Belgium.values().length];
-            int tries = 0;
-            while (tries < MAX_TRIES && !locationService.createLocation(randomize(city))) {
-                tries++;
-            }
-            if (tries == MAX_TRIES) {
-                throw new RuntimeException("Impossible to create a new location near " + city
-                                                   + " after " + tries + " attempts");
-            }
+            Location visit = dataSet.getVisits().get(i % dataSet.getVisits().size());
+            addWithRetry(visit);
         }
     }
 
-    private LatLng randomize(Belgium city) {
+    private void addWithRetry(Location location) {
+        int tries = 0;
+        while (tries < MAX_TRIES && !locationService.createLocation(randomize(location))) {
+            tries++;
+        }
+        if (tries == MAX_TRIES) {
+            throw new RuntimeException(
+                    "Impossible to create a new location near " + location + " after " + tries + " attempts"
+            );
+        }
+    }
+
+    private LatLng randomize(Location visit) {
         return LatLng.valueOf(
-                city.lat + Math.random() * 0.08 - 0.04,
-                city.lng + Math.random() * 0.08 - 0.04
+                visit.getLat() + Math.random() * 0.08 - 0.04,
+                visit.getLng() + Math.random() * 0.08 - 0.04
         );
     }
 
     public int getDemoSize() {
-        return properties.getSize();
+        int size = properties.getSize();
+        return size >= 0 ? size : dataSetReader.demoDataSet().getVisits().size() + 1;
     }
 }
