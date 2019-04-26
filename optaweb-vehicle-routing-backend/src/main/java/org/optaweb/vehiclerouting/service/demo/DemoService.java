@@ -16,6 +16,9 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
+
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSet;
 import org.optaweb.vehiclerouting.service.demo.dataset.Location;
@@ -43,7 +46,7 @@ public class DemoService {
 
     @Async
     public void loadDemo() {
-        DataSet dataSet = dataSetMarshaller.demoDataSet();
+        DataSet dataSet = dataSetMarshaller.unmarshall(belgiumReader());
 
         // Add depot
         addWithRetry(dataSet.getDepot());
@@ -76,10 +79,14 @@ public class DemoService {
 
     public int getDemoSize() {
         int size = properties.getSize();
-        return size >= 0 ? size : dataSetMarshaller.demoDataSet().getVisits().size() + 1;
+        return size >= 0 ? size : dataSetMarshaller.unmarshall(belgiumReader()).getVisits().size() + 1;
     }
 
     public String exportDataSet() {
-        return dataSetMarshaller.marshall(dataSetMarshaller.demoDataSet());
+        return dataSetMarshaller.marshall(dataSetMarshaller.unmarshall(belgiumReader()));
+    }
+
+    private Reader belgiumReader() {
+        return new InputStreamReader(DemoService.class.getResourceAsStream("belgium-cities.yaml"));
     }
 }

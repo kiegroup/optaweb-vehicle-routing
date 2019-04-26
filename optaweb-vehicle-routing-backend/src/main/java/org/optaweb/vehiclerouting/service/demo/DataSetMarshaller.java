@@ -17,7 +17,7 @@
 package org.optaweb.vehiclerouting.service.demo;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.Reader;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,9 +38,9 @@ public class DataSetMarshaller {
         this.mapper = mapper;
     }
 
-    DataSet demoDataSet() {
-        try (InputStream inputStream = DataSetMarshaller.class.getResourceAsStream("belgium-cities.yaml")) {
-            return mapper.readValue(inputStream, DataSet.class);
+    DataSet unmarshall(Reader reader) {
+        try {
+            return mapper.readValue(reader, DataSet.class);
         } catch (IOException e) {
             throw new IllegalStateException("Can't read demo data set.", e);
         }

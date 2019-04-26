@@ -18,6 +18,8 @@ package org.optaweb.vehiclerouting.service.demo;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -36,10 +38,21 @@ import static org.mockito.Mockito.when;
 public class DataSetMarshallerTest {
 
     @Test
-    public void default_data_set() {
-        DataSet dataSet = new DataSetMarshaller().demoDataSet();
+    public void unmarshall_data_set() throws IOException {
+        DataSet dataSet;
+        try (InputStream inputStream = DataSetMarshallerTest.class.getResourceAsStream("test-belgium.yaml")) {
+            dataSet = new DataSetMarshaller().unmarshall(new InputStreamReader(inputStream));
+        }
+        assertThat(dataSet).isNotNull();
+
+        assertThat(dataSet.getName()).isEqualTo("Belgium test");
         assertThat(dataSet.getDepot()).isNotNull();
-        assertThat(dataSet.getVisits()).hasSize(39);
+        assertThat(dataSet.getDepot().getLabel()).isEqualTo("Brussels");
+        assertThat(dataSet.getDepot().getLat()).isEqualTo(50.85);
+        assertThat(dataSet.getDepot().getLng()).isEqualTo(4.35);
+        assertThat(dataSet.getVisits())
+                .extracting("label")
+                .containsExactlyInAnyOrder("Aalst", "Châtelet", "La Louvière", "Sint-Niklaas", "Ypres");
     }
 
     @Test
@@ -61,9 +74,9 @@ public class DataSetMarshallerTest {
     @Test
     public void should_rethrow_exception_from_object_mapper() throws IOException {
         ObjectMapper objectMapper = mock(ObjectMapper.class);
-        when(objectMapper.readValue(any(InputStream.class), eq(DataSet.class))).thenThrow(IOException.class);
+        when(objectMapper.readValue(any(Reader.class), eq(DataSet.class))).thenThrow(IOException.class);
         assertThatIllegalStateException()
-                .isThrownBy(() -> new DataSetMarshaller(objectMapper).demoDataSet())
+                .isThrownBy(() -> new DataSetMarshaller(objectMapper).unmarshall(mock(Reader.class)))
                 .withRootCauseExactlyInstanceOf(IOException.class);
 
         when(objectMapper.writeValueAsString(any(DataSet.class))).thenThrow(JsonProcessingException.class);

@@ -55,7 +55,7 @@ public class DemoServiceTest {
         dataSet = new DataSet();
         dataSet.setDepot(new Location("Hello", 1.0, 7));
         dataSet.getVisits().add(new Location("X Y", 2.0, 9));
-        when(dataSetMarshaller.demoDataSet()).thenReturn(dataSet);
+        when(dataSetMarshaller.unmarshall(any())).thenReturn(dataSet);
     }
 
     @Test
