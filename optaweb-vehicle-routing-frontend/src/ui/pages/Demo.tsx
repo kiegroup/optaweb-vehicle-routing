@@ -14,7 +14,17 @@
  * limitations under the License.
  */
 
-import { Button, Grid, GridItem, Split, SplitItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import {
+  Button,
+  Grid,
+  GridItem,
+  GutterSize,
+  Split,
+  SplitItem,
+  Text,
+  TextContent,
+  TextVariants,
+} from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { demoOperations } from 'store/demo';
@@ -24,6 +34,10 @@ import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
 import SearchBox, { Result } from 'ui/components/SearchBox';
 import TspMap from 'ui/components/TspMap';
+
+export const ID_CLEAR_BUTTON = 'clear-button';
+export const ID_EXPORT_BUTTON = 'export-button';
+export const ID_LOAD_BUTTON = 'load-button';
 
 export interface StateProps {
   distance: string;
@@ -110,6 +124,11 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
       loadHandler,
       clearHandler,
     } = this.props;
+
+    const exportDataSet = () => {
+      window.open(`${process.env.REACT_APP_BACKEND_URL}/dataset/export`);
+    };
+
     return (
       // FIXME find a way to avoid these style customizations
       <Split gutter="md" style={{ overflowY: 'auto' }}>
@@ -137,7 +156,7 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
           isMain={true}
           style={{ display: 'flex', flexDirection: 'column' }}
         >
-          <Split gutter="md">
+          <Split gutter={GutterSize.md}>
             <SplitItem isMain={true}>
               <Grid>
                 <GridItem span={6}>{`Visits: ${visits.length}`}</GridItem>
@@ -145,20 +164,28 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
               </Grid>
             </SplitItem>
             <SplitItem isMain={false}>
+              <Button
+                id={ID_EXPORT_BUTTON}
+                isDisabled={!depot || isDemoLoading}
+                style={{ marginBottom: 16, marginLeft: 16 }}
+                onClick={exportDataSet}
+              >
+                Export
+              </Button>
               {routes.length === 0 &&
               <Button
-                type="button"
+                id={ID_LOAD_BUTTON}
                 isDisabled={isDemoLoading}
-                style={{ marginBottom: 16 }}
+                style={{ marginBottom: 16, marginLeft: 16 }}
                 onClick={loadHandler}
               >
                 Load demo
               </Button>
               ||
               <Button
-                type="button"
+                id={ID_CLEAR_BUTTON}
                 isDisabled={isDemoLoading}
-                style={{ marginBottom: 16 }}
+                style={{ marginBottom: 16, marginLeft: 16 }}
                 onClick={clearHandler}
               >
                 Clear
