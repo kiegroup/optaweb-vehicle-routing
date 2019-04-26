@@ -42,7 +42,7 @@ public class DemoServiceTest {
     @Mock
     private LocationService locationService;
     @Mock
-    private DataSetReader dataSetReader;
+    private DataSetMarshaller dataSetMarshaller;
     @InjectMocks
     private DemoService demoService;
 
@@ -55,7 +55,7 @@ public class DemoServiceTest {
         dataSet = new DataSet();
         dataSet.setDepot(new Location("Hello", 1.0, 7));
         dataSet.getVisits().add(new Location("X Y", 2.0, 9));
-        when(dataSetReader.demoDataSet()).thenReturn(dataSet);
+        when(dataSetMarshaller.demoDataSet()).thenReturn(dataSet);
     }
 
     @Test

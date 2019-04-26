@@ -19,29 +19,38 @@ package org.optaweb.vehiclerouting.service.demo;
 import java.io.IOException;
 import java.io.InputStream;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSet;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataSetReader {
+public class DataSetMarshaller {
 
     private final ObjectMapper mapper;
 
-    public DataSetReader() {
+    public DataSetMarshaller() {
         mapper = new ObjectMapper(new YAMLFactory());
     }
 
-    public DataSetReader(ObjectMapper mapper) {
+    public DataSetMarshaller(ObjectMapper mapper) {
         this.mapper = mapper;
     }
 
     DataSet demoDataSet() {
-        try (InputStream inputStream = DataSetReader.class.getResourceAsStream("belgium-cities.yaml")) {
+        try (InputStream inputStream = DataSetMarshaller.class.getResourceAsStream("belgium-cities.yaml")) {
             return mapper.readValue(inputStream, DataSet.class);
         } catch (IOException e) {
             throw new IllegalStateException("Can't read demo data set.", e);
+        }
+    }
+
+    String marshall(DataSet dataSet) {
+        try {
+            return mapper.writeValueAsString(dataSet);
+        } catch (JsonProcessingException e) {
+            throw new IllegalStateException("Failed to marshal data set (" + dataSet.getName() + ")", e);
         }
     }
 }

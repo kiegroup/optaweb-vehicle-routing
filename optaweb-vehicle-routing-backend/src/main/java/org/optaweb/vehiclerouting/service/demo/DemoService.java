@@ -33,17 +33,17 @@ public class DemoService {
 
     private final DemoProperties properties;
     private final LocationService locationService;
-    private final DataSetReader dataSetReader;
+    private final DataSetMarshaller dataSetMarshaller;
 
-    public DemoService(DemoProperties properties, LocationService locationService, DataSetReader dataSetReader) {
+    public DemoService(DemoProperties properties, LocationService locationService, DataSetMarshaller dataSetMarshaller) {
         this.properties = properties;
         this.locationService = locationService;
-        this.dataSetReader = dataSetReader;
+        this.dataSetMarshaller = dataSetMarshaller;
     }
 
     @Async
     public void loadDemo() {
-        DataSet dataSet = dataSetReader.demoDataSet();
+        DataSet dataSet = dataSetMarshaller.demoDataSet();
 
         // Add depot
         addWithRetry(dataSet.getDepot());
@@ -76,6 +76,10 @@ public class DemoService {
 
     public int getDemoSize() {
         int size = properties.getSize();
-        return size >= 0 ? size : dataSetReader.demoDataSet().getVisits().size() + 1;
+        return size >= 0 ? size : dataSetMarshaller.demoDataSet().getVisits().size() + 1;
+    }
+
+    public String exportDataSet() {
+        return dataSetMarshaller.marshall(dataSetMarshaller.demoDataSet());
     }
 }
