@@ -35,11 +35,14 @@ public class PortableLocation {
     @JsonProperty(value = "lng", required = true)
     private BigDecimal longitude;
 
+    private String description;
+
     public static PortableLocation fromLocation(Location location) {
         return new PortableLocation(
                 location.getId(),
                 location.getLatLng().getLatitude(),
-                location.getLatLng().getLongitude()
+                location.getLatLng().getLongitude(),
+                location.getDescription()
         );
     }
 
@@ -47,17 +50,19 @@ public class PortableLocation {
         return new PortableLocation(
                 0,
                 latLng.getLatitude(),
-                latLng.getLongitude()
+                latLng.getLongitude(),
+                ""
         );
     }
 
     public PortableLocation() {
     }
 
-    public PortableLocation(long id, BigDecimal latitude, BigDecimal longitude) {
+    public PortableLocation(long id, BigDecimal latitude, BigDecimal longitude, String description) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.description = description;
     }
 
     public long getId() {
@@ -84,6 +89,14 @@ public class PortableLocation {
         this.longitude = longitude;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -92,21 +105,23 @@ public class PortableLocation {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PortableLocation portableLocation = (PortableLocation) o;
-        return id == portableLocation.id &&
-                Objects.equals(latitude, portableLocation.latitude) &&
-                Objects.equals(longitude, portableLocation.longitude);
+        PortableLocation that = (PortableLocation) o;
+        return id == that.id &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(latitude, that.latitude) &&
+                Objects.equals(longitude, that.longitude);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, latitude, longitude);
+        return Objects.hash(id, description, latitude, longitude);
     }
 
     @Override
     public String toString() {
         return "PortableLocation{" +
                 "id=" + id +
+                ", description='" + description + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';

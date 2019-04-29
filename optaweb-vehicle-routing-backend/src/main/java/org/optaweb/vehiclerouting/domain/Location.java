@@ -25,10 +25,16 @@ public class Location {
 
     private final long id;
     private final LatLng latLng;
+    private final String description;
 
     public Location(long id, LatLng latLng) {
+        this(id, latLng, "");
+    }
+
+    public Location(long id, LatLng latLng, String description) {
         this.id = id;
         this.latLng = Objects.requireNonNull(latLng);
+        this.description = Objects.requireNonNull(description);
     }
 
     public long getId() {
@@ -39,6 +45,10 @@ public class Location {
         return latLng;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -47,14 +57,15 @@ public class Location {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Location that = (Location) o;
-        return id == that.id &&
-                latLng.equals(that.latLng);
+        Location location = (Location) o;
+        return id == location.id &&
+                latLng.equals(location.latLng) &&
+                description.equals(location.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, latLng);
+        return Objects.hash(id, latLng, description);
     }
 
     @Override
@@ -62,6 +73,7 @@ public class Location {
         return "Location{" +
                 "id=" + id +
                 ", latLng=" + latLng +
+                ", description='" + description + '\'' +
                 '}';
     }
 }
