@@ -21,6 +21,10 @@ export interface LatLng {
   readonly lng: number;
 }
 
+export interface LatLngWithDescription extends LatLng {
+  description: string;
+}
+
 export interface Location extends LatLng {
   readonly id: number;
 }
@@ -48,7 +52,7 @@ export enum ActionType {
 }
 
 export interface AddLocationAction extends Action<ActionType.ADD_LOCATION> {
-  readonly value: LatLng;
+  readonly value: LatLngWithDescription;
 }
 
 export interface ClearRouteAction extends Action<ActionType.CLEAR_SOLUTION> {

@@ -25,9 +25,9 @@ import {
   UpdateRouteAction,
 } from './types';
 
-export const addLocation: ActionCreator<AddLocationAction> = (location: LatLng) => ({
+export const addLocation: ActionCreator<AddLocationAction> = (latLng: LatLng, description: string) => ({
   type: ActionType.ADD_LOCATION,
-  value: location,
+  value: { ...latLng, description },
 });
 
 export const deleteLocation: ActionCreator<DeleteLocationAction> = (id: number) => ({

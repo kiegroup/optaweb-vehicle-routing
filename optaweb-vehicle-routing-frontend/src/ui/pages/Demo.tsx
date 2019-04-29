@@ -99,11 +99,11 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
   }
 
   handleMapClick(e: any) {
-    this.props.addHandler(e.latlng);
+    this.props.addHandler(e.latlng, ''); // TODO use reverse geocoding to find address
   }
 
   handleSearchResultClick(result: Result) {
-    this.props.addHandler(result.latLng);
+    this.props.addHandler(result.latLng, result.address);
   }
 
   onSelectLocation(id: number) {
