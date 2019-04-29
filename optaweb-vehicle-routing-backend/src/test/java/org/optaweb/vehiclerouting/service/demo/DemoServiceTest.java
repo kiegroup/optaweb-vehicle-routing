@@ -16,6 +16,9 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,8 +26,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.service.demo.dataset.DataSet;
-import org.optaweb.vehiclerouting.service.demo.dataset.Location;
+import org.optaweb.vehiclerouting.domain.RoutingProblem;
+import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,21 +49,21 @@ public class DemoServiceTest {
     @InjectMocks
     private DemoService demoService;
 
-    private DataSet dataSet;
+    private RoutingProblem routingProblem;
 
     @Before
     public void setUp() {
         when(demoProperties.getSize()).thenReturn(-1);
         when(locationService.createLocation(any())).thenReturn(true);
-        dataSet = new DataSet();
-        dataSet.setDepot(new Location("Hello", 1.0, 7));
-        dataSet.getVisits().add(new Location("X Y", 2.0, 9));
-        when(dataSetMarshaller.unmarshall(any())).thenReturn(dataSet);
+        LatLng depot = LatLng.valueOf(1.0, 7);
+        List<LatLng> visits = Arrays.asList(LatLng.valueOf(2.0, 9));
+        routingProblem = new RoutingProblem("Test routing plan", depot, visits);
+        when(dataSetMarshaller.unmarshall(any())).thenReturn(routingProblem);
     }
 
     @Test
     public void demo_size_should_equal_visits_plus_depot() {
-        assertThat(demoService.getDemoSize()).isEqualTo(dataSet.getVisits().size() + 1);
+        assertThat(demoService.getDemoSize()).isEqualTo(routingProblem.getVisits().size() + 1);
     }
 
     @Test
@@ -83,7 +86,7 @@ public class DemoServiceTest {
         when(locationService.createLocation(any())).thenReturn(false);
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> demoService.loadDemo())
-                .withMessageContaining(dataSet.getDepot().toString());
+                .withMessageContaining(routingProblem.getDepot().toString());
         verify(locationService, times(DemoService.MAX_TRIES)).createLocation(any(LatLng.class));
     }
 }

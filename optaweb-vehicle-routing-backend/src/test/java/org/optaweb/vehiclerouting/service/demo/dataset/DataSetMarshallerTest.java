@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.demo;
+package org.optaweb.vehiclerouting.service.demo.dataset;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Arrays;
+import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
-import org.optaweb.vehiclerouting.service.demo.dataset.DataSet;
-import org.optaweb.vehiclerouting.service.demo.dataset.Location;
+import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.RoutingProblem;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
@@ -34,6 +35,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller.toDataSet;
+import static org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller.toDomain;
 
 public class DataSetMarshallerTest {
 
@@ -41,7 +44,7 @@ public class DataSetMarshallerTest {
     public void unmarshall_data_set() throws IOException {
         DataSet dataSet;
         try (InputStream inputStream = DataSetMarshallerTest.class.getResourceAsStream("test-belgium.yaml")) {
-            dataSet = new DataSetMarshaller().unmarshall(new InputStreamReader(inputStream));
+            dataSet = new DataSetMarshaller().unmarshallToDataSet(new InputStreamReader(inputStream));
         }
         assertThat(dataSet).isNotNull();
 
@@ -60,9 +63,9 @@ public class DataSetMarshallerTest {
         DataSet dataSet = new DataSet();
         String name = "Data set name";
         dataSet.setName(name);
-        Location depot = new Location("Depot", -1.1, -9.9);
-        Location location1 = new Location("Location 1", 1.0, 0.1);
-        Location location2 = new Location("Location 2", 2.0, 0.2);
+        DataSetLocation depot = new DataSetLocation("Depot", -1.1, -9.9);
+        DataSetLocation location1 = new DataSetLocation("Location 1", 1.0, 0.1);
+        DataSetLocation location2 = new DataSetLocation("Location 2", 2.0, 0.2);
         dataSet.setDepot(depot);
         dataSet.setVisits(Arrays.asList(location1, location2));
         String yaml = new DataSetMarshaller().marshall(dataSet);
@@ -76,12 +79,48 @@ public class DataSetMarshallerTest {
         ObjectMapper objectMapper = mock(ObjectMapper.class);
         when(objectMapper.readValue(any(Reader.class), eq(DataSet.class))).thenThrow(IOException.class);
         assertThatIllegalStateException()
-                .isThrownBy(() -> new DataSetMarshaller(objectMapper).unmarshall(mock(Reader.class)))
+                .isThrownBy(() -> new DataSetMarshaller(objectMapper).unmarshallToDataSet(mock(Reader.class)))
                 .withRootCauseExactlyInstanceOf(IOException.class);
 
         when(objectMapper.writeValueAsString(any(DataSet.class))).thenThrow(JsonProcessingException.class);
         assertThatIllegalStateException()
                 .isThrownBy(() -> new DataSetMarshaller(objectMapper).marshall(new DataSet()))
                 .withRootCauseExactlyInstanceOf(JsonProcessingException.class);
+    }
+
+    @Test
+    public void latlng_conversion() {
+        double lat = -1.0;
+        double lng = 50.2;
+
+        // domain -> data set
+        DataSetLocation dataSetLocation = toDataSet(LatLng.valueOf(lat, lng));
+        assertThat(dataSetLocation.getLat()).isEqualTo(lat);
+        assertThat(dataSetLocation.getLng()).isEqualTo(lng);
+
+        // data set -> domain
+        LatLng domainLocation = toDomain(dataSetLocation);
+        assertThat(domainLocation).isEqualTo(LatLng.valueOf(lat, lng));
+    }
+
+    @Test
+    public void routing_problem_conversion() {
+        LatLng depot = LatLng.valueOf(60.1, 5.78);
+        LatLng visit = LatLng.valueOf(1.06, 8.75);
+        List<LatLng> visits = Arrays.asList(visit);
+        String name = "some name";
+
+        // domain -> data set
+        DataSet dataSet = toDataSet(new RoutingProblem(name, depot, visits));
+        assertThat(dataSet.getName()).isEqualTo(name);
+        assertThat(toDomain(dataSet.getDepot())).isEqualTo(depot);
+        assertThat(dataSet.getVisits()).hasSameSizeAs(visits);
+        assertThat(toDomain(dataSet.getVisits().get(0))).isEqualTo(visit);
+
+        // data set -> domain
+        RoutingProblem routingProblem = toDomain(dataSet);
+        assertThat(routingProblem.getName()).isEqualTo(name);
+        assertThat(routingProblem.getDepot()).isEqualTo(depot);
+        assertThat(routingProblem.getVisits()).containsExactly(visit);
     }
 }

@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.demo;
+package org.optaweb.vehiclerouting.service.demo.dataset;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.optaweb.vehiclerouting.service.demo.dataset.DataSet;
+import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -38,7 +40,15 @@ public class DataSetMarshaller {
         this.mapper = mapper;
     }
 
-    DataSet unmarshall(Reader reader) {
+    public RoutingProblem unmarshall(Reader reader) {
+        return toDomain(unmarshallToDataSet(reader));
+    }
+
+    public String marshall(RoutingProblem routingProblem) {
+        return marshall(toDataSet(routingProblem));
+    }
+
+    DataSet unmarshallToDataSet(Reader reader) {
         try {
             return mapper.readValue(reader, DataSet.class);
         } catch (IOException e) {
@@ -52,5 +62,29 @@ public class DataSetMarshaller {
         } catch (JsonProcessingException e) {
             throw new IllegalStateException("Failed to marshal data set (" + dataSet.getName() + ")", e);
         }
+    }
+
+    static DataSet toDataSet(RoutingProblem routingProblem) {
+        DataSet dataSet = new DataSet();
+        dataSet.setName(routingProblem.getName());
+        dataSet.setDepot(toDataSet(routingProblem.getDepot()));
+        dataSet.setVisits(routingProblem.getVisits().stream().map(DataSetMarshaller::toDataSet).collect(Collectors.toList()));
+        return dataSet;
+    }
+
+    static DataSetLocation toDataSet(LatLng latLng) {
+        return new DataSetLocation("TODO", latLng.getLatitude().doubleValue(), latLng.getLongitude().doubleValue());
+    }
+
+    static RoutingProblem toDomain(DataSet dataSet) {
+        return new RoutingProblem(
+                dataSet.getName(),
+                toDomain(dataSet.getDepot()),
+                dataSet.getVisits().stream().map(DataSetMarshaller::toDomain).collect(Collectors.toList())
+        );
+    }
+
+    static LatLng toDomain(DataSetLocation dataSetLocation) {
+        return LatLng.valueOf(dataSetLocation.getLat(), dataSetLocation.getLng());
     }
 }

@@ -22,11 +22,11 @@ import java.util.List;
 /**
  * Demo data set.
  */
-public class DataSet {
+class DataSet {
 
     private String name;
-    private Location depot;
-    private List<Location> visits = new ArrayList<>();
+    private DataSetLocation depot;
+    private List<DataSetLocation> visits = new ArrayList<>();
 
     /**
      * Data set name (a short description).
@@ -44,11 +44,11 @@ public class DataSet {
      * The depot.
      * @return the depot
      */
-    public Location getDepot() {
+    public DataSetLocation getDepot() {
         return depot;
     }
 
-    public void setDepot(Location depot) {
+    public void setDepot(DataSetLocation depot) {
         this.depot = depot;
     }
 
@@ -56,11 +56,11 @@ public class DataSet {
      * Visits.
      * @return visits
      */
-    public List<Location> getVisits() {
+    public List<DataSetLocation> getVisits() {
         return visits;
     }
 
-    public void setVisits(List<Location> visits) {
+    public void setVisits(List<DataSetLocation> visits) {
         this.visits = visits;
     }
 }

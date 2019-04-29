@@ -20,8 +20,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.service.demo.dataset.DataSet;
-import org.optaweb.vehiclerouting.service.demo.dataset.Location;
+import org.optaweb.vehiclerouting.domain.RoutingProblem;
+import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -46,19 +46,19 @@ public class DemoService {
 
     @Async
     public void loadDemo() {
-        DataSet dataSet = dataSetMarshaller.unmarshall(belgiumReader());
+        RoutingProblem routingProblem = dataSetMarshaller.unmarshall(belgiumReader());
 
         // Add depot
-        addWithRetry(dataSet.getDepot());
+        addWithRetry(routingProblem.getDepot());
 
         for (int i = 0; i < getDemoSize() - 1; i++) {
             // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
-            Location visit = dataSet.getVisits().get(i % dataSet.getVisits().size());
+            LatLng visit = routingProblem.getVisits().get(i % routingProblem.getVisits().size());
             addWithRetry(visit);
         }
     }
 
-    private void addWithRetry(Location location) {
+    private void addWithRetry(LatLng location) {
         int tries = 0;
         while (tries < MAX_TRIES && !locationService.createLocation(randomize(location))) {
             tries++;
@@ -70,10 +70,10 @@ public class DemoService {
         }
     }
 
-    private LatLng randomize(Location visit) {
+    private LatLng randomize(LatLng latLng) {
         return LatLng.valueOf(
-                visit.getLat() + Math.random() * 0.08 - 0.04,
-                visit.getLng() + Math.random() * 0.08 - 0.04
+                latLng.getLatitude().doubleValue() + Math.random() * 0.08 - 0.04,
+                latLng.getLongitude().doubleValue() + Math.random() * 0.08 - 0.04
         );
     }
 
