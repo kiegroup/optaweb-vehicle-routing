@@ -16,7 +16,7 @@
 
 package org.optaweb.vehiclerouting.service.location;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
@@ -38,7 +38,7 @@ public interface LocationRepository {
      * Get all locations.
      * @return all locations
      */
-    Collection<Location> locations();
+    List<Location> locations();
 
     /**
      * Remove location.

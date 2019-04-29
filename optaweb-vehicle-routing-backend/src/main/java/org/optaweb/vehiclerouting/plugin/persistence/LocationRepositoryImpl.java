@@ -16,7 +16,7 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -51,7 +51,7 @@ public class LocationRepositoryImpl implements LocationRepository {
     }
 
     @Override
-    public Collection<Location> locations() {
+    public List<Location> locations() {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
                 .map(locationEntity -> new Location(
                         locationEntity.getId(),

@@ -22,12 +22,16 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
+import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -47,8 +51,13 @@ public class DemoServiceTest {
     private LocationService locationService;
     @Mock
     private DataSetMarshaller dataSetMarshaller;
+    @Mock
+    private LocationRepository locationRepository;
     @InjectMocks
     private DemoService demoService;
+
+    @Captor
+    private ArgumentCaptor<RoutingProblem> routingProblemCaptor;
 
     private RoutingProblem routingProblem;
 
@@ -89,5 +98,25 @@ public class DemoServiceTest {
                 .isThrownBy(() -> demoService.loadDemo())
                 .withMessageContaining(routingProblem.getDepot().toString());
         verify(locationService, times(DemoService.MAX_TRIES)).createLocation(any(LatLng.class), anyString());
+    }
+
+    @Test
+    public void export() {
+        LatLng depotLatLng = LatLng.valueOf(1.0, 2.0);
+        LatLng visit1LatLng = LatLng.valueOf(11.0, 22.0);
+        LatLng visit2LatLng = LatLng.valueOf(22.0, 33.0);
+        Location depot = new Location(0, depotLatLng, "Depot");
+        Location visit1 = new Location(1, visit1LatLng, "Visit 1");
+        Location visit2 = new Location(2, visit2LatLng, "Visit 2");
+        when(locationRepository.locations()).thenReturn(Arrays.asList(depot, visit1, visit2));
+
+        demoService.exportDataSet();
+
+        verify(dataSetMarshaller).marshall(routingProblemCaptor.capture());
+        RoutingProblem routingProblem = routingProblemCaptor.getValue();
+
+        assertThat(routingProblem.getName()).isNotNull();
+        assertThat(routingProblem.getDepot()).isEqualTo(depotLatLng);
+        assertThat(routingProblem.getVisits()).containsExactly(visit1LatLng, visit2LatLng);
     }
 }

@@ -17,7 +17,7 @@
 package org.optaweb.vehiclerouting.service.location;
 
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -57,7 +57,7 @@ public class LocationServiceTest {
     private final LatLng latLng = LatLng.valueOf(0.0, 1.0);
     private final Location location = new Location(1, latLng);
 
-    private Collection<Location> persistedLocations = Arrays.asList(location, location, location);
+    private List<Location> persistedLocations = Arrays.asList(location, location, location);
 
     @Before
     public void setUp() {

@@ -18,10 +18,14 @@ package org.optaweb.vehiclerouting.service.demo;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
+import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -37,11 +41,17 @@ public class DemoService {
     private final DemoProperties properties;
     private final LocationService locationService;
     private final DataSetMarshaller dataSetMarshaller;
+    private final LocationRepository locationRepository;
 
-    public DemoService(DemoProperties properties, LocationService locationService, DataSetMarshaller dataSetMarshaller) {
+    public DemoService(
+            DemoProperties properties,
+            LocationService locationService,
+            DataSetMarshaller dataSetMarshaller,
+            LocationRepository locationRepository) {
         this.properties = properties;
         this.locationService = locationService;
         this.dataSetMarshaller = dataSetMarshaller;
+        this.locationRepository = locationRepository;
     }
 
     @Async
@@ -83,7 +93,12 @@ public class DemoService {
     }
 
     public String exportDataSet() {
-        return dataSetMarshaller.marshall(dataSetMarshaller.unmarshall(belgiumReader()));
+        // FIXME still relying on the fact that the first location in the repository is the depot
+        List<LatLng> visits = locationRepository.locations().stream()
+                .map(Location::getLatLng)
+                .collect(Collectors.toList());
+        LatLng depot = visits.remove(0);
+        return dataSetMarshaller.marshall(new RoutingProblem("Custom Vehicle Routing instance", depot, visits));
     }
 
     private Reader belgiumReader() {
