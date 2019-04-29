@@ -65,8 +65,8 @@ public class DemoServiceTest {
     public void setUp() {
         when(demoProperties.getSize()).thenReturn(-1);
         when(locationService.createLocation(any(), anyString())).thenReturn(true);
-        LatLng depot = LatLng.valueOf(1.0, 7);
-        List<LatLng> visits = Arrays.asList(LatLng.valueOf(2.0, 9));
+        Location depot = new Location(1, LatLng.valueOf(1.0, 7), "Depot");
+        List<Location> visits = Arrays.asList(new Location(2, LatLng.valueOf(2.0, 9), "Visit"));
         routingProblem = new RoutingProblem("Test routing plan", depot, visits);
         when(dataSetMarshaller.unmarshall(any())).thenReturn(routingProblem);
     }
@@ -96,18 +96,15 @@ public class DemoServiceTest {
         when(locationService.createLocation(any(), anyString())).thenReturn(false);
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> demoService.loadDemo())
-                .withMessageContaining(routingProblem.getDepot().toString());
+                .withMessageContaining(routingProblem.getDepot().getLatLng().toString());
         verify(locationService, times(DemoService.MAX_TRIES)).createLocation(any(LatLng.class), anyString());
     }
 
     @Test
     public void export() {
-        LatLng depotLatLng = LatLng.valueOf(1.0, 2.0);
-        LatLng visit1LatLng = LatLng.valueOf(11.0, 22.0);
-        LatLng visit2LatLng = LatLng.valueOf(22.0, 33.0);
-        Location depot = new Location(0, depotLatLng, "Depot");
-        Location visit1 = new Location(1, visit1LatLng, "Visit 1");
-        Location visit2 = new Location(2, visit2LatLng, "Visit 2");
+        Location depot = new Location(0, LatLng.valueOf(1.0, 2.0), "Depot");
+        Location visit1 = new Location(1, LatLng.valueOf(11.0, 22.0), "Visit 1");
+        Location visit2 = new Location(2, LatLng.valueOf(22.0, 33.0), "Visit 2");
         when(locationRepository.locations()).thenReturn(Arrays.asList(depot, visit1, visit2));
 
         demoService.exportDataSet();
@@ -116,7 +113,7 @@ public class DemoServiceTest {
         RoutingProblem routingProblem = routingProblemCaptor.getValue();
 
         assertThat(routingProblem.getName()).isNotNull();
-        assertThat(routingProblem.getDepot()).isEqualTo(depotLatLng);
-        assertThat(routingProblem.getVisits()).containsExactly(visit1LatLng, visit2LatLng);
+        assertThat(routingProblem.getDepot()).isEqualTo(depot);
+        assertThat(routingProblem.getVisits()).containsExactly(visit1, visit2);
     }
 }

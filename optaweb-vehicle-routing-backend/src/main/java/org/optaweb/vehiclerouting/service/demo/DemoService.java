@@ -18,8 +18,8 @@ package org.optaweb.vehiclerouting.service.demo;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
@@ -59,12 +59,12 @@ public class DemoService {
         RoutingProblem routingProblem = dataSetMarshaller.unmarshall(belgiumReader());
 
         // Add depot
-        addWithRetry(routingProblem.getDepot(), "FIXME");
+        addWithRetry(routingProblem.getDepot().getLatLng(), routingProblem.getDepot().getDescription());
 
         for (int i = 0; i < getDemoSize() - 1; i++) {
             // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
-            LatLng visit = routingProblem.getVisits().get(i % routingProblem.getVisits().size());
-            addWithRetry(visit, "FIXME");
+            Location visit = routingProblem.getVisits().get(i % routingProblem.getVisits().size());
+            addWithRetry(visit.getLatLng(), visit.getDescription());
         }
     }
 
@@ -94,10 +94,8 @@ public class DemoService {
 
     public String exportDataSet() {
         // FIXME still relying on the fact that the first location in the repository is the depot
-        List<LatLng> visits = locationRepository.locations().stream()
-                .map(Location::getLatLng)
-                .collect(Collectors.toList());
-        LatLng depot = visits.remove(0);
+        List<Location> visits = new ArrayList<>(locationRepository.locations());
+        Location depot = visits.remove(0);
         return dataSetMarshaller.marshall(new RoutingProblem("Custom Vehicle Routing instance", depot, visits));
     }
 

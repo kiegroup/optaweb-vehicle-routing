@@ -24,12 +24,14 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DataSetMarshaller {
 
+    static final long NO_ID = 0;
     private final ObjectMapper mapper;
 
     public DataSetMarshaller() {
@@ -72,8 +74,12 @@ public class DataSetMarshaller {
         return dataSet;
     }
 
-    static DataSetLocation toDataSet(LatLng latLng) {
-        return new DataSetLocation("TODO", latLng.getLatitude().doubleValue(), latLng.getLongitude().doubleValue());
+    static DataSetLocation toDataSet(Location location) {
+        return new DataSetLocation(
+                location.getDescription(),
+                location.getLatLng().getLatitude().doubleValue(),
+                location.getLatLng().getLongitude().doubleValue()
+        );
     }
 
     static RoutingProblem toDomain(DataSet dataSet) {
@@ -84,7 +90,11 @@ public class DataSetMarshaller {
         );
     }
 
-    static LatLng toDomain(DataSetLocation dataSetLocation) {
-        return LatLng.valueOf(dataSetLocation.getLat(), dataSetLocation.getLng());
+    static Location toDomain(DataSetLocation dataSetLocation) {
+        return new Location(
+                NO_ID,
+                LatLng.valueOf(dataSetLocation.getLat(), dataSetLocation.getLng()),
+                dataSetLocation.getLabel()
+        );
     }
 }

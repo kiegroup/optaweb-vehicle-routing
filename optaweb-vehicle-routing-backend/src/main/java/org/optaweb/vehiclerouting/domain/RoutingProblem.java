@@ -26,8 +26,8 @@ import java.util.Objects;
 public class RoutingProblem {
 
     private final String name;
-    private final LatLng depot;
-    private final List<LatLng> visits;
+    private final Location depot; // FIXME should be Location without ID!
+    private final List<Location> visits;
 
     /**
      * Create routing problem instance.
@@ -35,7 +35,7 @@ public class RoutingProblem {
      * @param depot the depot (must not be {@code null})
      * @param visits the visits (must not be {@code null})
      */
-    public RoutingProblem(String name, LatLng depot, List<LatLng> visits) {
+    public RoutingProblem(String name, Location depot, List<Location> visits) {
         this.name = Objects.requireNonNull(name);
         this.depot = Objects.requireNonNull(depot);
         this.visits = new ArrayList<>(Objects.requireNonNull(visits));
@@ -45,11 +45,11 @@ public class RoutingProblem {
         return name;
     }
 
-    public LatLng getDepot() {
+    public Location getDepot() {
         return depot;
     }
 
-    public List<LatLng> getVisits() {
+    public List<Location> getVisits() {
         return visits;
     }
 }
