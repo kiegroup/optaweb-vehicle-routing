@@ -49,9 +49,10 @@ public class LocationService {
         repository.locations().forEach(this::submitToPlanner);
     }
 
-    public synchronized boolean createLocation(LatLng latLng) {
+    public synchronized boolean createLocation(LatLng latLng, String description) {
+        // TODO validate arguments!!!
         // TODO if (router.isLocationAvailable(latLng))
-        return submitToPlanner(repository.createLocation(latLng));
+        return submitToPlanner(repository.createLocation(latLng, description));
     }
 
     private boolean submitToPlanner(Location location) {

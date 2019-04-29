@@ -33,6 +33,7 @@ import org.optaweb.vehiclerouting.service.location.LocationService;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -54,7 +55,7 @@ public class DemoServiceTest {
     @Before
     public void setUp() {
         when(demoProperties.getSize()).thenReturn(-1);
-        when(locationService.createLocation(any())).thenReturn(true);
+        when(locationService.createLocation(any(), anyString())).thenReturn(true);
         LatLng depot = LatLng.valueOf(1.0, 7);
         List<LatLng> visits = Arrays.asList(LatLng.valueOf(2.0, 9));
         routingProblem = new RoutingProblem("Test routing plan", depot, visits);
@@ -78,15 +79,15 @@ public class DemoServiceTest {
     @Test
     public void loadDemo() {
         demoService.loadDemo();
-        verify(locationService, times(demoService.getDemoSize())).createLocation(any(LatLng.class));
+        verify(locationService, times(demoService.getDemoSize())).createLocation(any(LatLng.class), anyString());
     }
 
     @Test
     public void retry_when_adding_location_fails() {
-        when(locationService.createLocation(any())).thenReturn(false);
+        when(locationService.createLocation(any(), anyString())).thenReturn(false);
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> demoService.loadDemo())
                 .withMessageContaining(routingProblem.getDepot().toString());
-        verify(locationService, times(DemoService.MAX_TRIES)).createLocation(any(LatLng.class));
+        verify(locationService, times(DemoService.MAX_TRIES)).createLocation(any(LatLng.class), anyString());
     }
 }

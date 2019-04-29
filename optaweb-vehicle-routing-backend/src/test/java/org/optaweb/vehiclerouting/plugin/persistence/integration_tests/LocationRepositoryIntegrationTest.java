@@ -53,9 +53,10 @@ public class LocationRepositoryIntegrationTest {
         final BigDecimal maxLongitude = new BigDecimal("214.7483647");
         final BigDecimal minLatitude = maxLatitude.negate();
         final BigDecimal minLongitude = maxLongitude.negate();
+        final String description = "...";
 
-        LocationEntity minLocation = new LocationEntity(minLatitude, minLongitude);
-        LocationEntity maxLocation = new LocationEntity(maxLatitude, maxLongitude);
+        LocationEntity minLocation = new LocationEntity(minLatitude, minLongitude, description);
+        LocationEntity maxLocation = new LocationEntity(maxLatitude, maxLongitude, description);
         crudRepository.save(minLocation);
         crudRepository.save(maxLocation);
 
@@ -67,7 +68,7 @@ public class LocationRepositoryIntegrationTest {
     public void remove_created_location() {
         LatLng latLng = LatLng.valueOf(0.00213, 32.777);
         assertThat(crudRepository.count()).isZero();
-        Location location = repository.createLocation(latLng);
+        Location location = repository.createLocation(latLng, "");
         assertThat(location.getLatLng()).isEqualTo(latLng);
         assertThat(crudRepository.count()).isOne();
 
@@ -87,7 +88,7 @@ public class LocationRepositoryIntegrationTest {
     public void get_and_remove_all_locations() {
         int locationCount = 8;
         for (int i = 0; i < locationCount; i++) {
-            repository.createLocation(LatLng.valueOf(1.0, i / 100.0));
+            repository.createLocation(LatLng.valueOf(1.0, i / 100.0), "");
         }
 
         assertThat(crudRepository.count()).isEqualTo(locationCount);

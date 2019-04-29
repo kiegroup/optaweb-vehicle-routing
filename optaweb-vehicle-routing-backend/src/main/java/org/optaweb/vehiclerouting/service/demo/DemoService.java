@@ -49,18 +49,18 @@ public class DemoService {
         RoutingProblem routingProblem = dataSetMarshaller.unmarshall(belgiumReader());
 
         // Add depot
-        addWithRetry(routingProblem.getDepot());
+        addWithRetry(routingProblem.getDepot(), "FIXME");
 
         for (int i = 0; i < getDemoSize() - 1; i++) {
             // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
             LatLng visit = routingProblem.getVisits().get(i % routingProblem.getVisits().size());
-            addWithRetry(visit);
+            addWithRetry(visit, "FIXME");
         }
     }
 
-    private void addWithRetry(LatLng location) {
+    private void addWithRetry(LatLng location, String description) {
         int tries = 0;
-        while (tries < MAX_TRIES && !locationService.createLocation(randomize(location))) {
+        while (tries < MAX_TRIES && !locationService.createLocation(randomize(location), description)) {
             tries++;
         }
         if (tries == MAX_TRIES) {

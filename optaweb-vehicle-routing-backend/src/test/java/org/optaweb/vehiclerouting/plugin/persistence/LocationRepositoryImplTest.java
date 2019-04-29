@@ -52,10 +52,12 @@ public class LocationRepositoryImplTest {
         final long id = 76;
         final BigDecimal latitude = BigDecimal.valueOf(1.2);
         final BigDecimal longitude = BigDecimal.valueOf(3.4);
-        testLocation = new Location(id, new LatLng(latitude, longitude));
+        final String description = "description";
+        testLocation = new Location(id, new LatLng(latitude, longitude), description);
         when(locationEntity.getId()).thenReturn(id);
         when(locationEntity.getLatitude()).thenReturn(latitude);
         when(locationEntity.getLongitude()).thenReturn(longitude);
+        when(locationEntity.getDescription()).thenReturn(description);
     }
 
     @Test
@@ -63,9 +65,11 @@ public class LocationRepositoryImplTest {
         when(crudRepository.save(any(LocationEntity.class))).thenReturn(locationEntity);
 
         LatLng latLng = LatLng.valueOf(0.00213, 32.777);
-        Location createdLocation = repository.createLocation(latLng);
+        String description = "a, b & c";
+        Location createdLocation = repository.createLocation(latLng, description);
         assertThat(createdLocation.getId()).isEqualTo(testLocation.getId());
         assertThat(createdLocation.getLatLng()).isEqualTo(latLng);
+        assertThat(createdLocation.getDescription()).isEqualTo(description);
     }
 
     @Test

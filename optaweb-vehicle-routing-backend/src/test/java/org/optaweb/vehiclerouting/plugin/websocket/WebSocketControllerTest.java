@@ -97,9 +97,10 @@ public class WebSocketControllerTest {
     @Test
     public void addLocation() {
         LatLng latLng = LatLng.valueOf(0.0, 1.0);
-        PortableLocation request = new PortableLocation(321, latLng.getLatitude(), latLng.getLongitude(), "description");
+        String description = "new location";
+        PortableLocation request = new PortableLocation(321, latLng.getLatitude(), latLng.getLongitude(), description);
         webSocketController.addLocation(request);
-        verify(locationService).createLocation(latLng);
+        verify(locationService).createLocation(latLng, description);
     }
 
     @Test

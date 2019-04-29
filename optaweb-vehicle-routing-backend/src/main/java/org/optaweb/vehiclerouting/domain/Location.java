@@ -28,6 +28,7 @@ public class Location {
     private final String description;
 
     public Location(long id, LatLng latLng) {
+        // TODO remove this?
         this(id, latLng, "");
     }
 

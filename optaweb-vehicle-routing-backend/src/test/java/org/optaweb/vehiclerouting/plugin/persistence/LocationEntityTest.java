@@ -27,17 +27,20 @@ public class LocationEntityTest {
 
     @Test
     public void constructor_params_must_not_be_null() {
-        assertThatNullPointerException().isThrownBy(() -> new LocationEntity(null, BigDecimal.ZERO));
-        assertThatNullPointerException().isThrownBy(() -> new LocationEntity(BigDecimal.ZERO, null));
+        assertThatNullPointerException().isThrownBy(() -> new LocationEntity(null, BigDecimal.ZERO, ""));
+        assertThatNullPointerException().isThrownBy(() -> new LocationEntity(BigDecimal.ZERO, null, ""));
+        assertThatNullPointerException().isThrownBy(() -> new LocationEntity(BigDecimal.ZERO, BigDecimal.ONE, null));
     }
 
     @Test
     public void getters() {
         BigDecimal latitude = BigDecimal.valueOf(0.101);
         BigDecimal longitude = BigDecimal.valueOf(101.0);
-        LocationEntity locationEntity = new LocationEntity(latitude, longitude);
+        String description = "Description.";
+        LocationEntity locationEntity = new LocationEntity(latitude, longitude, description);
         assertThat(locationEntity.getId()).isZero();
         assertThat(locationEntity.getLongitude()).isEqualTo(longitude);
         assertThat(locationEntity.getLatitude()).isEqualTo(latitude);
+        assertThat(locationEntity.getDescription()).isEqualTo(description);
     }
 }

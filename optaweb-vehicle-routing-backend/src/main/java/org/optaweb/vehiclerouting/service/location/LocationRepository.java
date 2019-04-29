@@ -29,9 +29,10 @@ public interface LocationRepository {
     /**
      * Create a location with a unique ID.
      * @param latLng location's coordinates
+     * @param description description of the location
      * @return a new location
      */
-    Location createLocation(LatLng latLng);
+    Location createLocation(LatLng latLng, String description);
 
     /**
      * Get all locations.

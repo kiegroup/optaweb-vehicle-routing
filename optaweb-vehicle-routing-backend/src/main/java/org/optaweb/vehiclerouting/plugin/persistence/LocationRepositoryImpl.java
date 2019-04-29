@@ -41,9 +41,11 @@ public class LocationRepositoryImpl implements LocationRepository {
     }
 
     @Override
-    public Location createLocation(LatLng latLng) {
-        LocationEntity locationEntity = repository.save(new LocationEntity(latLng.getLatitude(), latLng.getLongitude()));
-        Location location = new Location(locationEntity.getId(), latLng);
+    public Location createLocation(LatLng latLng, String description) {
+        LocationEntity locationEntity = repository.save(
+                new LocationEntity(latLng.getLatitude(), latLng.getLongitude(), description)
+        );
+        Location location = new Location(locationEntity.getId(), latLng, description);
         logger.info("Created {}", location);
         return location;
     }
@@ -53,7 +55,8 @@ public class LocationRepositoryImpl implements LocationRepository {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
                 .map(locationEntity -> new Location(
                         locationEntity.getId(),
-                        new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
+                        new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude()),
+                        locationEntity.getDescription()
                 )).collect(Collectors.toList());
     }
 
@@ -66,7 +69,8 @@ public class LocationRepositoryImpl implements LocationRepository {
         );
         Location location = new Location(
                 locationEntity.getId(),
-                new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
+                new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude()),
+                locationEntity.getDescription()
         );
         logger.info("Deleted {}", location);
         return location;
