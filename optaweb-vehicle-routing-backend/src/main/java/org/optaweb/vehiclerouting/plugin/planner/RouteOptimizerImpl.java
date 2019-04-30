@@ -29,13 +29,13 @@ import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
+import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +77,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
                 solution.getCustomerList().size(),
                 distanceString
         );
-        List<Route> routes = SolutionUtil.routes(solution);
+        List<ShallowRoute> routes = SolutionUtil.routes(solution);
         logger.debug("Routes: {}", routes);
         publisher.publishEvent(new RouteChangedEvent(this, distanceString, SolutionUtil.depot(solution), routes));
     }
@@ -146,7 +146,7 @@ public class RouteOptimizerImpl implements RouteOptimizer,
         // TODO Race condition, if a servlet thread deletes that location in the middle of this method happening
         //      on the solver thread. Make sure that location is still in the repository.
         //      Maybe repair the solution OR ignore if it's inconsistent (log a WARNING).
-        publishRoute(solution);
+        publishRoute(solution); // TODO @Async
     }
 
     @Override

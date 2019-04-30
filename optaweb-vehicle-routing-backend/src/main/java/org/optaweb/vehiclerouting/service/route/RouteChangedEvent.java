@@ -20,8 +20,6 @@ import java.util.Collection;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.domain.Route;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -31,20 +29,20 @@ import org.springframework.context.ApplicationEvent;
 public class RouteChangedEvent extends ApplicationEvent {
 
     private final String distance;
-    private final Location depot;
-    private final Collection<Route> routes;
+    private final Long depotId;
+    private final Collection<ShallowRoute> routes;
 
     /**
      * Create a new ApplicationEvent.
      * @param source the object on which the event initially occurred (never {@code null})
      * @param distance total distance of all vehicle routes
-     * @param depot depot location. May be null if there are no locations.
+     * @param depotId depot ID. May be null if there are no locations.
      * @param routes vehicle routes
      */
-    public RouteChangedEvent(Object source, String distance, Location depot, Collection<Route> routes) {
+    public RouteChangedEvent(Object source, String distance, Long depotId, Collection<ShallowRoute> routes) {
         super(source);
         this.distance = Objects.requireNonNull(distance);
-        this.depot = depot;
+        this.depotId = depotId;
         this.routes = Objects.requireNonNull(routes);
     }
 
@@ -52,7 +50,7 @@ public class RouteChangedEvent extends ApplicationEvent {
      * Routes of all vehicles.
      * @return vehicle routes
      */
-    public Collection<Route> routes() {
+    public Collection<ShallowRoute> routes() {
         return routes;
     }
 
@@ -61,10 +59,10 @@ public class RouteChangedEvent extends ApplicationEvent {
     }
 
     /**
-     * The depot location.
-     * @return depot location
+     * The depot ID.
+     * @return depot ID
      */
-    public Optional<Location> depot() {
-        return Optional.ofNullable(depot);
+    public Optional<Long> depot() {
+        return Optional.ofNullable(depotId);
     }
 }

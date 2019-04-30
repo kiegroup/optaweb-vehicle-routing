@@ -23,8 +23,10 @@ import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
+import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 
@@ -36,24 +38,41 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
 
     private final Router router;
     private final RoutePublisher publisher;
+    private final LocationRepository locationRepository;
 
     // TODO maybe remove state from the service and get best route from a repository
     private RoutingPlan bestRoutingPlan;
 
-    public RouteListener(Router router, RoutePublisher publisher) {
+    public RouteListener(Router router, RoutePublisher publisher, LocationRepository locationRepository) {
         this.router = router;
         this.publisher = publisher;
+        this.locationRepository = locationRepository;
         bestRoutingPlan = RoutingPlan.empty();
     }
 
     @Override
     public void onApplicationEvent(RouteChangedEvent event) {
         // TODO persist the best solution
+        Location depot = event.depot().flatMap(locationRepository::find).orElse(null);
         List<RouteWithTrack> routes = event.routes().stream()
+                // list of deep locations
+                .map(shallowRoute -> new Route(
+                        findLocationById(shallowRoute.depotId),
+                        shallowRoute.visitIds.stream()
+                                .map(this::findLocationById)
+                                .collect(Collectors.toList())
+                ))
+                // add tracks
                 .map(route -> new RouteWithTrack(route, track(route.depot(), route.visits())))
                 .collect(Collectors.toList());
-        bestRoutingPlan = new RoutingPlan(event.distance(), event.depot().orElse(null), routes);
+        bestRoutingPlan = new RoutingPlan(event.distance(), depot, routes);
         publisher.publish(bestRoutingPlan);
+    }
+
+    private Location findLocationById(Long id) {
+        return locationRepository.find(id).orElseThrow(() -> new IllegalStateException(
+                "Location {id=" + id + "} not found in the repository")
+        );
     }
 
     private List<List<LatLng>> track(Location depot, List<Location> route) {

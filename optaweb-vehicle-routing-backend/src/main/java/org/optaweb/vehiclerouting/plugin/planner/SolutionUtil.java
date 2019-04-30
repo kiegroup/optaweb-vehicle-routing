@@ -27,8 +27,7 @@ import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.domain.Route;
+import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 
 /**
  * Provides common operations on solution that are not part of its API.
@@ -95,34 +94,27 @@ public class SolutionUtil {
      * @param solution solution
      * @return one route per vehicle
      */
-    static List<Route> routes(VehicleRoutingSolution solution) {
+    static List<ShallowRoute> routes(VehicleRoutingSolution solution) {
         // TODO include unconnected customers in the result
         if (solution.getDepotList().isEmpty()) {
             return Collections.emptyList();
         }
-        ArrayList<Route> routes = new ArrayList<>();
+        ArrayList<ShallowRoute> routes = new ArrayList<>();
         for (Vehicle vehicle : solution.getVehicleList()) {
             Depot depot = vehicle.getDepot();
             if (depot == null) {
                 throw new IllegalStateException("Vehicle (id=" + vehicle.getId() + ") is not in the depot. That's not allowed");
             }
-            List<org.optaweb.vehiclerouting.domain.Location> visits = new ArrayList<>();
+            List<Long> visits = new ArrayList<>();
             for (Customer customer = vehicle.getNextCustomer(); customer != null; customer = customer.getNextCustomer()) {
                 if (!solution.getCustomerList().contains(customer)) {
                     throw new IllegalStateException("Customer (" + customer + ") doesn't exist");
                 }
-                addLocationToRoute(visits, customer.getLocation());
+                visits.add(customer.getLocation().getId());
             }
-            routes.add(new Route(domainLocation(depot.getLocation()), visits));
+            routes.add(new ShallowRoute(depot.getId(), visits));
         }
         return routes;
-    }
-
-    private static org.optaweb.vehiclerouting.domain.Location domainLocation(Location location) {
-        return new org.optaweb.vehiclerouting.domain.Location(
-                location.getId(),
-                LatLng.valueOf(location.getLatitude(), location.getLongitude())
-        );
     }
 
     /**
@@ -138,17 +130,13 @@ public class SolutionUtil {
         );
     }
 
-    private static void addLocationToRoute(List<org.optaweb.vehiclerouting.domain.Location> route, Location location) {
-        route.add(domainLocation(location));
-    }
-
     /**
-     * Get solution's depot.
+     * Get solution's depot ID.
      * @param solution the solution in which to look for the depot
-     * @return first depot from the solution or null if there are no depots
+     * @return first depot ID from the solution or {@code null} if there are no depots
      */
-    static org.optaweb.vehiclerouting.domain.Location depot(VehicleRoutingSolution solution) {
-        return solution.getDepotList().isEmpty() ? null : domainLocation(solution.getDepotList().get(0).getLocation());
+    static Long depot(VehicleRoutingSolution solution) {
+        return solution.getDepotList().isEmpty() ? null : solution.getDepotList().get(0).getId();
     }
 
     /**
