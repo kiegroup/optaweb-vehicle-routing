@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.service.location;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
@@ -51,4 +52,6 @@ public interface LocationRepository {
      * Remove all locations from the repository.
      */
     void removeAll();
+
+    Optional<Location> find(Long locationId);
 }

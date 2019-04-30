@@ -45,7 +45,7 @@ public class LocationRepositoryImpl implements LocationRepository {
         LocationEntity locationEntity = repository.save(
                 new LocationEntity(latLng.getLatitude(), latLng.getLongitude(), description)
         );
-        Location location = new Location(locationEntity.getId(), latLng, description);
+        Location location = toDomain(locationEntity);
         logger.info("Created {}", location);
         return location;
     }
@@ -53,11 +53,8 @@ public class LocationRepositoryImpl implements LocationRepository {
     @Override
     public List<Location> locations() {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
-                .map(locationEntity -> new Location(
-                        locationEntity.getId(),
-                        new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude()),
-                        locationEntity.getDescription()
-                )).collect(Collectors.toList());
+                .map(LocationRepositoryImpl::toDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -67,11 +64,7 @@ public class LocationRepositoryImpl implements LocationRepository {
         LocationEntity locationEntity = maybeLocation.orElseThrow(
                 () -> new IllegalArgumentException("Location{id=" + id + "} doesn't exist.")
         );
-        Location location = new Location(
-                locationEntity.getId(),
-                new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude()),
-                locationEntity.getDescription()
-        );
+        Location location = toDomain(locationEntity);
         logger.info("Deleted {}", location);
         return location;
     }
@@ -79,5 +72,18 @@ public class LocationRepositoryImpl implements LocationRepository {
     @Override
     public void removeAll() {
         repository.deleteAll();
+    }
+
+    @Override
+    public Optional<Location> find(Long locationId) {
+        return repository.findById(locationId).map(LocationRepositoryImpl::toDomain);
+    }
+
+    private static Location toDomain(LocationEntity locationEntity) {
+        return new Location(
+                locationEntity.getId(),
+                new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude()),
+                locationEntity.getDescription()
+        );
     }
 }
