@@ -16,8 +16,6 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,21 +40,23 @@ public class DemoService {
     private final LocationService locationService;
     private final DataSetMarshaller dataSetMarshaller;
     private final LocationRepository locationRepository;
+    private final RoutingProblem routingProblem;
 
     public DemoService(
             DemoProperties properties,
             LocationService locationService,
             DataSetMarshaller dataSetMarshaller,
-            LocationRepository locationRepository) {
+            LocationRepository locationRepository,
+            RoutingProblem routingProblem) {
         this.properties = properties;
         this.locationService = locationService;
         this.dataSetMarshaller = dataSetMarshaller;
         this.locationRepository = locationRepository;
+        this.routingProblem = routingProblem;
     }
 
     @Async
     public void loadDemo() {
-        RoutingProblem routingProblem = dataSetMarshaller.unmarshall(belgiumReader());
 
         // Add depot
         addWithRetry(routingProblem.getDepot().getLatLng(), routingProblem.getDepot().getDescription());
@@ -89,7 +89,7 @@ public class DemoService {
 
     public int getDemoSize() {
         int size = properties.getSize();
-        return size >= 0 ? size : dataSetMarshaller.unmarshall(belgiumReader()).getVisits().size() + 1;
+        return size >= 0 ? size : routingProblem.getVisits().size() + 1;
     }
 
     public String exportDataSet() {
@@ -97,9 +97,5 @@ public class DemoService {
         List<Location> visits = new ArrayList<>(locationRepository.locations());
         Location depot = visits.remove(0);
         return dataSetMarshaller.marshall(new RoutingProblem("Custom Vehicle Routing instance", depot, visits));
-    }
-
-    private Reader belgiumReader() {
-        return new InputStreamReader(DemoService.class.getResourceAsStream("belgium-cities.yaml"));
     }
 }

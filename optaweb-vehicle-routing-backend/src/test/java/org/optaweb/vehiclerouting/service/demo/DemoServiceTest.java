@@ -53,13 +53,13 @@ public class DemoServiceTest {
     private DataSetMarshaller dataSetMarshaller;
     @Mock
     private LocationRepository locationRepository;
+    @Mock
+    private RoutingProblem routingProblem;
     @InjectMocks
     private DemoService demoService;
 
     @Captor
     private ArgumentCaptor<RoutingProblem> routingProblemCaptor;
-
-    private RoutingProblem routingProblem;
 
     @Before
     public void setUp() {
@@ -67,8 +67,8 @@ public class DemoServiceTest {
         when(locationService.createLocation(any(), anyString())).thenReturn(true);
         Location depot = new Location(1, LatLng.valueOf(1.0, 7), "Depot");
         List<Location> visits = Arrays.asList(new Location(2, LatLng.valueOf(2.0, 9), "Visit"));
-        routingProblem = new RoutingProblem("Test routing plan", depot, visits);
-        when(dataSetMarshaller.unmarshall(any())).thenReturn(routingProblem);
+        when(routingProblem.getDepot()).thenReturn(depot);
+        when(routingProblem.getVisits()).thenReturn(visits);
     }
 
     @Test
