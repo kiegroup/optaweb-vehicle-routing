@@ -47,6 +47,7 @@ export interface StateProps {
   isDemoLoading: boolean;
   boundingBox: [LatLng, LatLng] | null;
   countryCodeSearchFilter: string[];
+  demoName: string | null;
 }
 
 export interface DispatchProps {
@@ -64,6 +65,7 @@ const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
   isDemoLoading: demo.isLoading,
   boundingBox: serverInfo.boundingBox,
   countryCodeSearchFilter: serverInfo.countryCodes,
+  demoName: serverInfo.demo && serverInfo.demo.name || null,
 });
 
 const mapDispatchToProps: DispatchProps = {
@@ -93,6 +95,7 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
       },
       zoom: 9,
     };
+    this.handleDemoLoadClick = this.handleDemoLoadClick.bind(this);
     this.handleMapClick = this.handleMapClick.bind(this);
     this.handleSearchResultClick = this.handleSearchResultClick.bind(this);
     this.onSelectLocation = this.onSelectLocation.bind(this);
@@ -106,6 +109,12 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
     this.props.addHandler(result.latLng, result.address);
   }
 
+  handleDemoLoadClick() {
+    if (this.props.demoName !== null) {
+      this.props.loadHandler(this.props.demoName);
+    }
+  }
+
   onSelectLocation(id: number) {
     this.setState({ selectedId: id });
   }
@@ -117,11 +126,11 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
       depot,
       visits,
       routes,
+      demoName,
       isDemoLoading,
       boundingBox,
       countryCodeSearchFilter,
       removeHandler,
-      loadHandler,
       clearHandler,
     } = this.props;
 
@@ -175,9 +184,9 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
               {routes.length === 0 &&
               <Button
                 id={ID_LOAD_BUTTON}
-                isDisabled={isDemoLoading}
+                isDisabled={isDemoLoading && demoName !== null}
                 style={{ marginBottom: 16, marginLeft: 16 }}
-                onClick={loadHandler}
+                onClick={this.handleDemoLoadClick}
               >
                 Load demo
               </Button>

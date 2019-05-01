@@ -88,9 +88,10 @@ const state: AppState = {
   serverInfo: {
     boundingBox: null,
     countryCodes: [],
+    demo: null,
   },
   demo: {
-    demoSize: 0,
+    demoName: null,
     isLoading: false,
   },
   plan: {

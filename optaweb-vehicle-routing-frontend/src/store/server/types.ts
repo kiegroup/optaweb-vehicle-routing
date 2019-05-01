@@ -28,4 +28,5 @@ export interface ServerInfoAction extends Action<ActionType.SERVER_INFO> {
 export interface ServerInfo {
   boundingBox: [LatLng, LatLng] | null;
   countryCodes: string[];
+  demo: { name: string, visits: number } | null;
 }

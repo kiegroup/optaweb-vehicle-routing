@@ -606,7 +606,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
           isDisabled={false}
           isFocus={false}
           isHover={false}
-          onClick={[MockFunction]}
+          onClick={[Function]}
           style={
             Object {
               "marginBottom": 16,

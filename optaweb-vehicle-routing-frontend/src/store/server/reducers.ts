@@ -19,6 +19,7 @@ import { ActionType, ServerInfo, ServerInfoAction } from './types';
 export const initialServerState: ServerInfo = {
   boundingBox: null,
   countryCodes: [],
+  demo: null,
 };
 
 const routeReducer = (state = initialServerState, action: ServerInfoAction): ServerInfo => {

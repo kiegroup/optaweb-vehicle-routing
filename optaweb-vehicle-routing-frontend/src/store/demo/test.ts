@@ -24,43 +24,37 @@ import { Demo } from './types';
 describe('Demo operations', () => {
   it('demo request should call loadDemo() on client', () => {
     const { store, client } = mockStore(state);
+    const demoName = 'demo name';
 
     // verify requestDemo operation calls the client
-    store.dispatch(demoOperations.requestDemo());
+    store.dispatch(demoOperations.requestDemo(demoName));
     expect(client.loadDemo).toHaveBeenCalledTimes(1);
 
-    expect(store.getActions()).toEqual([actions.requestDemo()]);
+    expect(store.getActions()).toEqual([actions.requestDemo(demoName)]);
   });
 });
 
 describe('Demo reducers', () => {
   it('request demo', () => {
-    const initialState: Demo = { isLoading: false, demoSize: 798 };
-    const expectedState: Demo = { isLoading: true, demoSize: -1 };
+    const demoName = 'some name';
+    const initialState: Demo = { isLoading: false, demoName: null };
+    const expectedState: Demo = { isLoading: true, demoName };
     expect(
-      reducer(initialState, actions.requestDemo()),
-    ).toEqual(expectedState);
-  });
-  it('start loading when loading requested', () => {
-    const demoSize: number = 5;
-    const initialState: Demo = { isLoading: true, demoSize: -1 };
-    const expectedState: Demo = { isLoading: true, demoSize };
-    expect(
-      reducer(initialState, actions.startLoading(demoSize)),
+      reducer(initialState, actions.requestDemo(demoName)),
     ).toEqual(expectedState);
   });
   it('start loading when loading requested by someone else', () => {
-    const demoSize: number = 5;
-    const initialState: Demo = { isLoading: false, demoSize: -1 };
-    const expectedState: Demo = { isLoading: true, demoSize };
+    const demoName = 'some name';
+    const initialState: Demo = { isLoading: false, demoName: null };
+    const expectedState: Demo = { isLoading: true, demoName };
     expect(
-      reducer(initialState, actions.startLoading(demoSize)),
+      reducer(initialState, actions.requestDemo(demoName)),
     ).toEqual(expectedState);
   });
   it('loading flag should be cleared when demo is loaded', () => {
-    const demoSize: number = 5;
-    const initialState: Demo = { isLoading: true, demoSize };
-    const expectedState: Demo = { isLoading: false, demoSize };
+    const demoName = 'some name';
+    const initialState: Demo = { isLoading: true, demoName };
+    const expectedState: Demo = { isLoading: false, demoName };
     expect(
       reducer(initialState, actions.finishLoading()),
     ).toEqual(expectedState);
@@ -72,9 +66,10 @@ const state: AppState = {
   serverInfo: {
     boundingBox: null,
     countryCodes: [],
+    demo: null,
   },
   demo: {
-    demoSize: 0,
+    demoName: null,
     isLoading: false,
   },
   plan: {

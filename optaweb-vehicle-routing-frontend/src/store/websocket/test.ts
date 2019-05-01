@@ -38,9 +38,10 @@ describe('WebSocket client operations', () => {
       serverInfo: {
         boundingBox: null,
         countryCodes: [],
+        demo: null,
       },
       demo: {
-        demoSize: 0,
+        demoName: null,
         isLoading: false,
       },
       plan: emptyPlan,
@@ -101,9 +102,13 @@ describe('WebSocket client operations', () => {
       serverInfo: {
         boundingBox: null,
         countryCodes: [],
+        demo: {
+          name: 'demo',
+          visits: 5, // equals number of visits in `planWithTwoRoutes`
+        },
       },
       demo: {
-        demoSize: 6,
+        demoName: 'demo',
         isLoading: true,
       },
       plan: emptyPlan,
@@ -121,11 +126,6 @@ describe('WebSocket client operations', () => {
       routeSubscriptionCallback = callback;
     });
 
-    let demoSubscriptionCallback: (demoSize: number) => void = uninitializedCallbackCapture;
-    client.subscribeToDemo = jest.fn().mockImplementation((callback) => {
-      demoSubscriptionCallback = callback;
-    });
-
     // connect the client
     store.dispatch(websocketOperations.connectClient());
     expect(store.getActions()).toEqual([actions.initWsConnection()]);
@@ -139,16 +139,6 @@ describe('WebSocket client operations', () => {
 
     // should be subscribed to all topics
     expect(client.subscribeToRoute).toHaveBeenCalledTimes(1);
-    expect(client.subscribeToDemo).toHaveBeenCalledTimes(1);
-
-    store.clearActions();
-
-    const demoSize = 454;
-    demoSubscriptionCallback(demoSize);
-    // START_LOADING should be dispatched
-    expect(store.getActions()).toEqual([
-      demoOperations.startLoading(demoSize),
-    ]);
 
     store.clearActions();
 
@@ -167,9 +157,10 @@ describe('WebSocket client operations', () => {
       serverInfo: {
         boundingBox: null,
         countryCodes: [],
+        demo: null,
       },
       demo: {
-        demoSize: 0,
+        demoName: null,
         isLoading: false,
       },
       plan: emptyPlan,
@@ -200,6 +191,7 @@ describe('WebSocket client operations', () => {
     const serverInfo: ServerInfo = {
       boundingBox: null,
       countryCodes: ['AB', 'XY'],
+      demo: { name: 'Demo name', visits: 20 },
     };
     serverInfoSubscriptionCallback(serverInfo);
 

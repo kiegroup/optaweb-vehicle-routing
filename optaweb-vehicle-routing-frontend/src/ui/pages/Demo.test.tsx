@@ -62,6 +62,7 @@ const emptyRouteProps: IDemoProps = {
   removeHandler: jest.fn(),
 
   distance: '0',
+  demoName: 'demo',
   isDemoLoading: false,
   boundingBox: null,
   countryCodeSearchFilter: [],
@@ -78,6 +79,7 @@ const threeLocationsProps: IDemoProps = {
   removeHandler: jest.fn(),
 
   distance: '10',
+  demoName: 'demo',
   isDemoLoading: false,
   boundingBox: null,
   countryCodeSearchFilter: ['XY'],
