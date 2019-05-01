@@ -25,10 +25,12 @@ public class ServerInfo {
 
     private final List<PortableLocation> boundingBox;
     private final List<String> countryCodes;
+    private final PortableRoutingProblem demo;
 
-    public ServerInfo(List<PortableLocation> boundingBox, List<String> countryCodes) {
+    public ServerInfo(List<PortableLocation> boundingBox, List<String> countryCodes, PortableRoutingProblem demo) {
         this.boundingBox = boundingBox;
         this.countryCodes = countryCodes;
+        this.demo = demo;
     }
 
     public List<PortableLocation> getBoundingBox() {
@@ -37,5 +39,9 @@ public class ServerInfo {
 
     public List<String> getCountryCodes() {
         return countryCodes;
+    }
+
+    public PortableRoutingProblem getDemo() {
+        return demo;
     }
 }

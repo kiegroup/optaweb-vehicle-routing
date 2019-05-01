@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.service.demo;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.Before;
@@ -46,56 +47,48 @@ import static org.mockito.Mockito.when;
 public class DemoServiceTest {
 
     @Mock
-    private DemoProperties demoProperties;
-    @Mock
     private LocationService locationService;
     @Mock
     private DataSetMarshaller dataSetMarshaller;
     @Mock
     private LocationRepository locationRepository;
     @Mock
-    private RoutingProblem routingProblem;
+    private RoutingProblemList routingProblems;
     @InjectMocks
     private DemoService demoService;
 
     @Captor
     private ArgumentCaptor<RoutingProblem> routingProblemCaptor;
 
+    private final Location depot = new Location(1, LatLng.valueOf(1.0, 7), "Depot");
+    private final List<Location> visits = Arrays.asList(new Location(2, LatLng.valueOf(2.0, 9), "Visit"));
+    private final String problemName = "Testing problem";
+    private final RoutingProblem routingProblem = new RoutingProblem(problemName, depot, visits);
+
     @Before
     public void setUp() {
-        when(demoProperties.getSize()).thenReturn(-1);
         when(locationService.createLocation(any(), anyString())).thenReturn(true);
-        Location depot = new Location(1, LatLng.valueOf(1.0, 7), "Depot");
-        List<Location> visits = Arrays.asList(new Location(2, LatLng.valueOf(2.0, 9), "Visit"));
-        when(routingProblem.getDepot()).thenReturn(depot);
-        when(routingProblem.getVisits()).thenReturn(visits);
+        when(routingProblems.all()).thenReturn(Arrays.asList(routingProblem));
+        when(routingProblems.byName(problemName)).thenReturn(routingProblem);
     }
 
     @Test
-    public void demo_size_should_equal_visits_plus_depot() {
-        assertThat(demoService.getDemoSize()).isEqualTo(routingProblem.getVisits().size() + 1);
-    }
-
-    @Test
-    public void demo_size_can_be_overridden_with_a_property() {
-        int demoSizeProperty = 1321;
-        when(demoProperties.getSize()).thenReturn(demoSizeProperty);
-        assertThat(demoService.getDemoSize()).isEqualTo(demoSizeProperty);
-        when(demoProperties.getSize()).thenReturn(0);
-        assertThat(demoService.getDemoSize()).isZero();
+    public void demos_should_return_routing_problems() {
+        Collection<RoutingProblem> problems = demoService.demos();
+        assertThat(problems).containsExactly(routingProblem);
     }
 
     @Test
     public void loadDemo() {
-        demoService.loadDemo();
-        verify(locationService, times(demoService.getDemoSize())).createLocation(any(LatLng.class), anyString());
+        demoService.loadDemo(problemName);
+        verify(locationService, times(routingProblem.getVisits().size() + 1)).createLocation(any(LatLng.class), anyString());
     }
 
     @Test
     public void retry_when_adding_location_fails() {
         when(locationService.createLocation(any(), anyString())).thenReturn(false);
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> demoService.loadDemo())
+                .isThrownBy(() -> demoService.loadDemo(problemName))
                 .withMessageContaining(routingProblem.getDepot().getLatLng().toString());
         verify(locationService, times(DemoService.MAX_TRIES)).createLocation(any(LatLng.class), anyString());
     }

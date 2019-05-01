@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.service.demo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
@@ -36,36 +37,34 @@ public class DemoService {
 
     static final int MAX_TRIES = 10;
 
-    private final DemoProperties properties;
     private final LocationService locationService;
     private final DataSetMarshaller dataSetMarshaller;
     private final LocationRepository locationRepository;
-    private final RoutingProblem routingProblem;
+    private final RoutingProblemList routingProblems;
 
     public DemoService(
-            DemoProperties properties,
             LocationService locationService,
             DataSetMarshaller dataSetMarshaller,
             LocationRepository locationRepository,
-            RoutingProblem routingProblem) {
-        this.properties = properties;
+            RoutingProblemList routingProblems) {
         this.locationService = locationService;
         this.dataSetMarshaller = dataSetMarshaller;
         this.locationRepository = locationRepository;
-        this.routingProblem = routingProblem;
+        this.routingProblems = routingProblems;
+    }
+
+    public Collection<RoutingProblem> demos() {
+        return routingProblems.all();
     }
 
     @Async
-    public void loadDemo() {
-
+    public void loadDemo(String name) {
+        RoutingProblem routingProblem = routingProblems.byName(name);
         // Add depot
         addWithRetry(routingProblem.getDepot().getLatLng(), routingProblem.getDepot().getDescription());
 
-        for (int i = 0; i < getDemoSize() - 1; i++) {
-            // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
-            Location visit = routingProblem.getVisits().get(i % routingProblem.getVisits().size());
-            addWithRetry(visit.getLatLng(), visit.getDescription());
-        }
+        // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
+        routingProblem.getVisits().forEach(visit -> addWithRetry(visit.getLatLng(), visit.getDescription()));
     }
 
     private void addWithRetry(LatLng location, String description) {
@@ -85,11 +84,6 @@ public class DemoService {
                 latLng.getLatitude().doubleValue() + Math.random() * 0.08 - 0.04,
                 latLng.getLongitude().doubleValue() + Math.random() * 0.08 - 0.04
         );
-    }
-
-    public int getDemoSize() {
-        int size = properties.getSize();
-        return size >= 0 ? size : routingProblem.getVisits().size() + 1;
     }
 
     public String exportDataSet() {

@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
+import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
@@ -65,7 +66,12 @@ public class WebSocketController {
         List<PortableLocation> portableBoundingBox = Arrays.asList(
                 PortableLocation.fromLatLng(boundingBox.getSouthWest()),
                 PortableLocation.fromLatLng(boundingBox.getNorthEast()));
-        return new ServerInfo(portableBoundingBox, regionService.countryCodes());
+        RoutingProblem routingProblem = demoService.demos().iterator().next();
+        PortableRoutingProblem portableRoutingProblem = new PortableRoutingProblem(
+                routingProblem.getName(),
+                routingProblem.getVisits().size()
+        );
+        return new ServerInfo(portableBoundingBox, regionService.countryCodes(), portableRoutingProblem);
     }
 
     /**
@@ -97,13 +103,12 @@ public class WebSocketController {
     }
 
     /**
-     * Load a demo consisting of a number of cities.
-     * @return number of demo locations
+     * Load a demo data set.
+     * @param name data set name
      */
-    @MessageMapping("/demo")
-    public int demo() {
-        demoService.loadDemo();
-        return demoService.getDemoSize();
+    @MessageMapping("/demo/{name}")
+    public void demo(@DestinationVariable String name) {
+        demoService.loadDemo(name);
     }
 
     @MessageMapping("/clear")

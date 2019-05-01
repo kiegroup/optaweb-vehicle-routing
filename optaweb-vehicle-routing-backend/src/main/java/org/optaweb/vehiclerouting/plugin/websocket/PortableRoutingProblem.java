@@ -14,26 +14,25 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.demo;
+package org.optaweb.vehiclerouting.plugin.websocket;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import java.util.Objects;
 
-@Component
-@ConfigurationProperties("app.demo")
-public class DemoProperties {
+public class PortableRoutingProblem {
 
-    /**
-     * Number of demo locations.
-     */
-    private int size = -1;
+    private final String name;
+    private final int visits;
 
-    // TODO remove this, make demo size a parameter of /demo WebSocket message
-    public int getSize() {
-        return size;
+    public PortableRoutingProblem(String name, int visits) {
+        this.name = Objects.requireNonNull(name);
+        this.visits = visits;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public String getName() {
+        return name;
+    }
+
+    public int getVisits() {
+        return visits;
     }
 }

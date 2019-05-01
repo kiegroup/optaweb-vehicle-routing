@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.service.demo;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Arrays;
 
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
@@ -36,8 +37,9 @@ public class RoutingProblemConfig {
     }
 
     @Bean
-    public RoutingProblem routingProblem() {
-        return dataSetMarshaller.unmarshall(belgiumReader());
+    public RoutingProblemList routingProblem() {
+        RoutingProblem builtInProblem = dataSetMarshaller.unmarshall(belgiumReader());
+        return new RoutingProblemList(Arrays.asList(builtInProblem));
     }
 
     private Reader belgiumReader() {
