@@ -31,6 +31,7 @@ class RoutingProblemList {
 
     RoutingProblemList(List<RoutingProblem> routingProblems) {
         this.routingProblems = Objects.requireNonNull(routingProblems).stream()
+                // TODO use file name as the key (that's more likely to be unique than data set name)
                 .collect(Collectors.toMap(RoutingProblem::getName, Function.identity()));
     }
 

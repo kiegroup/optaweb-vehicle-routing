@@ -38,7 +38,7 @@ describe('WebSocket client operations', () => {
       serverInfo: {
         boundingBox: null,
         countryCodes: [],
-        demo: null,
+        demos: [],
       },
       demo: {
         demoName: null,
@@ -102,10 +102,10 @@ describe('WebSocket client operations', () => {
       serverInfo: {
         boundingBox: null,
         countryCodes: [],
-        demo: {
+        demos: [{
           name: 'demo',
           visits: 5, // equals number of visits in `planWithTwoRoutes`
-        },
+        }],
       },
       demo: {
         demoName: 'demo',
@@ -157,7 +157,7 @@ describe('WebSocket client operations', () => {
       serverInfo: {
         boundingBox: null,
         countryCodes: [],
-        demo: null,
+        demos: [],
       },
       demo: {
         demoName: null,
@@ -191,7 +191,7 @@ describe('WebSocket client operations', () => {
     const serverInfo: ServerInfo = {
       boundingBox: null,
       countryCodes: ['AB', 'XY'],
-      demo: { name: 'Demo name', visits: 20 },
+      demos: [{ name: 'Demo name', visits: 20 }],
     };
     serverInfoSubscriptionCallback(serverInfo);
 

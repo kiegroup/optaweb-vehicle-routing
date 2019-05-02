@@ -47,7 +47,7 @@ export interface StateProps {
   isDemoLoading: boolean;
   boundingBox: [LatLng, LatLng] | null;
   countryCodeSearchFilter: string[];
-  demoName: string | null;
+  demoNames: string[];
 }
 
 export interface DispatchProps {
@@ -65,7 +65,7 @@ const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
   isDemoLoading: demo.isLoading,
   boundingBox: serverInfo.boundingBox,
   countryCodeSearchFilter: serverInfo.countryCodes,
-  demoName: serverInfo.demo && serverInfo.demo.name || null,
+  demoNames: serverInfo.demos && serverInfo.demos.map(value => value.name) || [], // TODO use selector
 });
 
 const mapDispatchToProps: DispatchProps = {
@@ -124,7 +124,7 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
       depot,
       visits,
       routes,
-      demoName,
+      demoNames,
       isDemoLoading,
       boundingBox,
       countryCodeSearchFilter,
@@ -181,7 +181,7 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
               </Button>
               {routes.length === 0 &&
               <DemoDropdown
-                demos={demoName && [demoName] || []}
+                demos={demoNames}
                 onSelect={this.handleDemoLoadClick}
               />
               ||

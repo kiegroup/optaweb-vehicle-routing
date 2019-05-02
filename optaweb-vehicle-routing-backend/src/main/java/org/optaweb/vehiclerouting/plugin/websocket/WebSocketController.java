@@ -18,10 +18,10 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
-import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
@@ -66,12 +66,12 @@ public class WebSocketController {
         List<PortableLocation> portableBoundingBox = Arrays.asList(
                 PortableLocation.fromLatLng(boundingBox.getSouthWest()),
                 PortableLocation.fromLatLng(boundingBox.getNorthEast()));
-        RoutingProblem routingProblem = demoService.demos().iterator().next();
-        PortableRoutingProblem portableRoutingProblem = new PortableRoutingProblem(
-                routingProblem.getName(),
-                routingProblem.getVisits().size()
-        );
-        return new ServerInfo(portableBoundingBox, regionService.countryCodes(), portableRoutingProblem);
+        List<PortableRoutingProblem> demos = demoService.demos().stream()
+                .map(routingProblem -> new PortableRoutingProblem(
+                        routingProblem.getName(),
+                        routingProblem.getVisits().size()))
+                .collect(Collectors.toList());
+        return new ServerInfo(portableBoundingBox, regionService.countryCodes(), demos);
     }
 
     /**

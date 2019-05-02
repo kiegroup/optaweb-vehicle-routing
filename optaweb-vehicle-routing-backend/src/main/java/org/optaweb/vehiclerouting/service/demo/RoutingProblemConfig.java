@@ -16,12 +16,23 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.Arrays;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +40,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RoutingProblemConfig {
 
+    private static final Logger logger = LoggerFactory.getLogger(RoutingProblemConfig.class);
     private final DataSetMarshaller dataSetMarshaller;
 
     @Autowired
@@ -37,12 +49,38 @@ public class RoutingProblemConfig {
     }
 
     @Bean
-    public RoutingProblemList routingProblem() {
-        RoutingProblem builtInProblem = dataSetMarshaller.unmarshall(belgiumReader());
-        return new RoutingProblemList(Arrays.asList(builtInProblem));
+    public RoutingProblemList routingProblems() {
+        ArrayList<RoutingProblem> problems = new ArrayList<>();
+        problems.add(dataSetMarshaller.unmarshall(belgiumReader()));
+        problems.addAll(localDataSets());
+        return new RoutingProblemList(problems);
     }
 
     private Reader belgiumReader() {
         return new InputStreamReader(DemoService.class.getResourceAsStream("belgium-cities.yaml"));
+    }
+
+    private List<RoutingProblem> localDataSets() {
+        // TODO watch the directory (and make this a service that has local/data resource as a dependency -> is testable)
+        Path dataSetDir = Paths.get("local/data");
+        try {
+            return Files.list(dataSetDir)
+                    .map(Path::toFile)
+                    .filter(file -> file.getName().endsWith(".yaml") && file.exists() && file.canRead())
+                    .map(file -> {
+                        try {
+                            return new FileReader(file);
+                        } catch (FileNotFoundException e) {
+                            logger.error("Problem with dataset file {}", file, e);
+                            return null;
+                        }
+                    })
+                    .filter(Objects::nonNull)
+                    // TODO make unmarshalling exception checked, catch it and ignore broken files
+                    .map(dataSetMarshaller::unmarshall)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new IllegalStateException("Cannot list directory " + dataSetDir, e);
+        }
     }
 }
