@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class DataSetMarshallerTest {
     public void unmarshall_data_set() throws IOException {
         DataSet dataSet;
         try (InputStream inputStream = DataSetMarshallerTest.class.getResourceAsStream("test-belgium.yaml")) {
-            dataSet = new DataSetMarshaller().unmarshallToDataSet(new InputStreamReader(inputStream));
+            dataSet = new DataSetMarshaller().unmarshallToDataSet(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         }
         assertThat(dataSet).isNotNull();
 

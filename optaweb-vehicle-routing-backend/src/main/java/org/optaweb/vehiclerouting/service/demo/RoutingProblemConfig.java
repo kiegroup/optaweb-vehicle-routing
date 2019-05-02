@@ -16,11 +16,12 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,7 +58,7 @@ public class RoutingProblemConfig {
     }
 
     private Reader belgiumReader() {
-        return new InputStreamReader(DemoService.class.getResourceAsStream("belgium-cities.yaml"));
+        return new InputStreamReader(DemoService.class.getResourceAsStream("belgium-cities.yaml"), StandardCharsets.UTF_8);
     }
 
     private List<RoutingProblem> localDataSets() {
@@ -69,7 +70,7 @@ public class RoutingProblemConfig {
                     .filter(file -> file.getName().endsWith(".yaml") && file.exists() && file.canRead())
                     .map(file -> {
                         try {
-                            return new FileReader(file);
+                            return new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
                         } catch (FileNotFoundException e) {
                             logger.error("Problem with dataset file {}", file, e);
                             return null;
