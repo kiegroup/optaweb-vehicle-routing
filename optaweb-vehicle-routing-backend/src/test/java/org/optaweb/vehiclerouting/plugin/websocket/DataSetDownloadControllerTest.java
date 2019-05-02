@@ -52,14 +52,32 @@ public class DataSetDownloadControllerTest {
         // assert
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         HttpHeaders headers = responseEntity.getHeaders();
+        // String.length() works here because the message is ASCII
         assertThat(headers.getContentLength()).isEqualTo(msg.length());
         assertThat(headers.getContentType()).isNotNull();
-        assertThat(headers.getContentType().toString()).isEqualToIgnoringWhitespace("text/x-yaml;charset=UTF-16");
+        assertThat(headers.getContentType().toString()).isEqualToIgnoringWhitespace("text/x-yaml;charset=UTF-8");
         assertThat(headers.getContentDisposition()).isNotNull();
         String contentDisposition = headers.getContentDisposition().toString();
         assertThat(contentDisposition).startsWith("attachment;");
         assertThat(contentDisposition).containsPattern("; *filename=\".*\\.yaml\";");
         assertThat(contentDisposition).contains("size=" + msg.length());
         assertThat(contentDisposition).contains("creation-date=");
+    }
+
+    @Test
+    public void content_length_should_be_number_of_bytes() throws IOException {
+        // Nice illustration of the problem: https://sankhs.com/2016/03/17/content-length-http-headers/
+        // If the content-length header is less than number of bytes, part of the response body thrown away!
+        // So if we sent "অhello" with content-length: 6, the client (browser) would only present "অhel".
+
+        // arrange
+        String msg = "অ";
+        when(demoService.exportDataSet()).thenReturn(msg);
+
+        // act
+        ResponseEntity<Resource> responseEntity = controller.exportDataSet();
+
+        // assert
+        assertThat(responseEntity.getHeaders().getContentLength()).isEqualTo(3);
     }
 }

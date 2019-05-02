@@ -50,17 +50,18 @@ public class DataSetDownloadController {
     public ResponseEntity<Resource> exportDataSet() throws IOException {
         String dataSet = demoService.exportDataSet();
         try (InputStream is = new ByteArrayInputStream(dataSet.getBytes())) {
+            long length = dataSet.getBytes(StandardCharsets.UTF_8).length;
             HttpHeaders headers = new HttpHeaders();
             ContentDisposition attachment = ContentDisposition.builder("attachment")
                     .filename("vrp_data_set.yaml")
                     .creationDate(ZonedDateTime.now())
-                    .size((long) dataSet.length())
+                    .size(length)
                     .build();
             headers.setContentDisposition(attachment);
             return ResponseEntity.ok()
                     .headers(headers)
-                    .contentLength(dataSet.length())
-                    .contentType(new MediaType("text", "x-yaml", StandardCharsets.UTF_16))
+                    .contentLength(length)
+                    .contentType(new MediaType("text", "x-yaml", StandardCharsets.UTF_8))
                     .body(new InputStreamResource(is));
         }
     }
