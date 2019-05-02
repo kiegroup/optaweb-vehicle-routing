@@ -34,10 +34,10 @@ import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
 import SearchBox, { Result } from 'ui/components/SearchBox';
 import TspMap from 'ui/components/TspMap';
+import { DemoDropdown } from '../components/DemoDropdown';
 
 export const ID_CLEAR_BUTTON = 'clear-button';
 export const ID_EXPORT_BUTTON = 'export-button';
-export const ID_LOAD_BUTTON = 'load-button';
 
 export interface StateProps {
   distance: string;
@@ -75,7 +75,7 @@ const mapDispatchToProps: DispatchProps = {
   removeHandler: routeOperations.deleteLocation,
 };
 
-export type IDemoProps = DispatchProps & StateProps;
+export type IDemoProps = DispatchProps & StateProps; // TODO remove I prefix
 
 export interface DemoState {
   selectedId: number;
@@ -109,10 +109,8 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
     this.props.addHandler(result.latLng, result.address);
   }
 
-  handleDemoLoadClick() {
-    if (this.props.demoName !== null) {
-      this.props.loadHandler(this.props.demoName);
-    }
+  handleDemoLoadClick(demoName: string) {
+    this.props.loadHandler(demoName);
   }
 
   onSelectLocation(id: number) {
@@ -182,14 +180,10 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
                 Export
               </Button>
               {routes.length === 0 &&
-              <Button
-                id={ID_LOAD_BUTTON}
-                isDisabled={isDemoLoading && demoName !== null}
-                style={{ marginBottom: 16, marginLeft: 16 }}
-                onClick={this.handleDemoLoadClick}
-              >
-                Load demo
-              </Button>
+              <DemoDropdown
+                demos={demoName && [demoName] || []}
+                onSelect={this.handleDemoLoadClick}
+              />
               ||
               <Button
                 id={ID_CLEAR_BUTTON}

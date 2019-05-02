@@ -18,16 +18,12 @@ import { Button } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import { Demo, ID_CLEAR_BUTTON, ID_EXPORT_BUTTON, ID_LOAD_BUTTON, IDemoProps } from './Demo';
+import { Demo, ID_CLEAR_BUTTON, ID_EXPORT_BUTTON, IDemoProps } from './Demo';
 
 describe('Demo page', () => {
   it('should render correctly with no routes', () => {
     const demo = shallow(<Demo {...emptyRouteProps} />);
     expect(toJson(demo)).toMatchSnapshot();
-
-    demo.find(Button).filter(`#${ID_LOAD_BUTTON}`).simulate('click');
-
-    expect(emptyRouteProps.loadHandler).toHaveBeenCalledTimes(1);
   });
 
   it('should render correctly with a few routes', () => {

@@ -596,28 +596,14 @@ exports[`Demo page should render correctly with no routes 1`] = `
         >
           Export
         </Button>
-        <Button
-          aria-label={null}
-          className=""
-          component="button"
-          id="load-button"
-          isActive={false}
-          isBlock={false}
-          isDisabled={false}
-          isFocus={false}
-          isHover={false}
-          onClick={[Function]}
-          style={
-            Object {
-              "marginBottom": 16,
-              "marginLeft": 16,
-            }
+        <DemoDropdown
+          demos={
+            Array [
+              "demo",
+            ]
           }
-          type="button"
-          variant="primary"
-        >
-          Load demo
-        </Button>
+          onSelect={[Function]}
+        />
       </SplitItem>
     </Split>
     <TspMap
