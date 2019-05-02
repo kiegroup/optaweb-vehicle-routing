@@ -69,7 +69,7 @@ public class DemoService {
 
     private void addWithRetry(LatLng location, String description) {
         int tries = 0;
-        while (tries < MAX_TRIES && !locationService.createLocation(randomize(location), description)) {
+        while (tries < MAX_TRIES && !locationService.createLocation(location, description)) {
             tries++;
         }
         if (tries == MAX_TRIES) {
@@ -77,13 +77,6 @@ public class DemoService {
                     "Impossible to create a new location near " + location + " after " + tries + " attempts"
             );
         }
-    }
-
-    private LatLng randomize(LatLng latLng) {
-        return LatLng.valueOf(
-                latLng.getLatitude().doubleValue() + Math.random() * 0.08 - 0.04,
-                latLng.getLongitude().doubleValue() + Math.random() * 0.08 - 0.04
-        );
     }
 
     public String exportDataSet() {
