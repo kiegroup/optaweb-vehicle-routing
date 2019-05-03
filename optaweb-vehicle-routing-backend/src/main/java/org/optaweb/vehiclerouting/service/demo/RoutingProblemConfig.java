@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
@@ -64,8 +65,8 @@ public class RoutingProblemConfig {
     private List<RoutingProblem> localDataSets() {
         // TODO watch the directory (and make this a service that has local/data resource as a dependency -> is testable)
         Path dataSetDir = Paths.get("local/data");
-        try {
-            return Files.list(dataSetDir)
+        try (Stream<Path> dataSetPaths = Files.list(dataSetDir)) {
+            return dataSetPaths
                     .map(Path::toFile)
                     .filter(file -> file.getName().endsWith(".yaml") && file.exists() && file.canRead())
                     .map(file -> {
