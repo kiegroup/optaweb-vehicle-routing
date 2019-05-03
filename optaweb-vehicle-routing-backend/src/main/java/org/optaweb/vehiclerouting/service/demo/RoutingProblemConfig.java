@@ -16,6 +16,7 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -26,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -64,8 +66,16 @@ public class RoutingProblemConfig {
 
     private List<RoutingProblem> localDataSets() {
         // TODO watch the directory (and make this a service that has local/data resource as a dependency -> is testable)
-        Path dataSetDir = Paths.get("local/data");
-        try (Stream<Path> dataSetPaths = Files.list(dataSetDir)) {
+        Path dataSetDirPath = Paths.get("local/data");
+        if (!isReadableDir(dataSetDirPath)) {
+            logger.info(
+                    "Data set directory '{}' doesn't exist or cannot be read. No external data sets will be loaded",
+                    dataSetDirPath.toAbsolutePath()
+            );
+            return Collections.emptyList();
+        }
+
+        try (Stream<Path> dataSetPaths = Files.list(dataSetDirPath)) {
             return dataSetPaths
                     .map(Path::toFile)
                     .filter(file -> file.getName().endsWith(".yaml") && file.exists() && file.canRead())
@@ -82,7 +92,12 @@ public class RoutingProblemConfig {
                     .map(dataSetMarshaller::unmarshall)
                     .collect(Collectors.toList());
         } catch (IOException e) {
-            throw new IllegalStateException("Cannot list directory " + dataSetDir, e);
+            throw new IllegalStateException("Cannot list directory " + dataSetDirPath, e);
         }
+    }
+
+    private boolean isReadableDir(Path path) {
+        File file = path.toFile();
+        return file.exists() && file.canRead() && file.isDirectory();
     }
 }
