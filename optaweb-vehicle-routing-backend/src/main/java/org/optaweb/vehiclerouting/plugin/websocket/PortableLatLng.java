@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,48 +20,32 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LatLng;
 
 /**
- * Location representation convenient for marshalling.
+ * LatLng representation convenient for marshalling.
  */
-public class PortableLocation {
+public class PortableLatLng {
 
-    private long id;
-
-    @JsonProperty(value = "lat", required = true)
+    @JsonProperty(value = "lat")
     private BigDecimal latitude;
-    @JsonProperty(value = "lng", required = true)
+    @JsonProperty(value = "lng")
     private BigDecimal longitude;
 
-    private String description;
-
-    public static PortableLocation fromLocation(Location location) {
-        return new PortableLocation(
-                location.getId(),
-                location.getLatLng().getLatitude(),
-                location.getLatLng().getLongitude(),
-                location.getDescription()
+    public static PortableLatLng fromLatLng(LatLng latLng) {
+        return new PortableLatLng(
+                latLng.getLatitude(),
+                latLng.getLongitude()
         );
     }
 
-    private PortableLocation() {
+    private PortableLatLng() {
         // for unmarshalling
     }
 
-    public PortableLocation(long id, BigDecimal latitude, BigDecimal longitude, String description) {
-        this.id = id;
+    public PortableLatLng(BigDecimal latitude, BigDecimal longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
-        this.description = description;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public BigDecimal getLatitude() {
@@ -80,14 +64,6 @@ public class PortableLocation {
         this.longitude = longitude;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -96,24 +72,20 @@ public class PortableLocation {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PortableLocation that = (PortableLocation) o;
-        return id == that.id &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(latitude, that.latitude) &&
+        PortableLatLng that = (PortableLatLng) o;
+        return Objects.equals(latitude, that.latitude) &&
                 Objects.equals(longitude, that.longitude);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, latitude, longitude);
+        return Objects.hash(latitude, longitude);
     }
 
     @Override
     public String toString() {
-        return "PortableLocation{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", latitude=" + latitude +
+        return "PortableLatLng{" +
+                "latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';
     }

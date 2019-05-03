@@ -96,8 +96,8 @@ public class WebSocketControllerTest {
         // assert
         assertThat(serverInfo.getCountryCodes()).isEqualTo(countryCodes);
         assertThat(serverInfo.getBoundingBox()).containsExactly(
-                PortableLocation.fromLatLng(southWest),
-                PortableLocation.fromLatLng(northEast)
+                PortableLatLng.fromLatLng(southWest),
+                PortableLatLng.fromLatLng(northEast)
         );
         List<PortableRoutingProblem> demos = serverInfo.getDemos();
         assertThat(demos).hasSize(1);

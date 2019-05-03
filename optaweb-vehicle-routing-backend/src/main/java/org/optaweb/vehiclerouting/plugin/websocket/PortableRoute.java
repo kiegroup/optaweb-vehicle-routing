@@ -26,10 +26,10 @@ public class PortableRoute {
 
     private final PortableLocation depot;
     private final List<PortableLocation> visits;
-    // TODO flatten & remove ID (List<PortableLatLng>)
-    private final List<List<PortableLocation>> track;
+    // TODO flatten
+    private final List<List<PortableLatLng>> track;
 
-    public PortableRoute(PortableLocation depot, List<PortableLocation> visits, List<List<PortableLocation>> track) {
+    public PortableRoute(PortableLocation depot, List<PortableLocation> visits, List<List<PortableLatLng>> track) {
         this.depot = Objects.requireNonNull(depot);
         this.visits = Objects.requireNonNull(visits);
         this.track = Objects.requireNonNull(track);
@@ -43,7 +43,7 @@ public class PortableRoute {
         return visits;
     }
 
-    public List<List<PortableLocation>> getTrack() {
+    public List<List<PortableLatLng>> getTrack() {
         return track;
     }
 }

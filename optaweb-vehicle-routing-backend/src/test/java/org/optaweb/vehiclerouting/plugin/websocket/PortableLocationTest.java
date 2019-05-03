@@ -37,16 +37,6 @@ public class PortableLocationTest {
     }
 
     @Test
-    public void fromLatLng() {
-        LatLng latLng = LatLng.valueOf(0.04687, -88.8889);
-        PortableLocation portableLocation = PortableLocation.fromLatLng(latLng);
-        assertThat(portableLocation.getId()).isZero();
-        assertThat(portableLocation.getLatitude()).isEqualTo(latLng.getLatitude());
-        assertThat(portableLocation.getLongitude()).isEqualTo(latLng.getLongitude());
-        assertThat(portableLocation.getDescription()).isEmpty();
-    }
-
-    @Test
     public void equals_hashCode_toString() {
         long id = 123456;
         String description = "x y";
@@ -70,10 +60,11 @@ public class PortableLocationTest {
         assertThat(portableLocation).hasSameHashCodeAs(new PortableLocation(id, lat1, lon1, description));
 
         // toString()
-        assertThat(portableLocation.toString())
-                .contains(String.valueOf(id))
-                .contains(lat1.toPlainString())
-                .contains(lon1.toPlainString())
-                .contains(description);
+        assertThat(portableLocation.toString()).contains(
+                String.valueOf(id),
+                lat1.toPlainString(),
+                lon1.toPlainString(),
+                description
+        );
     }
 }

@@ -102,14 +102,14 @@ public class RoutePublisherImplTest {
         );
         assertThat(portableRoute1.getTrack()).hasSize(2);
         assertThat(portableRoute1.getTrack().get(0)).containsExactly(
-                PortableLocation.fromLatLng(location1.getLatLng()),
-                PortableLocation.fromLatLng(checkpoint12),
-                PortableLocation.fromLatLng(location2.getLatLng())
+                PortableLatLng.fromLatLng(location1.getLatLng()),
+                PortableLatLng.fromLatLng(checkpoint12),
+                PortableLatLng.fromLatLng(location2.getLatLng())
         );
         assertThat(portableRoute1.getTrack().get(1)).containsExactly(
-                PortableLocation.fromLatLng(location2.getLatLng()),
-                PortableLocation.fromLatLng(checkpoint21),
-                PortableLocation.fromLatLng(location1.getLatLng())
+                PortableLatLng.fromLatLng(location2.getLatLng()),
+                PortableLatLng.fromLatLng(checkpoint21),
+                PortableLatLng.fromLatLng(location1.getLatLng())
         );
 
         PortableRoute portableRoute2 = portableRoutingPlan.getRoutes().get(1);
@@ -120,14 +120,14 @@ public class RoutePublisherImplTest {
         );
         assertThat(portableRoute2.getTrack()).hasSize(2);
         assertThat(portableRoute2.getTrack().get(0)).containsExactly(
-                PortableLocation.fromLatLng(location1.getLatLng()),
-                PortableLocation.fromLatLng(checkpoint13),
-                PortableLocation.fromLatLng(location3.getLatLng())
+                PortableLatLng.fromLatLng(location1.getLatLng()),
+                PortableLatLng.fromLatLng(checkpoint13),
+                PortableLatLng.fromLatLng(location3.getLatLng())
         );
         assertThat(portableRoute2.getTrack().get(1)).containsExactly(
-                PortableLocation.fromLatLng(location3.getLatLng()),
-                PortableLocation.fromLatLng(checkpoint31),
-                PortableLocation.fromLatLng(location1.getLatLng())
+                PortableLatLng.fromLatLng(location3.getLatLng()),
+                PortableLatLng.fromLatLng(checkpoint31),
+                PortableLatLng.fromLatLng(location1.getLatLng())
         );
     }
 }

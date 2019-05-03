@@ -63,9 +63,9 @@ public class WebSocketController {
     @SubscribeMapping("/serverInfo")
     public ServerInfo subscribeToServerInfoTopic() {
         BoundingBox boundingBox = regionService.boundingBox();
-        List<PortableLocation> portableBoundingBox = Arrays.asList(
-                PortableLocation.fromLatLng(boundingBox.getSouthWest()),
-                PortableLocation.fromLatLng(boundingBox.getNorthEast()));
+        List<PortableLatLng> portableBoundingBox = Arrays.asList(
+                PortableLatLng.fromLatLng(boundingBox.getSouthWest()),
+                PortableLatLng.fromLatLng(boundingBox.getNorthEast()));
         List<PortableRoutingProblem> demos = demoService.demos().stream()
                 .map(routingProblem -> new PortableRoutingProblem(
                         routingProblem.getName(),
