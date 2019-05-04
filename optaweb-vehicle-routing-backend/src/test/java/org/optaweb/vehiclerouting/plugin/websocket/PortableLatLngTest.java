@@ -33,6 +33,16 @@ public class PortableLatLngTest {
         assertThat(portableLatLng.getLongitude()).isEqualTo(latLng.getLongitude());
     }
 
+    @Test
+    public void should_reduce_scale_if_needed() {
+        LatLng latLng = LatLng.valueOf(0.123450001, -88.999999999);
+        LatLng scaledDown = LatLng.valueOf(0.12345, -89);
+        PortableLatLng portableLatLng = PortableLatLng.fromLatLng(latLng);
+        assertThat(portableLatLng.getLatitude()).isEqualTo(scaledDown.getLatitude());
+        assertThat(portableLatLng.getLongitude()).isEqualByComparingTo(scaledDown.getLongitude());
+        // This would surprisingly fail because actual is -89 and expected is -89.0
+//        assertThat(portableLatLng.getLongitude()).isEqualTo(scaledDown.getLongitude());
+    }
 
     @Test
     public void equals_hashCode_toString() {

@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -26,6 +27,12 @@ import org.optaweb.vehiclerouting.domain.LatLng;
  * LatLng representation convenient for marshalling.
  */
 public class PortableLatLng {
+
+    /*
+     * Five decimal places gives "metric" precision (±55 cm on equator). That's enough for visualising the track.
+     * https://wiki.openstreetmap.org/wiki/Node#Structure
+     */
+    private static final int LATLNG_SCALE = 5;
 
     @JsonProperty(value = "lat")
     private BigDecimal latitude;
@@ -44,8 +51,12 @@ public class PortableLatLng {
     }
 
     public PortableLatLng(BigDecimal latitude, BigDecimal longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        this.latitude = scale(latitude);
+        this.longitude = scale(longitude);
+    }
+
+    private BigDecimal scale(BigDecimal number) {
+        return number.setScale(Math.min(number.scale(), LATLNG_SCALE), RoundingMode.HALF_EVEN).stripTrailingZeros();
     }
 
     public BigDecimal getLatitude() {
