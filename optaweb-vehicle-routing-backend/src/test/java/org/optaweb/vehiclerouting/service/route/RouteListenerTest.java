@@ -36,6 +36,8 @@ import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -129,5 +131,27 @@ public class RouteListenerTest {
         assertThat(routeWithTrack.track()).containsExactly(path1, path2);
 
         assertThat(routeListener.getBestRoutingPlan()).isEqualTo(routingPlan);
+    }
+
+    @Test
+    public void should_discard_update_gracefully_if_one_of_location_has_been_removed() {
+        final Location depot = new Location(1, LatLng.valueOf(1.0, 2.0));
+        final Location visit = new Location(2, LatLng.valueOf(-1.0, -2.0));
+        when(locationRepository.find(depot.getId())).thenReturn(Optional.of(depot));
+        when(locationRepository.find(visit.getId())).thenReturn(Optional.empty());
+
+        ShallowRoute route = new ShallowRoute(depot.getId(), singletonList(visit.getId()));
+        RouteChangedEvent event = new RouteChangedEvent(this, "", depot.getId(), singletonList(route));
+
+        // precondition
+        assertThat(routeListener.getBestRoutingPlan()).isEqualTo(RoutingPlan.empty());
+
+        // must not throw exception
+        routeListener.onApplicationEvent(event);
+
+        verify(router, never()).getPath(any(), any());
+        verify(publisher, never()).publish(any());
+
+        assertThat(routeListener.getBestRoutingPlan()).isEqualTo(RoutingPlan.empty());
     }
 }

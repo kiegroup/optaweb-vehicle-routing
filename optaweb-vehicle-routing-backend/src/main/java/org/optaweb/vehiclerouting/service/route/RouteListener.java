@@ -27,6 +27,8 @@ import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +37,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RouteListener implements ApplicationListener<RouteChangedEvent> {
+
+    private static final Logger logger = LoggerFactory.getLogger(RouteListener.class);
 
     private final Router router;
     private final RoutePublisher publisher;
@@ -54,19 +58,23 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     public void onApplicationEvent(RouteChangedEvent event) {
         // TODO persist the best solution
         Location depot = event.depot().flatMap(locationRepository::find).orElse(null);
-        List<RouteWithTrack> routes = event.routes().stream()
-                // list of deep locations
-                .map(shallowRoute -> new Route(
-                        findLocationById(shallowRoute.depotId),
-                        shallowRoute.visitIds.stream()
-                                .map(this::findLocationById)
-                                .collect(Collectors.toList())
-                ))
-                // add tracks
-                .map(route -> new RouteWithTrack(route, track(route.depot(), route.visits())))
-                .collect(Collectors.toList());
-        bestRoutingPlan = new RoutingPlan(event.distance(), depot, routes);
-        publisher.publish(bestRoutingPlan);
+        try {
+            List<RouteWithTrack> routes = event.routes().stream()
+                    // list of deep locations
+                    .map(shallowRoute -> new Route(
+                            findLocationById(shallowRoute.depotId),
+                            shallowRoute.visitIds.stream()
+                                    .map(this::findLocationById)
+                                    .collect(Collectors.toList())
+                    ))
+                    // add tracks
+                    .map(route -> new RouteWithTrack(route, track(route.depot(), route.visits())))
+                    .collect(Collectors.toList());
+            bestRoutingPlan = new RoutingPlan(event.distance(), depot, routes);
+            publisher.publish(bestRoutingPlan);
+        } catch (IllegalStateException e) {
+            logger.warn("Discarding an outdated routing plan: {}", e.toString());
+        }
     }
 
     private Location findLocationById(Long id) {

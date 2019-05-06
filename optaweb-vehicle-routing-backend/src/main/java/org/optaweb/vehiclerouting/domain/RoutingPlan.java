@@ -27,6 +27,8 @@ import java.util.Optional;
  */
 public class RoutingPlan {
 
+    private static final RoutingPlan EMPTY = new RoutingPlan("", null, Collections.emptyList());
+
     private final String distance;
     private final Location depot;
     private final List<RouteWithTrack> routes;
@@ -51,7 +53,7 @@ public class RoutingPlan {
      * @return empty routing plan
      */
     public static RoutingPlan empty() {
-        return new RoutingPlan("", null, Collections.emptyList());
+        return EMPTY;
     }
 
     /**
