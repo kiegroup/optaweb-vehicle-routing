@@ -131,14 +131,14 @@ exports[`TSP Map View should pan and zoom to show bounding box 1`] = `
     key="0"
     positions={
       Array [
-        Object {
-          "lat": 0.111222,
-          "lng": 0.222333,
-        },
-        Object {
-          "lat": 0.444555,
-          "lng": 0.555666,
-        },
+        Array [
+          0.111222,
+          0.222333,
+        ],
+        Array [
+          0.444555,
+          0.555666,
+        ],
       ]
     }
   />

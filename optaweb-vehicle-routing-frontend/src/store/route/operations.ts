@@ -21,11 +21,12 @@ import { AddLocationAction, ClearRouteAction, DeleteLocationAction, LatLng } fro
 
 export const updateRoute = actions.updateRoute;
 
-export const addLocation: ActionCreator<ThunkCommand<AddLocationAction>> = (latLng: LatLng, description: string) =>
-  (dispatch, state, client) => {
-    dispatch(actions.addLocation(latLng, description));
-    client.addLocation({ ...latLng, description });
-  };
+export const addLocation: (latLng: LatLng, description: string) => ThunkCommand<AddLocationAction> =
+  (latLng: LatLng, description: string) =>
+    (dispatch, state, client) => {
+      dispatch(actions.addLocation(latLng, description));
+      client.addLocation({ ...latLng, description });
+    };
 
 export const deleteLocation: ActionCreator<ThunkCommand<DeleteLocationAction>> = (locationId: number) =>
   (dispatch, state, client) => {

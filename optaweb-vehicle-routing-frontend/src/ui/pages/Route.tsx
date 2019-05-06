@@ -81,7 +81,7 @@ class Route extends React.Component<IRouteProps, RouteState> {
   }
 
   handleMapClick(e: any) {
-    this.props.addHandler(e.latlng);
+    this.props.addHandler(e.latlng, '');
   }
 
   onSelectLocation(id: number) {

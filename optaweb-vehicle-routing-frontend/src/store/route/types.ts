@@ -35,8 +35,10 @@ export interface Route {
   readonly visits: Location[];
 }
 
+export type LatLngTuple = [number, number];
+
 export interface RouteWithTrack extends Route {
-  readonly track: LatLng[];
+  readonly track: LatLngTuple[];
 }
 
 export interface RoutingPlan {
