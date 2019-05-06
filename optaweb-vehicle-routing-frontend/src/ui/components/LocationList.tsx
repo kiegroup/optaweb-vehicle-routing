@@ -18,6 +18,7 @@ import { Bullseye, DataList } from '@patternfly/react-core';
 import * as React from 'react';
 import { Location } from 'store/route/types';
 import LocationItem from './Location';
+import './LocationList.css';
 
 export interface LocationListProps {
   removeHandler: (id: number) => void;
