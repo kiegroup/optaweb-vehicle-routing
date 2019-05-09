@@ -66,8 +66,8 @@ public class WebSocketController {
         List<PortableLatLng> portableBoundingBox = Arrays.asList(
                 PortableLatLng.fromLatLng(boundingBox.getSouthWest()),
                 PortableLatLng.fromLatLng(boundingBox.getNorthEast()));
-        List<PortableRoutingProblem> demos = demoService.demos().stream()
-                .map(routingProblem -> new PortableRoutingProblem(
+        List<RoutingProblemInfo> demos = demoService.demos().stream()
+                .map(routingProblem -> new RoutingProblemInfo(
                         routingProblem.getName(),
                         routingProblem.getVisits().size()))
                 .collect(Collectors.toList());

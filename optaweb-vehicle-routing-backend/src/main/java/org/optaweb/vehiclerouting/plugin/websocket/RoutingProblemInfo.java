@@ -18,12 +18,15 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.Objects;
 
-public class PortableRoutingProblem {
+/**
+ * Information about a routing problem.
+ */
+public class RoutingProblemInfo {
 
     private final String name;
     private final int visits;
 
-    public PortableRoutingProblem(String name, int visits) {
+    public RoutingProblemInfo(String name, int visits) {
         this.name = Objects.requireNonNull(name);
         this.visits = visits;
     }

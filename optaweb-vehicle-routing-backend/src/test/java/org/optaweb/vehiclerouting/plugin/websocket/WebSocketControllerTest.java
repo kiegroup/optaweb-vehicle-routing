@@ -99,9 +99,9 @@ public class WebSocketControllerTest {
                 PortableLatLng.fromLatLng(southWest),
                 PortableLatLng.fromLatLng(northEast)
         );
-        List<PortableRoutingProblem> demos = serverInfo.getDemos();
+        List<RoutingProblemInfo> demos = serverInfo.getDemos();
         assertThat(demos).hasSize(1);
-        PortableRoutingProblem demo = demos.get(0);
+        RoutingProblemInfo demo = demos.get(0);
         assertThat(demo.getName()).isEqualTo(demoName);
         assertThat(demo.getVisits()).isEqualTo(visits.size());
     }

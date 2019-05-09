@@ -25,9 +25,9 @@ public class ServerInfo {
 
     private final List<PortableLatLng> boundingBox;
     private final List<String> countryCodes;
-    private final List<PortableRoutingProblem> demos;
+    private final List<RoutingProblemInfo> demos;
 
-    public ServerInfo(List<PortableLatLng> boundingBox, List<String> countryCodes, List<PortableRoutingProblem> demos) {
+    public ServerInfo(List<PortableLatLng> boundingBox, List<String> countryCodes, List<RoutingProblemInfo> demos) {
         this.boundingBox = boundingBox;
         this.countryCodes = countryCodes;
         this.demos = demos;
@@ -41,7 +41,7 @@ public class ServerInfo {
         return countryCodes;
     }
 
-    public List<PortableRoutingProblem> getDemos() {
+    public List<RoutingProblemInfo> getDemos() {
         return demos;
     }
 }
