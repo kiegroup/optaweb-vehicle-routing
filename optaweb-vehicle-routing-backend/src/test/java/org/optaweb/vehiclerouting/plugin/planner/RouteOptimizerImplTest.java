@@ -97,7 +97,9 @@ public class RouteOptimizerImplTest {
         // mimic solve() => isSolving(); terminateEarly() => !isSolving()
         isSolving = false;
         when(solver.isSolving()).thenAnswer((Answer<Boolean>) invocation -> isSolving);
-        when(solver.solve(any())).thenAnswer(answerVoid((VoidAnswer1<VehicleRoutingSolution>) solution -> isSolving = true));
+        when(solver.solve(any())).thenAnswer(
+                answerVoid((VoidAnswer1<VehicleRoutingSolution>) solution -> isSolving = true)
+        );
         when(solver.terminateEarly()).thenAnswer((Answer<Boolean>) invocation -> {
             isSolving = false;
             return true;
@@ -274,7 +276,8 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void clear_should_stop_solver_and_publish_initial_solution() throws ExecutionException, InterruptedException {
+    public void clear_should_stop_solver_and_publish_initial_solution() throws ExecutionException,
+                                                                               InterruptedException {
         // set up a situation where solver is running with 1 depot and 2 visits
         VehicleRoutingSolution solution = createSolution(location1, location2, location3);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);

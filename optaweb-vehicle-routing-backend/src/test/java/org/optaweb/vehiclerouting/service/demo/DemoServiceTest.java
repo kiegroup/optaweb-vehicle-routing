@@ -81,7 +81,8 @@ public class DemoServiceTest {
     @Test
     public void loadDemo() {
         demoService.loadDemo(problemName);
-        verify(locationService, times(routingProblem.getVisits().size() + 1)).createLocation(any(LatLng.class), anyString());
+        verify(locationService, times(routingProblem.getVisits().size() + 1))
+                .createLocation(any(LatLng.class), anyString());
     }
 
     @Test

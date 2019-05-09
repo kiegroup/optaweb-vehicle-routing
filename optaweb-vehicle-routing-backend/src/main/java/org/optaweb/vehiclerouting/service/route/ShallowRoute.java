@@ -25,8 +25,8 @@ import java.util.Objects;
  * Light-weight route description made of location IDs instead of entities. This makes it easier to quickly construct
  * and share result of route optimization without converting planning domain objects to business domain objects.
  * Specifically, some information may be lost when converting business domain objects to planning domain because it's
- * not needed for optimization (e.g. location address) and so it's impossible to reconstruct the original business object
- * without looking into the repository.
+ * not needed for optimization (e.g. location address) and so it's impossible to reconstruct the original
+ * business object without looking into the repository.
  */
 public class ShallowRoute {
 

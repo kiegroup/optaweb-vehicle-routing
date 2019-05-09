@@ -113,10 +113,14 @@ public class SolverIntegrationTest {
             Location removeLocation = location(id);
             assertThat(solver.isEveryProblemFactChangeProcessed()).isTrue();
             monitor.beforeProblemFactChange();
-            solver.addProblemFactChanges(Arrays.asList(new RemoveCustomer(removeLocation), new RemoveLocation(removeLocation)));
+            solver.addProblemFactChanges(Arrays.asList(
+                    new RemoveCustomer(removeLocation),
+                    new RemoveLocation(removeLocation)
+            ));
             assertThat(solver.isEveryProblemFactChangeProcessed()).isFalse(); // probably not 100% safe
             // Notice that it's not possible to check individual problem fact changes completion.
-            // When we receive a BestSolutionChangedEvent with unprocessed PFCs, we don't know how many of them there are.
+            // When we receive a BestSolutionChangedEvent with unprocessed PFCs,
+            // we don't know how many of them there are.
             if (!monitor.awaitAllProblemFactChanges(1000)) {
                 assertThat(terminateSolver(solver)).isNotNull();
                 fail("Problem fact change hasn't been completed.");

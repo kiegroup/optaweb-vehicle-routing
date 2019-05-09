@@ -53,6 +53,9 @@ public class RegionService {
      */
     public BoundingBox boundingBox() {
         BBox bounds = graphHopper.getGraphHopperStorage().getBounds();
-        return new BoundingBox(LatLng.valueOf(bounds.minLat, bounds.minLon), LatLng.valueOf(bounds.maxLat, bounds.maxLon));
+        return new BoundingBox(
+                LatLng.valueOf(bounds.minLat, bounds.minLon),
+                LatLng.valueOf(bounds.maxLat, bounds.maxLon)
+        );
     }
 }

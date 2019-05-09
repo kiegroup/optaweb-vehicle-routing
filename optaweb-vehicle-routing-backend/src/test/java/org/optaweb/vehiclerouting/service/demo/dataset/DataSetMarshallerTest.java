@@ -47,7 +47,9 @@ public class DataSetMarshallerTest {
     public void unmarshall_data_set() throws IOException {
         DataSet dataSet;
         try (InputStream inputStream = DataSetMarshallerTest.class.getResourceAsStream("test-belgium.yaml")) {
-            dataSet = new DataSetMarshaller().unmarshallToDataSet(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
+            dataSet = new DataSetMarshaller().unmarshallToDataSet(
+                    new InputStreamReader(inputStream, StandardCharsets.UTF_8)
+            );
         }
         assertThat(dataSet).isNotNull();
 

@@ -103,10 +103,16 @@ public class SolutionUtil {
         for (Vehicle vehicle : solution.getVehicleList()) {
             Depot depot = vehicle.getDepot();
             if (depot == null) {
-                throw new IllegalStateException("Vehicle (id=" + vehicle.getId() + ") is not in the depot. That's not allowed");
+                throw new IllegalStateException(
+                        "Vehicle (id=" + vehicle.getId() + ") is not in the depot. That's not allowed"
+                );
             }
             List<Long> visits = new ArrayList<>();
-            for (Customer customer = vehicle.getNextCustomer(); customer != null; customer = customer.getNextCustomer()) {
+            for (
+                    Customer customer = vehicle.getNextCustomer();
+                    customer != null;
+                    customer = customer.getNextCustomer()
+            ) {
                 if (!solution.getCustomerList().contains(customer)) {
                     throw new IllegalStateException("Customer (" + customer + ") doesn't exist");
                 }

@@ -90,7 +90,10 @@ public class WebSocketController {
      */
     @MessageMapping("/location")
     public void addLocation(PortableLocation request) {
-        locationService.createLocation(new LatLng(request.getLatitude(), request.getLongitude()), request.getDescription());
+        locationService.createLocation(
+                new LatLng(request.getLatitude(), request.getLongitude()),
+                request.getDescription()
+        );
     }
 
     /**

@@ -61,11 +61,14 @@ public class RoutingProblemConfig {
     }
 
     private Reader belgiumReader() {
-        return new InputStreamReader(DemoService.class.getResourceAsStream("belgium-cities.yaml"), StandardCharsets.UTF_8);
+        return new InputStreamReader(
+                DemoService.class.getResourceAsStream("belgium-cities.yaml"),
+                StandardCharsets.UTF_8
+        );
     }
 
     private List<RoutingProblem> localDataSets() {
-        // TODO watch the directory (and make this a service that has local/data resource as a dependency -> is testable)
+        // TODO watch the dir (and make this a service that has local/data resource as a dependency -> is testable)
         Path dataSetDirPath = Paths.get("local/data");
         if (!isReadableDir(dataSetDirPath)) {
             logger.info(
