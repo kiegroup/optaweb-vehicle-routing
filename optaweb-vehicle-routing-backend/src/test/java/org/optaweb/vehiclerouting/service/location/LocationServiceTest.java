@@ -30,6 +30,7 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -64,6 +65,12 @@ public class LocationServiceTest {
         when(repository.createLocation(any(LatLng.class), anyString())).thenReturn(location);
         when(repository.removeLocation(location.getId())).thenReturn(location);
         when(repository.locations()).thenReturn(persistedLocations);
+    }
+
+    @Test
+    public void createLocation_should_validate_arguments() {
+        assertThatNullPointerException().isThrownBy(() -> locationService.createLocation(null, "x"));
+        assertThatNullPointerException().isThrownBy(() -> locationService.createLocation(latLng, null));
     }
 
     @Test
