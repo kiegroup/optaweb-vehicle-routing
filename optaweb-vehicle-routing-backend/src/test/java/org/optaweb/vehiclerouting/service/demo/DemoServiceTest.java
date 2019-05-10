@@ -82,7 +82,7 @@ public class DemoServiceTest {
     @Test
     public void loadDemo() {
         demoService.loadDemo(problemName);
-        verify(locationService, times(routingProblem.getVisits().size() + 1))
+        verify(locationService, times(routingProblem.visits().size() + 1))
                 .createLocation(any(LatLng.class), anyString());
     }
 
@@ -107,9 +107,9 @@ public class DemoServiceTest {
         verify(dataSetMarshaller).marshall(routingProblemCaptor.capture());
         RoutingProblem routingProblem = routingProblemCaptor.getValue();
 
-        assertThat(routingProblem.getName()).isNotNull();
-        assertThat(routingProblem.getDepot()).contains(depot);
-        assertThat(routingProblem.getVisits()).containsExactly(visit1, visit2);
+        assertThat(routingProblem.name()).isNotNull();
+        assertThat(routingProblem.depot()).contains(depot);
+        assertThat(routingProblem.visits()).containsExactly(visit1, visit2);
     }
 
     @Test
@@ -121,8 +121,8 @@ public class DemoServiceTest {
         verify(dataSetMarshaller).marshall(routingProblemCaptor.capture());
         RoutingProblem routingProblem = routingProblemCaptor.getValue();
 
-        assertThat(routingProblem.getName()).isNotNull();
-        assertThat(routingProblem.getDepot()).isEmpty();
-        assertThat(routingProblem.getVisits()).isEmpty();
+        assertThat(routingProblem.name()).isNotNull();
+        assertThat(routingProblem.depot()).isEmpty();
+        assertThat(routingProblem.visits()).isEmpty();
     }
 }

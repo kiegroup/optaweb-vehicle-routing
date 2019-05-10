@@ -49,7 +49,7 @@ public class RoutingProblemListTest {
 
         assertThat(routingProblemList.all()).extracting("name").containsExactlyInAnyOrder(name1, name2);
 
-        assertThat(routingProblemList.byName(name1).getName()).isEqualTo(name1);
+        assertThat(routingProblemList.byName(name1).name()).isEqualTo(name1);
 
         assertThatIllegalArgumentException().isThrownBy(() -> routingProblemList.byName("Unknown problem"));
     }

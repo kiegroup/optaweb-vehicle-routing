@@ -68,8 +68,8 @@ public class WebSocketController {
                 PortableLatLng.fromLatLng(boundingBox.getNorthEast()));
         List<RoutingProblemInfo> demos = demoService.demos().stream()
                 .map(routingProblem -> new RoutingProblemInfo(
-                        routingProblem.getName(),
-                        routingProblem.getVisits().size()))
+                        routingProblem.name(),
+                        routingProblem.visits().size()))
                 .collect(Collectors.toList());
         return new ServerInfo(portableBoundingBox, regionService.countryCodes(), demos);
     }

@@ -46,7 +46,7 @@ public class RoutingProblem {
      * Get routing problem instance name.
      * @return routing problem instance name
      */
-    public String getName() {
+    public String name() {
         return name;
     }
 
@@ -54,7 +54,7 @@ public class RoutingProblem {
      * Get the depot.
      * @return depot (never {@code null})
      */
-    public Optional<Location> getDepot() {
+    public Optional<Location> depot() {
         return Optional.ofNullable(depot);
     }
 
@@ -62,7 +62,7 @@ public class RoutingProblem {
      * Get locations that should be visited.
      * @return visits
      */
-    public List<Location> getVisits() {
+    public List<Location> visits() {
         return visits;
     }
 }
