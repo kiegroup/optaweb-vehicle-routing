@@ -69,7 +69,7 @@ public class DataSetMarshaller {
     static DataSet toDataSet(RoutingProblem routingProblem) {
         DataSet dataSet = new DataSet();
         dataSet.setName(routingProblem.getName());
-        dataSet.setDepot(toDataSet(routingProblem.getDepot()));
+        dataSet.setDepot(routingProblem.getDepot().map(DataSetMarshaller::toDataSet).orElse(null));
         dataSet.setVisits(
                 routingProblem.getVisits().stream()
                         .map(DataSetMarshaller::toDataSet)

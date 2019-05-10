@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.service.demo;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Before;
@@ -90,12 +91,12 @@ public class DemoServiceTest {
         when(locationService.createLocation(any(), anyString())).thenReturn(false);
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> demoService.loadDemo(problemName))
-                .withMessageContaining(routingProblem.getDepot().getLatLng().toString());
+                .withMessageContaining(depot.getLatLng().toString());
         verify(locationService, times(DemoService.MAX_TRIES)).createLocation(any(LatLng.class), anyString());
     }
 
     @Test
-    public void export() {
+    public void export_should_marshall_routing_plans_with_locations_from_repository() {
         Location depot = new Location(0, LatLng.valueOf(1.0, 2.0), "Depot");
         Location visit1 = new Location(1, LatLng.valueOf(11.0, 22.0), "Visit 1");
         Location visit2 = new Location(2, LatLng.valueOf(22.0, 33.0), "Visit 2");
@@ -107,7 +108,21 @@ public class DemoServiceTest {
         RoutingProblem routingProblem = routingProblemCaptor.getValue();
 
         assertThat(routingProblem.getName()).isNotNull();
-        assertThat(routingProblem.getDepot()).isEqualTo(depot);
+        assertThat(routingProblem.getDepot()).contains(depot);
         assertThat(routingProblem.getVisits()).containsExactly(visit1, visit2);
+    }
+
+    @Test
+    public void export_should_marshall_empty_routing_plan_when_no_locations_in_repository() {
+        when(locationRepository.locations()).thenReturn(Collections.emptyList());
+
+        demoService.exportDataSet();
+
+        verify(dataSetMarshaller).marshall(routingProblemCaptor.capture());
+        RoutingProblem routingProblem = routingProblemCaptor.getValue();
+
+        assertThat(routingProblem.getName()).isNotNull();
+        assertThat(routingProblem.getDepot()).isEmpty();
+        assertThat(routingProblem.getVisits()).isEmpty();
     }
 }

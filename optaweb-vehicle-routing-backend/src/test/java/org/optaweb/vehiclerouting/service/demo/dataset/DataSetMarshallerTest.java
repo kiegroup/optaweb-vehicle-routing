@@ -127,7 +127,7 @@ public class DataSetMarshallerTest {
         // data set -> domain
         RoutingProblem routingProblem = toDomain(dataSet);
         assertThat(routingProblem.getName()).isEqualTo(name);
-        assertThat(routingProblem.getDepot()).isEqualTo(depot);
+        assertThat(routingProblem.getDepot()).contains(depot);
         assertThat(routingProblem.getVisits()).containsExactly(visit);
     }
 }

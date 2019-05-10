@@ -61,7 +61,7 @@ public class DemoService {
     public void loadDemo(String name) {
         RoutingProblem routingProblem = routingProblems.byName(name);
         // Add depot
-        addWithRetry(routingProblem.getDepot().getLatLng(), routingProblem.getDepot().getDescription());
+        routingProblem.getDepot().ifPresent(depot -> addWithRetry(depot.getLatLng(), depot.getDescription()));
 
         // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
         routingProblem.getVisits().forEach(visit -> addWithRetry(visit.getLatLng(), visit.getDescription()));
@@ -82,7 +82,7 @@ public class DemoService {
     public String exportDataSet() {
         // FIXME still relying on the fact that the first location in the repository is the depot
         List<Location> visits = new ArrayList<>(locationRepository.locations());
-        Location depot = visits.remove(0);
+        Location depot = visits.isEmpty() ? null : visits.remove(0);
         return dataSetMarshaller.marshall(new RoutingProblem("Custom Vehicle Routing instance", depot, visits));
     }
 }
