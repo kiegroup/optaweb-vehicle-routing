@@ -75,7 +75,7 @@ const mapDispatchToProps: DispatchProps = {
   removeHandler: routeOperations.deleteLocation,
 };
 
-export type IDemoProps = DispatchProps & StateProps; // TODO remove I prefix
+export type DemoProps = DispatchProps & StateProps;
 
 export interface DemoState {
   selectedId: number;
@@ -83,8 +83,8 @@ export interface DemoState {
   zoom: number;
 }
 
-export class Demo extends React.Component<IDemoProps, DemoState> {
-  constructor(props: IDemoProps) {
+export class Demo extends React.Component<DemoProps, DemoState> {
+  constructor(props: DemoProps) {
     super(props);
 
     this.state = {

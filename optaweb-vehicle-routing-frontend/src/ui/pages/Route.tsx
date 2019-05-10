@@ -54,7 +54,7 @@ const mapDispatchToProps: DispatchProps = {
   removeHandler: routeOperations.deleteLocation,
 };
 
-type IRouteProps = DispatchProps & StateProps;
+type RouteProps = DispatchProps & StateProps;
 
 export interface RouteState {
   selectedId: number;
@@ -63,8 +63,8 @@ export interface RouteState {
   zoom: number;
 }
 
-class Route extends React.Component<IRouteProps, RouteState> {
-  constructor(props: IRouteProps) {
+class Route extends React.Component<RouteProps, RouteState> {
+  constructor(props: RouteProps) {
     super(props);
 
     this.state = {

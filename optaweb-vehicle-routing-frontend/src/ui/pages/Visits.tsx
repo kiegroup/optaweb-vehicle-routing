@@ -42,11 +42,11 @@ const mapDispatchToProps: DispatchProps = {
   removeHandler: routeOperations.deleteLocation,
 };
 
-type IProps = StateProps & DispatchProps;
+type Props = StateProps & DispatchProps;
 
-class Visits extends React.Component<IProps> {
+class Visits extends React.Component<Props> {
 
-  constructor(props: IProps) {
+  constructor(props: Props) {
     super(props);
   }
 

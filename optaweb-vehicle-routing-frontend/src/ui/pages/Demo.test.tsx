@@ -18,7 +18,7 @@ import { Button } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import { Demo, ID_CLEAR_BUTTON, ID_EXPORT_BUTTON, IDemoProps } from './Demo';
+import { Demo, DemoProps, ID_CLEAR_BUTTON, ID_EXPORT_BUTTON } from './Demo';
 
 describe('Demo page', () => {
   it('should render correctly with no routes', () => {
@@ -32,7 +32,7 @@ describe('Demo page', () => {
   });
 
   it('clear and export buttons should be disabled when demo is loading', () => {
-    const props: IDemoProps = {
+    const props: DemoProps = {
       ...threeLocationsProps,
       isDemoLoading: true,
     };
@@ -51,7 +51,7 @@ describe('Demo page', () => {
   });
 });
 
-const emptyRouteProps: IDemoProps = {
+const emptyRouteProps: DemoProps = {
   loadHandler: jest.fn(),
   clearHandler: jest.fn(),
   addHandler: jest.fn(),
@@ -68,7 +68,7 @@ const emptyRouteProps: IDemoProps = {
   visits: [],
 };
 
-const threeLocationsProps: IDemoProps = {
+const threeLocationsProps: DemoProps = {
   loadHandler: jest.fn(),
   clearHandler: jest.fn(),
   addHandler: jest.fn(),
