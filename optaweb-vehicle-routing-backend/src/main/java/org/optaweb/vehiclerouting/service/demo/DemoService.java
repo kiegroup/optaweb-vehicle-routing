@@ -83,6 +83,6 @@ public class DemoService {
         // FIXME still relying on the fact that the first location in the repository is the depot
         List<Location> visits = new ArrayList<>(locationRepository.locations());
         Location depot = visits.isEmpty() ? null : visits.remove(0);
-        return dataSetMarshaller.marshall(new RoutingProblem("Custom Vehicle Routing instance", depot, visits));
+        return dataSetMarshaller.marshal(new RoutingProblem("Custom Vehicle Routing instance", depot, visits));
     }
 }

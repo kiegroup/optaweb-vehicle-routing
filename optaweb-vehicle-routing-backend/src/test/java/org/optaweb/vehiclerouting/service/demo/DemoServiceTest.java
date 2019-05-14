@@ -96,7 +96,7 @@ public class DemoServiceTest {
     }
 
     @Test
-    public void export_should_marshall_routing_plans_with_locations_from_repository() {
+    public void export_should_marshal_routing_plans_with_locations_from_repository() {
         Location depot = new Location(0, LatLng.valueOf(1.0, 2.0), "Depot");
         Location visit1 = new Location(1, LatLng.valueOf(11.0, 22.0), "Visit 1");
         Location visit2 = new Location(2, LatLng.valueOf(22.0, 33.0), "Visit 2");
@@ -104,7 +104,7 @@ public class DemoServiceTest {
 
         demoService.exportDataSet();
 
-        verify(dataSetMarshaller).marshall(routingProblemCaptor.capture());
+        verify(dataSetMarshaller).marshal(routingProblemCaptor.capture());
         RoutingProblem routingProblem = routingProblemCaptor.getValue();
 
         assertThat(routingProblem.name()).isNotNull();
@@ -113,12 +113,12 @@ public class DemoServiceTest {
     }
 
     @Test
-    public void export_should_marshall_empty_routing_plan_when_no_locations_in_repository() {
+    public void export_should_marshal_empty_routing_plan_when_no_locations_in_repository() {
         when(locationRepository.locations()).thenReturn(Collections.emptyList());
 
         demoService.exportDataSet();
 
-        verify(dataSetMarshaller).marshall(routingProblemCaptor.capture());
+        verify(dataSetMarshaller).marshal(routingProblemCaptor.capture());
         RoutingProblem routingProblem = routingProblemCaptor.getValue();
 
         assertThat(routingProblem.name()).isNotNull();

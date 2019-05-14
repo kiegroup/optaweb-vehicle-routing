@@ -55,7 +55,7 @@ public class RoutingProblemConfig {
     @Bean
     public RoutingProblemList routingProblems() {
         ArrayList<RoutingProblem> problems = new ArrayList<>();
-        problems.add(dataSetMarshaller.unmarshall(belgiumReader()));
+        problems.add(dataSetMarshaller.unmarshal(belgiumReader()));
         problems.addAll(localDataSets());
         return new RoutingProblemList(problems);
     }
@@ -92,7 +92,7 @@ public class RoutingProblemConfig {
                     })
                     .filter(Objects::nonNull)
                     // TODO make unmarshalling exception checked, catch it and ignore broken files
-                    .map(dataSetMarshaller::unmarshall)
+                    .map(dataSetMarshaller::unmarshal)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             throw new IllegalStateException("Cannot list directory " + dataSetDirPath, e);
