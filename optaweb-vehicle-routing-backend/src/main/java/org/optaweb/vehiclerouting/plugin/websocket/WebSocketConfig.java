@@ -21,6 +21,7 @@ import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.config.annotation.WebSocketTransportRegistration;
 
 /**
  * Configures STOMP over WebSocket.
@@ -52,5 +53,15 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         // Use the built-in message broker for subscriptions and broadcasting,
         // and route messages whose destination header begins with /topic to the broker.
         registry.enableSimpleBroker("/topic");
+    }
+
+    @Override
+    public void configureWebSocketTransport(WebSocketTransportRegistration registry) {
+        // TODO Reduce WebSocket message sizes to minimum to avoid having to increase the session buffer size.
+        // Read setSendBufferSizeLimit() Javadoc to get some insight.
+        // For example: "In general WebSocket servers expect that messages to a single WebSocket session are sent
+        // from a single thread at a time."
+        // FIXME Remove this temporary workaround.
+        registry.setSendBufferSizeLimit(2 * 1024 * 1024);
     }
 }

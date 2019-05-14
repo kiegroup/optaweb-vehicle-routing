@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
@@ -62,10 +63,15 @@ public class WebSocketController {
     @SubscribeMapping("/serverInfo")
     public ServerInfo subscribeToServerInfoTopic() {
         BoundingBox boundingBox = regionService.boundingBox();
-        List<PortableLocation> portableBoundingBox = Arrays.asList(
-                PortableLocation.fromLatLng(boundingBox.getSouthWest()),
-                PortableLocation.fromLatLng(boundingBox.getNorthEast()));
-        return new ServerInfo(portableBoundingBox, regionService.countryCodes());
+        List<PortableLatLng> portableBoundingBox = Arrays.asList(
+                PortableLatLng.fromLatLng(boundingBox.getSouthWest()),
+                PortableLatLng.fromLatLng(boundingBox.getNorthEast()));
+        List<RoutingProblemInfo> demos = demoService.demos().stream()
+                .map(routingProblem -> new RoutingProblemInfo(
+                        routingProblem.name(),
+                        routingProblem.visits().size()))
+                .collect(Collectors.toList());
+        return new ServerInfo(portableBoundingBox, regionService.countryCodes(), demos);
     }
 
     /**
@@ -84,7 +90,10 @@ public class WebSocketController {
      */
     @MessageMapping("/location")
     public void addLocation(PortableLocation request) {
-        locationService.createLocation(new LatLng(request.getLatitude(), request.getLongitude()));
+        locationService.createLocation(
+                new LatLng(request.getLatitude(), request.getLongitude()),
+                request.getDescription()
+        );
     }
 
     /**
@@ -97,13 +106,12 @@ public class WebSocketController {
     }
 
     /**
-     * Load a demo consisting of a number of cities.
-     * @return number of demo locations
+     * Load a demo data set.
+     * @param name data set name
      */
-    @MessageMapping("/demo")
-    public int demo() {
-        demoService.loadDemo();
-        return demoService.getDemoSize();
+    @MessageMapping("/demo/{name}")
+    public void demo(@DestinationVariable String name) {
+        demoService.loadDemo(name);
     }
 
     @MessageMapping("/clear")

@@ -27,20 +27,24 @@ public class LocationTest {
 
     @Test
     public void constructor_params_must_not_be_null() {
-        assertThatNullPointerException().isThrownBy(() -> new Location(0, null));
+        assertThatNullPointerException().isThrownBy(() -> new Location(0, null, ""));
+        assertThatNullPointerException().isThrownBy(() -> new Location(0, LatLng.valueOf(1, 1), null));
     }
 
     @Test
-    public void locations_are_equal_only_if_they_have_same_id_and_coordinate() {
+    public void locations_are_equal_only_if_they_have_same_id_coordinate_and_description() {
         LatLng latLng0 = new LatLng(BigDecimal.ZERO, BigDecimal.ZERO);
         LatLng latLng1 = new LatLng(BigDecimal.ONE, BigDecimal.ONE);
+        String description = "d e s c r i p t i o n";
 
-        final Location location = new Location(0, latLng0);
+        final Location location = new Location(0, latLng0, description);
 
         // different ID
-        assertThat(location).isNotEqualTo(new Location(1, latLng0));
+        assertThat(location).isNotEqualTo(new Location(1, latLng0, description));
         // different coordinate
-        assertThat(location).isNotEqualTo(new Location(0, latLng1));
+        assertThat(location).isNotEqualTo(new Location(0, latLng1, description));
+        // different description
+        assertThat(location).isNotEqualTo(new Location(0, latLng0, "xyz"));
         // null
         assertThat(location).isNotEqualTo(null);
         // different class
@@ -48,6 +52,13 @@ public class LocationTest {
         // same object -> OK
         assertThat(location).isEqualTo(location);
         // same properties -> OK
-        assertThat(location).isEqualTo(new Location(0, latLng0));
+        assertThat(location).isEqualTo(new Location(0, latLng0, description));
+    }
+
+    @Test
+    public void constructor_without_description_should_create_empty_description() {
+        long id = 7;
+        LatLng latLng = LatLng.valueOf(3.14, 4.13);
+        assertThat(new Location(id, latLng)).isEqualTo(new Location(id, latLng, ""));
     }
 }

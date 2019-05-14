@@ -61,7 +61,7 @@ describe('TSP Map View', () => {
           lat: 3.676111,
           lng: 3.568333,
         }],
-        track: [{ lat: 0.111222, lng: 0.222333 }, { lat: 0.444555, lng: 0.555666 }],
+        track: [[0.111222, 0.222333], [0.444555, 0.555666]],
       }],
     };
     const tspMap = shallow(<TspMap {...props} />);

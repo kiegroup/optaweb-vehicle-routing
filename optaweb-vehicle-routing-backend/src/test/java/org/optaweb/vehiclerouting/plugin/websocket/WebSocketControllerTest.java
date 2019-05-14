@@ -29,6 +29,7 @@ import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
+import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
@@ -83,23 +84,35 @@ public class WebSocketControllerTest {
         BoundingBox boundingBox = new BoundingBox(southWest, northEast);
         when(regionService.boundingBox()).thenReturn(boundingBox);
 
+        Location depot = new Location(1, LatLng.valueOf(1.0, 7), "Depot");
+        List<Location> visits = Arrays.asList(new Location(2, LatLng.valueOf(2.0, 9), "Visit"));
+        String demoName = "Testing problem";
+        RoutingProblem routingProblem = new RoutingProblem(demoName, depot, visits);
+        when(demoService.demos()).thenReturn(Arrays.asList(routingProblem));
+
         // act
         ServerInfo serverInfo = webSocketController.subscribeToServerInfoTopic();
 
         // assert
         assertThat(serverInfo.getCountryCodes()).isEqualTo(countryCodes);
         assertThat(serverInfo.getBoundingBox()).containsExactly(
-                PortableLocation.fromLatLng(southWest),
-                PortableLocation.fromLatLng(northEast)
+                PortableLatLng.fromLatLng(southWest),
+                PortableLatLng.fromLatLng(northEast)
         );
+        List<RoutingProblemInfo> demos = serverInfo.getDemos();
+        assertThat(demos).hasSize(1);
+        RoutingProblemInfo demo = demos.get(0);
+        assertThat(demo.getName()).isEqualTo(demoName);
+        assertThat(demo.getVisits()).isEqualTo(visits.size());
     }
 
     @Test
     public void addLocation() {
         LatLng latLng = LatLng.valueOf(0.0, 1.0);
-        PortableLocation request = new PortableLocation(321, latLng.getLatitude(), latLng.getLongitude());
+        String description = "new location";
+        PortableLocation request = new PortableLocation(321, latLng.getLatitude(), latLng.getLongitude(), description);
         webSocketController.addLocation(request);
-        verify(locationService).createLocation(latLng);
+        verify(locationService).createLocation(latLng, description);
     }
 
     @Test
@@ -110,10 +123,9 @@ public class WebSocketControllerTest {
 
     @Test
     public void demo() {
-        int demoSize = 4651;
-        when(demoService.getDemoSize()).thenReturn(demoSize);
-        assertThat(webSocketController.demo()).isEqualTo(demoSize);
-        verify(demoService).loadDemo();
+        String problemName = "xy";
+        webSocketController.demo(problemName);
+        verify(demoService).loadDemo(problemName);
     }
 
     @Test

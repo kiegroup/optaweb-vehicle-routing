@@ -14,7 +14,17 @@
  * limitations under the License.
  */
 
-import { Button, Grid, GridItem, Split, SplitItem, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import {
+  Button,
+  Grid,
+  GridItem,
+  GutterSize,
+  Split,
+  SplitItem,
+  Text,
+  TextContent,
+  TextVariants,
+} from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { demoOperations } from 'store/demo';
@@ -24,6 +34,10 @@ import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
 import SearchBox, { Result } from 'ui/components/SearchBox';
 import TspMap from 'ui/components/TspMap';
+import { DemoDropdown } from '../components/DemoDropdown';
+
+export const ID_CLEAR_BUTTON = 'clear-button';
+export const ID_EXPORT_BUTTON = 'export-button';
 
 export interface StateProps {
   distance: string;
@@ -33,6 +47,7 @@ export interface StateProps {
   isDemoLoading: boolean;
   boundingBox: [LatLng, LatLng] | null;
   countryCodeSearchFilter: string[];
+  demoNames: string[];
 }
 
 export interface DispatchProps {
@@ -50,6 +65,7 @@ const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
   isDemoLoading: demo.isLoading,
   boundingBox: serverInfo.boundingBox,
   countryCodeSearchFilter: serverInfo.countryCodes,
+  demoNames: serverInfo.demos && serverInfo.demos.map(value => value.name) || [], // TODO use selector
 });
 
 const mapDispatchToProps: DispatchProps = {
@@ -59,7 +75,7 @@ const mapDispatchToProps: DispatchProps = {
   removeHandler: routeOperations.deleteLocation,
 };
 
-export type IDemoProps = DispatchProps & StateProps;
+export type DemoProps = DispatchProps & StateProps;
 
 export interface DemoState {
   selectedId: number;
@@ -67,8 +83,8 @@ export interface DemoState {
   zoom: number;
 }
 
-export class Demo extends React.Component<IDemoProps, DemoState> {
-  constructor(props: IDemoProps) {
+export class Demo extends React.Component<DemoProps, DemoState> {
+  constructor(props: DemoProps) {
     super(props);
 
     this.state = {
@@ -79,17 +95,22 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
       },
       zoom: 9,
     };
+    this.handleDemoLoadClick = this.handleDemoLoadClick.bind(this);
     this.handleMapClick = this.handleMapClick.bind(this);
     this.handleSearchResultClick = this.handleSearchResultClick.bind(this);
     this.onSelectLocation = this.onSelectLocation.bind(this);
   }
 
   handleMapClick(e: any) {
-    this.props.addHandler(e.latlng);
+    this.props.addHandler(e.latlng, ''); // TODO use reverse geocoding to find address
   }
 
   handleSearchResultClick(result: Result) {
-    this.props.addHandler(result.latLng);
+    this.props.addHandler(result.latLng, result.address);
+  }
+
+  handleDemoLoadClick(demoName: string) {
+    this.props.loadHandler(demoName);
   }
 
   onSelectLocation(id: number) {
@@ -103,13 +124,18 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
       depot,
       visits,
       routes,
+      demoNames,
       isDemoLoading,
       boundingBox,
       countryCodeSearchFilter,
       removeHandler,
-      loadHandler,
       clearHandler,
     } = this.props;
+
+    const exportDataSet = () => {
+      window.open(`${process.env.REACT_APP_BACKEND_URL}/dataset/export`);
+    };
+
     return (
       // FIXME find a way to avoid these style customizations
       <Split gutter="md" style={{ overflowY: 'auto' }}>
@@ -137,7 +163,7 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
           isMain={true}
           style={{ display: 'flex', flexDirection: 'column' }}
         >
-          <Split gutter="md">
+          <Split gutter={GutterSize.md}>
             <SplitItem isMain={true}>
               <Grid>
                 <GridItem span={6}>{`Visits: ${visits.length}`}</GridItem>
@@ -145,20 +171,24 @@ export class Demo extends React.Component<IDemoProps, DemoState> {
               </Grid>
             </SplitItem>
             <SplitItem isMain={false}>
-              {routes.length === 0 &&
               <Button
-                type="button"
-                isDisabled={isDemoLoading}
-                style={{ marginBottom: 16 }}
-                onClick={loadHandler}
+                id={ID_EXPORT_BUTTON}
+                isDisabled={!depot || isDemoLoading}
+                style={{ marginBottom: 16, marginLeft: 16 }}
+                onClick={exportDataSet}
               >
-                Load demo
+                Export
               </Button>
+              {routes.length === 0 &&
+              <DemoDropdown
+                demos={demoNames}
+                onSelect={this.handleDemoLoadClick}
+              />
               ||
               <Button
-                type="button"
+                id={ID_CLEAR_BUTTON}
                 isDisabled={isDemoLoading}
-                style={{ marginBottom: 16 }}
+                style={{ marginBottom: 16, marginLeft: 16 }}
                 onClick={clearHandler}
               >
                 Clear

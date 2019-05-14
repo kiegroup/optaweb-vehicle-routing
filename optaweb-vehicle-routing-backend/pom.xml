@@ -96,6 +96,16 @@
       <artifactId>nv-i18n</artifactId>
       <version>1.24</version>
     </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-yaml</artifactId>
+      <version>2.9.8</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.9.8</version>
+    </dependency>
     <!-- Enable Spring Boot Automatic Restart, see Development Guide in Readme to learn how to use it. -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -262,6 +272,9 @@
                       <property name="tokens" value="LITERAL_IF, LITERAL_ELSE, LITERAL_FOR, LITERAL_WHILE, LITERAL_DO"/>
                     </module>
                     <module name="EqualsHashCode"/>
+                    <module name="LineLength">
+                      <property name="max" value="120"/>
+                    </module>
                   </module>
                   <module name="RegexpHeader">
                     <property name="header" value="${checkstyle.header.template}"/>

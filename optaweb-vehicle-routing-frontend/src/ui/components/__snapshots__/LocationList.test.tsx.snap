@@ -13,6 +13,7 @@ exports[`Location List Component should render correctly with a few routes 1`] =
     className=""
   >
     <Location
+      description="Depot"
       id={1}
       key="1"
       removeDisabled={true}
@@ -20,6 +21,7 @@ exports[`Location List Component should render correctly with a few routes 1`] =
       selectHandler={[MockFunction]}
     />
     <Location
+      description="Visit 1"
       id={2}
       key="2"
       removeDisabled={false}
@@ -27,6 +29,7 @@ exports[`Location List Component should render correctly with a few routes 1`] =
       selectHandler={[MockFunction]}
     />
     <Location
+      description="Visit 2"
       id={3}
       key="3"
       removeDisabled={false}

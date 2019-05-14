@@ -41,13 +41,16 @@ public class LocationEntity {
     @Column(precision = 10, scale = 7)
     private BigDecimal longitude;
 
+    private String description;
+
     private LocationEntity() {
         // for JPA
     }
 
-    public LocationEntity(BigDecimal latitude, BigDecimal longitude) {
+    public LocationEntity(BigDecimal latitude, BigDecimal longitude, String description) {
         this.latitude = Objects.requireNonNull(latitude);
         this.longitude = Objects.requireNonNull(longitude);
+        this.description = Objects.requireNonNull(description);
     }
 
     public long getId() {
@@ -62,12 +65,17 @@ public class LocationEntity {
         return longitude;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     @Override
     public String toString() {
         return "LocationEntity{" +
                 "id=" + id +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

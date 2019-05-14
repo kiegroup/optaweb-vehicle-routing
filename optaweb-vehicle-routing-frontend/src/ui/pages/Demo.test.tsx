@@ -18,16 +18,12 @@ import { Button } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import { Demo, IDemoProps } from './Demo';
+import { Demo, DemoProps, ID_CLEAR_BUTTON, ID_EXPORT_BUTTON } from './Demo';
 
 describe('Demo page', () => {
   it('should render correctly with no routes', () => {
     const demo = shallow(<Demo {...emptyRouteProps} />);
     expect(toJson(demo)).toMatchSnapshot();
-
-    demo.find(Button).simulate('click');
-
-    expect(emptyRouteProps.loadHandler).toHaveBeenCalledTimes(1);
   });
 
   it('should render correctly with a few routes', () => {
@@ -35,30 +31,34 @@ describe('Demo page', () => {
     expect(toJson(demo)).toMatchSnapshot();
   });
 
-  it('clear button should be disabled when demo is loading', () => {
-    const props: IDemoProps = {
+  it('clear and export buttons should be disabled when demo is loading', () => {
+    const props: DemoProps = {
       ...threeLocationsProps,
       isDemoLoading: true,
     };
     const demo = shallow(<Demo {...props} />);
     expect(toJson(demo)).toMatchSnapshot();
 
-    const clearButton = demo.find(Button);
+    const clearButton = demo.find(Button).filter(`#${ID_CLEAR_BUTTON}`);
     expect(clearButton.props().isDisabled).toEqual(true);
 
     clearButton.simulate('click');
     // Doesn't work, probably due to https://github.com/airbnb/enzyme/issues/386
     // expect(props.clearHandler).not.toHaveBeenCalled();
+
+    const exportButton = demo.find(Button).filter(`#${ID_EXPORT_BUTTON}`);
+    expect(exportButton.props().isDisabled).toEqual(true);
   });
 });
 
-const emptyRouteProps: IDemoProps = {
+const emptyRouteProps: DemoProps = {
   loadHandler: jest.fn(),
   clearHandler: jest.fn(),
   addHandler: jest.fn(),
   removeHandler: jest.fn(),
 
   distance: '0',
+  demoNames: ['demo'],
   isDemoLoading: false,
   boundingBox: null,
   countryCodeSearchFilter: [],
@@ -68,13 +68,14 @@ const emptyRouteProps: IDemoProps = {
   visits: [],
 };
 
-const threeLocationsProps: IDemoProps = {
+const threeLocationsProps: DemoProps = {
   loadHandler: jest.fn(),
   clearHandler: jest.fn(),
   addHandler: jest.fn(),
   removeHandler: jest.fn(),
 
   distance: '10',
+  demoNames: ['demo'],
   isDemoLoading: false,
   boundingBox: null,
   countryCodeSearchFilter: ['XY'],

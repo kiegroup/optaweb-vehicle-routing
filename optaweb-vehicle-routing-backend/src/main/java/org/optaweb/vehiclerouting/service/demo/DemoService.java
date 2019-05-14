@@ -16,7 +16,15 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.RoutingProblem;
+import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
+import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -29,38 +37,52 @@ public class DemoService {
 
     static final int MAX_TRIES = 10;
 
-    private final DemoProperties properties;
     private final LocationService locationService;
+    private final DataSetMarshaller dataSetMarshaller;
+    private final LocationRepository locationRepository;
+    private final RoutingProblemList routingProblems;
 
-    public DemoService(DemoProperties properties, LocationService locationService) {
-        this.properties = properties;
+    public DemoService(
+            LocationService locationService,
+            DataSetMarshaller dataSetMarshaller,
+            LocationRepository locationRepository,
+            RoutingProblemList routingProblems) {
         this.locationService = locationService;
+        this.dataSetMarshaller = dataSetMarshaller;
+        this.locationRepository = locationRepository;
+        this.routingProblems = routingProblems;
+    }
+
+    public Collection<RoutingProblem> demos() {
+        return routingProblems.all();
     }
 
     @Async
-    public void loadDemo() {
-        for (int i = 0; i < getDemoSize(); i++) {
-            // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
-            Belgium city = Belgium.values()[i % Belgium.values().length];
-            int tries = 0;
-            while (tries < MAX_TRIES && !locationService.createLocation(randomize(city))) {
-                tries++;
-            }
-            if (tries == MAX_TRIES) {
-                throw new RuntimeException("Impossible to create a new location near " + city
-                                                   + " after " + tries + " attempts");
-            }
+    public void loadDemo(String name) {
+        RoutingProblem routingProblem = routingProblems.byName(name);
+        // Add depot
+        routingProblem.depot().ifPresent(depot -> addWithRetry(depot.getLatLng(), depot.getDescription()));
+
+        // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
+        routingProblem.visits().forEach(visit -> addWithRetry(visit.getLatLng(), visit.getDescription()));
+    }
+
+    private void addWithRetry(LatLng location, String description) {
+        int tries = 0;
+        while (tries < MAX_TRIES && !locationService.createLocation(location, description)) {
+            tries++;
+        }
+        if (tries == MAX_TRIES) {
+            throw new RuntimeException(
+                    "Impossible to create a new location near " + location + " after " + tries + " attempts"
+            );
         }
     }
 
-    private LatLng randomize(Belgium city) {
-        return LatLng.valueOf(
-                city.lat + Math.random() * 0.08 - 0.04,
-                city.lng + Math.random() * 0.08 - 0.04
-        );
-    }
-
-    public int getDemoSize() {
-        return properties.getSize();
+    public String exportDataSet() {
+        // FIXME still relying on the fact that the first location in the repository is the depot
+        List<Location> visits = new ArrayList<>(locationRepository.locations());
+        Location depot = visits.isEmpty() ? null : visits.remove(0);
+        return dataSetMarshaller.marshall(new RoutingProblem("Custom Vehicle Routing instance", depot, visits));
     }
 }

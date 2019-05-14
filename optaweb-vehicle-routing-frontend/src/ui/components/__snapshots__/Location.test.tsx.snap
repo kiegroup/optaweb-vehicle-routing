@@ -12,10 +12,67 @@ exports[`Location Component should render correctly 1`] = `
     className=""
     width={4}
   >
-    <span
-      aria-labelledby="aria-10"
+    <Tooltip
+      appendTo={[Function]}
+      className={null}
+      content="x"
+      enableFlip={true}
+      entryDelay={500}
+      exitDelay={500}
+      maxWidth="12.5rem"
+      position="top"
+      zIndex={9999}
     >
-      Location 10
+      <span
+        aria-labelledby="aria-10"
+      >
+        x
+      </span>
+    </Tooltip>
+  </DataListCell>
+  <DataListCell
+    className=""
+    width={1}
+  >
+    <Button
+      aria-label={null}
+      className=""
+      component="button"
+      isActive={false}
+      isBlock={false}
+      isDisabled={false}
+      isFocus={false}
+      isHover={false}
+      onClick={[Function]}
+      type="button"
+      variant="link"
+    >
+      <TimesIcon
+        color="currentColor"
+        size="sm"
+        title={null}
+      />
+    </Button>
+  </DataListCell>
+</DataListItem>
+`;
+
+exports[`Location Component should render correctly when description is missing 1`] = `
+<DataListItem
+  aria-labelledby="aria-11"
+  className=""
+  isExpanded={false}
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
+>
+  <DataListCell
+    className=""
+    width={4}
+  >
+    <span
+      aria-labelledby="aria-11"
+    >
+      Location 11
     </span>
   </DataListCell>
   <DataListCell

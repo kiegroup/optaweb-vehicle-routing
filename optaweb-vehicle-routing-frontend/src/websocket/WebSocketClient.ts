@@ -15,7 +15,7 @@
  */
 
 import * as SockJS from 'sockjs-client';
-import { LatLng, RoutingPlan } from 'store/route/types';
+import { LatLngWithDescription, RoutingPlan } from 'store/route/types';
 import webstomp, { Client, Frame } from 'webstomp-client';
 import { ServerInfo } from '../store/server/types';
 
@@ -52,12 +52,12 @@ export default class WebSocketClient {
     );
   }
 
-  addLocation(latLng: LatLng) {
+  addLocation(latLng: LatLngWithDescription) {
     this.stompClient.send('/app/location', JSON.stringify(latLng));
   }
 
-  loadDemo(): void {
-    this.stompClient.send('/app/demo');
+  loadDemo(name: string): void {
+    this.stompClient.send(`/app/demo/${name}`);
   }
 
   deleteLocation(locationId: number) {
@@ -79,13 +79,6 @@ export default class WebSocketClient {
     this.stompClient.subscribe('/topic/route', (message) => {
       const plan = JSON.parse(message.body);
       subscriptionCallback(plan);
-    });
-  }
-
-  subscribeToDemo(callback: (demoSize: number) => any): void {
-    this.stompClient.subscribe('/topic/demo', (message) => {
-      const demoSize: number = JSON.parse(message.body);
-      callback(demoSize);
     });
   }
 }

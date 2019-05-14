@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-import { ActionType, FinishLoadingAction, RequestDemoAction, StartLoadingAction } from './types';
+import { ActionType, FinishLoadingAction, RequestDemoAction } from './types';
 
-export const requestDemo = (): RequestDemoAction => ({
+export const requestDemo = (name: string): RequestDemoAction => ({
   type: ActionType.REQUEST_DEMO,
-});
-
-export const startLoading = (size: number): StartLoadingAction => ({
-  type: ActionType.START_LOADING,
-  size,
+  name,
 });
 
 export const finishLoading = (): FinishLoadingAction => ({

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Demo page clear button should be disabled when demo is loading 1`] = `
+exports[`Demo page clear and export buttons should be disabled when demo is loading 1`] = `
 <Split
   className=""
   component="div"
@@ -145,6 +145,29 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
           aria-label={null}
           className=""
           component="button"
+          id="export-button"
+          isActive={false}
+          isBlock={false}
+          isDisabled={true}
+          isFocus={false}
+          isHover={false}
+          onClick={[Function]}
+          style={
+            Object {
+              "marginBottom": 16,
+              "marginLeft": 16,
+            }
+          }
+          type="button"
+          variant="primary"
+        >
+          Export
+        </Button>
+        <Button
+          aria-label={null}
+          className=""
+          component="button"
+          id="clear-button"
           isActive={false}
           isBlock={false}
           isDisabled={true}
@@ -154,6 +177,7 @@ exports[`Demo page clear button should be disabled when demo is loading 1`] = `
           style={
             Object {
               "marginBottom": 16,
+              "marginLeft": 16,
             }
           }
           type="button"
@@ -349,6 +373,29 @@ exports[`Demo page should render correctly with a few routes 1`] = `
           aria-label={null}
           className=""
           component="button"
+          id="export-button"
+          isActive={false}
+          isBlock={false}
+          isDisabled={false}
+          isFocus={false}
+          isHover={false}
+          onClick={[Function]}
+          style={
+            Object {
+              "marginBottom": 16,
+              "marginLeft": 16,
+            }
+          }
+          type="button"
+          variant="primary"
+        >
+          Export
+        </Button>
+        <Button
+          aria-label={null}
+          className=""
+          component="button"
+          id="clear-button"
           isActive={false}
           isBlock={false}
           isDisabled={false}
@@ -358,6 +405,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
           style={
             Object {
               "marginBottom": 16,
+              "marginLeft": 16,
             }
           }
           type="button"
@@ -530,22 +578,32 @@ exports[`Demo page should render correctly with no routes 1`] = `
           aria-label={null}
           className=""
           component="button"
+          id="export-button"
           isActive={false}
           isBlock={false}
-          isDisabled={false}
+          isDisabled={true}
           isFocus={false}
           isHover={false}
-          onClick={[MockFunction]}
+          onClick={[Function]}
           style={
             Object {
               "marginBottom": 16,
+              "marginLeft": 16,
             }
           }
           type="button"
           variant="primary"
         >
-          Load demo
+          Export
         </Button>
+        <DemoDropdown
+          demos={
+            Array [
+              "demo",
+            ]
+          }
+          onSelect={[Function]}
+        />
       </SplitItem>
     </Split>
     <TspMap

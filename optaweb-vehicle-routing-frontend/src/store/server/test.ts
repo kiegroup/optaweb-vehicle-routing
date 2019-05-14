@@ -23,6 +23,7 @@ describe('Server reducer', () => {
   const serverInfo: ServerInfo = {
     boundingBox: null,
     countryCodes: ['CZ', 'SK'],
+    demos: [{ name: 'Demo name', visits: 10 }],
   };
   it('server info', () => {
     expect(

@@ -16,7 +16,8 @@
 
 package org.optaweb.vehiclerouting.service.location;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
@@ -29,15 +30,16 @@ public interface LocationRepository {
     /**
      * Create a location with a unique ID.
      * @param latLng location's coordinates
+     * @param description description of the location
      * @return a new location
      */
-    Location createLocation(LatLng latLng);
+    Location createLocation(LatLng latLng, String description);
 
     /**
      * Get all locations.
      * @return all locations
      */
-    Collection<Location> locations();
+    List<Location> locations();
 
     /**
      * Remove location.
@@ -50,4 +52,6 @@ public interface LocationRepository {
      * Remove all locations from the repository.
      */
     void removeAll();
+
+    Optional<Location> find(Long locationId);
 }

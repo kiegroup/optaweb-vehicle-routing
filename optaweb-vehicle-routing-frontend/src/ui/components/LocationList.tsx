@@ -18,6 +18,7 @@ import { Bullseye, DataList } from '@patternfly/react-core';
 import * as React from 'react';
 import { Location } from 'store/route/types';
 import LocationItem from './Location';
+import './LocationList.css';
 
 export interface LocationListProps {
   removeHandler: (id: number) => void;
@@ -48,6 +49,7 @@ const renderLocationList: React.FC<LocationListProps> = ({
         {depot && <LocationItem
           key={depot.id}
           id={depot.id}
+          description={depot.description || null}
           removeDisabled={visits.length > 0}
           removeHandler={removeHandler}
           selectHandler={selectHandler}
@@ -60,6 +62,7 @@ const renderLocationList: React.FC<LocationListProps> = ({
             <LocationItem
               key={visit.id}
               id={visit.id}
+              description={visit.description || null}
               removeDisabled={false}
               removeHandler={removeHandler}
               selectHandler={selectHandler}

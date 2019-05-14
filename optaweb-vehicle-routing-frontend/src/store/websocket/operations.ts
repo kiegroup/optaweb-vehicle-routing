@@ -16,7 +16,7 @@
 
 import { ActionCreator } from 'redux';
 import { demoOperations } from '../demo';
-import { FinishLoadingAction, StartLoadingAction } from '../demo/types';
+import { FinishLoadingAction } from '../demo/types';
 import { routeOperations } from '../route';
 import { getVisits } from '../route/selectors';
 import { UpdateRouteAction } from '../route/types';
@@ -29,7 +29,6 @@ import { WebSocketAction } from './types';
 type ConnectClientThunkAction =
   | WebSocketAction
   | UpdateRouteAction
-  | StartLoadingAction
   | FinishLoadingAction
   | ServerInfoAction;
 
@@ -51,12 +50,14 @@ export const connectClient: ConnectClientThunk = () => (dispatch, state, client)
       client.subscribeToRoute((plan) => {
         dispatch(routeOperations.updateRoute(plan));
         // TODO use plan.visits.length
-        if (state().demo.isLoading && getVisits(plan).length + 1 === state().demo.demoSize) {
-          dispatch(demoOperations.finishLoading());
+        if (state().demo.isLoading) {
+          // TODO handle the case when serverInfo doesn't contain demo with the given name
+          //      (that could only be possible due to a bug in the code)
+          const demo = state().serverInfo.demos.filter(value => value.name === state().demo.demoName)[0];
+          if (getVisits(plan).length === demo.visits) {
+            dispatch(demoOperations.finishLoading());
+          }
         }
-      });
-      client.subscribeToDemo((demoSize) => {
-        dispatch(demoOperations.startLoading(demoSize));
       });
     },
     (err) => {

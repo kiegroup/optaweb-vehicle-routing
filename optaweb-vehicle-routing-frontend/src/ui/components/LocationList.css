@@ -14,25 +14,8 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.demo;
-
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-
-@Component
-@ConfigurationProperties("app.demo")
-public class DemoProperties {
-
-    /**
-     * Number of demo locations.
-     */
-    private int size = Belgium.values().length;
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
+.pf-c-data-list__cell {
+  --pf-c-data-list__cell-cell--PaddingTop: var(--pf-global--spacer--sm);
+  --pf-c-data-list__cell--PaddingTop: var(--pf-global--spacer--sm);
+  --pf-c-data-list__cell--PaddingBottom: var(--pf-global--spacer--sm);
 }

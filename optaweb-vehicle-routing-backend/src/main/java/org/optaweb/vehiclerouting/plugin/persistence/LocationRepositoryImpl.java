@@ -16,7 +16,7 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -41,20 +41,20 @@ public class LocationRepositoryImpl implements LocationRepository {
     }
 
     @Override
-    public Location createLocation(LatLng latLng) {
-        LocationEntity locationEntity = repository.save(new LocationEntity(latLng.getLatitude(), latLng.getLongitude()));
-        Location location = new Location(locationEntity.getId(), latLng);
+    public Location createLocation(LatLng latLng, String description) {
+        LocationEntity locationEntity = repository.save(
+                new LocationEntity(latLng.getLatitude(), latLng.getLongitude(), description)
+        );
+        Location location = toDomain(locationEntity);
         logger.info("Created {}", location);
         return location;
     }
 
     @Override
-    public Collection<Location> locations() {
+    public List<Location> locations() {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
-                .map(locationEntity -> new Location(
-                        locationEntity.getId(),
-                        new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
-                )).collect(Collectors.toList());
+                .map(LocationRepositoryImpl::toDomain)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -64,10 +64,7 @@ public class LocationRepositoryImpl implements LocationRepository {
         LocationEntity locationEntity = maybeLocation.orElseThrow(
                 () -> new IllegalArgumentException("Location{id=" + id + "} doesn't exist.")
         );
-        Location location = new Location(
-                locationEntity.getId(),
-                new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude())
-        );
+        Location location = toDomain(locationEntity);
         logger.info("Deleted {}", location);
         return location;
     }
@@ -75,5 +72,18 @@ public class LocationRepositoryImpl implements LocationRepository {
     @Override
     public void removeAll() {
         repository.deleteAll();
+    }
+
+    @Override
+    public Optional<Location> find(Long locationId) {
+        return repository.findById(locationId).map(LocationRepositoryImpl::toDomain);
+    }
+
+    private static Location toDomain(LocationEntity locationEntity) {
+        return new Location(
+                locationEntity.getId(),
+                new LatLng(locationEntity.getLatitude(), locationEntity.getLongitude()),
+                locationEntity.getDescription()
+        );
     }
 }

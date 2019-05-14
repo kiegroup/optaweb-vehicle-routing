@@ -24,9 +24,7 @@ import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.domain.Route;
+import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
@@ -79,7 +77,7 @@ public class SolutionUtilTest {
     @Test
     public void empty_solution_should_have_zero_routes() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        List<Route> routes = SolutionUtil.routes(solution);
+        List<ShallowRoute> routes = SolutionUtil.routes(solution);
         assertThat(routes).isEmpty();
     }
 
@@ -90,7 +88,7 @@ public class SolutionUtilTest {
         SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
         SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
 
-        List<Route> routes = SolutionUtil.routes(solution);
+        List<ShallowRoute> routes = SolutionUtil.routes(solution);
         assertThat(routes).isEmpty();
     }
 
@@ -109,17 +107,13 @@ public class SolutionUtilTest {
             customer.setPreviousStandstill(vehicle);
         }
 
-        List<Route> routes = SolutionUtil.routes(solution);
+        List<ShallowRoute> routes = SolutionUtil.routes(solution);
         assertThat(routes).hasSameSizeAs(solution.getVehicleList());
-        Location depotLocation = new Location(
-                depot.getLocation().getId(),
-                LatLng.valueOf(depot.getLocation().getLatitude(), depot.getLocation().getLongitude())
-        );
 
-        for (Route route : routes) {
-            assertThat(route.depot()).isEqualTo(depotLocation);
+        for (ShallowRoute route : routes) {
+            assertThat(route.depotId).isEqualTo(depot.getId());
             // visits should exclude depot
-            assertThat(route.visits()).hasSize(1);
+            assertThat(route.visitIds).hasSize(1).doesNotContain(depot.getId());
         }
     }
 

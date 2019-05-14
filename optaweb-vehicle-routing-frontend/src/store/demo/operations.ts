@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-import { ActionCreator } from 'redux';
 import { ThunkCommand } from '../types';
 import * as actions from './actions';
 import { RequestDemoAction } from './types';
 
 export const finishLoading = actions.finishLoading;
 
-export const startLoading = actions.startLoading;
-
-export const requestDemo: ActionCreator<ThunkCommand<RequestDemoAction>> = () =>
+export const requestDemo: (name: string) => ThunkCommand<RequestDemoAction> = (name: string) =>
   (dispatch, state, client) => {
-    dispatch(actions.requestDemo());
-    client.loadDemo();
+    dispatch(actions.requestDemo(name));
+    client.loadDemo(name);
   };

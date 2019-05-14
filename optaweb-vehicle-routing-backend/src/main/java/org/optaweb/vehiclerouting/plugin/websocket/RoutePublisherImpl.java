@@ -57,11 +57,11 @@ public class RoutePublisherImpl implements RoutePublisher {
         return new PortableRoutingPlan(routingPlan.distance(), depot, routes);
     }
 
-    private static List<List<PortableLocation>> portableTrack(List<List<LatLng>> track) {
-        ArrayList<List<PortableLocation>> portableTrack = new ArrayList<>();
+    private static List<List<PortableLatLng>> portableTrack(List<List<LatLng>> track) {
+        ArrayList<List<PortableLatLng>> portableTrack = new ArrayList<>();
         for (List<LatLng> segment : track) {
-            List<PortableLocation> portableSegment = segment.stream()
-                    .map(PortableLocation::fromLatLng)
+            List<PortableLatLng> portableSegment = segment.stream()
+                    .map(PortableLatLng::fromLatLng)
                     .collect(Collectors.toList());
             portableTrack.add(portableSegment);
         }
