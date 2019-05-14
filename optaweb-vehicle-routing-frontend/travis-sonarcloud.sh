@@ -16,6 +16,7 @@ then
     args[1]="-Dsonar.pullrequest.base=$TRAVIS_BRANCH"
     args[2]="-Dsonar.pullrequest.branch=$TRAVIS_PULL_REQUEST_BRANCH"
     args[3]="-Dsonar.pullrequest.key=$TRAVIS_PULL_REQUEST"
+    args[4]="-Dsonar.pullrequest.provider=github"
   fi
   npx sonarqube-scanner "${args[@]}"
 fi
