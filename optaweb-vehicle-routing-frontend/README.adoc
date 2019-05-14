@@ -1,6 +1,19 @@
 [[optaweb-vehicle-routing-frontend]]
 = OptaWeb Vehicle Routing Frontend
 
+image:https://sonarcloud.io/api/project_badges/measure?project=optaweb-vehicle-routing-frontend&metric=alert_status[
+"Quality Gate Status", link="https://sonarcloud.io/dashboard?id=optaweb-vehicle-routing-frontend"]
+image:https://sonarcloud.io/api/project_badges/measure?project=optaweb-vehicle-routing-frontend&metric=reliability_rating[
+"Reliability Rating", link="https://sonarcloud.io/dashboard?id=optaweb-vehicle-routing-frontend"]
+image:https://sonarcloud.io/api/project_badges/measure?project=optaweb-vehicle-routing-frontend&metric=security_rating[
+"Security Rating", link="https://sonarcloud.io/dashboard?id=optaweb-vehicle-routing-frontend"]
+image:https://sonarcloud.io/api/project_badges/measure?project=optaweb-vehicle-routing-frontend&metric=sqale_rating[
+"Maintainability Rating", link="https://sonarcloud.io/dashboard?id=optaweb-vehicle-routing-frontend"]
+image:https://sonarcloud.io/api/project_badges/measure?project=optaweb-vehicle-routing-frontend&metric=ncloc[
+"Lines of Code", link="https://sonarcloud.io/dashboard?id=optaweb-vehicle-routing-frontend"]
+image:https://sonarcloud.io/api/project_badges/measure?project=optaweb-vehicle-routing-frontend&metric=coverage[
+"Coverage", link="https://sonarcloud.io/dashboard?id=optaweb-vehicle-routing-frontend"]
+
 image:https://david-dm.org/kiegroup/optaweb-vehicle-routing/status.svg?path=optaweb-vehicle-routing-frontend[
 "dependencies Status", link="https://david-dm.org/kiegroup/optaweb-vehicle-routing?path=optaweb-vehicle-routing-frontend"]
 image:https://david-dm.org/kiegroup/optaweb-vehicle-routing/dev-status.svg?path=optaweb-vehicle-routing-frontend[
