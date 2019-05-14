@@ -58,7 +58,7 @@ public class LocationServiceTest {
     private final LatLng latLng = LatLng.valueOf(0.0, 1.0);
     private final Location location = new Location(1, latLng);
 
-    private List<Location> persistedLocations = Arrays.asList(location, location, location);
+    private final List<Location> persistedLocations = Arrays.asList(location, location, location);
 
     @Before
     public void setUp() {

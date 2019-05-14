@@ -24,14 +24,14 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 /**
  * Vehicle route representation convenient for marshalling.
  */
-public class PortableRoute {
+class PortableRoute {
 
     private final PortableLocation depot;
     private final List<PortableLocation> visits;
     @JsonFormat(shape = JsonFormat.Shape.ARRAY)
     private final List<List<PortableLatLng>> track;
 
-    public PortableRoute(PortableLocation depot, List<PortableLocation> visits, List<List<PortableLatLng>> track) {
+    PortableRoute(PortableLocation depot, List<PortableLocation> visits, List<List<PortableLatLng>> track) {
         this.depot = Objects.requireNonNull(depot);
         this.visits = Objects.requireNonNull(visits);
         this.track = Objects.requireNonNull(track);

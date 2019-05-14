@@ -60,11 +60,16 @@ public class RoutingProblemConfig {
         return new RoutingProblemList(problems);
     }
 
-    private Reader belgiumReader() {
+    private static Reader belgiumReader() {
         return new InputStreamReader(
                 DemoService.class.getResourceAsStream("belgium-cities.yaml"),
                 StandardCharsets.UTF_8
         );
+    }
+
+    private static boolean isReadableDir(Path path) {
+        File file = path.toFile();
+        return file.exists() && file.canRead() && file.isDirectory();
     }
 
     private List<RoutingProblem> localDataSets() {
@@ -97,10 +102,5 @@ public class RoutingProblemConfig {
         } catch (IOException e) {
             throw new IllegalStateException("Cannot list directory " + dataSetDirPath, e);
         }
-    }
-
-    private boolean isReadableDir(Path path) {
-        File file = path.toFile();
-        return file.exists() && file.canRead() && file.isDirectory();
     }
 }

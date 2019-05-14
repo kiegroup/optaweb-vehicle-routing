@@ -158,7 +158,7 @@ public class SolverIntegrationTest {
 
         private static final Logger logger = LoggerFactory.getLogger(ProblemFactChangeProcessingMonitor.class);
 
-        private Semaphore problemFactChanges = new Semaphore(0);
+        private final Semaphore problemFactChanges = new Semaphore(0);
 
         void beforeProblemFactChange() {
             int permitsDrained = problemFactChanges.drainPermits();
