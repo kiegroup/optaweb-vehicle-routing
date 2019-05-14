@@ -26,7 +26,7 @@ import org.optaweb.vehiclerouting.domain.LatLng;
 /**
  * LatLng representation convenient for marshalling.
  */
-public class PortableLatLng {
+class PortableLatLng {
 
     /*
      * Five decimal places gives "metric" precision (±55 cm on equator). That's enough for visualising the track.
@@ -39,24 +39,24 @@ public class PortableLatLng {
     @JsonProperty(value = "lng")
     private BigDecimal longitude;
 
-    public static PortableLatLng fromLatLng(LatLng latLng) {
+    static PortableLatLng fromLatLng(LatLng latLng) {
         return new PortableLatLng(
                 latLng.getLatitude(),
                 latLng.getLongitude()
         );
     }
 
+    private static BigDecimal scale(BigDecimal number) {
+        return number.setScale(Math.min(number.scale(), LATLNG_SCALE), RoundingMode.HALF_EVEN).stripTrailingZeros();
+    }
+
     private PortableLatLng() {
         // for unmarshalling
     }
 
-    public PortableLatLng(BigDecimal latitude, BigDecimal longitude) {
+    PortableLatLng(BigDecimal latitude, BigDecimal longitude) {
         this.latitude = scale(latitude);
         this.longitude = scale(longitude);
-    }
-
-    private BigDecimal scale(BigDecimal number) {
-        return number.setScale(Math.min(number.scale(), LATLNG_SCALE), RoundingMode.HALF_EVEN).stripTrailingZeros();
     }
 
     public BigDecimal getLatitude() {

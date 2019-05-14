@@ -21,12 +21,12 @@ import java.util.Objects;
 /**
  * Information about a routing problem.
  */
-public class RoutingProblemInfo {
+class RoutingProblemInfo {
 
     private final String name;
     private final int visits;
 
-    public RoutingProblemInfo(String name, int visits) {
+    RoutingProblemInfo(String name, int visits) {
         this.name = Objects.requireNonNull(name);
         this.visits = visits;
     }

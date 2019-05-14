@@ -28,12 +28,12 @@ import org.optaweb.vehiclerouting.domain.Location;
  * {@link org.optaweb.vehiclerouting.domain domain objects} and later be queried using Planning domain objects.
  */
 // TODO get rid of dependency on Planning domain
-public class DistanceMap implements Map<RoadLocation, Double> {
+class DistanceMap implements Map<RoadLocation, Double> {
 
     private final Location location;
     private final Map<Long, Double> distanceMap;
 
-    public DistanceMap(Location location, Map<Long, Double> distanceMap) {
+    DistanceMap(Location location, Map<Long, Double> distanceMap) {
         this.location = location;
         this.distanceMap = distanceMap;
     }
