@@ -44,10 +44,10 @@ import static org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller.
 public class DataSetMarshallerTest {
 
     @Test
-    public void unmarshall_data_set() throws IOException {
+    public void unmarshal_data_set() throws IOException {
         DataSet dataSet;
         try (InputStream inputStream = DataSetMarshallerTest.class.getResourceAsStream("test-belgium.yaml")) {
-            dataSet = new DataSetMarshaller().unmarshallToDataSet(
+            dataSet = new DataSetMarshaller().unmarshalToDataSet(
                     new InputStreamReader(inputStream, StandardCharsets.UTF_8)
             );
         }
@@ -64,7 +64,7 @@ public class DataSetMarshallerTest {
     }
 
     @Test
-    public void marshall_data_set() {
+    public void marshal_data_set() {
         DataSet dataSet = new DataSet();
         String name = "Data set name";
         dataSet.setName(name);
@@ -73,7 +73,7 @@ public class DataSetMarshallerTest {
         DataSetLocation location2 = new DataSetLocation("Location 2", 2.0, 0.2);
         dataSet.setDepot(depot);
         dataSet.setVisits(Arrays.asList(location1, location2));
-        String yaml = new DataSetMarshaller().marshall(dataSet);
+        String yaml = new DataSetMarshaller().marshal(dataSet);
         assertThat(yaml)
                 .contains("name: \"" + name)
                 .contains(depot.getLabel(), location1.getLabel(), location2.getLabel());
@@ -84,12 +84,12 @@ public class DataSetMarshallerTest {
         ObjectMapper objectMapper = mock(ObjectMapper.class);
         when(objectMapper.readValue(any(Reader.class), eq(DataSet.class))).thenThrow(IOException.class);
         assertThatIllegalStateException()
-                .isThrownBy(() -> new DataSetMarshaller(objectMapper).unmarshallToDataSet(mock(Reader.class)))
+                .isThrownBy(() -> new DataSetMarshaller(objectMapper).unmarshalToDataSet(mock(Reader.class)))
                 .withRootCauseExactlyInstanceOf(IOException.class);
 
         when(objectMapper.writeValueAsString(any(DataSet.class))).thenThrow(JsonProcessingException.class);
         assertThatIllegalStateException()
-                .isThrownBy(() -> new DataSetMarshaller(objectMapper).marshall(new DataSet()))
+                .isThrownBy(() -> new DataSetMarshaller(objectMapper).marshal(new DataSet()))
                 .withRootCauseExactlyInstanceOf(JsonProcessingException.class);
     }
 

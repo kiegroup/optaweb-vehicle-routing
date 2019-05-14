@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Demo data set.
+ * Data set representation used for marshalling and unmarshalling.
  */
 class DataSet {
 

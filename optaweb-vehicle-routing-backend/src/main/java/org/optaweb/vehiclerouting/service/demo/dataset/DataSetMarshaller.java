@@ -28,29 +28,51 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.springframework.stereotype.Component;
 
+/**
+ * Data set marshaller using the YAML format.
+ */
 @Component
 public class DataSetMarshaller {
 
     static final long NO_ID = 0;
     private final ObjectMapper mapper;
 
+    /**
+     * Create marshaller using the default object mapper, which is set up to use YAML format.
+     */
     public DataSetMarshaller() {
         mapper = new ObjectMapper(new YAMLFactory());
     }
 
-    public DataSetMarshaller(ObjectMapper mapper) {
+    /**
+     * Constructor for testing purposes.
+     * @param mapper usually a mock object mapper
+     */
+    DataSetMarshaller(ObjectMapper mapper) {
         this.mapper = mapper;
     }
 
-    public RoutingProblem unmarshall(Reader reader) {
-        return toDomain(unmarshallToDataSet(reader));
+    /**
+     * Unmarshal routing problem from a reader.
+     * @param reader a reader
+     * @return routing problem
+     */
+    public RoutingProblem unmarshal(Reader reader) {
+        // TODO throw a checked exception that will force the caller to handle the reading problem
+        //      (e.g. a bad format) and report it to the user or log an error
+        return toDomain(unmarshalToDataSet(reader));
     }
 
-    public String marshall(RoutingProblem routingProblem) {
-        return marshall(toDataSet(routingProblem));
+    /**
+     * Marshal routing problem to string.
+     * @param routingProblem routing problem
+     * @return string containing the marshaled routing problem
+     */
+    public String marshal(RoutingProblem routingProblem) {
+        return marshal(toDataSet(routingProblem));
     }
 
-    DataSet unmarshallToDataSet(Reader reader) {
+    DataSet unmarshalToDataSet(Reader reader) {
         try {
             return mapper.readValue(reader, DataSet.class);
         } catch (IOException e) {
@@ -58,7 +80,7 @@ public class DataSetMarshaller {
         }
     }
 
-    String marshall(DataSet dataSet) {
+    String marshal(DataSet dataSet) {
         try {
             return mapper.writeValueAsString(dataSet);
         } catch (JsonProcessingException e) {
@@ -96,7 +118,7 @@ public class DataSetMarshaller {
 
     static Location toDomain(DataSetLocation dataSetLocation) {
         return new Location(
-                NO_ID,
+                NO_ID, // FIXME add something like LocationWithoutId
                 LatLng.valueOf(dataSetLocation.getLat(), dataSetLocation.getLng()),
                 dataSetLocation.getLabel()
         );
