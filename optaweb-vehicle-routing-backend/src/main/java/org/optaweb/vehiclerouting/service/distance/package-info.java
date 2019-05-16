@@ -15,6 +15,6 @@
  */
 
 /**
- * Contains distance matrix calculation.
+ * Distance matrix calculation.
  */
 package org.optaweb.vehiclerouting.service.distance;

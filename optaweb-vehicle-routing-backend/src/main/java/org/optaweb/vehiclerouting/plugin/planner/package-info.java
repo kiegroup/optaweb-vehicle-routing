@@ -15,6 +15,6 @@
  */
 
 /**
- * Handles route optimization.
+ * Route optimization.
  */
 package org.optaweb.vehiclerouting.plugin.planner;

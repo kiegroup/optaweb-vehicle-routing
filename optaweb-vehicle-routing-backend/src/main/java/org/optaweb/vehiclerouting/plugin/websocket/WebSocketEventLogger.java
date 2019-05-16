@@ -21,7 +21,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.messaging.AbstractSubProtocolEvent;
+import org.springframework.web.socket.messaging.SessionConnectEvent;
+import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
+/**
+ * Logs WebSocket events like {@link SessionConnectEvent} and {@link SessionSubscribeEvent} on DEBUG level.
+ */
 @Component
 public class WebSocketEventLogger implements ApplicationListener<AbstractSubProtocolEvent> {
 

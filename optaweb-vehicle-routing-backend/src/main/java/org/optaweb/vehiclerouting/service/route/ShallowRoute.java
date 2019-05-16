@@ -24,11 +24,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Lightweight route description made of location IDs instead of entities. This makes it easier to quickly construct
- * and share result of route optimization without converting planning domain objects to business domain objects.
- * Specifically, some information may be lost when converting business domain objects to planning domain because it's
- * not needed for optimization (e.g. location address) and so it's impossible to reconstruct the original
- * business object without looking into the repository.
+ * Lightweight route description consisting of location IDs instead of entities.
+ * This makes it easier to quickly construct and share result of route optimization
+ * without converting planning domain objects to business domain objects.
+ * Specifically, some information may be lost when converting business domain objects to planning domain
+ * because it's not needed for optimization (e.g. location address)
+ * and so it's impossible to reconstruct the original business object without looking into the repository.
  */
 public class ShallowRoute {
 

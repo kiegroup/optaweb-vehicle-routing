@@ -15,6 +15,6 @@
  */
 
 /**
- * Contains {@link org.optaplanner.core.impl.solver.ProblemFactChange} implementations.
+ * {@link org.optaplanner.core.impl.solver.ProblemFactChange} implementations.
  */
 package org.optaweb.vehiclerouting.plugin.planner.change;

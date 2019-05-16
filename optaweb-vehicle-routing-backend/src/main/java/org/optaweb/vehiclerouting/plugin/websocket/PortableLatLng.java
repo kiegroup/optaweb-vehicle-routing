@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.optaweb.vehiclerouting.domain.LatLng;
 
 /**
- * LatLng representation convenient for marshalling.
+ * {@link LatLng} representation optimized for network transport.
  */
 class PortableLatLng {
 

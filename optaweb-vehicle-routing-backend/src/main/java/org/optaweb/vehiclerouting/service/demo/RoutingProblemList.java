@@ -25,6 +25,9 @@ import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 
+/**
+ * Utility class that holds a map of routing problem instances and allows to look them up by name.
+ */
 class RoutingProblemList {
 
     private final Map<String, RoutingProblem> routingProblems;

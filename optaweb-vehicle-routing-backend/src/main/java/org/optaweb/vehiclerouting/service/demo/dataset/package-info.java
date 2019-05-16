@@ -15,6 +15,6 @@
  */
 
 /**
- * Contains data model used for importing and exporting demo data sets.
+ * Data set marshalling and unmarshalling.
  */
 package org.optaweb.vehiclerouting.service.demo.dataset;

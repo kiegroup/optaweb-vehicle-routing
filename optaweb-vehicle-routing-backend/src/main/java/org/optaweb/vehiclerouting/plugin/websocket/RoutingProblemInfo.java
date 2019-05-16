@@ -18,8 +18,10 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.Objects;
 
+import org.optaweb.vehiclerouting.domain.RoutingProblem;
+
 /**
- * Information about a routing problem.
+ * Information about a {@link RoutingProblem routing problem instance}.
  */
 class RoutingProblemInfo {
 
@@ -31,10 +33,18 @@ class RoutingProblemInfo {
         this.visits = visits;
     }
 
+    /**
+     * Routing problem instance name.
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Number of visits in the routing problem instance.
+     * @return number of visits
+     */
     public int getVisits() {
         return visits;
     }

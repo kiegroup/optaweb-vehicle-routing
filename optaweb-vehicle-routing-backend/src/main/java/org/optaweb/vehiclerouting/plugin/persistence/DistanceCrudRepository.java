@@ -18,6 +18,9 @@ package org.optaweb.vehiclerouting.plugin.persistence;
 
 import org.springframework.data.repository.CrudRepository;
 
+/**
+ * Distance repository.
+ */
 public interface DistanceCrudRepository extends CrudRepository<DistanceEntity, DistanceKey> {
 
 }
