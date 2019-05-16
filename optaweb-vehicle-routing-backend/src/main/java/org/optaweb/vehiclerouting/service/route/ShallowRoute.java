@@ -20,9 +20,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
- * Light-weight route description made of location IDs instead of entities. This makes it easier to quickly construct
+ * Lightweight route description made of location IDs instead of entities. This makes it easier to quickly construct
  * and share result of route optimization without converting planning domain objects to business domain objects.
  * Specifically, some information may be lost when converting business domain objects to planning domain because it's
  * not needed for optimization (e.g. location address) and so it's impossible to reconstruct the original
@@ -47,5 +49,12 @@ public class ShallowRoute {
     public ShallowRoute(Long depotId, List<Long> visitIds) {
         this.depotId = Objects.requireNonNull(depotId);
         this.visitIds = Collections.unmodifiableList(new ArrayList<>(Objects.requireNonNull(visitIds)));
+    }
+
+    @Override
+    public String toString() {
+        return Stream.concat(Stream.of(depotId), visitIds.stream())
+                .map(Object::toString)
+                .collect(Collectors.joining("->", "[", "]"));
     }
 }
