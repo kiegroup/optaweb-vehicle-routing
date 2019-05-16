@@ -15,6 +15,6 @@
  */
 
 /**
- * Handles network communication over WebSocket.
+ * Network communication over WebSocket.
  */
 package org.optaweb.vehiclerouting.plugin.websocket;

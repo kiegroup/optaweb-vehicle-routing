@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.optaweb.vehiclerouting.domain.Location;
 
 /**
- * Location representation convenient for marshalling.
+ * {@link Location} representation convenient for marshalling.
  */
 public class PortableLocation {
 

@@ -18,8 +18,10 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.List;
 
+import org.optaweb.vehiclerouting.domain.RoutingPlan;
+
 /**
- * Routing plan representation convenient for marshalling.
+ * {@link RoutingPlan} representation convenient for marshalling.
  */
 public class PortableRoutingPlan {
 

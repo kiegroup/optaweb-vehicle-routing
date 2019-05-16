@@ -18,7 +18,14 @@ package org.optaweb.vehiclerouting.service.route;
 
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 
+/**
+ * Publishes routing plan to clients.
+ */
 public interface RoutePublisher {
 
+    /**
+     * Publish the routing plan.
+     * @param routingPlan routing plan to be published
+     */
     void publish(RoutingPlan routingPlan);
 }

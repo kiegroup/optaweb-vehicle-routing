@@ -15,6 +15,6 @@
  */
 
 /**
- * Contains a service that provides information about the application's working region.
+ * Provides information about the application's working region.
  */
 package org.optaweb.vehiclerouting.service.region;

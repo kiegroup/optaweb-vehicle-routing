@@ -20,9 +20,10 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.optaweb.vehiclerouting.domain.Route;
 
 /**
- * Vehicle route representation convenient for marshalling.
+ * Vehicle {@link Route route} representation convenient for marshalling.
  */
 class PortableRoute {
 
