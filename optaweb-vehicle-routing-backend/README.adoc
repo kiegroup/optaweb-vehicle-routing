@@ -70,7 +70,36 @@ Contains outer layers such as optimization, persistence, routing and web.
 
 == Configuration
 
-// TODO configuration using external properties
+There are multiple ways how to set configuration properties.
+When running locally, you'll probably want to use one of these:
+
+* Set it using `application.properties` (you'll find it under `/src/main/resources/`).
+* A command line argument when running the packaged application
+(e.g. `java -jar optaweb-vehicle-routing-backend.jar --app.my-property=value1`).
+* An environment variable when running the application with `spring-boot:run`.
++
+For example: `app_my_property=value1 ./mvnw spring-boot:run`
+if the property name is `app.my-property` (this requires
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config-relaxed-binding[relaxed binding]
+which only works if the property is defined using `@ConfigurationProperties`).
+
+[NOTE]
+It's not possible to set properties simply via `-D` when running
+the application using Spring Boot Maven plugin (`./mvnw spring-boot:run -Dmy-property`).
+Any system properties that should be set by the plugin to the forked Java process
+in which the application runs need to be specified using `systemPropertiesVariables`
+https://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-system-properties.html[plugin configuration].
+
+You can learn more about Spring Boot Externalized Configuration in
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Guide].
+
+[TIP]
+Use `src/main/resources/application-local.properties` to store your personal configuration
+without affecting Git working tree.
+
+See also the complete list of
+https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[
+common application properties] available in Spring Boot.
 
 [cols="m,d,a,d",options="header"]
 |===
@@ -115,50 +144,25 @@ Contains outer layers such as optimization, persistence, routing and web.
 
 |===
 
-There are multiple ways how to set configuration properties.
-When running locally, you'll probably want to use one of these:
-
-* Set it using `application.properties` (you'll find it under `/src/main/resources/`).
-* A command line argument when running the packaged application
-(e.g. `java -jar optaweb-vehicle-routing-backend.jar --app.my-property=value1`).
-* An environment variable when running the application with `spring-boot:run`.
-+
-For example: `app_my_property=value1 ./mvnw spring-boot:run`
-if the property name is `app.my-property` (this requires
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config-relaxed-binding[relaxed binding]
-which only works if the property is defined using `@ConfigurationProperties`).
-
-[NOTE]
-It's not possible to set properties simply via `-D` when running
-the application using Spring Boot Maven plugin (`./mvnw spring-boot:run -Dmy-property`).
-Any system properties that should be set by the plugin to the forked Java process
-in which the application runs need to be specified using `systemPropertiesVariables`
-https://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-system-properties.html[plugin configuration].
-
-You can learn more about Spring Boot Externalized Configuration in
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Guide].
-
-[TIP]
-Use `src/main/resources/application-local.properties` to store your personal configuration
-without affecting Git working tree.
-
-See also the complete list of
-https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[
-common application properties] available in Spring Boot.
-
 == Logging
 
-Our logging backend is Logback. Its configuration file is `src/main/resources/logback.xml`.
-Some of the logging levels can be changed using a system property during Maven build
-or when running the packaged application using `java -jar` command.
+Our logging backend is Logback.
+Spring Environment allows to configure most logging aspects
+including levels, patterns and log files
+in the same way as any other xref:#configuration[Configuration]
+(most often using `application.properties` or arguments `--property=value`).
+See Spring Boot
+https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-logging.html#boot-features-custom-log-levels[
+Logging] documentation for more information.
 
-For example, to enable debug logging of the application code (including tests),
-use `-Dlogging.level.org.optaweb.vehiclerouting=debug`.
+For example, you may use:
 
-Available logging level properties:
-[glossary]
-logging.level.org.optaweb.vehiclerouting:: Application logging level.
-logging.level.org.optaplanner:: OptaPlanner logging level.
+- `logging.level.org.optaweb.vehiclerouting=debug`
+  to enable debug level for the backend code,
+- `logging.level.org.optaplanner.core=warn`
+  to reduce OptaPlanner logging,
+- `logging.level.org.springframework.web.socket=trace`
+  to access more details when investigating problems with WebSocket connection.
 
 == Dependency Rules
 
