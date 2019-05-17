@@ -30,13 +30,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LocationRepositoryImpl implements LocationRepository {
+class LocationRepositoryImpl implements LocationRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(LocationRepositoryImpl.class);
     private final LocationCrudRepository repository;
 
     @Autowired
-    public LocationRepositoryImpl(LocationCrudRepository repository) {
+    LocationRepositoryImpl(LocationCrudRepository repository) {
         this.repository = repository;
     }
 

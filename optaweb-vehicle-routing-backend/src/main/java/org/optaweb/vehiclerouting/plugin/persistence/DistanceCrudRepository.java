@@ -21,6 +21,6 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * Distance repository.
  */
-public interface DistanceCrudRepository extends CrudRepository<DistanceEntity, DistanceKey> {
+interface DistanceCrudRepository extends CrudRepository<DistanceEntity, DistanceKey> {
 
 }

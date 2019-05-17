@@ -25,7 +25,7 @@ import javax.persistence.Entity;
  * Distance between two locations that can be persisted.
  */
 @Entity
-public class DistanceEntity {
+class DistanceEntity {
 
     @EmbeddedId
     private DistanceKey key;
@@ -36,7 +36,7 @@ public class DistanceEntity {
         // for JPA
     }
 
-    public DistanceEntity(DistanceKey key, Double distance) {
+    DistanceEntity(DistanceKey key, Double distance) {
         this.key = Objects.requireNonNull(key);
         this.distance = Objects.requireNonNull(distance);
     }
@@ -45,7 +45,7 @@ public class DistanceEntity {
         return key;
     }
 
-    public Double getDistance() {
+    Double getDistance() {
         return distance;
     }
 

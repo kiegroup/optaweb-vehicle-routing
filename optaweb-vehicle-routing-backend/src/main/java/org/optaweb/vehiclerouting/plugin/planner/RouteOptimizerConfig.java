@@ -33,17 +33,17 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
  * Spring configuration that creates {@link RouteOptimizerImpl route optimizer}'s dependencies.
  */
 @Configuration
-public class RouteOptimizerConfig {
+class RouteOptimizerConfig {
 
     private final OptimizerProperties optimizerProperties;
 
     @Autowired
-    public RouteOptimizerConfig(OptimizerProperties optimizerProperties) {
+    RouteOptimizerConfig(OptimizerProperties optimizerProperties) {
         this.optimizerProperties = optimizerProperties;
     }
 
     @Bean
-    public Solver<VehicleRoutingSolution> solver() {
+    Solver<VehicleRoutingSolution> solver() {
         SolverFactory<VehicleRoutingSolution> sf = SolverFactory.createFromXmlResource(VehicleRoutingApp.SOLVER_CONFIG);
         Duration timeout = optimizerProperties.getTimeout();
         sf.getSolverConfig().setTerminationConfig(new TerminationConfig().withSecondsSpentLimit(timeout.getSeconds()));
@@ -52,7 +52,7 @@ public class RouteOptimizerConfig {
     }
 
     @Bean
-    public AsyncTaskExecutor executor() {
+    AsyncTaskExecutor executor() {
         SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor();
         executor.setConcurrencyLimit(1);
         return executor;

@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties("app.region")
-public class RegionProperties {
+class RegionProperties {
 
     /**
      * List of ISO 3166-1 alpha-2 country code(s) matching the loaded OSM file.

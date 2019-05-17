@@ -21,7 +21,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.neovisionaries.i18n.CountryCode;
-import org.optaweb.vehiclerouting.service.region.RegionProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +29,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CountryCodeValidator {
 
-    private static final Logger logger = LoggerFactory.getLogger(RegionProperties.class);
+    private static final Logger logger = LoggerFactory.getLogger(CountryCodeValidator.class);
 
     private CountryCodeValidator() {
         throw new AssertionError("Utility class");

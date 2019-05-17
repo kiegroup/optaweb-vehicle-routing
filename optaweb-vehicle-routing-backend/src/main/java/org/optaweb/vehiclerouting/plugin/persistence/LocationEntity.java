@@ -29,7 +29,7 @@ import javax.persistence.Id;
  * Persistable location.
  */
 @Entity
-public class LocationEntity {
+class LocationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,25 +47,25 @@ public class LocationEntity {
         // for JPA
     }
 
-    public LocationEntity(BigDecimal latitude, BigDecimal longitude, String description) {
+    LocationEntity(BigDecimal latitude, BigDecimal longitude, String description) {
         this.latitude = Objects.requireNonNull(latitude);
         this.longitude = Objects.requireNonNull(longitude);
         this.description = Objects.requireNonNull(description);
     }
 
-    public long getId() {
+    long getId() {
         return id;
     }
 
-    public BigDecimal getLatitude() {
+    BigDecimal getLatitude() {
         return latitude;
     }
 
-    public BigDecimal getLongitude() {
+    BigDecimal getLongitude() {
         return longitude;
     }
 
-    public String getDescription() {
+    String getDescription() {
         return description;
     }
 

@@ -37,11 +37,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Serves the current data set as a downloadable YAML file.
  */
 @Controller
-public class DataSetDownloadController {
+class DataSetDownloadController {
 
     private final DemoService demoService;
 
-    public DataSetDownloadController(DemoService demoService) {
+    DataSetDownloadController(DemoService demoService) {
         this.demoService = demoService;
     }
 

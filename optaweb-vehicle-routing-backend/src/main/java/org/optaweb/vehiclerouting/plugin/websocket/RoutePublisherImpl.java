@@ -32,12 +32,12 @@ import org.springframework.stereotype.Component;
  * Broadcasts updated route to interested clients over WebSocket.
  */
 @Component
-public class RoutePublisherImpl implements RoutePublisher {
+class RoutePublisherImpl implements RoutePublisher {
 
     private final SimpMessagingTemplate webSocket;
 
     @Autowired
-    public RoutePublisherImpl(SimpMessagingTemplate webSocket) {
+    RoutePublisherImpl(SimpMessagingTemplate webSocket) {
         this.webSocket = webSocket;
     }
 

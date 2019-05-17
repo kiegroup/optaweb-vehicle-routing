@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.persistence.integration_tests;
+package org.optaweb.vehiclerouting.plugin.persistence;
 
 import java.math.BigDecimal;
 
@@ -23,9 +23,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.plugin.persistence.LocationCrudRepository;
-import org.optaweb.vehiclerouting.plugin.persistence.LocationEntity;
-import org.optaweb.vehiclerouting.plugin.persistence.LocationRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;

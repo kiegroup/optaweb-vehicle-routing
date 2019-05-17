@@ -33,8 +33,8 @@ import org.springframework.stereotype.Component;
  * Provides geographical information needed for route optimization.
  */
 @Component
-public class RouterImpl implements Router,
-                                   DistanceCalculator {
+class RouterImpl implements Router,
+                            DistanceCalculator {
 
     private final GraphHopperOSM graphHopper;
 

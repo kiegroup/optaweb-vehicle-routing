@@ -35,9 +35,9 @@ class PortableLatLng {
     private static final int LATLNG_SCALE = 5;
 
     @JsonProperty(value = "lat")
-    private BigDecimal latitude;
+    private final BigDecimal latitude;
     @JsonProperty(value = "lng")
-    private BigDecimal longitude;
+    private final BigDecimal longitude;
 
     static PortableLatLng fromLatLng(LatLng latLng) {
         return new PortableLatLng(
@@ -50,10 +50,6 @@ class PortableLatLng {
         return number.setScale(Math.min(number.scale(), LATLNG_SCALE), RoundingMode.HALF_EVEN).stripTrailingZeros();
     }
 
-    private PortableLatLng() {
-        // for unmarshalling
-    }
-
     PortableLatLng(BigDecimal latitude, BigDecimal longitude) {
         this.latitude = scale(latitude);
         this.longitude = scale(longitude);
@@ -63,16 +59,8 @@ class PortableLatLng {
         return latitude;
     }
 
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
-    }
-
     public BigDecimal getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
     }
 
     @Override
