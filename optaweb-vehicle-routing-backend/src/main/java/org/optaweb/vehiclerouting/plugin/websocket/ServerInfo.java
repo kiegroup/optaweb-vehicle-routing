@@ -21,13 +21,13 @@ import java.util.List;
 /**
  * Server info suitable for network transport.
  */
-public class ServerInfo {
+class ServerInfo {
 
     private final List<PortableLatLng> boundingBox;
     private final List<String> countryCodes;
     private final List<RoutingProblemInfo> demos;
 
-    public ServerInfo(List<PortableLatLng> boundingBox, List<String> countryCodes, List<RoutingProblemInfo> demos) {
+    ServerInfo(List<PortableLatLng> boundingBox, List<String> countryCodes, List<RoutingProblemInfo> demos) {
         this.boundingBox = boundingBox;
         this.countryCodes = countryCodes;
         this.demos = demos;

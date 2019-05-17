@@ -23,13 +23,13 @@ import org.optaweb.vehiclerouting.domain.RoutingPlan;
 /**
  * {@link RoutingPlan} representation convenient for marshalling.
  */
-public class PortableRoutingPlan {
+class PortableRoutingPlan {
 
     private final String distance;
     private final PortableLocation depot;
     private final List<PortableRoute> routes;
 
-    public PortableRoutingPlan(String distance, PortableLocation depot, List<PortableRoute> routes) {
+    PortableRoutingPlan(String distance, PortableLocation depot, List<PortableRoute> routes) {
         this.distance = distance;
         this.depot = depot;
         this.routes = routes;

@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties("app.optimizer")
-public class OptimizerProperties {
+class OptimizerProperties {
 
     /**
      * Timeout for route optimization.

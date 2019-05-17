@@ -25,18 +25,18 @@ import org.optaweb.vehiclerouting.domain.Location;
 /**
  * {@link Location} representation convenient for marshalling.
  */
-public class PortableLocation {
+class PortableLocation {
 
-    private long id;
+    private final long id;
 
     @JsonProperty(value = "lat", required = true)
-    private BigDecimal latitude;
+    private final BigDecimal latitude;
     @JsonProperty(value = "lng", required = true)
-    private BigDecimal longitude;
+    private final BigDecimal longitude;
 
-    private String description;
+    private final String description;
 
-    public static PortableLocation fromLocation(Location location) {
+    static PortableLocation fromLocation(Location location) {
         return new PortableLocation(
                 location.getId(),
                 location.getLatLng().getLatitude(),
@@ -45,11 +45,7 @@ public class PortableLocation {
         );
     }
 
-    private PortableLocation() {
-        // for unmarshalling
-    }
-
-    public PortableLocation(long id, BigDecimal latitude, BigDecimal longitude, String description) {
+    PortableLocation(long id, BigDecimal latitude, BigDecimal longitude, String description) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -60,32 +56,16 @@ public class PortableLocation {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public BigDecimal getLatitude() {
         return latitude;
-    }
-
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
     }
 
     public BigDecimal getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     @Override

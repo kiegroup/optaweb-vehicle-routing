@@ -38,7 +38,7 @@ import org.springframework.stereotype.Controller;
  * @see WebSocketConfig
  */
 @Controller
-public class WebSocketController {
+class WebSocketController {
 
     private final RouteListener routeListener;
     private final RegionService regionService;
@@ -46,10 +46,10 @@ public class WebSocketController {
     private final DemoService demoService;
 
     @Autowired
-    public WebSocketController(RouteListener routeListener,
-                               RegionService regionService,
-                               LocationService locationService,
-                               DemoService demoService) {
+    WebSocketController(RouteListener routeListener,
+                        RegionService regionService,
+                        LocationService locationService,
+                        DemoService demoService) {
         this.routeListener = routeListener;
         this.regionService = regionService;
         this.locationService = locationService;
@@ -61,7 +61,7 @@ public class WebSocketController {
      * @return server info
      */
     @SubscribeMapping("/serverInfo")
-    public ServerInfo subscribeToServerInfoTopic() {
+    ServerInfo subscribeToServerInfoTopic() {
         BoundingBox boundingBox = regionService.boundingBox();
         List<PortableLatLng> portableBoundingBox = Arrays.asList(
                 PortableLatLng.fromLatLng(boundingBox.getSouthWest()),
@@ -79,7 +79,7 @@ public class WebSocketController {
      * @return route message
      */
     @SubscribeMapping("/route")
-    public PortableRoutingPlan subscribeToRouteTopic() {
+    PortableRoutingPlan subscribeToRouteTopic() {
         RoutingPlan routingPlan = routeListener.getBestRoutingPlan();
         return RoutePublisherImpl.portable(routingPlan);
     }
@@ -89,7 +89,7 @@ public class WebSocketController {
      * @param request new location description
      */
     @MessageMapping("/location")
-    public void addLocation(PortableLocation request) {
+    void addLocation(PortableLocation request) {
         locationService.createLocation(
                 new LatLng(request.getLatitude(), request.getLongitude()),
                 request.getDescription()
@@ -101,7 +101,7 @@ public class WebSocketController {
      * @param id ID of the location to be deleted
      */
     @MessageMapping({"/location/{id}/delete"})
-    public void removeLocation(@DestinationVariable Long id) {
+    void removeLocation(@DestinationVariable Long id) {
         locationService.removeLocation(id);
     }
 
@@ -110,12 +110,12 @@ public class WebSocketController {
      * @param name data set name
      */
     @MessageMapping("/demo/{name}")
-    public void demo(@DestinationVariable String name) {
+    void demo(@DestinationVariable String name) {
         demoService.loadDemo(name);
     }
 
     @MessageMapping("/clear")
-    public void clear() {
+    void clear() {
         locationService.clear();
     }
 }

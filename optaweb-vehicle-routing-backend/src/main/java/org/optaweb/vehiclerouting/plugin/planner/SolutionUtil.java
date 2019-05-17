@@ -35,7 +35,7 @@ import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 public class SolutionUtil {
 
     public static final int DEFAULT_CUSTOMER_DEMAND = 1;
-    public static final int DEFAULT_VEHICLE_CAPACITY = 10;
+    static final int DEFAULT_VEHICLE_CAPACITY = 10;
 
     private SolutionUtil() {
         throw new AssertionError("Utility class");

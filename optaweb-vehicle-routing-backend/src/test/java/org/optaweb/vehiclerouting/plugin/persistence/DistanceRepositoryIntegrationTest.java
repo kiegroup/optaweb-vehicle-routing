@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.persistence.integration_tests;
+package org.optaweb.vehiclerouting.plugin.persistence;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.optaweb.vehiclerouting.domain.LatLng;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.plugin.persistence.DistanceCrudRepository;
-import org.optaweb.vehiclerouting.plugin.persistence.DistanceEntity;
-import org.optaweb.vehiclerouting.plugin.persistence.DistanceKey;
-import org.optaweb.vehiclerouting.plugin.persistence.DistanceRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;

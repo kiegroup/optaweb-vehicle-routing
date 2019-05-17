@@ -24,12 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DistanceRepositoryImpl implements DistanceRepository {
+class DistanceRepositoryImpl implements DistanceRepository {
 
     private final DistanceCrudRepository distanceRepository;
 
     @Autowired
-    public DistanceRepositoryImpl(DistanceCrudRepository distanceRepository) {
+    DistanceRepositoryImpl(DistanceCrudRepository distanceRepository) {
         this.distanceRepository = distanceRepository;
     }
 

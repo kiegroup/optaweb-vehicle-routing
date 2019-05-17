@@ -25,7 +25,7 @@ import org.springframework.validation.annotation.Validated;
 @Component
 @ConfigurationProperties("app.routing")
 @Validated
-public class RoutingProperties {
+class RoutingProperties {
 
     /**
      * OpenStreetMap file name.

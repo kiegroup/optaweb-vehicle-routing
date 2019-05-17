@@ -44,8 +44,8 @@ import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RouteOptimizerImpl implements RouteOptimizer,
-                                           SolverEventListener<VehicleRoutingSolution> {
+class RouteOptimizerImpl implements RouteOptimizer,
+                                    SolverEventListener<VehicleRoutingSolution> {
 
     private static final Logger logger = LoggerFactory.getLogger(RouteOptimizerImpl.class);
 
@@ -56,9 +56,9 @@ public class RouteOptimizerImpl implements RouteOptimizer,
     private VehicleRoutingSolution solution;
 
     @Autowired
-    public RouteOptimizerImpl(ApplicationEventPublisher publisher,
-                              Solver<VehicleRoutingSolution> solver,
-                              AsyncTaskExecutor executor) {
+    RouteOptimizerImpl(ApplicationEventPublisher publisher,
+                       Solver<VehicleRoutingSolution> solver,
+                       AsyncTaskExecutor executor) {
         this.publisher = publisher;
         this.solver = solver;
         this.executor = executor;

@@ -25,7 +25,7 @@ import javax.persistence.Embeddable;
  * Composite key for {@link DistanceEntity}.
  */
 @Embeddable
-public class DistanceKey implements Serializable {
+class DistanceKey implements Serializable {
 
     // TODO make it a foreign key to LocationEntity
     private Long fromId;
@@ -35,7 +35,7 @@ public class DistanceKey implements Serializable {
         // for JPA
     }
 
-    public DistanceKey(long fromId, long toId) {
+    DistanceKey(long fromId, long toId) {
         this.fromId = fromId;
         this.toId = toId;
     }

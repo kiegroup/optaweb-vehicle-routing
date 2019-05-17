@@ -33,7 +33,7 @@ import org.springframework.context.annotation.Profile;
  * through environment.
  */
 @Configuration
-public class RoutingConfig {
+class RoutingConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutingConfig.class);
     private static final String OSM_DIR = "local/openstreetmap/";
@@ -42,7 +42,7 @@ public class RoutingConfig {
     private final RoutingProperties routingProperties;
 
     @Autowired
-    public RoutingConfig(RoutingProperties routingProperties) {
+    RoutingConfig(RoutingProperties routingProperties) {
         this.routingProperties = routingProperties;
     }
 
@@ -52,7 +52,7 @@ public class RoutingConfig {
      */
     @Profile(Profiles.NOT_TEST)
     @Bean
-    public GraphHopperOSM graphHopper() {
+    GraphHopperOSM graphHopper() {
         GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
         String osmPath = OSM_DIR + routingProperties.getOsmFile();
         logger.info("OSM file: {}", osmPath);
