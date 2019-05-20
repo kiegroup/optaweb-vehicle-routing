@@ -21,10 +21,10 @@ import java.math.RoundingMode;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 
 /**
- * {@link LatLng} representation optimized for network transport.
+ * {@link Coordinates} representation optimized for network transport.
  */
 class PortableLatLng {
 
@@ -39,10 +39,10 @@ class PortableLatLng {
     @JsonProperty(value = "lng")
     private final BigDecimal longitude;
 
-    static PortableLatLng fromLatLng(LatLng latLng) {
+    static PortableLatLng fromLatLng(Coordinates coordinates) {
         return new PortableLatLng(
-                latLng.getLatitude(),
-                latLng.getLongitude()
+                coordinates.getLatitude(),
+                coordinates.getLongitude()
         );
     }
 

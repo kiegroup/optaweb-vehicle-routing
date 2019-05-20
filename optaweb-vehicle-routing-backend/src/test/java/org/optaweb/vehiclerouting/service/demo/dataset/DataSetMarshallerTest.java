@@ -27,7 +27,7 @@ import java.util.List;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.LocationData;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 
@@ -99,20 +99,20 @@ public class DataSetMarshallerTest {
         String description = "some location";
 
         // domain -> data set
-        DataSetLocation dataSetLocation = toDataSet(new LocationData(LatLng.valueOf(lat, lng), description));
+        DataSetLocation dataSetLocation = toDataSet(new LocationData(Coordinates.valueOf(lat, lng), description));
         assertThat(dataSetLocation.getLatitude()).isEqualTo(lat);
         assertThat(dataSetLocation.getLongitude()).isEqualTo(lng);
         assertThat(dataSetLocation.getLabel()).isEqualTo(description);
 
         // data set -> domain
         LocationData domainLocation = toDomain(dataSetLocation);
-        assertThat(domainLocation).isEqualTo(new LocationData(LatLng.valueOf(lat, lng), description));
+        assertThat(domainLocation).isEqualTo(new LocationData(Coordinates.valueOf(lat, lng), description));
     }
 
     @Test
     public void routing_problem_conversion() {
-        LocationData depot = new LocationData(LatLng.valueOf(60.1, 5.78), "Depot");
-        LocationData visit = new LocationData(LatLng.valueOf(1.06, 8.75), "Visit");
+        LocationData depot = new LocationData(Coordinates.valueOf(60.1, 5.78), "Depot");
+        LocationData visit = new LocationData(Coordinates.valueOf(1.06, 8.75), "Visit");
         List<LocationData> visits = Arrays.asList(visit);
         String name = "some data set";
 

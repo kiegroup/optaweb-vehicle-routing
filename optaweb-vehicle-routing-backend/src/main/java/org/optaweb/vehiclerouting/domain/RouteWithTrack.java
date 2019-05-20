@@ -26,7 +26,7 @@ import java.util.Objects;
  */
 public class RouteWithTrack extends Route {
 
-    private final List<List<LatLng>> track;
+    private final List<List<Coordinates>> track;
 
     /**
      * Create a route with track. When route is empty (no visits), track must be empty too and vice-versa
@@ -34,7 +34,7 @@ public class RouteWithTrack extends Route {
      * @param route vehicle route (not null)
      * @param track track going through all visits (not null)
      */
-    public RouteWithTrack(Route route, List<List<LatLng>> track) {
+    public RouteWithTrack(Route route, List<List<Coordinates>> track) {
         super(route.depot(), route.visits());
         this.track = new ArrayList<>(Objects.requireNonNull(track));
         if (route.visits().isEmpty() && !track.isEmpty() || !route.visits().isEmpty() && track.isEmpty()) {
@@ -46,7 +46,7 @@ public class RouteWithTrack extends Route {
      * Vehicle's track that goes from vehicle's depot through all visits and returns to the depot.
      * @return vehicles track (not null)
      */
-    public List<List<LatLng>> track() {
+    public List<List<Coordinates>> track() {
         return Collections.unmodifiableList(track);
     }
 }

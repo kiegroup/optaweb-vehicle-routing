@@ -19,7 +19,7 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,17 +27,17 @@ public class PortableLatLngTest {
 
     @Test
     public void fromLatLng() {
-        LatLng latLng = LatLng.valueOf(0.04687, -88.8889);
-        PortableLatLng portableLatLng = PortableLatLng.fromLatLng(latLng);
-        assertThat(portableLatLng.getLatitude()).isEqualTo(latLng.getLatitude());
-        assertThat(portableLatLng.getLongitude()).isEqualTo(latLng.getLongitude());
+        Coordinates coordinates = Coordinates.valueOf(0.04687, -88.8889);
+        PortableLatLng portableLatLng = PortableLatLng.fromLatLng(coordinates);
+        assertThat(portableLatLng.getLatitude()).isEqualTo(coordinates.getLatitude());
+        assertThat(portableLatLng.getLongitude()).isEqualTo(coordinates.getLongitude());
     }
 
     @Test
     public void should_reduce_scale_if_needed() {
-        LatLng latLng = LatLng.valueOf(0.123450001, -88.999999999);
-        LatLng scaledDown = LatLng.valueOf(0.12345, -89);
-        PortableLatLng portableLatLng = PortableLatLng.fromLatLng(latLng);
+        Coordinates coordinates = Coordinates.valueOf(0.123450001, -88.999999999);
+        Coordinates scaledDown = Coordinates.valueOf(0.12345, -89);
+        PortableLatLng portableLatLng = PortableLatLng.fromLatLng(coordinates);
         assertThat(portableLatLng.getLatitude()).isEqualTo(scaledDown.getLatitude());
         assertThat(portableLatLng.getLongitude()).isEqualByComparingTo(scaledDown.getLongitude());
         // This would surprisingly fail because actual is -89 and expected is -89.0
@@ -54,7 +54,7 @@ public class PortableLatLngTest {
 
         // equals()
         assertThat(portableLatLng).isNotEqualTo(null);
-        assertThat(portableLatLng).isNotEqualTo(new LatLng(lat1, lon1));
+        assertThat(portableLatLng).isNotEqualTo(new Coordinates(lat1, lon1));
         assertThat(portableLatLng).isNotEqualTo(new PortableLatLng(lat1, lon2));
         assertThat(portableLatLng).isNotEqualTo(new PortableLatLng(lat2, lon1));
         assertThat(portableLatLng).isEqualTo(portableLatLng);

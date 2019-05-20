@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.LocationData;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.springframework.stereotype.Component;
@@ -102,8 +102,8 @@ public class DataSetMarshaller {
     static DataSetLocation toDataSet(LocationData locationData) {
         return new DataSetLocation(
                 locationData.getDescription(),
-                locationData.getLatLng().getLatitude().doubleValue(),
-                locationData.getLatLng().getLongitude().doubleValue()
+                locationData.getCoordinates().getLatitude().doubleValue(),
+                locationData.getCoordinates().getLongitude().doubleValue()
         );
     }
 
@@ -117,7 +117,7 @@ public class DataSetMarshaller {
 
     static LocationData toDomain(DataSetLocation dataSetLocation) {
         return new LocationData(
-                LatLng.valueOf(dataSetLocation.getLatitude(), dataSetLocation.getLongitude()),
+                Coordinates.valueOf(dataSetLocation.getLatitude(), dataSetLocation.getLongitude()),
                 dataSetLocation.getLabel()
         );
     }

@@ -27,7 +27,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -64,7 +64,7 @@ public class RegionServiceTest {
 
         BoundingBox boundingBox = regionService.boundingBox();
 
-        assertThat(boundingBox.getSouthWest()).isEqualTo(LatLng.valueOf(minLat_Y, minLon_X));
-        assertThat(boundingBox.getNorthEast()).isEqualTo(LatLng.valueOf(maxLat_Y, maxLon_X));
+        assertThat(boundingBox.getSouthWest()).isEqualTo(Coordinates.valueOf(minLat_Y, minLon_X));
+        assertThat(boundingBox.getNorthEast()).isEqualTo(Coordinates.valueOf(maxLat_Y, maxLon_X));
     }
 }

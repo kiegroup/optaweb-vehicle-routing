@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
@@ -91,7 +91,7 @@ class WebSocketController {
     @MessageMapping("/location")
     void addLocation(PortableLocation request) {
         locationService.createLocation(
-                new LatLng(request.getLatitude(), request.getLongitude()),
+                new Coordinates(request.getLatitude(), request.getLongitude()),
                 request.getDescription()
         );
     }

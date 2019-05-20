@@ -19,7 +19,7 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -28,11 +28,11 @@ public class PortableLocationTest {
 
     @Test
     public void fromLocation() {
-        Location location = new Location(17, LatLng.valueOf(5.1, -0.0007), "Hello, world!");
+        Location location = new Location(17, Coordinates.valueOf(5.1, -0.0007), "Hello, world!");
         PortableLocation portableLocation = PortableLocation.fromLocation(location);
         assertThat(portableLocation.getId()).isEqualTo(location.getId());
-        assertThat(portableLocation.getLatitude()).isEqualTo(location.getLatLng().getLatitude());
-        assertThat(portableLocation.getLongitude()).isEqualTo(location.getLatLng().getLongitude());
+        assertThat(portableLocation.getLatitude()).isEqualTo(location.getCoordinates().getLatitude());
+        assertThat(portableLocation.getLongitude()).isEqualTo(location.getCoordinates().getLongitude());
         assertThat(portableLocation.getDescription()).isEqualTo(location.getDescription());
     }
 
@@ -48,7 +48,7 @@ public class PortableLocationTest {
 
         // equals()
         assertThat(portableLocation).isNotEqualTo(null);
-        assertThat(portableLocation).isNotEqualTo(new Location(id, new LatLng(lat1, lon1)));
+        assertThat(portableLocation).isNotEqualTo(new Location(id, new Coordinates(lat1, lon1)));
         assertThat(portableLocation).isNotEqualTo(new PortableLocation(id + 1, lat1, lon1, description));
         assertThat(portableLocation).isNotEqualTo(new PortableLocation(id, lat1, lon2, description));
         assertThat(portableLocation).isNotEqualTo(new PortableLocation(id, lat2, lon1, description));

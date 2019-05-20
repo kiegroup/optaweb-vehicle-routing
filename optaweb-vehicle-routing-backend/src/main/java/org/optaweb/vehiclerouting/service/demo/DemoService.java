@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
@@ -61,20 +61,20 @@ public class DemoService {
     public void loadDemo(String name) {
         RoutingProblem routingProblem = routingProblems.byName(name);
         // Add depot
-        routingProblem.depot().ifPresent(depot -> addWithRetry(depot.getLatLng(), depot.getDescription()));
+        routingProblem.depot().ifPresent(depot -> addWithRetry(depot.getCoordinates(), depot.getDescription()));
 
         // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
-        routingProblem.visits().forEach(visit -> addWithRetry(visit.getLatLng(), visit.getDescription()));
+        routingProblem.visits().forEach(visit -> addWithRetry(visit.getCoordinates(), visit.getDescription()));
     }
 
-    private void addWithRetry(LatLng location, String description) {
+    private void addWithRetry(Coordinates coordinates, String description) {
         int tries = 0;
-        while (tries < MAX_TRIES && !locationService.createLocation(location, description)) {
+        while (tries < MAX_TRIES && !locationService.createLocation(coordinates, description)) {
             tries++;
         }
         if (tries == MAX_TRIES) {
             throw new RuntimeException(
-                    "Impossible to create a new location near " + location + " after " + tries + " attempts"
+                    "Impossible to create a new location near " + coordinates + " after " + tries + " attempts"
             );
         }
     }

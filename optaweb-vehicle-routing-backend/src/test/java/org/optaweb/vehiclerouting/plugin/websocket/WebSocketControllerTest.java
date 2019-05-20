@@ -25,7 +25,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
@@ -59,7 +59,7 @@ public class WebSocketControllerTest {
     public void subscribeToRouteTopic() {
         // arrange
         String distance = "some distance";
-        Location depot = new Location(1, LatLng.valueOf(3, 5));
+        Location depot = new Location(1, Coordinates.valueOf(3, 5));
         List<RouteWithTrack> routes = Collections.singletonList(mock(RouteWithTrack.class));
         RoutingPlan plan = new RoutingPlan(distance, depot, routes);
         when(routeListener.getBestRoutingPlan()).thenReturn(plan);
@@ -79,13 +79,13 @@ public class WebSocketControllerTest {
         List<String> countryCodes = Arrays.asList("XY", "WZ");
         when(regionService.countryCodes()).thenReturn(countryCodes);
 
-        LatLng southWest = LatLng.valueOf(-1.0, -2.0);
-        LatLng northEast = LatLng.valueOf(1.0, 2.0);
+        Coordinates southWest = Coordinates.valueOf(-1.0, -2.0);
+        Coordinates northEast = Coordinates.valueOf(1.0, 2.0);
         BoundingBox boundingBox = new BoundingBox(southWest, northEast);
         when(regionService.boundingBox()).thenReturn(boundingBox);
 
-        Location depot = new Location(1, LatLng.valueOf(1.0, 7), "Depot");
-        List<Location> visits = Arrays.asList(new Location(2, LatLng.valueOf(2.0, 9), "Visit"));
+        Location depot = new Location(1, Coordinates.valueOf(1.0, 7), "Depot");
+        List<Location> visits = Arrays.asList(new Location(2, Coordinates.valueOf(2.0, 9), "Visit"));
         String demoName = "Testing problem";
         RoutingProblem routingProblem = new RoutingProblem(demoName, depot, visits);
         when(demoService.demos()).thenReturn(Arrays.asList(routingProblem));
@@ -108,11 +108,11 @@ public class WebSocketControllerTest {
 
     @Test
     public void addLocation() {
-        LatLng latLng = LatLng.valueOf(0.0, 1.0);
+        Coordinates coords = Coordinates.valueOf(0.0, 1.0);
         String description = "new location";
-        PortableLocation request = new PortableLocation(321, latLng.getLatitude(), latLng.getLongitude(), description);
+        PortableLocation request = new PortableLocation(321, coords.getLatitude(), coords.getLongitude(), description);
         webSocketController.addLocation(request);
-        verify(locationService).createLocation(latLng, description);
+        verify(locationService).createLocation(coords, description);
     }
 
     @Test

@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
@@ -83,7 +83,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
         );
     }
 
-    private List<List<LatLng>> track(Location depot, List<Location> route) {
+    private List<List<Coordinates>> track(Location depot, List<Location> route) {
         if (route.isEmpty()) {
             return Collections.emptyList();
         }
@@ -91,12 +91,12 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
         itinerary.add(depot);
         itinerary.addAll(route);
         itinerary.add(depot);
-        List<List<LatLng>> paths = new ArrayList<>();
+        List<List<Coordinates>> paths = new ArrayList<>();
         for (int i = 0; i < itinerary.size() - 1; i++) {
             Location fromLocation = itinerary.get(i);
             Location toLocation = itinerary.get(i + 1);
-            List<LatLng> latLngs = router.getPath(fromLocation.getLatLng(), toLocation.getLatLng());
-            paths.add(latLngs);
+            List<Coordinates> path = router.getPath(fromLocation.getCoordinates(), toLocation.getCoordinates());
+            paths.add(path);
         }
         return paths;
     }
