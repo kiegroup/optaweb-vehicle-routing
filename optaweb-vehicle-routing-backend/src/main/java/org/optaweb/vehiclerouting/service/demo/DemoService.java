@@ -42,7 +42,7 @@ public class DemoService {
     private final LocationRepository locationRepository;
     private final RoutingProblemList routingProblems;
 
-    public DemoService(
+    DemoService(
             LocationService locationService,
             DataSetMarshaller dataSetMarshaller,
             LocationRepository locationRepository,

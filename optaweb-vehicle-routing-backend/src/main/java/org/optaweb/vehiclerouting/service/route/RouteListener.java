@@ -47,7 +47,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     // TODO maybe remove state from the service and get best route from a repository
     private RoutingPlan bestRoutingPlan;
 
-    public RouteListener(Router router, RoutePublisher publisher, LocationRepository locationRepository) {
+    RouteListener(Router router, RoutePublisher publisher, LocationRepository locationRepository) {
         this.router = router;
         this.publisher = publisher;
         this.locationRepository = locationRepository;

@@ -40,7 +40,7 @@ public class DataSetMarshaller {
     /**
      * Create marshaller using the default object mapper, which is set up to use YAML format.
      */
-    public DataSetMarshaller() {
+    DataSetMarshaller() {
         mapper = new ObjectMapper(new YAMLFactory());
     }
 

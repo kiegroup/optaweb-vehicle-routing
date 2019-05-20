@@ -42,18 +42,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RoutingProblemConfig {
+class RoutingProblemConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutingProblemConfig.class);
     private final DataSetMarshaller dataSetMarshaller;
 
     @Autowired
-    public RoutingProblemConfig(DataSetMarshaller dataSetMarshaller) {
+    RoutingProblemConfig(DataSetMarshaller dataSetMarshaller) {
         this.dataSetMarshaller = dataSetMarshaller;
     }
 
     @Bean
-    public RoutingProblemList routingProblems() {
+    RoutingProblemList routingProblems() {
         ArrayList<RoutingProblem> problems = new ArrayList<>();
         problems.add(dataSetMarshaller.unmarshal(belgiumReader()));
         problems.addAll(localDataSets());

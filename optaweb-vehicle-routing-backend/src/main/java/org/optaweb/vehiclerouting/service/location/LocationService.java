@@ -38,9 +38,9 @@ public class LocationService {
     private final RouteOptimizer optimizer;
     private final DistanceMatrix distanceMatrix;
 
-    public LocationService(LocationRepository repository,
-                           RouteOptimizer optimizer,
-                           DistanceMatrix distanceMatrix) {
+    LocationService(LocationRepository repository,
+                    RouteOptimizer optimizer,
+                    DistanceMatrix distanceMatrix) {
         this.repository = repository;
         this.optimizer = optimizer;
         this.distanceMatrix = distanceMatrix;
