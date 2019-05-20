@@ -35,7 +35,7 @@ public class Location extends LocationData {
         this.id = id;
     }
 
-    public long getId() {
+    public long id() {
         return id;
     }
 

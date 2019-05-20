@@ -36,20 +36,20 @@ public class BoundingBox {
     public BoundingBox(Coordinates southWest, Coordinates northEast) {
         this.southWest = Objects.requireNonNull(southWest);
         this.northEast = Objects.requireNonNull(northEast);
-        if (southWest.getLatitude().compareTo(northEast.getLatitude()) >= 0) {
+        if (southWest.latitude().compareTo(northEast.latitude()) >= 0) {
             throw new IllegalArgumentException(
                     "South-west corner latitude ("
-                            + southWest.getLatitude()
+                            + southWest.latitude()
                             + "N) must be less than north-east corner latitude ("
-                            + northEast.getLatitude()
+                            + northEast.latitude()
                             + "N)");
         }
-        if (southWest.getLongitude().compareTo(northEast.getLongitude()) >= 0) {
+        if (southWest.longitude().compareTo(northEast.longitude()) >= 0) {
             throw new IllegalArgumentException(
                     "South-west corner longitude ("
-                            + southWest.getLongitude()
+                            + southWest.longitude()
                             + "E) must be less than north-east corner longitude ("
-                            + northEast.getLongitude()
+                            + northEast.longitude()
                             + "E)");
         }
     }

@@ -91,7 +91,7 @@ public class DemoServiceTest {
         when(locationService.createLocation(any(), anyString())).thenReturn(false);
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> demoService.loadDemo(problemName))
-                .withMessageContaining(depot.getCoordinates().toString());
+                .withMessageContaining(depot.coordinates().toString());
         verify(locationService, times(DemoService.MAX_TRIES)).createLocation(any(Coordinates.class), anyString());
     }
 

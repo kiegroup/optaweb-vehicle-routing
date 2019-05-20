@@ -58,6 +58,6 @@ public class LocationTest {
 
     @Test
     public void constructor_without_description_should_create_empty_description() {
-        assertThat(new Location(7, Coordinates.valueOf(3.14, 4.13)).getDescription()).isEmpty();
+        assertThat(new Location(7, Coordinates.valueOf(3.14, 4.13)).description()).isEmpty();
     }
 }

@@ -36,11 +36,11 @@ public class Coordinates {
         return new Coordinates(BigDecimal.valueOf(latitude), BigDecimal.valueOf(longitude));
     }
 
-    public BigDecimal getLatitude() {
+    public BigDecimal latitude() {
         return latitude;
     }
 
-    public BigDecimal getLongitude() {
+    public BigDecimal longitude() {
         return longitude;
     }
 

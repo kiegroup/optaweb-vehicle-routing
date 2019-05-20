@@ -30,10 +30,10 @@ public class PortableLocationTest {
     public void fromLocation() {
         Location location = new Location(17, Coordinates.valueOf(5.1, -0.0007), "Hello, world!");
         PortableLocation portableLocation = PortableLocation.fromLocation(location);
-        assertThat(portableLocation.getId()).isEqualTo(location.getId());
-        assertThat(portableLocation.getLatitude()).isEqualTo(location.getCoordinates().getLatitude());
-        assertThat(portableLocation.getLongitude()).isEqualTo(location.getCoordinates().getLongitude());
-        assertThat(portableLocation.getDescription()).isEqualTo(location.getDescription());
+        assertThat(portableLocation.getId()).isEqualTo(location.id());
+        assertThat(portableLocation.getLatitude()).isEqualTo(location.coordinates().latitude());
+        assertThat(portableLocation.getLongitude()).isEqualTo(location.coordinates().longitude());
+        assertThat(portableLocation.getDescription()).isEqualTo(location.description());
     }
 
     @Test

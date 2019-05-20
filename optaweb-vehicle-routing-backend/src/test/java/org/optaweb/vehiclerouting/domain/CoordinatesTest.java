@@ -65,7 +65,7 @@ public class CoordinatesTest {
         double latitude = Math.E;
         double longitude = Math.PI;
         Coordinates coordinates = Coordinates.valueOf(latitude, longitude);
-        assertThat(coordinates.getLatitude()).isEqualTo(BigDecimal.valueOf(latitude));
-        assertThat(coordinates.getLongitude()).isEqualTo(BigDecimal.valueOf(longitude));
+        assertThat(coordinates.latitude()).isEqualTo(BigDecimal.valueOf(latitude));
+        assertThat(coordinates.longitude()).isEqualTo(BigDecimal.valueOf(longitude));
     }
 }

@@ -110,7 +110,7 @@ public class WebSocketControllerTest {
     public void addLocation() {
         Coordinates coords = Coordinates.valueOf(0.0, 1.0);
         String description = "new location";
-        PortableLocation request = new PortableLocation(321, coords.getLatitude(), coords.getLongitude(), description);
+        PortableLocation request = new PortableLocation(321, coords.latitude(), coords.longitude(), description);
         webSocketController.addLocation(request);
         verify(locationService).createLocation(coords, description);
     }

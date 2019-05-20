@@ -80,10 +80,10 @@ public class RouteListenerTest {
     public void event_with_no_visits_and_a_depot_should_be_published_as_plan_with_empty_routes() {
         final Coordinates depotCoordinates = Coordinates.valueOf(0.0, 0.1);
         final Location depot = new Location(1, depotCoordinates);
-        ShallowRoute route = new ShallowRoute(depot.getId(), emptyList());
-        when(locationRepository.find(depot.getId())).thenReturn(Optional.of(depot));
+        ShallowRoute route = new ShallowRoute(depot.id(), emptyList());
+        when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
 
-        RouteChangedEvent event = new RouteChangedEvent(this, "0 km", depot.getId(), singletonList(route));
+        RouteChangedEvent event = new RouteChangedEvent(this, "0 km", depot.id(), singletonList(route));
         routeListener.onApplicationEvent(event);
 
         verifyZeroInteractions(router);
@@ -112,11 +112,11 @@ public class RouteListenerTest {
         final Location depot = new Location(1, depotCoordinates);
         final Location visit = new Location(2, visitCoordinates);
         final String distance = "xy";
-        when(locationRepository.find(depot.getId())).thenReturn(Optional.of(depot));
-        when(locationRepository.find(visit.getId())).thenReturn(Optional.of(visit));
+        when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
+        when(locationRepository.find(visit.id())).thenReturn(Optional.of(visit));
 
-        ShallowRoute route = new ShallowRoute(depot.getId(), singletonList(visit.getId()));
-        RouteChangedEvent event = new RouteChangedEvent(this, distance, depot.getId(), singletonList(route));
+        ShallowRoute route = new ShallowRoute(depot.id(), singletonList(visit.id()));
+        RouteChangedEvent event = new RouteChangedEvent(this, distance, depot.id(), singletonList(route));
 
         routeListener.onApplicationEvent(event);
         verify(publisher).publish(routeArgumentCaptor.capture());
@@ -137,11 +137,11 @@ public class RouteListenerTest {
     public void should_discard_update_gracefully_if_one_of_location_has_been_removed() {
         final Location depot = new Location(1, Coordinates.valueOf(1.0, 2.0));
         final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
-        when(locationRepository.find(depot.getId())).thenReturn(Optional.of(depot));
-        when(locationRepository.find(visit.getId())).thenReturn(Optional.empty());
+        when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
+        when(locationRepository.find(visit.id())).thenReturn(Optional.empty());
 
-        ShallowRoute route = new ShallowRoute(depot.getId(), singletonList(visit.getId()));
-        RouteChangedEvent event = new RouteChangedEvent(this, "", depot.getId(), singletonList(route));
+        ShallowRoute route = new ShallowRoute(depot.id(), singletonList(visit.id()));
+        RouteChangedEvent event = new RouteChangedEvent(this, "", depot.id(), singletonList(route));
 
         // precondition
         assertThat(routeListener.getBestRoutingPlan()).isEqualTo(RoutingPlan.empty());

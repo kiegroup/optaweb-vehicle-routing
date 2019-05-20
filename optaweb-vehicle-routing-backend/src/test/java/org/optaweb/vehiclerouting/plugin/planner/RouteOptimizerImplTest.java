@@ -135,11 +135,11 @@ public class RouteOptimizerImplTest {
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
 
-        assertThat(event.depot()).contains(location1.getId());
+        assertThat(event.depot()).contains(location1.id());
         assertThat(event.routes()).isNotEmpty();
         for (ShallowRoute route : event.routes()) {
-            assertThat(route.depotId).isEqualTo(location1.getId());
-            assertThat(route.visitIds).containsExactly(location2.getId());
+            assertThat(route.depotId).isEqualTo(location1.id());
+            assertThat(route.visitIds).containsExactly(location2.id());
         }
     }
 
@@ -151,10 +151,10 @@ public class RouteOptimizerImplTest {
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
 
         assertThat(solver.isSolving()).isFalse();
-        assertThat(event.depot()).contains(location1.getId());
+        assertThat(event.depot()).contains(location1.id());
         assertThat(event.routes()).hasSameSizeAs(SolutionUtil.initialSolution().getVehicleList());
         for (ShallowRoute route : event.routes()) {
-            assertThat(route.depotId).isEqualTo(location1.getId());
+            assertThat(route.depotId).isEqualTo(location1.id());
             assertThat(route.visitIds).isEmpty();
         }
     }
@@ -325,9 +325,9 @@ public class RouteOptimizerImplTest {
     @Test
     public void planning_location_should_have_same_latitude_and_longitude() {
         RoadLocation roadLocation = planningLocation(location1);
-        assertThat(roadLocation.getId()).isEqualTo(location1.getId());
-        assertThat(roadLocation.getLatitude()).isEqualTo(location1.getCoordinates().getLatitude().doubleValue());
-        assertThat(roadLocation.getLongitude()).isEqualTo(location1.getCoordinates().getLongitude().doubleValue());
+        assertThat(roadLocation.getId()).isEqualTo(location1.id());
+        assertThat(roadLocation.getLatitude()).isEqualTo(location1.coordinates().latitude().doubleValue());
+        assertThat(roadLocation.getLongitude()).isEqualTo(location1.coordinates().longitude().doubleValue());
     }
 
     /**

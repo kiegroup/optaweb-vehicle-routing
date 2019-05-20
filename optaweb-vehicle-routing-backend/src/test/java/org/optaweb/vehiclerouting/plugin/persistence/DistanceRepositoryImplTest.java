@@ -55,13 +55,13 @@ public class DistanceRepositoryImplTest {
         verify(crudRepository).save(distanceEntityArgumentCaptor.capture());
         DistanceEntity distanceEntity = distanceEntityArgumentCaptor.getValue();
         assertThat(distanceEntity.getDistance()).isEqualTo(distance);
-        assertThat(distanceEntity.getKey().getFromId()).isEqualTo(from.getId());
-        assertThat(distanceEntity.getKey().getToId()).isEqualTo(to.getId());
+        assertThat(distanceEntity.getKey().getFromId()).isEqualTo(from.id());
+        assertThat(distanceEntity.getKey().getToId()).isEqualTo(to.id());
     }
 
     @Test
     public void should_return_distance_when_entity_is_found() {
-        DistanceKey distanceKey = new DistanceKey(from.getId(), to.getId());
+        DistanceKey distanceKey = new DistanceKey(from.id(), to.id());
         when(crudRepository.findById(distanceKey)).thenReturn(Optional.of(distanceEntity));
         final double distance = 1.0305;
         when(distanceEntity.getDistance()).thenReturn(distance);

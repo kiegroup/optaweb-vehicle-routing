@@ -38,10 +38,10 @@ class PortableLocation {
 
     static PortableLocation fromLocation(Location location) {
         return new PortableLocation(
-                location.getId(),
-                location.getCoordinates().getLatitude(),
-                location.getCoordinates().getLongitude(),
-                location.getDescription()
+                location.id(),
+                location.coordinates().latitude(),
+                location.coordinates().longitude(),
+                location.description()
         );
     }
 

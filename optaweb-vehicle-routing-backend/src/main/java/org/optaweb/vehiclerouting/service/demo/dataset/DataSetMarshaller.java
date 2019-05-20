@@ -101,9 +101,9 @@ public class DataSetMarshaller {
 
     static DataSetLocation toDataSet(LocationData locationData) {
         return new DataSetLocation(
-                locationData.getDescription(),
-                locationData.getCoordinates().getLatitude().doubleValue(),
-                locationData.getCoordinates().getLongitude().doubleValue()
+                locationData.description(),
+                locationData.coordinates().latitude().doubleValue(),
+                locationData.coordinates().longitude().doubleValue()
         );
     }
 

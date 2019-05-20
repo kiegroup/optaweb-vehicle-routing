@@ -63,7 +63,7 @@ public class LocationServiceTest {
     @Before
     public void setUp() {
         when(repository.createLocation(any(Coordinates.class), anyString())).thenReturn(location);
-        when(repository.removeLocation(location.getId())).thenReturn(location);
+        when(repository.removeLocation(location.id())).thenReturn(location);
         when(repository.locations()).thenReturn(persistedLocations);
     }
 
@@ -84,8 +84,8 @@ public class LocationServiceTest {
 
     @Test
     public void removeLocation() {
-        locationService.removeLocation(location.getId());
-        verify(repository).removeLocation(location.getId());
+        locationService.removeLocation(location.id());
+        verify(repository).removeLocation(location.id());
         verify(optimizer).removeLocation(location);
         // TODO remove location from distance matrix
     }
@@ -112,6 +112,6 @@ public class LocationServiceTest {
         assertThat(locationService.createLocation(coordinates, "")).isFalse();
         verifyZeroInteractions(optimizer);
         // roll back
-        verify(repository).removeLocation(location.getId());
+        verify(repository).removeLocation(location.id());
     }
 }

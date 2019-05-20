@@ -76,23 +76,23 @@ public class LocationRepositoryImplTest {
         // assert
         // -- the correct values were used to save the entity
         LocationEntity savedLocation = locationEntityCaptor.getValue();
-        assertThat(savedLocation.getLatitude()).isEqualTo(savedCoordinates.getLatitude());
-        assertThat(savedLocation.getLongitude()).isEqualTo(savedCoordinates.getLongitude());
+        assertThat(savedLocation.getLatitude()).isEqualTo(savedCoordinates.latitude());
+        assertThat(savedLocation.getLongitude()).isEqualTo(savedCoordinates.longitude());
         assertThat(savedLocation.getDescription()).isEqualTo(savedDescription);
 
         // -- created domain location is equal to the entity returned by repository.save()
         // This may be confusing but that's the contract of Spring Repository API.
         // The entity instance that is being saved is meant to be discarded. The returned instance should be used
         // for further operations as the save() operation may update it (for example generate the ID).
-        assertThat(createdLocation.getId()).isEqualTo(locationEntity.getId());
-        assertThat(createdLocation.getCoordinates())
+        assertThat(createdLocation.id()).isEqualTo(locationEntity.getId());
+        assertThat(createdLocation.coordinates())
                 .isEqualTo(new Coordinates(locationEntity.getLatitude(), locationEntity.getLongitude()));
-        assertThat(createdLocation.getDescription()).isEqualTo(locationEntity.getDescription());
+        assertThat(createdLocation.description()).isEqualTo(locationEntity.getDescription());
     }
 
     @Test
     public void remove_created_location_by_id() {
-        final long id = testLocation.getId();
+        final long id = testLocation.id();
         when(crudRepository.findById(id)).thenReturn(Optional.of(locationEntity));
 
         Location removed = repository.removeLocation(id);
@@ -125,7 +125,7 @@ public class LocationRepositoryImplTest {
 
     @Test
     public void find_by_id() {
-        when(crudRepository.findById(testLocation.getId())).thenReturn(Optional.of(locationEntity));
-        assertThat(repository.find(testLocation.getId())).contains(testLocation);
+        when(crudRepository.findById(testLocation.id())).thenReturn(Optional.of(locationEntity));
+        assertThat(repository.find(testLocation.id())).contains(testLocation);
     }
 }
