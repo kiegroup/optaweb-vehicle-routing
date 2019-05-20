@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Visits page should render correctly with a few visits 1`] = `
+<Fragment>
+  <TextContent
+    className=""
+  >
+    <Text
+      className=""
+      component="h1"
+    >
+      Visits (2)
+    </Text>
+  </TextContent>
+  <LocationList
+    depot={
+      Object {
+        "id": 1,
+        "lat": 1.345678,
+        "lng": 1.345678,
+      }
+    }
+    removeHandler={[MockFunction]}
+    selectHandler={[Function]}
+    visits={
+      Array [
+        Object {
+          "id": 2,
+          "lat": 2.345678,
+          "lng": 2.345678,
+        },
+        Object {
+          "id": 3,
+          "lat": 3.676111,
+          "lng": 3.568333,
+        },
+      ]
+    }
+  />
+</Fragment>
+`;
+
+exports[`Visits page should render correctly with no visits 1`] = `
+<Fragment>
+  <TextContent
+    className=""
+  >
+    <Text
+      className=""
+      component="h1"
+    >
+      Visits (0)
+    </Text>
+  </TextContent>
+  <LocationList
+    depot={null}
+    removeHandler={[MockFunction]}
+    selectHandler={[Function]}
+    visits={Array []}
+  />
+</Fragment>
+`;

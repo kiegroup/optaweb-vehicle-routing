@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App should render correctly 1`] = `
+<Fragment>
+  <Connect(ConnectionManager) />
+  <Background />
+  <Page
+    className=""
+    header={<Header />}
+    isManagedSidebar={false}
+    onPageResize={null}
+    sidebar={null}
+  >
+    <PageSection
+      className=""
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "column",
+          "overflowY": "auto",
+        }
+      }
+      variant="default"
+    >
+      <Switch>
+        <Route
+          component={[Function]}
+          exact={true}
+          path="/vehicles"
+        />
+        <Route
+          component={[Function]}
+          exact={true}
+          path="/visits"
+        />
+        <Route
+          component={[Function]}
+          exact={true}
+          path="/route"
+        />
+        <Route
+          component={[Function]}
+          exact={true}
+          path="/demo"
+        />
+      </Switch>
+    </PageSection>
+  </Page>
+</Fragment>
+`;

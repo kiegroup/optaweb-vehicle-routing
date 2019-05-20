@@ -1,0 +1,217 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Route page should render correctly with a few routes 1`] = `
+<Fragment>
+  <TextContent
+    className=""
+  >
+    <Text
+      className=""
+      component="h1"
+    >
+      Route
+    </Text>
+  </TextContent>
+  <Split
+    className=""
+    component="div"
+    gutter="md"
+  >
+    <SplitItem
+      className=""
+      isMain={false}
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "column",
+        }
+      }
+    >
+      <Form
+        className=""
+        isHorizontal={false}
+      >
+        <FormSelect
+          aria-label="FormSelect Input"
+          className=""
+          isDisabled={false}
+          isValid={true}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          style={
+            Object {
+              "backgroundColor": "white",
+              "marginBottom": 10,
+            }
+          }
+          value={0}
+        >
+          <FormSelectOption
+            className=""
+            isDisabled={false}
+            key="0"
+            label="Route 0"
+            value={0}
+          />
+          <FormSelectOption
+            className=""
+            isDisabled={false}
+            key="1"
+            label="Route 1"
+            value={1}
+          />
+        </FormSelect>
+      </Form>
+      <LocationList
+        depot={
+          Object {
+            "id": 1,
+            "lat": 1.345678,
+            "lng": 1.345678,
+          }
+        }
+        removeHandler={[MockFunction]}
+        selectHandler={[Function]}
+        visits={
+          Array [
+            Object {
+              "id": 1,
+              "lat": 1.345678,
+              "lng": 1.345678,
+            },
+            Object {
+              "id": 2,
+              "lat": 2.345678,
+              "lng": 2.345678,
+            },
+            Object {
+              "id": 3,
+              "lat": 3.676111,
+              "lng": 3.568333,
+            },
+          ]
+        }
+      />
+    </SplitItem>
+    <SplitItem
+      className=""
+      isMain={true}
+    >
+      <TspMap
+        boundingBox={null}
+        clickHandler={[Function]}
+        depot={
+          Object {
+            "id": 1,
+            "lat": 1.345678,
+            "lng": 1.345678,
+          }
+        }
+        removeHandler={[MockFunction]}
+        routes={
+          Array [
+            Object {
+              "track": Array [],
+              "visits": Array [
+                Object {
+                  "id": 1,
+                  "lat": 1.345678,
+                  "lng": 1.345678,
+                },
+                Object {
+                  "id": 2,
+                  "lat": 2.345678,
+                  "lng": 2.345678,
+                },
+                Object {
+                  "id": 3,
+                  "lat": 3.676111,
+                  "lng": 3.568333,
+                },
+              ],
+            },
+            Object {
+              "track": Array [],
+              "visits": Array [],
+            },
+          ]
+        }
+        selectedId={NaN}
+      />
+    </SplitItem>
+  </Split>
+</Fragment>
+`;
+
+exports[`Route page should render correctly with no routes 1`] = `
+<Fragment>
+  <TextContent
+    className=""
+  >
+    <Text
+      className=""
+      component="h1"
+    >
+      Route
+    </Text>
+  </TextContent>
+  <Split
+    className=""
+    component="div"
+    gutter="md"
+  >
+    <SplitItem
+      className=""
+      isMain={false}
+      style={
+        Object {
+          "display": "flex",
+          "flexDirection": "column",
+        }
+      }
+    >
+      <Form
+        className=""
+        isHorizontal={false}
+      >
+        <FormSelect
+          aria-label="FormSelect Input"
+          className=""
+          isDisabled={true}
+          isValid={true}
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          style={
+            Object {
+              "backgroundColor": "white",
+              "marginBottom": 10,
+            }
+          }
+          value={0}
+        />
+      </Form>
+      <LocationList
+        depot={null}
+        removeHandler={[MockFunction]}
+        selectHandler={[Function]}
+        visits={Array []}
+      />
+    </SplitItem>
+    <SplitItem
+      className=""
+      isMain={true}
+    >
+      <TspMap
+        boundingBox={null}
+        clickHandler={[Function]}
+        depot={null}
+        removeHandler={[MockFunction]}
+        routes={Array []}
+        selectedId={NaN}
+      />
+    </SplitItem>
+  </Split>
+</Fragment>
+`;

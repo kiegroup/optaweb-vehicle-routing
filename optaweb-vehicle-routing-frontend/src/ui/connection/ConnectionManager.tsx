@@ -30,7 +30,7 @@ interface DispatchProps {
   connectClient: typeof websocketOperations.connectClient;
 }
 
-type Props = StateProps & DispatchProps;
+export type Props = StateProps & DispatchProps;
 
 const mapStateToProps = ({ connectionStatus }: AppState): StateProps => ({
   connectionStatus,
@@ -40,7 +40,7 @@ const mapDispatchToProps: DispatchProps = {
   connectClient: websocketOperations.connectClient,
 };
 
-class ConnectionManager extends React.Component<Props> {
+export class ConnectionManager extends React.Component<Props> {
 
   componentDidMount() {
     this.props.connectClient();

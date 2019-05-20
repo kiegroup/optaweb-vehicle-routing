@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Connection Manager should connect the WebSocket client when mounted 1`] = `
+<ConnectionError
+  help="When connection is available the application will be functional again."
+  icon={
+    <UnpluggedIcon
+      color="currentColor"
+      size="sm"
+      title={null}
+    />
+  }
+  isOpen={false}
+  message="Please check your network connection."
+  title="Oops... Connection error!"
+/>
+`;
+
+exports[`Connection Manager should display error when connection fails 1`] = `
+<ConnectionError
+  help="When connection is available the application will be functional again."
+  icon={
+    <UnpluggedIcon
+      color="currentColor"
+      size="sm"
+      title={null}
+    />
+  }
+  isOpen={true}
+  message="Please check your network connection."
+  title="Oops... Connection error!"
+/>
+`;
+
+exports[`Connection Manager should not display error when connection is open 1`] = `
+<ConnectionError
+  help="When connection is available the application will be functional again."
+  icon={
+    <UnpluggedIcon
+      color="currentColor"
+      size="sm"
+      title={null}
+    />
+  }
+  isOpen={false}
+  message="Please check your network connection."
+  title="Oops... Connection error!"
+/>
+`;
