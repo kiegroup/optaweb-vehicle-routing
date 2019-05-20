@@ -28,7 +28,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationData;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -37,7 +37,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller.NO_ID;
 import static org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller.toDataSet;
 import static org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller.toDomain;
 
@@ -100,21 +99,21 @@ public class DataSetMarshallerTest {
         String description = "some location";
 
         // domain -> data set
-        DataSetLocation dataSetLocation = toDataSet(new Location(5578, LatLng.valueOf(lat, lng), description));
+        DataSetLocation dataSetLocation = toDataSet(new LocationData(LatLng.valueOf(lat, lng), description));
         assertThat(dataSetLocation.getLat()).isEqualTo(lat);
         assertThat(dataSetLocation.getLng()).isEqualTo(lng);
         assertThat(dataSetLocation.getLabel()).isEqualTo(description);
 
         // data set -> domain
-        Location domainLocation = toDomain(dataSetLocation);
-        assertThat(domainLocation).isEqualTo(new Location(0, LatLng.valueOf(lat, lng), description));
+        LocationData domainLocation = toDomain(dataSetLocation);
+        assertThat(domainLocation).isEqualTo(new LocationData(LatLng.valueOf(lat, lng), description));
     }
 
     @Test
     public void routing_problem_conversion() {
-        Location depot = new Location(NO_ID, LatLng.valueOf(60.1, 5.78), "Depot");
-        Location visit = new Location(NO_ID, LatLng.valueOf(1.06, 8.75), "Visit");
-        List<Location> visits = Arrays.asList(visit);
+        LocationData depot = new LocationData(LatLng.valueOf(60.1, 5.78), "Depot");
+        LocationData visit = new LocationData(LatLng.valueOf(1.06, 8.75), "Visit");
+        List<LocationData> visits = Arrays.asList(visit);
         String name = "some data set";
 
         // domain -> data set

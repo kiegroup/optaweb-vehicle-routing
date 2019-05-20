@@ -27,8 +27,8 @@ import java.util.Optional;
 public class RoutingProblem {
 
     private final String name;
-    private final Location depot; // FIXME should be Location without ID!
-    private final List<Location> visits;
+    private final LocationData depot;
+    private final List<LocationData> visits;
 
     /**
      * Create routing problem instance.
@@ -36,7 +36,7 @@ public class RoutingProblem {
      * @param depot the depot (may be {@code null} if there is no depot)
      * @param visits the visits (must not be {@code null})
      */
-    public RoutingProblem(String name, Location depot, List<Location> visits) {
+    public RoutingProblem(String name, LocationData depot, List<? extends LocationData> visits) {
         this.name = Objects.requireNonNull(name);
         this.depot = depot;
         this.visits = new ArrayList<>(Objects.requireNonNull(visits));
@@ -54,7 +54,7 @@ public class RoutingProblem {
      * Get the depot.
      * @return depot (never {@code null})
      */
-    public Optional<Location> depot() {
+    public Optional<LocationData> depot() {
         return Optional.ofNullable(depot);
     }
 
@@ -62,7 +62,7 @@ public class RoutingProblem {
      * Get locations that should be visited.
      * @return visits
      */
-    public List<Location> visits() {
+    public List<LocationData> visits() {
         return visits;
     }
 }
