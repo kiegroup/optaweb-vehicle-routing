@@ -41,8 +41,8 @@ class PortableLatLng {
 
     static PortableLatLng fromLatLng(Coordinates coordinates) {
         return new PortableLatLng(
-                coordinates.getLatitude(),
-                coordinates.getLongitude()
+                coordinates.latitude(),
+                coordinates.longitude()
         );
     }
 

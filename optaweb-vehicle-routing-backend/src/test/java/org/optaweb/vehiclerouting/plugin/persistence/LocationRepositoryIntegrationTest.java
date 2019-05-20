@@ -66,14 +66,14 @@ public class LocationRepositoryIntegrationTest {
         Coordinates coordinates = Coordinates.valueOf(0.00213, 32.777);
         assertThat(crudRepository.count()).isZero();
         Location location = repository.createLocation(coordinates, "");
-        assertThat(location.getCoordinates()).isEqualTo(coordinates);
+        assertThat(location.coordinates()).isEqualTo(coordinates);
         assertThat(crudRepository.count()).isOne();
 
-        Location removed = repository.removeLocation(location.getId());
+        Location removed = repository.removeLocation(location.id());
         assertThat(removed).isEqualTo(location);
 
         // removing the same location twice should fail
-        assertThatIllegalArgumentException().isThrownBy(() -> repository.removeLocation(location.getId()));
+        assertThatIllegalArgumentException().isThrownBy(() -> repository.removeLocation(location.id()));
 
         // removing nonexistent location should fail and its ID should appear in the exception message
         int uniqueNonexistentId = 7173;

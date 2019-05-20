@@ -65,7 +65,7 @@ public class LocationService {
             // TODO relay the error event to the client
             logger.warn("Failed to calculate distances for {}, it will be discarded", location);
             logger.debug("Details:", e);
-            repository.removeLocation(location.getId());
+            repository.removeLocation(location.id());
             return false; // do not proceed to optimizer
         }
         optimizer.addLocation(location, distanceMatrix);

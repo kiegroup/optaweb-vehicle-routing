@@ -95,7 +95,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
         for (int i = 0; i < itinerary.size() - 1; i++) {
             Location fromLocation = itinerary.get(i);
             Location toLocation = itinerary.get(i + 1);
-            List<Coordinates> path = router.getPath(fromLocation.getCoordinates(), toLocation.getCoordinates());
+            List<Coordinates> path = router.getPath(fromLocation.coordinates(), toLocation.coordinates());
             paths.add(path);
         }
         return paths;

@@ -90,9 +90,9 @@ public class RouterImplTest {
         Coordinates coordinates2 = Coordinates.valueOf(Math.E, Math.PI);
         Coordinates coordinates3 = Coordinates.valueOf(0.1, 1.0 / 3.0);
 
-        pointList.add(coordinates1.getLatitude().doubleValue(), coordinates1.getLongitude().doubleValue());
-        pointList.add(coordinates2.getLatitude().doubleValue(), coordinates2.getLongitude().doubleValue());
-        pointList.add(coordinates3.getLatitude().doubleValue(), coordinates3.getLongitude().doubleValue());
+        pointList.add(coordinates1.latitude().doubleValue(), coordinates1.longitude().doubleValue());
+        pointList.add(coordinates2.latitude().doubleValue(), coordinates2.longitude().doubleValue());
+        pointList.add(coordinates3.latitude().doubleValue(), coordinates3.longitude().doubleValue());
 
         // act & assert
         List<Coordinates> route = routing.getPath(from, to);

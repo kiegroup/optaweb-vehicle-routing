@@ -59,28 +59,28 @@ public class DistanceMatrixImplTest {
         assertThat(mapL0.size()).isEqualTo(1);
 
         // distance to self
-        assertThat(mapL0.get(l0.getId())).isEqualTo(0.0);
+        assertThat(mapL0.get(l0.id())).isEqualTo(0.0);
         // distance to not yet registered location
-        assertThat(mapL0).doesNotContainKeys(l1.getId());
+        assertThat(mapL0).doesNotContainKeys(l1.id());
 
         distanceMatrix.addLocation(l1);
         Map<Long, Double> mapL1 = distanceMatrix.getRow(l1);
         // distance to self
-        assertThat(mapL1.get(l1.getId())).isEqualTo(0.0);
+        assertThat(mapL1.get(l1.id())).isEqualTo(0.0);
 
         // distance 0 <-> 1
-        assertThat(mapL1.get(l0.getId())).isEqualTo(-1.0);
-        assertThat(mapL0.get(l1.getId())).isEqualTo(1.0);
+        assertThat(mapL1.get(l0.id())).isEqualTo(-1.0);
+        assertThat(mapL0.get(l1.id())).isEqualTo(1.0);
 
         distanceMatrix.addLocation(l9neg);
         Map<Long, Double> mapL9 = distanceMatrix.getRow(l9neg);
 
         // distances -9 -> {0, 1}
-        assertThat(mapL9.get(l0.getId())).isEqualTo(9.0);
-        assertThat(mapL9.get(l1.getId())).isEqualTo(10.0);
+        assertThat(mapL9.get(l0.id())).isEqualTo(9.0);
+        assertThat(mapL9.get(l1.id())).isEqualTo(10.0);
         // distances {0, 1} -> -9
-        assertThat(mapL0.get(l9neg.getId())).isEqualTo(-9.0);
-        assertThat(mapL1.get(l9neg.getId())).isEqualTo(-10.0);
+        assertThat(mapL0.get(l9neg.id())).isEqualTo(-9.0);
+        assertThat(mapL1.get(l9neg.id())).isEqualTo(-10.0);
 
         // distance map sizes
         assertThat(mapL0.size()).isEqualTo(3);
@@ -101,8 +101,8 @@ public class DistanceMatrixImplTest {
         long dist12 = 12;
         long dist21 = 21;
         when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0);
-        when(distanceCalculator.travelTimeMillis(l1.getCoordinates(), l2.getCoordinates())).thenReturn(dist12);
-        when(distanceCalculator.travelTimeMillis(l2.getCoordinates(), l1.getCoordinates())).thenReturn(dist21);
+        when(distanceCalculator.travelTimeMillis(l1.coordinates(), l2.coordinates())).thenReturn(dist12);
+        when(distanceCalculator.travelTimeMillis(l2.coordinates(), l1.coordinates())).thenReturn(dist21);
 
         // no calculation for the first location
         distanceMatrix.addLocation(l1);
@@ -153,7 +153,7 @@ public class DistanceMatrixImplTest {
         @Override
         public long travelTimeMillis(Coordinates from, Coordinates to) {
             // imagine 1D space (all locations on equator)
-            return (long) (to.getLongitude().doubleValue() - from.getLongitude().doubleValue());
+            return (long) (to.longitude().doubleValue() - from.longitude().doubleValue());
         }
     }
 }

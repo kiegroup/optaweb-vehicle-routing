@@ -45,10 +45,10 @@ class RouterImpl implements Router,
     @Override
     public List<Coordinates> getPath(Coordinates from, Coordinates to) {
         GHRequest ghRequest = new GHRequest(
-                from.getLatitude().doubleValue(),
-                from.getLongitude().doubleValue(),
-                to.getLatitude().doubleValue(),
-                to.getLongitude().doubleValue());
+                from.latitude().doubleValue(),
+                from.longitude().doubleValue(),
+                to.latitude().doubleValue(),
+                to.longitude().doubleValue());
         PointList points = graphHopper.route(ghRequest).getBest().getPoints();
         return StreamSupport.stream(points.spliterator(), false)
                 .map(ghPoint3D -> Coordinates.valueOf(ghPoint3D.lat, ghPoint3D.lon))
@@ -58,10 +58,10 @@ class RouterImpl implements Router,
     @Override
     public long travelTimeMillis(Coordinates from, Coordinates to) {
         GHRequest ghRequest = new GHRequest(
-                from.getLatitude().doubleValue(),
-                from.getLongitude().doubleValue(),
-                to.getLatitude().doubleValue(),
-                to.getLongitude().doubleValue());
+                from.latitude().doubleValue(),
+                from.longitude().doubleValue(),
+                to.latitude().doubleValue(),
+                to.longitude().doubleValue());
         GHResponse ghResponse = graphHopper.route(ghRequest);
         // TODO return wrapper that can hold both the result and error explanation instead of throwing exception
         if (ghResponse.hasErrors()) {

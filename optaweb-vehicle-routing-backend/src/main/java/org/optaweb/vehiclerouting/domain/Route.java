@@ -70,8 +70,8 @@ public class Route {
     @Override
     public String toString() {
         return "Route{" +
-                "depot=" + depot.getId() +
-                ", visits=" + visits.stream().map(Location::getId).collect(Collectors.toList()) +
+                "depot=" + depot.id() +
+                ", visits=" + visits.stream().map(Location::id).collect(Collectors.toList()) +
                 '}';
     }
 }

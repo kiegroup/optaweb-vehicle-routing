@@ -51,7 +51,7 @@ class DistanceMatrixImpl implements DistanceMatrix {
         Map<Long, Double> distancesToOthers = new ConcurrentHashMap<>(); // the new row
 
         // distance to self is 0
-        distancesToOthers.put(newLocation.getId(), 0.0);
+        distancesToOthers.put(newLocation.id(), 0.0);
 
         // for all entries (rows) in the matrix:
         matrix.entrySet().stream().parallel().forEach(distanceRow -> {
@@ -61,9 +61,9 @@ class DistanceMatrixImpl implements DistanceMatrix {
             Map<Long, Double> distancesFromOther = distanceRow.getValue();
             // add a new cell to the row with the distance from the entry key location to the new location
             // (results in a new column at the end of the loop)
-            distancesFromOther.put(newLocation.getId(), calculateOrRestoreDistance(other, newLocation));
+            distancesFromOther.put(newLocation.id(), calculateOrRestoreDistance(other, newLocation));
             // add a cell the new distance's row
-            distancesToOthers.put(other.getId(), calculateOrRestoreDistance(newLocation, other));
+            distancesToOthers.put(other.id(), calculateOrRestoreDistance(newLocation, other));
         });
 
         matrix.put(newLocation, distancesToOthers);
@@ -72,7 +72,7 @@ class DistanceMatrixImpl implements DistanceMatrix {
     private double calculateOrRestoreDistance(Location from, Location to) {
         double distance = distanceRepository.getDistance(from, to);
         if (distance < 0) {
-            distance = distanceCalculator.travelTimeMillis(from.getCoordinates(), to.getCoordinates());
+            distance = distanceCalculator.travelTimeMillis(from.coordinates(), to.coordinates());
             distanceRepository.saveDistance(from, to, distance);
         }
         return distance;

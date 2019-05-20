@@ -61,10 +61,10 @@ public class DemoService {
     public void loadDemo(String name) {
         RoutingProblem routingProblem = routingProblems.byName(name);
         // Add depot
-        routingProblem.depot().ifPresent(depot -> addWithRetry(depot.getCoordinates(), depot.getDescription()));
+        routingProblem.depot().ifPresent(depot -> addWithRetry(depot.coordinates(), depot.description()));
 
         // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
-        routingProblem.visits().forEach(visit -> addWithRetry(visit.getCoordinates(), visit.getDescription()));
+        routingProblem.visits().forEach(visit -> addWithRetry(visit.coordinates(), visit.description()));
     }
 
     private void addWithRetry(Coordinates coordinates, String description) {

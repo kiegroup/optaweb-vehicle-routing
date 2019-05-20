@@ -33,11 +33,11 @@ public class LocationData {
         this.description = Objects.requireNonNull(description);
     }
 
-    public Coordinates getCoordinates() {
+    public Coordinates coordinates() {
         return coordinates;
     }
 
-    public String getDescription() {
+    public String description() {
         return description;
     }
 

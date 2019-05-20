@@ -29,8 +29,8 @@ public class PortableLatLngTest {
     public void fromLatLng() {
         Coordinates coordinates = Coordinates.valueOf(0.04687, -88.8889);
         PortableLatLng portableLatLng = PortableLatLng.fromLatLng(coordinates);
-        assertThat(portableLatLng.getLatitude()).isEqualTo(coordinates.getLatitude());
-        assertThat(portableLatLng.getLongitude()).isEqualTo(coordinates.getLongitude());
+        assertThat(portableLatLng.getLatitude()).isEqualTo(coordinates.latitude());
+        assertThat(portableLatLng.getLongitude()).isEqualTo(coordinates.longitude());
     }
 
     @Test
@@ -38,8 +38,8 @@ public class PortableLatLngTest {
         Coordinates coordinates = Coordinates.valueOf(0.123450001, -88.999999999);
         Coordinates scaledDown = Coordinates.valueOf(0.12345, -89);
         PortableLatLng portableLatLng = PortableLatLng.fromLatLng(coordinates);
-        assertThat(portableLatLng.getLatitude()).isEqualTo(scaledDown.getLatitude());
-        assertThat(portableLatLng.getLongitude()).isEqualByComparingTo(scaledDown.getLongitude());
+        assertThat(portableLatLng.getLatitude()).isEqualTo(scaledDown.latitude());
+        assertThat(portableLatLng.getLongitude()).isEqualByComparingTo(scaledDown.longitude());
         // This would surprisingly fail because actual is -89 and expected is -89.0
 //        assertThat(portableLatLng.getLongitude()).isEqualTo(scaledDown.getLongitude());
     }
