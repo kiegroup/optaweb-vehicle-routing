@@ -117,7 +117,7 @@ public class DataSetMarshaller {
 
     static LocationData toDomain(DataSetLocation dataSetLocation) {
         return new LocationData(
-                LatLng.valueOf(dataSetLocation.getLat(), dataSetLocation.getLng()),
+                LatLng.valueOf(dataSetLocation.getLatitude(), dataSetLocation.getLongitude()),
                 dataSetLocation.getLabel()
         );
     }
