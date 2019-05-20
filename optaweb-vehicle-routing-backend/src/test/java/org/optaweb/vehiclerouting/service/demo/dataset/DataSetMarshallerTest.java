@@ -55,8 +55,8 @@ public class DataSetMarshallerTest {
         assertThat(dataSet.getName()).isEqualTo("Belgium test");
         assertThat(dataSet.getDepot()).isNotNull();
         assertThat(dataSet.getDepot().getLabel()).isEqualTo("Brussels");
-        assertThat(dataSet.getDepot().getLat()).isEqualTo(50.85);
-        assertThat(dataSet.getDepot().getLng()).isEqualTo(4.35);
+        assertThat(dataSet.getDepot().getLatitude()).isEqualTo(50.85);
+        assertThat(dataSet.getDepot().getLongitude()).isEqualTo(4.35);
         assertThat(dataSet.getVisits())
                 .extracting("label")
                 .containsExactlyInAnyOrder("Aalst", "Châtelet", "La Louvière", "Sint-Niklaas", "Ypres");
@@ -100,8 +100,8 @@ public class DataSetMarshallerTest {
 
         // domain -> data set
         DataSetLocation dataSetLocation = toDataSet(new LocationData(LatLng.valueOf(lat, lng), description));
-        assertThat(dataSetLocation.getLat()).isEqualTo(lat);
-        assertThat(dataSetLocation.getLng()).isEqualTo(lng);
+        assertThat(dataSetLocation.getLatitude()).isEqualTo(lat);
+        assertThat(dataSetLocation.getLongitude()).isEqualTo(lng);
         assertThat(dataSetLocation.getLabel()).isEqualTo(description);
 
         // data set -> domain
