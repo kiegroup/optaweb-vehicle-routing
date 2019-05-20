@@ -21,11 +21,9 @@ import java.util.Objects;
 /**
  * A unique location significant to the user.
  */
-public class Location {
+public class Location extends LocationData {
 
     private final long id;
-    private final LatLng latLng;
-    private final String description;
 
     public Location(long id, LatLng latLng) {
         // TODO remove this?
@@ -33,21 +31,12 @@ public class Location {
     }
 
     public Location(long id, LatLng latLng, String description) {
+        super(latLng, description);
         this.id = id;
-        this.latLng = Objects.requireNonNull(latLng);
-        this.description = Objects.requireNonNull(description);
     }
 
     public long getId() {
         return id;
-    }
-
-    public LatLng getLatLng() {
-        return latLng;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     @Override
@@ -59,22 +48,18 @@ public class Location {
             return false;
         }
         Location location = (Location) o;
-        return id == location.id &&
-                latLng.equals(location.latLng) &&
-                description.equals(location.description);
+        return id == location.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, latLng, description);
+        return Objects.hash(super.hashCode(), id);
     }
 
     @Override
     public String toString() {
         return "Location{" +
                 "id=" + id +
-                ", latLng=" + latLng +
-                ", description='" + description + '\'' +
                 '}';
     }
 }
