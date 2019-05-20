@@ -30,9 +30,9 @@ class PortableRoute {
     private final PortableLocation depot;
     private final List<PortableLocation> visits;
     @JsonFormat(shape = JsonFormat.Shape.ARRAY)
-    private final List<List<PortableLatLng>> track;
+    private final List<List<PortableCoordinates>> track;
 
-    PortableRoute(PortableLocation depot, List<PortableLocation> visits, List<List<PortableLatLng>> track) {
+    PortableRoute(PortableLocation depot, List<PortableLocation> visits, List<List<PortableCoordinates>> track) {
         this.depot = Objects.requireNonNull(depot);
         this.visits = Objects.requireNonNull(visits);
         this.track = Objects.requireNonNull(track);
@@ -46,7 +46,7 @@ class PortableRoute {
         return visits;
     }
 
-    public List<List<PortableLatLng>> getTrack() {
+    public List<List<PortableCoordinates>> getTrack() {
         return track;
     }
 }

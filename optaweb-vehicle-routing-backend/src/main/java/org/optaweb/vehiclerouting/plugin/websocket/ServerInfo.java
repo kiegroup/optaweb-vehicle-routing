@@ -23,17 +23,17 @@ import java.util.List;
  */
 class ServerInfo {
 
-    private final List<PortableLatLng> boundingBox;
+    private final List<PortableCoordinates> boundingBox;
     private final List<String> countryCodes;
     private final List<RoutingProblemInfo> demos;
 
-    ServerInfo(List<PortableLatLng> boundingBox, List<String> countryCodes, List<RoutingProblemInfo> demos) {
+    ServerInfo(List<PortableCoordinates> boundingBox, List<String> countryCodes, List<RoutingProblemInfo> demos) {
         this.boundingBox = boundingBox;
         this.countryCodes = countryCodes;
         this.demos = demos;
     }
 
-    public List<PortableLatLng> getBoundingBox() {
+    public List<PortableCoordinates> getBoundingBox() {
         return boundingBox;
     }
 

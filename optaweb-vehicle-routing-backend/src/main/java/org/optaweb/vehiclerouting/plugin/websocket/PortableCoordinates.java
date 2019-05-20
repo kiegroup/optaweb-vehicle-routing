@@ -26,7 +26,7 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 /**
  * {@link Coordinates} representation optimized for network transport.
  */
-class PortableLatLng {
+class PortableCoordinates {
 
     /*
      * Five decimal places gives "metric" precision (±55 cm on equator). That's enough for visualising the track.
@@ -39,8 +39,8 @@ class PortableLatLng {
     @JsonProperty(value = "lng")
     private final BigDecimal longitude;
 
-    static PortableLatLng fromLatLng(Coordinates coordinates) {
-        return new PortableLatLng(
+    static PortableCoordinates fromCoordinates(Coordinates coordinates) {
+        return new PortableCoordinates(
                 coordinates.latitude(),
                 coordinates.longitude()
         );
@@ -50,7 +50,7 @@ class PortableLatLng {
         return number.setScale(Math.min(number.scale(), LATLNG_SCALE), RoundingMode.HALF_EVEN).stripTrailingZeros();
     }
 
-    PortableLatLng(BigDecimal latitude, BigDecimal longitude) {
+    PortableCoordinates(BigDecimal latitude, BigDecimal longitude) {
         this.latitude = scale(latitude);
         this.longitude = scale(longitude);
     }
@@ -71,7 +71,7 @@ class PortableLatLng {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        PortableLatLng that = (PortableLatLng) o;
+        PortableCoordinates that = (PortableCoordinates) o;
         return Objects.equals(latitude, that.latitude) &&
                 Objects.equals(longitude, that.longitude);
     }
@@ -83,7 +83,7 @@ class PortableLatLng {
 
     @Override
     public String toString() {
-        return "PortableLatLng{" +
+        return "PortableCoordinates{" +
                 "latitude=" + latitude +
                 ", longitude=" + longitude +
                 '}';
