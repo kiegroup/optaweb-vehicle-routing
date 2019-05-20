@@ -102,14 +102,14 @@ public class RoutePublisherImplTest {
         );
         assertThat(portableRoute1.getTrack()).hasSize(2);
         assertThat(portableRoute1.getTrack().get(0)).containsExactly(
-                PortableLatLng.fromLatLng(location1.coordinates()),
-                PortableLatLng.fromLatLng(checkpoint12),
-                PortableLatLng.fromLatLng(location2.coordinates())
+                PortableCoordinates.fromCoordinates(location1.coordinates()),
+                PortableCoordinates.fromCoordinates(checkpoint12),
+                PortableCoordinates.fromCoordinates(location2.coordinates())
         );
         assertThat(portableRoute1.getTrack().get(1)).containsExactly(
-                PortableLatLng.fromLatLng(location2.coordinates()),
-                PortableLatLng.fromLatLng(checkpoint21),
-                PortableLatLng.fromLatLng(location1.coordinates())
+                PortableCoordinates.fromCoordinates(location2.coordinates()),
+                PortableCoordinates.fromCoordinates(checkpoint21),
+                PortableCoordinates.fromCoordinates(location1.coordinates())
         );
 
         PortableRoute portableRoute2 = portableRoutingPlan.getRoutes().get(1);
@@ -120,14 +120,14 @@ public class RoutePublisherImplTest {
         );
         assertThat(portableRoute2.getTrack()).hasSize(2);
         assertThat(portableRoute2.getTrack().get(0)).containsExactly(
-                PortableLatLng.fromLatLng(location1.coordinates()),
-                PortableLatLng.fromLatLng(checkpoint13),
-                PortableLatLng.fromLatLng(location3.coordinates())
+                PortableCoordinates.fromCoordinates(location1.coordinates()),
+                PortableCoordinates.fromCoordinates(checkpoint13),
+                PortableCoordinates.fromCoordinates(location3.coordinates())
         );
         assertThat(portableRoute2.getTrack().get(1)).containsExactly(
-                PortableLatLng.fromLatLng(location3.coordinates()),
-                PortableLatLng.fromLatLng(checkpoint31),
-                PortableLatLng.fromLatLng(location1.coordinates())
+                PortableCoordinates.fromCoordinates(location3.coordinates()),
+                PortableCoordinates.fromCoordinates(checkpoint31),
+                PortableCoordinates.fromCoordinates(location1.coordinates())
         );
     }
 }

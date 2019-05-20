@@ -23,25 +23,25 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PortableLatLngTest {
+public class PortableCoordinatesTest {
 
     @Test
-    public void fromLatLng() {
+    public void conversion_from_domain() {
         Coordinates coordinates = Coordinates.valueOf(0.04687, -88.8889);
-        PortableLatLng portableLatLng = PortableLatLng.fromLatLng(coordinates);
-        assertThat(portableLatLng.getLatitude()).isEqualTo(coordinates.latitude());
-        assertThat(portableLatLng.getLongitude()).isEqualTo(coordinates.longitude());
+        PortableCoordinates portableCoordinates = PortableCoordinates.fromCoordinates(coordinates);
+        assertThat(portableCoordinates.getLatitude()).isEqualTo(coordinates.latitude());
+        assertThat(portableCoordinates.getLongitude()).isEqualTo(coordinates.longitude());
     }
 
     @Test
     public void should_reduce_scale_if_needed() {
         Coordinates coordinates = Coordinates.valueOf(0.123450001, -88.999999999);
         Coordinates scaledDown = Coordinates.valueOf(0.12345, -89);
-        PortableLatLng portableLatLng = PortableLatLng.fromLatLng(coordinates);
-        assertThat(portableLatLng.getLatitude()).isEqualTo(scaledDown.latitude());
-        assertThat(portableLatLng.getLongitude()).isEqualByComparingTo(scaledDown.longitude());
+        PortableCoordinates portableCoordinates = PortableCoordinates.fromCoordinates(coordinates);
+        assertThat(portableCoordinates.getLatitude()).isEqualTo(scaledDown.latitude());
+        assertThat(portableCoordinates.getLongitude()).isEqualByComparingTo(scaledDown.longitude());
         // This would surprisingly fail because actual is -89 and expected is -89.0
-//        assertThat(portableLatLng.getLongitude()).isEqualTo(scaledDown.getLongitude());
+//        assertThat(portableCoordinates.getLongitude()).isEqualTo(scaledDown.longitude());
     }
 
     @Test
@@ -50,21 +50,21 @@ public class PortableLatLngTest {
         BigDecimal lat2 = BigDecimal.valueOf(20.2323);
         BigDecimal lon1 = BigDecimal.valueOf(-8.7);
         BigDecimal lon2 = BigDecimal.valueOf(-7.8);
-        PortableLatLng portableLatLng = new PortableLatLng(lat1, lon1);
+        PortableCoordinates portableCoordinates = new PortableCoordinates(lat1, lon1);
 
         // equals()
-        assertThat(portableLatLng).isNotEqualTo(null);
-        assertThat(portableLatLng).isNotEqualTo(new Coordinates(lat1, lon1));
-        assertThat(portableLatLng).isNotEqualTo(new PortableLatLng(lat1, lon2));
-        assertThat(portableLatLng).isNotEqualTo(new PortableLatLng(lat2, lon1));
-        assertThat(portableLatLng).isEqualTo(portableLatLng);
-        assertThat(portableLatLng).isEqualTo(new PortableLatLng(lat1, lon1));
+        assertThat(portableCoordinates).isNotEqualTo(null);
+        assertThat(portableCoordinates).isNotEqualTo(new Coordinates(lat1, lon1));
+        assertThat(portableCoordinates).isNotEqualTo(new PortableCoordinates(lat1, lon2));
+        assertThat(portableCoordinates).isNotEqualTo(new PortableCoordinates(lat2, lon1));
+        assertThat(portableCoordinates).isEqualTo(portableCoordinates);
+        assertThat(portableCoordinates).isEqualTo(new PortableCoordinates(lat1, lon1));
 
         // hasCode()
-        assertThat(portableLatLng).hasSameHashCodeAs(new PortableLatLng(lat1, lon1));
+        assertThat(portableCoordinates).hasSameHashCodeAs(new PortableCoordinates(lat1, lon1));
 
         // toString()
-        assertThat(portableLatLng.toString()).contains(
+        assertThat(portableCoordinates.toString()).contains(
                 lat1.toPlainString(),
                 lon1.toPlainString());
     }
