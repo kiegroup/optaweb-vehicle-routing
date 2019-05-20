@@ -57,7 +57,6 @@ describe('Location List Component', () => {
         },
       ],
     };
-    expect.assertions(2);
     const locationList = shallow(<LocationList {...props} />);
     expect(toJson(locationList)).toMatchSnapshot();
 

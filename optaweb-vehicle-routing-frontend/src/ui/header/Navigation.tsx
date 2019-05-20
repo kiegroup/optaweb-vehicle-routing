@@ -19,7 +19,7 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link, withRouter } from 'react-router-dom';
 
-const Navigation = withRouter(({ location }: RouteComponentProps) => {
+export const Navigation = ({ location }: RouteComponentProps) => {
   return (
     <Nav aria-label="Nav">
       <NavList variant={NavVariants.horizontal}>
@@ -39,6 +39,6 @@ const Navigation = withRouter(({ location }: RouteComponentProps) => {
       </NavList>
     </Nav>
   );
-});
+};
 
-export default Navigation;
+export default withRouter(Navigation);

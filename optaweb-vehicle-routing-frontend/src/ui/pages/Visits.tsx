@@ -42,9 +42,9 @@ const mapDispatchToProps: DispatchProps = {
   removeHandler: routeOperations.deleteLocation,
 };
 
-type Props = StateProps & DispatchProps;
+export type Props = StateProps & DispatchProps;
 
-class Visits extends React.Component<Props> {
+export class Visits extends React.Component<Props> {
 
   constructor(props: Props) {
     super(props);
@@ -59,7 +59,7 @@ class Visits extends React.Component<Props> {
     return (
       <>
         <TextContent>
-          <Text component={TextVariants.h1}>Visits ({visits.length})</Text>
+          <Text component={TextVariants.h1}>{`Visits (${visits.length})`}</Text>
         </TextContent>
         {/* TODO do not show depots */}
         <LocationList
