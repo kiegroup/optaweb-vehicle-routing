@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.route.RoutePublisher;
@@ -57,9 +57,9 @@ class RoutePublisherImpl implements RoutePublisher {
         return new PortableRoutingPlan(routingPlan.distance(), depot, routes);
     }
 
-    private static List<List<PortableLatLng>> portableTrack(List<List<LatLng>> track) {
+    private static List<List<PortableLatLng>> portableTrack(List<List<Coordinates>> track) {
         ArrayList<List<PortableLatLng>> portableTrack = new ArrayList<>();
-        for (List<LatLng> segment : track) {
+        for (List<Coordinates> segment : track) {
             List<PortableLatLng> portableSegment = segment.stream()
                     .map(PortableLatLng::fromLatLng)
                     .collect(Collectors.toList());

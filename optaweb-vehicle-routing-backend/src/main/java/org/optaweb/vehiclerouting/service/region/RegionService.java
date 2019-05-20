@@ -20,7 +20,7 @@ import java.util.List;
 
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.shapes.BBox;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,8 +54,8 @@ public class RegionService {
     public BoundingBox boundingBox() {
         BBox bounds = graphHopper.getGraphHopperStorage().getBounds();
         return new BoundingBox(
-                LatLng.valueOf(bounds.minLat, bounds.minLon),
-                LatLng.valueOf(bounds.maxLat, bounds.maxLon)
+                Coordinates.valueOf(bounds.minLat, bounds.minLon),
+                Coordinates.valueOf(bounds.maxLat, bounds.maxLon)
         );
     }
 }

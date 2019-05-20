@@ -29,7 +29,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
@@ -61,8 +61,8 @@ public class DemoServiceTest {
     @Captor
     private ArgumentCaptor<RoutingProblem> routingProblemCaptor;
 
-    private final Location depot = new Location(1, LatLng.valueOf(1.0, 7), "Depot");
-    private final List<Location> visits = Arrays.asList(new Location(2, LatLng.valueOf(2.0, 9), "Visit"));
+    private final Location depot = new Location(1, Coordinates.valueOf(1.0, 7), "Depot");
+    private final List<Location> visits = Arrays.asList(new Location(2, Coordinates.valueOf(2.0, 9), "Visit"));
     private final String problemName = "Testing problem";
     private final RoutingProblem routingProblem = new RoutingProblem(problemName, depot, visits);
 
@@ -83,7 +83,7 @@ public class DemoServiceTest {
     public void loadDemo() {
         demoService.loadDemo(problemName);
         verify(locationService, times(routingProblem.visits().size() + 1))
-                .createLocation(any(LatLng.class), anyString());
+                .createLocation(any(Coordinates.class), anyString());
     }
 
     @Test
@@ -91,15 +91,15 @@ public class DemoServiceTest {
         when(locationService.createLocation(any(), anyString())).thenReturn(false);
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> demoService.loadDemo(problemName))
-                .withMessageContaining(depot.getLatLng().toString());
-        verify(locationService, times(DemoService.MAX_TRIES)).createLocation(any(LatLng.class), anyString());
+                .withMessageContaining(depot.getCoordinates().toString());
+        verify(locationService, times(DemoService.MAX_TRIES)).createLocation(any(Coordinates.class), anyString());
     }
 
     @Test
     public void export_should_marshal_routing_plans_with_locations_from_repository() {
-        Location depot = new Location(0, LatLng.valueOf(1.0, 2.0), "Depot");
-        Location visit1 = new Location(1, LatLng.valueOf(11.0, 22.0), "Visit 1");
-        Location visit2 = new Location(2, LatLng.valueOf(22.0, 33.0), "Visit 2");
+        Location depot = new Location(0, Coordinates.valueOf(1.0, 2.0), "Depot");
+        Location visit1 = new Location(1, Coordinates.valueOf(11.0, 22.0), "Visit 1");
+        Location visit2 = new Location(2, Coordinates.valueOf(22.0, 33.0), "Visit 2");
         when(locationRepository.locations()).thenReturn(Arrays.asList(depot, visit1, visit2));
 
         demoService.exportDataSet();

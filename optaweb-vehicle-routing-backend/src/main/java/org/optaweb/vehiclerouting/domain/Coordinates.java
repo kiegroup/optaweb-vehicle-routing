@@ -22,18 +22,18 @@ import java.util.Objects;
 /**
  * Horizontal geographical coordinates consisting of latitude and longitude.
  */
-public class LatLng {
+public class Coordinates {
 
     private final BigDecimal latitude;
     private final BigDecimal longitude;
 
-    public LatLng(BigDecimal latitude, BigDecimal longitude) {
+    public Coordinates(BigDecimal latitude, BigDecimal longitude) {
         this.latitude = Objects.requireNonNull(latitude);
         this.longitude = Objects.requireNonNull(longitude);
     }
 
-    public static LatLng valueOf(double latitude, double longitude) {
-        return new LatLng(BigDecimal.valueOf(latitude), BigDecimal.valueOf(longitude));
+    public static Coordinates valueOf(double latitude, double longitude) {
+        return new Coordinates(BigDecimal.valueOf(latitude), BigDecimal.valueOf(longitude));
     }
 
     public BigDecimal getLatitude() {
@@ -52,9 +52,9 @@ public class LatLng {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        LatLng latLng = (LatLng) o;
-        return latitude.compareTo(latLng.latitude) == 0 &&
-                longitude.compareTo(latLng.longitude) == 0;
+        Coordinates coordinates = (Coordinates) o;
+        return latitude.compareTo(coordinates.latitude) == 0 &&
+                longitude.compareTo(coordinates.longitude) == 0;
     }
 
     @Override

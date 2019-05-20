@@ -18,22 +18,22 @@ package org.optaweb.vehiclerouting.service.region;
 
 import java.util.Objects;
 
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 
 /**
  * Bounding box.
  */
 public class BoundingBox {
 
-    private final LatLng southWest;
-    private final LatLng northEast;
+    private final Coordinates southWest;
+    private final Coordinates northEast;
 
     /**
      * Create bounding box. The box must have non-zero dimensions and the corners must be south-west and north-east.
      * @param southWest south-west corner (minimal latitude and longitude)
      * @param northEast north-east corner (maximal latitude and longitude)
      */
-    public BoundingBox(LatLng southWest, LatLng northEast) {
+    public BoundingBox(Coordinates southWest, Coordinates northEast) {
         this.southWest = Objects.requireNonNull(southWest);
         this.northEast = Objects.requireNonNull(northEast);
         if (southWest.getLatitude().compareTo(northEast.getLatitude()) >= 0) {
@@ -58,7 +58,7 @@ public class BoundingBox {
      * South-west corner of the bounding box.
      * @return south-west corner (minimal latitude and longitude)
      */
-    public LatLng getSouthWest() {
+    public Coordinates getSouthWest() {
         return southWest;
     }
 
@@ -66,7 +66,7 @@ public class BoundingBox {
      * North-east corner of the bounding box.
      * @return north-east corner (maximal latitude and longitude)
      */
-    public LatLng getNorthEast() {
+    public Coordinates getNorthEast() {
         return northEast;
     }
 }

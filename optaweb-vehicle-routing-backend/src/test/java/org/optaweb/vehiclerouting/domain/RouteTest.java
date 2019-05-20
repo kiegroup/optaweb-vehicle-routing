@@ -28,9 +28,9 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 public class RouteTest {
 
-    private final Location depot = new Location(1, LatLng.valueOf(5, 5));
-    private final Location visit1 = new Location(2, LatLng.valueOf(5, 5));
-    private final Location visit2 = new Location(3, LatLng.valueOf(5, 5));
+    private final Location depot = new Location(1, Coordinates.valueOf(5, 5));
+    private final Location visit1 = new Location(2, Coordinates.valueOf(5, 5));
+    private final Location visit2 = new Location(3, Coordinates.valueOf(5, 5));
 
     @Test
     public void constructor_args_not_null() {

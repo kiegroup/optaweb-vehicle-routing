@@ -24,7 +24,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -101,8 +101,8 @@ public class DistanceMatrixImplTest {
         long dist12 = 12;
         long dist21 = 21;
         when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0);
-        when(distanceCalculator.travelTimeMillis(l1.getLatLng(), l2.getLatLng())).thenReturn(dist12);
-        when(distanceCalculator.travelTimeMillis(l2.getLatLng(), l1.getLatLng())).thenReturn(dist21);
+        when(distanceCalculator.travelTimeMillis(l1.getCoordinates(), l2.getCoordinates())).thenReturn(dist12);
+        when(distanceCalculator.travelTimeMillis(l2.getCoordinates(), l1.getCoordinates())).thenReturn(dist21);
 
         // no calculation for the first location
         distanceMatrix.addLocation(l1);
@@ -145,13 +145,13 @@ public class DistanceMatrixImplTest {
     }
 
     private static Location location(long id, int longitude) {
-        return new Location(id, new LatLng(BigDecimal.ZERO, BigDecimal.valueOf(longitude)));
+        return new Location(id, new Coordinates(BigDecimal.ZERO, BigDecimal.valueOf(longitude)));
     }
 
     private static class MockDistanceCalculator implements DistanceCalculator {
 
         @Override
-        public long travelTimeMillis(LatLng from, LatLng to) {
+        public long travelTimeMillis(Coordinates from, Coordinates to) {
             // imagine 1D space (all locations on equator)
             return (long) (to.getLongitude().doubleValue() - from.getLongitude().doubleValue());
         }

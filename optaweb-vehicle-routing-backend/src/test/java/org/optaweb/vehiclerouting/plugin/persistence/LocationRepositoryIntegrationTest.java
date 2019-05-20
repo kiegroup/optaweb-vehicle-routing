@@ -21,7 +21,7 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -63,10 +63,10 @@ public class LocationRepositoryIntegrationTest {
 
     @Test
     public void remove_created_location() {
-        LatLng latLng = LatLng.valueOf(0.00213, 32.777);
+        Coordinates coordinates = Coordinates.valueOf(0.00213, 32.777);
         assertThat(crudRepository.count()).isZero();
-        Location location = repository.createLocation(latLng, "");
-        assertThat(location.getLatLng()).isEqualTo(latLng);
+        Location location = repository.createLocation(coordinates, "");
+        assertThat(location.getCoordinates()).isEqualTo(coordinates);
         assertThat(crudRepository.count()).isOne();
 
         Location removed = repository.removeLocation(location.getId());
@@ -85,7 +85,7 @@ public class LocationRepositoryIntegrationTest {
     public void get_and_remove_all_locations() {
         int locationCount = 8;
         for (int i = 0; i < locationCount; i++) {
-            repository.createLocation(LatLng.valueOf(1.0, i / 100.0), "");
+            repository.createLocation(Coordinates.valueOf(1.0, i / 100.0), "");
         }
 
         assertThat(crudRepository.count()).isEqualTo(locationCount);
@@ -97,7 +97,7 @@ public class LocationRepositoryIntegrationTest {
                 .orElseThrow(IllegalStateException::new);
         Location testLocation = new Location(
                 testEntity.getId(),
-                new LatLng(testEntity.getLatitude(), testEntity.getLongitude())
+                new Coordinates(testEntity.getLatitude(), testEntity.getLongitude())
         );
 
         assertThat(repository.locations())

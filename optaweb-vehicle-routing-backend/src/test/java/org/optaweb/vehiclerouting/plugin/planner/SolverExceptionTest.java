@@ -28,7 +28,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.examples.tsp.domain.TspSolution;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.springframework.context.ApplicationEventPublisher;
@@ -42,9 +42,9 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class SolverExceptionTest {
 
-    private final Location location1 = new Location(1, LatLng.valueOf(1.0, 0.1));
-    private final Location location2 = new Location(2, LatLng.valueOf(0.2, 2.2));
-    private final Location location3 = new Location(3, LatLng.valueOf(3.4, 5.6));
+    private final Location location1 = new Location(1, Coordinates.valueOf(1.0, 0.1));
+    private final Location location2 = new Location(2, Coordinates.valueOf(0.2, 2.2));
+    private final Location location3 = new Location(3, Coordinates.valueOf(3.4, 5.6));
 
     @Mock
     private ApplicationEventPublisher eventPublisher;

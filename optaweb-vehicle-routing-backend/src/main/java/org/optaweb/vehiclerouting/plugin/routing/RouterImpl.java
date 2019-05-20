@@ -24,7 +24,7 @@ import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.PointList;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
 import org.optaweb.vehiclerouting.service.route.Router;
 import org.springframework.stereotype.Component;
@@ -43,7 +43,7 @@ class RouterImpl implements Router,
     }
 
     @Override
-    public List<LatLng> getPath(LatLng from, LatLng to) {
+    public List<Coordinates> getPath(Coordinates from, Coordinates to) {
         GHRequest ghRequest = new GHRequest(
                 from.getLatitude().doubleValue(),
                 from.getLongitude().doubleValue(),
@@ -51,12 +51,12 @@ class RouterImpl implements Router,
                 to.getLongitude().doubleValue());
         PointList points = graphHopper.route(ghRequest).getBest().getPoints();
         return StreamSupport.stream(points.spliterator(), false)
-                .map(ghPoint3D -> LatLng.valueOf(ghPoint3D.lat, ghPoint3D.lon))
+                .map(ghPoint3D -> Coordinates.valueOf(ghPoint3D.lat, ghPoint3D.lon))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public long travelTimeMillis(LatLng from, LatLng to) {
+    public long travelTimeMillis(Coordinates from, Coordinates to) {
         GHRequest ghRequest = new GHRequest(
                 from.getLatitude().doubleValue(),
                 from.getLongitude().doubleValue(),

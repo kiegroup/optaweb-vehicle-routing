@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -40,8 +40,8 @@ import static org.mockito.Mockito.when;
 public class RouterImplTest {
 
     private final PointList pointList = new PointList();
-    private final LatLng from = LatLng.valueOf(-Double.MIN_VALUE, Double.MIN_VALUE);
-    private final LatLng to = LatLng.valueOf(Double.MAX_VALUE, -Double.MAX_VALUE);
+    private final Coordinates from = Coordinates.valueOf(-Double.MIN_VALUE, Double.MIN_VALUE);
+    private final Coordinates to = Coordinates.valueOf(Double.MAX_VALUE, -Double.MAX_VALUE);
     @Mock
     private GraphHopperOSM graphHopper;
     @Mock
@@ -86,20 +86,20 @@ public class RouterImplTest {
         // arrange
         RouterImpl routing = new RouterImpl(graphHopper);
 
-        LatLng latLng1 = LatLng.valueOf(1, 1);
-        LatLng latLng2 = LatLng.valueOf(Math.E, Math.PI);
-        LatLng latLng3 = LatLng.valueOf(0.1, 1.0 / 3.0);
+        Coordinates coordinates1 = Coordinates.valueOf(1, 1);
+        Coordinates coordinates2 = Coordinates.valueOf(Math.E, Math.PI);
+        Coordinates coordinates3 = Coordinates.valueOf(0.1, 1.0 / 3.0);
 
-        pointList.add(latLng1.getLatitude().doubleValue(), latLng1.getLongitude().doubleValue());
-        pointList.add(latLng2.getLatitude().doubleValue(), latLng2.getLongitude().doubleValue());
-        pointList.add(latLng3.getLatitude().doubleValue(), latLng3.getLongitude().doubleValue());
+        pointList.add(coordinates1.getLatitude().doubleValue(), coordinates1.getLongitude().doubleValue());
+        pointList.add(coordinates2.getLatitude().doubleValue(), coordinates2.getLongitude().doubleValue());
+        pointList.add(coordinates3.getLatitude().doubleValue(), coordinates3.getLongitude().doubleValue());
 
         // act & assert
-        List<LatLng> route = routing.getPath(from, to);
+        List<Coordinates> route = routing.getPath(from, to);
         assertThat(route).containsExactly(
-                latLng1,
-                latLng2,
-                latLng3
+                coordinates1,
+                coordinates2,
+                coordinates3
         );
     }
 }

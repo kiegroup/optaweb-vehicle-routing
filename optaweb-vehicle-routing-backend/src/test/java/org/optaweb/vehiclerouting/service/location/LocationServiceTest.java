@@ -25,7 +25,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 
@@ -55,14 +55,14 @@ public class LocationServiceTest {
     @Mock
     ApplicationStartedEvent event;
 
-    private final LatLng latLng = LatLng.valueOf(0.0, 1.0);
-    private final Location location = new Location(1, latLng);
+    private final Coordinates coordinates = Coordinates.valueOf(0.0, 1.0);
+    private final Location location = new Location(1, coordinates);
 
     private final List<Location> persistedLocations = Arrays.asList(location, location, location);
 
     @Before
     public void setUp() {
-        when(repository.createLocation(any(LatLng.class), anyString())).thenReturn(location);
+        when(repository.createLocation(any(Coordinates.class), anyString())).thenReturn(location);
         when(repository.removeLocation(location.getId())).thenReturn(location);
         when(repository.locations()).thenReturn(persistedLocations);
     }
@@ -70,14 +70,14 @@ public class LocationServiceTest {
     @Test
     public void createLocation_should_validate_arguments() {
         assertThatNullPointerException().isThrownBy(() -> locationService.createLocation(null, "x"));
-        assertThatNullPointerException().isThrownBy(() -> locationService.createLocation(latLng, null));
+        assertThatNullPointerException().isThrownBy(() -> locationService.createLocation(coordinates, null));
     }
 
     @Test
     public void createLocation() {
         String description = "new location";
-        assertThat(locationService.createLocation(latLng, description)).isTrue();
-        verify(repository).createLocation(latLng, description);
+        assertThat(locationService.createLocation(coordinates, description)).isTrue();
+        verify(repository).createLocation(coordinates, description);
         verify(distanceMatrix).addLocation(location);
         verify(optimizer).addLocation(eq(location), any(DistanceMatrix.class));
     }
@@ -109,7 +109,7 @@ public class LocationServiceTest {
     @Test
     public void should_not_optimize_and_roll_back_if_distance_calculation_fails() {
         doThrow(RuntimeException.class).when(distanceMatrix).addLocation(any());
-        assertThat(locationService.createLocation(latLng, "")).isFalse();
+        assertThat(locationService.createLocation(coordinates, "")).isFalse();
         verifyZeroInteractions(optimizer);
         // roll back
         verify(repository).removeLocation(location.getId());

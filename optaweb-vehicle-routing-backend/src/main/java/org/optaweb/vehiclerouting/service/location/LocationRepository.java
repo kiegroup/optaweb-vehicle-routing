@@ -19,7 +19,7 @@ package org.optaweb.vehiclerouting.service.location;
 import java.util.List;
 import java.util.Optional;
 
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 
 /**
@@ -29,11 +29,11 @@ public interface LocationRepository {
 
     /**
      * Create a location with a unique ID.
-     * @param latLng location's coordinates
+     * @param coordinates location's coordinates
      * @param description description of the location
      * @return a new location
      */
-    Location createLocation(LatLng latLng, String description);
+    Location createLocation(Coordinates coordinates, String description);
 
     /**
      * Get all locations.

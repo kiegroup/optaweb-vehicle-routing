@@ -27,7 +27,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
@@ -78,8 +78,8 @@ public class RouteListenerTest {
 
     @Test
     public void event_with_no_visits_and_a_depot_should_be_published_as_plan_with_empty_routes() {
-        final LatLng depotLatLng = LatLng.valueOf(0.0, 0.1);
-        final Location depot = new Location(1, depotLatLng);
+        final Coordinates depotCoordinates = Coordinates.valueOf(0.0, 0.1);
+        final Location depot = new Location(1, depotCoordinates);
         ShallowRoute route = new ShallowRoute(depot.getId(), emptyList());
         when(locationRepository.find(depot.getId())).thenReturn(Optional.of(depot));
 
@@ -100,17 +100,17 @@ public class RouteListenerTest {
 
     @Test
     public void listener_should_publish_routing_plan_when_an_update_event_occurs() {
-        final LatLng depotLatLng = LatLng.valueOf(0.0, 0.1);
-        final LatLng visitLatLng = LatLng.valueOf(2.0, -0.2);
-        final LatLng checkpoint1 = LatLng.valueOf(12, 12);
-        final LatLng checkpoint2 = LatLng.valueOf(21, 21);
-        List<LatLng> path1 = Arrays.asList(depotLatLng, checkpoint1, checkpoint2, visitLatLng);
-        List<LatLng> path2 = Arrays.asList(visitLatLng, checkpoint2, checkpoint1, depotLatLng);
-        when(router.getPath(depotLatLng, visitLatLng)).thenReturn(path1);
-        when(router.getPath(visitLatLng, depotLatLng)).thenReturn(path2);
+        final Coordinates depotCoordinates = Coordinates.valueOf(0.0, 0.1);
+        final Coordinates visitCoordinates = Coordinates.valueOf(2.0, -0.2);
+        final Coordinates checkpoint1 = Coordinates.valueOf(12, 12);
+        final Coordinates checkpoint2 = Coordinates.valueOf(21, 21);
+        List<Coordinates> path1 = Arrays.asList(depotCoordinates, checkpoint1, checkpoint2, visitCoordinates);
+        List<Coordinates> path2 = Arrays.asList(visitCoordinates, checkpoint2, checkpoint1, depotCoordinates);
+        when(router.getPath(depotCoordinates, visitCoordinates)).thenReturn(path1);
+        when(router.getPath(visitCoordinates, depotCoordinates)).thenReturn(path2);
 
-        final Location depot = new Location(1, depotLatLng);
-        final Location visit = new Location(2, visitLatLng);
+        final Location depot = new Location(1, depotCoordinates);
+        final Location visit = new Location(2, visitCoordinates);
         final String distance = "xy";
         when(locationRepository.find(depot.getId())).thenReturn(Optional.of(depot));
         when(locationRepository.find(visit.getId())).thenReturn(Optional.of(visit));
@@ -135,8 +135,8 @@ public class RouteListenerTest {
 
     @Test
     public void should_discard_update_gracefully_if_one_of_location_has_been_removed() {
-        final Location depot = new Location(1, LatLng.valueOf(1.0, 2.0));
-        final Location visit = new Location(2, LatLng.valueOf(-1.0, -2.0));
+        final Location depot = new Location(1, Coordinates.valueOf(1.0, 2.0));
+        final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
         when(locationRepository.find(depot.getId())).thenReturn(Optional.of(depot));
         when(locationRepository.find(visit.getId())).thenReturn(Optional.empty());
 

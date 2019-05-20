@@ -25,16 +25,16 @@ import java.util.Objects;
  */
 public class LocationData {
 
-    private final LatLng latLng;
+    private final Coordinates coordinates;
     private final String description;
 
-    public LocationData(LatLng latLng, String description) {
-        this.latLng = Objects.requireNonNull(latLng);
+    public LocationData(Coordinates coordinates, String description) {
+        this.coordinates = Objects.requireNonNull(coordinates);
         this.description = Objects.requireNonNull(description);
     }
 
-    public LatLng getLatLng() {
-        return latLng;
+    public Coordinates getCoordinates() {
+        return coordinates;
     }
 
     public String getDescription() {
@@ -50,19 +50,19 @@ public class LocationData {
             return false;
         }
         LocationData that = (LocationData) o;
-        return latLng.equals(that.latLng) &&
+        return coordinates.equals(that.coordinates) &&
                 description.equals(that.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(latLng, description);
+        return Objects.hash(coordinates, description);
     }
 
     @Override
     public String toString() {
         return "LocationData{" +
-                "latLng=" + latLng +
+                "coordinates=" + coordinates +
                 ", description='" + description + '\'' +
                 '}';
     }

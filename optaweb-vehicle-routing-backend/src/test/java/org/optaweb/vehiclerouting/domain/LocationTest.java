@@ -28,36 +28,36 @@ public class LocationTest {
     @Test
     public void constructor_params_must_not_be_null() {
         assertThatNullPointerException().isThrownBy(() -> new Location(0, null, ""));
-        assertThatNullPointerException().isThrownBy(() -> new Location(0, LatLng.valueOf(1, 1), null));
+        assertThatNullPointerException().isThrownBy(() -> new Location(0, Coordinates.valueOf(1, 1), null));
     }
 
     @Test
     public void locations_are_identified_based_on_id() {
-        final LatLng latLng0 = new LatLng(BigDecimal.ZERO, BigDecimal.ZERO);
-        final LatLng latLng1 = new LatLng(BigDecimal.ONE, BigDecimal.ONE);
+        final Coordinates coordinates0 = new Coordinates(BigDecimal.ZERO, BigDecimal.ZERO);
+        final Coordinates coordinates1 = new Coordinates(BigDecimal.ONE, BigDecimal.ONE);
         final String description = "test description";
         final long id = 0;
 
-        final Location location = new Location(id, latLng0, description);
+        final Location location = new Location(id, coordinates0, description);
 
         // different ID
-        assertThat(location).isNotEqualTo(new Location(1, latLng0, description));
+        assertThat(location).isNotEqualTo(new Location(1, coordinates0, description));
         // null
         assertThat(location).isNotEqualTo(null);
         // different class
-        assertThat(location).isNotEqualTo(new LocationData(latLng0, description));
+        assertThat(location).isNotEqualTo(new LocationData(coordinates0, description));
         // same object -> OK
         assertThat(location).isEqualTo(location);
         // same properties -> OK
-        assertThat(location).isEqualTo(new Location(id, latLng0, description));
+        assertThat(location).isEqualTo(new Location(id, coordinates0, description));
         // same ID, different coordinate -> OK
-        assertThat(location).isEqualTo(new Location(id, latLng1, description));
+        assertThat(location).isEqualTo(new Location(id, coordinates1, description));
         // same ID, different description -> OK
-        assertThat(location).isEqualTo(new Location(id, latLng0, "xyz"));
+        assertThat(location).isEqualTo(new Location(id, coordinates0, "xyz"));
     }
 
     @Test
     public void constructor_without_description_should_create_empty_description() {
-        assertThat(new Location(7, LatLng.valueOf(3.14, 4.13)).getDescription()).isEmpty();
+        assertThat(new Location(7, Coordinates.valueOf(3.14, 4.13)).getDescription()).isEmpty();
     }
 }

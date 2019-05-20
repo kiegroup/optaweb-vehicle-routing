@@ -38,7 +38,7 @@ import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.Standstill;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
@@ -62,9 +62,9 @@ import static org.optaweb.vehiclerouting.plugin.planner.SolutionUtil.planningLoc
 @RunWith(MockitoJUnitRunner.class)
 public class RouteOptimizerImplTest {
 
-    private final Location location1 = new Location(1, LatLng.valueOf(1.0, 0.1));
-    private final Location location2 = new Location(2, LatLng.valueOf(0.2, 2.2));
-    private final Location location3 = new Location(3, LatLng.valueOf(3.4, 5.6));
+    private final Location location1 = new Location(1, Coordinates.valueOf(1.0, 0.1));
+    private final Location location2 = new Location(2, Coordinates.valueOf(0.2, 2.2));
+    private final Location location3 = new Location(3, Coordinates.valueOf(3.4, 5.6));
 
     private boolean isSolving;
 
@@ -326,8 +326,8 @@ public class RouteOptimizerImplTest {
     public void planning_location_should_have_same_latitude_and_longitude() {
         RoadLocation roadLocation = planningLocation(location1);
         assertThat(roadLocation.getId()).isEqualTo(location1.getId());
-        assertThat(roadLocation.getLatitude()).isEqualTo(location1.getLatLng().getLatitude().doubleValue());
-        assertThat(roadLocation.getLongitude()).isEqualTo(location1.getLatLng().getLongitude().doubleValue());
+        assertThat(roadLocation.getLatitude()).isEqualTo(location1.getCoordinates().getLatitude().doubleValue());
+        assertThat(roadLocation.getLongitude()).isEqualTo(location1.getCoordinates().getLongitude().doubleValue());
     }
 
     /**

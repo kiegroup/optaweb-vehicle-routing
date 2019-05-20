@@ -16,7 +16,7 @@
 
 package org.optaweb.vehiclerouting.service.distance;
 
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 
 /**
  * Calculates distances between coordinates.
@@ -29,5 +29,5 @@ public interface DistanceCalculator {
      * @param to destination
      * @return travel time in milliseconds
      */
-    long travelTimeMillis(LatLng from, LatLng to);
+    long travelTimeMillis(Coordinates from, Coordinates to);
 }

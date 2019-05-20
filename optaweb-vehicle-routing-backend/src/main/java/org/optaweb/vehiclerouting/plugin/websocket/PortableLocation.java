@@ -39,8 +39,8 @@ class PortableLocation {
     static PortableLocation fromLocation(Location location) {
         return new PortableLocation(
                 location.getId(),
-                location.getLatLng().getLatitude(),
-                location.getLatLng().getLongitude(),
+                location.getCoordinates().getLatitude(),
+                location.getCoordinates().getLongitude(),
                 location.getDescription()
         );
     }

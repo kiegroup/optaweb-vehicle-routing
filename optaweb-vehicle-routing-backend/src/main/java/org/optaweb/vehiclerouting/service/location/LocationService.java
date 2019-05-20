@@ -18,7 +18,7 @@ package org.optaweb.vehiclerouting.service.location;
 
 import java.util.Objects;
 
-import org.optaweb.vehiclerouting.domain.LatLng;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,11 +51,11 @@ public class LocationService {
         repository.locations().forEach(this::submitToPlanner);
     }
 
-    public synchronized boolean createLocation(LatLng latLng, String description) {
-        Objects.requireNonNull(latLng);
+    public synchronized boolean createLocation(Coordinates coordinates, String description) {
+        Objects.requireNonNull(coordinates);
         Objects.requireNonNull(description);
-        // TODO if (router.isLocationAvailable(latLng))
-        return submitToPlanner(repository.createLocation(latLng, description));
+        // TODO if (router.isLocationAvailable(coordinates))
+        return submitToPlanner(repository.createLocation(coordinates, description));
     }
 
     private boolean submitToPlanner(Location location) {
