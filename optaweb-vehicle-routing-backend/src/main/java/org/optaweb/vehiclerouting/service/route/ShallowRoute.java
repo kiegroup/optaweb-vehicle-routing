@@ -23,6 +23,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+// TODO maybe remove this once we fork planning domain from optaplanner-examples
+// because then we can hold a reference to the original location
+
 /**
  * Lightweight route description consisting of location IDs instead of entities.
  * This makes it easier to quickly construct and share result of route optimization

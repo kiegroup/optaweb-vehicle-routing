@@ -66,7 +66,7 @@ public class DataSetMarshallerTest {
     @Test
     public void marshal_data_set() {
         DataSet dataSet = new DataSet();
-        String name = "Data set name";
+        String name = "Test data set";
         dataSet.setName(name);
         DataSetLocation depot = new DataSetLocation("Depot", -1.1, -9.9);
         DataSetLocation location1 = new DataSetLocation("Location 1", 1.0, 0.1);

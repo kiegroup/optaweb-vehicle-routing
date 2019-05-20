@@ -19,7 +19,7 @@ package org.optaweb.vehiclerouting.service.demo.dataset;
 /**
  * Data set location.
  */
-public class DataSetLocation {
+class DataSetLocation {
 
     private String label;
     private double lat;
@@ -29,7 +29,7 @@ public class DataSetLocation {
         // for unmarshalling
     }
 
-    public DataSetLocation(String label, double lat, double lng) {
+    DataSetLocation(String label, double lat, double lng) {
         this.lat = lat;
         this.lng = lng;
         this.label = label;

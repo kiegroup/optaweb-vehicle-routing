@@ -34,7 +34,7 @@ public class RegionService {
     private final GraphHopperOSM graphHopper;
 
     @Autowired
-    public RegionService(RegionProperties regionProperties, GraphHopperOSM graphHopper) {
+    RegionService(RegionProperties regionProperties, GraphHopperOSM graphHopper) {
         this.regionProperties = regionProperties;
         this.graphHopper = graphHopper;
     }
