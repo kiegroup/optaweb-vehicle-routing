@@ -24,7 +24,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.optaweb.vehiclerouting.domain.LatLng;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationData;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +34,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class DataSetMarshaller {
 
-    static final long NO_ID = 0;
     private final ObjectMapper mapper;
 
     /**
@@ -100,11 +99,11 @@ public class DataSetMarshaller {
         return dataSet;
     }
 
-    static DataSetLocation toDataSet(Location location) {
+    static DataSetLocation toDataSet(LocationData locationData) {
         return new DataSetLocation(
-                location.getDescription(),
-                location.getLatLng().getLatitude().doubleValue(),
-                location.getLatLng().getLongitude().doubleValue()
+                locationData.getDescription(),
+                locationData.getLatLng().getLatitude().doubleValue(),
+                locationData.getLatLng().getLongitude().doubleValue()
         );
     }
 
@@ -116,9 +115,8 @@ public class DataSetMarshaller {
         );
     }
 
-    static Location toDomain(DataSetLocation dataSetLocation) {
-        return new Location(
-                NO_ID, // FIXME add something like LocationWithoutId
+    static LocationData toDomain(DataSetLocation dataSetLocation) {
+        return new LocationData(
                 LatLng.valueOf(dataSetLocation.getLat(), dataSetLocation.getLng()),
                 dataSetLocation.getLabel()
         );
