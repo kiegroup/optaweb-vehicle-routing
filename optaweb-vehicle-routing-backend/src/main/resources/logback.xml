@@ -25,7 +25,7 @@
     </encoder>
   </appender>
 
-  <root>
+  <root level="info">
     <appender-ref ref="consoleAppender"/>
   </root>
 
