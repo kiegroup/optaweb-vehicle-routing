@@ -81,7 +81,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
   }
 
   handleMapClick(e: any) {
-    this.props.addHandler(e.latlng, '');
+    this.props.addHandler({ ...e.latlng, description: '' });
   }
 
   onSelectLocation(id: number) {

@@ -20,7 +20,7 @@ import { WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
 import reducer, { routeOperations, routeSelectors } from './index';
 import { initialRouteState } from './reducers';
-import { Location } from './types';
+import { LatLngWithDescription, Location } from './types';
 
 describe('Route operations', () => {
   it('should dispatch actions and call client', () => {
@@ -42,8 +42,9 @@ describe('Route operations', () => {
 
     const latLng: Location = state.plan.routes[0].visits[0];
     const description = 'new location';
-    store.dispatch(routeOperations.addLocation(latLng, description));
-    expect(store.getActions()).toEqual([actions.addLocation(latLng, description)]);
+    const location: LatLngWithDescription = { lat: latLng.lat, lng: latLng.lng, description };
+    store.dispatch(routeOperations.addLocation(location));
+    expect(store.getActions()).toEqual([actions.addLocation(location)]);
     expect(client.addLocation).toHaveBeenCalledTimes(1);
     expect(client.addLocation).toHaveBeenCalledWith({ ...latLng, description });
   });
@@ -57,7 +58,11 @@ describe('Route reducers', () => {
   });
   it('add location', () => {
     expect(
-      reducer(state.plan, actions.addLocation(state.plan.routes[0].visits[0], 'description')),
+      reducer(state.plan, actions.addLocation({
+        lat: 1,
+        lng: -1,
+        description: 'description',
+      })),
     ).toEqual(state.plan);
   });
   it('delete location', () => {
