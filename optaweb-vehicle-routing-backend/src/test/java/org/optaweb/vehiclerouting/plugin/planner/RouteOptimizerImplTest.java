@@ -81,7 +81,7 @@ public class RouteOptimizerImplTest {
     @Mock
     private AsyncTaskExecutor executor;
     @Mock
-    private Future solverFuture;
+    private Future<VehicleRoutingSolution> solverFuture;
     @InjectMocks
     private RouteOptimizerImpl routeOptimizer;
 
@@ -89,10 +89,12 @@ public class RouteOptimizerImplTest {
     public void setUp() {
         // always run the runnable submitted to executor (that's what every executor does)
         // we can then verify that solver.solve() has been called
-        when(executor.submit(any(Runnable.class))).thenAnswer(answer((Answer1<Future, Runnable>) runnable -> {
-            runnable.run();
-            return solverFuture;
-        }));
+        when(executor.submit(any(RouteOptimizerImpl.SolvingTask.class))).thenAnswer(
+                answer((Answer1<Future<VehicleRoutingSolution>, RouteOptimizerImpl.SolvingTask>) callable -> {
+                    callable.call();
+                    return solverFuture;
+                })
+        );
 
         // mimic solve() => isSolving(); terminateEarly() => !isSolving()
         isSolving = false;

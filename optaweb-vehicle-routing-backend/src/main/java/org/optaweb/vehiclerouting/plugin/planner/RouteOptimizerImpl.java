@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.plugin.planner;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -52,7 +53,7 @@ class RouteOptimizerImpl implements RouteOptimizer,
     private final ApplicationEventPublisher publisher;
     private final Solver<VehicleRoutingSolution> solver;
     private final AsyncTaskExecutor executor;
-    private Future<?> solverFuture;
+    private Future<VehicleRoutingSolution> solverFuture;
     private VehicleRoutingSolution solution;
 
     @Autowired
@@ -88,9 +89,7 @@ class RouteOptimizerImpl implements RouteOptimizer,
         }
         // TODO move this to @Async method?
         // TODO use ListenableFuture to react to solve() exceptions immediately?
-        solverFuture = executor.submit(() -> {
-            solver.solve(solution);
-        });
+        solverFuture = executor.submit((SolvingTask) () -> solver.solve(solution));
     }
 
     boolean isSolving() {
@@ -216,5 +215,9 @@ class RouteOptimizerImpl implements RouteOptimizer,
         stopSolver();
         solution = SolutionUtil.initialSolution();
         publishRoute(solution);
+    }
+
+    interface SolvingTask extends Callable<VehicleRoutingSolution> {
+
     }
 }
