@@ -18,13 +18,14 @@ jobs:
         # the git command returns 1 and fails the build if there are any uncommitted changes
         - npm install && git diff HEAD --exit-code
       after_script: ./travis-sonarcloud.sh
+
     - language: java
       jdk: openjdk8
       cache:
         directories:
           - "$HOME/.m2/repository"
           - "$HOME/.sonar/cache"
-
       before_install:
         - "cd optaweb-vehicle-routing-backend"
-      script: ./mvnw install -Pjacoco,sonar
+      # do not install to avoid dirtying the cache
+      script: ./mvnw verify -Pjacoco,sonar
