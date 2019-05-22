@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { ActionCreator } from 'redux';
 import { demoOperations } from '../demo';
 import { FinishLoadingAction } from '../demo/types';
 import { routeOperations } from '../route';
@@ -22,7 +21,7 @@ import { getVisits } from '../route/selectors';
 import { UpdateRouteAction } from '../route/types';
 import { serverOperations } from '../server';
 import { ServerInfoAction } from '../server/types';
-import { ThunkCommand } from '../types';
+import { ThunkCommandFactory } from '../types';
 import * as actions from './actions';
 import { WebSocketAction } from './types';
 
@@ -32,37 +31,38 @@ type ConnectClientThunkAction =
   | FinishLoadingAction
   | ServerInfoAction;
 
-type ConnectClientThunk = ActionCreator<ThunkCommand<ConnectClientThunkAction>>;
-
 /**
  * Connect the client to WebSocket.
  */
-export const connectClient: ConnectClientThunk = () => (dispatch, state, client) => {
-  // dispatch WS connection initializing
-  dispatch(actions.initWsConnection());
-  client.connect(
-    () => {
+export const connectClient: ThunkCommandFactory<void, ConnectClientThunkAction> =
+  () => (dispatch, state, client) => {
+    // dispatch WS connection initializing
+    dispatch(actions.initWsConnection());
+    client.connect(
       // on connection, subscribe to the route topic
-      dispatch(actions.wsConnectionSuccess());
-      client.subscribeToServerInfo((serverInfo) => {
-        dispatch(serverOperations.serverInfo(serverInfo));
-      });
-      client.subscribeToRoute((plan) => {
-        dispatch(routeOperations.updateRoute(plan));
-        // TODO use plan.visits.length
-        if (state().demo.isLoading) {
-          // TODO handle the case when serverInfo doesn't contain demo with the given name
-          //      (that could only be possible due to a bug in the code)
-          const demo = state().serverInfo.demos.filter(value => value.name === state().demo.demoName)[0];
-          if (getVisits(plan).length === demo.visits) {
-            dispatch(demoOperations.finishLoading());
+      () => {
+        dispatch(actions.wsConnectionSuccess());
+        client.subscribeToServerInfo((serverInfo) => {
+          dispatch(serverOperations.serverInfo(serverInfo));
+        });
+        client.subscribeToRoute((plan) => {
+          dispatch(routeOperations.updateRoute(plan));
+          // TODO use plan.visits.length
+          if (state().demo.isLoading) {
+            // TODO handle the case when serverInfo doesn't contain demo with the given name
+            //      (that could only be possible due to a bug in the code)
+            const demo = state().serverInfo.demos.filter(value => value.name === state().demo.demoName)[0];
+            if (getVisits(plan).length === demo.visits) {
+              dispatch(demoOperations.finishLoading());
+            }
           }
-        }
-      });
-    },
-    (err) => {
+        });
+      },
       // on error, schedule a reconnection attempt
-      dispatch(actions.wsConnectionFailure(err));
-      setTimeout(() => dispatch(connectClient()), 1000);
-    });
-};
+      (err) => {
+        // TODO try to pass the original err object or test it here and
+        //      dispatch different actions based on its properties (Frame vs. CloseEvent, reason etc.)
+        dispatch(actions.wsConnectionFailure(JSON.stringify(err)));
+        setTimeout(() => dispatch(connectClient()), 1000);
+      });
+  };

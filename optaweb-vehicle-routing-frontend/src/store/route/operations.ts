@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-import { ThunkFactory } from '../types';
+import { ThunkCommandFactory } from '../types';
 import * as actions from './actions';
 import { AddLocationAction, ClearRouteAction, DeleteLocationAction, LatLngWithDescription } from './types';
 
 export const updateRoute = actions.updateRoute;
 
-export const addLocation: ThunkFactory<LatLngWithDescription, AddLocationAction> = location =>
+export const addLocation: ThunkCommandFactory<LatLngWithDescription, AddLocationAction> = location =>
   (dispatch, state, client) => {
     dispatch(actions.addLocation(location));
     client.addLocation(location);
   };
 
-export const deleteLocation: ThunkFactory<number, DeleteLocationAction> = locationId =>
+export const deleteLocation: ThunkCommandFactory<number, DeleteLocationAction> = locationId =>
   (dispatch, state, client) => {
     dispatch(actions.deleteLocation(locationId));
     client.deleteLocation(locationId);
   };
 
-export const clearRoute: ThunkFactory<void, ClearRouteAction> = () =>
+export const clearRoute: ThunkCommandFactory<void, ClearRouteAction> = () =>
   (dispatch, state, client) => {
     actions.clearRoute();
     dispatch(actions.clearRoute());

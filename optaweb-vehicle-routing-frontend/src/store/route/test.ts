@@ -46,7 +46,7 @@ describe('Route operations', () => {
     store.dispatch(routeOperations.addLocation(location));
     expect(store.getActions()).toEqual([actions.addLocation(location)]);
     expect(client.addLocation).toHaveBeenCalledTimes(1);
-    expect(client.addLocation).toHaveBeenCalledWith({ ...latLng, description });
+    expect(client.addLocation).toHaveBeenCalledWith(location);
   });
 });
 

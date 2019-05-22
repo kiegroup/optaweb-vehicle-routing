@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import { ActionCreator } from 'redux';
+import { ActionFactory } from '../types';
 import { ActionType, ServerInfo, ServerInfoAction } from './types';
 
-export const serverInfo: ActionCreator<ServerInfoAction> = (info: ServerInfo) => ({
+export const serverInfo: ActionFactory<ServerInfo, ServerInfoAction> = info => ({
   type: ActionType.SERVER_INFO,
   value: info,
 });

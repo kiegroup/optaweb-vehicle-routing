@@ -15,7 +15,6 @@
  */
 
 import { Action } from 'redux';
-import { Frame } from 'webstomp-client';
 
 export enum WebSocketConnectionStatus {
   OPEN = 'OPEN',
@@ -36,7 +35,7 @@ export interface WsConnectionSuccessAction extends Action<ActionType.WS_CONNECT_
 }
 
 export interface WsConnectionFailureAction extends Action<ActionType.WS_CONNECT_FAILURE> {
-  readonly value: Frame | CloseEvent;
+  readonly error: string;
 }
 
 export type WebSocketAction =

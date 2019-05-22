@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-import { ThunkCommand } from '../types';
+import { ThunkCommandFactory } from '../types';
 import * as actions from './actions';
 import { RequestDemoAction } from './types';
 
 export const finishLoading = actions.finishLoading;
 
-export const requestDemo: (name: string) => ThunkCommand<RequestDemoAction> = (name: string) =>
+export const requestDemo: ThunkCommandFactory<string, RequestDemoAction> = name =>
   (dispatch, state, client) => {
     dispatch(actions.requestDemo(name));
     client.loadDemo(name);

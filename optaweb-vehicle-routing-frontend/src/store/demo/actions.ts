@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
+import { ActionFactory } from '../types';
 import { ActionType, FinishLoadingAction, RequestDemoAction } from './types';
 
-export const requestDemo = (name: string): RequestDemoAction => ({
+export const requestDemo: ActionFactory<string, RequestDemoAction> = name => ({
   type: ActionType.REQUEST_DEMO,
   name,
 });
 
-export const finishLoading = (): FinishLoadingAction => ({
+export const finishLoading: ActionFactory<void, FinishLoadingAction> = () => ({
   type: ActionType.FINISH_LOADING,
 });
