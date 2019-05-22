@@ -16,13 +16,12 @@
 
 import * as SockJS from 'sockjs-client';
 import { LatLngWithDescription, RoutingPlan } from 'store/route/types';
-import webstomp, { Client, Frame } from 'webstomp-client';
+import { Client, Frame, over } from 'webstomp-client';
 import { ServerInfo } from '../store/server/types';
 
 export default class WebSocketClient {
 
   readonly socketUrl: string;
-  webSocket: WebSocket;
   stompClient: Client;
 
   constructor(socketUrl: string) {
@@ -30,8 +29,8 @@ export default class WebSocketClient {
   }
 
   connect(successCallback: () => any, errorCallback: (err: CloseEvent | Frame) => any) {
-    this.webSocket = new SockJS(this.socketUrl);
-    this.stompClient = webstomp.over(this.webSocket, {
+    const webSocket = new SockJS(this.socketUrl);
+    this.stompClient = over(webSocket, {
       debug: true,
       // Because webstomp first reads ws.protocol:
       // https://github.com/JSteunou/webstomp-client/blob/1.2.6/src/client.js#L152
@@ -43,12 +42,8 @@ export default class WebSocketClient {
     });
     this.stompClient.connect(
       {}, // no headers
-      () => {
-        successCallback();
-      },
-      (err) => {
-        errorCallback(err);
-      },
+      successCallback,
+      errorCallback,
     );
   }
 
