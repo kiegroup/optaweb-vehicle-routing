@@ -14,33 +14,32 @@
  * limitations under the License.
  */
 
-import { ActionCreator } from 'redux';
+import { ActionFactory } from '../types';
 import {
   ActionType,
   AddLocationAction,
   ClearRouteAction,
   DeleteLocationAction,
-  LatLng,
+  LatLngWithDescription,
   RoutingPlan,
   UpdateRouteAction,
 } from './types';
 
-export const addLocation: (latLng: LatLng, description: string) => AddLocationAction =
-  (latLng: LatLng, description: string) => ({
-    type: ActionType.ADD_LOCATION,
-    value: { ...latLng, description },
-  });
+export const addLocation: ActionFactory<LatLngWithDescription, AddLocationAction> = location => ({
+  type: ActionType.ADD_LOCATION,
+  value: location,
+});
 
-export const deleteLocation: ActionCreator<DeleteLocationAction> = (id: number) => ({
+export const deleteLocation: ActionFactory<number, DeleteLocationAction> = id => ({
   type: ActionType.DELETE_LOCATION,
   value: id,
 });
 
-export const clearRoute: ActionCreator<ClearRouteAction> = () => ({
+export const clearRoute: ActionFactory<void, ClearRouteAction> = () => ({
   type: ActionType.CLEAR_SOLUTION,
 });
 
-export const updateRoute: ActionCreator<UpdateRouteAction> = (plan: RoutingPlan) => ({
+export const updateRoute: ActionFactory<RoutingPlan, UpdateRouteAction> = plan => ({
   plan,
   type: ActionType.UPDATE_ROUTING_PLAN,
 });

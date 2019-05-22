@@ -31,6 +31,11 @@ import { WebSocketConnectionStatus } from './websocket/types';
 
 export type ThunkCommand<A extends Action> = ThunkAction<void, AppState, WebSocketClient, A>;
 
+// https://stackoverflow.com/questions/55646272/conditional-method-parameters-based-on-generic-type
+export type ActionFactory<V, A extends Action> = V extends void ? () => A : (value: V) => A;
+
+export type ThunkFactory<V, A extends Action> = V extends void ? () => ThunkCommand<A> : (value: V) => ThunkCommand<A>;
+
 export interface AppState {
   readonly serverInfo: ServerInfo;
   readonly plan: RoutingPlan;

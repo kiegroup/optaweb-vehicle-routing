@@ -14,28 +14,27 @@
  * limitations under the License.
  */
 
-import { ActionCreator } from 'redux';
-import { ThunkCommand } from '../types';
+import { ThunkFactory } from '../types';
 import * as actions from './actions';
-import { AddLocationAction, ClearRouteAction, DeleteLocationAction, LatLng } from './types';
+import { AddLocationAction, ClearRouteAction, DeleteLocationAction, LatLngWithDescription } from './types';
 
 export const updateRoute = actions.updateRoute;
 
-export const addLocation: (latLng: LatLng, description: string) => ThunkCommand<AddLocationAction> =
-  (latLng: LatLng, description: string) =>
-    (dispatch, state, client) => {
-      dispatch(actions.addLocation(latLng, description));
-      client.addLocation({ ...latLng, description });
-    };
+export const addLocation: ThunkFactory<LatLngWithDescription, AddLocationAction> = location =>
+  (dispatch, state, client) => {
+    dispatch(actions.addLocation(location));
+    client.addLocation(location);
+  };
 
-export const deleteLocation: ActionCreator<ThunkCommand<DeleteLocationAction>> = (locationId: number) =>
+export const deleteLocation: ThunkFactory<number, DeleteLocationAction> = locationId =>
   (dispatch, state, client) => {
     dispatch(actions.deleteLocation(locationId));
     client.deleteLocation(locationId);
   };
 
-export const clearRoute: ActionCreator<ThunkCommand<ClearRouteAction>> = () =>
+export const clearRoute: ThunkFactory<void, ClearRouteAction> = () =>
   (dispatch, state, client) => {
+    actions.clearRoute();
     dispatch(actions.clearRoute());
     client.clear();
   };
