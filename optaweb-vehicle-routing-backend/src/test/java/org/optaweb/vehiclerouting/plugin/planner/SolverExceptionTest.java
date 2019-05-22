@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -28,6 +27,7 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.examples.tsp.domain.TspSolution;
+import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
@@ -60,10 +60,10 @@ public class SolverExceptionTest {
     @Before
     public void setUp() {
         // Prepare a future that will be returned by mock executor
-        FutureTask<Void> task = new FutureTask<>(() -> {
+        FutureTask<VehicleRoutingSolution> task = new FutureTask<>(() -> {
             throw new TestException();
         }, null);
-        when(executor.submit(any(Runnable.class))).thenReturn((Future) task);
+        when(executor.submit(any(RouteOptimizerImpl.SolvingTask.class))).thenReturn(task);
         // Run it synchronously (otherwise the test would be unreliable!)
         task.run();
     }
