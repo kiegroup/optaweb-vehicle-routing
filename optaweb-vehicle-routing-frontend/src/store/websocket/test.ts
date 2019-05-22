@@ -66,11 +66,11 @@ describe('WebSocket client operations', () => {
     expect(store.getActions()).toEqual([actions.initWsConnection()]);
 
     // simulate client disconnection
-    const testError = 'TEST_ERROR';
+    const testError = { error: 'TEST_ERROR' };
     errorCallbackCapture(testError);
     expect(store.getActions()).toEqual([
       actions.initWsConnection(),
-      actions.wsConnectionFailure(testError),
+      actions.wsConnectionFailure(JSON.stringify(testError)),
     ]);
 
     store.clearActions();
@@ -208,7 +208,7 @@ describe('WebSocket reducers', () => {
   });
   it('connection failure should fail connection status', () => {
     expect(
-      reducer(WebSocketConnectionStatus.OPEN, actions.wsConnectionFailure()),
+      reducer(WebSocketConnectionStatus.OPEN, actions.wsConnectionFailure('test error')),
     ).toEqual(WebSocketConnectionStatus.ERROR);
   });
 });
