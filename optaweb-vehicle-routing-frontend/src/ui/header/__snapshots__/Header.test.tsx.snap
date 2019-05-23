@@ -9,7 +9,6 @@ exports[`Header component should match snapshot 1`] = `
   logo={
     <Brand
       alt="OptaPlanner Logo"
-      className=""
       src="/assets/images/optaPlannerLogo200px.png"
     />
   }

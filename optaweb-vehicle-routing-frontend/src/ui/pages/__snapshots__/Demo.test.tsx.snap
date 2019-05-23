@@ -21,11 +21,8 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
       }
     }
   >
-    <TextContent
-      className=""
-    >
+    <TextContent>
       <Text
-        className=""
         component="h1"
       >
         Demo
@@ -142,16 +139,8 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
         isFilled={false}
       >
         <Button
-          aria-label={null}
-          className=""
-          component="button"
           id="export-button"
-          isActive={false}
-          isBlock={false}
           isDisabled={true}
-          isFocus={false}
-          isHover={false}
-          isInline={false}
           onClick={[Function]}
           style={
             Object {
@@ -159,22 +148,12 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
               "marginLeft": 16,
             }
           }
-          type="button"
-          variant="primary"
         >
           Export
         </Button>
         <Button
-          aria-label={null}
-          className=""
-          component="button"
           id="clear-button"
-          isActive={false}
-          isBlock={false}
           isDisabled={true}
-          isFocus={false}
-          isHover={false}
-          isInline={false}
           onClick={[MockFunction]}
           style={
             Object {
@@ -182,8 +161,6 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
               "marginLeft": 16,
             }
           }
-          type="button"
-          variant="primary"
         >
           Clear
         </Button>
@@ -251,11 +228,8 @@ exports[`Demo page should render correctly with a few routes 1`] = `
       }
     }
   >
-    <TextContent
-      className=""
-    >
+    <TextContent>
       <Text
-        className=""
         component="h1"
       >
         Demo
@@ -372,16 +346,8 @@ exports[`Demo page should render correctly with a few routes 1`] = `
         isFilled={false}
       >
         <Button
-          aria-label={null}
-          className=""
-          component="button"
           id="export-button"
-          isActive={false}
-          isBlock={false}
           isDisabled={false}
-          isFocus={false}
-          isHover={false}
-          isInline={false}
           onClick={[Function]}
           style={
             Object {
@@ -389,22 +355,12 @@ exports[`Demo page should render correctly with a few routes 1`] = `
               "marginLeft": 16,
             }
           }
-          type="button"
-          variant="primary"
         >
           Export
         </Button>
         <Button
-          aria-label={null}
-          className=""
-          component="button"
           id="clear-button"
-          isActive={false}
-          isBlock={false}
           isDisabled={false}
-          isFocus={false}
-          isHover={false}
-          isInline={false}
           onClick={[MockFunction]}
           style={
             Object {
@@ -412,8 +368,6 @@ exports[`Demo page should render correctly with a few routes 1`] = `
               "marginLeft": 16,
             }
           }
-          type="button"
-          variant="primary"
         >
           Clear
         </Button>
@@ -481,11 +435,8 @@ exports[`Demo page should render correctly with no routes 1`] = `
       }
     }
   >
-    <TextContent
-      className=""
-    >
+    <TextContent>
       <Text
-        className=""
         component="h1"
       >
         Demo
@@ -579,16 +530,8 @@ exports[`Demo page should render correctly with no routes 1`] = `
         isFilled={false}
       >
         <Button
-          aria-label={null}
-          className=""
-          component="button"
           id="export-button"
-          isActive={false}
-          isBlock={false}
           isDisabled={true}
-          isFocus={false}
-          isHover={false}
-          isInline={false}
           onClick={[Function]}
           style={
             Object {
@@ -596,8 +539,6 @@ exports[`Demo page should render correctly with no routes 1`] = `
               "marginLeft": 16,
             }
           }
-          type="button"
-          variant="primary"
         >
           Export
         </Button>

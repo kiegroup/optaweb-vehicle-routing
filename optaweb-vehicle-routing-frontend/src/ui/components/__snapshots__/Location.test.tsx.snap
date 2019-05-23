@@ -45,15 +45,7 @@ exports[`Location Component should render correctly 1`] = `
       width={1}
     >
       <Button
-        aria-label={null}
-        className=""
-        component="button"
-        isActive={false}
-        isBlock={false}
         isDisabled={false}
-        isFocus={false}
-        isHover={false}
-        isInline={false}
         onClick={[Function]}
         type="button"
         variant="link"
@@ -101,15 +93,7 @@ exports[`Location Component should render correctly when description is missing 
       width={1}
     >
       <Button
-        aria-label={null}
-        className=""
-        component="button"
-        isActive={false}
-        isBlock={false}
         isDisabled={false}
-        isFocus={false}
-        isHover={false}
-        isInline={false}
         onClick={[Function]}
         type="button"
         variant="link"

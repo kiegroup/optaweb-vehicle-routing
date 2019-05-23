@@ -59,15 +59,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           className="pf-c-options-menu__menu-item"
         >
           <Button
-            aria-label={null}
             className="pf-c-options-menu__menu-item-icon"
-            component="button"
-            isActive={false}
-            isBlock={false}
-            isDisabled={false}
-            isFocus={false}
-            isHover={false}
-            isInline={false}
             onClick={[Function]}
             type="button"
             variant="link"
@@ -87,15 +79,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           className="pf-c-options-menu__menu-item"
         >
           <Button
-            aria-label={null}
             className="pf-c-options-menu__menu-item-icon"
-            component="button"
-            isActive={false}
-            isBlock={false}
-            isDisabled={false}
-            isFocus={false}
-            isHover={false}
-            isInline={false}
             onClick={[Function]}
             type="button"
             variant="link"
@@ -115,15 +99,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           className="pf-c-options-menu__menu-item"
         >
           <Button
-            aria-label={null}
             className="pf-c-options-menu__menu-item-icon"
-            component="button"
-            isActive={false}
-            isBlock={false}
-            isDisabled={false}
-            isFocus={false}
-            isHover={false}
-            isInline={false}
             onClick={[Function]}
             type="button"
             variant="link"
@@ -143,15 +119,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           className="pf-c-options-menu__menu-item"
         >
           <Button
-            aria-label={null}
             className="pf-c-options-menu__menu-item-icon"
-            component="button"
-            isActive={false}
-            isBlock={false}
-            isDisabled={false}
-            isFocus={false}
-            isHover={false}
-            isInline={false}
             onClick={[Function]}
             type="button"
             variant="link"
@@ -172,11 +140,8 @@ exports[`Search box should invoke add handler with the selected result and clear
         className="pf-c-options-menu__menu-item pf-m-disabled"
         key="attrib0"
       >
-        <TextContent
-          className=""
-        >
+        <TextContent>
           <Text
-            className=""
             component="small"
             key="0"
           >
@@ -188,11 +153,8 @@ exports[`Search box should invoke add handler with the selected result and clear
         className="pf-c-options-menu__menu-item pf-m-disabled"
         key="attrib1"
       >
-        <TextContent
-          className=""
-        >
+        <TextContent>
           <Text
-            className=""
             component="small"
             key="1"
           >
@@ -265,15 +227,7 @@ exports[`Search box should show results when query is entered 1`] = `
         >
           London, ON, Canada
           <Button
-            aria-label={null}
             className="pf-c-options-menu__menu-item-icon"
-            component="button"
-            isActive={false}
-            isBlock={false}
-            isDisabled={false}
-            isFocus={false}
-            isHover={false}
-            isInline={false}
             onClick={[Function]}
             type="button"
             variant="link"
@@ -294,15 +248,7 @@ exports[`Search box should show results when query is entered 1`] = `
         >
           London, OH, USA
           <Button
-            aria-label={null}
             className="pf-c-options-menu__menu-item-icon"
-            component="button"
-            isActive={false}
-            isBlock={false}
-            isDisabled={false}
-            isFocus={false}
-            isHover={false}
-            isInline={false}
             onClick={[Function]}
             type="button"
             variant="link"
@@ -323,15 +269,7 @@ exports[`Search box should show results when query is entered 1`] = `
         >
           London, KY, USA
           <Button
-            aria-label={null}
             className="pf-c-options-menu__menu-item-icon"
-            component="button"
-            isActive={false}
-            isBlock={false}
-            isDisabled={false}
-            isFocus={false}
-            isHover={false}
-            isInline={false}
             onClick={[Function]}
             type="button"
             variant="link"
@@ -352,15 +290,7 @@ exports[`Search box should show results when query is entered 1`] = `
         >
           London, UK
           <Button
-            aria-label={null}
             className="pf-c-options-menu__menu-item-icon"
-            component="button"
-            isActive={false}
-            isBlock={false}
-            isDisabled={false}
-            isFocus={false}
-            isHover={false}
-            isInline={false}
             onClick={[Function]}
             type="button"
             variant="link"
@@ -381,11 +311,8 @@ exports[`Search box should show results when query is entered 1`] = `
         className="pf-c-options-menu__menu-item pf-m-disabled"
         key="attrib0"
       >
-        <TextContent
-          className=""
-        >
+        <TextContent>
           <Text
-            className=""
             component="small"
             key="0"
           >
@@ -397,11 +324,8 @@ exports[`Search box should show results when query is entered 1`] = `
         className="pf-c-options-menu__menu-item pf-m-disabled"
         key="attrib1"
       >
-        <TextContent
-          className=""
-        >
+        <TextContent>
           <Text
-            className=""
             component="small"
             key="1"
           >

@@ -11,13 +11,9 @@ exports[`Connection Error Component should render correctly 1`] = `
   isSmall={true}
   onClose={[Function]}
   title="title"
-  width={null}
 >
-  <TextContent
-    className=""
-  >
+  <TextContent>
     <Text
-      className=""
       component="h3"
     >
       <i>
@@ -25,7 +21,6 @@ exports[`Connection Error Component should render correctly 1`] = `
       </i>
       message
       <Text
-        className=""
         component="small"
       >
         help

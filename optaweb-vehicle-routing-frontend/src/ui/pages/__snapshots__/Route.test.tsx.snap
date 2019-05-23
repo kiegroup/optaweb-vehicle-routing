@@ -2,11 +2,8 @@
 
 exports[`Route page should render correctly with a few routes 1`] = `
 <Fragment>
-  <TextContent
-    className=""
-  >
+  <TextContent>
     <Text
-      className=""
       component="h1"
     >
       Route
@@ -27,10 +24,7 @@ exports[`Route page should render correctly with a few routes 1`] = `
         }
       }
     >
-      <Form
-        className=""
-        isHorizontal={false}
-      >
+      <Form>
         <FormSelect
           aria-label="FormSelect Input"
           className=""
@@ -146,11 +140,8 @@ exports[`Route page should render correctly with a few routes 1`] = `
 
 exports[`Route page should render correctly with no routes 1`] = `
 <Fragment>
-  <TextContent
-    className=""
-  >
+  <TextContent>
     <Text
-      className=""
       component="h1"
     >
       Route
@@ -171,10 +162,7 @@ exports[`Route page should render correctly with no routes 1`] = `
         }
       }
     >
-      <Form
-        className=""
-        isHorizontal={false}
-      >
+      <Form>
         <FormSelect
           aria-label="FormSelect Input"
           className=""

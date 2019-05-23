@@ -2,11 +2,8 @@
 
 exports[`Visits page should render correctly with a few visits 1`] = `
 <Fragment>
-  <TextContent
-    className=""
-  >
+  <TextContent>
     <Text
-      className=""
       component="h1"
     >
       Visits (2)
@@ -42,11 +39,8 @@ exports[`Visits page should render correctly with a few visits 1`] = `
 
 exports[`Visits page should render correctly with no visits 1`] = `
 <Fragment>
-  <TextContent
-    className=""
-  >
+  <TextContent>
     <Text
-      className=""
       component="h1"
     >
       Visits (0)
