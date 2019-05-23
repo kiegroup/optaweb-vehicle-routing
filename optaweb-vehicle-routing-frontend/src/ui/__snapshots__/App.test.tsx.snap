@@ -3,7 +3,6 @@
 exports[`App should render correctly 1`] = `
 <Fragment>
   <Connect(ConnectionManager) />
-  <Background />
   <Page
     breadcrumb={null}
     className=""
@@ -13,6 +12,7 @@ exports[`App should render correctly 1`] = `
     sidebar={null}
     skipToContent={null}
   >
+    <Background />
     <PageSection
       className=""
       noPadding={false}
