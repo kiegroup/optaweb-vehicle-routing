@@ -40,6 +40,7 @@ exports[`Toolbar component should match snapshot 1`] = `
             </Item>,
           ]
         }
+        isGrouped={false}
         isOpen={false}
         isPlain={true}
         onSelect={[Function]}
@@ -71,16 +72,7 @@ exports[`Toolbar component should match snapshot 1`] = `
     >
       <Button
         aria-label="Notifications actions"
-        className=""
-        component="button"
         id="horizontal-example-uid-01"
-        isActive={false}
-        isBlock={false}
-        isDisabled={false}
-        isFocus={false}
-        isHover={false}
-        isInline={false}
-        type="button"
         variant="plain"
       >
         <BellIcon
@@ -95,16 +87,7 @@ exports[`Toolbar component should match snapshot 1`] = `
     >
       <Button
         aria-label="Settings actions"
-        className=""
-        component="button"
         id="horizontal-example-uid-02"
-        isActive={false}
-        isBlock={false}
-        isDisabled={false}
-        isFocus={false}
-        isHover={false}
-        isInline={false}
-        type="button"
         variant="plain"
       >
         <CogIcon

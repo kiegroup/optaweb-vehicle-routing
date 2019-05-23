@@ -3,7 +3,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@patternfly/patternfly": "^2.6.16",
-    "@patternfly/react-core": "^3.16.10",
+    "@patternfly/react-core": "^3.30.1",
     "@patternfly/react-icons": "^3.9.2",
     "@patternfly/react-table": "^2.5.11",
     "leaflet": "^1.4.0",

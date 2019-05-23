@@ -5,6 +5,7 @@ exports[`Demo dropdown button should be disabled with empty demos 1`] = `
   className=""
   direction="down"
   dropdownItems={Array []}
+  isGrouped={false}
   isOpen={false}
   isPlain={false}
   onSelect={[Function]}
@@ -61,6 +62,7 @@ exports[`Demo dropdown button should render correctly with a couple of demos 1`]
       </Item>,
     ]
   }
+  isGrouped={false}
   isOpen={false}
   isPlain={false}
   onSelect={[Function]}
