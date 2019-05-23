@@ -8,60 +8,64 @@ exports[`Location Component should render correctly 1`] = `
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
-  <DataListCell
-    alignRight={false}
+  <DataListItemRow
     className=""
-    isFilled={true}
-    isIcon={false}
-    width={4}
   >
-    <Tooltip
-      appendTo={[Function]}
-      className={null}
-      content="x"
-      enableFlip={true}
-      entryDelay={500}
-      exitDelay={500}
-      maxWidth="18.75rem"
-      position="top"
-      trigger="mouseenter focus"
-      zIndex={9999}
-    >
-      <span
-        aria-labelledby="aria-10"
-      >
-        x
-      </span>
-    </Tooltip>
-  </DataListCell>
-  <DataListCell
-    alignRight={false}
-    className=""
-    isFilled={true}
-    isIcon={false}
-    width={1}
-  >
-    <Button
-      aria-label={null}
+    <DataListCell
+      alignRight={false}
       className=""
-      component="button"
-      isActive={false}
-      isBlock={false}
-      isDisabled={false}
-      isFocus={false}
-      isHover={false}
-      isInline={false}
-      onClick={[Function]}
-      type="button"
-      variant="link"
+      isFilled={true}
+      isIcon={false}
+      width={1}
     >
-      <TimesIcon
-        color="currentColor"
-        size="sm"
-        title={null}
-      />
-    </Button>
-  </DataListCell>
+      <Tooltip
+        appendTo={[Function]}
+        className={null}
+        content="x"
+        enableFlip={true}
+        entryDelay={500}
+        exitDelay={500}
+        maxWidth="18.75rem"
+        position="top"
+        trigger="mouseenter focus"
+        zIndex={9999}
+      >
+        <span
+          aria-labelledby="aria-10"
+        >
+          x
+        </span>
+      </Tooltip>
+    </DataListCell>
+    <DataListCell
+      alignRight={false}
+      className=""
+      isFilled={false}
+      isIcon={false}
+      width={1}
+    >
+      <Button
+        aria-label={null}
+        className=""
+        component="button"
+        isActive={false}
+        isBlock={false}
+        isDisabled={false}
+        isFocus={false}
+        isHover={false}
+        isInline={false}
+        onClick={[Function]}
+        type="button"
+        variant="link"
+      >
+        <TimesIcon
+          color="currentColor"
+          size="sm"
+          title={null}
+        />
+      </Button>
+    </DataListCell>
+  </DataListItemRow>
 </DataListItem>
 `;
 
@@ -73,46 +77,50 @@ exports[`Location Component should render correctly when description is missing 
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
-  <DataListCell
-    alignRight={false}
+  <DataListItemRow
     className=""
-    isFilled={true}
-    isIcon={false}
-    width={4}
   >
-    <span
-      aria-labelledby="aria-11"
-    >
-      Location 11
-    </span>
-  </DataListCell>
-  <DataListCell
-    alignRight={false}
-    className=""
-    isFilled={true}
-    isIcon={false}
-    width={1}
-  >
-    <Button
-      aria-label={null}
+    <DataListCell
+      alignRight={false}
       className=""
-      component="button"
-      isActive={false}
-      isBlock={false}
-      isDisabled={false}
-      isFocus={false}
-      isHover={false}
-      isInline={false}
-      onClick={[Function]}
-      type="button"
-      variant="link"
+      isFilled={true}
+      isIcon={false}
+      width={1}
     >
-      <TimesIcon
-        color="currentColor"
-        size="sm"
-        title={null}
-      />
-    </Button>
-  </DataListCell>
+      <span
+        aria-labelledby="aria-11"
+      >
+        Location 11
+      </span>
+    </DataListCell>
+    <DataListCell
+      alignRight={false}
+      className=""
+      isFilled={false}
+      isIcon={false}
+      width={1}
+    >
+      <Button
+        aria-label={null}
+        className=""
+        component="button"
+        isActive={false}
+        isBlock={false}
+        isDisabled={false}
+        isFocus={false}
+        isHover={false}
+        isInline={false}
+        onClick={[Function]}
+        type="button"
+        variant="link"
+      >
+        <TimesIcon
+          color="currentColor"
+          size="sm"
+          title={null}
+        />
+      </Button>
+    </DataListCell>
+  </DataListItemRow>
 </DataListItem>
 `;
