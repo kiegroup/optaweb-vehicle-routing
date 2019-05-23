@@ -90,7 +90,7 @@ const TspMap: React.FC<TspMapProps> = ({
       zoom={zoom}
       onClick={clickHandler}
       // FIXME use height: 100%
-      style={{ width: '100%', height: 'calc(100vh - 192px)' }}
+      style={{ width: '100%', height: 'calc(100vh - 176px)' }}
       zoomControl={false} // hide the default zoom control which is on top left
     >
       <TileLayer
