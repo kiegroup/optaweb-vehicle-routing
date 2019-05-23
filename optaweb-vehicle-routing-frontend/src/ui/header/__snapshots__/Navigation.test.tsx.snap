@@ -15,7 +15,6 @@ exports[`Navigation should activate a navigation link matching the current path 
       className=""
       groupId={null}
       isActive={false}
-      isSeparated={false}
       itemId="vehicles"
       key="vehicles"
       onClick={null}
@@ -32,7 +31,6 @@ exports[`Navigation should activate a navigation link matching the current path 
       className=""
       groupId={null}
       isActive={true}
-      isSeparated={false}
       itemId="visits"
       key="visits"
       onClick={null}
@@ -49,7 +47,6 @@ exports[`Navigation should activate a navigation link matching the current path 
       className=""
       groupId={null}
       isActive={false}
-      isSeparated={false}
       itemId="route"
       key="route"
       onClick={null}
@@ -66,7 +63,6 @@ exports[`Navigation should activate a navigation link matching the current path 
       className=""
       groupId={null}
       isActive={false}
-      isSeparated={false}
       itemId="demo"
       key="demo"
       onClick={null}

@@ -19,7 +19,7 @@ exports[`Route page should render correctly with a few routes 1`] = `
   >
     <SplitItem
       className=""
-      isMain={false}
+      isFilled={false}
       style={
         Object {
           "display": "flex",
@@ -96,7 +96,7 @@ exports[`Route page should render correctly with a few routes 1`] = `
     </SplitItem>
     <SplitItem
       className=""
-      isMain={true}
+      isFilled={true}
     >
       <TspMap
         boundingBox={null}
@@ -163,7 +163,7 @@ exports[`Route page should render correctly with no routes 1`] = `
   >
     <SplitItem
       className=""
-      isMain={false}
+      isFilled={false}
       style={
         Object {
           "display": "flex",
@@ -201,7 +201,7 @@ exports[`Route page should render correctly with no routes 1`] = `
     </SplitItem>
     <SplitItem
       className=""
-      isMain={true}
+      isFilled={true}
     >
       <TspMap
         boundingBox={null}

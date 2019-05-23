@@ -109,7 +109,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
         </TextContent>
         <Split gutter="md">
           <SplitItem
-            isMain={false}
+            isFilled={false}
             style={{ display: 'flex', flexDirection: 'column' }}
           >
             <Form>
@@ -141,7 +141,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
               selectHandler={this.onSelectLocation}
             />
           </SplitItem>
-          <SplitItem isMain={true}>
+          <SplitItem isFilled={true}>
             <TspMap
               boundingBox={boundingBox}
               selectedId={selectedId}

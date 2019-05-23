@@ -13,7 +13,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
 >
   <SplitItem
     className=""
-    isMain={false}
+    isFilled={false}
     style={
       Object {
         "display": "flex",
@@ -69,7 +69,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
   </SplitItem>
   <SplitItem
     className=""
-    isMain={true}
+    isFilled={true}
     style={
       Object {
         "display": "flex",
@@ -84,7 +84,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
     >
       <SplitItem
         className=""
-        isMain={true}
+        isFilled={true}
       >
         <Grid
           className=""
@@ -139,7 +139,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
       </SplitItem>
       <SplitItem
         className=""
-        isMain={false}
+        isFilled={false}
       >
         <Button
           aria-label={null}
@@ -151,6 +151,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
           isDisabled={true}
           isFocus={false}
           isHover={false}
+          isInline={false}
           onClick={[Function]}
           style={
             Object {
@@ -173,6 +174,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
           isDisabled={true}
           isFocus={false}
           isHover={false}
+          isInline={false}
           onClick={[MockFunction]}
           style={
             Object {
@@ -241,7 +243,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
 >
   <SplitItem
     className=""
-    isMain={false}
+    isFilled={false}
     style={
       Object {
         "display": "flex",
@@ -297,7 +299,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
   </SplitItem>
   <SplitItem
     className=""
-    isMain={true}
+    isFilled={true}
     style={
       Object {
         "display": "flex",
@@ -312,7 +314,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
     >
       <SplitItem
         className=""
-        isMain={true}
+        isFilled={true}
       >
         <Grid
           className=""
@@ -367,7 +369,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
       </SplitItem>
       <SplitItem
         className=""
-        isMain={false}
+        isFilled={false}
       >
         <Button
           aria-label={null}
@@ -379,6 +381,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
           isDisabled={false}
           isFocus={false}
           isHover={false}
+          isInline={false}
           onClick={[Function]}
           style={
             Object {
@@ -401,6 +404,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
           isDisabled={false}
           isFocus={false}
           isHover={false}
+          isInline={false}
           onClick={[MockFunction]}
           style={
             Object {
@@ -469,7 +473,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
 >
   <SplitItem
     className=""
-    isMain={false}
+    isFilled={false}
     style={
       Object {
         "display": "flex",
@@ -502,7 +506,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
   </SplitItem>
   <SplitItem
     className=""
-    isMain={true}
+    isFilled={true}
     style={
       Object {
         "display": "flex",
@@ -517,7 +521,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
     >
       <SplitItem
         className=""
-        isMain={true}
+        isFilled={true}
       >
         <Grid
           className=""
@@ -572,7 +576,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
       </SplitItem>
       <SplitItem
         className=""
-        isMain={false}
+        isFilled={false}
       >
         <Button
           aria-label={null}
@@ -584,6 +588,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
           isDisabled={true}
           isFocus={false}
           isHover={false}
+          isInline={false}
           onClick={[Function]}
           style={
             Object {

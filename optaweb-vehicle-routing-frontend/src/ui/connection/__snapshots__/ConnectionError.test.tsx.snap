@@ -3,12 +3,15 @@
 exports[`Connection Error Component should render correctly 1`] = `
 <Modal
   actions={Array []}
+  ariaDescribedById=""
   className=""
   hideTitle={false}
   isLarge={false}
   isOpen={true}
+  isSmall={false}
   onClose={[Function]}
   title="title"
+  width={null}
 >
   <TextContent
     className=""

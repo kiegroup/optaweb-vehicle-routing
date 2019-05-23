@@ -140,7 +140,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
       // FIXME find a way to avoid these style customizations
       <Split gutter="md" style={{ overflowY: 'auto' }}>
         <SplitItem
-          isMain={false}
+          isFilled={false}
           style={{ display: 'flex', flexDirection: 'column' }}
         >
           <TextContent>
@@ -160,17 +160,17 @@ export class Demo extends React.Component<DemoProps, DemoState> {
         </SplitItem>
 
         <SplitItem
-          isMain={true}
+          isFilled={true}
           style={{ display: 'flex', flexDirection: 'column' }}
         >
           <Split gutter={GutterSize.md}>
-            <SplitItem isMain={true}>
+            <SplitItem isFilled={true}>
               <Grid>
                 <GridItem span={6}>{`Visits: ${visits.length}`}</GridItem>
                 <GridItem span={6}>{`Total travel time: ${distance}`}</GridItem>
               </Grid>
             </SplitItem>
-            <SplitItem isMain={false}>
+            <SplitItem isFilled={false}>
               <Button
                 id={ID_EXPORT_BUTTON}
                 isDisabled={!depot || isDemoLoading}
