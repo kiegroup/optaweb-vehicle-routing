@@ -34,6 +34,7 @@ const App: React.FC = () => {
             display: 'flex',
             flexDirection: 'column',
             overflowY: 'auto',
+            height: '100%',
           }}
         >
           <Switch>
