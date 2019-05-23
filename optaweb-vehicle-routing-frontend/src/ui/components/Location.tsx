@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Button, DataListCell, DataListItem, Tooltip } from '@patternfly/react-core';
+import { Button, DataListCell, DataListItem, DataListItemRow, Tooltip } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 
@@ -51,27 +51,29 @@ const Location: React.FC<LocationProps> = ({
       onMouseEnter={() => selectHandler(id)}
       onMouseLeave={() => selectHandler(NaN)}
     >
-      <DataListCell width={4}>
-        {description &&
-        <Tooltip content={description}>
-          <span aria-labelledby={`aria-${id}`}>{shorten(description)}</span>
-        </Tooltip>
-        ||
-        <span aria-labelledby={`aria-${id}`}>{`Location ${id}`}</span>}
-      </DataListCell>
-      <DataListCell width={1}>
-        <Button
-          variant="link"
-          isDisabled={removeDisabled || clicked}
-          onClick={() => {
-            setClicked(true);
-            removeHandler(id);
-          }}
-          type="button"
-        >
-          <TimesIcon />
-        </Button>
-      </DataListCell>
+      <DataListItemRow>
+        <DataListCell isFilled={true}>
+          {description &&
+          <Tooltip content={description}>
+            <span aria-labelledby={`aria-${id}`}>{shorten(description)}</span>
+          </Tooltip>
+          ||
+          <span aria-labelledby={`aria-${id}`}>{`Location ${id}`}</span>}
+        </DataListCell>
+        <DataListCell isFilled={false}>
+          <Button
+            variant="link"
+            isDisabled={removeDisabled || clicked}
+            onClick={() => {
+              setClicked(true);
+              removeHandler(id);
+            }}
+            type="button"
+          >
+            <TimesIcon />
+          </Button>
+        </DataListCell>
+      </DataListItemRow>
     </DataListItem>
   );
 };

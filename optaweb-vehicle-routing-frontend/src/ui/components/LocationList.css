@@ -16,6 +16,6 @@
 
 .pf-c-data-list__cell {
   --pf-c-data-list__cell-cell--PaddingTop: var(--pf-global--spacer--sm);
-  --pf-c-data-list__cell--PaddingTop: var(--pf-global--spacer--sm);
+  --pf-c-data-list__cell--PaddingTop: var(--pf-global--spacer--md);
   --pf-c-data-list__cell--PaddingBottom: var(--pf-global--spacer--sm);
 }
