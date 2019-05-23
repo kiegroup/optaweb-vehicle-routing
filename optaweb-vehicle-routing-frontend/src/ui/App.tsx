@@ -27,8 +27,8 @@ const App: React.FC = () => {
   return (
     <>
       <ConnectionManager />
-      <Background />
       <Page header={<Header />}>
+        <Background />
         <PageSection
           style={{
             display: 'flex',
