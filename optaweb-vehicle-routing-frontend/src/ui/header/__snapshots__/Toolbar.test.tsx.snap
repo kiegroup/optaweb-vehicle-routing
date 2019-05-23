@@ -79,6 +79,7 @@ exports[`Toolbar component should match snapshot 1`] = `
         isDisabled={false}
         isFocus={false}
         isHover={false}
+        isInline={false}
         type="button"
         variant="plain"
       >
@@ -102,6 +103,7 @@ exports[`Toolbar component should match snapshot 1`] = `
         isDisabled={false}
         isFocus={false}
         isHover={false}
+        isInline={false}
         type="button"
         variant="plain"
       >

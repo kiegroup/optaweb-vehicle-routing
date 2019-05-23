@@ -9,7 +9,10 @@ exports[`Location Component should render correctly 1`] = `
   onMouseLeave={[Function]}
 >
   <DataListCell
+    alignRight={false}
     className=""
+    isFilled={true}
+    isIcon={false}
     width={4}
   >
     <Tooltip
@@ -19,8 +22,9 @@ exports[`Location Component should render correctly 1`] = `
       enableFlip={true}
       entryDelay={500}
       exitDelay={500}
-      maxWidth="12.5rem"
+      maxWidth="18.75rem"
       position="top"
+      trigger="mouseenter focus"
       zIndex={9999}
     >
       <span
@@ -31,7 +35,10 @@ exports[`Location Component should render correctly 1`] = `
     </Tooltip>
   </DataListCell>
   <DataListCell
+    alignRight={false}
     className=""
+    isFilled={true}
+    isIcon={false}
     width={1}
   >
     <Button
@@ -43,6 +50,7 @@ exports[`Location Component should render correctly 1`] = `
       isDisabled={false}
       isFocus={false}
       isHover={false}
+      isInline={false}
       onClick={[Function]}
       type="button"
       variant="link"
@@ -66,7 +74,10 @@ exports[`Location Component should render correctly when description is missing 
   onMouseLeave={[Function]}
 >
   <DataListCell
+    alignRight={false}
     className=""
+    isFilled={true}
+    isIcon={false}
     width={4}
   >
     <span
@@ -76,7 +87,10 @@ exports[`Location Component should render correctly when description is missing 
     </span>
   </DataListCell>
   <DataListCell
+    alignRight={false}
     className=""
+    isFilled={true}
+    isIcon={false}
     width={1}
   >
     <Button
@@ -88,6 +102,7 @@ exports[`Location Component should render correctly when description is missing 
       isDisabled={false}
       isFocus={false}
       isHover={false}
+      isInline={false}
       onClick={[Function]}
       type="button"
       variant="link"

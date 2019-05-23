@@ -5,14 +5,18 @@ exports[`App should render correctly 1`] = `
   <Connect(ConnectionManager) />
   <Background />
   <Page
+    breadcrumb={null}
     className=""
     header={<Header />}
     isManagedSidebar={false}
     onPageResize={null}
     sidebar={null}
+    skipToContent={null}
   >
     <PageSection
       className=""
+      noPadding={false}
+      noPaddingMobile={false}
       style={
         Object {
           "display": "flex",
