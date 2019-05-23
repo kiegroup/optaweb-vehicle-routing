@@ -37,7 +37,7 @@ const ConnectionError: React.FC<ConnectionErrorProps> = ({
   isOpen,
 }) => {
   return (
-    <Modal title={title} isOpen={isOpen}>
+    <Modal title={title} isOpen={isOpen} isSmall={true}>
       <TextContent>
         <Text component={TextVariants.h3}>
           {icon}
