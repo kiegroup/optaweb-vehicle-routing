@@ -17,7 +17,7 @@ exports[`TSP Map View should pan and zoom to show bounding box 1`] = `
   onClick={[MockFunction]}
   style={
     Object {
-      "height": "calc(100vh - 192px)",
+      "height": "calc(100vh - 176px)",
       "width": "100%",
     }
   }
@@ -174,7 +174,7 @@ exports[`TSP Map View should show the whole world when bounding box is null 1`] 
   onClick={[MockFunction]}
   style={
     Object {
-      "height": "calc(100vh - 192px)",
+      "height": "calc(100vh - 176px)",
       "width": "100%",
     }
   }
