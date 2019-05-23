@@ -29,17 +29,44 @@ exports[`App should render correctly 1`] = `
           path="/vehicles"
         />
         <Route
-          component={[Function]}
+          component={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(Visits)",
+              "type": [Function],
+              Symbol(Symbol.hasInstance): [Function],
+            }
+          }
           exact={true}
           path="/visits"
         />
         <Route
-          component={[Function]}
+          component={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(Route)",
+              "type": [Function],
+              Symbol(Symbol.hasInstance): [Function],
+            }
+          }
           exact={true}
           path="/route"
         />
         <Route
-          component={[Function]}
+          component={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(Demo)",
+              "type": [Function],
+              Symbol(Symbol.hasInstance): [Function],
+            }
+          }
           exact={true}
           path="/demo"
         />

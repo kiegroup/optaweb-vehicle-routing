@@ -23,7 +23,6 @@ exports[`Navigation should activate a navigation link matching the current path 
       to=""
     >
       <Link
-        replace={false}
         to="/vehicles"
       >
         Vehicles
@@ -41,7 +40,6 @@ exports[`Navigation should activate a navigation link matching the current path 
       to=""
     >
       <Link
-        replace={false}
         to="/visits"
       >
         Visits
@@ -59,7 +57,6 @@ exports[`Navigation should activate a navigation link matching the current path 
       to=""
     >
       <Link
-        replace={false}
         to="/route"
       >
         Route
@@ -77,7 +74,6 @@ exports[`Navigation should activate a navigation link matching the current path 
       to=""
     >
       <Link
-        replace={false}
         to="/demo"
       >
         Demo
