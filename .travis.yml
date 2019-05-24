@@ -2,7 +2,7 @@ jobs:
   include:
     - language: node_js
       node_js:
-      - 8
+        - 8
       # keep the npm cache around to speed up installs (see https://docs.npmjs.com/cli/ci)
       cache:
         directories:
@@ -27,5 +27,11 @@ jobs:
           - "$HOME/.sonar/cache"
       before_install:
         - "cd optaweb-vehicle-routing-backend"
+      # Change Travis install phase to only resolve dependencies needed to run the build.
+      # Otherwise it would run `mvn install`, which results in doing some Maven phases twice (validate, compile, jar, ...).
+      # https://docs.travis-ci.com/user/languages/java/#projects-using-maven
+      #
+      # We also want to avoid Maven's install phase to prevent from writing to ~/.m2/repository, which is cached.
+      install: ./mvnw dependency:go-offline -Pjacoco,sonar --show-version
       # do not install to avoid dirtying the cache
-      script: ./mvnw verify -Pjacoco,sonar
+      script: ./mvnw verify -Pjacoco,sonar --show-version
