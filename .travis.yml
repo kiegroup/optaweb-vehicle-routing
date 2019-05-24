@@ -26,6 +26,7 @@ jobs:
       cache:
         directories:
           - "$HOME/.m2/repository"
+          - "$HOME/.m2/wrapper"
           - "$HOME/.sonar/cache"
       before_install:
         - "cd optaweb-vehicle-routing-backend"
