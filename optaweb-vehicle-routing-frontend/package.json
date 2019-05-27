@@ -12,7 +12,7 @@
     "react-leaflet": "^2.2.0",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
-    "react-scripts-ts": "^4.0.8",
+    "react-scripts": "^3.0.1",
     "redux": "^4.0.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
@@ -20,13 +20,13 @@
     "webstomp-client": "^1.2.6"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom --modulePaths=src",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --modulePaths=src",
+    "eject": "react-scripts eject",
     "coverage": "npm run test -- --coverage",
     "lint": "./node_modules/tslint/bin/tslint -p tsconfig.json --force",
-    "lint:fix": "npm run lint -- --fix",
-    "eject": "react-scripts-ts eject"
+    "lint:fix": "npm run lint -- --fix"
   },
   "devDependencies": {
     "@types/enzyme": "^3.1.17",
@@ -51,12 +51,18 @@
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.4.5"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
   "husky": {
     "hooks": {
       "pre-push": "CI=true npm test"
