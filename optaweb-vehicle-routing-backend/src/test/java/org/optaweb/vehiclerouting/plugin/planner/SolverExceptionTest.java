@@ -19,12 +19,11 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.util.concurrent.FutureTask;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.examples.tsp.domain.TspSolution;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
@@ -39,7 +38,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SolverExceptionTest {
 
     private final Location location1 = new Location(1, Coordinates.valueOf(1.0, 0.1));
@@ -57,8 +56,9 @@ public class SolverExceptionTest {
     @InjectMocks
     private RouteOptimizerImpl routeOptimizer;
 
-    @Before
-    public void setUp() {
+    @Test
+    public void should_propagate_any_exception_from_solver() {
+        // arrange
         // Prepare a future that will be returned by mock executor
         FutureTask<VehicleRoutingSolution> task = new FutureTask<>(() -> {
             throw new TestException();
@@ -66,14 +66,13 @@ public class SolverExceptionTest {
         when(executor.submit(any(RouteOptimizerImpl.SolvingTask.class))).thenReturn(task);
         // Run it synchronously (otherwise the test would be unreliable!)
         task.run();
-    }
 
-    @Test
-    public void should_propagate_any_exception_from_solver() {
+        // act
         routeOptimizer.addLocation(location1, distanceMatrix);
         assertThat(routeOptimizer.isSolving()).isFalse();
         routeOptimizer.addLocation(location2, distanceMatrix);
 
+        // assert
         assertTestExceptionThrownDuringOperation(() -> routeOptimizer.isSolving());
         assertTestExceptionThrownDuringOperation(() -> routeOptimizer.addLocation(location3, distanceMatrix));
         assertTestExceptionThrownDuringOperation(() -> routeOptimizer.removeLocation(location2));

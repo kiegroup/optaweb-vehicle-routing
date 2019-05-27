@@ -16,26 +16,26 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 public class DistanceRepositoryIntegrationTest {
 
     @Autowired
     private DistanceCrudRepository crudRepository;
     private DistanceRepositoryImpl repository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         repository = new DistanceRepositoryImpl(crudRepository);
     }

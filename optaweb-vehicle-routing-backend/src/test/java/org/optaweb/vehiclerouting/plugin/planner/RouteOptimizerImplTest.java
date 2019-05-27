@@ -19,14 +19,16 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Answer1;
 import org.mockito.stubbing.VoidAnswer1;
@@ -59,7 +61,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.optaweb.vehiclerouting.plugin.planner.SolutionUtil.planningLocation;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.WARN)
 public class RouteOptimizerImplTest {
 
     private final Location location1 = new Location(1, Coordinates.valueOf(1.0, 0.1));
@@ -85,7 +88,7 @@ public class RouteOptimizerImplTest {
     @InjectMocks
     private RouteOptimizerImpl routeOptimizer;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         // always run the runnable submitted to executor (that's what every executor does)
         // we can then verify that solver.solve() has been called
