@@ -19,12 +19,11 @@ package org.optaweb.vehiclerouting.service.location;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -32,7 +31,6 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
@@ -40,7 +38,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class LocationServiceTest {
 
     @Mock
@@ -60,13 +58,6 @@ public class LocationServiceTest {
 
     private final List<Location> persistedLocations = Arrays.asList(location, location, location);
 
-    @Before
-    public void setUp() {
-        when(repository.createLocation(any(Coordinates.class), anyString())).thenReturn(location);
-        when(repository.removeLocation(location.id())).thenReturn(location);
-        when(repository.locations()).thenReturn(persistedLocations);
-    }
-
     @Test
     public void createLocation_should_validate_arguments() {
         assertThatNullPointerException().isThrownBy(() -> locationService.createLocation(null, "x"));
@@ -76,7 +67,10 @@ public class LocationServiceTest {
     @Test
     public void createLocation() {
         String description = "new location";
+        when(repository.createLocation(coordinates, description)).thenReturn(location);
+
         assertThat(locationService.createLocation(coordinates, description)).isTrue();
+
         verify(repository).createLocation(coordinates, description);
         verify(distanceMatrix).addLocation(location);
         verify(optimizer).addLocation(eq(location), any(DistanceMatrix.class));
@@ -84,7 +78,10 @@ public class LocationServiceTest {
 
     @Test
     public void removeLocation() {
+        when(repository.removeLocation(location.id())).thenReturn(location);
+
         locationService.removeLocation(location.id());
+
         verify(repository).removeLocation(location.id());
         verify(optimizer).removeLocation(location);
         // TODO remove location from distance matrix
@@ -100,7 +97,10 @@ public class LocationServiceTest {
 
     @Test
     public void should_reload_on_startup() {
+        when(repository.locations()).thenReturn(persistedLocations);
+
         locationService.reload(event);
+
         verify(repository).locations();
         verify(distanceMatrix, times(persistedLocations.size())).addLocation(location);
         verify(optimizer, times(persistedLocations.size())).addLocation(location, distanceMatrix);
@@ -108,7 +108,9 @@ public class LocationServiceTest {
 
     @Test
     public void should_not_optimize_and_roll_back_if_distance_calculation_fails() {
+        when(repository.createLocation(coordinates, "")).thenReturn(location);
         doThrow(RuntimeException.class).when(distanceMatrix).addLocation(any());
+
         assertThat(locationService.createLocation(coordinates, "")).isFalse();
         verifyZeroInteractions(optimizer);
         // roll back

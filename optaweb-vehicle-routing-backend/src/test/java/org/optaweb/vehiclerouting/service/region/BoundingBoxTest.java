@@ -16,7 +16,7 @@
 
 package org.optaweb.vehiclerouting.service.region;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;

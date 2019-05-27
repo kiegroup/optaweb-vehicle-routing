@@ -26,13 +26,13 @@ import java.util.concurrent.Future;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
@@ -53,7 +53,7 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class SolverIntegrationTest {
 
     private static final Logger logger = LoggerFactory.getLogger(SolverIntegrationTest.class);
@@ -66,7 +66,7 @@ public class SolverIntegrationTest {
     private ProblemFactChangeProcessingMonitor monitor;
     private Future<VehicleRoutingSolution> futureSolution;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         sf = SolverFactory.createFromXmlResource(VehicleRoutingApp.SOLVER_CONFIG);
         executor = Executors.newSingleThreadExecutor();
@@ -74,13 +74,13 @@ public class SolverIntegrationTest {
         when(distanceMap.get(any(RoadLocation.class))).thenReturn(1.0);
     }
 
-    @After
+    @AfterEach
     public void tearDown() throws InterruptedException {
         executor.shutdown();
         executor.awaitTermination(1, TimeUnit.SECONDS);
     }
 
-    @Ignore("Solver fails fast on empty value ranges") // TODO file an OptaPlanner ticket for empty value ranges
+    @Disabled("Solver fails fast on empty value ranges") // TODO file an OptaPlanner ticket for empty value ranges
     @Test
     public void solver_in_daemon_mode_should_not_fail_on_empty_solution() {
         sf.getSolverConfig().setDaemon(true);

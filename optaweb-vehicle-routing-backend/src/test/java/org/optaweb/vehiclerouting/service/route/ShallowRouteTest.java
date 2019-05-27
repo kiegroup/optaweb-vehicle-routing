@@ -18,7 +18,7 @@ package org.optaweb.vehiclerouting.service.route;
 
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

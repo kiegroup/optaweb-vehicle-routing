@@ -24,11 +24,13 @@ import com.graphhopper.GHResponse;
 import com.graphhopper.PathWrapper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.PointList;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -36,7 +38,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.WARN)
 public class RouterImplTest {
 
     private final PointList pointList = new PointList();
@@ -49,7 +52,7 @@ public class RouterImplTest {
     @Mock
     private PathWrapper pathWrapper;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         when(graphHopper.route(any(GHRequest.class))).thenReturn(ghResponse);
         when(ghResponse.getBest()).thenReturn(pathWrapper);
