@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-// tslint:disable:max-classes-per-file
 declare module 'leaflet-geosearch' {
 
   class Provider<ProviderOptions> {

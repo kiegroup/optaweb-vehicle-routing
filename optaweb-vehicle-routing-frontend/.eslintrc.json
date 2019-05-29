@@ -4,8 +4,14 @@
     "project": "./tsconfig.json"
   },
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "jest"
   ],
+  "env": {
+    "browser": true,
+    "jest/globals": true,
+    "node": true
+  },
   "settings": {
     "react": {
       "version": "detect"
@@ -17,6 +23,7 @@
     ]
   },
   "extends": [
+    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended"
   ],
@@ -28,6 +35,7 @@
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-object-literal-type-assertion": "off",
     "@typescript-eslint/no-use-before-define": "off",
+    "no-console": "warn",
     "react/prop-types": "off"
   }
 }
