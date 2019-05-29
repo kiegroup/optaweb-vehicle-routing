@@ -41,7 +41,6 @@ exports[`App should render correctly 1`] = `
               "compare": null,
               "displayName": "Connect(Visits)",
               "type": [Function],
-              Symbol(Symbol.hasInstance): [Function],
             }
           }
           exact={true}
@@ -55,7 +54,6 @@ exports[`App should render correctly 1`] = `
               "compare": null,
               "displayName": "Connect(Route)",
               "type": [Function],
-              Symbol(Symbol.hasInstance): [Function],
             }
           }
           exact={true}
@@ -69,7 +67,6 @@ exports[`App should render correctly 1`] = `
               "compare": null,
               "displayName": "Connect(Demo)",
               "type": [Function],
-              Symbol(Symbol.hasInstance): [Function],
             }
           }
           exact={true}
