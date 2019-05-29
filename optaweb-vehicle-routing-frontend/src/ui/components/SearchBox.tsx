@@ -72,7 +72,7 @@ class SearchBox extends React.Component<Props, State> {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentWillUpdate(nextProps: Readonly<Props>, nextState: Readonly<State>, nextContext: any): void {
+  componentWillUpdate(nextProps: Readonly<Props>): void {
     this.searchProvider = new OpenStreetMapProvider({ params: searchParams(nextProps) });
   }
 

@@ -43,8 +43,7 @@ declare module 'leaflet-geosearch' {
     label: string;
     bounds: [
       [number, number],
-      [number, number]
-      ];
+      [number, number]];
     raw: any;
   }
 
