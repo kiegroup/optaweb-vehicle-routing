@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Under Construction should render correctly 1`] = `
+<Bullseye
+  className=""
+  component="div"
+>
+  <div>
+    <Stack
+      className=""
+      component="div"
+      gutter="md"
+    >
+      <StackItem
+        className=""
+        isFilled={false}
+      >
+        <Bullseye
+          className=""
+          component="div"
+        >
+          <HammerIcon
+            color="currentColor"
+            height={48}
+            size="sm"
+            title={null}
+            width={48}
+          />
+        </Bullseye>
+      </StackItem>
+      <StackItem
+        className=""
+        isFilled={false}
+      >
+        <TextContent>
+          <Text
+            component="h1"
+          >
+            Under construction
+          </Text>
+        </TextContent>
+      </StackItem>
+    </Stack>
+  </div>
+</Bullseye>
+`;
