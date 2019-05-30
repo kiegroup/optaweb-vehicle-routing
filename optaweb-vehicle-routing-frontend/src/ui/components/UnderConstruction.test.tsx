@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-import { Bullseye, Text, TextContent, TextVariants } from '@patternfly/react-core';
-import { InProgressIcon } from '@patternfly/react-icons';
+import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import * as React from 'react';
+import { UnderConstruction } from './UnderConstruction';
 
-export function WorkInProgress() {
-  return (
-    <Bullseye>
-      <TextContent>
-        <Text component={TextVariants.h1}>
-          <InProgressIcon /> Work in progress
-        </Text>
-      </TextContent>
-    </Bullseye>
-  );
-}
+describe('Under Construction', () => {
+  it('should render correctly', () => {
+    const underConstruction = shallow(<UnderConstruction />);
+    expect(toJson(underConstruction)).toMatchSnapshot();
+  });
+});

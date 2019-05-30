@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
+import { shallow } from 'enzyme';
+import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import { UnderConstruction } from 'ui/components/UnderConstruction';
+import Vehicles from './Vehicles';
 
-const Vehicles = () => {
-  return <UnderConstruction />;
-};
-
-export default Vehicles;
+describe('Vehicles page', () => {
+  it('should render correctly', () => {
+    const vehicles = shallow(<Vehicles />);
+    expect(toJson(vehicles)).toMatchSnapshot();
+  });
+});
