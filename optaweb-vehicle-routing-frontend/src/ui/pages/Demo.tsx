@@ -65,7 +65,7 @@ const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
   isDemoLoading: demo.isLoading,
   boundingBox: serverInfo.boundingBox,
   countryCodeSearchFilter: serverInfo.countryCodes,
-  demoNames: serverInfo.demos && serverInfo.demos.map(value => value.name) || [], // TODO use selector
+  demoNames: (serverInfo.demos && serverInfo.demos.map(value => value.name)) || [], // TODO use selector
 });
 
 const mapDispatchToProps: DispatchProps = {
@@ -179,11 +179,11 @@ export class Demo extends React.Component<DemoProps, DemoState> {
               >
                 Export
               </Button>
-              {routes.length === 0 &&
-              <DemoDropdown
-                demos={demoNames}
-                onSelect={this.handleDemoLoadClick}
-              />
+              {(routes.length === 0 &&
+                <DemoDropdown
+                  demos={demoNames}
+                  onSelect={this.handleDemoLoadClick}
+                />)
               ||
               <Button
                 id={ID_CLEAR_BUTTON}

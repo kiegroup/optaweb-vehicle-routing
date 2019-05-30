@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-// tslint:disable:max-classes-per-file
 declare module 'leaflet-geosearch' {
 
   class Provider<ProviderOptions> {
@@ -43,8 +42,7 @@ declare module 'leaflet-geosearch' {
     label: string;
     bounds: [
       [number, number],
-      [number, number]
-      ];
+      [number, number]];
     raw: any;
   }
 

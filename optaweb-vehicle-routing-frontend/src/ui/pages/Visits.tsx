@@ -46,10 +46,6 @@ export type Props = StateProps & DispatchProps;
 
 export class Visits extends React.Component<Props> {
 
-  constructor(props: Props) {
-    super(props);
-  }
-
   render() {
     const {
       depot,

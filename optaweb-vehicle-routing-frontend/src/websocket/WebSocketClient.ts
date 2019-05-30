@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import * as SockJS from 'sockjs-client';
+import SockJS from 'sockjs-client';
 import { LatLngWithDescription, RoutingPlan } from 'store/route/types';
 import { Client, Frame, over } from 'webstomp-client';
 import { ServerInfo } from '../store/server/types';
@@ -22,10 +22,11 @@ import { ServerInfo } from '../store/server/types';
 export default class WebSocketClient {
 
   readonly socketUrl: string;
-  stompClient: Client;
+  stompClient: Client | null;
 
   constructor(socketUrl: string) {
     this.socketUrl = socketUrl;
+    this.stompClient = null;
   }
 
   connect(successCallback: () => any, errorCallback: (err: CloseEvent | Frame) => any) {
@@ -48,30 +49,30 @@ export default class WebSocketClient {
   }
 
   addLocation(latLng: LatLngWithDescription) {
-    this.stompClient.send('/app/location', JSON.stringify(latLng));
+    this.stompClient && this.stompClient.send('/app/location', JSON.stringify(latLng));
   }
 
   loadDemo(name: string): void {
-    this.stompClient.send(`/app/demo/${name}`);
+    this.stompClient && this.stompClient.send(`/app/demo/${name}`);
   }
 
   deleteLocation(locationId: number) {
-    this.stompClient.send(`/app/location/${locationId}/delete`, JSON.stringify(locationId));
+    this.stompClient && this.stompClient.send(`/app/location/${locationId}/delete`, JSON.stringify(locationId));
   }
 
   clear() {
-    this.stompClient.send('/app/clear');
+    this.stompClient && this.stompClient.send('/app/clear');
   }
 
   subscribeToServerInfo(subscriptionCallback: (serverInfo: ServerInfo) => any): void {
-    this.stompClient.subscribe('/topic/serverInfo', (message) => {
+    this.stompClient && this.stompClient.subscribe('/topic/serverInfo', (message) => {
       const serverInfo = JSON.parse(message.body);
       subscriptionCallback(serverInfo);
     });
   }
 
   subscribeToRoute(subscriptionCallback: (plan: RoutingPlan) => any): void {
-    this.stompClient.subscribe('/topic/route', (message) => {
+    this.stompClient && this.stompClient.subscribe('/topic/route', (message) => {
       const plan = JSON.parse(message.body);
       subscriptionCallback(plan);
     });

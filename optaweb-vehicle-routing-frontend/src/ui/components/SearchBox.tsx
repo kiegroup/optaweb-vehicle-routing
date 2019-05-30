@@ -54,7 +54,7 @@ class SearchBox extends React.Component<Props, State> {
   };
 
   private searchProvider: OpenStreetMapProvider;
-  private timeoutId: number;
+  private timeoutId: number | null;
 
   constructor(props: Props) {
     super(props);
@@ -66,21 +66,22 @@ class SearchBox extends React.Component<Props, State> {
     };
 
     this.searchProvider = new OpenStreetMapProvider({ params: searchParams(props) });
+    this.timeoutId = null;
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentWillUpdate(nextProps: Readonly<Props>, nextState: Readonly<State>, nextContext: any): void {
+  componentWillUpdate(nextProps: Readonly<Props>): void {
     this.searchProvider = new OpenStreetMapProvider({ params: searchParams(nextProps) });
   }
 
   componentWillUnmount() {
-    window.clearTimeout(this.timeoutId);
+    this.timeoutId && window.clearTimeout(this.timeoutId);
   }
 
   handleTextInputChange(query: string): void {
-    window.clearTimeout(this.timeoutId);
+    this.timeoutId && window.clearTimeout(this.timeoutId);
     if (query.trim() !== '') {
       this.timeoutId = window.setTimeout(
         async () => {
