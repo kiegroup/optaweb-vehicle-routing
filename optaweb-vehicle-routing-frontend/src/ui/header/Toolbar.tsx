@@ -19,6 +19,7 @@ import {
   ButtonVariant,
   Dropdown,
   DropdownItem,
+  DropdownPosition,
   DropdownToggle,
   Toolbar,
   ToolbarGroup,
@@ -37,7 +38,7 @@ const ToolbarComponent: React.FC = () => {
         <ToolbarItem>
           <Dropdown
             isPlain={true}
-            position="right"
+            position={DropdownPosition.right}
             // eslint-disable-next-line no-console
             onSelect={event => console.log(event)}
             isOpen={openTenants}

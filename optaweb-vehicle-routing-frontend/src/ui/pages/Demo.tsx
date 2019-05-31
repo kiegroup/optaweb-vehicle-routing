@@ -138,7 +138,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
 
     return (
       // FIXME find a way to avoid these style customizations
-      <Split gutter="md" style={{ overflowY: 'auto' }}>
+      <Split gutter={GutterSize.md} style={{ overflowY: 'auto' }}>
         <SplitItem
           isFilled={false}
           style={{ display: 'flex', flexDirection: 'column' }}
