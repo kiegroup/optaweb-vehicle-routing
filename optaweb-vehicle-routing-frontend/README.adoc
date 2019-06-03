@@ -85,6 +85,9 @@ use this feature. However we understand that this tool wouldn’t be
 useful if you couldn’t customize it when you are ready for it.
 
 == Change Backend Location
+
+=== `process.env`
+
 Use an environment variable called `REACT_APP_BACKEND_URL` to change backend URL
 when running `npm start` or `npm run build`. For example:
 
@@ -99,6 +102,28 @@ so you'll need to know backend location before building and deploying frontend.
 Learn more about React environment variables in
 https://facebook.github.io/create-react-app/docs/adding-custom-environment-variables[
 Adding Custom Environment Variables].
+
+=== `window.env`
+
+This is more hackish than the approach above
+and allows to change frontend configuration after it has been built.
+
+To take this approach, first build the frontend with `npm run build`.
+Then create a file `build/env-config.js` with the following content:
+
+[source,javascript]
+....
+window.env = {
+  REACT_APP_BACKEND_URL: 'http://127.0.0.1:5555',
+};
+....
+
+The file `env-config.js` is loaded by `index.html` as a `<script>` source
+and so the env object is attached to global `window` variable.
+
+This approach is also described in
+https://facebook.github.io/create-react-app/docs/title-and-meta-tags#injecting-data-from-the-server-into-the-page[
+Create React App] documentation.
 
 [[browserslist-support]]
 == Browserslist Support
