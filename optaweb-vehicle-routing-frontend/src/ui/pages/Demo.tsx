@@ -34,6 +34,7 @@ import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
 import SearchBox, { Result } from 'ui/components/SearchBox';
 import TspMap from 'ui/components/TspMap';
+import { BACKEND_URL } from 'environment';
 import { DemoDropdown } from '../components/DemoDropdown';
 
 export const ID_CLEAR_BUTTON = 'clear-button';
@@ -133,7 +134,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
     } = this.props;
 
     const exportDataSet = () => {
-      window.open(`${process.env.REACT_APP_BACKEND_URL}/dataset/export`);
+      window.open(`${BACKEND_URL}/dataset/export`);
     };
 
     return (

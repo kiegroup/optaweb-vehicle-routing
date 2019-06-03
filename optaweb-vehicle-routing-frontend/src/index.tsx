@@ -19,13 +19,14 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { BACKEND_URL } from './environment';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import { configureStore } from './store';
 import App from './ui/App';
 
 const store = configureStore({
-  socketUrl: `${process.env.REACT_APP_BACKEND_URL}/vrp-websocket`,
+  socketUrl: `${BACKEND_URL}/vrp-websocket`,
 });
 
 ReactDOM.render(
