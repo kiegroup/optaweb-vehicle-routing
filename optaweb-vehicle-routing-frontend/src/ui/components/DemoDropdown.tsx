@@ -23,59 +23,33 @@ export interface Props {
   onSelect: (name: string) => void;
 }
 
-export interface State {
-  isOpen: boolean;
-}
+const dropdownItems = (demos: string[]): React.ReactNode[] => {
+  return demos.map((value, index) => (
+    <DropdownItem key={index}>
+      {value}
+    </DropdownItem>),
+  );
+};
 
-export class DemoDropdown extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      isOpen: false,
-    };
-    this.onToggle = this.onToggle.bind(this);
-    this.onSelect = this.onSelect.bind(this);
-  }
-
-  onToggle(isOpen: boolean) {
-    this.setState({
-      isOpen,
-    });
-  }
-
-  onSelect(event: React.SyntheticEvent<HTMLDivElement>) {
-    this.setState({
-      isOpen: !this.state.isOpen,
-    });
-    this.props.onSelect(event.currentTarget.innerText);
-  }
-
-  dropdownItems(demos: string[]): React.ReactNode[] {
-    return demos.map((value, index) => (
-      <DropdownItem key={index}>
-        {value}
-      </DropdownItem>),
-    );
-  }
-
-  render() {
-    const { isOpen } = this.state;
-    const { demos } = this.props;
-    return (
-      <Dropdown
-        style={{ marginBottom: 16, marginLeft: 16 }}
-        position={DropdownPosition.right}
-        isOpen={isOpen}
-        dropdownItems={this.dropdownItems(demos)}
-        onSelect={this.onSelect}
-        toggle={
-          <DropdownToggle
-            disabled={demos.length === 0}
-            onToggle={this.onToggle}
-          >
-            Load demo...
-          </DropdownToggle>}
-      />
-    );
-  }
-}
+export const DemoDropdown: React.FC<Props> = ({ demos, onSelect }) => {
+  const [isOpen, setOpen] = React.useState(false);
+  return (
+    <Dropdown
+      style={{ marginBottom: 16, marginLeft: 16 }}
+      position={DropdownPosition.right}
+      isOpen={isOpen}
+      dropdownItems={dropdownItems(demos)}
+      onSelect={(e) => {
+        setOpen(false);
+        onSelect(e.currentTarget.innerText);
+      }}
+      toggle={
+        <DropdownToggle
+          disabled={demos.length === 0}
+          onToggle={() => setOpen(!isOpen)}
+        >
+          Load demo...
+        </DropdownToggle>}
+    />
+  );
+};
