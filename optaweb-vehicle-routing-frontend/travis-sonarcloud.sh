@@ -20,8 +20,9 @@ then
     args[1]="-Dsonar.pullrequest.base=$TRAVIS_BRANCH"
     args[2]="-Dsonar.pullrequest.branch=$TRAVIS_PULL_REQUEST_BRANCH"
     args[3]="-Dsonar.pullrequest.key=$TRAVIS_PULL_REQUEST"
-    args[4]="-Dsonar.pullrequest.provider=github"
-    args[5]="-Dsonar.pullrequest.github.repository=$TRAVIS_PULL_REQUEST_SLUG"
+    # Disabled until https://community.sonarsource.com/t/sonarcloud-pull-request-integration-with-multiple-builds/1992
+    # args[4]="-Dsonar.pullrequest.provider=github"
+    # args[5]="-Dsonar.pullrequest.github.repository=$TRAVIS_PULL_REQUEST_SLUG"
   else
     # https://docs.sonarqube.org/latest/branches/overview/
     args[1]="-Dsonar.branch.name=$TRAVIS_BRANCH"
