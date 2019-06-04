@@ -10,6 +10,7 @@ jobs:
         directories:
           - "$HOME/.npm"
           - "$HOME/.sonar/cache"
+          - "$HOME/.sonar/native-sonar-scanner"
       before_install:
         - "cd optaweb-vehicle-routing-frontend"
       # most important checks first
