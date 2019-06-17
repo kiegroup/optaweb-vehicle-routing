@@ -60,8 +60,6 @@ export type RouteProps = DispatchProps & StateProps;
 export interface RouteState {
   selectedId: number;
   selectedRouteId: number;
-  center: LatLng;
-  zoom: number;
 }
 
 export class Route extends React.Component<RouteProps, RouteState> {
@@ -71,11 +69,6 @@ export class Route extends React.Component<RouteProps, RouteState> {
     this.state = {
       selectedId: NaN,
       selectedRouteId: 0,
-      center: {
-        lat: 50.85,
-        lng: 4.35,
-      },
-      zoom: 9,
     };
     this.onSelectLocation = this.onSelectLocation.bind(this);
     this.handleMapClick = this.handleMapClick.bind(this);
