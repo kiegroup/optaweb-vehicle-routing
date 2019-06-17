@@ -29,8 +29,9 @@ beforeEach(() => {
   (OpenStreetMapProvider as unknown as jest.MockInstance<OpenStreetMapProvider, []>).mockClear();
 });
 
-const searchProviderMock = () =>
-  (OpenStreetMapProvider as unknown as jest.MockInstance<OpenStreetMapProvider, []>).mock;
+const searchProviderMock = (
+  () => (OpenStreetMapProvider as unknown as jest.MockInstance<OpenStreetMapProvider, []>).mock
+);
 
 describe('Search box', () => {
   it('should render text input initially', () => {

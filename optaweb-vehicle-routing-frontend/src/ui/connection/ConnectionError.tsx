@@ -25,9 +25,7 @@ export interface ConnectionErrorProps {
   isOpen: boolean;
 }
 
-const renderHelpBlock = (help?: string) => {
-  return help ? <Text component={TextVariants.small}>{help}</Text> : '';
-};
+const renderHelpBlock = (help?: string) => (help ? <Text component={TextVariants.small}>{help}</Text> : '');
 
 const ConnectionError: React.FC<ConnectionErrorProps> = ({
   title,
@@ -35,18 +33,16 @@ const ConnectionError: React.FC<ConnectionErrorProps> = ({
   icon,
   help,
   isOpen,
-}) => {
-  return (
-    <Modal title={title} isOpen={isOpen} isSmall={true}>
-      <TextContent>
-        <Text component={TextVariants.h3}>
-          {icon}
-          {message}
-          {renderHelpBlock(help)}
-        </Text>
-      </TextContent>
-    </Modal>
-  );
-};
+}) => (
+  <Modal title={title} isOpen={isOpen} isSmall={true}>
+    <TextContent>
+      <Text component={TextVariants.h3}>
+        {icon}
+        {message}
+        {renderHelpBlock(help)}
+      </Text>
+    </TextContent>
+  </Modal>
+);
 
 export default ConnectionError;

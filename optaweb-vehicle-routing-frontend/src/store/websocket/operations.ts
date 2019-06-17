@@ -34,7 +34,7 @@ type ConnectClientThunkAction =
 /**
  * Connect the client to WebSocket.
  */
-export const connectClient: ThunkCommandFactory<void, ConnectClientThunkAction> =
+export const connectClient: ThunkCommandFactory<void, ConnectClientThunkAction> = (
   () => (dispatch, getState, client) => {
     // dispatch WS connection initializing
     dispatch(actions.initWsConnection());
@@ -64,5 +64,6 @@ export const connectClient: ThunkCommandFactory<void, ConnectClientThunkAction> 
         //      dispatch different actions based on its properties (Frame vs. CloseEvent, reason etc.)
         dispatch(actions.wsConnectionFailure(JSON.stringify(err)));
         setTimeout(() => dispatch(connectClient()), 1000);
-      });
-  };
+      },
+    );
+  });

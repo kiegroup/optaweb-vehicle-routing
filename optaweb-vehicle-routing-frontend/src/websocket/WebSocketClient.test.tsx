@@ -49,7 +49,6 @@ const mockClient = {
 };
 
 describe('WebSocketClient', () => {
-
   const url = 'http://test.url:123/my-endpoint';
   const client = new WebSocketClient(url);
 

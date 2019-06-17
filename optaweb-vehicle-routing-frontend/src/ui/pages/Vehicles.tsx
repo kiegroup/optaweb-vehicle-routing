@@ -17,8 +17,6 @@
 import * as React from 'react';
 import { UnderConstruction } from 'ui/components/UnderConstruction';
 
-const Vehicles = () => {
-  return <UnderConstruction />;
-};
+const Vehicles = () => <UnderConstruction />;
 
 export default Vehicles;

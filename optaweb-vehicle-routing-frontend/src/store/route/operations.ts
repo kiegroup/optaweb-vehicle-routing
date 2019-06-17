@@ -18,22 +18,22 @@ import { ThunkCommandFactory } from '../types';
 import * as actions from './actions';
 import { AddLocationAction, ClearRouteAction, DeleteLocationAction, LatLngWithDescription } from './types';
 
-export const updateRoute = actions.updateRoute;
+export const { updateRoute } = actions;
 
-export const addLocation: ThunkCommandFactory<LatLngWithDescription, AddLocationAction> = location =>
-  (dispatch, getState, client) => {
+export const addLocation: ThunkCommandFactory<LatLngWithDescription, AddLocationAction> = (
+  location => (dispatch, getState, client) => {
     dispatch(actions.addLocation(location));
     client.addLocation(location);
-  };
+  });
 
-export const deleteLocation: ThunkCommandFactory<number, DeleteLocationAction> = locationId =>
-  (dispatch, getState, client) => {
+export const deleteLocation: ThunkCommandFactory<number, DeleteLocationAction> = (
+  locationId => (dispatch, getState, client) => {
     dispatch(actions.deleteLocation(locationId));
     client.deleteLocation(locationId);
-  };
+  });
 
-export const clearRoute: ThunkCommandFactory<void, ClearRouteAction> = () =>
-  (dispatch, getState, client) => {
+export const clearRoute: ThunkCommandFactory<void, ClearRouteAction> = (
+  () => (dispatch, getState, client) => {
     dispatch(actions.clearRoute());
     client.clear();
-  };
+  });

@@ -17,8 +17,6 @@
 import * as serverOperations from './operations';
 import reducer from './reducers';
 
-export {
-  serverOperations,
-};
+export { serverOperations };
 
 export default reducer;

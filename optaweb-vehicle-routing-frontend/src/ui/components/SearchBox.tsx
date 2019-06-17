@@ -41,19 +41,19 @@ export interface Result {
 
 const searchParams = (props: Props) => ({
   countrycodes: props.countryCodeSearchFilter,
-  viewbox: props.boundingBox ?
-    [props.boundingBox[0].lng, props.boundingBox[0].lat, props.boundingBox[1].lng, props.boundingBox[1].lat]
+  viewbox: props.boundingBox
+    ? [props.boundingBox[0].lng, props.boundingBox[0].lat, props.boundingBox[1].lng, props.boundingBox[1].lat]
     : undefined,
   bounded: !!props.boundingBox,
 });
 
 class SearchBox extends React.Component<Props, State> {
-
   static defaultProps: Pick<Props, 'searchDelay'> = {
     searchDelay: 500,
   };
 
   private searchProvider: OpenStreetMapProvider;
+
   private timeoutId: number | null;
 
   constructor(props: Props) {
@@ -77,11 +77,15 @@ class SearchBox extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    this.timeoutId && window.clearTimeout(this.timeoutId);
+    if (this.timeoutId) {
+      window.clearTimeout(this.timeoutId);
+    }
   }
 
   handleTextInputChange(query: string): void {
-    this.timeoutId && window.clearTimeout(this.timeoutId);
+    if (this.timeoutId) {
+      window.clearTimeout(this.timeoutId);
+    }
     if (query.trim() !== '') {
       this.timeoutId = window.setTimeout(
         async () => {
@@ -127,7 +131,7 @@ class SearchBox extends React.Component<Props, State> {
           style={{ marginBottom: 10 }}
           value={query}
           type="search"
-          placeholder='Search to add a location...'
+          placeholder="Search to add a location..."
           aria-label="geosearch text input"
           onChange={this.handleTextInputChange}
         />
@@ -152,7 +156,7 @@ class SearchBox extends React.Component<Props, State> {
 
               <li className="pf-c-options-menu__separator" role="separator" />
 
-              {attributions.map((attribution) => (
+              {attributions.map(attribution => (
                 <li
                   key={`attrib: ${attribution}`}
                   className="pf-c-options-menu__menu-item pf-m-disabled"
