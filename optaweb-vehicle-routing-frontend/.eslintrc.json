@@ -60,7 +60,24 @@
         " "
       ]
     ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.ts",
+          "**/*.test.tsx",
+          "src/store/mockStore.ts",
+          "src/setupTests.ts"
+        ]
+      }
+    ],
+    "import/no-unresolved": "off",
+    "import/prefer-default-export": "off",
     "no-console": "warn",
-    "react/prop-types": "off"
+    "react/jsx-boolean-value": ["on", "always"],
+    "react/destructuring-assignment": "off",
+    "react/jsx-filename-extension": ["on", {"extensions": [".tsx"]}],
+    "react/prop-types": "off",
+    "react/sort-comp": "off"
   }
 }
