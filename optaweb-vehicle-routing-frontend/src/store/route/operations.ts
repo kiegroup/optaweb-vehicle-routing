@@ -34,7 +34,6 @@ export const deleteLocation: ThunkCommandFactory<number, DeleteLocationAction> =
 
 export const clearRoute: ThunkCommandFactory<void, ClearRouteAction> = () =>
   (dispatch, state, client) => {
-    actions.clearRoute();
     dispatch(actions.clearRoute());
     client.clear();
   };
