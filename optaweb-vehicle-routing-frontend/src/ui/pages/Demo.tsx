@@ -79,8 +79,6 @@ export type DemoProps = DispatchProps & StateProps;
 
 export interface DemoState {
   selectedId: number;
-  center: LatLng;
-  zoom: number;
 }
 
 export class Demo extends React.Component<DemoProps, DemoState> {
@@ -89,11 +87,6 @@ export class Demo extends React.Component<DemoProps, DemoState> {
 
     this.state = {
       selectedId: NaN,
-      center: {
-        lat: 50.85,
-        lng: 4.35,
-      },
-      zoom: 9,
     };
     this.handleDemoLoadClick = this.handleDemoLoadClick.bind(this);
     this.handleMapClick = this.handleMapClick.bind(this);
