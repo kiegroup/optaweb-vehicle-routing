@@ -114,9 +114,9 @@ const TspMap: React.FC<TspMapProps> = ({
       {bounds && (
         <Rectangle
           bounds={bounds}
-          color='seagreen'
+          color="seagreen"
           fill={false}
-          dashArray='10,5'
+          dashArray="10,5"
           weight={1}
         />
       )}

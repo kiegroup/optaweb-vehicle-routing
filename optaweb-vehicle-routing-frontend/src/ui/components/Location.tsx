@@ -58,8 +58,7 @@ const Location: React.FC<LocationProps> = ({
               <span aria-labelledby={`aria-${id}`}>{shorten(description)}</span>
             </Tooltip>
           ))
-          ||
-          <span aria-labelledby={`aria-${id}`}>{`Location ${id}`}</span>}
+          || <span aria-labelledby={`aria-${id}`}>{`Location ${id}`}</span>}
         </DataListCell>
         <DataListCell isFilled={false}>
           <Button

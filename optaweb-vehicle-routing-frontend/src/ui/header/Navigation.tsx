@@ -19,26 +19,24 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link, withRouter } from 'react-router-dom';
 
-export const Navigation = ({ location }: RouteComponentProps) => {
-  return (
-    <Nav aria-label="Nav">
-      <NavList variant={NavVariants.horizontal}>
-        {['Vehicles', 'Visits', 'Route', 'Demo'].map((label) => {
-          const itemId = label.toLowerCase();
-          const path = `/${itemId}`;
-          return (
-            <NavItem
-              key={itemId}
-              itemId={itemId}
-              isActive={location.pathname === path}
-            >
-              <Link to={path}>{label}</Link>
-            </NavItem>
-          );
-        })}
-      </NavList>
-    </Nav>
-  );
-};
+export const Navigation = ({ location }: RouteComponentProps) => (
+  <Nav aria-label="Nav">
+    <NavList variant={NavVariants.horizontal}>
+      {['Vehicles', 'Visits', 'Route', 'Demo'].map((label) => {
+        const itemId = label.toLowerCase();
+        const path = `/${itemId}`;
+        return (
+          <NavItem
+            key={itemId}
+            itemId={itemId}
+            isActive={location.pathname === path}
+          >
+            <Link to={path}>{label}</Link>
+          </NavItem>
+        );
+      })}
+    </NavList>
+  </Nav>
+);
 
 export default withRouter(Navigation);

@@ -27,58 +27,54 @@ export interface LocationListProps {
   visits: Location[];
 }
 
-const renderEmptyLocationList: React.FC<LocationListProps> = () => {
-  return (
-    <DataList aria-label="empty location list">
-      <Bullseye>No locations</Bullseye>
-    </DataList>
-  );
-};
+const renderEmptyLocationList: React.FC<LocationListProps> = () => (
+  <DataList aria-label="empty location list">
+    <Bullseye>No locations</Bullseye>
+  </DataList>
+);
 
 const renderLocationList: React.FC<LocationListProps> = ({
   depot,
   visits,
   removeHandler,
   selectHandler,
-}) => {
-  return (
-    <div style={{ overflowY: 'auto' }}>
-      <DataList
-        aria-label="simple-item1"
-      >
-        {depot && (
+}) => (
+  <div style={{ overflowY: 'auto' }}>
+    <DataList
+      aria-label="simple-item1"
+    >
+      {depot && (
+        <LocationItem
+          key={depot.id}
+          id={depot.id}
+          description={depot.description || null}
+          removeDisabled={visits.length > 0}
+          removeHandler={removeHandler}
+          selectHandler={selectHandler}
+        />
+      )}
+      {visits
+        .slice(0) // clone the array because
+        // sort is done in place (that would affect the route)
+        .sort((a, b) => a.id - b.id)
+        .map(visit => (
           <LocationItem
-            key={depot.id}
-            id={depot.id}
-            description={depot.description || null}
-            removeDisabled={visits.length > 0}
+            key={visit.id}
+            id={visit.id}
+            description={visit.description || null}
+            removeDisabled={false}
             removeHandler={removeHandler}
             selectHandler={selectHandler}
           />
-        )}
-        {visits
-          .slice(0) // clone the array because
-          // sort is done in place (that would affect the route)
-          .sort((a, b) => a.id - b.id)
-          .map(visit => (
-            <LocationItem
-              key={visit.id}
-              id={visit.id}
-              description={visit.description || null}
-              removeDisabled={false}
-              removeHandler={removeHandler}
-              selectHandler={selectHandler}
-            />
-          ))}
-      </DataList>
-    </div>
-  );
-};
+        ))}
+    </DataList>
+  </div>
+);
 
-const LocationList: React.FC<LocationListProps> = (props) => {
-  return props.visits.length === 0 && props.depot === null
+const LocationList: React.FC<LocationListProps> = props => (
+  props.visits.length === 0 && props.depot === null
     ? renderEmptyLocationList(props)
-    : renderLocationList(props);
-};
+    : renderLocationList(props)
+);
 
 export default LocationList;

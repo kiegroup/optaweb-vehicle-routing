@@ -44,25 +44,23 @@ const mapDispatchToProps: DispatchProps = {
 
 export type Props = StateProps & DispatchProps;
 
-export const Visits = ({
+export const Visits: React.FC<Props> = ({
   depot,
   visits,
   removeHandler,
-}: Props) => {
-  return (
-    <>
-      <TextContent>
-        <Text component={TextVariants.h1}>{`Visits (${visits.length})`}</Text>
-      </TextContent>
-      {/* TODO do not show depots */}
-      <LocationList
-        removeHandler={removeHandler}
-        selectHandler={() => undefined}
-        depot={depot}
-        visits={visits}
-      />
-    </>
-  );
-};
+}: Props) => (
+  <>
+    <TextContent>
+      <Text component={TextVariants.h1}>{`Visits (${visits.length})`}</Text>
+    </TextContent>
+    {/* TODO do not show depots */}
+    <LocationList
+      removeHandler={removeHandler}
+      selectHandler={() => undefined}
+      depot={depot}
+      visits={visits}
+    />
+  </>
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(Visits);

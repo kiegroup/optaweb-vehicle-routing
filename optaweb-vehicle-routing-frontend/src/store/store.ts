@@ -35,7 +35,6 @@ export function configureStore(
   { socketUrl }: StoreConfig,
   preloadedState?: AppState,
 ): Store<AppState> {
-
   const webSocketClient = new WebSocketClient(socketUrl);
 
   const middlewares = [thunk.withExtraArgument(webSocketClient), createLogger()];

@@ -23,13 +23,11 @@ export interface Props {
   onSelect: (name: string) => void;
 }
 
-const dropdownItems = (demos: string[]): React.ReactNode[] => {
-  return demos.map((value) => (
-    <DropdownItem key={value}>
-      {value}
-    </DropdownItem>
-  ));
-};
+const dropdownItems = (demos: string[]): React.ReactNode[] => demos.map(value => (
+  <DropdownItem key={value}>
+    {value}
+  </DropdownItem>
+));
 
 export const DemoDropdown: React.FC<Props> = ({ demos, onSelect }) => {
   const [isOpen, setOpen] = React.useState(false);

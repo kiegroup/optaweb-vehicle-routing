@@ -23,46 +23,44 @@ import ConnectionManager from './connection/ConnectionManager';
 import Header from './header/Header';
 import { Demo, Route as RoutePage, Vehicles, Visits } from './pages';
 
-const App: React.FC = () => {
-  return (
-    <>
-      <ConnectionManager />
-      <Page header={<Header />}>
-        <Background />
-        <PageSection
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            overflowY: 'auto',
-            height: '100%',
-          }}
-        >
-          <Switch>
-            <Route
-              path="/vehicles"
-              exact={true}
-              component={Vehicles}
-            />
-            <Route
-              path="/visits"
-              exact={true}
-              component={Visits}
-            />
-            <Route
-              path="/route"
-              exact={true}
-              component={RoutePage}
-            />
-            <Route
-              path="/demo"
-              exact={true}
-              component={Demo}
-            />
-          </Switch>
-        </PageSection>
-      </Page>
-    </>
-  );
-};
+const App: React.FC = () => (
+  <>
+    <ConnectionManager />
+    <Page header={<Header />}>
+      <Background />
+      <PageSection
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          overflowY: 'auto',
+          height: '100%',
+        }}
+      >
+        <Switch>
+          <Route
+            path="/vehicles"
+            exact={true}
+            component={Vehicles}
+          />
+          <Route
+            path="/visits"
+            exact={true}
+            component={Visits}
+          />
+          <Route
+            path="/route"
+            exact={true}
+            component={RoutePage}
+          />
+          <Route
+            path="/demo"
+            exact={true}
+            component={Demo}
+          />
+        </Switch>
+      </PageSection>
+    </Page>
+  </>
+);
 
 export default App;

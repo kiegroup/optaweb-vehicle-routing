@@ -24,11 +24,11 @@
     ]
   },
   "extends": [
-    "airbnb",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
-    "react-app"
+    "react-app",
+    "airbnb"
   ],
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "off",
@@ -73,7 +73,15 @@
     ],
     "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
+    "max-len": ["error", {"code": 120}],
     "no-console": "warn",
+    "no-use-before-define": "off",
+    "object-curly-newline": [
+      "error", {
+        "ImportDeclaration": {"multiline": true},
+        "ExportDeclaration": {"multiline": true}
+      }
+    ],
     "react/jsx-boolean-value": ["on", "always"],
     "react/destructuring-assignment": "off",
     "react/jsx-filename-extension": ["on", {"extensions": [".tsx"]}],

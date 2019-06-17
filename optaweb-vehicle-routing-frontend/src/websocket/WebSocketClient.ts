@@ -20,8 +20,8 @@ import { Client, Frame, over } from 'webstomp-client';
 import { ServerInfo } from '../store/server/types';
 
 export default class WebSocketClient {
-
   readonly socketUrl: string;
+
   stompClient: Client | null;
 
   constructor(socketUrl: string) {
@@ -49,32 +49,44 @@ export default class WebSocketClient {
   }
 
   addLocation(latLng: LatLngWithDescription) {
-    this.stompClient && this.stompClient.send('/app/location', JSON.stringify(latLng));
+    if (this.stompClient) {
+      this.stompClient.send('/app/location', JSON.stringify(latLng));
+    }
   }
 
   loadDemo(name: string): void {
-    this.stompClient && this.stompClient.send(`/app/demo/${name}`);
+    if (this.stompClient) {
+      this.stompClient.send(`/app/demo/${name}`);
+    }
   }
 
   deleteLocation(locationId: number) {
-    this.stompClient && this.stompClient.send(`/app/location/${locationId}/delete`, JSON.stringify(locationId));
+    if (this.stompClient) {
+      this.stompClient.send(`/app/location/${locationId}/delete`, JSON.stringify(locationId));
+    }
   }
 
   clear() {
-    this.stompClient && this.stompClient.send('/app/clear');
+    if (this.stompClient) {
+      this.stompClient.send('/app/clear');
+    }
   }
 
   subscribeToServerInfo(subscriptionCallback: (serverInfo: ServerInfo) => any): void {
-    this.stompClient && this.stompClient.subscribe('/topic/serverInfo', (message) => {
-      const serverInfo = JSON.parse(message.body);
-      subscriptionCallback(serverInfo);
-    });
+    if (this.stompClient) {
+      this.stompClient.subscribe('/topic/serverInfo', (message) => {
+        const serverInfo = JSON.parse(message.body);
+        subscriptionCallback(serverInfo);
+      });
+    }
   }
 
   subscribeToRoute(subscriptionCallback: (plan: RoutingPlan) => any): void {
-    this.stompClient && this.stompClient.subscribe('/topic/route', (message) => {
-      const plan = JSON.parse(message.body);
-      subscriptionCallback(plan);
-    });
+    if (this.stompClient) {
+      this.stompClient.subscribe('/topic/route', (message) => {
+        const plan = JSON.parse(message.body);
+        subscriptionCallback(plan);
+      });
+    }
   }
 }

@@ -28,7 +28,8 @@ export const mockStore = (state: AppState) => {
   const client = new WebSocketClient('');
   const middlewares: Middleware[] = [thunk.withExtraArgument(client)];
   type DispatchExts = ThunkDispatch<AppState, WebSocketClient, WebSocketAction | UpdateRouteAction>;
-  const mockStoreCreator: MockStoreCreator<AppState, DispatchExts> =
-    createMockStore<AppState, DispatchExts>(middlewares);
+  const mockStoreCreator: MockStoreCreator<AppState, DispatchExts> = (
+    createMockStore<AppState, DispatchExts>(middlewares)
+  );
   return { store: mockStoreCreator(state), client };
 };

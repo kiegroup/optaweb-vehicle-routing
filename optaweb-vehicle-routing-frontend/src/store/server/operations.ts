@@ -16,4 +16,4 @@
 
 import * as actions from './actions';
 
-export const serverInfo = actions.serverInfo;
+export const { serverInfo } = actions;
