@@ -50,10 +50,10 @@ export class ConnectionManager extends React.Component<Props> {
     return (
       <ConnectionError
         isOpen={this.props.connectionStatus === WebSocketConnectionStatus.ERROR}
-        message={'Please check your network connection.'}
-        title={'Oops... Connection error!'}
+        message='Please check your network connection.'
+        title='Oops... Connection error!'
         icon={<UnpluggedIcon />}
-        help={'When connection is available the application will be functional again.'}
+        help='When connection is available the application will be functional again.'
       />
     );
   }

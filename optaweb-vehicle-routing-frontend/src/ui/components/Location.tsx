@@ -53,10 +53,11 @@ const Location: React.FC<LocationProps> = ({
     >
       <DataListItemRow>
         <DataListCell isFilled={true}>
-          {(description &&
+          {(description && (
             <Tooltip content={description}>
               <span aria-labelledby={`aria-${id}`}>{shorten(description)}</span>
-            </Tooltip>)
+            </Tooltip>
+          ))
           ||
           <span aria-labelledby={`aria-${id}`}>{`Location ${id}`}</span>}
         </DataListCell>

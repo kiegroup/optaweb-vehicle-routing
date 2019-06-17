@@ -44,29 +44,25 @@ const mapDispatchToProps: DispatchProps = {
 
 export type Props = StateProps & DispatchProps;
 
-export class Visits extends React.Component<Props> {
-
-  render() {
-    const {
-      depot,
-      visits,
-      removeHandler,
-    } = this.props;
-    return (
-      <>
-        <TextContent>
-          <Text component={TextVariants.h1}>{`Visits (${visits.length})`}</Text>
-        </TextContent>
-        {/* TODO do not show depots */}
-        <LocationList
-          removeHandler={removeHandler}
-          selectHandler={() => undefined}
-          depot={depot}
-          visits={visits}
-        />
-      </>
-    );
-  }
-}
+export const Visits = ({
+  depot,
+  visits,
+  removeHandler,
+}: Props) => {
+  return (
+    <>
+      <TextContent>
+        <Text component={TextVariants.h1}>{`Visits (${visits.length})`}</Text>
+      </TextContent>
+      {/* TODO do not show depots */}
+      <LocationList
+        removeHandler={removeHandler}
+        selectHandler={() => undefined}
+        depot={depot}
+        visits={visits}
+      />
+    </>
+  );
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Visits);

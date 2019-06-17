@@ -127,49 +127,48 @@ class SearchBox extends React.Component<Props, State> {
           style={{ marginBottom: 10 }}
           value={query}
           type="search"
-          placeholder={'Search to add a location...'}
+          placeholder='Search to add a location...'
           aria-label="geosearch text input"
           onChange={this.handleTextInputChange}
         />
-        {results.length > 0 &&
-        <div className="pf-c-options-menu pf-m-expanded" style={{ zIndex: 1100 }}>
-          <ul className="pf-c-options-menu__menu">
-            {results.map((result, index) => (
-              <li key={`result${index}`}>
-                <div className="pf-c-options-menu__menu-item">
-                  {result.address}
-                  <Button
-                    className="pf-c-options-menu__menu-item-icon"
-                    variant="link"
-                    type="button"
-                    onClick={() => this.handleClick(index)}
-                  >
-                    <PlusSquareIcon />
-                  </Button>
-                </div>
-              </li>
-            ))}
+        {results.length > 0 && (
+          <div className="pf-c-options-menu pf-m-expanded" style={{ zIndex: 1100 }}>
+            <ul className="pf-c-options-menu__menu">
+              {results.map((result, index) => (
+                <li key={`result: ${result}`}>
+                  <div className="pf-c-options-menu__menu-item">
+                    {result.address}
+                    <Button
+                      className="pf-c-options-menu__menu-item-icon"
+                      variant="link"
+                      type="button"
+                      onClick={() => this.handleClick(index)}
+                    >
+                      <PlusSquareIcon />
+                    </Button>
+                  </div>
+                </li>
+              ))}
 
-            <li className="pf-c-options-menu__separator" role="separator" />
+              <li className="pf-c-options-menu__separator" role="separator" />
 
-            {attributions.map((attribution, index) => (
-              <li
-                key={`attrib${index}`}
-                className="pf-c-options-menu__menu-item pf-m-disabled"
-              >
-                <TextContent>
-                  <Text
-                    key={index}
-                    component={TextVariants.small}
-                  >
-                    {attribution}
-                  </Text>
-                </TextContent>
-              </li>
-            ))}
-          </ul>
-        </div>
-        }
+              {attributions.map((attribution) => (
+                <li
+                  key={`attrib: ${attribution}`}
+                  className="pf-c-options-menu__menu-item pf-m-disabled"
+                >
+                  <TextContent>
+                    <Text
+                      component={TextVariants.small}
+                    >
+                      {attribution}
+                    </Text>
+                  </TextContent>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </>
     );
   }

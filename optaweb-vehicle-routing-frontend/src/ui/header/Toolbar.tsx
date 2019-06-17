@@ -42,10 +42,11 @@ const ToolbarComponent: React.FC = () => {
             // eslint-disable-next-line no-console
             onSelect={event => console.log(event)}
             isOpen={openTenants}
-            toggle={
+            toggle={(
               <DropdownToggle onToggle={() => setOpenTenants(!openTenants)}>
                 Tenant Name
-              </DropdownToggle>}
+              </DropdownToggle>
+            )}
             dropdownItems={[
               <DropdownItem key={0}>ACMEE Corp</DropdownItem>,
               <DropdownItem key={1}>Wayne Ent.</DropdownItem>,

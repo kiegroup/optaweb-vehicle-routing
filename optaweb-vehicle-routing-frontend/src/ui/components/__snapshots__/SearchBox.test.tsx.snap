@@ -53,7 +53,7 @@ exports[`Search box should invoke add handler with the selected result and clear
       className="pf-c-options-menu__menu"
     >
       <li
-        key="result0"
+        key="result: [object Object]"
       >
         <div
           className="pf-c-options-menu__menu-item"
@@ -73,7 +73,7 @@ exports[`Search box should invoke add handler with the selected result and clear
         </div>
       </li>
       <li
-        key="result1"
+        key="result: [object Object]"
       >
         <div
           className="pf-c-options-menu__menu-item"
@@ -93,7 +93,7 @@ exports[`Search box should invoke add handler with the selected result and clear
         </div>
       </li>
       <li
-        key="result2"
+        key="result: [object Object]"
       >
         <div
           className="pf-c-options-menu__menu-item"
@@ -113,7 +113,7 @@ exports[`Search box should invoke add handler with the selected result and clear
         </div>
       </li>
       <li
-        key="result3"
+        key="result: [object Object]"
       >
         <div
           className="pf-c-options-menu__menu-item"
@@ -138,12 +138,11 @@ exports[`Search box should invoke add handler with the selected result and clear
       />
       <li
         className="pf-c-options-menu__menu-item pf-m-disabled"
-        key="attrib0"
+        key="attrib: License 1"
       >
         <TextContent>
           <Text
             component="small"
-            key="0"
           >
             License 1
           </Text>
@@ -151,12 +150,11 @@ exports[`Search box should invoke add handler with the selected result and clear
       </li>
       <li
         className="pf-c-options-menu__menu-item pf-m-disabled"
-        key="attrib1"
+        key="attrib: License 2"
       >
         <TextContent>
           <Text
             component="small"
-            key="1"
           >
             License 2
           </Text>
@@ -220,7 +218,7 @@ exports[`Search box should show results when query is entered 1`] = `
       className="pf-c-options-menu__menu"
     >
       <li
-        key="result0"
+        key="result: [object Object]"
       >
         <div
           className="pf-c-options-menu__menu-item"
@@ -241,7 +239,7 @@ exports[`Search box should show results when query is entered 1`] = `
         </div>
       </li>
       <li
-        key="result1"
+        key="result: [object Object]"
       >
         <div
           className="pf-c-options-menu__menu-item"
@@ -262,7 +260,7 @@ exports[`Search box should show results when query is entered 1`] = `
         </div>
       </li>
       <li
-        key="result2"
+        key="result: [object Object]"
       >
         <div
           className="pf-c-options-menu__menu-item"
@@ -283,7 +281,7 @@ exports[`Search box should show results when query is entered 1`] = `
         </div>
       </li>
       <li
-        key="result3"
+        key="result: [object Object]"
       >
         <div
           className="pf-c-options-menu__menu-item"
@@ -309,12 +307,11 @@ exports[`Search box should show results when query is entered 1`] = `
       />
       <li
         className="pf-c-options-menu__menu-item pf-m-disabled"
-        key="attrib0"
+        key="attrib: License 1"
       >
         <TextContent>
           <Text
             component="small"
-            key="0"
           >
             License 1
           </Text>
@@ -322,12 +319,11 @@ exports[`Search box should show results when query is entered 1`] = `
       </li>
       <li
         className="pf-c-options-menu__menu-item pf-m-disabled"
-        key="attrib1"
+        key="attrib: License 2"
       >
         <TextContent>
           <Text
             component="small"
-            key="1"
           >
             License 2
           </Text>
