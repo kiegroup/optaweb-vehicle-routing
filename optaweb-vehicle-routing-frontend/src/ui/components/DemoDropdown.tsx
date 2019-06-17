@@ -24,11 +24,11 @@ export interface Props {
 }
 
 const dropdownItems = (demos: string[]): React.ReactNode[] => {
-  return demos.map((value, index) => (
-    <DropdownItem key={index}>
+  return demos.map((value) => (
+    <DropdownItem key={value}>
       {value}
-    </DropdownItem>),
-  );
+    </DropdownItem>
+  ));
 };
 
 export const DemoDropdown: React.FC<Props> = ({ demos, onSelect }) => {
@@ -43,13 +43,14 @@ export const DemoDropdown: React.FC<Props> = ({ demos, onSelect }) => {
         setOpen(false);
         onSelect(e.currentTarget.innerText);
       }}
-      toggle={
+      toggle={(
         <DropdownToggle
           disabled={demos.length === 0}
           onToggle={() => setOpen(!isOpen)}
         >
           Load demo...
-        </DropdownToggle>}
+        </DropdownToggle>
+      )}
     />
   );
 };

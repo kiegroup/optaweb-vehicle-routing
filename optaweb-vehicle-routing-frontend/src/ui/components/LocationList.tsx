@@ -46,14 +46,16 @@ const renderLocationList: React.FC<LocationListProps> = ({
       <DataList
         aria-label="simple-item1"
       >
-        {depot && <LocationItem
-          key={depot.id}
-          id={depot.id}
-          description={depot.description || null}
-          removeDisabled={visits.length > 0}
-          removeHandler={removeHandler}
-          selectHandler={selectHandler}
-        />}
+        {depot && (
+          <LocationItem
+            key={depot.id}
+            id={depot.id}
+            description={depot.description || null}
+            removeDisabled={visits.length > 0}
+            removeHandler={removeHandler}
+            selectHandler={selectHandler}
+          />
+        )}
         {visits
           .slice(0) // clone the array because
           // sort is done in place (that would affect the route)

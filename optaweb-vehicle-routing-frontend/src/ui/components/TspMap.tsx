@@ -69,7 +69,8 @@ const marker = (
       >
         {`Location ${location.id} [Lat=${location.lat}, Lng=${location.lng}]`}
       </Tooltip>
-    </Marker>);
+    </Marker>
+  );
 };
 
 const TspMap: React.FC<TspMapProps> = ({
@@ -110,14 +111,15 @@ const TspMap: React.FC<TspMapProps> = ({
           color={color(index)}
         />
       ))}
-      {bounds &&
-      <Rectangle
-        bounds={bounds}
-        color={'seagreen'}
-        fill={false}
-        dashArray={'10,5'}
-        weight={1}
-      />}
+      {bounds && (
+        <Rectangle
+          bounds={bounds}
+          color='seagreen'
+          fill={false}
+          dashArray='10,5'
+          weight={1}
+        />
+      )}
     </Map>
   );
 };

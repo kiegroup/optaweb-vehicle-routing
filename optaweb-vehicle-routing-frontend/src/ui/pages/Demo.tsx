@@ -179,21 +179,21 @@ export class Demo extends React.Component<DemoProps, DemoState> {
               >
                 Export
               </Button>
-              {(routes.length === 0 &&
+              {(routes.length === 0 && (
                 <DemoDropdown
                   demos={demoNames}
                   onSelect={this.handleDemoLoadClick}
-                />)
-              ||
-              <Button
-                id={ID_CLEAR_BUTTON}
-                isDisabled={isDemoLoading}
-                style={{ marginBottom: 16, marginLeft: 16 }}
-                onClick={clearHandler}
-              >
-                Clear
-              </Button>
-              }
+                />
+              )) || (
+                <Button
+                  id={ID_CLEAR_BUTTON}
+                  isDisabled={isDemoLoading}
+                  style={{ marginBottom: 16, marginLeft: 16 }}
+                  onClick={clearHandler}
+                >
+                  Clear
+                </Button>
+              )}
             </SplitItem>
           </Split>
           <TspMap
