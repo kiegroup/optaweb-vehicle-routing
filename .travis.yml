@@ -16,8 +16,8 @@ before_install:
 # https://docs.travis-ci.com/user/languages/java/#projects-using-maven
 #
 # We also want to avoid Maven's install phase to prevent from writing to ~/.m2/repository, which is cached.
-install: ./mvnw dependency:go-offline -Pjacoco,sonar --show-version
+install: mvn dependency:go-offline -Pjacoco,sonar --show-version
 # do not install to avoid dirtying the cache
-script: ./mvnw verify -Pjacoco,sonar --show-version
+script: mvn verify -Pjacoco,sonar --show-version
 
 after_script: git diff HEAD --exit-code
