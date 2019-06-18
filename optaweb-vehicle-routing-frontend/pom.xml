@@ -59,7 +59,7 @@
               <goal>npm</goal>
             </goals>
             <configuration>
-              <arguments>test</arguments>
+              <arguments>run coverage</arguments>
               <environmentVariables>
                 <!-- Prevent CRA scripts from running Jest in watch mode -->
                 <CI>true</CI>
@@ -79,5 +79,16 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>sonar</id>
+      <properties>
+        <sonar.sources>src</sonar.sources>
+        <sonar.test.inclusions>optaweb-vehicle-routing-frontend/**/*test.ts,optaweb-vehicle-routing-frontend/**/*test.tsx</sonar.test.inclusions>
+        <sonar.typescript.lcov.reportPaths>coverage/lcov.info</sonar.typescript.lcov.reportPaths>
+      </properties>
+    </profile>
+  </profiles>
 
 </project>

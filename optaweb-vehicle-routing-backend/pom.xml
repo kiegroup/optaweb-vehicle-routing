@@ -250,19 +250,6 @@
             </execution>
           </executions>
         </plugin>
-        <plugin>
-          <groupId>org.sonarsource.scanner.maven</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>3.6.0.1398</version>
-          <executions>
-            <execution>
-              <phase>verify</phase>
-              <goals>
-                <goal>sonar</goal>
-              </goals>
-            </execution>
-          </executions>
-        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -396,73 +383,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-    <profile>
-      <id>sonar</id>
-      <properties>
-        <sonar.projectKey>kiegroup_optaweb-vehicle-routing</sonar.projectKey>
-        <sonar.organization>kiegroup</sonar.organization>
-        <sonar.host.url>https://sonarcloud.io/</sonar.host.url>
-        <!--suppress UnresolvedMavenProperty -->
-        <sonar.login>${env.SONARCLOUD_TOKEN}</sonar.login>
-      </properties>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.sonarsource.scanner.maven</groupId>
-            <artifactId>sonar-maven-plugin</artifactId>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <!-- Skip Sonar plugin execution if SONARCLOUD_TOKEN is not set. -->
-      <id>skipSonar</id>
-      <activation>
-        <property>
-          <name>!env.SONARCLOUD_TOKEN</name>
-        </property>
-      </activation>
-      <properties>
-        <sonar.skip>true</sonar.skip>
-      </properties>
-    </profile>
-    <profile>
-      <id>pullRequestAnalysis</id>
-      <!-- Only set sonar.pullrequest properties when the Travis build is triggered by a PR.
-           When the build is triggered by push to a branch or by cron, the consumed env.TRAVIS properties are empty,
-           resulting in invalid sonar.pullrequest properties and the Sonar plugin would fail. -->
-      <activation>
-        <property>
-          <name>env.TRAVIS_EVENT_TYPE</name>
-          <value>pull_request</value>
-        </property>
-      </activation>
-      <!-- See https://docs.travis-ci.com/user/environment-variables/ for list of Travis environment variables. -->
-      <!-- See https://docs.sonarqube.org/latest/analysis/pull-request/ for properties required by Sonar for PR analysis. -->
-      <properties>
-        <!--suppress UnresolvedMavenProperty -->
-        <sonar.pullrequest.branch>${env.TRAVIS_PULL_REQUEST_BRANCH}</sonar.pullrequest.branch>
-        <!--suppress UnresolvedMavenProperty -->
-        <sonar.pullrequest.key>${env.TRAVIS_PULL_REQUEST}</sonar.pullrequest.key>
-        <!--suppress UnresolvedMavenProperty -->
-        <sonar.pullrequest.base>${env.TRAVIS_BRANCH}</sonar.pullrequest.base>
-      </properties>
-    </profile>
-    <profile>
-      <id>branchAnalysis</id>
-      <activation>
-        <property>
-          <name>env.TRAVIS_EVENT_TYPE</name>
-          <value>!pull_request</value>
-        </property>
-      </activation>
-      <!-- See https://docs.travis-ci.com/user/environment-variables/ for list of Travis environment variables. -->
-      <!-- See https://docs.sonarqube.org/latest/branches/overview/ for properties required by Sonar for branch analysis. -->
-      <properties>
-        <!--suppress UnresolvedMavenProperty -->
-        <sonar.branch.name>${env.TRAVIS_BRANCH}</sonar.branch.name>
-      </properties>
     </profile>
   </profiles>
 
