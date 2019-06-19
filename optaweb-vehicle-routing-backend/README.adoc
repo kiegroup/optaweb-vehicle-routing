@@ -1,18 +1,5 @@
 = OptaWeb Vehicle Routing Backend
 
-image:https://sonarcloud.io/api/project_badges/measure?project=kiegroup_optaweb-vehicle-routing&metric=alert_status[
-"Quality Gate Status", link="https://sonarcloud.io/dashboard?id=kiegroup_optaweb-vehicle-routing"]
-image:https://sonarcloud.io/api/project_badges/measure?project=kiegroup_optaweb-vehicle-routing&metric=reliability_rating[
-"Reliability Rating", link="https://sonarcloud.io/dashboard?id=kiegroup_optaweb-vehicle-routing"]
-image:https://sonarcloud.io/api/project_badges/measure?project=kiegroup_optaweb-vehicle-routing&metric=security_rating[
-"Security Rating", link="https://sonarcloud.io/dashboard?id=kiegroup_optaweb-vehicle-routing"]
-image:https://sonarcloud.io/api/project_badges/measure?project=kiegroup_optaweb-vehicle-routing&metric=sqale_rating[
-"Maintainability Rating", link="https://sonarcloud.io/dashboard?id=kiegroup_optaweb-vehicle-routing"]
-image:https://sonarcloud.io/api/project_badges/measure?project=kiegroup_optaweb-vehicle-routing&metric=ncloc[
-"Lines of Code", link="https://sonarcloud.io/dashboard?id=kiegroup_optaweb-vehicle-routing"]
-image:https://sonarcloud.io/api/project_badges/measure?project=kiegroup_optaweb-vehicle-routing&metric=coverage[
-"Coverage", link="https://sonarcloud.io/dashboard?id=kiegroup_optaweb-vehicle-routing"]
-
 - Maintains and persists user data created through the UI (e.g. visit locations).
 - Uses 3rd party services to obtain travel distances between locations based on
   real-world geographical data.
