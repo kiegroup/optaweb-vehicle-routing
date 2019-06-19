@@ -3,6 +3,19 @@
 image:https://travis-ci.com/kiegroup/optaweb-vehicle-routing.svg?branch=master[
 "Build Status", link="https://travis-ci.com/kiegroup/optaweb-vehicle-routing"]
 
+image:https://sonarcloud.io/api/project_badges/measure?project=org.optaweb:vehicle-routing&metric=alert_status[
+"Quality Gate Status", link="https://sonarcloud.io/dashboard?id=org.optaweb:vehicle-routing"]
+image:https://sonarcloud.io/api/project_badges/measure?project=org.optaweb:vehicle-routing&metric=reliability_rating[
+"Reliability Rating", link="https://sonarcloud.io/dashboard?id=org.optaweb:vehicle-routing"]
+image:https://sonarcloud.io/api/project_badges/measure?project=org.optaweb:vehicle-routing&metric=security_rating[
+"Security Rating", link="https://sonarcloud.io/dashboard?id=org.optaweb:vehicle-routing"]
+image:https://sonarcloud.io/api/project_badges/measure?project=org.optaweb:vehicle-routing&metric=sqale_rating[
+"Maintainability Rating", link="https://sonarcloud.io/dashboard?id=org.optaweb:vehicle-routing"]
+image:https://sonarcloud.io/api/project_badges/measure?project=org.optaweb:vehicle-routing&metric=ncloc[
+"Lines of Code", link="https://sonarcloud.io/dashboard?id=org.optaweb:vehicle-routing"]
+image:https://sonarcloud.io/api/project_badges/measure?project=org.optaweb:vehicle-routing&metric=coverage[
+"Coverage", link="https://sonarcloud.io/dashboard?id=org.optaweb:vehicle-routing"]
+
 Web application for solving the https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html[Vehicle Routing Problem]
 using https://www.optaplanner.org/[OptaPlanner].
 
