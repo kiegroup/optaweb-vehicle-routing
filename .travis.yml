@@ -4,12 +4,11 @@ language: java
 jdk: openjdk8
 cache:
   directories:
+    - "$HOME/.m2/repository"
+    - "$HOME/.m2/wrapper"
     - "$HOME/.npm"
     - "$HOME/.sonar/cache"
     - "$HOME/.sonar/native-sonar-scanner"
-    - "$HOME/.m2/repository"
-    - "$HOME/.m2/wrapper"
-    - "$HOME/.sonar/cache"
 before_install:
 # Change Travis install phase to only resolve dependencies needed to run the build.
 # Otherwise it would run `mvn install`, which results in doing some Maven phases twice (validate, compile, jar, ...).
@@ -18,6 +17,8 @@ before_install:
 # We also want to avoid Maven's install phase to prevent from writing to ~/.m2/repository, which is cached.
 install: mvn dependency:go-offline -Pjacoco,sonar --show-version
 # do not install to avoid dirtying the cache
-script: mvn verify -Pjacoco,sonar --show-version
-
-after_script: git diff HEAD --exit-code
+script:
+  mvn verify -Pjacoco,sonar --show-version
+  # check that git working tree is clean after running npm install via a frontend-maven-plugin
+  # the git command returns 1 and fails the build if there are any uncommitted changes
+  git diff HEAD --exit-code

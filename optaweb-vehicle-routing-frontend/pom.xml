@@ -60,10 +60,6 @@
             </goals>
             <configuration>
               <arguments>run coverage</arguments>
-              <environmentVariables>
-                <!-- Prevent CRA scripts from running Jest in watch mode -->
-                <CI>true</CI>
-              </environmentVariables>
             </configuration>
           </execution>
           <execution>
