@@ -5,7 +5,7 @@ rm -rf ./env-config.js
 touch ./env-config.js
 
 # Add assignment 
-echo "window._env_ = {" >> ./env-config.js
+echo "window.env = {" >> ./env-config.js
 
 # Read each line in .dynamic.env file
 # Each line represents key=value pairs
