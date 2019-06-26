@@ -20,30 +20,35 @@ import { WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
 import reducer, { routeOperations, routeSelectors } from './index';
 import { initialRouteState } from './reducers';
-import { LatLngWithDescription, Location } from './types';
+import { LatLngWithDescription } from './types';
 
 describe('Route operations', () => {
-  it('should dispatch actions and call client', () => {
+  it('clearRoute() should call client', () => {
     const { store, client } = mockStore(state);
 
     store.dispatch(routeOperations.clearRoute());
+
     expect(store.getActions()).toEqual([actions.clearRoute()]);
     expect(client.clear).toHaveBeenCalledTimes(1);
+  });
 
-    store.clearActions();
-
+  it('deleteLocation() should call client', () => {
+    const { store, client } = mockStore(state);
     const id = 3214;
+
     store.dispatch(routeOperations.deleteLocation(id));
+
     expect(store.getActions()).toEqual([actions.deleteLocation(id)]);
     expect(client.deleteLocation).toHaveBeenCalledTimes(1);
     expect(client.deleteLocation).toHaveBeenCalledWith(id);
+  });
 
-    store.clearActions();
+  it('addLocation() should call client', () => {
+    const { store, client } = mockStore(state);
+    const location: LatLngWithDescription = { lat: 11.01, lng: -35.79, description: 'new location' };
 
-    const latLng: Location = state.plan.routes[0].visits[0];
-    const description = 'new location';
-    const location: LatLngWithDescription = { lat: latLng.lat, lng: latLng.lng, description };
     store.dispatch(routeOperations.addLocation(location));
+
     expect(store.getActions()).toEqual([actions.addLocation(location)]);
     expect(client.addLocation).toHaveBeenCalledTimes(1);
     expect(client.addLocation).toHaveBeenCalledWith(location);
@@ -56,6 +61,7 @@ describe('Route reducers', () => {
       reducer(state.plan, actions.clearRoute()),
     ).toEqual(state.plan);
   });
+
   it('add location', () => {
     expect(
       reducer(state.plan, actions.addLocation({
@@ -65,11 +71,13 @@ describe('Route reducers', () => {
       })),
     ).toEqual(state.plan);
   });
+
   it('delete location', () => {
     expect(
       reducer(state.plan, actions.deleteLocation(1)),
     ).toEqual(state.plan);
   });
+
   it('update route', () => {
     expect(
       reducer(initialRouteState, actions.updateRoute(state.plan)),

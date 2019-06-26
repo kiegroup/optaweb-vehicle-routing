@@ -25,6 +25,7 @@ describe('Server reducer', () => {
     countryCodes: ['CZ', 'SK'],
     demos: [{ name: 'Demo name', visits: 10 }],
   };
+
   it('server info', () => {
     expect(
       reducer(initialServerState, actions.serverInfo(serverInfo)),

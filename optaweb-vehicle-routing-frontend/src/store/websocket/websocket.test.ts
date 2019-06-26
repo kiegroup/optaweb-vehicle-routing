@@ -206,6 +206,7 @@ describe('WebSocket reducers', () => {
       reducer(WebSocketConnectionStatus.CLOSED, actions.wsConnectionSuccess()),
     ).toEqual(WebSocketConnectionStatus.OPEN);
   });
+
   it('connection failure should fail connection status', () => {
     expect(
       reducer(WebSocketConnectionStatus.OPEN, actions.wsConnectionFailure('test error')),
