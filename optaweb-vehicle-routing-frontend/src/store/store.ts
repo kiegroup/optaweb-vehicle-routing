@@ -38,7 +38,7 @@ export function configureStore(
 
   const webSocketClient = new WebSocketClient(socketUrl);
 
-  const middlewares = [createLogger(), thunk.withExtraArgument(webSocketClient)];
+  const middlewares = [thunk.withExtraArgument(webSocketClient), createLogger()];
   const middlewareEnhancer = applyMiddleware(...middlewares);
 
   const enhancers = [middlewareEnhancer];
