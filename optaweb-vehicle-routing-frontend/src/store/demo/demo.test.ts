@@ -43,6 +43,7 @@ describe('Demo reducers', () => {
       reducer(initialState, actions.requestDemo(demoName)),
     ).toEqual(expectedState);
   });
+
   it('start loading when loading requested by someone else', () => {
     const demoName = 'some name';
     const initialState: Demo = { isLoading: false, demoName: null };
@@ -51,6 +52,7 @@ describe('Demo reducers', () => {
       reducer(initialState, actions.requestDemo(demoName)),
     ).toEqual(expectedState);
   });
+
   it('loading flag should be cleared when demo is loaded', () => {
     const demoName = 'some name';
     const initialState: Demo = { isLoading: true, demoName };
