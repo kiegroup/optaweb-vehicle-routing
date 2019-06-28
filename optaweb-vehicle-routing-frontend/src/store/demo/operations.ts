@@ -21,7 +21,7 @@ import { RequestDemoAction } from './types';
 export const finishLoading = actions.finishLoading;
 
 export const requestDemo: ThunkCommandFactory<string, RequestDemoAction> = name =>
-  (dispatch, state, client) => {
+  (dispatch, getState, client) => {
     dispatch(actions.requestDemo(name));
     client.loadDemo(name);
   };
