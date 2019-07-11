@@ -49,7 +49,7 @@ const searchParams = (props: Props) => ({
 
 class SearchBox extends React.Component<Props, State> {
 
-  static defaultProps = {
+  static defaultProps: Pick<Props, 'searchDelay'> = {
     searchDelay: 500,
   };
 
