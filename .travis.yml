@@ -13,7 +13,7 @@ cache:
 # Otherwise it would run `mvn install`, which results in doing some Maven phases twice (validate, compile, jar, ...).
 # https://docs.travis-ci.com/user/languages/java/#projects-using-maven
 #
-# We also want to avoid Maven's install phase to prevent from writing to ~/.m2/repository, which is cached.
+# We also want to prevent Maven's install phase from writing to ~/.m2/repository, which is cached.
 install: mvn dependency:go-offline -Pcode-coverage,sonar --show-version
 # do not install to avoid dirtying the cache
 script:
