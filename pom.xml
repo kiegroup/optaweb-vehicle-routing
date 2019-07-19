@@ -37,6 +37,7 @@
   </modules>
 
   <properties>
+    <version.org.springframework>5.1.7.RELEASE</version.org.springframework>
     <version.org.springframework.boot>2.1.5.RELEASE</version.org.springframework.boot>
   </properties>
 
