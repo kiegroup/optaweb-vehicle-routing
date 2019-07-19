@@ -14,10 +14,10 @@ cache:
 # https://docs.travis-ci.com/user/languages/java/#projects-using-maven
 #
 # We also want to avoid Maven's install phase to prevent from writing to ~/.m2/repository, which is cached.
-install: mvn dependency:go-offline -Pjacoco,sonar --show-version
+install: mvn dependency:go-offline -Pcode-coverage,sonar --show-version
 # do not install to avoid dirtying the cache
 script:
-  - mvn verify -Pjacoco,sonar --show-version
+  - mvn verify -Pcode-coverage,sonar --show-version
   # check that git working tree is clean after running npm install via a frontend-maven-plugin
   # the git command returns 1 and fails the build if there are any uncommitted changes
   - git diff HEAD --exit-code
