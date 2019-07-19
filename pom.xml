@@ -31,6 +31,34 @@
     <module>optaweb-vehicle-routing-frontend</module>
   </modules>
 
+  <properties>
+    <version.org.springframework.boot>2.1.5.RELEASE</version.org.springframework.boot>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-dependencies</artifactId>
+        <version>${version.org.springframework.boot}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <version>${version.org.springframework.boot}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
   <profiles>
     <profile>
       <id>sonar</id>
