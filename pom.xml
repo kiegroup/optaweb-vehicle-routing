@@ -37,6 +37,7 @@
   </modules>
 
   <properties>
+    <jacoco.line.coveredratio.minimum>0.8</jacoco.line.coveredratio.minimum>
     <version.javax.validation>2.0.1.Final</version.javax.validation>
     <version.org.assertj>3.11.1</version.org.assertj>
     <version.org.mockito>2.23.4</version.org.mockito>
