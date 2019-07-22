@@ -36,10 +36,18 @@ public class Coordinates {
         return new Coordinates(BigDecimal.valueOf(latitude), BigDecimal.valueOf(longitude));
     }
 
+    /**
+     * Latitude.
+     * @return latitude (never {@code null})
+     */
     public BigDecimal latitude() {
         return latitude;
     }
 
+    /**
+     * Longitude.
+     * @return longitude (never {@code null})
+     */
     public BigDecimal longitude() {
         return longitude;
     }

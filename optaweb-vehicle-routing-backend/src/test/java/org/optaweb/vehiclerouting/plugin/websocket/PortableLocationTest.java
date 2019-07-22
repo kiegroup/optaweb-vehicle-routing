@@ -16,15 +16,38 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.springframework.boot.test.json.JacksonTester;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PortableLocationTest {
+
+    private JacksonTester<PortableLocation> json;
+    private final PortableLocation portableLocation = new PortableLocation(987, BigDecimal.ONE, BigDecimal.TEN, "Some Location");
+
+    @BeforeEach
+    public void setUp() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JacksonTester.initFields(this, objectMapper);
+    }
+
+    @Test
+    public void marshall_to_json() throws IOException {
+        assertThat(json.write(portableLocation)).isEqualToJson("portable-location.json");
+    }
+
+    @Test
+    public void unmarshall_from_json() throws IOException {
+        assertThat(json.read("portable-location.json")).isEqualTo(portableLocation);
+    }
 
     @Test
     public void fromLocation() {
