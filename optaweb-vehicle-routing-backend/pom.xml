@@ -166,7 +166,9 @@
               <version>0.8</version>
             </dependency>
           </dependencies>
-          <configuration>
+          <!-- kie-parent contains Pitest configuration that doesn't work well for this project and it's not possible to change it
+               without a complete override (combine.self="override), for example excludedClasses, timeoutConstant. -->
+          <configuration combine.self="override">
             <reportsDirectory>local/pit-reports</reportsDirectory>
             <timestampedReports>true</timestampedReports>
             <!--
