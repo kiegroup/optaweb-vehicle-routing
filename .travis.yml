@@ -17,7 +17,8 @@ cache:
 install: mvn dependency:go-offline -Pcode-coverage,sonar --show-version
 # do not install to avoid dirtying the cache
 script:
-  - mvn verify -Pcode-coverage,sonar --show-version
+  - mvn verify -Pcode-coverage --show-version
+  - mvn generate-resources -Psonarcloud-analysis
   # check that git working tree is clean after running npm install via a frontend-maven-plugin
   # the git command returns 1 and fails the build if there are any uncommitted changes
   - git diff HEAD --exit-code
