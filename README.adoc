@@ -1,20 +1,18 @@
+:projectKey: org.optaweb.vehiclerouting:optaweb-vehicle-routing
+:sonarBadge: image:https://sonarcloud.io/api/project_badges/measure?project={projectKey}
+:sonarLink: link="https://sonarcloud.io/dashboard?id={projectKey}"
+
 = OptaWeb Vehicle Routing
 
 image:https://travis-ci.com/kiegroup/optaweb-vehicle-routing.svg?branch=master[
 "Build Status", link="https://travis-ci.com/kiegroup/optaweb-vehicle-routing"]
 
-image:https://sonarcloud.io/api/project_badges/measure?project=org.optaweb:vehicle-routing&metric=alert_status[
-"Quality Gate Status", link="https://sonarcloud.io/dashboard?id=org.optaweb:vehicle-routing"]
-image:https://sonarcloud.io/api/project_badges/measure?project=org.optaweb:vehicle-routing&metric=reliability_rating[
-"Reliability Rating", link="https://sonarcloud.io/dashboard?id=org.optaweb:vehicle-routing"]
-image:https://sonarcloud.io/api/project_badges/measure?project=org.optaweb:vehicle-routing&metric=security_rating[
-"Security Rating", link="https://sonarcloud.io/dashboard?id=org.optaweb:vehicle-routing"]
-image:https://sonarcloud.io/api/project_badges/measure?project=org.optaweb:vehicle-routing&metric=sqale_rating[
-"Maintainability Rating", link="https://sonarcloud.io/dashboard?id=org.optaweb:vehicle-routing"]
-image:https://sonarcloud.io/api/project_badges/measure?project=org.optaweb:vehicle-routing&metric=ncloc[
-"Lines of Code", link="https://sonarcloud.io/dashboard?id=org.optaweb:vehicle-routing"]
-image:https://sonarcloud.io/api/project_badges/measure?project=org.optaweb:vehicle-routing&metric=coverage[
-"Coverage", link="https://sonarcloud.io/dashboard?id=org.optaweb:vehicle-routing"]
+{sonarBadge}&metric=alert_status["Quality Gate Status", {sonarLink}]
+{sonarBadge}&metric=reliability_rating["Reliability Rating", {sonarLink}]
+{sonarBadge}&metric=security_rating["Security Rating", {sonarLink}]
+{sonarBadge}&metric=sqale_rating["Maintainability Rating", {sonarLink}]
+{sonarBadge}&metric=ncloc["Lines of Code", {sonarLink}]
+{sonarBadge}&metric=coverage["Coverage", {sonarLink}]
 
 Web application for solving the https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html[Vehicle Routing Problem]
 using https://www.optaplanner.org/[OptaPlanner].
