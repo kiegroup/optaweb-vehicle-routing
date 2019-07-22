@@ -30,6 +30,12 @@
 
   <name>OptaWeb Vehicle Routing Frontend</name>
 
+  <properties>
+    <sonar.sources>src</sonar.sources>
+    <sonar.test.inclusions>optaweb-vehicle-routing-frontend/**/*test.ts,optaweb-vehicle-routing-frontend/**/*test.tsx</sonar.test.inclusions>
+    <sonar.typescript.lcov.reportPaths>coverage/lcov.info</sonar.typescript.lcov.reportPaths>
+  </properties>
+
   <build>
     <plugins>
       <plugin>
@@ -81,16 +87,5 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>sonar</id>
-      <properties>
-        <sonar.sources>src</sonar.sources>
-        <sonar.test.inclusions>optaweb-vehicle-routing-frontend/**/*test.ts,optaweb-vehicle-routing-frontend/**/*test.tsx</sonar.test.inclusions>
-        <sonar.typescript.lcov.reportPaths>coverage/lcov.info</sonar.typescript.lcov.reportPaths>
-      </properties>
-    </profile>
-  </profiles>
 
 </project>
