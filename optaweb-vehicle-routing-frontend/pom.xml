@@ -19,9 +19,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.optaweb.vehiclerouting</groupId>
+  <parent>
+    <groupId>org.optaweb.vehiclerouting</groupId>
+    <artifactId>optaweb-vehicle-routing-aggregate</artifactId>
+    <version>7.25.0-SNAPSHOT</version>
+  </parent>
+
   <artifactId>optaweb-vehicle-routing-frontend</artifactId>
-  <version>7.25.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>OptaWeb Vehicle Routing Frontend</name>
