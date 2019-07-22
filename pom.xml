@@ -26,10 +26,10 @@
   </parent>
 
   <groupId>org.optaweb.vehiclerouting</groupId>
-  <artifactId>optaweb-vehicle-routing-aggregate</artifactId>
+  <artifactId>optaweb-vehicle-routing</artifactId>
   <packaging>pom</packaging>
 
-  <name>OptaWeb Vehicle Routing Aggregate</name>
+  <name>OptaWeb Vehicle Routing</name>
 
   <modules>
     <module>optaweb-vehicle-routing-backend</module>
