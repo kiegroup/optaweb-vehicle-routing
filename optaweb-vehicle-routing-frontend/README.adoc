@@ -1,10 +1,14 @@
+:david-project: https://david-dm.org/kiegroup/optaweb-vehicle-routing
+:david-path: path=optaweb-vehicle-routing-frontend
+:david-deps: {david-project}/status.svg?{david-path}
+:david-devDeps: {david-project}/dev-status.svg?{david-path}
+:david-link: {david-project}?{david-path}
+
 [[optaweb-vehicle-routing-frontend]]
 = OptaWeb Vehicle Routing Frontend
 
-image:https://david-dm.org/kiegroup/optaweb-vehicle-routing/status.svg?path=optaweb-vehicle-routing-frontend[
-"dependencies Status", link="https://david-dm.org/kiegroup/optaweb-vehicle-routing?path=optaweb-vehicle-routing-frontend"]
-image:https://david-dm.org/kiegroup/optaweb-vehicle-routing/dev-status.svg?path=optaweb-vehicle-routing-frontend[
-"devDependencies Status", link="https://david-dm.org/kiegroup/optaweb-vehicle-routing?path=optaweb-vehicle-routing-frontend&type=dev"]
+image:{david-deps}["dependencies Status", link="{david-link}"]
+image:{david-devDeps}["devDependencies Status", link="{david-link}&type=dev"]
 
 [[available-scripts]]
 == Available Scripts
