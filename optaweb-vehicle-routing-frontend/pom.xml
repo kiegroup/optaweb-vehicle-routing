@@ -48,6 +48,7 @@
             <goals>
               <goal>npm</goal>
             </goals>
+            <phase>compile</phase>
             <configuration>
               <arguments>install</arguments>
             </configuration>
@@ -64,6 +65,7 @@
           </execution>
           <execution>
             <id>npm run build</id>
+            <phase>package</phase>
             <goals>
               <goal>npm</goal>
             </goals>
