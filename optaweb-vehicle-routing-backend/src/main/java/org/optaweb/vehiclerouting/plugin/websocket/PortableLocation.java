@@ -19,6 +19,7 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 import java.math.BigDecimal;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.optaweb.vehiclerouting.domain.Location;
 
@@ -45,11 +46,17 @@ class PortableLocation {
         );
     }
 
-    PortableLocation(long id, BigDecimal latitude, BigDecimal longitude, String description) {
+    @JsonCreator
+    PortableLocation(
+            @JsonProperty(value = "id") long id,
+            @JsonProperty(value = "lat") BigDecimal latitude,
+            @JsonProperty(value = "lng") BigDecimal longitude,
+            @JsonProperty(value = "description") String description
+    ) {
         this.id = id;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.description = description;
+        this.latitude = Objects.requireNonNull(latitude);
+        this.longitude = Objects.requireNonNull(longitude);
+        this.description = Objects.requireNonNull(description);
     }
 
     public long getId() {
@@ -79,8 +86,8 @@ class PortableLocation {
         PortableLocation that = (PortableLocation) o;
         return id == that.id &&
                 Objects.equals(description, that.description) &&
-                Objects.equals(latitude, that.latitude) &&
-                Objects.equals(longitude, that.longitude);
+                latitude.compareTo(that.latitude) == 0 &&
+                longitude.compareTo(that.longitude) == 0;
     }
 
     @Override
