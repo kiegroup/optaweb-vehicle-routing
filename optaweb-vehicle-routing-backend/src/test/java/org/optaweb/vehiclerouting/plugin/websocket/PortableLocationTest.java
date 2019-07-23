@@ -27,26 +27,37 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.boot.test.json.JacksonTester;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 public class PortableLocationTest {
 
-    private JacksonTester<PortableLocation> json;
     private final PortableLocation portableLocation = new PortableLocation(987, BigDecimal.ONE, BigDecimal.TEN, "Some Location");
+    private JacksonTester<PortableLocation> json;
 
     @BeforeEach
     public void setUp() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        JacksonTester.initFields(this, objectMapper);
+        // This initializes the json field
+        JacksonTester.initFields(this, new ObjectMapper());
     }
 
     @Test
-    public void marshall_to_json() throws IOException {
+    public void marshal_to_json() throws IOException {
         assertThat(json.write(portableLocation)).isEqualToJson("portable-location.json");
     }
 
     @Test
-    public void unmarshall_from_json() throws IOException {
+    public void unmarshal_from_json() throws IOException {
         assertThat(json.read("portable-location.json")).isEqualTo(portableLocation);
+    }
+
+    @Test
+    public void constructor_params_must_not_be_null() {
+        assertThatNullPointerException().isThrownBy(
+                () -> new PortableLocation(1, null, BigDecimal.ZERO, ""));
+        assertThatNullPointerException().isThrownBy(
+                () -> new PortableLocation(1, BigDecimal.ZERO, null, ""));
+        assertThatNullPointerException().isThrownBy(
+                () -> new PortableLocation(1, BigDecimal.ZERO, BigDecimal.ZERO, null));
     }
 
     @Test

@@ -85,7 +85,7 @@ class PortableLocation {
         }
         PortableLocation that = (PortableLocation) o;
         return id == that.id &&
-                Objects.equals(description, that.description) &&
+                description.equals(that.description) &&
                 latitude.compareTo(that.latitude) == 0 &&
                 longitude.compareTo(that.longitude) == 0;
     }
