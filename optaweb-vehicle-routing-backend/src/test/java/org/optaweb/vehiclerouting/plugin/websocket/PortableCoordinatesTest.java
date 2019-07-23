@@ -16,14 +16,36 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.springframework.boot.test.json.JacksonTester;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class PortableCoordinatesTest {
+
+    private JacksonTester<PortableCoordinates> json;
+
+    @BeforeEach
+    void setUp() {
+        // This initializes the json field
+        JacksonTester.initFields(this, new ObjectMapper());
+    }
+
+    @Test
+    public void marshal_to_json() throws IOException {
+        // values are tweaked to enforce rounding to 5 decimal places
+        PortableCoordinates portableCoordinates = new PortableCoordinates(
+                BigDecimal.valueOf(0.123454321),
+                BigDecimal.valueOf(-44.444445111)
+        );
+        assertThat(json.write(portableCoordinates).getJson()).isEqualTo("{\"lat\":0.12345,\"lng\":-44.44445}");
+    }
 
     @Test
     public void conversion_from_domain() {
