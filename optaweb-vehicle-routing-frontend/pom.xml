@@ -64,6 +64,16 @@
             </configuration>
           </execution>
           <execution>
+            <id>npm run lint</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <phase>test</phase>
+            <configuration>
+              <arguments>run lint</arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>npm test</id>
             <phase>test</phase>
             <goals>
