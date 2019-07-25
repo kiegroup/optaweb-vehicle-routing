@@ -29,15 +29,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-public class RoutingProblemListTest {
+class RoutingProblemListTest {
 
     @Test
-    public void should_validate_constructor_arguments() {
+    void should_validate_constructor_arguments() {
         assertThatNullPointerException().isThrownBy(() -> new RoutingProblemList(null));
     }
 
     @Test
-    public void all_by_name_should_return_expected_problems() {
+    void all_by_name_should_return_expected_problems() {
         Location depot = new Location(0, Coordinates.valueOf(10, -20));
         List<Location> visits = Collections.emptyList();
         String name1 = "Problem A";

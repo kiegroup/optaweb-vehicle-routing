@@ -40,7 +40,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
-public class RouterImplTest {
+class RouterImplTest {
 
     private final PointList pointList = new PointList();
     private final Coordinates from = Coordinates.valueOf(-Double.MIN_VALUE, Double.MIN_VALUE);
@@ -53,14 +53,14 @@ public class RouterImplTest {
     private PathWrapper pathWrapper;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         when(graphHopper.route(any(GHRequest.class))).thenReturn(ghResponse);
         when(ghResponse.getBest()).thenReturn(pathWrapper);
         when(pathWrapper.getPoints()).thenReturn(pointList);
     }
 
     @Test
-    public void travel_time_should_return_graphhopper_time() {
+    void travel_time_should_return_graphhopper_time() {
         // arrange
         RouterImpl routing = new RouterImpl(graphHopper);
         long travelTimeMillis = 135 * 60 * 60 * 1000;
@@ -71,7 +71,7 @@ public class RouterImplTest {
     }
 
     @Test
-    public void getDistance_should_throw_exception_when_no_route_exists() {
+    void getDistance_should_throw_exception_when_no_route_exists() {
         // arrange
         RouterImpl routing = new RouterImpl(graphHopper);
         when(ghResponse.hasErrors()).thenReturn(true);
@@ -85,7 +85,7 @@ public class RouterImplTest {
     }
 
     @Test
-    public void getRoute_should_return_graphhopper_route() {
+    void getRoute_should_return_graphhopper_route() {
         // arrange
         RouterImpl routing = new RouterImpl(graphHopper);
 

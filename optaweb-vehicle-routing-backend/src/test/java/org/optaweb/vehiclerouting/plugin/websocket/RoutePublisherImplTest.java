@@ -38,7 +38,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-public class RoutePublisherImplTest {
+class RoutePublisherImplTest {
 
     @Mock
     private SimpMessagingTemplate webSocket;
@@ -46,13 +46,13 @@ public class RoutePublisherImplTest {
     private RoutePublisherImpl routePublisher;
 
     @Test
-    public void publish() {
+    void publish() {
         routePublisher.publish(RoutingPlan.empty());
         verify(webSocket).convertAndSend(anyString(), any(PortableRoutingPlan.class));
     }
 
     @Test
-    public void portable_routing_plan_empty() {
+    void portable_routing_plan_empty() {
         PortableRoutingPlan portablePlan = RoutePublisherImpl.portable(RoutingPlan.empty());
         assertThat(portablePlan.getDistance()).isEmpty();
         assertThat(portablePlan.getDepot()).isNull();
@@ -60,7 +60,7 @@ public class RoutePublisherImplTest {
     }
 
     @Test
-    public void portable_routing_plan_with_two_routes() {
+    void portable_routing_plan_with_two_routes() {
         final Coordinates coordinates1 = Coordinates.valueOf(0.0, 0.1);
         final Coordinates coordinates2 = Coordinates.valueOf(2.0, -0.2);
         final Coordinates coordinates3 = Coordinates.valueOf(3.3, -3.3);

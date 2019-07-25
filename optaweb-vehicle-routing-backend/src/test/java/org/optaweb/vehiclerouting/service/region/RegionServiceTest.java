@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RegionServiceTest {
+class RegionServiceTest {
 
     @Mock
     private RegionProperties regionProperties;
@@ -45,7 +45,7 @@ public class RegionServiceTest {
     private GraphHopperStorage graphHopperStorage;
 
     @Test
-    public void should_return_country_codes_from_properties() {
+    void should_return_country_codes_from_properties() {
         List<String> countryCodes = Arrays.asList("XY", "WZ");
         when(regionProperties.getCountryCodes()).thenReturn(countryCodes);
 
@@ -53,7 +53,7 @@ public class RegionServiceTest {
     }
 
     @Test
-    public void should_return_graphHopper_bounds() {
+    void should_return_graphHopper_bounds() {
         when(graphHopper.getGraphHopperStorage()).thenReturn(graphHopperStorage);
         double minLat_Y = -90;
         double minLon_X = -180;

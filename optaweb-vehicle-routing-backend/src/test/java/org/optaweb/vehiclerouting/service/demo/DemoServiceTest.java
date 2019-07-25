@@ -48,7 +48,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
-public class DemoServiceTest {
+class DemoServiceTest {
 
     @Mock
     private LocationService locationService;
@@ -70,27 +70,27 @@ public class DemoServiceTest {
     private final RoutingProblem routingProblem = new RoutingProblem(problemName, depot, visits);
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         when(locationService.createLocation(any(), anyString())).thenReturn(true);
         when(routingProblems.all()).thenReturn(Arrays.asList(routingProblem));
         when(routingProblems.byName(problemName)).thenReturn(routingProblem);
     }
 
     @Test
-    public void demos_should_return_routing_problems() {
+    void demos_should_return_routing_problems() {
         Collection<RoutingProblem> problems = demoService.demos();
         assertThat(problems).containsExactly(routingProblem);
     }
 
     @Test
-    public void loadDemo() {
+    void loadDemo() {
         demoService.loadDemo(problemName);
         verify(locationService, times(routingProblem.visits().size() + 1))
                 .createLocation(any(Coordinates.class), anyString());
     }
 
     @Test
-    public void retry_when_adding_location_fails() {
+    void retry_when_adding_location_fails() {
         when(locationService.createLocation(any(), anyString())).thenReturn(false);
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> demoService.loadDemo(problemName))
@@ -99,7 +99,7 @@ public class DemoServiceTest {
     }
 
     @Test
-    public void export_should_marshal_routing_plans_with_locations_from_repository() {
+    void export_should_marshal_routing_plans_with_locations_from_repository() {
         Location depot = new Location(0, Coordinates.valueOf(1.0, 2.0), "Depot");
         Location visit1 = new Location(1, Coordinates.valueOf(11.0, 22.0), "Visit 1");
         Location visit2 = new Location(2, Coordinates.valueOf(22.0, 33.0), "Visit 2");
@@ -116,7 +116,7 @@ public class DemoServiceTest {
     }
 
     @Test
-    public void export_should_marshal_empty_routing_plan_when_no_locations_in_repository() {
+    void export_should_marshal_empty_routing_plan_when_no_locations_in_repository() {
         when(locationRepository.locations()).thenReturn(Collections.emptyList());
 
         demoService.exportDataSet();

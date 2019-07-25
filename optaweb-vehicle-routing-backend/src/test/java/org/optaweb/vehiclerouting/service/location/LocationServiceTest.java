@@ -39,7 +39,7 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class LocationServiceTest {
+class LocationServiceTest {
 
     @Mock
     private LocationRepository repository;
@@ -59,13 +59,13 @@ public class LocationServiceTest {
     private final List<Location> persistedLocations = Arrays.asList(location, location, location);
 
     @Test
-    public void createLocation_should_validate_arguments() {
+    void createLocation_should_validate_arguments() {
         assertThatNullPointerException().isThrownBy(() -> locationService.createLocation(null, "x"));
         assertThatNullPointerException().isThrownBy(() -> locationService.createLocation(coordinates, null));
     }
 
     @Test
-    public void createLocation() {
+    void createLocation() {
         String description = "new location";
         when(repository.createLocation(coordinates, description)).thenReturn(location);
 
@@ -77,7 +77,7 @@ public class LocationServiceTest {
     }
 
     @Test
-    public void removeLocation() {
+    void removeLocation() {
         when(repository.removeLocation(location.id())).thenReturn(location);
 
         locationService.removeLocation(location.id());
@@ -88,7 +88,7 @@ public class LocationServiceTest {
     }
 
     @Test
-    public void clear() {
+    void clear() {
         locationService.clear();
         verify(optimizer).clear();
         verify(distanceMatrix).clear();
@@ -96,7 +96,7 @@ public class LocationServiceTest {
     }
 
     @Test
-    public void should_reload_on_startup() {
+    void should_reload_on_startup() {
         when(repository.locations()).thenReturn(persistedLocations);
 
         locationService.reload(event);
@@ -107,7 +107,7 @@ public class LocationServiceTest {
     }
 
     @Test
-    public void should_not_optimize_and_roll_back_if_distance_calculation_fails() {
+    void should_not_optimize_and_roll_back_if_distance_calculation_fails() {
         when(repository.createLocation(coordinates, "")).thenReturn(location);
         doThrow(RuntimeException.class).when(distanceMatrix).addLocation(any());
 

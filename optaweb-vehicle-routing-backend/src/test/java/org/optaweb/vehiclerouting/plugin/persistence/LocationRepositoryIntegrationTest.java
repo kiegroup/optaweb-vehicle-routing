@@ -32,19 +32,19 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
-public class LocationRepositoryIntegrationTest {
+class LocationRepositoryIntegrationTest {
 
     @Autowired
     private LocationCrudRepository crudRepository;
     private LocationRepositoryImpl repository;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         repository = new LocationRepositoryImpl(crudRepository);
     }
 
     @Test
-    public void db_schema() {
+    void db_schema() {
         // https://wiki.openstreetmap.org/wiki/Node#Structure
         final BigDecimal maxLatitude = new BigDecimal("90.0000000");
         final BigDecimal maxLongitude = new BigDecimal("214.7483647");
@@ -62,7 +62,7 @@ public class LocationRepositoryIntegrationTest {
     }
 
     @Test
-    public void remove_created_location() {
+    void remove_created_location() {
         Coordinates coordinates = Coordinates.valueOf(0.00213, 32.777);
         assertThat(crudRepository.count()).isZero();
         Location location = repository.createLocation(coordinates, "");
@@ -82,7 +82,7 @@ public class LocationRepositoryIntegrationTest {
     }
 
     @Test
-    public void get_and_remove_all_locations() {
+    void get_and_remove_all_locations() {
         int locationCount = 8;
         for (int i = 0; i < locationCount; i++) {
             repository.createLocation(Coordinates.valueOf(1.0, i / 100.0), "");

@@ -39,7 +39,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
-public class DistanceMatrixImplTest {
+class DistanceMatrixImplTest {
 
     @Mock
     private DistanceCalculator distanceCalculator;
@@ -49,7 +49,7 @@ public class DistanceMatrixImplTest {
     private DistanceMatrixImpl distanceMatrix;
 
     @Test
-    public void should_calculate_distance_map() {
+    void should_calculate_distance_map() {
         when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0); // empty repository
         DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockDistanceCalculator(), distanceRepository);
 
@@ -98,7 +98,7 @@ public class DistanceMatrixImplTest {
     }
 
     @Test
-    public void should_call_router_and_persist_distances_when_repo_is_empty() {
+    void should_call_router_and_persist_distances_when_repo_is_empty() {
         Location l1 = location(100, -1);
         Location l2 = location(111, 20);
         long dist12 = 12;
@@ -124,7 +124,7 @@ public class DistanceMatrixImplTest {
     }
 
     @Test
-    public void should_not_call_router_when_repo_is_full() {
+    void should_not_call_router_when_repo_is_full() {
         Location l1 = location(1, 0);
         Location l2 = location(2, 0);
         when(distanceRepository.getDistance(l1, l2)).thenReturn(0.0);

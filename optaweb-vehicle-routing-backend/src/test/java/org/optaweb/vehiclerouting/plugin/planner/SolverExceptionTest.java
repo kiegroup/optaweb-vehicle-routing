@@ -39,7 +39,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class SolverExceptionTest {
+class SolverExceptionTest {
 
     private final Location location1 = new Location(1, Coordinates.valueOf(1.0, 0.1));
     private final Location location2 = new Location(2, Coordinates.valueOf(0.2, 2.2));
@@ -57,7 +57,7 @@ public class SolverExceptionTest {
     private RouteOptimizerImpl routeOptimizer;
 
     @Test
-    public void should_propagate_any_exception_from_solver() {
+    void should_propagate_any_exception_from_solver() {
         // arrange
         // Prepare a future that will be returned by mock executor
         FutureTask<VehicleRoutingSolution> task = new FutureTask<>(() -> {

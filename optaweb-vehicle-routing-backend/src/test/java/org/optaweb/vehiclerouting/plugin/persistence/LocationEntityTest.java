@@ -23,17 +23,17 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-public class LocationEntityTest {
+class LocationEntityTest {
 
     @Test
-    public void constructor_params_must_not_be_null() {
+    void constructor_params_must_not_be_null() {
         assertThatNullPointerException().isThrownBy(() -> new LocationEntity(null, BigDecimal.ZERO, ""));
         assertThatNullPointerException().isThrownBy(() -> new LocationEntity(BigDecimal.ZERO, null, ""));
         assertThatNullPointerException().isThrownBy(() -> new LocationEntity(BigDecimal.ZERO, BigDecimal.ONE, null));
     }
 
     @Test
-    public void getters() {
+    void getters() {
         BigDecimal latitude = BigDecimal.valueOf(0.101);
         BigDecimal longitude = BigDecimal.valueOf(101.0);
         String description = "Description.";

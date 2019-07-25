@@ -23,16 +23,16 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-public class CoordinatesTest {
+class CoordinatesTest {
 
     @Test
-    public void constructor_params_must_not_be_null() {
+    void constructor_params_must_not_be_null() {
         assertThatNullPointerException().isThrownBy(() -> new Coordinates(null, BigDecimal.ZERO));
         assertThatNullPointerException().isThrownBy(() -> new Coordinates(BigDecimal.ZERO, null));
     }
 
     @Test
-    public void coordinates_should_be_equals_when_numerically_equal() {
+    void coordinates_should_be_equals_when_numerically_equal() {
         Coordinates coordinates = new Coordinates(BigDecimal.valueOf(987.1234), BigDecimal.valueOf(-0.1111));
         assertThat(coordinates).isEqualTo(coordinates);
 
@@ -52,7 +52,7 @@ public class CoordinatesTest {
     }
 
     @Test
-    public void should_not_equal() {
+    void should_not_equal() {
         Coordinates coordinates = new Coordinates(BigDecimal.ONE, BigDecimal.TEN);
         assertThat(coordinates).isNotEqualTo(null);
         assertThat(coordinates).isNotEqualTo(BigDecimal.valueOf(11));
@@ -61,7 +61,7 @@ public class CoordinatesTest {
     }
 
     @Test
-    public void value_of_and_getters() {
+    void value_of_and_getters() {
         double latitude = Math.E;
         double longitude = Math.PI;
         Coordinates coordinates = Coordinates.valueOf(latitude, longitude);

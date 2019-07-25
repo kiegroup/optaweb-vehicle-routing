@@ -29,19 +29,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
-public class DistanceRepositoryIntegrationTest {
+class DistanceRepositoryIntegrationTest {
 
     @Autowired
     private DistanceCrudRepository crudRepository;
     private DistanceRepositoryImpl repository;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         repository = new DistanceRepositoryImpl(crudRepository);
     }
 
     @Test
-    public void crudRepository() {
+    void crudRepository() {
         DistanceKey key = new DistanceKey(1, 2);
         DistanceEntity entity = new DistanceEntity(key, 73.0107);
 
@@ -56,7 +56,7 @@ public class DistanceRepositoryIntegrationTest {
     }
 
     @Test
-    public void should_return_saved_distance() {
+    void should_return_saved_distance() {
         Location location1 = new Location(1, Coordinates.valueOf(7, -4.0));
         Location location2 = new Location(2, Coordinates.valueOf(5, 9.0));
 
@@ -66,7 +66,7 @@ public class DistanceRepositoryIntegrationTest {
     }
 
     @Test
-    public void should_return_negative_number_when_distance_not_found() {
+    void should_return_negative_number_when_distance_not_found() {
         Location location1 = new Location(1, Coordinates.valueOf(7, -4.0));
         Location location2 = new Location(2, Coordinates.valueOf(5, 9.0));
 
