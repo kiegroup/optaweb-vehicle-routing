@@ -31,7 +31,12 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 public class PortableLocationTest {
 
-    private final PortableLocation portableLocation = new PortableLocation(987, BigDecimal.ONE, BigDecimal.TEN, "Some Location");
+    private final PortableLocation portableLocation = new PortableLocation(
+            987,
+            BigDecimal.ONE,
+            BigDecimal.TEN,
+            "Some Location"
+    );
     private JacksonTester<PortableLocation> json;
 
     @BeforeEach
