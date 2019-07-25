@@ -33,13 +33,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class AddCustomerTest {
+class AddCustomerTest {
 
     @Mock
     private ScoreDirector<VehicleRoutingSolution> scoreDirector;
 
     @Test
-    public void add_customer_should_add_location_and_create_customer() {
+    void add_customer_should_add_location_and_create_customer() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 

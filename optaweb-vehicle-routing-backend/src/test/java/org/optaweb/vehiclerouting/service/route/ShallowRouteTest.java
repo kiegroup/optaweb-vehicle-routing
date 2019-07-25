@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ShallowRouteTest {
+class ShallowRouteTest {
 
     @Test
-    public void shallow_route_to_string() {
+    void shallow_route_to_string() {
         ShallowRoute shallowRoute = new ShallowRoute(100L, Arrays.asList(93L, 92L, 91L));
         assertThat(shallowRoute.toString()).containsSubsequence("100", "93", "92", "91");
     }

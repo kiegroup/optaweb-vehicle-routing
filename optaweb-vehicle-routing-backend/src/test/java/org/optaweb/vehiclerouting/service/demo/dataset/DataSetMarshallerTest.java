@@ -40,10 +40,10 @@ import static org.mockito.Mockito.when;
 import static org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller.toDataSet;
 import static org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller.toDomain;
 
-public class DataSetMarshallerTest {
+class DataSetMarshallerTest {
 
     @Test
-    public void unmarshal_data_set() throws IOException {
+    void unmarshal_data_set() throws IOException {
         DataSet dataSet;
         try (InputStream inputStream = DataSetMarshallerTest.class.getResourceAsStream("test-belgium.yaml")) {
             dataSet = new DataSetMarshaller().unmarshalToDataSet(
@@ -63,7 +63,7 @@ public class DataSetMarshallerTest {
     }
 
     @Test
-    public void marshal_data_set() {
+    void marshal_data_set() {
         DataSet dataSet = new DataSet();
         String name = "Test data set";
         dataSet.setName(name);
@@ -79,7 +79,7 @@ public class DataSetMarshallerTest {
     }
 
     @Test
-    public void should_rethrow_exception_from_object_mapper() throws IOException {
+    void should_rethrow_exception_from_object_mapper() throws IOException {
         ObjectMapper objectMapper = mock(ObjectMapper.class);
         when(objectMapper.readValue(any(Reader.class), eq(DataSet.class))).thenThrow(IOException.class);
         assertThatIllegalStateException()
@@ -93,7 +93,7 @@ public class DataSetMarshallerTest {
     }
 
     @Test
-    public void location_conversion() {
+    void location_conversion() {
         double lat = -1.0;
         double lng = 50.2;
         String description = "some location";
@@ -110,7 +110,7 @@ public class DataSetMarshallerTest {
     }
 
     @Test
-    public void routing_problem_conversion() {
+    void routing_problem_conversion() {
         LocationData depot = new LocationData(Coordinates.valueOf(60.1, 5.78), "Depot");
         LocationData visit = new LocationData(Coordinates.valueOf(1.06, 8.75), "Visit");
         List<LocationData> visits = Arrays.asList(visit);

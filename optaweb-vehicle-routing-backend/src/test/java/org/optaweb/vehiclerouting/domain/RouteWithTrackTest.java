@@ -27,21 +27,21 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-public class RouteWithTrackTest {
+class RouteWithTrackTest {
 
     private final Location depot = new Location(1, Coordinates.valueOf(5, 5));
     private final Location visit1 = new Location(2, Coordinates.valueOf(5, 5));
     private final Location visit2 = new Location(3, Coordinates.valueOf(5, 5));
 
     @Test
-    public void constructor_args_not_null() {
+    void constructor_args_not_null() {
         Route route = new Route(depot, emptyList());
         assertThatNullPointerException().isThrownBy(() -> new RouteWithTrack(route, null));
         assertThatNullPointerException().isThrownBy(() -> new Route(null, emptyList()));
     }
 
     @Test
-    public void cannot_modify_track_externally() {
+    void cannot_modify_track_externally() {
         Route route = new Route(depot, Arrays.asList(visit1, visit2));
         ArrayList<List<Coordinates>> track = new ArrayList<>();
         track.add(Arrays.asList(Coordinates.valueOf(1.0, 2.0)));
@@ -52,7 +52,7 @@ public class RouteWithTrackTest {
     }
 
     @Test
-    public void when_route_is_empty_track_must_be_empty() {
+    void when_route_is_empty_track_must_be_empty() {
         Route emptyRoute = new Route(depot, emptyList());
         ArrayList<List<Coordinates>> track = new ArrayList<>();
         track.add(Arrays.asList(Coordinates.valueOf(1.0, 2.0)));
@@ -61,7 +61,7 @@ public class RouteWithTrackTest {
     }
 
     @Test
-    public void when_route_is_nonempty_track_must_be_nonempty() {
+    void when_route_is_nonempty_track_must_be_nonempty() {
         Route route = new Route(depot, Arrays.asList(visit1, visit2));
         ArrayList<List<Coordinates>> emptyTrack = new ArrayList<>();
 

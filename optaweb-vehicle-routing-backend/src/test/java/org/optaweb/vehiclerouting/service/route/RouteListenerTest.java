@@ -46,7 +46,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
-public class RouteListenerTest {
+class RouteListenerTest {
 
     @Mock
     private Router router;
@@ -60,7 +60,7 @@ public class RouteListenerTest {
     private RouteListener routeListener;
 
     @Test
-    public void new_listener_should_return_empty_best_route() {
+    void new_listener_should_return_empty_best_route() {
         RoutingPlan bestRoutingPlan = routeListener.getBestRoutingPlan();
         assertThat(bestRoutingPlan.distance()).isEmpty();
         assertThat(bestRoutingPlan.depot()).isEmpty();
@@ -68,7 +68,7 @@ public class RouteListenerTest {
     }
 
     @Test
-    public void event_with_no_routes_should_be_published_as_an_empty_routing_plan() {
+    void event_with_no_routes_should_be_published_as_an_empty_routing_plan() {
         RouteChangedEvent event = new RouteChangedEvent(this, "", null, emptyList());
         routeListener.onApplicationEvent(event);
         verifyZeroInteractions(router);
@@ -80,7 +80,7 @@ public class RouteListenerTest {
     }
 
     @Test
-    public void event_with_no_visits_and_a_depot_should_be_published_as_plan_with_empty_routes() {
+    void event_with_no_visits_and_a_depot_should_be_published_as_plan_with_empty_routes() {
         final Coordinates depotCoordinates = Coordinates.valueOf(0.0, 0.1);
         final Location depot = new Location(1, depotCoordinates);
         ShallowRoute route = new ShallowRoute(depot.id(), emptyList());
@@ -102,7 +102,7 @@ public class RouteListenerTest {
     }
 
     @Test
-    public void listener_should_publish_routing_plan_when_an_update_event_occurs() {
+    void listener_should_publish_routing_plan_when_an_update_event_occurs() {
         final Coordinates depotCoordinates = Coordinates.valueOf(0.0, 0.1);
         final Coordinates visitCoordinates = Coordinates.valueOf(2.0, -0.2);
         final Coordinates checkpoint1 = Coordinates.valueOf(12, 12);
@@ -137,7 +137,7 @@ public class RouteListenerTest {
     }
 
     @Test
-    public void should_discard_update_gracefully_if_one_of_location_has_been_removed() {
+    void should_discard_update_gracefully_if_one_of_location_has_been_removed() {
         final Location depot = new Location(1, Coordinates.valueOf(1.0, 2.0));
         final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));

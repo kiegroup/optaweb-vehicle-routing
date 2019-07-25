@@ -33,7 +33,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class DataSetDownloadControllerTest {
+class DataSetDownloadControllerTest {
 
     @Mock
     private DemoService demoService;
@@ -41,7 +41,7 @@ public class DataSetDownloadControllerTest {
     private DataSetDownloadController controller;
 
     @Test
-    public void export() throws IOException {
+    void export() throws IOException {
         // arrange
         String msg = "dummy string";
         when(demoService.exportDataSet()).thenReturn(msg);
@@ -65,7 +65,7 @@ public class DataSetDownloadControllerTest {
     }
 
     @Test
-    public void content_length_should_be_number_of_bytes() throws IOException {
+    void content_length_should_be_number_of_bytes() throws IOException {
         // Nice illustration of the problem: https://sankhs.com/2016/03/17/content-length-http-headers/
         // If the content-length header is less than number of bytes, part of the response body thrown away!
         // So if we sent "অhello" with content-length: 6, the client (browser) would only present "অhel".

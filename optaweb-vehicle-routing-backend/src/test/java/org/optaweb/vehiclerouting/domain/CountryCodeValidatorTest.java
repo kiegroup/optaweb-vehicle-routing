@@ -26,10 +26,10 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.optaweb.vehiclerouting.domain.CountryCodeValidator.validate;
 
-public class CountryCodeValidatorTest {
+class CountryCodeValidatorTest {
 
     @Test
-    public void should_fail_on_invalid_country_codes() {
+    void should_fail_on_invalid_country_codes() {
         assertThatNullPointerException().isThrownBy(() -> validate(null));
         assertThatIllegalArgumentException().isThrownBy(() -> validate(Arrays.asList("XX")));
         assertThatIllegalArgumentException().isThrownBy(() -> validate(Arrays.asList("CZE")));
@@ -39,17 +39,17 @@ public class CountryCodeValidatorTest {
     }
 
     @Test
-    public void should_ignore_case_and_convert_to_upper_case() {
+    void should_ignore_case_and_convert_to_upper_case() {
         assertThat(validate(Arrays.asList("us"))).containsExactly("US");
     }
 
     @Test
-    public void should_allow_multiple_values() {
+    void should_allow_multiple_values() {
         assertThat(validate(Arrays.asList("US", "ca"))).containsExactly("US", "CA");
     }
 
     @Test
-    public void should_allow_empty_list() {
+    void should_allow_empty_list() {
         assertThat(validate(new ArrayList<>())).isEmpty();
     }
 }

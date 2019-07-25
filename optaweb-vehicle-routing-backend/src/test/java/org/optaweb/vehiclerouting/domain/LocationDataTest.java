@@ -23,16 +23,16 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-public class LocationDataTest {
+class LocationDataTest {
 
     @Test
-    public void constructor_params_must_not_be_null() {
+    void constructor_params_must_not_be_null() {
         assertThatNullPointerException().isThrownBy(() -> new LocationData(null, ""));
         assertThatNullPointerException().isThrownBy(() -> new LocationData(Coordinates.valueOf(1, 1), null));
     }
 
     @Test
-    public void locations_are_equal_if_they_have_same_properties() {
+    void locations_are_equal_if_they_have_same_properties() {
         Coordinates coordinates0 = new Coordinates(BigDecimal.ZERO, BigDecimal.ZERO);
         Coordinates coordinates1 = new Coordinates(BigDecimal.ONE, BigDecimal.ONE);
         String description = "test description";

@@ -29,7 +29,7 @@ import org.springframework.boot.test.json.JacksonTester;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-public class PortableLocationTest {
+class PortableLocationTest {
 
     private final PortableLocation portableLocation = new PortableLocation(
             987,
@@ -40,23 +40,23 @@ public class PortableLocationTest {
     private JacksonTester<PortableLocation> json;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         // This initializes the json field
         JacksonTester.initFields(this, new ObjectMapper());
     }
 
     @Test
-    public void marshal_to_json() throws IOException {
+    void marshal_to_json() throws IOException {
         assertThat(json.write(portableLocation)).isEqualToJson("portable-location.json");
     }
 
     @Test
-    public void unmarshal_from_json() throws IOException {
+    void unmarshal_from_json() throws IOException {
         assertThat(json.read("portable-location.json")).isEqualTo(portableLocation);
     }
 
     @Test
-    public void constructor_params_must_not_be_null() {
+    void constructor_params_must_not_be_null() {
         assertThatNullPointerException().isThrownBy(
                 () -> new PortableLocation(1, null, BigDecimal.ZERO, ""));
         assertThatNullPointerException().isThrownBy(
@@ -66,7 +66,7 @@ public class PortableLocationTest {
     }
 
     @Test
-    public void fromLocation() {
+    void fromLocation() {
         Location location = new Location(17, Coordinates.valueOf(5.1, -0.0007), "Hello, world!");
         PortableLocation portableLocation = PortableLocation.fromLocation(location);
         assertThat(portableLocation.getId()).isEqualTo(location.id());
@@ -76,7 +76,7 @@ public class PortableLocationTest {
     }
 
     @Test
-    public void equals_hashCode_toString() {
+    void equals_hashCode_toString() {
         long id = 123456;
         String description = "x y";
         BigDecimal lat1 = BigDecimal.valueOf(10.0101);

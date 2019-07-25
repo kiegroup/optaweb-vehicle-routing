@@ -35,13 +35,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RemoveCustomerTest {
+class RemoveCustomerTest {
 
     @Mock
     private ScoreDirector<VehicleRoutingSolution> scoreDirector;
 
     @Test
-    public void remove_last_customer() {
+    void remove_last_customer() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
@@ -67,7 +67,7 @@ public class RemoveCustomerTest {
     }
 
     @Test
-    public void remove_middle_customer() {
+    void remove_middle_customer() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 

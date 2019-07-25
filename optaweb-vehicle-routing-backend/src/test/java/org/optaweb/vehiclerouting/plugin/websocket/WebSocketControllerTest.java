@@ -42,7 +42,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class WebSocketControllerTest {
+class WebSocketControllerTest {
 
     @Mock
     private RouteListener routeListener;
@@ -56,7 +56,7 @@ public class WebSocketControllerTest {
     private WebSocketController webSocketController;
 
     @Test
-    public void subscribeToRouteTopic() {
+    void subscribeToRouteTopic() {
         // arrange
         String distance = "some distance";
         Location depot = new Location(1, Coordinates.valueOf(3, 5));
@@ -74,7 +74,7 @@ public class WebSocketControllerTest {
     }
 
     @Test
-    public void subscribeToServerInfo() {
+    void subscribeToServerInfo() {
         // arrange
         List<String> countryCodes = Arrays.asList("XY", "WZ");
         when(regionService.countryCodes()).thenReturn(countryCodes);
@@ -107,7 +107,7 @@ public class WebSocketControllerTest {
     }
 
     @Test
-    public void addLocation() {
+    void addLocation() {
         Coordinates coords = Coordinates.valueOf(0.0, 1.0);
         String description = "new location";
         PortableLocation request = new PortableLocation(321, coords.latitude(), coords.longitude(), description);
@@ -116,20 +116,20 @@ public class WebSocketControllerTest {
     }
 
     @Test
-    public void removeLocation() {
+    void removeLocation() {
         webSocketController.removeLocation(9L);
         verify(locationService).removeLocation(9);
     }
 
     @Test
-    public void demo() {
+    void demo() {
         String problemName = "xy";
         webSocketController.demo(problemName);
         verify(demoService).loadDemo(problemName);
     }
 
     @Test
-    public void clear() {
+    void clear() {
         webSocketController.clear();
         verify(locationService).clear();
     }

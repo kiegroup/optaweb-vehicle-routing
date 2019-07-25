@@ -26,24 +26,24 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-public class RoutingPlanTest {
+class RoutingPlanTest {
 
     private final Location depot = new Location(1, Coordinates.valueOf(5, 5));
     private final RouteWithTrack emptyRoute = new RouteWithTrack(new Route(depot, emptyList()), emptyList());
 
     @Test
-    public void constructor_args_not_null() {
+    void constructor_args_not_null() {
         assertThatNullPointerException().isThrownBy(() -> new RoutingPlan(null, depot, emptyList()));
         assertThatNullPointerException().isThrownBy(() -> new RoutingPlan("", depot, null));
     }
 
     @Test
-    public void no_routes_without_a_depot() {
+    void no_routes_without_a_depot() {
         assertThatIllegalArgumentException().isThrownBy(() -> new RoutingPlan("", null, Arrays.asList(emptyRoute)));
     }
 
     @Test
-    public void cannot_modify_routes_externally() {
+    void cannot_modify_routes_externally() {
         ArrayList<RouteWithTrack> routes = new ArrayList<>();
         routes.add(emptyRoute);
         RoutingPlan routingPlan = new RoutingPlan("", depot, routes);

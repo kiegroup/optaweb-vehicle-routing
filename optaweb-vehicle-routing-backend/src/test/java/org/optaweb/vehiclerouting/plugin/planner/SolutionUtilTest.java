@@ -29,10 +29,10 @@ import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
-public class SolutionUtilTest {
+class SolutionUtilTest {
 
     @Test
-    public void empty_solution_should_be_empty() {
+    void empty_solution_should_be_empty() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         assertThat(solution.getLocationList()).isEmpty();
         assertThat(solution.getCustomerList()).isEmpty();
@@ -41,7 +41,7 @@ public class SolutionUtilTest {
     }
 
     @Test
-    public void adding_depot_should_create_depot_and_add_location() {
+    void adding_depot_should_create_depot_and_add_location() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         RoadLocation roadLocation = new RoadLocation(1, 1.0, 1.0);
         Depot depot = SolutionUtil.addDepot(solution, roadLocation);
@@ -51,7 +51,7 @@ public class SolutionUtilTest {
     }
 
     @Test
-    public void move_all_vehicles_to_a_depot() {
+    void move_all_vehicles_to_a_depot() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         RoadLocation roadLocation = new RoadLocation(1, 1.0, 1.0);
         Depot depot = SolutionUtil.addDepot(solution, roadLocation);
@@ -64,7 +64,7 @@ public class SolutionUtilTest {
     }
 
     @Test
-    public void adding_customer_should_create_customer_and_add_location() {
+    void adding_customer_should_create_customer_and_add_location() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         RoadLocation roadLocation = new RoadLocation(1, 1.0, 1.0);
         Customer customer = SolutionUtil.addCustomer(solution, roadLocation);
@@ -75,14 +75,14 @@ public class SolutionUtilTest {
     }
 
     @Test
-    public void empty_solution_should_have_zero_routes() {
+    void empty_solution_should_have_zero_routes() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         List<ShallowRoute> routes = SolutionUtil.routes(solution);
         assertThat(routes).isEmpty();
     }
 
     @Test
-    public void nonempty_uninitialized_solution_should_have_zero_routes() {
+    void nonempty_uninitialized_solution_should_have_zero_routes() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
 
         SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
@@ -93,7 +93,7 @@ public class SolutionUtilTest {
     }
 
     @Test
-    public void initialized_solution_should_have_one_route_per_vehicle() {
+    void initialized_solution_should_have_one_route_per_vehicle() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         SolutionUtil.addVehicle(solution, 1);
         SolutionUtil.addVehicle(solution, 2);
@@ -118,7 +118,7 @@ public class SolutionUtilTest {
     }
 
     @Test
-    public void vehicle_without_a_depot_is_illegal() {
+    void vehicle_without_a_depot_is_illegal() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
         SolutionUtil.addVehicle(solution, 1);
@@ -126,7 +126,7 @@ public class SolutionUtilTest {
     }
 
     @Test
-    public void fail_fast_if_vehicles_next_customer_doesnt_exist() {
+    void fail_fast_if_vehicles_next_customer_doesnt_exist() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         Depot depot = SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
         Vehicle vehicle = SolutionUtil.addVehicle(solution, 1);

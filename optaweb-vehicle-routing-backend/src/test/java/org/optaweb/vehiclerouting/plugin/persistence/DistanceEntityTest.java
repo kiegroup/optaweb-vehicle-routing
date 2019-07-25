@@ -21,17 +21,17 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-public class DistanceEntityTest {
+class DistanceEntityTest {
 
     @Test
-    public void constructor_params_must_not_be_null() {
+    void constructor_params_must_not_be_null() {
         DistanceKey dKey = new DistanceKey(1, 2);
         assertThatNullPointerException().isThrownBy(() -> new DistanceEntity(null, 10.0));
         assertThatNullPointerException().isThrownBy(() -> new DistanceEntity(dKey, null));
     }
 
     @Test
-    public void equals() {
+    void equals() {
         final long from = 10;
         final long to = 2000;
         final DistanceKey distanceKey = new DistanceKey(from, to);

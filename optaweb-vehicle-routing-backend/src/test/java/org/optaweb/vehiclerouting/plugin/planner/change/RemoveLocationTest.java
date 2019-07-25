@@ -31,13 +31,13 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RemoveLocationTest {
+class RemoveLocationTest {
 
     @Mock
     private ScoreDirector<VehicleRoutingSolution> scoreDirector;
 
     @Test
-    public void remove_location() {
+    void remove_location() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 

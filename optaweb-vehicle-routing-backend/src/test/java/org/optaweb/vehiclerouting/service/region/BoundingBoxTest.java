@@ -21,10 +21,10 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-public class BoundingBoxTest {
+class BoundingBoxTest {
 
     @Test
-    public void validate_southwest_and_northeast_arguments() {
+    void validate_southwest_and_northeast_arguments() {
         // 1───┐
         // │ ↘ │
         // └───2
@@ -49,7 +49,7 @@ public class BoundingBoxTest {
     }
 
     @Test
-    public void should_fail_if_bounding_box_has_zero_dimension() {
+    void should_fail_if_bounding_box_has_zero_dimension() {
         //
         // ╶───╴
         //

@@ -54,7 +54,7 @@ import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class SolverIntegrationTest {
+class SolverIntegrationTest {
 
     private static final Logger logger = LoggerFactory.getLogger(SolverIntegrationTest.class);
 
@@ -67,7 +67,7 @@ public class SolverIntegrationTest {
     private Future<VehicleRoutingSolution> futureSolution;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         sf = SolverFactory.createFromXmlResource(VehicleRoutingApp.SOLVER_CONFIG);
         executor = Executors.newSingleThreadExecutor();
         monitor = new ProblemFactChangeProcessingMonitor();
@@ -75,20 +75,20 @@ public class SolverIntegrationTest {
     }
 
     @AfterEach
-    public void tearDown() throws InterruptedException {
+    void tearDown() throws InterruptedException {
         executor.shutdown();
         executor.awaitTermination(1, TimeUnit.SECONDS);
     }
 
     @Disabled("Solver fails fast on empty value ranges") // TODO file an OptaPlanner ticket for empty value ranges
     @Test
-    public void solver_in_daemon_mode_should_not_fail_on_empty_solution() {
+    void solver_in_daemon_mode_should_not_fail_on_empty_solution() {
         sf.getSolverConfig().setDaemon(true);
         assertThat(sf.buildSolver().solve(SolutionUtil.emptySolution())).isNotNull();
     }
 
     @Test
-    public void removing_customers_should_not_fail() {
+    void removing_customers_should_not_fail() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         Depot depot = SolutionUtil.addDepot(solution, location(1));
         SolutionUtil.addVehicle(solution, 1);

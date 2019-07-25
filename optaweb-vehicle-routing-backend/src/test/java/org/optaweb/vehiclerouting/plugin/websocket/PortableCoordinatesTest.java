@@ -27,7 +27,7 @@ import org.springframework.boot.test.json.JacksonTester;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class PortableCoordinatesTest {
+class PortableCoordinatesTest {
 
     private JacksonTester<PortableCoordinates> json;
 
@@ -38,7 +38,7 @@ public class PortableCoordinatesTest {
     }
 
     @Test
-    public void marshal_to_json() throws IOException {
+    void marshal_to_json() throws IOException {
         // values are tweaked to enforce rounding to 5 decimal places
         PortableCoordinates portableCoordinates = new PortableCoordinates(
                 BigDecimal.valueOf(0.123454321),
@@ -48,7 +48,7 @@ public class PortableCoordinatesTest {
     }
 
     @Test
-    public void conversion_from_domain() {
+    void conversion_from_domain() {
         Coordinates coordinates = Coordinates.valueOf(0.04687, -88.8889);
         PortableCoordinates portableCoordinates = PortableCoordinates.fromCoordinates(coordinates);
         assertThat(portableCoordinates.getLatitude()).isEqualTo(coordinates.latitude());
@@ -56,7 +56,7 @@ public class PortableCoordinatesTest {
     }
 
     @Test
-    public void should_reduce_scale_if_needed() {
+    void should_reduce_scale_if_needed() {
         Coordinates coordinates = Coordinates.valueOf(0.123450001, -88.999999999);
         Coordinates scaledDown = Coordinates.valueOf(0.12345, -89);
         PortableCoordinates portableCoordinates = PortableCoordinates.fromCoordinates(coordinates);
@@ -67,7 +67,7 @@ public class PortableCoordinatesTest {
     }
 
     @Test
-    public void equals_hashCode_toString() {
+    void equals_hashCode_toString() {
         BigDecimal lat1 = BigDecimal.valueOf(10.0101);
         BigDecimal lat2 = BigDecimal.valueOf(20.2323);
         BigDecimal lon1 = BigDecimal.valueOf(-8.7);

@@ -23,16 +23,16 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-public class LocationTest {
+class LocationTest {
 
     @Test
-    public void constructor_params_must_not_be_null() {
+    void constructor_params_must_not_be_null() {
         assertThatNullPointerException().isThrownBy(() -> new Location(0, null, ""));
         assertThatNullPointerException().isThrownBy(() -> new Location(0, Coordinates.valueOf(1, 1), null));
     }
 
     @Test
-    public void locations_are_identified_based_on_id() {
+    void locations_are_identified_based_on_id() {
         final Coordinates coordinates0 = new Coordinates(BigDecimal.ZERO, BigDecimal.ZERO);
         final Coordinates coordinates1 = new Coordinates(BigDecimal.ONE, BigDecimal.ONE);
         final String description = "test description";
@@ -57,7 +57,7 @@ public class LocationTest {
     }
 
     @Test
-    public void constructor_without_description_should_create_empty_description() {
+    void constructor_without_description_should_create_empty_description() {
         assertThat(new Location(7, Coordinates.valueOf(3.14, 4.13)).description()).isEmpty();
     }
 }

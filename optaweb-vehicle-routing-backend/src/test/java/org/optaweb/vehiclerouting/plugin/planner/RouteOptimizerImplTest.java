@@ -63,7 +63,7 @@ import static org.optaweb.vehiclerouting.plugin.planner.SolutionUtil.planningLoc
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
-public class RouteOptimizerImplTest {
+class RouteOptimizerImplTest {
 
     private final Location location1 = new Location(1, Coordinates.valueOf(1.0, 0.1));
     private final Location location2 = new Location(2, Coordinates.valueOf(0.2, 2.2));
@@ -89,7 +89,7 @@ public class RouteOptimizerImplTest {
     private RouteOptimizerImpl routeOptimizer;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         // always run the runnable submitted to executor (that's what every executor does)
         // we can then verify that solver.solve() has been called
         when(executor.submit(any(RouteOptimizerImpl.SolvingTask.class))).thenAnswer(
@@ -112,12 +112,12 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void should_listen_for_best_solution_events() {
+    void should_listen_for_best_solution_events() {
         verify(solver).addEventListener(routeOptimizer);
     }
 
     @Test
-    public void ignore_new_best_solutions_when_unprocessed_fact_changes() {
+    void ignore_new_best_solutions_when_unprocessed_fact_changes() {
         // arrange
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(false);
 
@@ -130,7 +130,7 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void publish_new_best_solution_if_all_fact_changes_processed() {
+    void publish_new_best_solution_if_all_fact_changes_processed() {
         VehicleRoutingSolution solution = createSolution(location1, location2);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
@@ -149,7 +149,7 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void solution_with_depot_and_no_visits_should_be_published() {
+    void solution_with_depot_and_no_visits_should_be_published() {
         routeOptimizer.addLocation(location1, distanceMatrix);
 
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
@@ -165,7 +165,7 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void solver_should_start_when_two_locations_added() {
+    void solver_should_start_when_two_locations_added() {
         // add 2 locations
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
@@ -181,7 +181,7 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void solver_should_stop_when_locations_reduced_to_one() throws ExecutionException, InterruptedException {
+    void solver_should_stop_when_locations_reduced_to_one() throws ExecutionException, InterruptedException {
         // add 2 locations
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
@@ -200,7 +200,7 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void solution_update_event_should_only_have_empty_routes_when_last_visit_removed() {
+    void solution_update_event_should_only_have_empty_routes_when_last_visit_removed() {
         // FIXME This test shouldn't be needed. This is a problem with bad encapsulation of the planning domain in
         //   optaplanner-examples. Once we introduce our own planning domain with a better API, the test should be
         //   replaced/simplified/removed.
@@ -243,7 +243,7 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void removing_depot_impossible_when_there_are_other_locations() {
+    void removing_depot_impossible_when_there_are_other_locations() {
         // add 2 locations
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
@@ -254,7 +254,7 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void adding_location_to_running_solver_must_happen_through_problem_fact_change() {
+    void adding_location_to_running_solver_must_happen_through_problem_fact_change() {
         routeOptimizer.addLocation(location1, distanceMatrix);
         assertThat(solver.isSolving()).isFalse();
         routeOptimizer.addLocation(location2, distanceMatrix);
@@ -264,7 +264,7 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void removing_location_from_solver_with_more_than_two_locations_must_happen_through_problem_fact_change() {
+    void removing_location_from_solver_with_more_than_two_locations_must_happen_through_problem_fact_change() {
         // set up a situation where solver is running with 1 depot and 2 visits
         VehicleRoutingSolution solution = createSolution(location1, location2, location3);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
@@ -281,8 +281,7 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void clear_should_stop_solver_and_publish_initial_solution() throws ExecutionException,
-                                                                               InterruptedException {
+    void clear_should_stop_solver_and_publish_initial_solution() throws ExecutionException, InterruptedException {
         // set up a situation where solver is running with 1 depot and 2 visits
         VehicleRoutingSolution solution = createSolution(location1, location2, location3);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
@@ -306,12 +305,12 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void clear_should_not_fail_when_solver_is_not_solving() {
+    void clear_should_not_fail_when_solver_is_not_solving() {
         assertThatCode(() -> routeOptimizer.clear()).doesNotThrowAnyException();
     }
 
     @Test
-    public void reset_interrupted_flag() throws ExecutionException, InterruptedException {
+    void reset_interrupted_flag() throws ExecutionException, InterruptedException {
         when(solverFuture.isDone()).thenReturn(true);
         when(solverFuture.get()).thenThrow(InterruptedException.class);
         // start solver by adding 2 locations
@@ -328,7 +327,7 @@ public class RouteOptimizerImplTest {
     }
 
     @Test
-    public void planning_location_should_have_same_latitude_and_longitude() {
+    void planning_location_should_have_same_latitude_and_longitude() {
         RoadLocation roadLocation = planningLocation(location1);
         assertThat(roadLocation.getId()).isEqualTo(location1.id());
         assertThat(roadLocation.getLatitude()).isEqualTo(location1.coordinates().latitude().doubleValue());

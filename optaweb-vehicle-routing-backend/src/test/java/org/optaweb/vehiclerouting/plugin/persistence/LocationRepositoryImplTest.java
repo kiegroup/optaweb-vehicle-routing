@@ -41,7 +41,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
-public class LocationRepositoryImplTest {
+class LocationRepositoryImplTest {
 
     @Mock
     private LocationCrudRepository crudRepository;
@@ -54,7 +54,7 @@ public class LocationRepositoryImplTest {
     private Location testLocation;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         final long id = 76;
         final BigDecimal latitude = BigDecimal.valueOf(1.2);
         final BigDecimal longitude = BigDecimal.valueOf(3.4);
@@ -67,7 +67,7 @@ public class LocationRepositoryImplTest {
     }
 
     @Test
-    public void should_create_location_and_generate_id() {
+    void should_create_location_and_generate_id() {
         // arrange
         when(crudRepository.save(locationEntityCaptor.capture())).thenReturn(locationEntity);
         Coordinates savedCoordinates = Coordinates.valueOf(0.00213, 32.777);
@@ -94,7 +94,7 @@ public class LocationRepositoryImplTest {
     }
 
     @Test
-    public void remove_created_location_by_id() {
+    void remove_created_location_by_id() {
         final long id = testLocation.id();
         when(crudRepository.findById(id)).thenReturn(Optional.of(locationEntity));
 
@@ -104,7 +104,7 @@ public class LocationRepositoryImplTest {
     }
 
     @Test
-    public void removing_nonexistent_location_should_fail() {
+    void removing_nonexistent_location_should_fail() {
         when(crudRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         // removing nonexistent location should fail and its ID should appear in the exception message
@@ -115,19 +115,19 @@ public class LocationRepositoryImplTest {
     }
 
     @Test
-    public void remove_all_locations() {
+    void remove_all_locations() {
         repository.removeAll();
         verify(crudRepository).deleteAll();
     }
 
     @Test
-    public void get_all_locations() {
+    void get_all_locations() {
         when(crudRepository.findAll()).thenReturn(Collections.singletonList(locationEntity));
         assertThat(repository.locations()).containsExactly(testLocation);
     }
 
     @Test
-    public void find_by_id() {
+    void find_by_id() {
         when(crudRepository.findById(testLocation.id())).thenReturn(Optional.of(locationEntity));
         assertThat(repository.find(testLocation.id())).contains(testLocation);
     }
