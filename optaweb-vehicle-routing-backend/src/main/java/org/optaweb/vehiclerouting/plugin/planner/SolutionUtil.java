@@ -118,7 +118,7 @@ public class SolutionUtil {
                 }
                 visits.add(customer.getLocation().getId());
             }
-            routes.add(new ShallowRoute(depot.getId(), visits));
+            routes.add(new ShallowRoute(vehicle.getId(), depot.getId(), visits));
         }
         return routes;
     }

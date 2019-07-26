@@ -27,17 +27,19 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
+import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 
+import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -60,7 +62,9 @@ class WebSocketControllerTest {
         // arrange
         String distance = "some distance";
         Location depot = new Location(1, Coordinates.valueOf(3, 5));
-        List<RouteWithTrack> routes = Collections.singletonList(mock(RouteWithTrack.class));
+        Vehicle vehicle = new Vehicle(1, "vehicle");
+        Route route = new Route(vehicle, depot, emptyList());
+        List<RouteWithTrack> routes = Collections.singletonList(new RouteWithTrack(route, emptyList()));
         RoutingPlan plan = new RoutingPlan(distance, depot, routes);
         when(routeListener.getBestRoutingPlan()).thenReturn(plan);
 

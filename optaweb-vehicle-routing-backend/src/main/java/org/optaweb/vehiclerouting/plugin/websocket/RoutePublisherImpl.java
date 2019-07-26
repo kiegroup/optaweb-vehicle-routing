@@ -50,6 +50,7 @@ class RoutePublisherImpl implements RoutePublisher {
         PortableLocation depot = routingPlan.depot().map(PortableLocation::fromLocation).orElse(null);
         List<PortableRoute> routes = routingPlan.routes().stream()
                 .map(routeWithTrack -> new PortableRoute(
+                        PortableVehicle.fromVehicle(routeWithTrack.vehicle()),
                         depot,
                         portableVisits(routeWithTrack.visits()),
                         portableTrack(routeWithTrack.track())))

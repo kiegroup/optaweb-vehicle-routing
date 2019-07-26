@@ -33,6 +33,7 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
+import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
 
 import static java.util.Collections.emptyList;
@@ -83,7 +84,8 @@ class RouteListenerTest {
     void event_with_no_visits_and_a_depot_should_be_published_as_plan_with_empty_routes() {
         final Coordinates depotCoordinates = Coordinates.valueOf(0.0, 0.1);
         final Location depot = new Location(1, depotCoordinates);
-        ShallowRoute route = new ShallowRoute(depot.id(), emptyList());
+        final Vehicle vehicle = new Vehicle(448, "Test vehicle");
+        ShallowRoute route = new ShallowRoute(vehicle.id(), depot.id(), emptyList());
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
 
         RouteChangedEvent event = new RouteChangedEvent(this, "0 km", depot.id(), singletonList(route));
@@ -97,6 +99,7 @@ class RouteListenerTest {
         assertThat(routingPlan.routes()).hasSize(1);
         RouteWithTrack routeWithTrack = routingPlan.routes().iterator().next();
         assertThat(routeWithTrack.depot()).isEqualTo(depot);
+        assertThat(routeWithTrack.vehicle()).isEqualTo(vehicle);
         assertThat(routeWithTrack.visits()).isEmpty();
         assertThat(routeWithTrack.track()).isEmpty();
     }
@@ -112,13 +115,14 @@ class RouteListenerTest {
         when(router.getPath(depotCoordinates, visitCoordinates)).thenReturn(path1);
         when(router.getPath(visitCoordinates, depotCoordinates)).thenReturn(path2);
 
+        final Vehicle vehicle = new Vehicle(-5, "vehicle");
         final Location depot = new Location(1, depotCoordinates);
         final Location visit = new Location(2, visitCoordinates);
         final String distance = "xy";
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
         when(locationRepository.find(visit.id())).thenReturn(Optional.of(visit));
 
-        ShallowRoute route = new ShallowRoute(depot.id(), singletonList(visit.id()));
+        ShallowRoute route = new ShallowRoute(vehicle.id(), depot.id(), singletonList(visit.id()));
         RouteChangedEvent event = new RouteChangedEvent(this, distance, depot.id(), singletonList(route));
 
         routeListener.onApplicationEvent(event);
@@ -129,6 +133,7 @@ class RouteListenerTest {
         assertThat(routingPlan.depot()).contains(depot);
         assertThat(routingPlan.routes()).hasSize(1);
         RouteWithTrack routeWithTrack = routingPlan.routes().iterator().next();
+        assertThat(routeWithTrack.vehicle()).isEqualTo(vehicle);
         assertThat(routeWithTrack.depot()).isEqualTo(depot);
         assertThat(routeWithTrack.visits()).containsExactly(visit);
         assertThat(routeWithTrack.track()).containsExactly(path1, path2);
@@ -140,10 +145,11 @@ class RouteListenerTest {
     void should_discard_update_gracefully_if_one_of_location_has_been_removed() {
         final Location depot = new Location(1, Coordinates.valueOf(1.0, 2.0));
         final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
+        final Vehicle vehicle = new Vehicle(3, "x");
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
         when(locationRepository.find(visit.id())).thenReturn(Optional.empty());
 
-        ShallowRoute route = new ShallowRoute(depot.id(), singletonList(visit.id()));
+        ShallowRoute route = new ShallowRoute(vehicle.id(), depot.id(), singletonList(visit.id()));
         RouteChangedEvent event = new RouteChangedEvent(this, "", depot.id(), singletonList(route));
 
         // precondition

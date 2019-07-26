@@ -37,6 +37,10 @@ import java.util.stream.Stream;
 public class ShallowRoute {
 
     /**
+     * Vehicle ID (never {@code null}).
+     */
+    public final Long vehicleId;
+    /**
      * Depot ID (never {@code null}).
      */
     public final Long depotId;
@@ -47,18 +51,21 @@ public class ShallowRoute {
 
     /**
      * Create shallow route.
+     * @param vehicleId vehicle ID (never {@code null})
      * @param depotId depot ID (never {@code null})
      * @param visitIds visit IDs
      */
-    public ShallowRoute(Long depotId, List<Long> visitIds) {
+    public ShallowRoute(Long vehicleId, Long depotId, List<Long> visitIds) {
+        this.vehicleId = Objects.requireNonNull(vehicleId);
         this.depotId = Objects.requireNonNull(depotId);
         this.visitIds = Collections.unmodifiableList(new ArrayList<>(Objects.requireNonNull(visitIds)));
     }
 
     @Override
     public String toString() {
-        return Stream.concat(Stream.of(depotId), visitIds.stream())
+        String route = Stream.concat(Stream.of(depotId), visitIds.stream())
                 .map(Object::toString)
                 .collect(Collectors.joining("->", "[", "]"));
+        return vehicleId + ": " + route;
     }
 }
