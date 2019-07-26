@@ -1,3 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Vehicles page should render correctly 1`] = `<UnderConstruction />`;
+exports[`Vehicles page should render correctly 1`] = `
+<Fragment>
+  <TextContent>
+    <Text
+      component="h1"
+    >
+      Vehicles (2)
+    </Text>
+  </TextContent>
+  <div
+    style={
+      Object {
+        "overflowY": "auto",
+      }
+    }
+  >
+    <DataList
+      aria-label="simple-item1"
+      className=""
+    >
+      <Location
+        description="Vehicle 1"
+        id={1}
+        key="1"
+        removeDisabled={true}
+        removeHandler={[Function]}
+        selectHandler={[Function]}
+      />
+      <Location
+        description="Vehicle 2"
+        id={2}
+        key="2"
+        removeDisabled={true}
+        removeHandler={[Function]}
+        selectHandler={[Function]}
+      />
+    </DataList>
+  </div>
+</Fragment>
+`;

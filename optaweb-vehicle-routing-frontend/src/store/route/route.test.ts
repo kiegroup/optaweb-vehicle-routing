@@ -86,7 +86,7 @@ describe('Route reducers', () => {
 });
 
 describe('Route selectors', () => {
-  it('visits should contain visits from all routes', () => {
+  it('getVisits() should return visits from all routes', () => {
     const visits = routeSelectors.getVisits(state.plan);
     expect(visits).toHaveLength(5);
     expect(visits).toContain(state.plan.routes[0].visits[0]);
@@ -94,6 +94,13 @@ describe('Route selectors', () => {
     expect(visits).toContain(state.plan.routes[0].visits[2]);
     expect(visits).toContain(state.plan.routes[1].visits[0]);
     expect(visits).toContain(state.plan.routes[1].visits[1]);
+  });
+
+  it('getVehicles() should return each route\'s vehicle', () => {
+    const visits = routeSelectors.getVehicles(state.plan);
+    expect(visits).toHaveLength(2);
+    expect(visits).toContain(state.plan.routes[0].vehicle);
+    expect(visits).toContain(state.plan.routes[1].vehicle);
   });
 });
 
