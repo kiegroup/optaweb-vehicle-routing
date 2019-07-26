@@ -117,13 +117,13 @@ export class Route extends React.Component<RouteProps, RouteState> {
                 aria-label="FormSelect Input"
               >
                 {routes.map(
-                  (option, index) => (
+                  (route, index) => (
                     <FormSelectOption
                       isDisabled={false}
                       // eslint-disable-next-line react/no-array-index-key
                       key={index}
                       value={index}
-                      label={`Route ${index}`}
+                      label={route.vehicle.name}
                     />
                   ),
                 )}

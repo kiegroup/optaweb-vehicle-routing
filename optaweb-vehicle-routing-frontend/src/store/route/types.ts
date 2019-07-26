@@ -31,7 +31,13 @@ export interface Location extends LatLng {
   readonly description?: string;
 }
 
+export interface Vehicle {
+  readonly id: number;
+  readonly name: string;
+}
+
 export interface Route {
+  readonly vehicle: Vehicle;
   readonly visits: Location[];
 }
 
