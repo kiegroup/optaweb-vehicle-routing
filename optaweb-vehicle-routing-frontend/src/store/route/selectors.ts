@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Location, RoutingPlan } from './types';
+import { Location, RoutingPlan, Vehicle } from './types';
 
 function reducer<T>(accumulator: T[], currentValue: T[]): T[] {
   return accumulator.concat(currentValue);
@@ -26,4 +26,12 @@ export const getVisits = (plan: RoutingPlan): Location[] => {
   }
 
   return plan.routes.map(route => route.visits).reduce(reducer, []);
+};
+
+export const getVehicles = (plan: RoutingPlan): Vehicle[] => {
+  if (plan.routes.length === 0) {
+    return [];
+  }
+
+  return plan.routes.map(route => route.vehicle);
 };

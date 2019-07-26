@@ -14,9 +14,48 @@
  * limitations under the License.
  */
 
+import { DataList, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
-import { UnderConstruction } from 'ui/components/UnderConstruction';
+import { connect } from 'react-redux';
+import { routeSelectors } from 'store/route';
+import { Vehicle } from 'store/route/types';
+import { AppState } from 'store/types';
+import LocationItem from 'ui/components/Location';
 
-const Vehicles = () => <UnderConstruction />;
+export interface StateProps {
+  vehicles: Vehicle[];
+}
 
-export default Vehicles;
+const mapStateToProps = ({ plan }: AppState): StateProps => ({
+  vehicles: routeSelectors.getVehicles(plan),
+});
+
+export const Vehicles: React.FC<StateProps> = ({ vehicles }) => (
+  <>
+    <TextContent>
+      <Text component={TextVariants.h1}>{`Vehicles (${vehicles.length})`}</Text>
+    </TextContent>
+    <div style={{ overflowY: 'auto' }}>
+      <DataList
+        aria-label="simple-item1"
+      >
+        {vehicles
+          .slice(0) // clone the array because
+          // sort is done in place (that would affect the route)
+          .sort((a, b) => a.id - b.id)
+          .map(vehicle => (
+            <LocationItem
+              key={vehicle.id}
+              id={vehicle.id}
+              description={vehicle.name}
+              removeDisabled={true}
+              removeHandler={() => null}
+              selectHandler={() => null}
+            />
+          ))}
+      </DataList>
+    </div>
+  </>
+);
+
+export default connect(mapStateToProps)(Vehicles);

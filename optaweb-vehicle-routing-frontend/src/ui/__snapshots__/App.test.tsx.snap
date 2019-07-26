@@ -29,7 +29,15 @@ exports[`App should render correctly 1`] = `
     >
       <Switch>
         <Route
-          component={[Function]}
+          component={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
+              "displayName": "Connect(Vehicles)",
+              "type": [Function],
+            }
+          }
           exact={true}
           path="/vehicles"
         />
