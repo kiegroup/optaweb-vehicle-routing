@@ -28,7 +28,7 @@ export interface LocationListProps {
 }
 
 const renderEmptyLocationList: React.FC<LocationListProps> = () => (
-  <DataList aria-label="empty location list">
+  <DataList aria-label="Empty location list">
     <Bullseye>No locations</Bullseye>
   </DataList>
 );
@@ -41,7 +41,7 @@ const renderLocationList: React.FC<LocationListProps> = ({
 }) => (
   <div style={{ overflowY: 'auto' }}>
     <DataList
-      aria-label="simple-item1"
+      aria-label="List of locations"
     >
       {depot && (
         <LocationItem

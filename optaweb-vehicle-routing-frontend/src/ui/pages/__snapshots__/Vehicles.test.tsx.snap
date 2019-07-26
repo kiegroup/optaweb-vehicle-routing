@@ -17,7 +17,7 @@ exports[`Vehicles page should render correctly 1`] = `
     }
   >
     <DataList
-      aria-label="simple-item1"
+      aria-label="List of vehicles"
       className=""
     >
       <Location
