@@ -45,14 +45,14 @@ exports[`Route page should render correctly with a few routes 1`] = `
             className=""
             isDisabled={false}
             key="0"
-            label="Route 0"
+            label="v1"
             value={0}
           />
           <FormSelectOption
             className=""
             isDisabled={false}
             key="1"
-            label="Route 1"
+            label="v2"
             value={1}
           />
         </FormSelect>
@@ -107,6 +107,10 @@ exports[`Route page should render correctly with a few routes 1`] = `
           Array [
             Object {
               "track": Array [],
+              "vehicle": Object {
+                "id": 1,
+                "name": "v1",
+              },
               "visits": Array [
                 Object {
                   "id": 1,

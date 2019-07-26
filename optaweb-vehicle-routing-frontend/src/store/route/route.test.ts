@@ -112,6 +112,7 @@ const state: AppState = {
     distance: '10',
     depot: null,
     routes: [{
+      vehicle: { id: 1, name: 'v1' },
       visits: [{
         id: 1,
         lat: 1.345678,
@@ -128,6 +129,7 @@ const state: AppState = {
 
       track: [[0.111222, 0.222333], [0.444555, 0.555666]],
     }, {
+      vehicle: { id: 2, name: 'v2' },
       visits: [{
         id: 4,
         lat: 4.345678,

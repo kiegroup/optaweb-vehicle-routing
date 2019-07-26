@@ -181,6 +181,10 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
         Array [
           Object {
             "track": Array [],
+            "vehicle": Object {
+              "id": 1,
+              "name": "v1",
+            },
             "visits": Array [
               Object {
                 "id": 1,
@@ -388,6 +392,10 @@ exports[`Demo page should render correctly with a few routes 1`] = `
         Array [
           Object {
             "track": Array [],
+            "vehicle": Object {
+              "id": 1,
+              "name": "v1",
+            },
             "visits": Array [
               Object {
                 "id": 1,
