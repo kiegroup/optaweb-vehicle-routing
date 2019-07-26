@@ -27,15 +27,18 @@ import java.util.stream.Collectors;
  */
 public class Route {
 
+    private final Vehicle vehicle;
     private final Location depot;
     private final List<Location> visits;
 
     /**
      * Create a vehicle route.
+     * @param vehicle the vehicle assigned to this route (not null)
      * @param depot vehicle's depot (not null)
      * @param visits list of visits (not null)
      */
-    public Route(Location depot, List<Location> visits) {
+    public Route(Vehicle vehicle, Location depot, List<Location> visits) {
+        this.vehicle = Objects.requireNonNull(vehicle);
         this.depot = Objects.requireNonNull(depot);
         this.visits = new ArrayList<>(Objects.requireNonNull(visits));
         // TODO Probably remove this check when we have more types: new Route(Depot depot, List<Visit> visits).
@@ -49,6 +52,14 @@ public class Route {
             long duplicates = visits.size() - uniqueVisits;
             throw new IllegalArgumentException("Some customer have been visited multiple times (" + duplicates + ")");
         }
+    }
+
+    /**
+     * The vehicle assigned to this route.
+     * @return route's vehicle (never null)
+     */
+    public Vehicle vehicle() {
+        return vehicle;
     }
 
     /**
@@ -70,7 +81,8 @@ public class Route {
     @Override
     public String toString() {
         return "Route{" +
-                "depot=" + depot.id() +
+                "vehicle=" + vehicle +
+                ", depot=" + depot.id() +
                 ", visits=" + visits.stream().map(Location::id).collect(Collectors.toList()) +
                 '}';
     }

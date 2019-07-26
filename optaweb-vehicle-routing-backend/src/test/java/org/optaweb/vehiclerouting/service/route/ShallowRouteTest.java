@@ -26,7 +26,7 @@ class ShallowRouteTest {
 
     @Test
     void shallow_route_to_string() {
-        ShallowRoute shallowRoute = new ShallowRoute(100L, Arrays.asList(93L, 92L, 91L));
-        assertThat(shallowRoute.toString()).containsSubsequence("100", "93", "92", "91");
+        ShallowRoute shallowRoute = new ShallowRoute(200L, 100L, Arrays.asList(93L, 92L, 91L));
+        assertThat(shallowRoute.toString()).containsSubsequence("200", "100", "93", "92", "91");
     }
 }
