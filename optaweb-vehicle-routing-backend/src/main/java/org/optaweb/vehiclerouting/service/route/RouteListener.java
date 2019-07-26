@@ -26,6 +26,7 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
+import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,6 +63,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
             List<RouteWithTrack> routes = event.routes().stream()
                     // list of deep locations
                     .map(shallowRoute -> new Route(
+                            findVehicleById(shallowRoute.vehicleId),
                             findLocationById(shallowRoute.depotId),
                             shallowRoute.visitIds.stream()
                                     .map(this::findLocationById)
@@ -75,6 +77,11 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
         } catch (IllegalStateException e) {
             logger.warn("Discarding an outdated routing plan: {}", e.toString());
         }
+    }
+
+    private static Vehicle findVehicleById(Long id) {
+        // TODO retrieve vehicle from the repository
+        return new Vehicle(id, "Vehicle " + id);
     }
 
     private Location findLocationById(Long id) {

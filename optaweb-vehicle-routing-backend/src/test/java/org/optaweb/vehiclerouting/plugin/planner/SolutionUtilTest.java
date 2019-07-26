@@ -95,8 +95,10 @@ class SolutionUtilTest {
     @Test
     void initialized_solution_should_have_one_route_per_vehicle() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        SolutionUtil.addVehicle(solution, 1);
-        SolutionUtil.addVehicle(solution, 2);
+        long vehicleId1 = 1001;
+        long vehicleId2 = 2001;
+        SolutionUtil.addVehicle(solution, vehicleId1);
+        SolutionUtil.addVehicle(solution, vehicleId2);
 
         Depot depot = SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
         Customer customer = SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
@@ -109,6 +111,8 @@ class SolutionUtilTest {
 
         List<ShallowRoute> routes = SolutionUtil.routes(solution);
         assertThat(routes).hasSameSizeAs(solution.getVehicleList());
+        assertThat(routes.stream().mapToLong(value -> value.vehicleId))
+                .containsExactlyInAnyOrder(vehicleId1, vehicleId2);
 
         for (ShallowRoute route : routes) {
             assertThat(route.depotId).isEqualTo(depot.getId());

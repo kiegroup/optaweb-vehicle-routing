@@ -29,20 +29,21 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 class RouteWithTrackTest {
 
+    private final Vehicle vehicle = new Vehicle(4, "Test vehicle");
     private final Location depot = new Location(1, Coordinates.valueOf(5, 5));
     private final Location visit1 = new Location(2, Coordinates.valueOf(5, 5));
     private final Location visit2 = new Location(3, Coordinates.valueOf(5, 5));
 
     @Test
     void constructor_args_not_null() {
-        Route route = new Route(depot, emptyList());
+        Route route = new Route(vehicle, depot, emptyList());
         assertThatNullPointerException().isThrownBy(() -> new RouteWithTrack(route, null));
-        assertThatNullPointerException().isThrownBy(() -> new Route(null, emptyList()));
+        assertThatNullPointerException().isThrownBy(() -> new RouteWithTrack(null, emptyList()));
     }
 
     @Test
     void cannot_modify_track_externally() {
-        Route route = new Route(depot, Arrays.asList(visit1, visit2));
+        Route route = new Route(vehicle, depot, Arrays.asList(visit1, visit2));
         ArrayList<List<Coordinates>> track = new ArrayList<>();
         track.add(Arrays.asList(Coordinates.valueOf(1.0, 2.0)));
 
@@ -53,7 +54,7 @@ class RouteWithTrackTest {
 
     @Test
     void when_route_is_empty_track_must_be_empty() {
-        Route emptyRoute = new Route(depot, emptyList());
+        Route emptyRoute = new Route(vehicle, depot, emptyList());
         ArrayList<List<Coordinates>> track = new ArrayList<>();
         track.add(Arrays.asList(Coordinates.valueOf(1.0, 2.0)));
 
@@ -62,7 +63,7 @@ class RouteWithTrackTest {
 
     @Test
     void when_route_is_nonempty_track_must_be_nonempty() {
-        Route route = new Route(depot, Arrays.asList(visit1, visit2));
+        Route route = new Route(vehicle, depot, Arrays.asList(visit1, visit2));
         ArrayList<List<Coordinates>> emptyTrack = new ArrayList<>();
 
         assertThatIllegalArgumentException().isThrownBy(() -> new RouteWithTrack(route, emptyTrack));

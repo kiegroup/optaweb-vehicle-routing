@@ -73,6 +73,10 @@ class PortableLocationTest {
         assertThat(portableLocation.getLatitude()).isEqualTo(location.coordinates().latitude());
         assertThat(portableLocation.getLongitude()).isEqualTo(location.coordinates().longitude());
         assertThat(portableLocation.getDescription()).isEqualTo(location.description());
+
+        assertThatNullPointerException()
+                .isThrownBy(() -> PortableLocation.fromLocation(null))
+                .withMessageContaining("location");
     }
 
     @Test

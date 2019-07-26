@@ -38,6 +38,7 @@ class PortableLocation {
     private final String description;
 
     static PortableLocation fromLocation(Location location) {
+        Objects.requireNonNull(location, "location must not be null");
         return new PortableLocation(
                 location.id(),
                 location.coordinates().latitude(),

@@ -30,6 +30,7 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
+import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -78,12 +79,15 @@ class RoutePublisherImplTest {
         final Location location3 = new Location(3, coordinates3);
         final String distance = "xy";
 
+        final Vehicle vehicle1 = new Vehicle(1, "Vehicle 1");
+        final Vehicle vehicle2 = new Vehicle(2, "Vehicle 2");
+
         RouteWithTrack route1 = new RouteWithTrack(
-                new Route(location1, Collections.singletonList(location2)),
+                new Route(vehicle1, location1, Collections.singletonList(location2)),
                 Arrays.asList(segment12, segment21)
         );
         RouteWithTrack route2 = new RouteWithTrack(
-                new Route(location1, Collections.singletonList(location3)),
+                new Route(vehicle2, location1, Collections.singletonList(location3)),
                 Arrays.asList(segment13, segment31)
         );
 
@@ -96,6 +100,7 @@ class RoutePublisherImplTest {
 
         PortableRoute portableRoute1 = portableRoutingPlan.getRoutes().get(0);
 
+        assertThat(portableRoute1.getVehicle()).isEqualTo(PortableVehicle.fromVehicle(vehicle1));
         assertThat(portableRoute1.getDepot()).isEqualTo(PortableLocation.fromLocation(location1));
         assertThat(portableRoute1.getVisits()).containsExactly(
                 PortableLocation.fromLocation(location2)
@@ -114,6 +119,7 @@ class RoutePublisherImplTest {
 
         PortableRoute portableRoute2 = portableRoutingPlan.getRoutes().get(1);
 
+        assertThat(portableRoute2.getVehicle()).isEqualTo(PortableVehicle.fromVehicle(vehicle2));
         assertThat(portableRoute2.getDepot()).isEqualTo(PortableLocation.fromLocation(location1));
         assertThat(portableRoute2.getVisits()).containsExactly(
                 PortableLocation.fromLocation(location3)
