@@ -54,6 +54,7 @@ const twoRoutes: RouteProps = {
   },
 
   routes: [{
+    vehicle: { id: 1, name: 'v1' },
     visits: [{
       id: 1,
       lat: 1.345678,
@@ -71,6 +72,7 @@ const twoRoutes: RouteProps = {
     track: [],
 
   }, {
+    vehicle: { id: 2, name: 'v2' },
     visits: [{
       id: 1,
       lat: 1.345678,

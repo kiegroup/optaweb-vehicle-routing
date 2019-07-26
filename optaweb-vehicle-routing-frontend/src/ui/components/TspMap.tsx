@@ -19,12 +19,14 @@ import * as React from 'react';
 import { Map, Marker, Polyline, Rectangle, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+
 export interface TspMapProps {
   selectedId: number;
   clickHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
   removeHandler: (id: number) => void;
   depot: Location | null;
-  routes: RouteWithTrack[];
+  routes: Omit<RouteWithTrack, 'vehicle'>[];
   boundingBox: [LatLng, LatLng] | null;
 }
 

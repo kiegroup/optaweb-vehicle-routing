@@ -228,6 +228,7 @@ const planWithTwoRoutes: RoutingPlan = {
     lng: 1.345678,
   },
   routes: [{
+    vehicle: { id: 1, name: 'v1' },
     visits: [{
       id: 2,
       lat: 2.345678,
@@ -239,6 +240,7 @@ const planWithTwoRoutes: RoutingPlan = {
     }],
     track: [],
   }, {
+    vehicle: { id: 2, name: 'v2' },
     visits: [{
       id: 4,
       lat: 1.345678,
