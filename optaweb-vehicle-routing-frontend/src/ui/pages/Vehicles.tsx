@@ -37,7 +37,7 @@ export const Vehicles: React.FC<StateProps> = ({ vehicles }) => (
     </TextContent>
     <div style={{ overflowY: 'auto' }}>
       <DataList
-        aria-label="simple-item1"
+        aria-label="List of vehicles"
       >
         {vehicles
           .slice(0) // clone the array because
