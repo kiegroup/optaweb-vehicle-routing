@@ -13,7 +13,7 @@ cache:
 # https://docs.travis-ci.com/user/languages/java/#projects-using-maven
 #
 # We also want to prevent Maven's install phase from writing to ~/.m2/repository, which is cached.
-install: mvn dependency:go-offline -Pcode-coverage,sonar --show-version
+install: mvn dependency:go-offline -Pcode-coverage,sonar --show-version -q
 # do not install to avoid dirtying the cache
 script:
   - mvn verify -Pcode-coverage --show-version
