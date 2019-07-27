@@ -14,27 +14,60 @@
  * limitations under the License.
  */
 
-import { DataList, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import {
+  Button,
+  DataList,
+  GutterSize,
+  Split,
+  SplitItem,
+  Text,
+  TextContent,
+  TextVariants,
+} from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { routeSelectors } from 'store/route';
+import { routeOperations, routeSelectors } from 'store/route';
 import { Vehicle } from 'store/route/types';
 import { AppState } from 'store/types';
 import LocationItem from 'ui/components/Location';
 
-export interface StateProps {
+interface StateProps {
   vehicles: Vehicle[];
 }
+
+interface DispatchProps {
+  addVehicleHandler: typeof routeOperations.addVehicle;
+}
+
+export type Props = StateProps & DispatchProps;
 
 const mapStateToProps = ({ plan }: AppState): StateProps => ({
   vehicles: routeSelectors.getVehicles(plan),
 });
 
-export const Vehicles: React.FC<StateProps> = ({ vehicles }) => (
+const mapDispatchToProps: DispatchProps = {
+  addVehicleHandler: routeOperations.addVehicle,
+};
+
+export const Vehicles: React.FC<Props> = ({ vehicles, addVehicleHandler }) => (
   <>
-    <TextContent>
-      <Text component={TextVariants.h1}>{`Vehicles (${vehicles.length})`}</Text>
-    </TextContent>
+    <Split gutter={GutterSize.md} style={{ overflowY: 'auto' }}>
+      <SplitItem
+        isFilled={true}
+      >
+        <TextContent>
+          <Text component={TextVariants.h1}>{`Vehicles (${vehicles.length})`}</Text>
+        </TextContent>
+      </SplitItem>
+      <SplitItem isFilled={false}>
+        <Button
+          style={{ marginBottom: 16, marginLeft: 16 }}
+          onClick={addVehicleHandler}
+        >
+          Add
+        </Button>
+      </SplitItem>
+    </Split>
     <div style={{ overflowY: 'auto' }}>
       <DataList
         aria-label="List of vehicles"
@@ -58,4 +91,4 @@ export const Vehicles: React.FC<StateProps> = ({ vehicles }) => (
   </>
 );
 
-export default connect(mapStateToProps)(Vehicles);
+export default connect(mapStateToProps, mapDispatchToProps)(Vehicles);

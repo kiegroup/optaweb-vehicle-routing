@@ -89,6 +89,13 @@ describe('WebSocketClient', () => {
     expect(mockClient.send).toHaveBeenCalledWith(`/app/location/${locationId}/delete`, JSON.stringify(locationId));
   });
 
+  it('addVehicle() should add vehicle', () => {
+    client.connect(onSuccess, onError);
+    client.addVehicle();
+
+    expect(mockClient.send).toHaveBeenCalledWith('/app/vehicle');
+  });
+
   it('loadDemo() should send demo name', () => {
     const demo = 'Test demo';
 

@@ -17,11 +17,12 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import { StateProps, Vehicles } from './Vehicles';
+import { Props, Vehicles } from './Vehicles';
 
 describe('Vehicles page', () => {
   it('should render correctly', () => {
-    const props: StateProps = {
+    const props: Props = {
+      addVehicleHandler: jest.fn(),
       vehicles: [
         { id: 1, name: 'Vehicle 1' },
         { id: 2, name: 'Vehicle 2' },

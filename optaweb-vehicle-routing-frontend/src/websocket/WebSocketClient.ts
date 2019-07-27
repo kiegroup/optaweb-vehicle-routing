@@ -54,6 +54,12 @@ export default class WebSocketClient {
     }
   }
 
+  addVehicle() {
+    if (this.stompClient) {
+      this.stompClient.send('/app/vehicle');
+    }
+  }
+
   loadDemo(name: string): void {
     if (this.stompClient) {
       this.stompClient.send(`/app/demo/${name}`);
