@@ -8,6 +8,7 @@ cache:
     - "$HOME/.npm"
     - "$HOME/.sonar/cache"
     - "$HOME/.sonar/native-sonar-scanner"
+    - "$HOME/optaweb-vehicle-routing/optaweb-vehicle-routing-frontend/node"
 # Change Travis install phase to only resolve dependencies needed to run the build.
 # Otherwise it would run `mvn install`, which results in doing some Maven phases twice (validate, compile, jar, ...).
 # https://docs.travis-ci.com/user/languages/java/#projects-using-maven
