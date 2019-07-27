@@ -27,10 +27,12 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
+import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
+import org.optaweb.vehiclerouting.plugin.planner.change.AddVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
@@ -207,6 +209,21 @@ class RouteOptimizerImpl implements RouteOptimizer,
             } else {
                 solver.addProblemFactChanges(Arrays.asList(new RemoveCustomer(location), new RemoveLocation(location)));
             }
+        }
+    }
+
+    @Override
+    public void addVehicle(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setId(domainVehicle.id());
+        vehicle.setCapacity(SolutionUtil.DEFAULT_VEHICLE_CAPACITY);
+        if (!solution.getDepotList().isEmpty()) {
+            vehicle.setDepot(solution.getDepotList().get(0));
+        }
+        if (!isSolving()) {
+            solution.getVehicleList().add(vehicle);
+        } else {
+            solver.addProblemFactChange(new AddVehicle(vehicle));
         }
     }
 

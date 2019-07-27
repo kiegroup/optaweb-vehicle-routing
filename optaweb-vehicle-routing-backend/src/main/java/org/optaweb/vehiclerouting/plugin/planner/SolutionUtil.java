@@ -61,14 +61,7 @@ public class SolutionUtil {
      * @return initial solution
      */
     static VehicleRoutingSolution initialSolution() {
-        VehicleRoutingSolution solution = emptySolution();
-        addVehicle(solution, 1, DEFAULT_VEHICLE_CAPACITY);
-        addVehicle(solution, 2, DEFAULT_VEHICLE_CAPACITY);
-        addVehicle(solution, 3, DEFAULT_VEHICLE_CAPACITY);
-        addVehicle(solution, 4, DEFAULT_VEHICLE_CAPACITY);
-        addVehicle(solution, 5, DEFAULT_VEHICLE_CAPACITY);
-        addVehicle(solution, 6, DEFAULT_VEHICLE_CAPACITY);
-        return solution;
+        return emptySolution();
     }
 
     /**

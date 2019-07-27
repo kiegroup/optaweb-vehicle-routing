@@ -53,6 +53,16 @@ describe('Route operations', () => {
     expect(client.addLocation).toHaveBeenCalledTimes(1);
     expect(client.addLocation).toHaveBeenCalledWith(location);
   });
+
+  it('addVehicle() should call client', () => {
+    const { store, client } = mockStore(state);
+
+    store.dispatch(routeOperations.addVehicle());
+
+    expect(store.getActions()).toEqual([actions.addVehicle()]);
+    expect(client.addVehicle).toHaveBeenCalledTimes(1);
+    expect(client.addVehicle).toHaveBeenCalledWith();
+  });
 });
 
 describe('Route reducers', () => {

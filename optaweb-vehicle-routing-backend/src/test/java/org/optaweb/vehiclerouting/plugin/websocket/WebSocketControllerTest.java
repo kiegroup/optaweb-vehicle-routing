@@ -37,6 +37,7 @@ import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
+import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -50,6 +51,8 @@ class WebSocketControllerTest {
     private RouteListener routeListener;
     @Mock
     private RegionService regionService;
+    @Mock
+    private VehicleService vehicleService;
     @Mock
     private LocationService locationService;
     @Mock
@@ -123,6 +126,12 @@ class WebSocketControllerTest {
     void removeLocation() {
         webSocketController.removeLocation(9L);
         verify(locationService).removeLocation(9);
+    }
+
+    @Test
+    void addVehicle() {
+        webSocketController.addVehicle();
+        verify(vehicleService).addVehicle();
     }
 
     @Test
