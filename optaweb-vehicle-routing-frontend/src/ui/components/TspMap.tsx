@@ -105,6 +105,7 @@ const TspMap: React.FC<TspMapProps> = ({
       ))}
       {routes.map((route, index) => (
         <Polyline
+          // eslint-disable-next-line react/no-array-index-key
           key={index} // FIXME use unique id (not iteration index)
           positions={route.track}
           fill={false}

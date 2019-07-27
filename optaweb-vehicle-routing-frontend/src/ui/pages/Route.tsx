@@ -120,6 +120,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
                   (option, index) => (
                     <FormSelectOption
                       isDisabled={false}
+                      // eslint-disable-next-line react/no-array-index-key
                       key={index}
                       value={index}
                       label={`Route ${index}`}
