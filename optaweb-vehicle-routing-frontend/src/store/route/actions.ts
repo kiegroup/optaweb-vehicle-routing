@@ -18,12 +18,17 @@ import { ActionFactory } from '../types';
 import {
   ActionType,
   AddLocationAction,
+  AddVehicleAction,
   ClearRouteAction,
   DeleteLocationAction,
   LatLngWithDescription,
   RoutingPlan,
   UpdateRouteAction,
 } from './types';
+
+export const addVehicle: ActionFactory<void, AddVehicleAction> = () => ({
+  type: ActionType.ADD_VEHICLE,
+});
 
 export const addLocation: ActionFactory<LatLngWithDescription, AddLocationAction> = location => ({
   type: ActionType.ADD_LOCATION,

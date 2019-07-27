@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.service.location;
 
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Vehicle;
 
 /**
  * Performs route optimization based on distances provided by {@link DistanceMatrix}.
@@ -28,4 +29,6 @@ public interface RouteOptimizer {
     void removeLocation(Location location);
 
     void clear();
+
+    void addVehicle(Vehicle vehicle);
 }

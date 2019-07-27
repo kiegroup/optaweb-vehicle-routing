@@ -2,13 +2,45 @@
 
 exports[`Vehicles page should render correctly 1`] = `
 <Fragment>
-  <TextContent>
-    <Text
-      component="h1"
+  <Split
+    className=""
+    component="div"
+    gutter="md"
+    style={
+      Object {
+        "overflowY": "auto",
+      }
+    }
+  >
+    <SplitItem
+      className=""
+      isFilled={true}
     >
-      Vehicles (2)
-    </Text>
-  </TextContent>
+      <TextContent>
+        <Text
+          component="h1"
+        >
+          Vehicles (2)
+        </Text>
+      </TextContent>
+    </SplitItem>
+    <SplitItem
+      className=""
+      isFilled={false}
+    >
+      <Button
+        onClick={[MockFunction]}
+        style={
+          Object {
+            "marginBottom": 16,
+            "marginLeft": 16,
+          }
+        }
+      >
+        Add
+      </Button>
+    </SplitItem>
+  </Split>
   <div
     style={
       Object {

@@ -58,11 +58,15 @@ export enum ActionType {
   UPDATE_ROUTING_PLAN = 'UPDATE_ROUTING_PLAN',
   DELETE_LOCATION = 'DELETE_LOCATION',
   ADD_LOCATION = 'ADD_LOCATION',
+  ADD_VEHICLE = 'ADD_VEHICLE',
   CLEAR_SOLUTION = 'CLEAR_SOLUTION',
 }
 
 export interface AddLocationAction extends Action<ActionType.ADD_LOCATION> {
   readonly value: LatLngWithDescription;
+}
+
+export interface AddVehicleAction extends Action<ActionType.ADD_VEHICLE> {
 }
 
 export interface ClearRouteAction extends Action<ActionType.CLEAR_SOLUTION> {
@@ -78,6 +82,7 @@ export interface UpdateRouteAction extends Action<ActionType.UPDATE_ROUTING_PLAN
 
 export type RouteAction =
   | AddLocationAction
+  | AddVehicleAction
   | DeleteLocationAction
   | UpdateRouteAction
   | ClearRouteAction;

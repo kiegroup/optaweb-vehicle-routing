@@ -27,6 +27,7 @@ import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
+import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -43,16 +44,20 @@ class WebSocketController {
     private final RouteListener routeListener;
     private final RegionService regionService;
     private final LocationService locationService;
+    private final VehicleService vehicleService;
     private final DemoService demoService;
 
     @Autowired
     WebSocketController(RouteListener routeListener,
                         RegionService regionService,
                         LocationService locationService,
-                        DemoService demoService) {
+                        VehicleService vehicleService,
+                        DemoService demoService
+    ) {
         this.routeListener = routeListener;
         this.regionService = regionService;
         this.locationService = locationService;
+        this.vehicleService = vehicleService;
         this.demoService = demoService;
     }
 
@@ -117,5 +122,10 @@ class WebSocketController {
     @MessageMapping("/clear")
     void clear() {
         locationService.clear();
+    }
+
+    @MessageMapping({"vehicle"})
+    void addVehicle() {
+        vehicleService.addVehicle();
     }
 }
