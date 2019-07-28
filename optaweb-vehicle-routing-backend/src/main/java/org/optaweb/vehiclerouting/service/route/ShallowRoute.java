@@ -27,7 +27,7 @@ import java.util.stream.Stream;
 // because then we can hold a reference to the original location
 
 /**
- * Lightweight route description consisting of location IDs instead of entities.
+ * Lightweight route description consisting of vehicle and location IDs instead of entities.
  * This makes it easier to quickly construct and share result of route optimization
  * without converting planning domain objects to business domain objects.
  * Specifically, some information may be lost when converting business domain objects to planning domain

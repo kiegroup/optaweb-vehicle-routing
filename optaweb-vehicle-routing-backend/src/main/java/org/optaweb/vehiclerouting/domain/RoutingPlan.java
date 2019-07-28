@@ -30,6 +30,7 @@ public class RoutingPlan {
     private static final RoutingPlan EMPTY = new RoutingPlan("", null, Collections.emptyList());
 
     private final String distance;
+    // TODO vehicles (because no depot => no routes => no vehicles, therefore we need to keep vehicles separately)
     private final Location depot;
     private final List<RouteWithTrack> routes;
 

@@ -23,8 +23,8 @@ import java.util.Optional;
 import org.springframework.context.ApplicationEvent;
 
 /**
- * Event published when the routing plan has been updated either by discovering a better route or by changing
- * the set of locations.
+ * Event published when the routing plan has been updated either by discovering a better route or by a change
+ * in the problem specification (vehicles, visits).
  */
 public class RouteChangedEvent extends ApplicationEvent {
 
