@@ -16,6 +16,7 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -132,7 +133,8 @@ class RouteOptimizerImplTest {
 
     @Test
     void publish_new_best_solution_if_all_fact_changes_processed() {
-        VehicleRoutingSolution solution = createSolution(location1, location2);
+        long vehicleId = 33;
+        VehicleRoutingSolution solution = createSolutionWithOneVehicle(vehicleId, location1, location2);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
 
@@ -142,15 +144,18 @@ class RouteOptimizerImplTest {
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
 
         assertThat(event.depot()).contains(location1.id());
-        assertThat(event.routes()).isNotEmpty();
+        assertThat(event.routes()).hasSize(1);
         for (ShallowRoute route : event.routes()) {
             assertThat(route.depotId).isEqualTo(location1.id());
             assertThat(route.visitIds).containsExactly(location2.id());
+            assertThat(route.vehicleId).isEqualTo(vehicleId);
         }
     }
 
     @Test
     void solution_with_depot_and_no_visits_should_be_published() {
+        Long[] vehicleIds = {2L, 3L, 5L, 7L, 11L};
+        Arrays.stream(vehicleIds).forEach(vehicleId -> routeOptimizer.addVehicle(vehicle(vehicleId)));
         routeOptimizer.addLocation(location1, distanceMatrix);
 
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
@@ -158,7 +163,9 @@ class RouteOptimizerImplTest {
 
         assertThat(solver.isSolving()).isFalse();
         assertThat(event.depot()).contains(location1.id());
-        assertThat(event.routes()).hasSameSizeAs(SolutionUtil.initialSolution().getVehicleList());
+        assertThat(event.routes()).hasSameSizeAs(vehicleIds);
+        assertThat(event.routes().stream().mapToLong(value -> value.vehicleId))
+                .containsExactlyInAnyOrderElementsOf(Arrays.asList(vehicleIds));
         for (ShallowRoute route : event.routes()) {
             assertThat(route.depotId).isEqualTo(location1.id());
             assertThat(route.visitIds).isEmpty();
@@ -305,7 +312,8 @@ class RouteOptimizerImplTest {
     @Test
     void removing_location_from_solver_with_more_than_two_locations_must_happen_through_problem_fact_change() {
         // set up a situation where solver is running with 1 depot and 2 visits
-        VehicleRoutingSolution solution = createSolution(location1, location2, location3);
+        long vehicleId = 0;
+        VehicleRoutingSolution solution = createSolutionWithOneVehicle(vehicleId, location1, location2, location3);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
         routeOptimizer.addLocation(location1, distanceMatrix);
@@ -322,7 +330,8 @@ class RouteOptimizerImplTest {
     @Test
     void clear_should_stop_solver_and_publish_initial_solution() throws ExecutionException, InterruptedException {
         // set up a situation where solver is running with 1 depot and 2 visits
-        VehicleRoutingSolution solution = createSolution(location1, location2, location3);
+        long vehicleId = 10;
+        VehicleRoutingSolution solution = createSolutionWithOneVehicle(vehicleId, location1, location2, location3);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
         routeOptimizer.addLocation(location1, distanceMatrix);
@@ -374,15 +383,16 @@ class RouteOptimizerImplTest {
     }
 
     /**
-     * Create a solution with 1 vehicle with depot being the first location and visiting all customers specified by
-     * the rest of locations.
+     * Create a solution with a single vehicle, with a depot being the first location and the vehicle visiting
+     * all customers specified by the rest of locations.
+     * @param vehicleId vehicle ID
      * @param domainLocations depot and customer locations
      * @return initialized solution
      */
-    private static VehicleRoutingSolution createSolution(Location... domainLocations) {
+    private static VehicleRoutingSolution createSolutionWithOneVehicle(long vehicleId, Location... domainLocations) {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         Depot depot = SolutionUtil.addDepot(solution, planningLocation(domainLocations[0]));
-        SolutionUtil.addVehicle(solution, 1);
+        SolutionUtil.addVehicle(solution, vehicleId);
         SolutionUtil.moveAllVehiclesTo(solution, depot);
 
         // create customers
