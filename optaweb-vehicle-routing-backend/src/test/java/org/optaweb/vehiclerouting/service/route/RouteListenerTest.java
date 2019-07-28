@@ -35,6 +35,7 @@ import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
+import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -53,6 +54,8 @@ class RouteListenerTest {
     private Router router;
     @Mock
     private RoutePublisher publisher;
+    @Mock
+    private VehicleRepository vehicleRepository;
     @Mock
     private LocationRepository locationRepository;
     @Captor
@@ -86,6 +89,7 @@ class RouteListenerTest {
         final Location depot = new Location(1, depotCoordinates);
         final Vehicle vehicle = new Vehicle(448, "Test vehicle");
         ShallowRoute route = new ShallowRoute(vehicle.id(), depot.id(), emptyList());
+        when(vehicleRepository.find(vehicle.id())).thenReturn(Optional.of(vehicle));
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
 
         RouteChangedEvent event = new RouteChangedEvent(this, "0 km", depot.id(), singletonList(route));
@@ -119,6 +123,7 @@ class RouteListenerTest {
         final Location depot = new Location(1, depotCoordinates);
         final Location visit = new Location(2, visitCoordinates);
         final String distance = "xy";
+        when(vehicleRepository.find(vehicle.id())).thenReturn(Optional.of(vehicle));
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
         when(locationRepository.find(visit.id())).thenReturn(Optional.of(visit));
 
@@ -143,9 +148,10 @@ class RouteListenerTest {
 
     @Test
     void should_discard_update_gracefully_if_one_of_location_has_been_removed() {
+        final Vehicle vehicle = new Vehicle(3, "x");
         final Location depot = new Location(1, Coordinates.valueOf(1.0, 2.0));
         final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
-        final Vehicle vehicle = new Vehicle(3, "x");
+        when(vehicleRepository.find(vehicle.id())).thenReturn(Optional.of(vehicle));
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
         when(locationRepository.find(visit.id())).thenReturn(Optional.empty());
 
