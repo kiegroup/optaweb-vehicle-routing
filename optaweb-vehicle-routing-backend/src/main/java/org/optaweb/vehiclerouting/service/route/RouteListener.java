@@ -28,6 +28,7 @@ import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
+import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationListener;
@@ -43,14 +44,21 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
 
     private final Router router;
     private final RoutePublisher publisher;
+    private final VehicleRepository vehicleRepository;
     private final LocationRepository locationRepository;
 
     // TODO maybe remove state from the service and get best route from a repository
     private RoutingPlan bestRoutingPlan;
 
-    RouteListener(Router router, RoutePublisher publisher, LocationRepository locationRepository) {
+    RouteListener(
+            Router router,
+            RoutePublisher publisher,
+            VehicleRepository vehicleRepository,
+            LocationRepository locationRepository
+    ) {
         this.router = router;
         this.publisher = publisher;
+        this.vehicleRepository = vehicleRepository;
         this.locationRepository = locationRepository;
         bestRoutingPlan = RoutingPlan.empty();
     }
@@ -79,9 +87,10 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
         }
     }
 
-    private static Vehicle findVehicleById(Long id) {
-        // TODO retrieve vehicle from the repository
-        return new Vehicle(id, "Vehicle " + id);
+    private Vehicle findVehicleById(Long id) {
+        return vehicleRepository.find(id).orElseThrow(() -> new IllegalStateException(
+                "Vehicle {id=" + id + "} not found in the repository")
+        );
     }
 
     private Location findLocationById(Long id) {
