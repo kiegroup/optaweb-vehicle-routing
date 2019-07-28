@@ -42,6 +42,7 @@ import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
@@ -254,6 +255,44 @@ class RouteOptimizerImplTest {
     }
 
     @Test
+    void when_depot_is_added_all_vehicles_should_be_moved_to_it() {
+        // given 2 vehicles
+        long vehicleId1 = 8;
+        long vehicleId2 = 113;
+        routeOptimizer.addVehicle(vehicle(vehicleId1));
+        routeOptimizer.addVehicle(vehicle(vehicleId2));
+
+        // when a depot is added
+        routeOptimizer.addLocation(location1, distanceMatrix);
+
+        // then all vehicles must be in the depot
+        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
+        RouteChangedEvent event1 = routeChangedEventArgumentCaptor.getValue();
+
+        // NOTE: can't verify that vehicle.getDepot() == depot for each vehicle because that's internal
+        // to the optimizer. Neither VehicleRoutingSolution nor any other planning domain classes are exposed
+        // to the outside. But the fact that RouteChangedEvent is published successfully proves that vehicles
+        // have been moved to the depot.
+        assertThat(event1.depot()).contains(location1.id());
+        assertThat(event1.routes()).hasSize(2);
+        assertThat(event1.routes().stream().mapToLong(value -> value.vehicleId))
+                .containsExactlyInAnyOrder(vehicleId1, vehicleId2);
+
+        // if whe remove the depot
+        clearInvocations(eventPublisher);
+        routeOptimizer.removeLocation(location1);
+
+        // then published event's depot value is empty
+        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
+        RouteChangedEvent event2 = routeChangedEventArgumentCaptor.getValue();
+
+        assertThat(event2.depot()).isEmpty();
+
+        // and it's possible to add a new depot
+        routeOptimizer.addLocation(location2, distanceMatrix);
+    }
+
+    @Test
     void adding_location_to_running_solver_must_happen_through_problem_fact_change() {
         routeOptimizer.addLocation(location1, distanceMatrix);
         assertThat(solver.isSolving()).isFalse();
@@ -359,5 +398,9 @@ class RouteOptimizerImplTest {
             previousStandstill = customer;
         }
         return solution;
+    }
+
+    private static Vehicle vehicle(long id) {
+        return new Vehicle(id, "");
     }
 }
