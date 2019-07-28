@@ -22,7 +22,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Vehicle's itinerary including detailed geographical description of the route.
+ * Vehicle's {@link Route itinerary} enriched with detailed geographical description of the route.
+ * This object contains data needed to visualize vehicle's route on a map.
  */
 public class RouteWithTrack extends Route {
 

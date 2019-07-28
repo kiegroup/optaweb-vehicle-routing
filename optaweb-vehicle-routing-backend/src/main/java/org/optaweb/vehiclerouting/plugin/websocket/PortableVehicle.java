@@ -21,7 +21,7 @@ import java.util.Objects;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 
 /**
- * Vehicle representation suitable for network transport.
+ * {@link Vehicle} representation suitable for network transport.
  */
 class PortableVehicle {
 
