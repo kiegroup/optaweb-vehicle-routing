@@ -222,6 +222,7 @@ class RouteOptimizerImpl implements RouteOptimizer,
         }
         if (!isSolving()) {
             solution.getVehicleList().add(vehicle);
+            // TODO publish new route
         } else {
             solver.addProblemFactChange(new AddVehicle(vehicle));
         }
@@ -230,6 +231,7 @@ class RouteOptimizerImpl implements RouteOptimizer,
     @Override
     public void clear() {
         stopSolver();
+        // TODO keep vehicles, only remove depot and visits
         solution = SolutionUtil.initialSolution();
         publishRoute(solution);
     }
