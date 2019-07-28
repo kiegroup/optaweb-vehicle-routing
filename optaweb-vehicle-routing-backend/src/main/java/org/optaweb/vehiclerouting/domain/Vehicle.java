@@ -18,6 +18,9 @@ package org.optaweb.vehiclerouting.domain;
 
 import java.util.Objects;
 
+/**
+ * Vehicle that can be used to deliver cargo to visits.
+ */
 public class Vehicle {
 
     private final long id;
@@ -28,10 +31,18 @@ public class Vehicle {
         this.name = Objects.requireNonNull(name);
     }
 
+    /**
+     * Vehicle's ID.
+     * @return unique ID
+     */
     public long id() {
         return id;
     }
 
+    /**
+     * Vehicle's name (unique description).
+     * @return vehicle's name
+     */
     public String name() {
         return name;
     }

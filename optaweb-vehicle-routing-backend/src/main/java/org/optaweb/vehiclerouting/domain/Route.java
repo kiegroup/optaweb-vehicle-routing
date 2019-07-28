@@ -23,7 +23,12 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Vehicle's itinerary (sequence of visits) and depot.
+ * Vehicle's itinerary (sequence of visits) and its depot. This entity cannot exist without the vehicle and the depot
+ * but it's allowed to have no visits when the vehicle hasn't been assigned any (it's idle).
+ * <p>
+ * This entity describes part of a solution of the vehicle routing problem (assignment of a subset of visits to one of
+ * the vehicles). It doesn't carry the data about physical tracks between adjacent visits. Geographical data is held by
+ * {@link RouteWithTrack}.
  */
 public class Route {
 
