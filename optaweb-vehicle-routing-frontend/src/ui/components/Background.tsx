@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-/* eslint-disable @typescript-eslint/camelcase,camelcase */
+/* eslint-disable camelcase */
 
 import { BackgroundImage, BackgroundImageSrc } from '@patternfly/react-core';
 import filter from '@patternfly/react-core/dist/styles/assets/images/background-filter.svg';

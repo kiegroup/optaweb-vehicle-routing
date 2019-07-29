@@ -31,6 +31,7 @@
     "airbnb"
   ],
   "rules": {
+    "@typescript-eslint/camelcase": "off", // duplicates "camelcase" from airbnb
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-member-accessibility": ["error", {"accessibility": "no-public"}],
     "@typescript-eslint/indent": ["error", 2],
