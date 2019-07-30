@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -76,5 +77,22 @@ class RoutingPlanTest {
                 .isThrownBy(() -> routingPlan.routes().clear());
         assertThatExceptionOfType(UnsupportedOperationException.class)
                 .isThrownBy(() -> routingPlan.vehicles().clear());
+    }
+
+    @Test
+    void empty_routing_plan_should_be_empty() {
+        RoutingPlan empty = RoutingPlan.empty();
+        assertThat(empty.distance()).isEmpty();
+        assertThat(empty.vehicles()).isEmpty();
+        assertThat(empty.depot()).isEmpty();
+        assertThat(empty.routes()).isEmpty();
+    }
+
+    @Test
+    void isEmpty() {
+        assertThat(RoutingPlan.empty().isEmpty()).isTrue();
+        assertThat(new RoutingPlan("", emptyList(), depot, emptyList()).isEmpty()).isFalse();
+        assertThat(new RoutingPlan("", vehicles, null, emptyList()).isEmpty()).isFalse();
+        assertThat(new RoutingPlan("", vehicles, depot, singletonList(emptyRoute)).isEmpty()).isFalse();
     }
 }
