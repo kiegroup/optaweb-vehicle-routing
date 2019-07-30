@@ -140,9 +140,7 @@ class RouteOptimizerImplTest {
 
         routeOptimizer.bestSolutionChanged(bestSolutionChangedEvent);
 
-        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
-        RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
-
+        RouteChangedEvent event = verifyAndCaptureEvent();
         assertThat(event.vehicleIds()).containsExactly(vehicleId);
         assertThat(event.depotId()).contains(location1.id());
         assertThat(event.routes()).hasSize(1);
@@ -164,9 +162,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, distanceMatrix);
 
         // assert
-        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
-        RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
-
+        RouteChangedEvent event = verifyAndCaptureEvent();
         assertThat(solver.isSolving()).isFalse();
         assertThat(event.vehicleIds()).containsExactlyInAnyOrder(vehicleIds);
         assertThat(event.depotId()).contains(location1.id());
@@ -187,9 +183,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addVehicle(vehicle(vehicleId1));
 
         // assert
-        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
-        RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
-
+        RouteChangedEvent event = verifyAndCaptureEvent();
         assertThat(solver.isSolving()).isFalse();
         assertThat(event.vehicleIds()).containsExactly(vehicleId1);
         assertThat(event.depotId()).isEmpty();
@@ -264,10 +258,8 @@ class RouteOptimizerImplTest {
         routeOptimizer.removeLocation(location2);
         assertThat(routeOptimizer.isSolving()).isFalse();
 
-        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
-        RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
-
         // no customer -> all routes should be empty
+        RouteChangedEvent event = verifyAndCaptureEvent();
         assertThat(event.distance()).isEqualTo("0h 0m 0s"); // expect zero travel distance
         assertThat(event.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
         assertThat(event.depotId()).isPresent();
@@ -301,9 +293,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, distanceMatrix);
 
         // then all vehicles must be in the depot
-        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
-        RouteChangedEvent event1 = routeChangedEventArgumentCaptor.getValue();
-
+        RouteChangedEvent event1 = verifyAndCaptureEvent();
         assertThat(event1.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
         // NOTE: can't verify that vehicle.getDepot() == depot for each vehicle because that's internal
         // to the optimizer. Neither VehicleRoutingSolution nor any other planning domain classes are exposed
@@ -319,9 +309,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.removeLocation(location1);
 
         // then published event's depot value is empty
-        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
-        RouteChangedEvent event2 = routeChangedEventArgumentCaptor.getValue();
-
+        RouteChangedEvent event2 = verifyAndCaptureEvent();
         assertThat(event2.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
         assertThat(event2.depotId()).isEmpty();
         assertThat(event2.routes()).isEmpty();
@@ -377,8 +365,7 @@ class RouteOptimizerImplTest {
         verify(solver).terminateEarly();
         verify(solverFuture).get();
 
-        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
-        RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
+        RouteChangedEvent event = verifyAndCaptureEvent();
         assertThat(event.vehicleIds()).isEmpty();
         assertThat(event.depotId()).isEmpty();
         assertThat(event.routes()).isEmpty();
@@ -412,6 +399,11 @@ class RouteOptimizerImplTest {
         assertThat(roadLocation.getId()).isEqualTo(location1.id());
         assertThat(roadLocation.getLatitude()).isEqualTo(location1.coordinates().latitude().doubleValue());
         assertThat(roadLocation.getLongitude()).isEqualTo(location1.coordinates().longitude().doubleValue());
+    }
+
+    private RouteChangedEvent verifyAndCaptureEvent() {
+        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
+        return routeChangedEventArgumentCaptor.getValue();
     }
 
     /**
