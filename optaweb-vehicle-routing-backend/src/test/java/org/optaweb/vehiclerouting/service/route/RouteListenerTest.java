@@ -79,9 +79,8 @@ class RouteListenerTest {
         RouteChangedEvent event = new RouteChangedEvent(this, "", singletonList(vehicleId), null, emptyList());
         routeListener.onApplicationEvent(event);
         verifyZeroInteractions(router);
-        verify(publisher).publish(routeArgumentCaptor.capture());
 
-        RoutingPlan routingPlan = routeArgumentCaptor.getValue();
+        RoutingPlan routingPlan = verifyAndCapturePublishedPlan();
         assertThat(routingPlan.vehicles()).containsExactly(vehicle);
         assertThat(routingPlan.depot()).isEmpty();
         assertThat(routingPlan.routes()).isEmpty();
@@ -107,9 +106,8 @@ class RouteListenerTest {
         routeListener.onApplicationEvent(event);
 
         verifyZeroInteractions(router);
-        verify(publisher).publish(routeArgumentCaptor.capture());
 
-        RoutingPlan routingPlan = routeArgumentCaptor.getValue();
+        RoutingPlan routingPlan = verifyAndCapturePublishedPlan();
         assertThat(routingPlan.vehicles()).containsExactly(vehicle);
         assertThat(routingPlan.depot()).contains(depot);
         assertThat(routingPlan.routes()).hasSize(1);
@@ -150,9 +148,8 @@ class RouteListenerTest {
         );
 
         routeListener.onApplicationEvent(event);
-        verify(publisher).publish(routeArgumentCaptor.capture());
 
-        RoutingPlan routingPlan = routeArgumentCaptor.getValue();
+        RoutingPlan routingPlan = verifyAndCapturePublishedPlan();
         assertThat(routingPlan.distance()).isEqualTo(distance);
         assertThat(routingPlan.vehicles()).containsExactly(vehicle);
         assertThat(routingPlan.depot()).contains(depot);
@@ -193,5 +190,10 @@ class RouteListenerTest {
         verify(publisher, never()).publish(any());
 
         assertThat(routeListener.getBestRoutingPlan().isEmpty()).isTrue();
+    }
+
+    private RoutingPlan verifyAndCapturePublishedPlan() {
+        verify(publisher).publish(routeArgumentCaptor.capture());
+        return routeArgumentCaptor.getValue();
     }
 }

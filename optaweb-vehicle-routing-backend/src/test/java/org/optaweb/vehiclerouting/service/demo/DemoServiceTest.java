@@ -107,9 +107,7 @@ class DemoServiceTest {
 
         demoService.exportDataSet();
 
-        verify(dataSetMarshaller).marshal(routingProblemCaptor.capture());
-        RoutingProblem routingProblem = routingProblemCaptor.getValue();
-
+        RoutingProblem routingProblem = verifyAndCaptureMarshalledProblem();
         assertThat(routingProblem.name()).isNotNull();
         assertThat(routingProblem.depot()).contains(depot);
         assertThat(routingProblem.visits()).containsExactly(visit1, visit2);
@@ -121,11 +119,14 @@ class DemoServiceTest {
 
         demoService.exportDataSet();
 
-        verify(dataSetMarshaller).marshal(routingProblemCaptor.capture());
-        RoutingProblem routingProblem = routingProblemCaptor.getValue();
-
+        RoutingProblem routingProblem = verifyAndCaptureMarshalledProblem();
         assertThat(routingProblem.name()).isNotNull();
         assertThat(routingProblem.depot()).isEmpty();
         assertThat(routingProblem.visits()).isEmpty();
+    }
+
+    private RoutingProblem verifyAndCaptureMarshalledProblem() {
+        verify(dataSetMarshaller).marshal(routingProblemCaptor.capture());
+        return routingProblemCaptor.getValue();
     }
 }
