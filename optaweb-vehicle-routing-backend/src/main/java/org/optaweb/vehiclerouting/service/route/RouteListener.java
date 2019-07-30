@@ -69,7 +69,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
         // TODO persist the best solution
         Map<Long, Vehicle> vehicleMap = event.vehicleIds().stream()
                 .collect(Collectors.toMap(vehicleId -> vehicleId, this::findVehicleById));
-        Location depot = event.depot().flatMap(locationRepository::find).orElse(null);
+        Location depot = event.depotId().flatMap(locationRepository::find).orElse(null);
         try {
             List<RouteWithTrack> routes = event.routes().stream()
                     // list of deep locations

@@ -143,7 +143,8 @@ class RouteOptimizerImplTest {
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
 
-        assertThat(event.depot()).contains(location1.id());
+        assertThat(event.vehicleIds()).containsExactly(vehicleId);
+        assertThat(event.depotId()).contains(location1.id());
         assertThat(event.routes()).hasSize(1);
         for (ShallowRoute route : event.routes()) {
             assertThat(route.depotId).isEqualTo(location1.id());
@@ -154,22 +155,45 @@ class RouteOptimizerImplTest {
 
     @Test
     void solution_with_depot_and_no_visits_should_be_published() {
+        // arrange
         Long[] vehicleIds = {2L, 3L, 5L, 7L, 11L};
         Arrays.stream(vehicleIds).forEach(vehicleId -> routeOptimizer.addVehicle(vehicle(vehicleId)));
+        clearInvocations(eventPublisher);
+
+        // act
         routeOptimizer.addLocation(location1, distanceMatrix);
 
+        // assert
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
 
         assertThat(solver.isSolving()).isFalse();
-        assertThat(event.depot()).contains(location1.id());
+        assertThat(event.vehicleIds()).containsExactlyInAnyOrder(vehicleIds);
+        assertThat(event.depotId()).contains(location1.id());
         assertThat(event.routes()).hasSameSizeAs(vehicleIds);
-        assertThat(event.routes().stream().mapToLong(value -> value.vehicleId))
-                .containsExactlyInAnyOrderElementsOf(Arrays.asList(vehicleIds));
+        assertThat(event.routes().stream().mapToLong(value -> value.vehicleId)).containsExactlyInAnyOrder(vehicleIds);
         for (ShallowRoute route : event.routes()) {
             assertThat(route.depotId).isEqualTo(location1.id());
             assertThat(route.visitIds).isEmpty();
         }
+    }
+
+    @Test
+    void solution_with_vehicles_and_no_depot_should_be_published() {
+        // arrange
+        final long vehicleId1 = 7;
+
+        // act
+        routeOptimizer.addVehicle(vehicle(vehicleId1));
+
+        // assert
+        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
+        RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
+
+        assertThat(solver.isSolving()).isFalse();
+        assertThat(event.vehicleIds()).containsExactly(vehicleId1);
+        assertThat(event.depotId()).isEmpty();
+        assertThat(event.routes()).isEmpty();
     }
 
     @Test
@@ -214,12 +238,14 @@ class RouteOptimizerImplTest {
         //   replaced/simplified/removed.
 
         // Prepare a solution with 1 depot, 2 vehicles, 1 customer and both vehicles visiting to that customer
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        Depot depot = SolutionUtil.addDepot(solution, planningLocation(location1));
-        SolutionUtil.addVehicle(solution, 1);
-        SolutionUtil.addVehicle(solution, 2);
+        final VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        final long vehicleId1 = 1;
+        final long vehicleId2 = 2;
+        SolutionUtil.addVehicle(solution, vehicleId1);
+        SolutionUtil.addVehicle(solution, vehicleId2);
+        final Depot depot = SolutionUtil.addDepot(solution, planningLocation(location1));
         SolutionUtil.moveAllVehiclesTo(solution, depot);
-        Customer customer = SolutionUtil.addCustomer(solution, planningLocation(location2));
+        final Customer customer = SolutionUtil.addCustomer(solution, planningLocation(location2));
         solution.getVehicleList().forEach(vehicle -> vehicle.setNextCustomer(customer));
         assertThat(SolutionUtil.routes(solution)).allMatch(shallowRoute -> shallowRoute.visitIds.size() == 1);
         solution.setScore(HardSoftLongScore.ofSoft(-1000)); // set non-zero travel distance
@@ -243,7 +269,8 @@ class RouteOptimizerImplTest {
 
         // no customer -> all routes should be empty
         assertThat(event.distance()).isEqualTo("0h 0m 0s"); // expect zero travel distance
-        assertThat(event.depot()).isPresent();
+        assertThat(event.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
+        assertThat(event.depotId()).isPresent();
         assertThat(event.routes()).hasSameSizeAs(solution.getVehicleList());
         for (ShallowRoute route : event.routes()) {
             assertThat(route.visitIds).isEmpty();
@@ -268,6 +295,7 @@ class RouteOptimizerImplTest {
         long vehicleId2 = 113;
         routeOptimizer.addVehicle(vehicle(vehicleId1));
         routeOptimizer.addVehicle(vehicle(vehicleId2));
+        clearInvocations(eventPublisher);
 
         // when a depot is added
         routeOptimizer.addLocation(location1, distanceMatrix);
@@ -276,11 +304,12 @@ class RouteOptimizerImplTest {
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
         RouteChangedEvent event1 = routeChangedEventArgumentCaptor.getValue();
 
+        assertThat(event1.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
         // NOTE: can't verify that vehicle.getDepot() == depot for each vehicle because that's internal
         // to the optimizer. Neither VehicleRoutingSolution nor any other planning domain classes are exposed
         // to the outside. But the fact that RouteChangedEvent is published successfully proves that vehicles
         // have been moved to the depot.
-        assertThat(event1.depot()).contains(location1.id());
+        assertThat(event1.depotId()).contains(location1.id());
         assertThat(event1.routes()).hasSize(2);
         assertThat(event1.routes().stream().mapToLong(value -> value.vehicleId))
                 .containsExactlyInAnyOrder(vehicleId1, vehicleId2);
@@ -293,7 +322,9 @@ class RouteOptimizerImplTest {
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
         RouteChangedEvent event2 = routeChangedEventArgumentCaptor.getValue();
 
-        assertThat(event2.depot()).isEmpty();
+        assertThat(event2.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
+        assertThat(event2.depotId()).isEmpty();
+        assertThat(event2.routes()).isEmpty();
 
         // and it's possible to add a new depot
         routeOptimizer.addLocation(location2, distanceMatrix);
@@ -348,7 +379,8 @@ class RouteOptimizerImplTest {
 
         verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
         RouteChangedEvent event = routeChangedEventArgumentCaptor.getValue();
-        assertThat(event.depot()).isEmpty();
+        assertThat(event.vehicleIds()).isEmpty();
+        assertThat(event.depotId()).isEmpty();
         assertThat(event.routes()).isEmpty();
     }
 
