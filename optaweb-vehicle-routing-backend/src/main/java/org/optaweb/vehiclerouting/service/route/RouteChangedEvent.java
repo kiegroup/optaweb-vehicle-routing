@@ -56,6 +56,10 @@ public class RouteChangedEvent extends ApplicationEvent {
         this.routes = Objects.requireNonNull(routes);
     }
 
+    /**
+     * IDs of all vehicles.
+     * @return vehicle IDs
+     */
     public List<Long> vehicleIds() {
         return vehicleIds;
     }
@@ -76,7 +80,7 @@ public class RouteChangedEvent extends ApplicationEvent {
      * The depot ID.
      * @return depot ID
      */
-    public Optional<Long> depot() {
+    public Optional<Long> depotId() {
         return Optional.ofNullable(depotId);
     }
 }

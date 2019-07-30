@@ -228,7 +228,7 @@ class RouteOptimizerImpl implements RouteOptimizer,
         }
         if (!isSolving()) {
             solution.getVehicleList().add(vehicle);
-            // TODO publish new route
+            publishRoute(solution);
         } else {
             solver.addProblemFactChange(new AddVehicle(vehicle));
         }
