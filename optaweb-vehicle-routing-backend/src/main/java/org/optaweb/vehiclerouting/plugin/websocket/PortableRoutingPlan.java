@@ -26,11 +26,19 @@ import org.optaweb.vehiclerouting.domain.RoutingPlan;
 class PortableRoutingPlan {
 
     private final String distance;
+    private final List<PortableVehicle> vehicles;
     private final PortableLocation depot;
     private final List<PortableRoute> routes;
 
-    PortableRoutingPlan(String distance, PortableLocation depot, List<PortableRoute> routes) {
+    PortableRoutingPlan(
+            String distance,
+            List<PortableVehicle> vehicles,
+            PortableLocation depot,
+            List<PortableRoute> routes
+    ) {
+        // TODO require non-null
         this.distance = distance;
+        this.vehicles = vehicles;
         this.depot = depot;
         this.routes = routes;
     }
@@ -39,11 +47,15 @@ class PortableRoutingPlan {
         return distance;
     }
 
-    public List<PortableRoute> getRoutes() {
-        return routes;
+    public List<PortableVehicle> getVehicles() {
+        return vehicles;
     }
 
     public PortableLocation getDepot() {
         return depot;
+    }
+
+    public List<PortableRoute> getRoutes() {
+        return routes;
     }
 }

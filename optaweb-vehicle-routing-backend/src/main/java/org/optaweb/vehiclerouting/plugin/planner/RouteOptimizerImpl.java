@@ -82,7 +82,13 @@ class RouteOptimizerImpl implements RouteOptimizer,
         );
         List<ShallowRoute> routes = SolutionUtil.routes(solution);
         logger.debug("Routes: {}", routes);
-        publisher.publishEvent(new RouteChangedEvent(this, distanceString, SolutionUtil.depot(solution), routes));
+        publisher.publishEvent(new RouteChangedEvent(
+                this,
+                distanceString,
+                SolutionUtil.vehicleIds(solution),
+                SolutionUtil.depotId(solution),
+                routes
+        ));
     }
 
     private void startSolver() {
