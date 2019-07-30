@@ -63,6 +63,8 @@ describe('Demo reducers', () => {
   });
 });
 
+const vehicle1 = { id: 1, name: 'v1' };
+
 const state: AppState = {
   connectionStatus: WebSocketConnectionStatus.CLOSED,
   serverInfo: {
@@ -76,9 +78,10 @@ const state: AppState = {
   },
   plan: {
     distance: '10',
+    vehicles: [vehicle1],
     depot: null,
     routes: [{
-      vehicle: { id: 1, name: 'v1' },
+      vehicle: vehicle1,
       visits: [{
         id: 1,
         lat: 1.345678,
