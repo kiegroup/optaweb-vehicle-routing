@@ -184,7 +184,7 @@ class RouteListenerTest {
                 singletonList(route));
 
         // precondition
-        assertThat(routeListener.getBestRoutingPlan()).isEqualTo(RoutingPlan.empty());
+        assertThat(routeListener.getBestRoutingPlan().isEmpty()).isTrue();
 
         // must not throw exception
         routeListener.onApplicationEvent(event);
@@ -192,6 +192,6 @@ class RouteListenerTest {
         verify(router, never()).getPath(any(), any());
         verify(publisher, never()).publish(any());
 
-        assertThat(routeListener.getBestRoutingPlan()).isEqualTo(RoutingPlan.empty());
+        assertThat(routeListener.getBestRoutingPlan().isEmpty()).isTrue();
     }
 }

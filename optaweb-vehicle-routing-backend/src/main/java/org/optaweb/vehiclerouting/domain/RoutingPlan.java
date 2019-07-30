@@ -30,8 +30,6 @@ import static java.util.Collections.emptyList;
  */
 public class RoutingPlan {
 
-    private static final RoutingPlan EMPTY = new RoutingPlan("", emptyList(), null, emptyList());
-
     private final String distance;
     private final List<Vehicle> vehicles;
     private final Location depot;
@@ -53,7 +51,6 @@ public class RoutingPlan {
             if (!routes.isEmpty()) {
                 throw new IllegalArgumentException("Routes must be empty when depot is null.");
             }
-            // TODO fixme non-viable mutations
         } else if (routes.size() != vehicles.size()) {
             throw new IllegalArgumentException(describeVehiclesRoutesInconsistency(
                     "There must be exactly one route per vehicle", vehicles, routes
@@ -89,7 +86,7 @@ public class RoutingPlan {
      * @return empty routing plan
      */
     public static RoutingPlan empty() {
-        return EMPTY;
+        return new RoutingPlan("", emptyList(), null, emptyList());
     }
 
     /**
@@ -122,5 +119,14 @@ public class RoutingPlan {
      */
     public Optional<Location> depot() {
         return Optional.ofNullable(depot);
+    }
+
+    /**
+     * Routing plan is empty when there is no depot, no vehicles and no routes.
+     * @return {@code true} if the plan is empty
+     */
+    public boolean isEmpty() {
+        // No need to check routes. No depot => no routes.
+        return depot == null && vehicles.isEmpty();
     }
 }
