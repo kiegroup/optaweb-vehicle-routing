@@ -17,7 +17,6 @@
 package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -40,6 +39,7 @@ import org.optaweb.vehiclerouting.service.route.RouteListener;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
 import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -67,8 +67,8 @@ class WebSocketControllerTest {
         Location depot = new Location(1, Coordinates.valueOf(3, 5));
         Vehicle vehicle = new Vehicle(1, "vehicle");
         Route route = new Route(vehicle, depot, emptyList());
-        List<RouteWithTrack> routes = Collections.singletonList(new RouteWithTrack(route, emptyList()));
-        RoutingPlan plan = new RoutingPlan(distance, depot, routes);
+        List<RouteWithTrack> routes = singletonList(new RouteWithTrack(route, emptyList()));
+        RoutingPlan plan = new RoutingPlan(distance, singletonList(vehicle), depot, routes);
         when(routeListener.getBestRoutingPlan()).thenReturn(plan);
 
         // act
@@ -76,6 +76,7 @@ class WebSocketControllerTest {
 
         // assert
         assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);
+        assertThat(portableRoutingPlan.getVehicles()).containsExactly(PortableVehicle.fromVehicle(vehicle));
         assertThat(portableRoutingPlan.getDepot()).isEqualTo(PortableLocation.fromLocation(depot));
         assertThat(portableRoutingPlan.getRoutes()).hasSize(1);
     }

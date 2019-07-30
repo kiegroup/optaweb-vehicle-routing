@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.service.route;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -29,6 +30,7 @@ import org.springframework.context.ApplicationEvent;
 public class RouteChangedEvent extends ApplicationEvent {
 
     private final String distance;
+    private final List<Long> vehicleIds;
     private final Long depotId;
     private final Collection<ShallowRoute> routes;
 
@@ -36,14 +38,26 @@ public class RouteChangedEvent extends ApplicationEvent {
      * Create a new ApplicationEvent.
      * @param source the object on which the event initially occurred (never {@code null})
      * @param distance total distance of all vehicle routes
+     * @param vehicleIds vehicle IDs
      * @param depotId depot ID. May be null if there are no locations.
      * @param routes vehicle routes
      */
-    public RouteChangedEvent(Object source, String distance, Long depotId, Collection<ShallowRoute> routes) {
+    public RouteChangedEvent(
+            Object source,
+            String distance,
+            List<Long> vehicleIds,
+            Long depotId,
+            Collection<ShallowRoute> routes
+    ) {
         super(source);
         this.distance = Objects.requireNonNull(distance);
-        this.depotId = depotId;
+        this.vehicleIds = Objects.requireNonNull(vehicleIds);
+        this.depotId = depotId; // may be null (no depot)
         this.routes = Objects.requireNonNull(routes);
+    }
+
+    public List<Long> vehicleIds() {
+        return vehicleIds;
     }
 
     /**
