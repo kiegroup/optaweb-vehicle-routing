@@ -76,6 +76,7 @@ const state: AppState = {
   },
   plan: {
     distance: '10',
+    vehicles: [{ id: 1, name: 'v1' }],
     depot: null,
     routes: [{
       vehicle: { id: 1, name: 'v1' },

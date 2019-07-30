@@ -216,12 +216,17 @@ describe('WebSocket reducers', () => {
 
 const emptyPlan: RoutingPlan = {
   distance: '',
+  vehicles: [],
   depot: null,
   routes: [],
 };
 
 const planWithTwoRoutes: RoutingPlan = {
   distance: '1.0',
+  vehicles: [
+    { id: 1, name: 'v1' },
+    { id: 2, name: 'v2' },
+  ],
   depot: {
     id: 1,
     lat: 1.345678,

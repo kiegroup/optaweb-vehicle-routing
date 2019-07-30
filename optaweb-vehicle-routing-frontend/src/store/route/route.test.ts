@@ -105,13 +105,6 @@ describe('Route selectors', () => {
     expect(visits).toContain(state.plan.routes[1].visits[0]);
     expect(visits).toContain(state.plan.routes[1].visits[1]);
   });
-
-  it('getVehicles() should return each route\'s vehicle', () => {
-    const visits = routeSelectors.getVehicles(state.plan);
-    expect(visits).toHaveLength(2);
-    expect(visits).toContain(state.plan.routes[0].vehicle);
-    expect(visits).toContain(state.plan.routes[1].vehicle);
-  });
 });
 
 const state: AppState = {
@@ -127,6 +120,10 @@ const state: AppState = {
   },
   plan: {
     distance: '10',
+    vehicles: [
+      { id: 1, name: 'v1' },
+      { id: 2, name: 'v2' },
+    ],
     depot: null,
     routes: [{
       vehicle: { id: 1, name: 'v1' },
