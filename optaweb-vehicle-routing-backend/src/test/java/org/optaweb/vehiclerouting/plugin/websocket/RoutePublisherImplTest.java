@@ -16,8 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -33,6 +31,8 @@ import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -56,12 +56,14 @@ class RoutePublisherImplTest {
     void portable_routing_plan_empty() {
         PortableRoutingPlan portablePlan = RoutePublisherImpl.portable(RoutingPlan.empty());
         assertThat(portablePlan.getDistance()).isEmpty();
+        assertThat(portablePlan.getVehicles()).isEmpty();
         assertThat(portablePlan.getDepot()).isNull();
         assertThat(portablePlan.getRoutes()).isEmpty();
     }
 
     @Test
     void portable_routing_plan_with_two_routes() {
+        // arrange
         final Coordinates coordinates1 = Coordinates.valueOf(0.0, 0.1);
         final Coordinates coordinates2 = Coordinates.valueOf(2.0, -0.2);
         final Coordinates coordinates3 = Coordinates.valueOf(3.3, -3.3);
@@ -69,10 +71,10 @@ class RoutePublisherImplTest {
         final Coordinates checkpoint21 = Coordinates.valueOf(21, 21);
         final Coordinates checkpoint13 = Coordinates.valueOf(13, 13);
         final Coordinates checkpoint31 = Coordinates.valueOf(31, 31);
-        List<Coordinates> segment12 = Arrays.asList(coordinates1, checkpoint12, coordinates2);
-        List<Coordinates> segment21 = Arrays.asList(coordinates2, checkpoint21, coordinates1);
-        List<Coordinates> segment13 = Arrays.asList(coordinates1, checkpoint13, coordinates3);
-        List<Coordinates> segment31 = Arrays.asList(coordinates3, checkpoint31, coordinates1);
+        List<Coordinates> segment12 = asList(coordinates1, checkpoint12, coordinates2);
+        List<Coordinates> segment21 = asList(coordinates2, checkpoint21, coordinates1);
+        List<Coordinates> segment13 = asList(coordinates1, checkpoint13, coordinates3);
+        List<Coordinates> segment31 = asList(coordinates3, checkpoint31, coordinates1);
 
         final Location location1 = new Location(1, coordinates1);
         final Location location2 = new Location(2, coordinates2);
@@ -83,21 +85,35 @@ class RoutePublisherImplTest {
         final Vehicle vehicle2 = new Vehicle(2, "Vehicle 2");
 
         RouteWithTrack route1 = new RouteWithTrack(
-                new Route(vehicle1, location1, Collections.singletonList(location2)),
-                Arrays.asList(segment12, segment21)
+                new Route(vehicle1, location1, singletonList(location2)),
+                asList(segment12, segment21)
         );
         RouteWithTrack route2 = new RouteWithTrack(
-                new Route(vehicle2, location1, Collections.singletonList(location3)),
-                Arrays.asList(segment13, segment31)
+                new Route(vehicle2, location1, singletonList(location3)),
+                asList(segment13, segment31)
         );
 
-        RoutingPlan routingPlan = new RoutingPlan(distance, location1, Arrays.asList(route1, route2));
+        RoutingPlan routingPlan = new RoutingPlan(
+                distance,
+                asList(vehicle1, vehicle2),
+                location1,
+                asList(route1, route2)
+        );
 
+        // act
         PortableRoutingPlan portableRoutingPlan = RoutePublisherImpl.portable(routingPlan);
+
+        // assert
+        // -- plan
         assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);
         assertThat(portableRoutingPlan.getDepot()).isEqualTo(PortableLocation.fromLocation(location1));
         assertThat(portableRoutingPlan.getRoutes()).hasSize(2);
+        assertThat(portableRoutingPlan.getVehicles()).containsExactlyInAnyOrder(
+                PortableVehicle.fromVehicle(vehicle1),
+                PortableVehicle.fromVehicle(vehicle2)
+        );
 
+        // -- plan.route1
         PortableRoute portableRoute1 = portableRoutingPlan.getRoutes().get(0);
 
         assertThat(portableRoute1.getVehicle()).isEqualTo(PortableVehicle.fromVehicle(vehicle1));
@@ -117,6 +133,7 @@ class RoutePublisherImplTest {
                 PortableCoordinates.fromCoordinates(location1.coordinates())
         );
 
+        // -- plan.route2
         PortableRoute portableRoute2 = portableRoutingPlan.getRoutes().get(1);
 
         assertThat(portableRoute2.getVehicle()).isEqualTo(PortableVehicle.fromVehicle(vehicle2));

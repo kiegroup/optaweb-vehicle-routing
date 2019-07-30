@@ -21,32 +21,67 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static java.util.Collections.emptyList;
 
 /**
  * Route plan for the whole vehicle fleet.
  */
 public class RoutingPlan {
 
-    private static final RoutingPlan EMPTY = new RoutingPlan("", null, Collections.emptyList());
+    private static final RoutingPlan EMPTY = new RoutingPlan("", emptyList(), null, emptyList());
 
     private final String distance;
-    // TODO vehicles (because no depot => no routes => no vehicles, therefore we need to keep vehicles separately)
+    private final List<Vehicle> vehicles;
     private final Location depot;
     private final List<RouteWithTrack> routes;
 
     /**
      * Create a routing plan.
      * @param distance the overall travel distance
+     * @param vehicles all available vehicles
      * @param depot the depot (may be null)
      * @param routes routes of all vehicles
      */
-    public RoutingPlan(String distance, Location depot, List<RouteWithTrack> routes) {
+    public RoutingPlan(String distance, List<Vehicle> vehicles, Location depot, List<RouteWithTrack> routes) {
         this.distance = Objects.requireNonNull(distance);
+        this.vehicles = new ArrayList<>(Objects.requireNonNull(vehicles));
         this.depot = depot;
         this.routes = new ArrayList<>(Objects.requireNonNull(routes));
-        if (depot == null && !routes.isEmpty()) {
-            throw new IllegalArgumentException("Routes must be empty when depot is null.");
+        if (depot == null) {
+            if (!routes.isEmpty()) {
+                throw new IllegalArgumentException("Routes must be empty when depot is null.");
+            }
+            // TODO fixme non-viable mutations
+        } else if (routes.size() != vehicles.size()) {
+            throw new IllegalArgumentException(describeVehiclesRoutesInconsistency(
+                    "There must be exactly one route per vehicle", vehicles, routes
+            ));
+        } else if (haveDifferentVehicles(vehicles, routes)) {
+            throw new IllegalArgumentException(describeVehiclesRoutesInconsistency(
+                    "Some routes are assigned to non-existent vehicles", vehicles, routes
+            ));
         }
+    }
+
+    private static boolean haveDifferentVehicles(List<Vehicle> vehicles, List<RouteWithTrack> routes) {
+        return routes.stream()
+                .map(Route::vehicle)
+                .anyMatch(vehicle -> !vehicles.contains(vehicle));
+    }
+
+    private static String describeVehiclesRoutesInconsistency(
+            String cause,
+            List<Vehicle> vehicles,
+            List<? extends Route> routes
+    ) {
+        List<Long> vehicleIdsFromRoutes = routes.stream()
+                .map(route -> route.vehicle().id())
+                .collect(Collectors.toList());
+        return cause
+                + ":\n- Vehicles (" + vehicles.size() + "): " + vehicles
+                + "\n- Routes' vehicleIds (" + routes.size() + "): " + vehicleIdsFromRoutes;
     }
 
     /**
@@ -63,6 +98,14 @@ public class RoutingPlan {
      */
     public String distance() {
         return distance;
+    }
+
+    /**
+     * All available vehicles.
+     * @return all vehicles
+     */
+    public List<Vehicle> vehicles() {
+        return Collections.unmodifiableList(vehicles);
     }
 
     /**

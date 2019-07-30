@@ -19,6 +19,7 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
@@ -130,11 +131,22 @@ public class SolutionUtil {
     }
 
     /**
+     * Get IDs of vehicles in the solution.
+     * @param solution the solution
+     * @return vehicle IDs
+     */
+    static List<Long> vehicleIds(VehicleRoutingSolution solution) {
+        return solution.getVehicleList().stream()
+                .map(Vehicle::getId)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Get solution's depot ID.
      * @param solution the solution in which to look for the depot
      * @return first depot ID from the solution or {@code null} if there are no depots
      */
-    static Long depot(VehicleRoutingSolution solution) {
+    static Long depotId(VehicleRoutingSolution solution) {
         return solution.getDepotList().isEmpty() ? null : solution.getDepotList().get(0).getId();
     }
 

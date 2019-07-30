@@ -19,6 +19,7 @@ package org.optaweb.vehiclerouting.service.route;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
@@ -66,12 +67,14 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     @Override
     public void onApplicationEvent(RouteChangedEvent event) {
         // TODO persist the best solution
+        Map<Long, Vehicle> vehicleMap = event.vehicleIds().stream()
+                .collect(Collectors.toMap(vehicleId -> vehicleId, this::findVehicleById));
         Location depot = event.depot().flatMap(locationRepository::find).orElse(null);
         try {
             List<RouteWithTrack> routes = event.routes().stream()
                     // list of deep locations
                     .map(shallowRoute -> new Route(
-                            findVehicleById(shallowRoute.vehicleId),
+                            vehicleMap.get(shallowRoute.vehicleId),
                             findLocationById(shallowRoute.depotId),
                             shallowRoute.visitIds.stream()
                                     .map(this::findLocationById)
@@ -80,7 +83,12 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
                     // add tracks
                     .map(route -> new RouteWithTrack(route, track(route.depot(), route.visits())))
                     .collect(Collectors.toList());
-            bestRoutingPlan = new RoutingPlan(event.distance(), depot, routes);
+            bestRoutingPlan = new RoutingPlan(
+                    event.distance(),
+                    new ArrayList<>(vehicleMap.values()),
+                    depot,
+                    routes
+            );
             publisher.publish(bestRoutingPlan);
         } catch (IllegalStateException e) {
             logger.warn("Discarding an outdated routing plan: {}", e.toString());
