@@ -216,19 +216,27 @@ describe('WebSocket reducers', () => {
 
 const emptyPlan: RoutingPlan = {
   distance: '',
+  vehicles: [],
   depot: null,
   routes: [],
 };
 
+const vehicle1 = { id: 1, name: 'v1' };
+const vehicle2 = { id: 2, name: 'v2' };
+
 const planWithTwoRoutes: RoutingPlan = {
   distance: '1.0',
+  vehicles: [
+    vehicle1,
+    vehicle2,
+  ],
   depot: {
     id: 1,
     lat: 1.345678,
     lng: 1.345678,
   },
   routes: [{
-    vehicle: { id: 1, name: 'v1' },
+    vehicle: vehicle1,
     visits: [{
       id: 2,
       lat: 2.345678,
@@ -240,7 +248,7 @@ const planWithTwoRoutes: RoutingPlan = {
     }],
     track: [],
   }, {
-    vehicle: { id: 2, name: 'v2' },
+    vehicle: vehicle2,
     visits: [{
       id: 4,
       lat: 1.345678,

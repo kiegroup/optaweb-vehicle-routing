@@ -26,7 +26,7 @@ import {
 } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { routeOperations, routeSelectors } from 'store/route';
+import { routeOperations } from 'store/route';
 import { Vehicle } from 'store/route/types';
 import { AppState } from 'store/types';
 import LocationItem from 'ui/components/Location';
@@ -42,7 +42,7 @@ interface DispatchProps {
 export type Props = StateProps & DispatchProps;
 
 const mapStateToProps = ({ plan }: AppState): StateProps => ({
-  vehicles: routeSelectors.getVehicles(plan),
+  vehicles: plan.vehicles,
 });
 
 const mapDispatchToProps: DispatchProps = {

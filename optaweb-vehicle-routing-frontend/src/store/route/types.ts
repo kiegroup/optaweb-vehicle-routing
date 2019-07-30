@@ -37,7 +37,7 @@ export interface Vehicle {
 }
 
 export interface Route {
-  readonly vehicle: Vehicle;
+  readonly vehicle: Vehicle; // TODO change to vehicleId
   readonly visits: Location[];
 }
 
@@ -49,6 +49,7 @@ export interface RouteWithTrack extends Route {
 
 export interface RoutingPlan {
   readonly distance: string;
+  readonly vehicles: Vehicle[];
   readonly depot: Location | null;
   // TODO visits: Location[];
   readonly routes: RouteWithTrack[];

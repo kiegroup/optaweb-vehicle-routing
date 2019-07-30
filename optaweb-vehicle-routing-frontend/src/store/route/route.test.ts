@@ -105,14 +105,10 @@ describe('Route selectors', () => {
     expect(visits).toContain(state.plan.routes[1].visits[0]);
     expect(visits).toContain(state.plan.routes[1].visits[1]);
   });
-
-  it('getVehicles() should return each route\'s vehicle', () => {
-    const visits = routeSelectors.getVehicles(state.plan);
-    expect(visits).toHaveLength(2);
-    expect(visits).toContain(state.plan.routes[0].vehicle);
-    expect(visits).toContain(state.plan.routes[1].vehicle);
-  });
 });
+
+const vehicle1 = { id: 1, name: 'v1' };
+const vehicle2 = { id: 2, name: 'v2' };
 
 const state: AppState = {
   connectionStatus: WebSocketConnectionStatus.CLOSED,
@@ -127,9 +123,13 @@ const state: AppState = {
   },
   plan: {
     distance: '10',
+    vehicles: [
+      vehicle1,
+      vehicle2,
+    ],
     depot: null,
     routes: [{
-      vehicle: { id: 1, name: 'v1' },
+      vehicle: vehicle1,
       visits: [{
         id: 1,
         lat: 1.345678,
@@ -146,7 +146,7 @@ const state: AppState = {
 
       track: [[0.111222, 0.222333], [0.444555, 0.555666]],
     }, {
-      vehicle: { id: 2, name: 'v2' },
+      vehicle: vehicle2,
       visits: [{
         id: 4,
         lat: 4.345678,
