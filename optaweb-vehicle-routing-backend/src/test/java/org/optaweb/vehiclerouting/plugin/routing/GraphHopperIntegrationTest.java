@@ -20,6 +20,7 @@ import java.nio.file.Path;
 
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
+import com.graphhopper.routing.util.FlagEncoderFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
@@ -33,7 +34,7 @@ class GraphHopperIntegrationTest {
         GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
         graphHopper.setGraphHopperLocation(graphhopperDir.toString());
         graphHopper.setOSMFile(GraphHopperIntegrationTest.class.getResource(OSM_PBF).getFile());
-        graphHopper.setEncodingManager(new EncodingManager("car"));
+        graphHopper.setEncodingManager(EncodingManager.create(FlagEncoderFactory.CAR));
         graphHopper.importOrLoad();
     }
 }

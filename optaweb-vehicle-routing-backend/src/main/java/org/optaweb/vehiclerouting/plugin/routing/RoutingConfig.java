@@ -20,6 +20,7 @@ import java.io.File;
 
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
+import com.graphhopper.routing.util.FlagEncoderFactory;
 import org.optaweb.vehiclerouting.Profiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +65,7 @@ class RoutingConfig {
         }
         graphHopper.setOSMFile(osmPath);
         graphHopper.setGraphHopperLocation(GH_DIR + osmPath.replaceFirst(".*/(.*)\\.osm\\.pbf$", "$1"));
-        graphHopper.setEncodingManager(new EncodingManager("car"));
+        graphHopper.setEncodingManager(EncodingManager.create(FlagEncoderFactory.CAR));
         logger.info("GraphHopper loading...");
         graphHopper.importOrLoad();
         logger.info("GraphHopper loaded.");
