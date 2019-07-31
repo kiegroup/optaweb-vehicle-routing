@@ -56,16 +56,16 @@ exports[`Vehicles page should render correctly 1`] = `
         description="Vehicle 1"
         id={1}
         key="1"
-        removeDisabled={true}
-        removeHandler={[Function]}
+        removeDisabled={false}
+        removeHandler={[MockFunction]}
         selectHandler={[Function]}
       />
       <Location
         description="Vehicle 2"
         id={2}
         key="2"
-        removeDisabled={true}
-        removeHandler={[Function]}
+        removeDisabled={false}
+        removeHandler={[MockFunction]}
         selectHandler={[Function]}
       />
     </DataList>

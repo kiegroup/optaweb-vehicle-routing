@@ -60,6 +60,7 @@ export enum ActionType {
   DELETE_LOCATION = 'DELETE_LOCATION',
   ADD_LOCATION = 'ADD_LOCATION',
   ADD_VEHICLE = 'ADD_VEHICLE',
+  DELETE_VEHICLE = 'DELETE_VEHICLE',
   CLEAR_SOLUTION = 'CLEAR_SOLUTION',
 }
 
@@ -77,6 +78,10 @@ export interface DeleteLocationAction extends Action<ActionType.DELETE_LOCATION>
   readonly value: number;
 }
 
+export interface DeleteVehicleAction extends Action<ActionType.DELETE_VEHICLE> {
+  readonly value: number;
+}
+
 export interface UpdateRouteAction extends Action<ActionType.UPDATE_ROUTING_PLAN> {
   readonly plan: RoutingPlan;
 }
@@ -85,5 +90,6 @@ export type RouteAction =
   | AddLocationAction
   | AddVehicleAction
   | DeleteLocationAction
+  | DeleteVehicleAction
   | UpdateRouteAction
   | ClearRouteAction;
