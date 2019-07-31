@@ -26,37 +26,37 @@ import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 
 public class RemoveCustomer implements ProblemFactChange<VehicleRoutingSolution> {
 
-    private final Location location;
+    private final Location removedLocation;
 
-    public RemoveCustomer(Location location) {
-        this.location = Objects.requireNonNull(location);
+    public RemoveCustomer(Location removedLocation) {
+        this.removedLocation = Objects.requireNonNull(removedLocation);
     }
 
     @Override
     public void doChange(ScoreDirector<VehicleRoutingSolution> scoreDirector) {
         VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
-        Customer customer = workingSolution.getCustomerList().stream()
-                .filter(v -> v.getLocation().getId().equals(location.getId()))
+        Customer removedCustomer = workingSolution.getCustomerList().stream()
+                .filter(customer -> customer.getLocation().getId().equals(removedLocation.getId()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Invalid request for removing customer at " + location));
+                        "Invalid request for removing customer at " + removedLocation));
 
         // Fix the next customer and set its previousStandstill to the removed customer's previousStandstill
         for (Customer nextCustomer : workingSolution.getCustomerList()) {
-            if (nextCustomer.getPreviousStandstill().equals(customer)) {
+            if (nextCustomer.getPreviousStandstill().equals(removedCustomer)) {
                 scoreDirector.beforeVariableChanged(nextCustomer, "previousStandstill");
-                nextCustomer.setPreviousStandstill(customer.getPreviousStandstill());
+                nextCustomer.setPreviousStandstill(removedCustomer.getPreviousStandstill());
                 scoreDirector.afterVariableChanged(nextCustomer, "previousStandstill");
                 break;
             }
         }
 
         // Remove the customer
-        scoreDirector.beforeEntityRemoved(customer);
-        if (!workingSolution.getCustomerList().remove(customer)) {
+        scoreDirector.beforeEntityRemoved(removedCustomer);
+        if (!workingSolution.getCustomerList().remove(removedCustomer)) {
             throw new IllegalStateException("This is impossible.");
         }
-        scoreDirector.afterEntityRemoved(customer);
+        scoreDirector.afterEntityRemoved(removedCustomer);
 
         scoreDirector.triggerVariableListeners();
     }

@@ -31,4 +31,6 @@ public interface RouteOptimizer {
     void clear();
 
     void addVehicle(Vehicle vehicle);
+
+    void removeVehicle(Vehicle vehicle);
 }

@@ -136,6 +136,12 @@ class WebSocketControllerTest {
     }
 
     @Test
+    void removeVehicle() {
+        webSocketController.removeVehicle(11L);
+        verify(vehicleService).removeVehicle(11);
+    }
+
+    @Test
     void demo() {
         String problemName = "xy";
         webSocketController.demo(problemName);

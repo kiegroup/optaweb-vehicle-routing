@@ -36,4 +36,9 @@ public class VehicleService {
         Vehicle vehicle = vehicleRepository.createVehicle("Vehicle " + id);
         optimizer.addVehicle(vehicle);
     }
+
+    public void removeVehicle(long vehicleId) {
+        Vehicle vehicle = vehicleRepository.removeVehicle(vehicleId);
+        optimizer.removeVehicle(vehicle);
+    }
 }
