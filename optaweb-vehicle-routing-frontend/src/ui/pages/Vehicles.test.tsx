@@ -23,6 +23,7 @@ describe('Vehicles page', () => {
   it('should render correctly', () => {
     const props: Props = {
       addVehicleHandler: jest.fn(),
+      removeVehicleHandler: jest.fn(),
       vehicles: [
         { id: 1, name: 'Vehicle 1' },
         { id: 2, name: 'Vehicle 2' },
