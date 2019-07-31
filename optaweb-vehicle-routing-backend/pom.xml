@@ -198,6 +198,19 @@
             </excludedTestClasses>
           </configuration>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <configuration>
+            <!--
+              Required due to the "repackage" goal of spring-boot-maven-plugin, as the maven-failsafe-plugin cannot
+              find classes in the fat jar.
+            -->
+            <additionalClasspathElements>
+              <additionalClasspathElement>${project.build.outputDirectory}</additionalClasspathElement>
+            </additionalClasspathElements>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -273,6 +286,14 @@
             <profile>local</profile>
           </profiles>
         </configuration>
+        <executions>
+          <execution>
+            <id>repackage-fatjar</id>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
