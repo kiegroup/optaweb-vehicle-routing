@@ -47,4 +47,16 @@ class VehicleServiceTest {
 
         verify(optimizer).addVehicle(vehicle);
     }
+
+    @Test
+    void removeVehicle() {
+        final long vehicleId = 8;
+        final Vehicle vehicle = new Vehicle(vehicleId, "Removed vehicle");
+        when(vehicleRepository.removeVehicle(vehicleId)).thenReturn(vehicle);
+
+        vehicleService.removeVehicle(vehicleId);
+
+        verify(vehicleRepository).removeVehicle(vehicleId);
+        verify(optimizer).removeVehicle(vehicle);
+    }
 }

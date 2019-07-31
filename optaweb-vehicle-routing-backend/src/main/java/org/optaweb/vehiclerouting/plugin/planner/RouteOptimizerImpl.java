@@ -35,6 +35,7 @@ import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
+import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
@@ -227,10 +228,32 @@ class RouteOptimizerImpl implements RouteOptimizer,
             vehicle.setDepot(solution.getDepotList().get(0));
         }
         if (!isSolving()) {
+            // TODO handle the situation when this is the solver is ready to solve (at least 1 visit)
+            //      and this is the first vehicle.
             solution.getVehicleList().add(vehicle);
             publishRoute(solution);
         } else {
             solver.addProblemFactChange(new AddVehicle(vehicle));
+        }
+    }
+
+    @Override
+    public void removeVehicle(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
+        if (!isSolving()) {
+            if (!solution.getVehicleList().removeIf(v -> v.getId().equals(domainVehicle.id()))) {
+                throw new IllegalArgumentException("Attempt to remove a non-existent vehicle: " + domainVehicle);
+            }
+            publishRoute(solution);
+        } else {
+            if (solution.getVehicleList().size() == 1) {
+                // FIXME handle the situation when this is the last vehicle!!! => need to stop solver
+                //       (and publish visits).
+                throw new IllegalStateException();
+            }
+            Vehicle vehicle = new Vehicle();
+            vehicle.setId(domainVehicle.id());
+            vehicle.setDepot(solution.getDepotList().get(0));
+            solver.addProblemFactChange(new RemoveVehicle(vehicle));
         }
     }
 
