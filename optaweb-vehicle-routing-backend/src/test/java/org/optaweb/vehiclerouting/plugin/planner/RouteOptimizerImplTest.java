@@ -44,6 +44,8 @@ import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
+import org.optaweb.vehiclerouting.plugin.planner.change.AddVehicle;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
@@ -183,11 +185,30 @@ class RouteOptimizerImplTest {
         routeOptimizer.addVehicle(vehicle(vehicleId1));
 
         // assert
-        RouteChangedEvent event = verifyAndCaptureEvent();
         assertThat(solver.isSolving()).isFalse();
+        RouteChangedEvent event = verifyAndCaptureEvent();
         assertThat(event.vehicleIds()).containsExactly(vehicleId1);
         assertThat(event.depotId()).isEmpty();
         assertThat(event.routes()).isEmpty();
+    }
+
+    @Test
+    void added_vehicle_should_be_moved_to_the_depot_even_if_solver_is_not_yet_solving() {
+        // arrange
+        final long vehicleId = 10;
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        clearInvocations(eventPublisher);
+
+        // act
+        routeOptimizer.addVehicle(vehicle(vehicleId));
+
+        // assert
+        assertThat(solver.isSolving()).isFalse(); // with a depot and no visits, solver is not yet solving
+        // Can't exactly verify that vehicle.depot == depot but without that, even publishing would fail.
+        RouteChangedEvent event = verifyAndCaptureEvent();
+        assertThat(event.vehicleIds()).containsExactly(vehicleId);
+        assertThat(event.depotId()).isNotEmpty();
+        assertThat(event.routes()).hasSize(1);
     }
 
     @Test
@@ -320,12 +341,15 @@ class RouteOptimizerImplTest {
 
     @Test
     void adding_location_to_running_solver_must_happen_through_problem_fact_change() {
+        // arrange
         routeOptimizer.addLocation(location1, distanceMatrix);
         assertThat(solver.isSolving()).isFalse();
         routeOptimizer.addLocation(location2, distanceMatrix);
         assertThat(solver.isSolving()).isTrue();
+        // act
         routeOptimizer.addLocation(location3, distanceMatrix);
-        verify(solver).addProblemFactChange(any());
+        // assert
+        verify(solver).addProblemFactChange(any(AddCustomer.class));
     }
 
     @Test
@@ -344,6 +368,19 @@ class RouteOptimizerImplTest {
         verify(solver).addProblemFactChanges(any()); // note that it's plural
         // solver still running
         verify(solver, never()).terminateEarly();
+    }
+
+    @Test
+    void adding_vehicle_to_running_solver_must_happen_through_problem_fact_change() {
+        // arrange
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        assertThat(solver.isSolving()).isFalse();
+        routeOptimizer.addLocation(location2, distanceMatrix);
+        assertThat(solver.isSolving()).isTrue();
+        // act
+        routeOptimizer.addVehicle(vehicle(22));
+        // assert
+        verify(solver).addProblemFactChange(any(AddVehicle.class));
     }
 
     @Test
