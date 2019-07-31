@@ -43,6 +43,17 @@ describe('Route operations', () => {
     expect(client.deleteLocation).toHaveBeenCalledWith(id);
   });
 
+  it('deleteVehicle() should call client', () => {
+    const { store, client } = mockStore(state);
+    const id = 5;
+
+    store.dispatch(routeOperations.deleteVehicle(id));
+
+    expect(store.getActions()).toEqual([actions.deleteVehicle(id)]);
+    expect(client.deleteVehicle).toHaveBeenCalledTimes(1);
+    expect(client.deleteVehicle).toHaveBeenCalledWith(id);
+  });
+
   it('addLocation() should call client', () => {
     const { store, client } = mockStore(state);
     const location: LatLngWithDescription = { lat: 11.01, lng: -35.79, description: 'new location' };
@@ -85,6 +96,18 @@ describe('Route reducers', () => {
   it('delete location', () => {
     expect(
       reducer(state.plan, actions.deleteLocation(1)),
+    ).toEqual(state.plan);
+  });
+
+  it('add vehicle', () => {
+    expect(
+      reducer(state.plan, actions.addVehicle()),
+    ).toEqual(state.plan);
+  });
+
+  it('delete vehicle', () => {
+    expect(
+      reducer(state.plan, actions.deleteVehicle(7)),
     ).toEqual(state.plan);
   });
 

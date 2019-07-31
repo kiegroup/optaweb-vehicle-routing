@@ -37,6 +37,7 @@ interface StateProps {
 
 interface DispatchProps {
   addVehicleHandler: typeof routeOperations.addVehicle;
+  removeVehicleHandler: typeof routeOperations.deleteVehicle;
 }
 
 export type Props = StateProps & DispatchProps;
@@ -47,9 +48,10 @@ const mapStateToProps = ({ plan }: AppState): StateProps => ({
 
 const mapDispatchToProps: DispatchProps = {
   addVehicleHandler: routeOperations.addVehicle,
+  removeVehicleHandler: routeOperations.deleteVehicle,
 };
 
-export const Vehicles: React.FC<Props> = ({ vehicles, addVehicleHandler }) => (
+export const Vehicles: React.FC<Props> = ({ vehicles, addVehicleHandler, removeVehicleHandler }) => (
   <>
     <Split gutter={GutterSize.md} style={{ overflowY: 'auto' }}>
       <SplitItem
@@ -81,8 +83,8 @@ export const Vehicles: React.FC<Props> = ({ vehicles, addVehicleHandler }) => (
               key={vehicle.id}
               id={vehicle.id}
               description={vehicle.name}
-              removeDisabled={true}
-              removeHandler={() => null}
+              removeDisabled={false}
+              removeHandler={removeVehicleHandler}
               selectHandler={() => null}
             />
           ))}
