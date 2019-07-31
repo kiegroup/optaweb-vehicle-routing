@@ -128,4 +128,13 @@ class WebSocketController {
     void addVehicle() {
         vehicleService.addVehicle();
     }
+
+    /**
+     * Delete vehicle.
+     * @param id ID of the location to be deleted
+     */
+    @MessageMapping({"/vehicle/{id}/delete"})
+    void removeVehicle(@DestinationVariable Long id) {
+        vehicleService.removeVehicle(id);
+    }
 }
