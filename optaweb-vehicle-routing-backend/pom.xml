@@ -204,7 +204,8 @@
           <configuration>
             <!--
               Required due to the "repackage" goal of spring-boot-maven-plugin, as the maven-failsafe-plugin cannot
-              find classes in the fat jar.
+              find classes in the fat jar. For more details see:
+              https://sandor-nemeth.github.io/2017/10/16/integration-tests-with-spring-boot-classnotfoundexception.html
             -->
             <additionalClasspathElements>
               <additionalClasspathElement>${project.build.outputDirectory}</additionalClasspathElement>
