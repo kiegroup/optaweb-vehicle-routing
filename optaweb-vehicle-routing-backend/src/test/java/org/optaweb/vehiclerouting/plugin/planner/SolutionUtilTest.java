@@ -16,18 +16,19 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.service.route.ShallowRoute;
+import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Location;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.optaweb.vehiclerouting.plugin.planner.SolutionUtil.createSolution;
+import static org.optaweb.vehiclerouting.plugin.planner.SolutionUtil.planningLocation;
 
 class SolutionUtilTest {
 
@@ -38,6 +39,7 @@ class SolutionUtilTest {
         assertThat(solution.getCustomerList()).isEmpty();
         assertThat(solution.getDepotList()).isEmpty();
         assertThat(solution.getVehicleList()).isEmpty();
+        assertThat(solution.getDistanceUnitOfMeasurement()).isEqualTo("sec");
     }
 
     @Test
@@ -75,70 +77,41 @@ class SolutionUtilTest {
     }
 
     @Test
-    void empty_solution_should_have_zero_routes() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        List<ShallowRoute> routes = SolutionUtil.routes(solution);
-        assertThat(routes).isEmpty();
+    void planning_location_should_have_same_latitude_and_longitude() {
+        Location domainLocation = new Location(1, Coordinates.valueOf(1.0, 0.1));
+        RoadLocation roadLocation = planningLocation(domainLocation);
+        assertThat(roadLocation.getId()).isEqualTo(domainLocation.id());
+        assertThat(roadLocation.getLatitude()).isEqualTo(domainLocation.coordinates().latitude().doubleValue());
+        assertThat(roadLocation.getLongitude()).isEqualTo(domainLocation.coordinates().longitude().doubleValue());
     }
 
     @Test
-    void nonempty_uninitialized_solution_should_have_zero_routes() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+    void solution_created_from_vehicles_depot_and_visits_should_be_consistent() {
+        RoadLocation depotLocation = new RoadLocation(1, 1, 1);
+        Depot depot = new Depot();
+        depot.setLocation(depotLocation);
 
-        SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
-        SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
+        RoadLocation visitLocation = new RoadLocation(2, 2, 2);
 
-        List<ShallowRoute> routes = SolutionUtil.routes(solution);
-        assertThat(routes).isEmpty();
-    }
+        Vehicle vehicle = new Vehicle();
 
-    @Test
-    void initialized_solution_should_have_one_route_per_vehicle() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        long vehicleId1 = 1001;
-        long vehicleId2 = 2001;
-        SolutionUtil.addVehicle(solution, vehicleId1);
-        SolutionUtil.addVehicle(solution, vehicleId2);
+        VehicleRoutingSolution solutionWithDepot = createSolution(
+                singletonList(vehicle),
+                depot,
+                singletonList(visitLocation)
+        );
+        assertThat(solutionWithDepot.getVehicleList()).containsExactly(vehicle);
+        assertThat(vehicle.getDepot()).isEqualTo(depot);
+        assertThat(solutionWithDepot.getDepotList()).containsExactly(depot);
+        assertThat(solutionWithDepot.getCustomerList()).hasSize(1);
+        assertThat(solutionWithDepot.getCustomerList().get(0).getLocation()).isEqualTo(visitLocation);
+        assertThat(solutionWithDepot.getLocationList()).containsExactlyInAnyOrder(depotLocation, visitLocation);
 
-        Depot depot = SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
-        Customer customer = SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
-
-        for (Vehicle vehicle : solution.getVehicleList()) {
-            vehicle.setDepot(depot);
-            vehicle.setNextCustomer(customer);
-            customer.setPreviousStandstill(vehicle);
-        }
-
-        List<ShallowRoute> routes = SolutionUtil.routes(solution);
-        assertThat(routes).hasSameSizeAs(solution.getVehicleList());
-        assertThat(routes.stream().mapToLong(value -> value.vehicleId))
-                .containsExactlyInAnyOrder(vehicleId1, vehicleId2);
-
-        for (ShallowRoute route : routes) {
-            assertThat(route.depotId).isEqualTo(depot.getId());
-            // visits should exclude depot
-            assertThat(route.visitIds).hasSize(1).doesNotContain(depot.getId());
-        }
-    }
-
-    @Test
-    void vehicle_without_a_depot_is_illegal() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
-        SolutionUtil.addVehicle(solution, 1);
-        assertThatIllegalStateException().isThrownBy(() -> SolutionUtil.routes(solution));
-    }
-
-    @Test
-    void fail_fast_if_vehicles_next_customer_doesnt_exist() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        Depot depot = SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
-        Vehicle vehicle = SolutionUtil.addVehicle(solution, 1);
-        SolutionUtil.moveAllVehiclesTo(solution, depot);
-        Customer customer = SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
-        vehicle.setNextCustomer(customer);
-        solution.getCustomerList().clear();
-        solution.getLocationList().clear();
-        assertThatIllegalStateException().isThrownBy(() -> SolutionUtil.routes(solution));
+        VehicleRoutingSolution solutionWithNoDepot = createSolution(
+                singletonList(vehicle),
+                null,
+                singletonList(visitLocation)
+        );
+        assertThat(solutionWithNoDepot.getDepotList()).isEmpty();
     }
 }
