@@ -17,7 +17,6 @@
 package org.optaweb.vehiclerouting.plugin.planner;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +27,6 @@ import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 
 /**
  * Provides common operations on solution that are not part of its API.
@@ -58,14 +56,6 @@ public class SolutionUtil {
     }
 
     /**
-     * Create an initial solution with no locations and some vehicles.
-     * @return initial solution
-     */
-    static VehicleRoutingSolution initialSolution() {
-        return emptySolution();
-    }
-
-    /**
      * Add vehicle with zero capacity.
      * @param solution solution
      * @param id vehicle id
@@ -84,37 +74,15 @@ public class SolutionUtil {
     }
 
     /**
-     * Extract routes from the solution. Includes empty routes of vehicles that stay in the depot.
-     * @param solution solution
-     * @return one route per vehicle
+     * Translate domain vehicle to a planning vehicle.
+     * @param domainVehicle domain vehicle
+     * @return planning vehicle
      */
-    static List<ShallowRoute> routes(VehicleRoutingSolution solution) {
-        // TODO include unconnected customers in the result
-        if (solution.getDepotList().isEmpty()) {
-            return Collections.emptyList();
-        }
-        ArrayList<ShallowRoute> routes = new ArrayList<>();
-        for (Vehicle vehicle : solution.getVehicleList()) {
-            Depot depot = vehicle.getDepot();
-            if (depot == null) {
-                throw new IllegalStateException(
-                        "Vehicle (id=" + vehicle.getId() + ") is not in the depot. That's not allowed"
-                );
-            }
-            List<Long> visits = new ArrayList<>();
-            for (
-                    Customer customer = vehicle.getNextCustomer();
-                    customer != null;
-                    customer = customer.getNextCustomer()
-            ) {
-                if (!solution.getCustomerList().contains(customer)) {
-                    throw new IllegalStateException("Customer (" + customer + ") doesn't exist");
-                }
-                visits.add(customer.getLocation().getId());
-            }
-            routes.add(new ShallowRoute(vehicle.getId(), depot.getId(), visits));
-        }
-        return routes;
+    static Vehicle planningVehicle(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
+        Vehicle vehicle = new Vehicle();
+        vehicle.setId(domainVehicle.id());
+        vehicle.setCapacity(DEFAULT_VEHICLE_CAPACITY);
+        return vehicle;
     }
 
     /**
@@ -128,26 +96,6 @@ public class SolutionUtil {
                 location.coordinates().latitude().doubleValue(),
                 location.coordinates().longitude().doubleValue()
         );
-    }
-
-    /**
-     * Get IDs of vehicles in the solution.
-     * @param solution the solution
-     * @return vehicle IDs
-     */
-    static List<Long> vehicleIds(VehicleRoutingSolution solution) {
-        return solution.getVehicleList().stream()
-                .map(Vehicle::getId)
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Get solution's depot ID.
-     * @param solution the solution in which to look for the depot
-     * @return first depot ID from the solution or {@code null} if there are no depots
-     */
-    static Long depotId(VehicleRoutingSolution solution) {
-        return solution.getDepotList().isEmpty() ? null : solution.getDepotList().get(0).getId();
     }
 
     /**
@@ -182,7 +130,7 @@ public class SolutionUtil {
      * @param demand customer's demand
      * @return the new customer
      */
-    static Customer addCustomer(VehicleRoutingSolution solution, Location location, int demand) {
+    private static Customer addCustomer(VehicleRoutingSolution solution, Location location, int demand) {
         Customer customer = new Customer();
         customer.setId(location.getId());
         customer.setLocation(location);
@@ -199,5 +147,36 @@ public class SolutionUtil {
      */
     static void moveAllVehiclesTo(VehicleRoutingSolution solution, Depot depot) {
         solution.getVehicleList().forEach(vehicle -> vehicle.setDepot(depot));
+    }
+
+    /**
+     * Create a new solution from given vehicles, depot and visit. The returned solution's vehicles and locations
+     * are new collections so modifying the solution won't affect the collections given as arguments.
+     * <p>
+     * <strong><em>Elements of the argument collections are NOT cloned.</em></strong>
+     * @param vehicles vehicles
+     * @param depot depot
+     * @param visits visits
+     * @return solution containing the given vehicles, depot, visits and their locations
+     */
+    static VehicleRoutingSolution createSolution(List<Vehicle> vehicles, Depot depot, List<RoadLocation> visits) {
+        VehicleRoutingSolution solution = emptySolution();
+        solution.getVehicleList().addAll(vehicles);
+        if (depot != null) {
+            solution.getLocationList().add(depot.getLocation());
+            solution.getDepotList().add(depot);
+            moveAllVehiclesTo(solution, depot);
+        }
+        solution.getLocationList().addAll(visits);
+        solution.getCustomerList().addAll(visits.stream().map(SolutionUtil::customer).collect(Collectors.toList()));
+        return solution;
+    }
+
+    private static Customer customer(RoadLocation location) {
+        Customer customer = new Customer();
+        customer.setId(location.getId());
+        customer.setLocation(location);
+        customer.setDemand(DEFAULT_CUSTOMER_DEMAND);
+        return customer;
     }
 }

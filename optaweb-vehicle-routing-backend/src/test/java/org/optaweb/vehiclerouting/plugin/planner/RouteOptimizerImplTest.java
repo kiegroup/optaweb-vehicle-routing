@@ -17,11 +17,9 @@
 package org.optaweb.vehiclerouting.plugin.planner;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -31,42 +29,24 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.mockito.stubbing.Answer;
-import org.mockito.stubbing.Answer1;
-import org.mockito.stubbing.VoidAnswer1;
-import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
-import org.optaplanner.core.api.solver.Solver;
-import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
+import org.optaplanner.examples.common.domain.AbstractPersistable;
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Standstill;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
-import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
-import org.optaweb.vehiclerouting.plugin.planner.change.AddVehicle;
-import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
-import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
-import org.optaweb.vehiclerouting.service.route.ShallowRoute;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.core.task.AsyncTaskExecutor;
 
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.mockito.AdditionalAnswers.answer;
-import static org.mockito.AdditionalAnswers.answerVoid;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.optaweb.vehiclerouting.plugin.planner.SolutionUtil.planningLocation;
 
@@ -78,85 +58,19 @@ class RouteOptimizerImplTest {
     private final Location location2 = new Location(2, Coordinates.valueOf(0.2, 2.2));
     private final Location location3 = new Location(3, Coordinates.valueOf(3.4, 5.6));
 
-    private boolean isSolving;
-
-    @Mock
-    private ApplicationEventPublisher eventPublisher;
-    @Mock
-    private Solver<VehicleRoutingSolution> solver;
-    @Mock
-    private BestSolutionChangedEvent<VehicleRoutingSolution> bestSolutionChangedEvent;
     @Captor
-    private ArgumentCaptor<RouteChangedEvent> routeChangedEventArgumentCaptor;
+    private ArgumentCaptor<VehicleRoutingSolution> solutionArgumentCaptor;
+    @Captor
+    private ArgumentCaptor<org.optaplanner.examples.vehiclerouting.domain.Vehicle> vehicleArgumentCaptor;
     @Mock
     private DistanceMatrix distanceMatrix;
+
     @Mock
-    private AsyncTaskExecutor executor;
+    private SolverManager solverManager;
     @Mock
-    private Future<VehicleRoutingSolution> solverFuture;
+    private RouteChangedEventPublisher eventPublisher;
     @InjectMocks
     private RouteOptimizerImpl routeOptimizer;
-
-    @BeforeEach
-    void setUp() {
-        // always run the runnable submitted to executor (that's what every executor does)
-        // we can then verify that solver.solve() has been called
-        when(executor.submit(any(RouteOptimizerImpl.SolvingTask.class))).thenAnswer(
-                answer((Answer1<Future<VehicleRoutingSolution>, RouteOptimizerImpl.SolvingTask>) callable -> {
-                    callable.call();
-                    return solverFuture;
-                })
-        );
-
-        // mimic solve() => isSolving(); terminateEarly() => !isSolving()
-        isSolving = false;
-        when(solver.isSolving()).thenAnswer((Answer<Boolean>) invocation -> isSolving);
-        when(solver.solve(any())).thenAnswer(
-                answerVoid((VoidAnswer1<VehicleRoutingSolution>) solution -> isSolving = true)
-        );
-        when(solver.terminateEarly()).thenAnswer((Answer<Boolean>) invocation -> {
-            isSolving = false;
-            return true;
-        });
-    }
-
-    @Test
-    void should_listen_for_best_solution_events() {
-        verify(solver).addEventListener(routeOptimizer);
-    }
-
-    @Test
-    void ignore_new_best_solutions_when_unprocessed_fact_changes() {
-        // arrange
-        when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(false);
-
-        // act
-        routeOptimizer.bestSolutionChanged(bestSolutionChangedEvent);
-
-        // assert
-        verify(bestSolutionChangedEvent, never()).getNewBestSolution();
-        verify(eventPublisher, never()).publishEvent(any());
-    }
-
-    @Test
-    void publish_new_best_solution_if_all_fact_changes_processed() {
-        long vehicleId = 33;
-        VehicleRoutingSolution solution = createSolutionWithOneVehicle(vehicleId, location1, location2);
-        when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
-        when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
-
-        routeOptimizer.bestSolutionChanged(bestSolutionChangedEvent);
-
-        RouteChangedEvent event = verifyAndCaptureEvent();
-        assertThat(event.vehicleIds()).containsExactly(vehicleId);
-        assertThat(event.depotId()).contains(location1.id());
-        assertThat(event.routes()).hasSize(1);
-        for (ShallowRoute route : event.routes()) {
-            assertThat(route.depotId).isEqualTo(location1.id());
-            assertThat(route.visitIds).containsExactly(location2.id());
-            assertThat(route.vehicleId).isEqualTo(vehicleId);
-        }
-    }
 
     @Test
     void solution_with_depot_and_no_visits_should_be_published() {
@@ -169,16 +83,13 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, distanceMatrix);
 
         // assert
-        RouteChangedEvent event = verifyAndCaptureEvent();
-        assertThat(solver.isSolving()).isFalse();
-        assertThat(event.vehicleIds()).containsExactlyInAnyOrder(vehicleIds);
-        assertThat(event.depotId()).contains(location1.id());
-        assertThat(event.routes()).hasSameSizeAs(vehicleIds);
-        assertThat(event.routes().stream().mapToLong(value -> value.vehicleId)).containsExactlyInAnyOrder(vehicleIds);
-        for (ShallowRoute route : event.routes()) {
-            assertThat(route.depotId).isEqualTo(location1.id());
-            assertThat(route.visitIds).isEmpty();
-        }
+        verifyZeroInteractions(solverManager);
+        VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
+        assertThat(solution.getVehicleList())
+                .extracting(AbstractPersistable::getId)
+                .containsExactlyInAnyOrder(vehicleIds);
+        assertThat(solution.getDepotList()).extracting(Depot::getId).containsExactly(location1.id());
+        assertThat(solution.getCustomerList()).isEmpty();
     }
 
     @Test
@@ -191,21 +102,24 @@ class RouteOptimizerImplTest {
         routeOptimizer.addVehicle(vehicle);
 
         // assert 1
-        assertThat(solver.isSolving()).isFalse();
-        RouteChangedEvent event1 = verifyAndCaptureEvent();
-        assertThat(event1.vehicleIds()).containsExactly(vehicleId);
-        assertThat(event1.depotId()).isEmpty();
-        assertThat(event1.routes()).isEmpty();
+        verifyZeroInteractions(solverManager);
+        VehicleRoutingSolution solutionWithOneVehicle = verifyPublishingPreliminarySolution();
+        assertThat(solutionWithOneVehicle.getVehicleList())
+                .extracting(AbstractPersistable::getId)
+                .containsExactly(vehicleId);
+        assertThat(solutionWithOneVehicle.getDepotList()).isEmpty();
+        assertThat(solutionWithOneVehicle.getCustomerList()).isEmpty();
 
         // act 2
+        clearInvocations(eventPublisher);
         routeOptimizer.removeVehicle(vehicle);
 
         // assert 2
-        assertThat(solver.isSolving()).isFalse();
-        RouteChangedEvent event2 = verifyAndCaptureEvent();
-        assertThat(event2.vehicleIds()).isEmpty();
-        assertThat(event2.depotId()).isEmpty();
-        assertThat(event2.routes()).isEmpty();
+        verifyZeroInteractions(solverManager);
+        VehicleRoutingSolution emptySolution = verifyPublishingPreliminarySolution();
+        assertThat(emptySolution.getVehicleList()).isEmpty();
+        assertThat(emptySolution.getDepotList()).isEmpty();
+        assertThat(emptySolution.getCustomerList()).isEmpty();
     }
 
     @Test
@@ -223,57 +137,144 @@ class RouteOptimizerImplTest {
     }
 
     @Test
+    void removing_wrong_location_should_fail_fast() {
+        // no locations
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> routeOptimizer.removeLocation(location1))
+                .withMessageContaining("no locations");
+
+        // only depot
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> routeOptimizer.removeLocation(location3))
+                .withMessageContaining("exist");
+
+        // depot and a visit
+        routeOptimizer.addLocation(location2, distanceMatrix);
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> routeOptimizer.removeLocation(location3))
+                .withMessageContaining("exist");
+    }
+
+    @Test
     void added_vehicle_should_be_moved_to_the_depot_even_if_solver_is_not_yet_solving() {
         // arrange
-        final long vehicleId = 10;
+        // -- depot
         routeOptimizer.addLocation(location1, distanceMatrix);
-        clearInvocations(eventPublisher);
+        // -- vehicles
+        routeOptimizer.addVehicle(vehicle(7));
+        routeOptimizer.addVehicle(vehicle(8));
 
         // act
-        routeOptimizer.addVehicle(vehicle(vehicleId));
+        // -- first visit
+        routeOptimizer.addLocation(location2, distanceMatrix);
 
         // assert
-        assertThat(solver.isSolving()).isFalse(); // with a depot and no visits, solver is not yet solving
-        // Can't exactly verify that vehicle.depot == depot but without that, even publishing would fail.
-        RouteChangedEvent event = verifyAndCaptureEvent();
-        assertThat(event.vehicleIds()).containsExactly(vehicleId);
-        assertThat(event.depotId()).isNotEmpty();
-        assertThat(event.routes()).hasSize(1);
+        VehicleRoutingSolution solution = verifySolverStartedWithSolution();
+        assertThat(solution.getVehicleList())
+                .hasSize(2)
+                .allMatch(vehicle -> vehicle.getDepot().getId().equals(location1.id()));
+
+        assertThat(solution.getDepotList()).isNotEmpty();
+        assertThat(solution.getCustomerList()).isNotEmpty();
     }
 
     @Test
-    void solver_should_start_when_two_locations_added() {
-        // add 2 locations
+    void solver_should_start_when_vehicle_is_added_and_there_is_at_least_one_visit() {
+        // arrange
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
+        verifyZeroInteractions(solverManager);
 
-        assertThat(isSolving).isTrue();
-        assertThat(solver.isSolving()).isTrue();
-        // solving has started after adding a second location (depot + visit)
-        verify(solver).solve(any());
+        // act
+        routeOptimizer.addVehicle(vehicle(9));
 
-        // problem fact change only happens when adding location to a running solver
-        // or when more than 1 location remains after removing one
-        verify(solver, never()).addProblemFactChange(any());
+        // assert
+        VehicleRoutingSolution solution = verifySolverStartedWithSolution();
+        assertThat(solution.getVehicleList()).hasSize(1);
+        assertThat(solution.getCustomerList()).hasSize(1);
     }
 
     @Test
-    void solver_should_stop_when_locations_reduced_to_one() throws ExecutionException, InterruptedException {
-        // add 2 locations
+    void each_location_should_have_a_distance_map_after_it_is_added() {
+        Map<Long, Double> distanceMap = new HashMap<>(1);
+        double distance = 8.079;
+        distanceMap.put(location2.id(), distance);
+        when(distanceMatrix.getRow(location1)).thenReturn(distanceMap);
+        routeOptimizer.addLocation(location1, distanceMatrix);
+
+        verify(distanceMatrix).getRow(location1);
+        VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
+        assertThat(solution.getDepotList()).hasSize(1);
+        assertThat(solution.getDepotList().get(0).getLocation().getDistanceTo(planningLocation(location2)))
+                .isEqualTo(8);
+        //FIXME should be: .isEqualTo(distance);
+    }
+
+    @Test
+    void solver_should_start_when_two_locations_added_and_there_is_at_least_one_vehicle() {
+        // add 1 vehicle, 2 locations
+        routeOptimizer.addVehicle(vehicle(1));
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
+
+        // solving has started after adding a second location (=> depot + visit)
+        VehicleRoutingSolution solution = verifySolverStartedWithSolution();
+
+        assertThat(solution.getDepotList()).hasSize(1);
+        assertThat(solution.getDepotList().get(0).getLocation().getId()).isEqualTo(location1.id());
+        assertThat(solution.getCustomerList()).hasSize(1);
+        assertThat(solution.getCustomerList().get(0).getLocation().getId()).isEqualTo(location2.id());
+    }
+
+    @Test
+    void solver_should_not_start_when_two_locations_added_if_there_are_no_vehicles() {
+        // add 2 locations
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        clearInvocations(eventPublisher);
+        routeOptimizer.addLocation(location2, distanceMatrix);
+
+        // solving did not start due to missing vehicles
+        verify(solverManager, never()).startSolver(any());
+        // but preliminary solution is published
+        VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
+        assertThat(solution.getVehicleList()).isEmpty();
+        assertThat(solution.getLocationList()).hasSize(2);
+    }
+
+    @Test
+    void solver_should_stop_and_publish_when_last_vehicle_is_removed() {
+        Vehicle vehicle = vehicle(23);
+        routeOptimizer.addVehicle(vehicle);
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        routeOptimizer.addLocation(location2, distanceMatrix);
+        verify(solverManager).startSolver(any());
+        clearInvocations(eventPublisher);
+
+        routeOptimizer.removeVehicle(vehicle);
+        verify(solverManager).stopSolver();
+        VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
+        assertThat(solution.getVehicleList()).isEmpty();
+    }
+
+    @Test
+    void solver_should_stop_when_locations_reduced_to_one() {
+        // add 1 vehicle, 2 locations
+        routeOptimizer.addVehicle(vehicle(0));
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        routeOptimizer.addLocation(location2, distanceMatrix);
+        verify(solverManager).startSolver(any());
+        clearInvocations(eventPublisher);
 
         // remove 1 location from running solver
-        assertThat(solver.isSolving()).isTrue();
         routeOptimizer.removeLocation(location2);
 
-        assertThat(solver.isSolving()).isFalse();
-        verify(solver).terminateEarly();
-        verify(solverFuture).get();
+        verify(solverManager).stopSolver();
 
-        // problem fact change only happens when adding location to a running solver
-        // or when more than 1 location remains after removing one
-        verify(solver, never()).addProblemFactChange(any());
+        VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
+        assertThat(solution.getCustomerList()).isEmpty();
+        assertThat(solution.getLocationList()).hasSize(1);
+        assertThat(solution.getVehicleList()).hasSize(1);
     }
 
     @Test
@@ -283,48 +284,37 @@ class RouteOptimizerImplTest {
         //   replaced/simplified/removed.
 
         // Prepare a solution with 1 depot, 2 vehicles, 1 customer and both vehicles visiting to that customer
-        final VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         final long vehicleId1 = 1;
         final long vehicleId2 = 2;
-        SolutionUtil.addVehicle(solution, vehicleId1);
-        SolutionUtil.addVehicle(solution, vehicleId2);
-        final Depot depot = SolutionUtil.addDepot(solution, planningLocation(location1));
-        SolutionUtil.moveAllVehiclesTo(solution, depot);
-        final Customer customer = SolutionUtil.addCustomer(solution, planningLocation(location2));
-        solution.getVehicleList().forEach(vehicle -> vehicle.setNextCustomer(customer));
-        assertThat(SolutionUtil.routes(solution)).allMatch(shallowRoute -> shallowRoute.visitIds.size() == 1);
-        solution.setScore(HardSoftLongScore.ofSoft(-1000)); // set non-zero travel distance
+        routeOptimizer.addVehicle(vehicle(vehicleId1));
+        routeOptimizer.addVehicle(vehicle(vehicleId2));
 
         // Start solver by adding two locations
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
 
-        // Pretend solver found a new best best solution
-        when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
-        when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
-        routeOptimizer.bestSolutionChanged(bestSolutionChangedEvent);
-
+        verify(solverManager).startSolver(any());
         clearInvocations(eventPublisher);
 
         routeOptimizer.removeLocation(location2);
-        assertThat(routeOptimizer.isSolving()).isFalse();
+        verify(solverManager).stopSolver();
 
         // no customer -> all routes should be empty
-        RouteChangedEvent event = verifyAndCaptureEvent();
-        assertThat(event.distance()).isEqualTo("0h 0m 0s"); // expect zero travel distance
-        assertThat(event.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
-        assertThat(event.depotId()).isPresent();
-        assertThat(event.routes()).hasSameSizeAs(solution.getVehicleList());
-        for (ShallowRoute route : event.routes()) {
-            assertThat(route.visitIds).isEmpty();
-        }
+        VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
+        assertThat(solution.getDistanceString(null)).isEqualTo("0h 0m 0s 0ms"); // expect zero travel distance
+        assertThat(solution.getVehicleList())
+                .extracting(AbstractPersistable::getId)
+                .containsExactlyInAnyOrder(vehicleId1, vehicleId2);
+        assertThat(solution.getDepotList()).extracting(Depot::getId).containsExactly(location1.id());
     }
 
     @Test
     void removing_depot_impossible_when_there_are_other_locations() {
+        routeOptimizer.addVehicle(vehicle(0));
         // add 2 locations
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
+        verify(solverManager).startSolver(any());
 
         assertThatIllegalStateException()
                 .isThrownBy(() -> routeOptimizer.removeLocation(location1))
@@ -344,26 +334,23 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, distanceMatrix);
 
         // then all vehicles must be in the depot
-        RouteChangedEvent event1 = verifyAndCaptureEvent();
-        assertThat(event1.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
-        // NOTE: can't verify that vehicle.getDepot() == depot for each vehicle because that's internal
-        // to the optimizer. Neither VehicleRoutingSolution nor any other planning domain classes are exposed
-        // to the outside. But the fact that RouteChangedEvent is published successfully proves that vehicles
-        // have been moved to the depot.
-        assertThat(event1.depotId()).contains(location1.id());
-        assertThat(event1.routes()).hasSize(2);
-        assertThat(event1.routes().stream().mapToLong(value -> value.vehicleId))
+        VehicleRoutingSolution solution1 = verifyPublishingPreliminarySolution();
+        assertThat(solution1.getVehicleList())
+                .extracting(AbstractPersistable::getId)
                 .containsExactlyInAnyOrder(vehicleId1, vehicleId2);
+        assertThat(solution1.getVehicleList()).allMatch(vehicle -> vehicle.getDepot().getId().equals(location1.id()));
+        assertThat(solution1.getDepotList()).extracting(AbstractPersistable::getId).containsExactly(location1.id());
 
-        // if whe remove the depot
+        // if we remove the depot
         clearInvocations(eventPublisher);
         routeOptimizer.removeLocation(location1);
 
-        // then published event's depot value is empty
-        RouteChangedEvent event2 = verifyAndCaptureEvent();
-        assertThat(event2.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
-        assertThat(event2.depotId()).isEmpty();
-        assertThat(event2.routes()).isEmpty();
+        // then published solution's depot list is empty
+        VehicleRoutingSolution solution2 = verifyPublishingPreliminarySolution();
+        assertThat(solution2.getVehicleList())
+                .extracting(AbstractPersistable::getId)
+                .containsExactlyInAnyOrder(vehicleId1, vehicleId2);
+        assertThat(solution2.getDepotList()).isEmpty();
 
         // and it's possible to add a new depot
         routeOptimizer.addLocation(location2, distanceMatrix);
@@ -372,92 +359,95 @@ class RouteOptimizerImplTest {
     @Test
     void adding_location_to_running_solver_must_happen_through_problem_fact_change() {
         // arrange
+        routeOptimizer.addVehicle(vehicle(55));
         routeOptimizer.addLocation(location1, distanceMatrix);
-        assertThat(solver.isSolving()).isFalse();
         routeOptimizer.addLocation(location2, distanceMatrix);
-        assertThat(solver.isSolving()).isTrue();
+        verify(solverManager).startSolver(any());
         // act
         routeOptimizer.addLocation(location3, distanceMatrix);
         // assert
-        verify(solver).addProblemFactChange(any(AddCustomer.class));
+        verify(solverManager).addLocation(any(RoadLocation.class));
     }
 
     @Test
     void removing_location_from_solver_with_more_than_two_locations_must_happen_through_problem_fact_change() {
-        // set up a situation where solver is running with 1 depot and 2 visits
+        // arrange: set up a situation where solver is running with 1 depot and 2 visits
         long vehicleId = 0;
-        VehicleRoutingSolution solution = createSolutionWithOneVehicle(vehicleId, location1, location2, location3);
-        when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
-        when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
+        routeOptimizer.addVehicle(vehicle(vehicleId));
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
-        routeOptimizer.addLocation(location3, distanceMatrix);
-        routeOptimizer.bestSolutionChanged(bestSolutionChangedEvent);
+        verify(solverManager).startSolver(any());
 
+        // add second visit to avoid stopping solver manager after removing a visit below
+        routeOptimizer.addLocation(location3, distanceMatrix);
+        verify(solverManager).addLocation(any());
+
+        // act
         routeOptimizer.removeLocation(location2);
-        verify(solver).addProblemFactChanges(any()); // note that it's plural
+
+        // assert
+        verify(solverManager).removeLocation(any());
         // solver still running
-        verify(solver, never()).terminateEarly();
+        verify(solverManager, never()).stopSolver();
     }
 
     @Test
     void adding_vehicle_to_running_solver_must_happen_through_problem_fact_change() {
         // arrange
+        routeOptimizer.addVehicle(vehicle(1));
         routeOptimizer.addLocation(location1, distanceMatrix);
-        assertThat(solver.isSolving()).isFalse();
         routeOptimizer.addLocation(location2, distanceMatrix);
-        assertThat(solver.isSolving()).isTrue();
+        verify(solverManager).startSolver(any());
+
         // act
         routeOptimizer.addVehicle(vehicle(22));
+
         // assert
-        verify(solver).addProblemFactChange(any(AddVehicle.class));
+        verify(solverManager).addVehicle(vehicleArgumentCaptor.capture());
+        org.optaplanner.examples.vehiclerouting.domain.Vehicle vehicle = vehicleArgumentCaptor.getValue();
+        assertThat(vehicle.getDepot().getId()).isEqualTo(location1.id());
     }
 
     @Test
     void removing_vehicle_from_running_solver_with_more_than_one_vehicle_must_happen_through_problem_fact_change() {
-        // set up a situation where solver is running with 2 vehicles
+        // arrange: set up a situation where solver is running with 2 vehicles
         final long vehicleId1 = 10;
         final long vehicleId2 = 20;
-        VehicleRoutingSolution solution = createSolution(
-                asList(vehicleId1, vehicleId2),
-                location1, location2, location3
-        );
-        when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
-        when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
+        routeOptimizer.addVehicle(vehicle(vehicleId1));
+        routeOptimizer.addVehicle(vehicle(vehicleId2));
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
-        routeOptimizer.addLocation(location3, distanceMatrix);
-        routeOptimizer.bestSolutionChanged(bestSolutionChangedEvent);
+        verify(solverManager).startSolver(any());
 
+        // act
         routeOptimizer.removeVehicle(vehicle(vehicleId1));
-        verify(solver).addProblemFactChange(any(RemoveVehicle.class));
+
+        // assert
+        verify(solverManager).removeVehicle(any(org.optaplanner.examples.vehiclerouting.domain.Vehicle.class));
         // solver still running
-        verify(solver, never()).terminateEarly();
+        verify(solverManager, never()).stopSolver();
     }
 
     @Test
-    void clear_should_stop_solver_and_publish_initial_solution() throws ExecutionException, InterruptedException {
+    void clear_should_stop_solver_and_publish_initial_solution() {
         // set up a situation where solver is running with 1 depot and 2 visits
         long vehicleId = 10;
-        VehicleRoutingSolution solution = createSolutionWithOneVehicle(vehicleId, location1, location2, location3);
-        when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
-        when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
+        routeOptimizer.addVehicle(vehicle(vehicleId));
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
+        verify(solverManager).startSolver(any()); // TODO match
         routeOptimizer.addLocation(location3, distanceMatrix);
-        routeOptimizer.bestSolutionChanged(bestSolutionChangedEvent);
         clearInvocations(eventPublisher);
 
         routeOptimizer.clear();
 
-        assertThat(solver.isSolving()).isFalse();
-        verify(solver).terminateEarly();
-        verify(solverFuture).get();
+        verify(solverManager).stopSolver();
 
-        RouteChangedEvent event = verifyAndCaptureEvent();
-        assertThat(event.vehicleIds()).isEmpty();
-        assertThat(event.depotId()).isEmpty();
-        assertThat(event.routes()).isEmpty();
+        VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
+        assertThat(solution.getVehicleList()).isEmpty();
+        assertThat(solution.getDepotList()).isEmpty();
+        assertThat(solution.getCustomerList()).isEmpty();
+        assertThat(solution.getLocationList()).isEmpty();
     }
 
     @Test
@@ -465,79 +455,14 @@ class RouteOptimizerImplTest {
         assertThatCode(() -> routeOptimizer.clear()).doesNotThrowAnyException();
     }
 
-    @Test
-    void reset_interrupted_flag() throws ExecutionException, InterruptedException {
-        when(solverFuture.isDone()).thenReturn(true);
-        when(solverFuture.get()).thenThrow(InterruptedException.class);
-        // start solver by adding 2 locations
-        routeOptimizer.addLocation(location1, distanceMatrix);
-        routeOptimizer.addLocation(location2, distanceMatrix);
-
-        assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> routeOptimizer.removeLocation(location2));
-        assertThat(Thread.interrupted()).isTrue();
-
-        assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> routeOptimizer.clear());
-        assertThat(Thread.interrupted()).isTrue();
+    private VehicleRoutingSolution verifyPublishingPreliminarySolution() {
+        verify(eventPublisher).publishRoute(solutionArgumentCaptor.capture());
+        return solutionArgumentCaptor.getValue();
     }
 
-    @Test
-    void planning_location_should_have_same_latitude_and_longitude() {
-        RoadLocation roadLocation = planningLocation(location1);
-        assertThat(roadLocation.getId()).isEqualTo(location1.id());
-        assertThat(roadLocation.getLatitude()).isEqualTo(location1.coordinates().latitude().doubleValue());
-        assertThat(roadLocation.getLongitude()).isEqualTo(location1.coordinates().longitude().doubleValue());
-    }
-
-    private RouteChangedEvent verifyAndCaptureEvent() {
-        verify(eventPublisher).publishEvent(routeChangedEventArgumentCaptor.capture());
-        clearInvocations(eventPublisher);
-        return routeChangedEventArgumentCaptor.getValue();
-    }
-
-    /**
-     * Create an initialized solution with a single vehicle, a depot being the first location,
-     * and optional number of customers, all visited by the vehicle
-     * @param vehicleId vehicle ID
-     * @param domainLocations depot and customer locations
-     * @return initialized solution
-     */
-    private static VehicleRoutingSolution createSolutionWithOneVehicle(long vehicleId, Location... domainLocations) {
-        return createSolution(singletonList(vehicleId), domainLocations);
-    }
-
-    /**
-     * Create an initialized solution with several vehicles, a depot being the first location,
-     * and optional number of customers, all visited by the <strong>first vehicle</strong>.
-     * Other vehicles are left idle.
-     * @param vehicleIds vehicle IDs
-     * @param domainLocations depot and customer locations
-     * @return initialized solution
-     */
-    private static VehicleRoutingSolution createSolution(List<Long> vehicleIds, Location... domainLocations) {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        Depot depot = SolutionUtil.addDepot(solution, planningLocation(domainLocations[0]));
-        vehicleIds.forEach(vehicleId -> SolutionUtil.addVehicle(solution, vehicleId));
-        SolutionUtil.moveAllVehiclesTo(solution, depot);
-
-        // create customers
-        for (int i = 1; i < domainLocations.length; i++) {
-            SolutionUtil.addCustomer(solution, planningLocation(domainLocations[i]));
-        }
-
-        if (vehicleIds.isEmpty()) {
-            return solution;
-        }
-
-        // visit all customers with the first vehicle
-        Standstill previousStandstill = solution.getVehicleList().get(0);
-        for (Customer customer : solution.getCustomerList()) {
-            customer.setPreviousStandstill(previousStandstill);
-            previousStandstill.setNextCustomer(customer);
-            previousStandstill = customer;
-        }
-        return solution;
+    private VehicleRoutingSolution verifySolverStartedWithSolution() {
+        verify(solverManager).startSolver(solutionArgumentCaptor.capture());
+        return solutionArgumentCaptor.getValue();
     }
 
     private static Vehicle vehicle(long id) {
