@@ -87,8 +87,7 @@ class RouteChangedEventPublisher {
      * @param solution solution
      * @return one route per vehicle
      */
-    static List<ShallowRoute> routes(VehicleRoutingSolution solution) {
-        // TODO make this private
+    private static List<ShallowRoute> routes(VehicleRoutingSolution solution) {
         // TODO include unconnected customers in the result
         if (solution.getDepotList().isEmpty()) {
             return Collections.emptyList();
@@ -97,7 +96,7 @@ class RouteChangedEventPublisher {
         for (Vehicle vehicle : solution.getVehicleList()) {
             Depot depot = vehicle.getDepot();
             if (depot == null) {
-                throw new IllegalStateException(
+                throw new IllegalArgumentException(
                         "Vehicle (id=" + vehicle.getId() + ") is not in the depot. That's not allowed"
                 );
             }
@@ -108,7 +107,7 @@ class RouteChangedEventPublisher {
                     customer = customer.getNextCustomer()
             ) {
                 if (!solution.getCustomerList().contains(customer)) {
-                    throw new IllegalStateException("Customer (" + customer + ") doesn't exist");
+                    throw new IllegalArgumentException("Customer (" + customer + ") doesn't exist");
                 }
                 visits.add(customer.getLocation().getId());
             }

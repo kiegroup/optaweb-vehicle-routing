@@ -16,8 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,7 +32,7 @@ import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.springframework.context.ApplicationEventPublisher;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 @ExtendWith(MockitoExtension.class)
 class RouteChangedEventPublisherTest {
@@ -51,33 +49,50 @@ class RouteChangedEventPublisherTest {
     }
 
     @Test
-    void empty_solution_should_have_zero_routes() {
+    void empty_solution_should_have_zero_routes_vehicles_etc() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        List<ShallowRoute> routes = RouteChangedEventPublisher.routes(solution);
-        assertThat(routes).isEmpty();
+
+        RouteChangedEvent event = RouteChangedEventPublisher.solutionToEvent(solution, this);
+
+        assertThat(event.vehicleIds()).isEmpty();
+        assertThat(event.depotId()).isEmpty();
+        assertThat(event.routes()).isEmpty();
+        assertThat(event.distance()).isEqualTo("0h 0m 0s");
     }
 
     @Test
     void solution_with_vehicles_and_no_depot_should_have_zero_routes() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        SolutionUtil.addVehicle(solution, 1);
-        List<ShallowRoute> routes = RouteChangedEventPublisher.routes(solution);
-        assertThat(routes).isEmpty();
+        long vehicleId = 1;
+        SolutionUtil.addVehicle(solution, vehicleId);
+
+        RouteChangedEvent event = RouteChangedEventPublisher.solutionToEvent(solution, this);
+
+        assertThat(event.vehicleIds()).containsExactly(vehicleId);
+        assertThat(event.depotId()).isEmpty();
+        assertThat(event.routes()).isEmpty();
+        assertThat(event.distance()).isEqualTo("0h 0m 0s");
     }
 
     @Test
     void nonempty_solution_without_vehicles_should_have_zero_routes() {
+        long depotId = 1;
+        long visitId = 2;
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        SolutionUtil.addDepot(solution, new RoadLocation(depotId, 1.0, 1.0));
+        SolutionUtil.addCustomer(solution, new RoadLocation(visitId, 2.0, 2.0));
 
-        SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
-        SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
+        RouteChangedEvent event = RouteChangedEventPublisher.solutionToEvent(solution, this);
 
-        List<ShallowRoute> routes = RouteChangedEventPublisher.routes(solution);
-        assertThat(routes).isEmpty();
+        assertThat(event.vehicleIds()).isEmpty();
+        assertThat(event.depotId()).contains(depotId);
+        assertThat(event.routes()).isEmpty();
+        assertThat(event.distance()).isEqualTo("0h 0m 0s");
     }
 
     @Test
     void initialized_solution_should_have_one_route_per_vehicle() {
+        // arrange
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         long vehicleId1 = 1001;
         long vehicleId2 = 2001;
@@ -95,22 +110,23 @@ class RouteChangedEventPublisherTest {
             customer.setPreviousStandstill(vehicle);
         }
 
-        List<ShallowRoute> routes = RouteChangedEventPublisher.routes(solution);
-        assertThat(routes).hasSameSizeAs(solution.getVehicleList());
-        assertThat(routes.stream().mapToLong(value -> value.vehicleId))
+        // act
+        RouteChangedEvent event = RouteChangedEventPublisher.solutionToEvent(solution, this);
+
+        // assert
+        assertThat(event.routes()).hasSameSizeAs(solution.getVehicleList());
+        assertThat(event.routes().stream().mapToLong(value -> value.vehicleId))
                 .containsExactlyInAnyOrder(vehicleId1, vehicleId2);
 
-        for (ShallowRoute route : routes) {
+        for (ShallowRoute route : event.routes()) {
             assertThat(route.depotId).isEqualTo(depot.getId());
             // visits shouldn't include the depot
             assertThat(route.visitIds).containsExactly(visitId);
         }
 
-        RouteChangedEvent routeChangedEvent = RouteChangedEventPublisher.solutionToEvent(solution, this);
-        assertThat(routeChangedEvent.routes()).hasSameSizeAs(routes);
-        assertThat(routeChangedEvent.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
-        assertThat(routeChangedEvent.depotId()).contains(depotId);
-        assertThat(routeChangedEvent.distance()).isEqualTo("0h 0m 0s");
+        assertThat(event.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
+        assertThat(event.depotId()).contains(depotId);
+        assertThat(event.distance()).isEqualTo("0h 0m 0s");
     }
 
     @Test
@@ -123,7 +139,8 @@ class RouteChangedEventPublisherTest {
         vehicle.setNextCustomer(customer);
         solution.getCustomerList().clear();
         solution.getLocationList().clear();
-        assertThatIllegalStateException().isThrownBy(() -> RouteChangedEventPublisher.routes(solution));
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> RouteChangedEventPublisher.solutionToEvent(solution, this));
     }
 
     @Test
@@ -131,6 +148,7 @@ class RouteChangedEventPublisherTest {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
         SolutionUtil.addVehicle(solution, 1);
-        assertThatIllegalStateException().isThrownBy(() -> RouteChangedEventPublisher.routes(solution));
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> RouteChangedEventPublisher.solutionToEvent(solution, this));
     }
 }
