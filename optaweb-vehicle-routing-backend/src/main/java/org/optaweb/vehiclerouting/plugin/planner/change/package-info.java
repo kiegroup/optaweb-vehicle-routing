@@ -16,5 +16,9 @@
 
 /**
  * {@link org.optaplanner.core.impl.solver.ProblemFactChange} implementations.
+ * <p>
+ * Problem fact changes are difficult to write correctly. To understand the code and when implementing new fact changes,
+ * read <a href="https://docs.jboss.org/optaplanner/release/latest/optaplanner-docs/html_single/#problemFactChange">
+ * ProblemFactChange documentation</a>.
  */
 package org.optaweb.vehiclerouting.plugin.planner.change;

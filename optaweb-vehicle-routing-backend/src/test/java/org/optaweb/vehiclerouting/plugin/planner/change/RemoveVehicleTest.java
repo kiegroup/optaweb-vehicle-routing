@@ -30,6 +30,7 @@ import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -88,6 +89,48 @@ class RemoveVehicleTest {
         verify(scoreDirector).beforeProblemFactRemoved(any(Vehicle.class));
         verify(scoreDirector).afterProblemFactRemoved(any(Vehicle.class));
         verify(scoreDirector).triggerVariableListeners();
+    }
+
+    @Test
+    void fail_fast_if_working_solution_vehicle_list_does_not_contain_working_vehicle() {
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
+
+        Location location = new RoadLocation(1, 2.0, 3.0);
+        Depot depot = new Depot();
+        depot.setLocation(location);
+
+        long removedId = 111L;
+        Vehicle removedVehicle = new Vehicle();
+        removedVehicle.setId(removedId);
+        removedVehicle.setDepot(depot);
+        long wrongId = 222L;
+        Vehicle wrongVehicle = new Vehicle();
+        wrongVehicle.setId(wrongId);
+        wrongVehicle.setDepot(depot);
+        solution.getVehicleList().add(wrongVehicle);
+
+        when(scoreDirector.getWorkingSolution()).thenReturn(solution);
+        when(scoreDirector.lookUpWorkingObject(removedVehicle)).thenReturn(removedVehicle);
+
+        // do change
+        RemoveVehicle removeVehicle = new RemoveVehicle(removedVehicle);
+        assertThatIllegalStateException()
+                .isThrownBy(() -> removeVehicle.doChange(scoreDirector))
+                .withMessageMatching(".*List .*" + wrongId + ".* doesn't contain the working.*" + removedId + ".*");
+    }
+
+    @Test
+    void fail_fast_if_working_object_is_null() {
+        when(scoreDirector.getWorkingSolution()).thenReturn(SolutionFactory.emptySolution());
+        Depot depot = new Depot();
+        depot.setLocation(new RoadLocation(4L, 1, 2));
+        Vehicle vehicle = new Vehicle();
+        vehicle.setId(1L);
+        vehicle.setDepot(depot);
+
+        assertThatIllegalStateException()
+                .isThrownBy(() -> new RemoveVehicle(vehicle).doChange(scoreDirector))
+                .withMessageContaining("working copy of");
     }
 
     private static Customer customer(long id) {
