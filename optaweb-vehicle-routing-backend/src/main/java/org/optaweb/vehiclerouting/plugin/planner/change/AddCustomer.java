@@ -24,14 +24,13 @@ import org.optaplanner.core.impl.solver.ProblemFactChange;
 import org.optaplanner.examples.vehiclerouting.domain.Customer;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
-import org.optaweb.vehiclerouting.plugin.planner.CustomerFactory;
 
 public class AddCustomer implements ProblemFactChange<VehicleRoutingSolution> {
 
-    private final Location location; // TODO change to customer
+    private final Customer customer;
 
-    public AddCustomer(Location location) {
-        this.location = Objects.requireNonNull(location);
+    public AddCustomer(Customer customer) {
+        this.customer = Objects.requireNonNull(customer);
     }
 
     @Override
@@ -39,11 +38,10 @@ public class AddCustomer implements ProblemFactChange<VehicleRoutingSolution> {
         VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
         workingSolution.setLocationList(new ArrayList<>(workingSolution.getLocationList()));
 
+        Location location = customer.getLocation();
         scoreDirector.beforeProblemFactAdded(location);
         workingSolution.getLocationList().add(location);
         scoreDirector.afterProblemFactAdded(location);
-
-        Customer customer = CustomerFactory.customer(location);
 
         scoreDirector.beforeEntityAdded(customer);
         workingSolution.getCustomerList().add(customer);
