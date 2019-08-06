@@ -37,13 +37,13 @@ public class RemoveVehicle implements ProblemFactChange<VehicleRoutingSolution> 
     public void doChange(ScoreDirector<VehicleRoutingSolution> scoreDirector) {
         VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
 
-        // look up working copy of the vehicle
+        // Look up a working copy of the vehicle
         Vehicle workingVehicle = scoreDirector.lookUpWorkingObject(removedVehicle);
         if (workingVehicle == null) {
-            throw new IllegalStateException("Can't look up working copy of " + removedVehicle);
+            throw new IllegalStateException("Can't look up a working copy of " + removedVehicle);
         }
 
-        // Un-initialize all customer visited by this vehicle
+        // Un-initialize all customers visited by this vehicle
         Customer visitedCustomer = workingVehicle.getNextCustomer();
         while (visitedCustomer != null) {
             scoreDirector.beforeVariableChanged(visitedCustomer, "previousStandstill");
@@ -53,12 +53,19 @@ public class RemoveVehicle implements ProblemFactChange<VehicleRoutingSolution> 
             visitedCustomer = visitedCustomer.getNextCustomer();
         }
 
-        // shallow clone fact list
+        // Shallow clone fact list (facts and fact collections are not planning-cloned)
         workingSolution.setVehicleList(new ArrayList<>(workingSolution.getVehicleList()));
+
         // Remove the vehicle
         scoreDirector.beforeProblemFactRemoved(workingVehicle);
         if (!workingSolution.getVehicleList().remove(workingVehicle)) {
-            throw new IllegalStateException("This is a bug.");
+            throw new IllegalStateException(
+                    "Working solution's vehicleList "
+                            + workingSolution.getVehicleList()
+                            + " doesn't contain the workingVehicle ("
+                            + workingVehicle
+                            + "). This is a bug!"
+            );
         }
         scoreDirector.afterProblemFactRemoved(workingVehicle);
 

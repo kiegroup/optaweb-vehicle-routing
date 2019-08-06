@@ -115,12 +115,11 @@ class SolverIntegrationTest {
         List<Integer> customerIds = Arrays.asList(5, 2, 3);
         for (int id : customerIds) {
             logger.info("Remove customer ({})", id);
-            Location removeLocation = location(id);
             assertThat(solver.isEveryProblemFactChangeProcessed()).isTrue();
             monitor.beforeProblemFactChange();
             solver.addProblemFactChanges(Arrays.asList(
-                    new RemoveCustomer(removeLocation),
-                    new RemoveLocation(removeLocation)
+                    new RemoveCustomer(customer(location(id))),
+                    new RemoveLocation(location(id))
             ));
             assertThat(solver.isEveryProblemFactChangeProcessed()).isFalse(); // probably not 100% safe
             // Notice that it's not possible to check individual problem fact changes completion.
