@@ -27,7 +27,7 @@ import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.plugin.planner.SolutionUtil;
+import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,7 +42,7 @@ class RemoveVehicleTest {
 
     @Test
     void remove_vehicle() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         Location location = new RoadLocation(1, 2.0, 3.0);

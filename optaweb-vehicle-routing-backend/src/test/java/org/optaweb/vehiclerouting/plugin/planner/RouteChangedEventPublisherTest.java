@@ -31,8 +31,16 @@ import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.springframework.context.ApplicationEventPublisher;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.optaweb.vehiclerouting.plugin.planner.CustomerFactory.customer;
+import static org.optaweb.vehiclerouting.plugin.planner.DepotFactory.depot;
+import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromCustomers;
+import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromLocations;
+import static org.optaweb.vehiclerouting.plugin.planner.VehicleFactory.vehicle;
 
 @ExtendWith(MockitoExtension.class)
 class RouteChangedEventPublisherTest {
@@ -44,13 +52,13 @@ class RouteChangedEventPublisherTest {
 
     @Test
     void should_covert_solution_to_event_and_publish_it() {
-        routeChangedEventPublisher.publishRoute(SolutionUtil.emptySolution());
+        routeChangedEventPublisher.publishRoute(SolutionFactory.emptySolution());
         Mockito.verify(publisher).publishEvent(Mockito.any(RouteChangedEvent.class));
     }
 
     @Test
     void empty_solution_should_have_zero_routes_vehicles_etc() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
 
         RouteChangedEvent event = RouteChangedEventPublisher.solutionToEvent(solution, this);
 
@@ -62,9 +70,9 @@ class RouteChangedEventPublisherTest {
 
     @Test
     void solution_with_vehicles_and_no_depot_should_have_zero_routes() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         long vehicleId = 1;
-        SolutionUtil.addVehicle(solution, vehicleId);
+        Vehicle vehicle = vehicle(vehicleId);
+        VehicleRoutingSolution solution = solutionFromCustomers(singletonList(vehicle), null, emptyList());
 
         RouteChangedEvent event = RouteChangedEventPublisher.solutionToEvent(solution, this);
 
@@ -78,9 +86,11 @@ class RouteChangedEventPublisherTest {
     void nonempty_solution_without_vehicles_should_have_zero_routes() {
         long depotId = 1;
         long visitId = 2;
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        SolutionUtil.addDepot(solution, new RoadLocation(depotId, 1.0, 1.0));
-        SolutionUtil.addCustomer(solution, new RoadLocation(visitId, 2.0, 2.0));
+        VehicleRoutingSolution solution = solutionFromLocations(
+                emptyList(),
+                depot(new RoadLocation(depotId, 1.0, 1.0)),
+                singletonList(new RoadLocation(visitId, 2.0, 2.0))
+        );
 
         RouteChangedEvent event = RouteChangedEventPublisher.solutionToEvent(solution, this);
 
@@ -93,19 +103,23 @@ class RouteChangedEventPublisherTest {
     @Test
     void initialized_solution_should_have_one_route_per_vehicle() {
         // arrange
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
         long vehicleId1 = 1001;
         long vehicleId2 = 2001;
-        SolutionUtil.addVehicle(solution, vehicleId1);
-        SolutionUtil.addVehicle(solution, vehicleId2);
+        Vehicle vehicle1 = vehicle(vehicleId1);
+        Vehicle vehicle2 = vehicle(vehicleId2);
 
         long depotId = 1;
         long visitId = 2;
-        Depot depot = SolutionUtil.addDepot(solution, new RoadLocation(depotId, 1.0, 1.0));
-        Customer customer = SolutionUtil.addCustomer(solution, new RoadLocation(visitId, 2.0, 2.0));
+        Depot depot = depot(new RoadLocation(depotId, 1.0, 1.0));
+        Customer customer = customer(new RoadLocation(visitId, 2.0, 2.0));
+
+        VehicleRoutingSolution solution = solutionFromCustomers(
+                asList(vehicle1, vehicle2),
+                depot,
+                singletonList(customer)
+        );
 
         for (Vehicle vehicle : solution.getVehicleList()) {
-            vehicle.setDepot(depot);
             vehicle.setNextCustomer(customer);
             customer.setPreviousStandstill(vehicle);
         }
@@ -131,23 +145,25 @@ class RouteChangedEventPublisherTest {
 
     @Test
     void fail_fast_if_vehicles_next_customer_doesnt_exist() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        Depot depot = SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
-        Vehicle vehicle = SolutionUtil.addVehicle(solution, 1);
-        SolutionUtil.moveAllVehiclesTo(solution, depot);
-        Customer customer = SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
-        vehicle.setNextCustomer(customer);
-        solution.getCustomerList().clear();
-        solution.getLocationList().clear();
+        Vehicle vehicle = vehicle(1);
+        vehicle.setNextCustomer(customer(new RoadLocation(2, 2.0, 2.0)));
+
+        VehicleRoutingSolution solution = solutionFromLocations(
+                singletonList(vehicle),
+                depot(new RoadLocation(1, 1.0, 1.0)),
+                singletonList(new RoadLocation(3, 3.0, 3.0))
+        );
+
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> RouteChangedEventPublisher.solutionToEvent(solution, this));
     }
 
     @Test
-    void vehicle_without_a_depot_is_illegal() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
-        SolutionUtil.addVehicle(solution, 1);
+    void vehicle_without_a_depot_is_illegal_if_depot_exists() {
+        Depot depot = depot(new RoadLocation(1, 1.0, 1.0));
+        Vehicle vehicle = vehicle(1);
+        VehicleRoutingSolution solution = solutionFromCustomers(singletonList(vehicle), depot, emptyList());
+        vehicle.setDepot(null);
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> RouteChangedEventPublisher.solutionToEvent(solution, this));
     }
