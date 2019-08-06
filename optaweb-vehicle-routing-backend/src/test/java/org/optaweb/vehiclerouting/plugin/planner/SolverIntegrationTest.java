@@ -53,6 +53,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
+import static org.optaweb.vehiclerouting.plugin.planner.CustomerFactory.customer;
 import static org.optaweb.vehiclerouting.plugin.planner.DepotFactory.depot;
 import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromLocations;
 
@@ -107,7 +108,7 @@ class SolverIntegrationTest {
         for (int id = 3; id < 6; id++) {
             logger.info("Add customer ({})", id);
             monitor.beforeProblemFactChange();
-            solver.addProblemFactChange(new AddCustomer(location(id)));
+            solver.addProblemFactChange(new AddCustomer(customer(location(id))));
             assertThat(monitor.awaitAllProblemFactChanges(1000)).isTrue();
         }
 

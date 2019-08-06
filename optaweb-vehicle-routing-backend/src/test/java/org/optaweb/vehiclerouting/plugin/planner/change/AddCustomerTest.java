@@ -29,7 +29,6 @@ import org.optaweb.vehiclerouting.plugin.planner.CustomerFactory;
 import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -45,20 +44,17 @@ class AddCustomerTest {
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         Location location = new RoadLocation(1, 1.0, 2.0);
-        AddCustomer addCustomer = new AddCustomer(location);
+        Customer customer = CustomerFactory.customer(location);
+        AddCustomer addCustomer = new AddCustomer(customer);
         addCustomer.doChange(scoreDirector);
 
         verify(scoreDirector).beforeProblemFactAdded(location);
         verify(scoreDirector).afterProblemFactAdded(location);
         assertThat(solution.getLocationList()).containsExactly(location);
 
-        verify(scoreDirector).beforeEntityAdded(any(Customer.class));
-        verify(scoreDirector).afterEntityAdded(any(Customer.class));
-        assertThat(solution.getCustomerList()).hasSize(1);
-        Customer customer = solution.getCustomerList().get(0);
-        assertThat(customer.getId()).isEqualTo(location.getId());
-        assertThat(customer.getLocation()).isEqualTo(location);
-        assertThat(customer.getDemand()).isEqualTo(CustomerFactory.DEFAULT_CUSTOMER_DEMAND);
+        verify(scoreDirector).beforeEntityAdded(customer);
+        verify(scoreDirector).afterEntityAdded(customer);
+        assertThat(solution.getCustomerList()).containsExactly(customer);
 
         verify(scoreDirector).triggerVariableListeners();
     }
