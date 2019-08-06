@@ -247,7 +247,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addVehicle(vehicle);
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
-        verify(solverManager).startSolver(any());
+        verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
         clearInvocations(eventPublisher);
 
         routeOptimizer.removeVehicle(vehicle);
@@ -262,7 +262,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addVehicle(vehicle(0));
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
-        verify(solverManager).startSolver(any());
+        verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
         clearInvocations(eventPublisher);
 
         // remove 1 location from running solver
@@ -292,7 +292,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
 
-        verify(solverManager).startSolver(any());
+        verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
         clearInvocations(eventPublisher);
 
         routeOptimizer.removeLocation(location2);
@@ -313,7 +313,7 @@ class RouteOptimizerImplTest {
         // add 2 locations
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
-        verify(solverManager).startSolver(any());
+        verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
 
         assertThatIllegalStateException()
                 .isThrownBy(() -> routeOptimizer.removeLocation(location1))
@@ -361,7 +361,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addVehicle(vehicle(55));
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
-        verify(solverManager).startSolver(any());
+        verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
         // act
         routeOptimizer.addLocation(location3, distanceMatrix);
         // assert
@@ -375,11 +375,11 @@ class RouteOptimizerImplTest {
         routeOptimizer.addVehicle(vehicle(vehicleId));
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
-        verify(solverManager).startSolver(any());
+        verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
 
         // add second visit to avoid stopping solver manager after removing a visit below
         routeOptimizer.addLocation(location3, distanceMatrix);
-        verify(solverManager).addLocation(any());
+        verify(solverManager).addLocation(any(org.optaplanner.examples.vehiclerouting.domain.location.Location.class));
 
         // act
         routeOptimizer.removeLocation(location2);
@@ -398,7 +398,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addVehicle(vehicle(1));
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
-        verify(solverManager).startSolver(any());
+        verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
 
         // act
         routeOptimizer.addVehicle(vehicle(22));
@@ -418,7 +418,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addVehicle(vehicle(vehicleId2));
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
-        verify(solverManager).startSolver(any());
+        verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
 
         // act
         routeOptimizer.removeVehicle(vehicle(vehicleId1));
@@ -436,7 +436,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addVehicle(vehicle(vehicleId));
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
-        verify(solverManager).startSolver(any()); // TODO match
+        verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
         routeOptimizer.addLocation(location3, distanceMatrix);
         clearInvocations(eventPublisher);
 

@@ -96,7 +96,7 @@ class SolverManagerTest {
         // mimic solve() => isSolving(); terminateEarly() => !isSolving()
         isSolving = false;
         when(solver.isSolving()).thenAnswer((Answer<Boolean>) invocation -> isSolving);
-        when(solver.solve(any())).thenAnswer(
+        when(solver.solve(any(VehicleRoutingSolution.class))).thenAnswer(
                 answerVoid((VoidAnswer1<VehicleRoutingSolution>) solution -> isSolving = true)
         );
         when(solver.terminateEarly()).thenAnswer((Answer<Boolean>) invocation -> {

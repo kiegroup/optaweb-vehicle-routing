@@ -71,7 +71,7 @@ class DemoServiceTest {
 
     @BeforeEach
     void setUp() {
-        when(locationService.createLocation(any(), anyString())).thenReturn(true);
+        when(locationService.createLocation(any(Coordinates.class), anyString())).thenReturn(true);
         when(routingProblems.all()).thenReturn(Arrays.asList(routingProblem));
         when(routingProblems.byName(problemName)).thenReturn(routingProblem);
     }
@@ -91,7 +91,7 @@ class DemoServiceTest {
 
     @Test
     void retry_when_adding_location_fails() {
-        when(locationService.createLocation(any(), anyString())).thenReturn(false);
+        when(locationService.createLocation(any(Coordinates.class), anyString())).thenReturn(false);
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> demoService.loadDemo(problemName))
                 .withMessageContaining(depot.coordinates().toString());
