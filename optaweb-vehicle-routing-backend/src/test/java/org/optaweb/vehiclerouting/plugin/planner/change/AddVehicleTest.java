@@ -23,7 +23,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaweb.vehiclerouting.plugin.planner.SolutionUtil;
+import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -37,7 +37,7 @@ class AddVehicleTest {
 
     @Test
     void add_vehicle_should_add_vehicle() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         Vehicle vehicle = new Vehicle();

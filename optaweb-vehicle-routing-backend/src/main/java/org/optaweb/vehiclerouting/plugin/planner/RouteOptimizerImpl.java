@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.optaplanner.examples.vehiclerouting.domain.Depot;
 import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
@@ -47,21 +46,19 @@ class RouteOptimizerImpl implements RouteOptimizer {
     @Override
     public void addLocation(org.optaweb.vehiclerouting.domain.Location domainLocation,
                             DistanceMatrix distanceMatrix) {
-        RoadLocation location = SolutionUtil.planningLocation(domainLocation);
+        RoadLocation location = LocationFactory.fromDomain(domainLocation);
         DistanceMap distanceMap = new DistanceMap(domainLocation, distanceMatrix.getRow(domainLocation));
         location.setTravelDistanceMap(distanceMap);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (depot == null) {
-            depot = new Depot();
-            depot.setId(location.getId());
-            depot.setLocation(location);
+            depot = DepotFactory.depot(location);
             publishRoute();
         } else {
             visits.add(location);
             if (vehicles.isEmpty()) {
                 publishRoute();
             } else if (visits.size() == 1) {
-                solverManager.startSolver(SolutionUtil.createSolution(vehicles, depot, visits));
+                solverManager.startSolver(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
             } else {
                 solverManager.addLocation(location);
             }
@@ -70,14 +67,13 @@ class RouteOptimizerImpl implements RouteOptimizer {
 
     @Override
     public void removeLocation(org.optaweb.vehiclerouting.domain.Location domainLocation) {
-        Location location = SolutionUtil.planningLocation(domainLocation);
         if (visits.isEmpty()) {
             if (depot == null) {
                 throw new IllegalArgumentException(
                         "Cannot remove " + domainLocation + " because there are no locations"
                 );
             }
-            if (!depot.getId().equals(location.getId())) {
+            if (!depot.getId().equals(domainLocation.id())) {
                 throw new IllegalArgumentException(
                         "Cannot remove " + domainLocation + " because it doesn't exist"
                 );
@@ -85,10 +81,10 @@ class RouteOptimizerImpl implements RouteOptimizer {
             depot = null;
             publishRoute();
         } else {
-            if (depot.getId().equals(location.getId())) {
+            if (depot.getId().equals(domainLocation.id())) {
                 throw new IllegalStateException("You can only remove depot if there are no customers.");
             }
-            if (!visits.removeIf(item -> item.getId().equals(location.getId()))) {
+            if (!visits.removeIf(item -> item.getId().equals(domainLocation.id()))) {
                 throw new IllegalArgumentException(
                         "Cannot remove " + domainLocation + " because it doesn't exist"
                 );
@@ -97,20 +93,20 @@ class RouteOptimizerImpl implements RouteOptimizer {
                 solverManager.stopSolver();
                 publishRoute();
             } else {
-                solverManager.removeLocation(location);
+                solverManager.removeLocation(LocationFactory.fromDomain(domainLocation));
             }
         }
     }
 
     @Override
     public void addVehicle(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
-        Vehicle vehicle = SolutionUtil.planningVehicle(domainVehicle);
+        Vehicle vehicle = VehicleFactory.fromDomain(domainVehicle);
         vehicle.setDepot(depot);
         vehicles.add(vehicle);
         if (visits.isEmpty()) {
             publishRoute();
         } else if (vehicles.size() == 1) {
-            solverManager.startSolver(SolutionUtil.createSolution(vehicles, depot, visits));
+            solverManager.startSolver(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
         } else {
             solverManager.addVehicle(vehicle);
         }
@@ -128,7 +124,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
                 solverManager.stopSolver();
                 publishRoute();
             } else {
-                solverManager.removeVehicle(SolutionUtil.planningVehicle(domainVehicle));
+                solverManager.removeVehicle(VehicleFactory.fromDomain(domainVehicle));
             }
         }
     }
@@ -144,6 +140,6 @@ class RouteOptimizerImpl implements RouteOptimizer {
     }
 
     private void publishRoute() {
-        eventPublisher.publishRoute(SolutionUtil.createSolution(vehicles, depot, visits));
+        eventPublisher.publishRoute(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
     }
 }

@@ -48,7 +48,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
-import static org.optaweb.vehiclerouting.plugin.planner.SolutionUtil.planningLocation;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
@@ -206,7 +205,7 @@ class RouteOptimizerImplTest {
         verify(distanceMatrix).getRow(location1);
         VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
         assertThat(solution.getDepotList()).hasSize(1);
-        assertThat(solution.getDepotList().get(0).getLocation().getDistanceTo(planningLocation(location2)))
+        assertThat(solution.getDepotList().get(0).getLocation().getDistanceTo(LocationFactory.fromDomain(location2)))
                 .isEqualTo(8);
         //FIXME should be: .isEqualTo(distance);
     }
@@ -386,7 +385,9 @@ class RouteOptimizerImplTest {
         routeOptimizer.removeLocation(location2);
 
         // assert
-        verify(solverManager).removeLocation(any());
+        ArgumentCaptor<RoadLocation> roadLocationArgumentCaptor = ArgumentCaptor.forClass(RoadLocation.class);
+        verify(solverManager).removeLocation(roadLocationArgumentCaptor.capture());
+        assertThat(roadLocationArgumentCaptor.getValue().getId()).isEqualTo(location2.id());
         // solver still running
         verify(solverManager, never()).stopSolver();
     }

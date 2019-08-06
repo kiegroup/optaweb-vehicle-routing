@@ -26,7 +26,7 @@ import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.plugin.planner.SolutionUtil;
+import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -42,7 +42,7 @@ class RemoveCustomerTest {
 
     @Test
     void remove_last_customer() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         Customer removedCustomer = customer(1);
@@ -68,7 +68,7 @@ class RemoveCustomerTest {
 
     @Test
     void remove_middle_customer() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         Customer firstCustomer = customer(1);
