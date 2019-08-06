@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -28,8 +27,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.mockito.stubbing.Answer1;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
@@ -55,7 +52,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.WARN)
 class SolverManagerTest {
 
     @Captor
@@ -76,8 +72,7 @@ class SolverManagerTest {
     @InjectMocks
     private SolverManager solverManager;
 
-    @BeforeEach
-    void setUp() {
+    private void returnSolverFutureWhenSolverIsStarted() {
         // always run the runnable submitted to executor (that's what every executor does)
         // we can then verify that solver.solve() has been called
         when(executor.submit(any(SolverManager.SolvingTask.class))).thenAnswer(
@@ -90,8 +85,6 @@ class SolverManagerTest {
 
     @Test
     void should_listen_for_best_solution_events() {
-        // TODO find a new place for this test to avoid Mockito Strictness.WARN
-        //      or don't do the stubbing @BeforeEach
         verify(solver).addEventListener(solverManager);
     }
 
@@ -123,6 +116,7 @@ class SolverManagerTest {
 
     @Test
     void startSolver_should_start_solver() {
+        returnSolverFutureWhenSolverIsStarted();
         solverManager.startSolver(mock(VehicleRoutingSolution.class));
         verify(solver).solve(any(VehicleRoutingSolution.class));
 
@@ -133,6 +127,7 @@ class SolverManagerTest {
 
     @Test
     void stopSolver_should_terminate_solver() {
+        returnSolverFutureWhenSolverIsStarted();
         solverManager.startSolver(mock(VehicleRoutingSolution.class));
         solverManager.stopSolver();
         verify(solver).terminateEarly();
@@ -146,6 +141,7 @@ class SolverManagerTest {
 
     @Test
     void reset_interrupted_flag() throws ExecutionException, InterruptedException {
+        returnSolverFutureWhenSolverIsStarted();
         // start solver
         solverManager.startSolver(mock(VehicleRoutingSolution.class));
         when(solverFuture.isDone()).thenReturn(true);
@@ -178,6 +174,7 @@ class SolverManagerTest {
 
     @Test
     void change_operations_should_fail_is_solver_has_died() throws ExecutionException, InterruptedException {
+        returnSolverFutureWhenSolverIsStarted();
         solverManager.startSolver(mock(VehicleRoutingSolution.class));
         when(solverFuture.isDone()).thenReturn(true);
         when(solverFuture.get()).thenThrow(ExecutionException.class);
@@ -198,6 +195,7 @@ class SolverManagerTest {
 
     @Test
     void change_operations_should_submit_problem_fact_changes_to_solver() {
+        returnSolverFutureWhenSolverIsStarted();
         solverManager.startSolver(mock(VehicleRoutingSolution.class));
         when(solverFuture.isDone()).thenReturn(false);
 
