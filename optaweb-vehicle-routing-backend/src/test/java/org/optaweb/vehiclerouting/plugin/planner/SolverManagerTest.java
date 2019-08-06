@@ -30,9 +30,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.Answer1;
-import org.mockito.stubbing.VoidAnswer1;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
@@ -50,7 +48,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.AdditionalAnswers.answer;
-import static org.mockito.AdditionalAnswers.answerVoid;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -60,8 +57,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
 class SolverManagerTest {
-
-    private boolean isSolving;
 
     @Captor
     private ArgumentCaptor<List<ProblemFactChange<VehicleRoutingSolution>>> problemFactChangeArgumentCaptor;
@@ -91,18 +86,6 @@ class SolverManagerTest {
                     return solverFuture;
                 })
         );
-
-        // TODO probably remove this (no longer needed)
-        // mimic solve() => isSolving(); terminateEarly() => !isSolving()
-        isSolving = false;
-        when(solver.isSolving()).thenAnswer((Answer<Boolean>) invocation -> isSolving);
-        when(solver.solve(any(VehicleRoutingSolution.class))).thenAnswer(
-                answerVoid((VoidAnswer1<VehicleRoutingSolution>) solution -> isSolving = true)
-        );
-        when(solver.terminateEarly()).thenAnswer((Answer<Boolean>) invocation -> {
-            isSolving = false;
-            return true;
-        });
     }
 
     @Test
@@ -164,7 +147,7 @@ class SolverManagerTest {
     @Test
     void reset_interrupted_flag() throws ExecutionException, InterruptedException {
         // start solver
-        solverManager.startSolver(new VehicleRoutingSolution());
+        solverManager.startSolver(mock(VehicleRoutingSolution.class));
         when(solverFuture.isDone()).thenReturn(true);
         when(solverFuture.get()).thenThrow(InterruptedException.class);
 
