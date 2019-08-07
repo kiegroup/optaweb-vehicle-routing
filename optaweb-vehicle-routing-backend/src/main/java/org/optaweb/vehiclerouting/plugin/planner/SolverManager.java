@@ -44,18 +44,18 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
 
     private final Solver<VehicleRoutingSolution> solver;
     private final AsyncTaskExecutor executor;
-    private final RouteChangedEventPublisher eventPublisher;
+    private final SolutionPublisher solutionPublisher;
 
     private Future<VehicleRoutingSolution> solverFuture;
 
     SolverManager(
             Solver<VehicleRoutingSolution> solver,
             AsyncTaskExecutor executor,
-            RouteChangedEventPublisher eventPublisher
+            SolutionPublisher solutionPublisher
     ) {
         this.solver = solver;
         this.executor = executor;
-        this.eventPublisher = eventPublisher;
+        this.solutionPublisher = solutionPublisher;
         this.solver.addEventListener(this);
     }
 
@@ -71,7 +71,7 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
         // TODO Race condition, if a servlet thread deletes that location in the middle of this method happening
         //      on the solver thread. Make sure that location is still in the repository.
         //      Maybe repair the solution OR ignore if it's inconsistent (log a WARNING).
-        eventPublisher.publishRoute(bestSolutionChangedEvent.getNewBestSolution()); // TODO @Async
+        solutionPublisher.publishSolution(bestSolutionChangedEvent.getNewBestSolution()); // TODO @Async
     }
 
     void startSolver(VehicleRoutingSolution solution) {

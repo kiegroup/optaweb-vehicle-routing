@@ -68,7 +68,7 @@ class SolverManagerTest {
     @Mock
     private AsyncTaskExecutor executor;
     @Mock
-    private RouteChangedEventPublisher eventPublisher;
+    private SolutionPublisher solutionPublisher;
     @InjectMocks
     private SolverManager solverManager;
 
@@ -98,7 +98,7 @@ class SolverManagerTest {
 
         // assert
         verify(bestSolutionChangedEvent, never()).getNewBestSolution();
-        verify(eventPublisher, never()).publishRoute(any());
+        verify(solutionPublisher, never()).publishSolution(any());
     }
 
     @Test
@@ -109,7 +109,7 @@ class SolverManagerTest {
 
         solverManager.bestSolutionChanged(bestSolutionChangedEvent);
 
-        verify(eventPublisher).publishRoute(solutionArgumentCaptor.capture());
+        verify(solutionPublisher).publishSolution(solutionArgumentCaptor.capture());
         VehicleRoutingSolution event = solutionArgumentCaptor.getValue();
         assertThat(event).isSameAs(solution);
     }

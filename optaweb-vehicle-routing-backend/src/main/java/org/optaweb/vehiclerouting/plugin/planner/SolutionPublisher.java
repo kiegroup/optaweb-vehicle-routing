@@ -37,21 +37,21 @@ import org.springframework.stereotype.Component;
  * components that listen for this type of event.
  */
 @Component
-class RouteChangedEventPublisher {
+class SolutionPublisher {
 
-    private static final Logger logger = LoggerFactory.getLogger(RouteChangedEventPublisher.class);
+    private static final Logger logger = LoggerFactory.getLogger(SolutionPublisher.class);
 
-    private final ApplicationEventPublisher publisher;
+    private final ApplicationEventPublisher eventPublisher;
 
-    RouteChangedEventPublisher(ApplicationEventPublisher publisher) {
-        this.publisher = publisher;
+    SolutionPublisher(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
     }
 
     /**
      * Publish solution as a {@link RouteChangedEvent}.
      * @param solution solution
      */
-    void publishRoute(VehicleRoutingSolution solution) {
+    void publishSolution(VehicleRoutingSolution solution) {
         RouteChangedEvent event = solutionToEvent(solution, this);
         logger.info(
                 "New solution with {} depots, {} vehicles, {} customers, distance: {}",
@@ -61,7 +61,7 @@ class RouteChangedEventPublisher {
                 event.distance()
         );
         logger.debug("Routes: {}", event.routes());
-        publisher.publishEvent(event);
+        eventPublisher.publishEvent(event);
     }
 
     /**
