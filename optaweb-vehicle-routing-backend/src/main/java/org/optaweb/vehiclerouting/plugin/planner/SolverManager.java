@@ -37,6 +37,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Component;
 
+/**
+ * Manages a solver running in a different thread.
+ * <p>
+ * Does following:
+ * <ul>
+ * <li>Starts solver by running {@link Solver#solve(Object problem)} in a thread that's not the caller's thread.</li>
+ * <li>Stops the solver (synchronously).</li>
+ * <li>Adds problem fact changes to the solver.</li>
+ * <li>Propagates any exception that happens in {@code Solver.solver()} (in a different thread) to the thread that
+ * interacts with {@code SolverManager}.</li>
+ * <li>Listens for best solution changes and publishes new best solutions via {@link SolutionPublisher}.</li>
+ * </ul>
+ */
 @Component
 class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
 

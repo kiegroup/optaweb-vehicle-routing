@@ -27,6 +27,11 @@ import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * Accumulates vehicles, depots and visits until there's enough data to start the optimization.
+ * Solutions are published even if solving hasn't started yet due to missing facts (e.g. no vehicles or no visits).
+ * Stops solver when vehicles or visits are reduced to zero.
+ */
 @Component
 class RouteOptimizerImpl implements RouteOptimizer {
 
