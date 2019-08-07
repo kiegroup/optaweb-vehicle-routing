@@ -31,16 +31,16 @@ import org.springframework.stereotype.Component;
 class RouteOptimizerImpl implements RouteOptimizer {
 
     private final SolverManager solverManager;
-    private final RouteChangedEventPublisher eventPublisher;
+    private final SolutionPublisher solutionPublisher;
 
     private final List<Vehicle> vehicles = new ArrayList<>();
     private final List<RoadLocation> visits = new ArrayList<>();
     private Depot depot;
 
     @Autowired
-    RouteOptimizerImpl(SolverManager solverManager, RouteChangedEventPublisher eventPublisher) {
+    RouteOptimizerImpl(SolverManager solverManager, SolutionPublisher solutionPublisher) {
         this.solverManager = solverManager;
-        this.eventPublisher = eventPublisher;
+        this.solutionPublisher = solutionPublisher;
     }
 
     @Override
@@ -52,11 +52,11 @@ class RouteOptimizerImpl implements RouteOptimizer {
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (depot == null) {
             depot = DepotFactory.depot(location);
-            publishRoute();
+            publishSolution();
         } else {
             visits.add(location);
             if (vehicles.isEmpty()) {
-                publishRoute();
+                publishSolution();
             } else if (visits.size() == 1) {
                 solverManager.startSolver(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
             } else {
@@ -79,7 +79,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
                 );
             }
             depot = null;
-            publishRoute();
+            publishSolution();
         } else {
             if (depot.getId().equals(domainLocation.id())) {
                 throw new IllegalStateException("You can only remove depot if there are no customers.");
@@ -91,7 +91,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
             }
             if (visits.isEmpty()) {
                 solverManager.stopSolver();
-                publishRoute();
+                publishSolution();
             } else {
                 solverManager.removeLocation(LocationFactory.fromDomain(domainLocation));
             }
@@ -104,7 +104,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
         vehicle.setDepot(depot);
         vehicles.add(vehicle);
         if (visits.isEmpty()) {
-            publishRoute();
+            publishSolution();
         } else if (vehicles.size() == 1) {
             solverManager.startSolver(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
         } else {
@@ -118,11 +118,11 @@ class RouteOptimizerImpl implements RouteOptimizer {
             throw new IllegalArgumentException("Attempt to remove a non-existent vehicle: " + domainVehicle);
         }
         if (visits.isEmpty()) {
-            publishRoute();
+            publishSolution();
         } else {
             if (vehicles.isEmpty()) {
                 solverManager.stopSolver();
-                publishRoute();
+                publishSolution();
             } else {
                 solverManager.removeVehicle(VehicleFactory.fromDomain(domainVehicle));
             }
@@ -136,10 +136,10 @@ class RouteOptimizerImpl implements RouteOptimizer {
         // TODO keep vehicles, only remove depot and visits
         vehicles.clear();
         visits.clear();
-        publishRoute();
+        publishSolution();
     }
 
-    private void publishRoute() {
-        eventPublisher.publishRoute(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
+    private void publishSolution() {
+        solutionPublisher.publishSolution(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
     }
 }

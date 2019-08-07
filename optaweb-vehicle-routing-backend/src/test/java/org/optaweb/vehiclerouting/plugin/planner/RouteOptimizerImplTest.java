@@ -67,7 +67,7 @@ class RouteOptimizerImplTest {
     @Mock
     private SolverManager solverManager;
     @Mock
-    private RouteChangedEventPublisher eventPublisher;
+    private SolutionPublisher solutionPublisher;
     @InjectMocks
     private RouteOptimizerImpl routeOptimizer;
 
@@ -76,7 +76,7 @@ class RouteOptimizerImplTest {
         // arrange
         Long[] vehicleIds = {2L, 3L, 5L, 7L, 11L};
         Arrays.stream(vehicleIds).forEach(vehicleId -> routeOptimizer.addVehicle(vehicle(vehicleId)));
-        clearInvocations(eventPublisher);
+        clearInvocations(solutionPublisher);
 
         // act
         routeOptimizer.addLocation(location1, distanceMatrix);
@@ -110,7 +110,7 @@ class RouteOptimizerImplTest {
         assertThat(solutionWithOneVehicle.getCustomerList()).isEmpty();
 
         // act 2
-        clearInvocations(eventPublisher);
+        clearInvocations(solutionPublisher);
         routeOptimizer.removeVehicle(vehicle);
 
         // assert 2
@@ -230,7 +230,7 @@ class RouteOptimizerImplTest {
     void solver_should_not_start_when_two_locations_added_if_there_are_no_vehicles() {
         // add 2 locations
         routeOptimizer.addLocation(location1, distanceMatrix);
-        clearInvocations(eventPublisher);
+        clearInvocations(solutionPublisher);
         routeOptimizer.addLocation(location2, distanceMatrix);
 
         // solving did not start due to missing vehicles
@@ -248,7 +248,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
         verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
-        clearInvocations(eventPublisher);
+        clearInvocations(solutionPublisher);
 
         routeOptimizer.removeVehicle(vehicle);
         verify(solverManager).stopSolver();
@@ -263,7 +263,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
         verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
-        clearInvocations(eventPublisher);
+        clearInvocations(solutionPublisher);
 
         // remove 1 location from running solver
         routeOptimizer.removeLocation(location2);
@@ -293,7 +293,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location2, distanceMatrix);
 
         verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
-        clearInvocations(eventPublisher);
+        clearInvocations(solutionPublisher);
 
         routeOptimizer.removeLocation(location2);
         verify(solverManager).stopSolver();
@@ -327,7 +327,7 @@ class RouteOptimizerImplTest {
         long vehicleId2 = 113;
         routeOptimizer.addVehicle(vehicle(vehicleId1));
         routeOptimizer.addVehicle(vehicle(vehicleId2));
-        clearInvocations(eventPublisher);
+        clearInvocations(solutionPublisher);
 
         // when a depot is added
         routeOptimizer.addLocation(location1, distanceMatrix);
@@ -341,7 +341,7 @@ class RouteOptimizerImplTest {
         assertThat(solution1.getDepotList()).extracting(AbstractPersistable::getId).containsExactly(location1.id());
 
         // if we remove the depot
-        clearInvocations(eventPublisher);
+        clearInvocations(solutionPublisher);
         routeOptimizer.removeLocation(location1);
 
         // then published solution's depot list is empty
@@ -438,7 +438,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location2, distanceMatrix);
         verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
         routeOptimizer.addLocation(location3, distanceMatrix);
-        clearInvocations(eventPublisher);
+        clearInvocations(solutionPublisher);
 
         routeOptimizer.clear();
 
@@ -457,7 +457,7 @@ class RouteOptimizerImplTest {
     }
 
     private VehicleRoutingSolution verifyPublishingPreliminarySolution() {
-        verify(eventPublisher).publishRoute(solutionArgumentCaptor.capture());
+        verify(solutionPublisher).publishSolution(solutionArgumentCaptor.capture());
         return solutionArgumentCaptor.getValue();
     }
 
