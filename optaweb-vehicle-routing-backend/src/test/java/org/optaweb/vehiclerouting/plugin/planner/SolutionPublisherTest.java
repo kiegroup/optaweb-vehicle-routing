@@ -109,20 +109,31 @@ class SolutionPublisherTest {
         Vehicle vehicle2 = vehicle(vehicleId2);
 
         long depotId = 1;
-        long visitId = 2;
+        long visitId1 = 2;
+        long visitId2 = 3;
         Depot depot = depot(new RoadLocation(depotId, 1.0, 1.0));
-        Customer customer = customer(new RoadLocation(visitId, 2.0, 2.0));
+        Customer customer1 = customer(new RoadLocation(visitId1, 2.0, 2.0));
+        Customer customer2 = customer(new RoadLocation(visitId2, 0.2, 0.2));
 
         VehicleRoutingSolution solution = solutionFromCustomers(
                 asList(vehicle1, vehicle2),
                 depot,
-                singletonList(customer)
+                asList(customer1, customer2)
         );
 
+        /* Send both vehicles to both visits
+         * V1
+         *   \
+         *    |---> customer1 ---> customer2
+         *   /
+         * V2
+         */
         for (Vehicle vehicle : solution.getVehicleList()) {
-            vehicle.setNextCustomer(customer);
-            customer.setPreviousStandstill(vehicle);
+            vehicle.setNextCustomer(customer1);
+            customer1.setPreviousStandstill(vehicle);
         }
+        customer1.setNextCustomer(customer2);
+        customer2.setPreviousStandstill(customer1);
 
         // act
         RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
@@ -135,7 +146,7 @@ class SolutionPublisherTest {
         for (ShallowRoute route : event.routes()) {
             assertThat(route.depotId).isEqualTo(depot.getId());
             // visits shouldn't include the depot
-            assertThat(route.visitIds).containsExactly(visitId);
+            assertThat(route.visitIds).containsExactly(visitId1, visitId2);
         }
 
         assertThat(event.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
