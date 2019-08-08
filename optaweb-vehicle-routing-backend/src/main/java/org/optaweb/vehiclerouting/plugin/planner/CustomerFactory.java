@@ -24,7 +24,7 @@ import org.optaplanner.examples.vehiclerouting.domain.location.Location;
  */
 public class CustomerFactory {
 
-    public static final int DEFAULT_CUSTOMER_DEMAND = 1;
+    static final int DEFAULT_CUSTOMER_DEMAND = 1;
 
     private CustomerFactory() {
         throw new AssertionError("Utility class");
