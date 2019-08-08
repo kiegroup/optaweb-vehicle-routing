@@ -32,6 +32,7 @@ public class RouteChangedEvent extends ApplicationEvent {
     private final String distance;
     private final List<Long> vehicleIds;
     private final Long depotId;
+    private final List<Long> visitIds;
     private final Collection<ShallowRoute> routes;
 
     /**
@@ -40,6 +41,7 @@ public class RouteChangedEvent extends ApplicationEvent {
      * @param distance total distance of all vehicle routes
      * @param vehicleIds vehicle IDs
      * @param depotId depot ID. May be null if there are no locations.
+     * @param visitIds IDs of visits
      * @param routes vehicle routes
      */
     public RouteChangedEvent(
@@ -47,12 +49,14 @@ public class RouteChangedEvent extends ApplicationEvent {
             String distance,
             List<Long> vehicleIds,
             Long depotId,
+            List<Long> visitIds,
             Collection<ShallowRoute> routes
     ) {
         super(source);
         this.distance = Objects.requireNonNull(distance);
         this.vehicleIds = Objects.requireNonNull(vehicleIds);
         this.depotId = depotId; // may be null (no depot)
+        this.visitIds = Objects.requireNonNull(visitIds);
         this.routes = Objects.requireNonNull(routes);
     }
 
@@ -82,5 +86,9 @@ public class RouteChangedEvent extends ApplicationEvent {
      */
     public Optional<Long> depotId() {
         return Optional.ofNullable(depotId);
+    }
+
+    public List<Long> visitIds() {
+        return visitIds;
     }
 }

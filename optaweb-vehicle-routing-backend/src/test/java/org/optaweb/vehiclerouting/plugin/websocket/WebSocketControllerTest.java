@@ -38,7 +38,6 @@ import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -66,9 +65,17 @@ class WebSocketControllerTest {
         String distance = "some distance";
         Location depot = new Location(1, Coordinates.valueOf(3, 5));
         Vehicle vehicle = new Vehicle(1, "vehicle");
-        Route route = new Route(vehicle, depot, emptyList());
-        List<RouteWithTrack> routes = singletonList(new RouteWithTrack(route, emptyList()));
-        RoutingPlan plan = new RoutingPlan(distance, singletonList(vehicle), depot, routes);
+        Location visit = new Location(2, Coordinates.valueOf(321, 123));
+        Route route = new Route(vehicle, depot, singletonList(visit));
+        Coordinates pointOnTrack = Coordinates.valueOf(0, 0);
+        RouteWithTrack routeWithTrack = new RouteWithTrack(route, singletonList(singletonList(pointOnTrack)));
+        RoutingPlan plan = new RoutingPlan(
+                distance,
+                singletonList(vehicle),
+                depot,
+                singletonList(visit),
+                singletonList(routeWithTrack)
+        );
         when(routeListener.getBestRoutingPlan()).thenReturn(plan);
 
         // act
@@ -76,6 +83,7 @@ class WebSocketControllerTest {
 
         // assert
         assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);
+        assertThat(portableRoutingPlan.getVisits()).containsExactly(PortableLocation.fromLocation(visit));
         assertThat(portableRoutingPlan.getVehicles()).containsExactly(PortableVehicle.fromVehicle(vehicle));
         assertThat(portableRoutingPlan.getDepot()).isEqualTo(PortableLocation.fromLocation(depot));
         assertThat(portableRoutingPlan.getRoutes()).hasSize(1);

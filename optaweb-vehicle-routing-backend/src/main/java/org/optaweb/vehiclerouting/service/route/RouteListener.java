@@ -69,17 +69,21 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     @Override
     public void onApplicationEvent(RouteChangedEvent event) {
         // TODO persist the best solution
-        Map<Long, Vehicle> vehicleMap = event.vehicleIds().stream()
-                .collect(Collectors.toMap(vehicleId -> vehicleId, this::findVehicleById));
         Location depot = event.depotId().flatMap(locationRepository::find).orElse(null);
         try {
+            // TODO do this without try-catch
+            Map<Long, Vehicle> vehicleMap = event.vehicleIds().stream()
+                    .collect(Collectors.toMap(vehicleId -> vehicleId, this::findVehicleById));
+            Map<Long, Location> visitMap = event.visitIds().stream()
+                    .collect(Collectors.toMap(visitId -> visitId, this::findLocationById));
+
             List<RouteWithTrack> routes = event.routes().stream()
                     // list of deep locations
                     .map(shallowRoute -> new Route(
                             vehicleMap.get(shallowRoute.vehicleId),
                             findLocationById(shallowRoute.depotId),
                             shallowRoute.visitIds.stream()
-                                    .map(this::findLocationById)
+                                    .map(visitMap::get)
                                     .collect(Collectors.toList())
                     ))
                     // add tracks
@@ -89,6 +93,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
                     event.distance(),
                     new ArrayList<>(vehicleMap.values()),
                     depot,
+                    new ArrayList<>(visitMap.values()),
                     routes
             );
             publisher.publish(bestRoutingPlan);

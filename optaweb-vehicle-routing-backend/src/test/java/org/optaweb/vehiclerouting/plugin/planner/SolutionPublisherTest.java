@@ -64,6 +64,7 @@ class SolutionPublisherTest {
 
         assertThat(event.vehicleIds()).isEmpty();
         assertThat(event.depotId()).isEmpty();
+        assertThat(event.visitIds()).isEmpty();
         assertThat(event.routes()).isEmpty();
         assertThat(event.distance()).isEqualTo("0h 0m 0s");
     }
@@ -78,12 +79,13 @@ class SolutionPublisherTest {
 
         assertThat(event.vehicleIds()).containsExactly(vehicleId);
         assertThat(event.depotId()).isEmpty();
+        assertThat(event.visitIds()).isEmpty();
         assertThat(event.routes()).isEmpty();
         assertThat(event.distance()).isEqualTo("0h 0m 0s");
     }
 
     @Test
-    void nonempty_solution_without_vehicles_should_have_zero_routes() {
+    void nonempty_solution_without_vehicles_should_have_zero_routes_but_contain_visits() {
         long depotId = 1;
         long visitId = 2;
         VehicleRoutingSolution solution = solutionFromLocations(
@@ -96,6 +98,7 @@ class SolutionPublisherTest {
 
         assertThat(event.vehicleIds()).isEmpty();
         assertThat(event.depotId()).contains(depotId);
+        assertThat(event.visitIds()).containsExactly(visitId);
         assertThat(event.routes()).isEmpty();
         assertThat(event.distance()).isEqualTo("0h 0m 0s");
     }
@@ -151,6 +154,7 @@ class SolutionPublisherTest {
 
         assertThat(event.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
         assertThat(event.depotId()).contains(depotId);
+        assertThat(event.visitIds()).containsExactlyInAnyOrder(visitId1, visitId2);
         assertThat(event.distance()).isEqualTo("0h 0m 0s");
     }
 

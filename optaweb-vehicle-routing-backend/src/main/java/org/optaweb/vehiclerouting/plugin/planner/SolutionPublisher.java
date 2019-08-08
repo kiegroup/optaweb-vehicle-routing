@@ -80,8 +80,15 @@ class SolutionPublisher {
                 distanceString,
                 vehicleIds(solution),
                 depotId(solution),
+                visitIds(solution),
                 routes
         );
+    }
+
+    private static List<Long> visitIds(VehicleRoutingSolution solution) {
+        return solution.getCustomerList().stream()
+                .map(customer -> customer.getLocation().getId())
+                .collect(Collectors.toList());
     }
 
     /**

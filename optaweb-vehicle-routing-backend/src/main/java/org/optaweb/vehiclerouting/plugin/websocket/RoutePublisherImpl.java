@@ -46,11 +46,14 @@ class RoutePublisherImpl implements RoutePublisher {
         webSocket.convertAndSend("/topic/route", portable(routingPlan));
     }
 
-    static PortableRoutingPlan portable(RoutingPlan routingPlan) {
+    static PortableRoutingPlan portable(RoutingPlan routingPlan) { // TODO factory
         List<PortableVehicle> vehicles = routingPlan.vehicles().stream()
                 .map(PortableVehicle::fromVehicle)
                 .collect(Collectors.toList());
         PortableLocation depot = routingPlan.depot().map(PortableLocation::fromLocation).orElse(null);
+        List<PortableLocation> visits = routingPlan.visits().stream()
+                .map(PortableLocation::fromLocation)
+                .collect(Collectors.toList());
         List<PortableRoute> routes = routingPlan.routes().stream()
                 .map(routeWithTrack -> new PortableRoute(
                         PortableVehicle.fromVehicle(routeWithTrack.vehicle()),
@@ -58,7 +61,7 @@ class RoutePublisherImpl implements RoutePublisher {
                         portableVisits(routeWithTrack.visits()),
                         portableTrack(routeWithTrack.track())))
                 .collect(Collectors.toList());
-        return new PortableRoutingPlan(routingPlan.distance(), vehicles, depot, routes);
+        return new PortableRoutingPlan(routingPlan.distance(), vehicles, depot, visits, routes);
     }
 
     private static List<List<PortableCoordinates>> portableTrack(List<List<Coordinates>> track) {

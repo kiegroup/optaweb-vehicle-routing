@@ -65,10 +65,7 @@ class RouteListenerTest {
 
     @Test
     void new_listener_should_return_empty_best_route() {
-        RoutingPlan bestRoutingPlan = routeListener.getBestRoutingPlan();
-        assertThat(bestRoutingPlan.distance()).isEmpty();
-        assertThat(bestRoutingPlan.depot()).isEmpty();
-        assertThat(bestRoutingPlan.routes()).isEmpty();
+        assertThat(routeListener.getBestRoutingPlan().isEmpty()).isTrue();
     }
 
     @Test
@@ -76,13 +73,21 @@ class RouteListenerTest {
         final long vehicleId = 12;
         final Vehicle vehicle = new Vehicle(vehicleId, "");
         when(vehicleRepository.find(vehicleId)).thenReturn(Optional.of(vehicle));
-        RouteChangedEvent event = new RouteChangedEvent(this, "", singletonList(vehicleId), null, emptyList());
+        RouteChangedEvent event = new RouteChangedEvent(
+                this,
+                "",
+                singletonList(vehicleId),
+                null,
+                emptyList(),
+                emptyList()
+        );
         routeListener.onApplicationEvent(event);
         verifyZeroInteractions(router);
 
         RoutingPlan routingPlan = verifyAndCapturePublishedPlan();
         assertThat(routingPlan.vehicles()).containsExactly(vehicle);
         assertThat(routingPlan.depot()).isEmpty();
+        assertThat(routingPlan.visits()).isEmpty();
         assertThat(routingPlan.routes()).isEmpty();
     }
 
@@ -101,6 +106,7 @@ class RouteListenerTest {
                 "0 km",
                 singletonList(vehicleId),
                 depot.id(),
+                emptyList(),
                 singletonList(route)
         );
         routeListener.onApplicationEvent(event);
@@ -110,6 +116,7 @@ class RouteListenerTest {
         RoutingPlan routingPlan = verifyAndCapturePublishedPlan();
         assertThat(routingPlan.vehicles()).containsExactly(vehicle);
         assertThat(routingPlan.depot()).contains(depot);
+        assertThat(routingPlan.visits()).isEmpty();
         assertThat(routingPlan.routes()).hasSize(1);
         RouteWithTrack routeWithTrack = routingPlan.routes().iterator().next();
         assertThat(routeWithTrack.depot()).isEqualTo(depot);
@@ -144,6 +151,7 @@ class RouteListenerTest {
                 distance,
                 singletonList(vehicleId),
                 depot.id(),
+                singletonList(visit.id()),
                 singletonList(route)
         );
 
@@ -153,6 +161,7 @@ class RouteListenerTest {
         assertThat(routingPlan.distance()).isEqualTo(distance);
         assertThat(routingPlan.vehicles()).containsExactly(vehicle);
         assertThat(routingPlan.depot()).contains(depot);
+        assertThat(routingPlan.visits()).containsExactly(visit);
         assertThat(routingPlan.routes()).hasSize(1);
         RouteWithTrack routeWithTrack = routingPlan.routes().iterator().next();
         assertThat(routeWithTrack.vehicle()).isEqualTo(vehicle);
@@ -164,7 +173,7 @@ class RouteListenerTest {
     }
 
     @Test
-    void should_discard_update_gracefully_if_one_of_location_has_been_removed() {
+    void should_discard_update_gracefully_if_one_of_the_locations_has_been_removed() {
         final Vehicle vehicle = new Vehicle(3, "x");
         final Location depot = new Location(1, Coordinates.valueOf(1.0, 2.0));
         final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
@@ -178,7 +187,40 @@ class RouteListenerTest {
                 "",
                 singletonList(vehicle.id()),
                 depot.id(),
-                singletonList(route));
+                singletonList(visit.id()),
+                singletonList(route)
+        );
+
+        // precondition
+        assertThat(routeListener.getBestRoutingPlan().isEmpty()).isTrue();
+
+        // must not throw exception
+        routeListener.onApplicationEvent(event);
+
+        verify(router, never()).getPath(any(), any());
+        verify(publisher, never()).publish(any());
+
+        assertThat(routeListener.getBestRoutingPlan().isEmpty()).isTrue();
+    }
+
+    @Test
+    void should_discard_update_gracefully_if_one_of_the_vehicles_has_been_removed() {
+        final Vehicle vehicle = new Vehicle(3, "x");
+        final Location depot = new Location(1, Coordinates.valueOf(1.0, 2.0));
+        final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
+        when(vehicleRepository.find(vehicle.id())).thenReturn(Optional.empty());
+        when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
+        when(locationRepository.find(visit.id())).thenReturn(Optional.of(visit));
+
+        ShallowRoute route = new ShallowRoute(vehicle.id(), depot.id(), singletonList(visit.id()));
+        RouteChangedEvent event = new RouteChangedEvent(
+                this,
+                "",
+                singletonList(vehicle.id()),
+                depot.id(),
+                singletonList(visit.id()),
+                singletonList(route)
+        );
 
         // precondition
         assertThat(routeListener.getBestRoutingPlan().isEmpty()).isTrue();
