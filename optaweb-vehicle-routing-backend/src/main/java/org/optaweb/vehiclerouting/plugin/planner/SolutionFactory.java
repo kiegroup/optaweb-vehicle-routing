@@ -116,7 +116,7 @@ public class SolutionFactory {
         if (depot != null) {
             solution.getLocationList().add(depot.getLocation());
             solution.getDepotList().add(depot);
-            moveAllVehiclesTo(vehicles, depot);
+            moveAllVehiclesToDepot(vehicles, depot);
         }
         solution.setCustomerList(new ArrayList<>(customers));
         solution.setScore(HardSoftLongScore.ZERO);
@@ -124,7 +124,7 @@ public class SolutionFactory {
         return solution;
     }
 
-    private static void moveAllVehiclesTo(List<Vehicle> vehicles, Depot depot) {
+    private static void moveAllVehiclesToDepot(List<Vehicle> vehicles, Depot depot) {
         vehicles.forEach(vehicle -> vehicle.setDepot(depot));
     }
 }
