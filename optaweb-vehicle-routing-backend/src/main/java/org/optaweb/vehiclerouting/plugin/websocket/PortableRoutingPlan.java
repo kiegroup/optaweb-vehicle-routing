@@ -28,18 +28,21 @@ class PortableRoutingPlan {
     private final String distance;
     private final List<PortableVehicle> vehicles;
     private final PortableLocation depot;
+    private final List<PortableLocation> visits;
     private final List<PortableRoute> routes;
 
     PortableRoutingPlan(
             String distance,
             List<PortableVehicle> vehicles,
             PortableLocation depot,
+            List<PortableLocation> visits,
             List<PortableRoute> routes
     ) {
         // TODO require non-null
         this.distance = distance;
         this.vehicles = vehicles;
         this.depot = depot;
+        this.visits = visits;
         this.routes = routes;
     }
 
@@ -53,6 +56,10 @@ class PortableRoutingPlan {
 
     public PortableLocation getDepot() {
         return depot;
+    }
+
+    public List<PortableLocation> getVisits() {
+        return visits;
     }
 
     public List<PortableRoute> getRoutes() {

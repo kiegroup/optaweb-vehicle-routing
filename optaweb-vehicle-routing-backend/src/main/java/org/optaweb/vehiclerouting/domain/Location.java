@@ -62,8 +62,8 @@ public class Location extends LocationData {
 
     @Override
     public String toString() {
-        return "Location{" +
-                "id=" + id +
-                '}';
+        return "Location ["
+                + id +
+                "]: '" + description() + "'";
     }
 }

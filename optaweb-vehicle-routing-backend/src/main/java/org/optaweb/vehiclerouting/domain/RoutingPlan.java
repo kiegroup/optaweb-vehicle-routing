@@ -17,11 +17,15 @@
 package org.optaweb.vehiclerouting.domain;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static java.util.Collections.emptyList;
 
@@ -30,9 +34,12 @@ import static java.util.Collections.emptyList;
  */
 public class RoutingPlan {
 
+    private static final Logger logger = LoggerFactory.getLogger(RoutingPlan.class);
+
     private final String distance;
     private final List<Vehicle> vehicles;
     private final Location depot;
+    private final List<Location> visits;
     private final List<RouteWithTrack> routes;
 
     /**
@@ -40,12 +47,20 @@ public class RoutingPlan {
      * @param distance the overall travel distance
      * @param vehicles all available vehicles
      * @param depot the depot (may be null)
+     * @param visits all visits
      * @param routes routes of all vehicles
      */
-    public RoutingPlan(String distance, List<Vehicle> vehicles, Location depot, List<RouteWithTrack> routes) {
+    public RoutingPlan(
+            String distance,
+            List<Vehicle> vehicles,
+            Location depot,
+            List<Location> visits,
+            List<RouteWithTrack> routes
+    ) {
         this.distance = Objects.requireNonNull(distance);
         this.vehicles = new ArrayList<>(Objects.requireNonNull(vehicles));
         this.depot = depot;
+        this.visits = new ArrayList<>(Objects.requireNonNull(visits));
         this.routes = new ArrayList<>(Objects.requireNonNull(routes));
         if (depot == null) {
             if (!routes.isEmpty()) {
@@ -59,6 +74,24 @@ public class RoutingPlan {
             throw new IllegalArgumentException(describeVehiclesRoutesInconsistency(
                     "Some routes are assigned to non-existent vehicles", vehicles, routes
             ));
+        } else if (!routes.isEmpty()) {
+            List<Location> visited = routes.stream()
+                    .map(Route::visits)
+                    .flatMap(Collection::stream)
+                    .collect(Collectors.toList());
+            ArrayList<Location> unvisited = new ArrayList<>(visits);
+            unvisited.removeAll(visited);
+            if (!unvisited.isEmpty()) {
+                // This happens because we're also publishing solutions that are not fully initialized.
+                // TODO decide whether this allowed or not
+                logger.warn("Some visits are unvisited: {}", unvisited);
+            }
+            visited.removeAll(visits);
+            if (!visited.isEmpty()) {
+                throw new IllegalArgumentException(
+                        "Some routes are going through visits that haven't been defined: " + visited
+                );
+            }
         }
     }
 
@@ -86,7 +119,7 @@ public class RoutingPlan {
      * @return empty routing plan
      */
     public static RoutingPlan empty() {
-        return new RoutingPlan("", emptyList(), null, emptyList());
+        return new RoutingPlan("", emptyList(), null, emptyList(), emptyList());
     }
 
     /**
@@ -111,6 +144,10 @@ public class RoutingPlan {
      */
     public List<RouteWithTrack> routes() {
         return Collections.unmodifiableList(routes);
+    }
+
+    public List<Location> visits() {
+        return Collections.unmodifiableList(visits);
     }
 
     /**

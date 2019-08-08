@@ -97,6 +97,7 @@ class RoutePublisherImplTest {
                 distance,
                 asList(vehicle1, vehicle2),
                 location1,
+                asList(location2, location3),
                 asList(route1, route2)
         );
 
@@ -104,16 +105,24 @@ class RoutePublisherImplTest {
         PortableRoutingPlan portableRoutingPlan = RoutePublisherImpl.portable(routingPlan);
 
         // assert
-        // -- plan
+        // -- plan.distance
         assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);
+        // -- plan.depot
         assertThat(portableRoutingPlan.getDepot()).isEqualTo(PortableLocation.fromLocation(location1));
+        // -- plan.visits
+        assertThat(portableRoutingPlan.getVisits()).containsExactlyInAnyOrder(
+                PortableLocation.fromLocation(location2),
+                PortableLocation.fromLocation(location3)
+        );
+        // -- plan.routes
         assertThat(portableRoutingPlan.getRoutes()).hasSize(2);
+        // -- plan.vehicles
         assertThat(portableRoutingPlan.getVehicles()).containsExactlyInAnyOrder(
                 PortableVehicle.fromVehicle(vehicle1),
                 PortableVehicle.fromVehicle(vehicle2)
         );
 
-        // -- plan.route1
+        // -- plan.routes[1]
         PortableRoute portableRoute1 = portableRoutingPlan.getRoutes().get(0);
 
         assertThat(portableRoute1.getVehicle()).isEqualTo(PortableVehicle.fromVehicle(vehicle1));
@@ -133,7 +142,7 @@ class RoutePublisherImplTest {
                 PortableCoordinates.fromCoordinates(location1.coordinates())
         );
 
-        // -- plan.route2
+        // -- plan.routes[2]
         PortableRoute portableRoute2 = portableRoutingPlan.getRoutes().get(1);
 
         assertThat(portableRoute2.getVehicle()).isEqualTo(PortableVehicle.fromVehicle(vehicle2));
