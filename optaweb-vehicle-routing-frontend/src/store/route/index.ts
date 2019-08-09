@@ -16,11 +16,7 @@
 
 import * as routeOperations from './operations';
 import reducer from './reducers';
-import * as routeSelectors from './selectors';
 
-export {
-  routeOperations,
-  routeSelectors,
-};
+export { routeOperations };
 
 export default reducer;

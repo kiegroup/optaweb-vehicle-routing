@@ -17,7 +17,7 @@
 import { Text, TextContent, TextVariants } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { routeOperations, routeSelectors } from 'store/route';
+import { routeOperations } from 'store/route';
 import { Location } from 'store/route/types';
 import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
@@ -29,7 +29,7 @@ interface StateProps {
 
 const mapStateToProps = ({ plan }: AppState): StateProps => ({
   depot: plan.depot,
-  visits: routeSelectors.getVisits(plan),
+  visits: plan.visits,
 });
 
 export interface DispatchProps {

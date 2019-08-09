@@ -35,6 +35,7 @@ import TspMap from 'ui/components/TspMap';
 
 export interface StateProps {
   depot: Location | null;
+  visits: Location[];
   routes: RouteWithTrack[];
   boundingBox: [LatLng, LatLng] | null;
 }
@@ -46,6 +47,7 @@ export interface DispatchProps {
 
 const mapStateToProps = ({ plan, serverInfo }: AppState): StateProps => ({
   depot: plan.depot,
+  visits: plan.visits,
   routes: plan.routes,
   boundingBox: serverInfo.boundingBox,
 });
@@ -87,6 +89,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
     const {
       boundingBox,
       depot,
+      visits,
       routes,
       removeHandler,
     } = this.props;
@@ -143,6 +146,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
               clickHandler={this.handleMapClick}
               removeHandler={removeHandler}
               depot={depot}
+              visits={visits}
               routes={filteredRoutes}
             />
           </SplitItem>

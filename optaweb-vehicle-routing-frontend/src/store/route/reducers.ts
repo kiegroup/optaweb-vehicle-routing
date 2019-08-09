@@ -20,6 +20,7 @@ export const initialRouteState: RoutingPlan = {
   distance: 'no data',
   vehicles: [],
   depot: null,
+  visits: [],
   routes: [],
 };
 
