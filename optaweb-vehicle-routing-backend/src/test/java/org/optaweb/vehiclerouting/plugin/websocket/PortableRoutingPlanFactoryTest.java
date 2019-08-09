@@ -19,42 +19,22 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.Vehicle;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.verify;
 
-@ExtendWith(MockitoExtension.class)
-class RoutePublisherImplTest {
-
-    @Mock
-    private SimpMessagingTemplate webSocket;
-    @InjectMocks
-    private RoutePublisherImpl routePublisher;
-
-    @Test
-    void publish() {
-        routePublisher.publish(RoutingPlan.empty());
-        verify(webSocket).convertAndSend(anyString(), any(PortableRoutingPlan.class));
-    }
+class PortableRoutingPlanFactoryTest {
 
     @Test
     void portable_routing_plan_empty() {
-        PortableRoutingPlan portablePlan = RoutePublisherImpl.portable(RoutingPlan.empty());
+        PortableRoutingPlan portablePlan = PortableRoutingPlanFactory.fromRoutingPlan(RoutingPlan.empty());
         assertThat(portablePlan.getDistance()).isEmpty();
         assertThat(portablePlan.getVehicles()).isEmpty();
         assertThat(portablePlan.getDepot()).isNull();
@@ -102,7 +82,7 @@ class RoutePublisherImplTest {
         );
 
         // act
-        PortableRoutingPlan portableRoutingPlan = RoutePublisherImpl.portable(routingPlan);
+        PortableRoutingPlan portableRoutingPlan = PortableRoutingPlanFactory.fromRoutingPlan(routingPlan);
 
         // assert
         // -- plan.distance

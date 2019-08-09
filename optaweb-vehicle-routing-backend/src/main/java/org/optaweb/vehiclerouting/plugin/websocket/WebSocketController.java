@@ -87,7 +87,7 @@ class WebSocketController {
     @SubscribeMapping("/route")
     PortableRoutingPlan subscribeToRouteTopic() {
         RoutingPlan routingPlan = routeListener.getBestRoutingPlan();
-        return RoutePublisherImpl.portable(routingPlan);
+        return PortableRoutingPlanFactory.fromRoutingPlan(routingPlan);
     }
 
     /**
