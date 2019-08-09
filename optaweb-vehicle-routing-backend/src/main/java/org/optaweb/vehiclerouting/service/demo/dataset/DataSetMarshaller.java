@@ -75,7 +75,7 @@ public class DataSetMarshaller {
         try {
             return mapper.readValue(reader, DataSet.class);
         } catch (IOException e) {
-            throw new IllegalStateException("Can't read demo data set.", e);
+            throw new IllegalStateException("Can't read demo data set", e);
         }
     }
 
