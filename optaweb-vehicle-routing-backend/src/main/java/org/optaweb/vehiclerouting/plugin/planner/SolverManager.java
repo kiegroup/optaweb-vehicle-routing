@@ -110,7 +110,9 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
                 Thread.currentThread().interrupt();
                 throw new RuntimeException("Failed to stop solver", e);
             } catch (ExecutionException e) {
-                throw new RuntimeException("Failed to stop solver", e);
+                // Skipping the wrapper ExecutionException because it only tells that the problem occurred
+                // in solverFuture.get() but that's obvious.
+                throw new RuntimeException("Failed to stop solver", e.getCause());
             }
         }
     }
@@ -126,7 +128,9 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
                 Thread.currentThread().interrupt();
                 throw new RuntimeException("Solver has died", e);
             } catch (ExecutionException e) {
-                throw new RuntimeException("Solver has died", e);
+                // Skipping the wrapper ExecutionException because it only tells that the problem occurred
+                // in solverFuture.get() but that's obvious.
+                throw new RuntimeException("Solver has died", e.getCause());
             }
             throw new IllegalStateException("Solver has finished solving even though it operates in daemon mode");
         }
