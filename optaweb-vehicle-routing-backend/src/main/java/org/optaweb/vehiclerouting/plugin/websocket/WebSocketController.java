@@ -48,11 +48,12 @@ class WebSocketController {
     private final DemoService demoService;
 
     @Autowired
-    WebSocketController(RouteListener routeListener,
-                        RegionService regionService,
-                        LocationService locationService,
-                        VehicleService vehicleService,
-                        DemoService demoService
+    WebSocketController(
+            RouteListener routeListener,
+            RegionService regionService,
+            LocationService locationService,
+            VehicleService vehicleService,
+            DemoService demoService
     ) {
         this.routeListener = routeListener;
         this.regionService = regionService;
