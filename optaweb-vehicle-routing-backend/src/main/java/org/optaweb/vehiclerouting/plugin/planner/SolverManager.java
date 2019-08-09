@@ -34,6 +34,7 @@ import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -61,6 +62,7 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
 
     private Future<VehicleRoutingSolution> solverFuture;
 
+    @Autowired
     SolverManager(
             Solver<VehicleRoutingSolution> solver,
             AsyncTaskExecutor executor,

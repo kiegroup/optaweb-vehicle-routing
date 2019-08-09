@@ -32,6 +32,7 @@ import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     // TODO maybe remove state from the service and get best route from a repository
     private RoutingPlan bestRoutingPlan;
 
+    @Autowired
     RouteListener(
             Router router,
             RoutePublisher publisher,

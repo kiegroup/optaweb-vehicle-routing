@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.service.vehicle;
 
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -26,6 +27,7 @@ public class VehicleService {
     private final RouteOptimizer optimizer;
     private final VehicleRepository vehicleRepository;
 
+    @Autowired
     public VehicleService(RouteOptimizer optimizer, VehicleRepository vehicleRepository) {
         this.optimizer = optimizer;
         this.vehicleRepository = vehicleRepository;

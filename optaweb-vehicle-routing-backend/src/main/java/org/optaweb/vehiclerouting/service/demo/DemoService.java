@@ -26,6 +26,7 @@ import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.location.LocationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +43,7 @@ public class DemoService {
     private final LocationRepository locationRepository;
     private final RoutingProblemList routingProblems;
 
+    @Autowired
     DemoService(
             LocationService locationService,
             DataSetMarshaller dataSetMarshaller,

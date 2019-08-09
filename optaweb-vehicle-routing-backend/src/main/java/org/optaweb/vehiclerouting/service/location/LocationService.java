@@ -22,6 +22,7 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -36,6 +37,7 @@ public class LocationService {
     private final RouteOptimizer optimizer;
     private final DistanceMatrix distanceMatrix;
 
+    @Autowired
     LocationService(LocationRepository repository,
                     RouteOptimizer optimizer,
                     DistanceMatrix distanceMatrix) {
