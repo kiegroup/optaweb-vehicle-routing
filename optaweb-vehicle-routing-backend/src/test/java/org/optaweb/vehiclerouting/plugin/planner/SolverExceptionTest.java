@@ -81,7 +81,7 @@ class SolverExceptionTest {
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(runnable)
                 .withMessageContaining(message)
-                .withRootCauseExactlyInstanceOf(TestException.class);
+                .withCauseInstanceOf(TestException.class);
     }
 
     private static class TestException extends RuntimeException {
