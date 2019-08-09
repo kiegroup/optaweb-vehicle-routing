@@ -28,7 +28,7 @@ import {
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { demoOperations } from 'store/demo';
-import { routeOperations, routeSelectors } from 'store/route';
+import { routeOperations } from 'store/route';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
@@ -60,12 +60,14 @@ export interface DispatchProps {
 const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
   distance: plan.distance,
   depot: plan.depot,
-  visits: routeSelectors.getVisits(plan),
+  visits: plan.visits,
   routes: plan.routes,
   isDemoLoading: demo.isLoading,
   boundingBox: serverInfo.boundingBox,
   countryCodeSearchFilter: serverInfo.countryCodes,
-  demoNames: (serverInfo.demos && serverInfo.demos.map(value => value.name)) || [], // TODO use selector
+  // TODO use selector
+  // TODO sort demos alphabetically?
+  demoNames: (serverInfo.demos && serverInfo.demos.map(value => value.name)) || [],
 });
 
 const mapDispatchToProps: DispatchProps = {
@@ -196,6 +198,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
             removeHandler={removeHandler}
             depot={depot}
             routes={routes}
+            visits={visits}
           />
         </SplitItem>
       </Split>

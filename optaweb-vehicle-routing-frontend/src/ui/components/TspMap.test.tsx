@@ -30,6 +30,7 @@ describe('TSP Map View', () => {
         lat: 1.345678,
         lng: 1.345678,
       },
+      visits: [],
       routes: [{
         visits: [],
         track: [],
@@ -41,26 +42,30 @@ describe('TSP Map View', () => {
   });
 
   it('should pan and zoom to show bounding box', () => {
+    const depot = {
+      id: 1,
+      lat: 1.345678,
+      lng: 1.345678,
+    };
+    const visit2 = {
+      id: 2,
+      lat: 2.345678,
+      lng: 2.345678,
+    };
+    const visit3 = {
+      id: 3,
+      lat: 3.676111,
+      lng: 3.568333,
+    };
     const props: TspMapProps = {
       clickHandler: jest.fn(),
       removeHandler: jest.fn(),
       selectedId: 1,
       boundingBox: [{ lat: -1, lng: -2 }, { lat: 10, lng: 20 }],
-      depot: {
-        id: 1,
-        lat: 1.345678,
-        lng: 1.345678,
-      },
+      depot,
+      visits: [visit2, visit3],
       routes: [{
-        visits: [{
-          id: 2,
-          lat: 2.345678,
-          lng: 2.345678,
-        }, {
-          id: 3,
-          lat: 3.676111,
-          lng: 3.568333,
-        }],
+        visits: [visit2, visit3],
         track: [[0.111222, 0.222333], [0.444555, 0.555666]],
       }],
     };

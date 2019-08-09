@@ -104,7 +104,7 @@ describe('WebSocket client operations', () => {
         countryCodes: [],
         demos: [{
           name: 'demo',
-          visits: 5, // equals number of visits in `planWithTwoRoutes`
+          visits: nonEmptyPlan.visits.length,
         }],
       },
       demo: {
@@ -143,10 +143,10 @@ describe('WebSocket client operations', () => {
     store.clearActions();
 
     // simulate receiving plan with number of visits matching the expected demo size
-    routeSubscriptionCallback(planWithTwoRoutes);
+    routeSubscriptionCallback(nonEmptyPlan);
     // FINISH_LOADING should be dispatched
     expect(store.getActions()).toEqual([
-      routeOperations.updateRoute(planWithTwoRoutes),
+      routeOperations.updateRoute(nonEmptyPlan),
       demoOperations.finishLoading(),
     ]);
   });
@@ -218,50 +218,49 @@ const emptyPlan: RoutingPlan = {
   distance: '',
   vehicles: [],
   depot: null,
+  visits: [],
   routes: [],
 };
 
 const vehicle1 = { id: 1, name: 'v1' };
 const vehicle2 = { id: 2, name: 'v2' };
-
-const planWithTwoRoutes: RoutingPlan = {
+const visit1 = {
+  id: 1,
+  lat: 1.345678,
+  lng: 1.345678,
+};
+const visit2 = {
+  id: 2,
+  lat: 2.345678,
+  lng: 2.345678,
+};
+const visit3 = {
+  id: 3,
+  lat: 3.676111,
+  lng: 3.568333,
+};
+const visit4 = {
+  id: 4,
+  lat: 4.345678,
+  lng: 4.345678,
+};
+const visit5 = {
+  id: 5,
+  lat: 5.345678,
+  lng: 5.345678,
+};
+const visit6 = {
+  id: 6,
+  lat: 6.676111,
+  lng: 6.568333,
+};
+const nonEmptyPlan: RoutingPlan = {
   distance: '1.0',
   vehicles: [
     vehicle1,
     vehicle2,
   ],
-  depot: {
-    id: 1,
-    lat: 1.345678,
-    lng: 1.345678,
-  },
-  routes: [{
-    vehicle: vehicle1,
-    visits: [{
-      id: 2,
-      lat: 2.345678,
-      lng: 2.345678,
-    }, {
-      id: 3,
-      lat: 3.676111,
-      lng: 3.568333,
-    }],
-    track: [],
-  }, {
-    vehicle: vehicle2,
-    visits: [{
-      id: 4,
-      lat: 1.345678,
-      lng: 1.345678,
-    }, {
-      id: 5,
-      lat: 2.345678,
-      lng: 2.345678,
-    }, {
-      id: 6,
-      lat: 3.676111,
-      lng: 3.568333,
-    }],
-    track: [],
-  }],
+  depot: visit1,
+  visits: [visit2, visit3, visit4, visit5, visit6],
+  routes: [], // not important for the test
 };

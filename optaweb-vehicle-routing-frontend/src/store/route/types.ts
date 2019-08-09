@@ -51,7 +51,7 @@ export interface RoutingPlan {
   readonly distance: string;
   readonly vehicles: Vehicle[];
   readonly depot: Location | null;
-  // TODO visits: Location[];
+  readonly visits: Location[];
   readonly routes: RouteWithTrack[];
 }
 

@@ -64,6 +64,21 @@ describe('Demo reducers', () => {
 });
 
 const vehicle1 = { id: 1, name: 'v1' };
+const visit1 = {
+  id: 1,
+  lat: 1.345678,
+  lng: 1.345678,
+};
+const visit2 = {
+  id: 2,
+  lat: 2.345678,
+  lng: 2.345678,
+};
+const visit3 = {
+  id: 3,
+  lat: 3.676111,
+  lng: 3.568333,
+};
 
 const state: AppState = {
   connectionStatus: WebSocketConnectionStatus.CLOSED,
@@ -80,21 +95,10 @@ const state: AppState = {
     distance: '10',
     vehicles: [vehicle1],
     depot: null,
+    visits: [visit1, visit2, visit3],
     routes: [{
       vehicle: vehicle1,
-      visits: [{
-        id: 1,
-        lat: 1.345678,
-        lng: 1.345678,
-      }, {
-        id: 2,
-        lat: 2.345678,
-        lng: 2.345678,
-      }, {
-        id: 3,
-        lat: 3.676111,
-        lng: 3.568333,
-      }],
+      visits: [visit1, visit2, visit3],
 
       track: [[0.111222, 0.222333], [0.444555, 0.555666]],
     }],

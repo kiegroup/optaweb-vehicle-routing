@@ -26,6 +26,7 @@ export interface TspMapProps {
   clickHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
   removeHandler: (id: number) => void;
   depot: Location | null;
+  visits: Location[];
   routes: Omit<RouteWithTrack, 'vehicle'>[];
   boundingBox: [LatLng, LatLng] | null;
 }
@@ -79,6 +80,7 @@ const TspMap: React.FC<TspMapProps> = ({
   boundingBox,
   selectedId,
   depot,
+  visits,
   routes,
   clickHandler,
   removeHandler,
@@ -102,9 +104,7 @@ const TspMap: React.FC<TspMapProps> = ({
       />
       <ZoomControl position="topright" />
       {depot && marker(removeHandler, selectedId, depot, true)}
-      {routes.map(route => (
-        route.visits.map(location => marker(removeHandler, selectedId, location, false))
-      ))}
+      {visits.map(location => marker(removeHandler, selectedId, location, false))}
       {routes.map((route, index) => (
         <Polyline
           // eslint-disable-next-line react/no-array-index-key

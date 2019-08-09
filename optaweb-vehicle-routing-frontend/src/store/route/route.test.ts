@@ -18,7 +18,7 @@ import { mockStore } from '../mockStore';
 import { AppState } from '../types';
 import { WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
-import reducer, { routeOperations, routeSelectors } from './index';
+import reducer, { routeOperations } from './index';
 import { initialRouteState } from './reducers';
 import { LatLngWithDescription } from './types';
 
@@ -118,20 +118,33 @@ describe('Route reducers', () => {
   });
 });
 
-describe('Route selectors', () => {
-  it('getVisits() should return visits from all routes', () => {
-    const visits = routeSelectors.getVisits(state.plan);
-    expect(visits).toHaveLength(5);
-    expect(visits).toContain(state.plan.routes[0].visits[0]);
-    expect(visits).toContain(state.plan.routes[0].visits[1]);
-    expect(visits).toContain(state.plan.routes[0].visits[2]);
-    expect(visits).toContain(state.plan.routes[1].visits[0]);
-    expect(visits).toContain(state.plan.routes[1].visits[1]);
-  });
-});
-
 const vehicle1 = { id: 1, name: 'v1' };
 const vehicle2 = { id: 2, name: 'v2' };
+const visit1 = {
+  id: 1,
+  lat: 1.345678,
+  lng: 1.345678,
+};
+const visit2 = {
+  id: 2,
+  lat: 2.345678,
+  lng: 2.345678,
+};
+const visit3 = {
+  id: 3,
+  lat: 3.676111,
+  lng: 3.568333,
+};
+const visit4 = {
+  id: 4,
+  lat: 4.345678,
+  lng: 4.345678,
+};
+const visit5 = {
+  id: 5,
+  lat: 5.345678,
+  lng: 5.345678,
+};
 
 const state: AppState = {
   connectionStatus: WebSocketConnectionStatus.CLOSED,
@@ -151,34 +164,14 @@ const state: AppState = {
       vehicle2,
     ],
     depot: null,
+    visits: [visit1, visit2, visit3, visit4, visit5],
     routes: [{
       vehicle: vehicle1,
-      visits: [{
-        id: 1,
-        lat: 1.345678,
-        lng: 1.345678,
-      }, {
-        id: 2,
-        lat: 2.345678,
-        lng: 2.345678,
-      }, {
-        id: 3,
-        lat: 3.676111,
-        lng: 3.568333,
-      }],
-
+      visits: [visit1, visit2, visit3],
       track: [[0.111222, 0.222333], [0.444555, 0.555666]],
     }, {
       vehicle: vehicle2,
-      visits: [{
-        id: 4,
-        lat: 4.345678,
-        lng: 4.345678,
-      }, {
-        id: 5,
-        lat: 5.345678,
-        lng: 5.345678,
-      }],
+      visits: [visit4, visit5],
 
       track: [[0.41, 0.42], [0.51, 0.52]],
     }],
