@@ -42,6 +42,7 @@ export const ID_EXPORT_BUTTON = 'export-button';
 export interface StateProps {
   distance: string;
   depot: Location | null;
+  vehicleCount: number;
   visits: Location[];
   routes: RouteWithTrack[];
   isDemoLoading: boolean;
@@ -59,6 +60,7 @@ export interface DispatchProps {
 
 const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
   distance: plan.distance,
+  vehicleCount: plan.vehicles.length,
   depot: plan.depot,
   visits: plan.visits,
   routes: plan.routes,
@@ -117,6 +119,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
     const {
       distance,
       depot,
+      vehicleCount,
       visits,
       routes,
       demoNames,
@@ -161,7 +164,8 @@ export class Demo extends React.Component<DemoProps, DemoState> {
           <Split gutter={GutterSize.md}>
             <SplitItem isFilled={true}>
               <Grid>
-                <GridItem span={6}>{`Visits: ${visits.length}`}</GridItem>
+                <GridItem span={3}>{`${vehicleCount} vehicles`}</GridItem>
+                <GridItem span={3}>{`${visits.length} visits`}</GridItem>
                 <GridItem span={6}>{`Total travel time: ${distance}`}</GridItem>
               </Grid>
             </SplitItem>

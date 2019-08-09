@@ -58,6 +58,7 @@ const emptyRouteProps: DemoProps = {
   removeHandler: jest.fn(),
 
   distance: '0',
+  vehicleCount: 0,
   demoNames: ['demo'],
   isDemoLoading: false,
   boundingBox: null,
@@ -75,6 +76,7 @@ const threeLocationsProps: DemoProps = {
   removeHandler: jest.fn(),
 
   distance: '10',
+  vehicleCount: 8,
   demoNames: ['demo'],
   isDemoLoading: false,
   boundingBox: null,
