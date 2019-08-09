@@ -92,7 +92,9 @@ class RouteOptimizerImpl implements RouteOptimizer {
             if (!visits.removeIf(item -> item.getId().equals(domainLocation.id()))) {
                 throw new IllegalArgumentException("Cannot remove " + domainLocation + " because it doesn't exist");
             }
-            if (visits.isEmpty()) {
+            if (vehicles.isEmpty()) { // solver is not running
+                publishSolution();
+            } else if (visits.isEmpty()) { // solver is running
                 solverManager.stopSolver();
                 publishSolution();
             } else {
@@ -120,15 +122,13 @@ class RouteOptimizerImpl implements RouteOptimizer {
         if (!vehicles.removeIf(vehicle -> vehicle.getId().equals(domainVehicle.id()))) {
             throw new IllegalArgumentException("Cannot remove " + domainVehicle + " because it doesn't exist");
         }
-        if (visits.isEmpty()) {
+        if (visits.isEmpty()) { // solver is not running
+            publishSolution();
+        } else if (vehicles.isEmpty()) { // solver is running
+            solverManager.stopSolver();
             publishSolution();
         } else {
-            if (vehicles.isEmpty()) {
-                solverManager.stopSolver();
-                publishSolution();
-            } else {
-                solverManager.removeVehicle(VehicleFactory.fromDomain(domainVehicle));
-            }
+            solverManager.removeVehicle(VehicleFactory.fromDomain(domainVehicle));
         }
     }
 
