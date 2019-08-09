@@ -49,8 +49,10 @@ class RouteOptimizerImpl implements RouteOptimizer {
     }
 
     @Override
-    public void addLocation(org.optaweb.vehiclerouting.domain.Location domainLocation,
-                            DistanceMatrix distanceMatrix) {
+    public void addLocation(
+            org.optaweb.vehiclerouting.domain.Location domainLocation,
+            DistanceMatrix distanceMatrix
+    ) {
         RoadLocation location = LocationFactory.fromDomain(domainLocation);
         DistanceMap distanceMap = new DistanceMap(domainLocation, distanceMatrix.getRow(domainLocation));
         location.setTravelDistanceMap(distanceMap);

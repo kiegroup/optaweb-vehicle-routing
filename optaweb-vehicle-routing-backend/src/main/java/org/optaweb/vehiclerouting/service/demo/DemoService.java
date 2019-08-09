@@ -48,7 +48,8 @@ public class DemoService {
             LocationService locationService,
             DataSetMarshaller dataSetMarshaller,
             LocationRepository locationRepository,
-            RoutingProblemList routingProblems) {
+            RoutingProblemList routingProblems
+    ) {
         this.locationService = locationService;
         this.dataSetMarshaller = dataSetMarshaller;
         this.locationRepository = locationRepository;

@@ -38,9 +38,11 @@ public class LocationService {
     private final DistanceMatrix distanceMatrix;
 
     @Autowired
-    LocationService(LocationRepository repository,
-                    RouteOptimizer optimizer,
-                    DistanceMatrix distanceMatrix) {
+    LocationService(
+            LocationRepository repository,
+            RouteOptimizer optimizer,
+            DistanceMatrix distanceMatrix
+    ) {
         this.repository = repository;
         this.optimizer = optimizer;
         this.distanceMatrix = distanceMatrix;
