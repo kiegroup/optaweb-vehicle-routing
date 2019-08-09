@@ -127,7 +127,7 @@ class SolverIntegrationTest {
             // we don't know how many of them there are.
             if (!monitor.awaitAllProblemFactChanges(1000)) {
                 assertThat(terminateSolver(solver)).isNotNull();
-                fail("Problem fact change hasn't been completed.");
+                fail("Problem fact change hasn't been completed");
             }
         }
 

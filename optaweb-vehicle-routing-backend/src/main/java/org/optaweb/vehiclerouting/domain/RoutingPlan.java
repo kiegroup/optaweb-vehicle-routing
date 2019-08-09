@@ -49,7 +49,7 @@ public class RoutingPlan {
         this.routes = new ArrayList<>(Objects.requireNonNull(routes));
         if (depot == null) {
             if (!routes.isEmpty()) {
-                throw new IllegalArgumentException("Routes must be empty when depot is null.");
+                throw new IllegalArgumentException("Routes must be empty when depot is null");
             }
         } else if (routes.size() != vehicles.size()) {
             throw new IllegalArgumentException(describeVehiclesRoutesInconsistency(

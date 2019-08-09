@@ -62,7 +62,7 @@ class LocationRepositoryImpl implements LocationRepository {
         Optional<LocationEntity> maybeLocation = repository.findById(id);
         maybeLocation.ifPresent(locationEntity -> repository.deleteById(id));
         LocationEntity locationEntity = maybeLocation.orElseThrow(
-                () -> new IllegalArgumentException("Location{id=" + id + "} doesn't exist.")
+                () -> new IllegalArgumentException("Location{id=" + id + "} doesn't exist")
         );
         Location location = toDomain(locationEntity);
         logger.info("Deleted {}", location);
