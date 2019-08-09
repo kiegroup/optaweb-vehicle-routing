@@ -132,7 +132,7 @@ class RouteOptimizerImplTest {
         // act & assert
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> routeOptimizer.removeVehicle(nonExistentVehicle))
-                .withMessageContaining("vehicle");
+                .withMessageContaining("exist");
     }
 
     @Test

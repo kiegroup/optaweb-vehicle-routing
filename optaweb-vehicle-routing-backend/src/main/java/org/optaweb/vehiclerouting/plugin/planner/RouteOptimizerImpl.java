@@ -81,9 +81,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
                 );
             }
             if (!depot.getId().equals(domainLocation.id())) {
-                throw new IllegalArgumentException(
-                        "Cannot remove " + domainLocation + " because it doesn't exist"
-                );
+                throw new IllegalArgumentException("Cannot remove " + domainLocation + " because it doesn't exist");
             }
             depot = null;
             publishSolution();
@@ -92,9 +90,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
                 throw new IllegalStateException("You can only remove depot if there are no customers");
             }
             if (!visits.removeIf(item -> item.getId().equals(domainLocation.id()))) {
-                throw new IllegalArgumentException(
-                        "Cannot remove " + domainLocation + " because it doesn't exist"
-                );
+                throw new IllegalArgumentException("Cannot remove " + domainLocation + " because it doesn't exist");
             }
             if (visits.isEmpty()) {
                 solverManager.stopSolver();
@@ -122,7 +118,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
     @Override
     public void removeVehicle(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
         if (!vehicles.removeIf(vehicle -> vehicle.getId().equals(domainVehicle.id()))) {
-            throw new IllegalArgumentException("Attempt to remove a non-existent vehicle: " + domainVehicle);
+            throw new IllegalArgumentException("Cannot remove " + domainVehicle + " because it doesn't exist");
         }
         if (visits.isEmpty()) {
             publishSolution();
