@@ -54,8 +54,10 @@ describe('Demo page', () => {
 const emptyRouteProps: DemoProps = {
   loadHandler: jest.fn(),
   clearHandler: jest.fn(),
-  addHandler: jest.fn(),
-  removeHandler: jest.fn(),
+  addVehicleHandler: jest.fn,
+  removeVehicleHandler: jest.fn,
+  addLocationHandler: jest.fn(),
+  removeLocationHandler: jest.fn(),
 
   distance: '0',
   vehicleCount: 0,
@@ -72,8 +74,10 @@ const emptyRouteProps: DemoProps = {
 const threeLocationsProps: DemoProps = {
   loadHandler: jest.fn(),
   clearHandler: jest.fn(),
-  addHandler: jest.fn(),
-  removeHandler: jest.fn(),
+  addVehicleHandler: jest.fn,
+  removeVehicleHandler: jest.fn,
+  addLocationHandler: jest.fn(),
+  removeLocationHandler: jest.fn(),
 
   distance: '10',
   vehicleCount: 8,

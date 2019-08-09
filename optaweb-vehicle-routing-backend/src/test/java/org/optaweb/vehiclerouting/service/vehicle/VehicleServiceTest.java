@@ -24,6 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 
+import static java.util.Arrays.asList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -58,5 +59,22 @@ class VehicleServiceTest {
 
         verify(vehicleRepository).removeVehicle(vehicleId);
         verify(optimizer).removeVehicle(vehicle);
+    }
+
+    @Test
+    void removeAnyVehicle_should_remove_oldest_vehicle() {
+        final long vehicleId1 = 1;
+        final long vehicleId2 = 2;
+        final long vehicleId3 = 3;
+        final Vehicle vehicle1 = new Vehicle(vehicleId1, "1");
+        final Vehicle vehicle2 = new Vehicle(vehicleId2, "2");
+        final Vehicle vehicle3 = new Vehicle(vehicleId3, "3");
+        when(vehicleRepository.vehicles()).thenReturn(asList(vehicle3, vehicle1, vehicle2));
+        when(vehicleRepository.removeVehicle(vehicleId1)).thenReturn(vehicle1);
+
+        vehicleService.removeAnyVehicle();
+
+        verify(vehicleRepository).removeVehicle(vehicleId1);
+        verify(optimizer).removeVehicle(vehicle1);
     }
 }

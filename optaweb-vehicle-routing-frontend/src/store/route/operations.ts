@@ -51,6 +51,11 @@ export const deleteVehicle: ThunkCommandFactory<number, DeleteVehicleAction> = (
     client.deleteVehicle(vehicleId);
   });
 
+export const deleteAnyVehicle: ThunkCommandFactory<void, DeleteVehicleAction> = (
+  () => (dispatch, getState, client) => {
+    client.deleteAnyVehicle();
+  });
+
 export const clearRoute: ThunkCommandFactory<void, ClearRouteAction> = (
   () => (dispatch, getState, client) => {
     dispatch(actions.clearRoute());

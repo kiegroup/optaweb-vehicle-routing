@@ -16,15 +16,21 @@
 
 import {
   Button,
+  ButtonVariant,
   Grid,
   GridItem,
   GutterSize,
+  InputGroup,
+  InputGroupText,
+  Level,
+  LevelItem,
   Split,
   SplitItem,
   Text,
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
+import { MinusIcon, PlusIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { demoOperations } from 'store/demo';
@@ -54,8 +60,10 @@ export interface StateProps {
 export interface DispatchProps {
   loadHandler: typeof demoOperations.requestDemo;
   clearHandler: typeof routeOperations.clearRoute;
-  addHandler: typeof routeOperations.addLocation;
-  removeHandler: typeof routeOperations.deleteLocation;
+  addLocationHandler: typeof routeOperations.addLocation;
+  removeLocationHandler: typeof routeOperations.deleteLocation;
+  addVehicleHandler: typeof routeOperations.addVehicle;
+  removeVehicleHandler: typeof routeOperations.deleteAnyVehicle;
 }
 
 const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
@@ -75,8 +83,10 @@ const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
 const mapDispatchToProps: DispatchProps = {
   loadHandler: demoOperations.requestDemo,
   clearHandler: routeOperations.clearRoute,
-  addHandler: routeOperations.addLocation,
-  removeHandler: routeOperations.deleteLocation,
+  addLocationHandler: routeOperations.addLocation,
+  removeLocationHandler: routeOperations.deleteLocation,
+  addVehicleHandler: routeOperations.addVehicle,
+  removeVehicleHandler: routeOperations.deleteAnyVehicle,
 };
 
 export type DemoProps = DispatchProps & StateProps;
@@ -99,11 +109,11 @@ export class Demo extends React.Component<DemoProps, DemoState> {
   }
 
   handleMapClick(e: any) {
-    this.props.addHandler({ ...e.latlng, description: '' }); // TODO use reverse geocoding to find address
+    this.props.addLocationHandler({ ...e.latlng, description: '' }); // TODO use reverse geocoding to find address
   }
 
   handleSearchResultClick(result: Result) {
-    this.props.addHandler({ ...result.latLng, description: result.address });
+    this.props.addLocationHandler({ ...result.latLng, description: result.address });
   }
 
   handleDemoLoadClick(demoName: string) {
@@ -126,7 +136,9 @@ export class Demo extends React.Component<DemoProps, DemoState> {
       isDemoLoading,
       boundingBox,
       countryCodeSearchFilter,
-      removeHandler,
+      addVehicleHandler,
+      removeVehicleHandler,
+      removeLocationHandler,
       clearHandler,
     } = this.props;
 
@@ -152,7 +164,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
           <LocationList
             depot={depot}
             visits={visits}
-            removeHandler={removeHandler}
+            removeHandler={removeLocationHandler}
             selectHandler={this.onSelectLocation}
           />
         </SplitItem>
@@ -164,9 +176,38 @@ export class Demo extends React.Component<DemoProps, DemoState> {
           <Split gutter={GutterSize.md}>
             <SplitItem isFilled={true}>
               <Grid>
-                <GridItem span={3}>{`${vehicleCount} vehicles`}</GridItem>
-                <GridItem span={3}>{`${visits.length} visits`}</GridItem>
-                <GridItem span={6}>{`Total travel time: ${distance}`}</GridItem>
+                <GridItem span={8}>
+                  <Level gutter="sm">
+                    <LevelItem style={{ display: 'flex' }}>
+                      <Level gutter="sm">
+                        <LevelItem>
+                          <InputGroup>
+                            <Button
+                              variant={ButtonVariant.primary}
+                              isDisabled={vehicleCount === 0}
+                              onClick={removeVehicleHandler}
+                            >
+                              <MinusIcon />
+                            </Button>
+                            <InputGroupText readOnly>
+                              {vehicleCount}
+                            </InputGroupText>
+                            <Button
+                              variant={ButtonVariant.primary}
+                              onClick={addVehicleHandler}
+                            >
+                              <PlusIcon />
+                            </Button>
+                          </InputGroup>
+                        </LevelItem>
+                        <LevelItem>vehicles</LevelItem>
+                      </Level>
+                    </LevelItem>
+                    <LevelItem>{`${visits.length} visits`}</LevelItem>
+                    <LevelItem>{`Total travel time: ${distance}`}</LevelItem>
+                  </Level>
+                </GridItem>
+                <GridItem span={4} />
               </Grid>
             </SplitItem>
             <SplitItem isFilled={false}>
@@ -199,7 +240,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
             boundingBox={boundingBox}
             selectedId={selectedId}
             clickHandler={this.handleMapClick}
-            removeHandler={removeHandler}
+            removeHandler={removeLocationHandler}
             depot={depot}
             routes={routes}
             visits={visits}
