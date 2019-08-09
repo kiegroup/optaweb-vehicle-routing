@@ -105,12 +105,32 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
             sm={null}
             smOffset={null}
             smRowSpan={null}
-            span={6}
+            span={3}
             xl={null}
             xlOffset={null}
             xlRowSpan={null}
           >
-            Visits: 2
+            8 vehicles
+          </GridItem>
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={3}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            2 visits
           </GridItem>
           <GridItem
             className=""
@@ -330,12 +350,32 @@ exports[`Demo page should render correctly with a few routes 1`] = `
             sm={null}
             smOffset={null}
             smRowSpan={null}
-            span={6}
+            span={3}
             xl={null}
             xlOffset={null}
             xlRowSpan={null}
           >
-            Visits: 2
+            8 vehicles
+          </GridItem>
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={3}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            2 visits
           </GridItem>
           <GridItem
             className=""
@@ -532,12 +572,32 @@ exports[`Demo page should render correctly with no routes 1`] = `
             sm={null}
             smOffset={null}
             smRowSpan={null}
-            span={6}
+            span={3}
             xl={null}
             xlOffset={null}
             xlRowSpan={null}
           >
-            Visits: 0
+            0 vehicles
+          </GridItem>
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={3}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            0 visits
           </GridItem>
           <GridItem
             className=""
