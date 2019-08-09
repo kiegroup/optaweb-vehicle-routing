@@ -16,6 +16,8 @@
 
 package org.optaweb.vehiclerouting.service.vehicle;
 
+import java.util.Optional;
+
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +44,13 @@ public class VehicleService {
     public void removeVehicle(long vehicleId) {
         Vehicle vehicle = vehicleRepository.removeVehicle(vehicleId);
         optimizer.removeVehicle(vehicle);
+    }
+
+    public synchronized void removeAnyVehicle() {
+        Optional<Vehicle> first = vehicleRepository.vehicles().stream().min((o1, o2) -> (int) (o1.id() - o2.id()));
+        first.ifPresent(vehicle -> {
+            Vehicle removed = vehicleRepository.removeVehicle(vehicle.id());
+            optimizer.removeVehicle(removed);
+        });
     }
 }

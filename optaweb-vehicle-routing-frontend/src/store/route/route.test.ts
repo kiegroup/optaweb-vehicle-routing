@@ -54,6 +54,15 @@ describe('Route operations', () => {
     expect(client.deleteVehicle).toHaveBeenCalledWith(id);
   });
 
+  it('deleteAnyVehicle() should call client', () => {
+    const { store, client } = mockStore(state);
+
+    store.dispatch(routeOperations.deleteAnyVehicle());
+
+    expect(store.getActions()).toEqual([]);
+    expect(client.deleteAnyVehicle).toHaveBeenCalledTimes(1);
+  });
+
   it('addLocation() should call client', () => {
     const { store, client } = mockStore(state);
     const location: LatLngWithDescription = { lat: 11.01, lng: -35.79, description: 'new location' };

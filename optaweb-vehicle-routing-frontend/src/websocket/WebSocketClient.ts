@@ -72,6 +72,12 @@ export default class WebSocketClient {
     }
   }
 
+  deleteAnyVehicle() {
+    if (this.stompClient) {
+      this.stompClient.send('/app/vehicle/deleteAny');
+    }
+  }
+
   deleteVehicle(vehicleId: number) {
     if (this.stompClient) {
       this.stompClient.send(`/app/vehicle/${vehicleId}/delete`, JSON.stringify(vehicleId));

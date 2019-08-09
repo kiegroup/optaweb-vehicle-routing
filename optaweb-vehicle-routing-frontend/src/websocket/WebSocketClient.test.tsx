@@ -105,6 +105,13 @@ describe('WebSocketClient', () => {
     expect(mockClient.send).toHaveBeenCalledWith(`/app/vehicle/${vehicleId}/delete`, JSON.stringify(vehicleId));
   });
 
+  it('deleteAnyVehicle() should send message to the correct destination', () => {
+    client.connect(onSuccess, onError);
+    client.deleteAnyVehicle();
+
+    expect(mockClient.send).toHaveBeenCalledWith('/app/vehicle/deleteAny');
+  });
+
   it('loadDemo() should send demo name', () => {
     const demo = 'Test demo';
 
