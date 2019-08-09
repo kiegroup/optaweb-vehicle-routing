@@ -227,7 +227,7 @@ class RouteOptimizerImplTest {
     }
 
     @Test
-    void solver_should_not_start_when_two_locations_added_if_there_are_no_vehicles() {
+    void solver_should_not_start_nor_stop_when_modifying_location_and_there_are_no_vehicles() {
         // add 2 locations
         routeOptimizer.addLocation(location1, distanceMatrix);
         clearInvocations(solutionPublisher);
@@ -236,9 +236,22 @@ class RouteOptimizerImplTest {
         // solving did not start due to missing vehicles
         verify(solverManager, never()).startSolver(any());
         // but preliminary solution is published
-        VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
-        assertThat(solution.getVehicleList()).isEmpty();
-        assertThat(solution.getLocationList()).hasSize(2);
+        VehicleRoutingSolution solution1 = verifyPublishingPreliminarySolution();
+        assertThat(solution1.getVehicleList()).isEmpty();
+        assertThat(solution1.getLocationList()).hasSize(2);
+
+        // add a third location and remove another one
+        routeOptimizer.addLocation(location3, distanceMatrix);
+        clearInvocations(solutionPublisher);
+        routeOptimizer.removeLocation(location2);
+
+        // no interactions with solver (start/stop/problem fact changes) because
+        // it hasn't started (due to missing vehicles)
+        verifyZeroInteractions(solverManager);
+        // but preliminary solution is published
+        VehicleRoutingSolution solution2 = verifyPublishingPreliminarySolution();
+        assertThat(solution2.getVehicleList()).isEmpty();
+        assertThat(solution2.getLocationList()).hasSize(2);
     }
 
     @Test
