@@ -36,6 +36,7 @@ import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.change.ChangeVehicleCapacity;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
@@ -165,6 +166,9 @@ class SolverManagerTest {
                 .isThrownBy(() -> solverManager.removeVehicle(mock(Vehicle.class)))
                 .withMessageContaining("started");
         assertThatIllegalStateException()
+                .isThrownBy(() -> solverManager.changeCapacity(mock(Vehicle.class)))
+                .withMessageContaining("started");
+        assertThatIllegalStateException()
                 .isThrownBy(() -> solverManager.addLocation(mock(RoadLocation.class)))
                 .withMessageContaining("started");
         assertThatIllegalStateException()
@@ -186,6 +190,9 @@ class SolverManagerTest {
                 .isThrownBy(() -> solverManager.removeVehicle(mock(Vehicle.class)))
                 .withMessageContaining("died");
         assertThatExceptionOfType(RuntimeException.class)
+                .isThrownBy(() -> solverManager.changeCapacity(mock(Vehicle.class)))
+                .withMessageContaining("died");
+        assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> solverManager.addLocation(mock(RoadLocation.class)))
                 .withMessageContaining("died");
         assertThatExceptionOfType(RuntimeException.class)
@@ -204,6 +211,9 @@ class SolverManagerTest {
 
         solverManager.removeVehicle(mock(Vehicle.class));
         verify(solver).addProblemFactChange(any(RemoveVehicle.class));
+
+        solverManager.changeCapacity(mock(Vehicle.class));
+        verify(solver).addProblemFactChange(any(ChangeVehicleCapacity.class));
 
         solverManager.addLocation(mock(RoadLocation.class));
         verify(solver).addProblemFactChange(any(AddCustomer.class));

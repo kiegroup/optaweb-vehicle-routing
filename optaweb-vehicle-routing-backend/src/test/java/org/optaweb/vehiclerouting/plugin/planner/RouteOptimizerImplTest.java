@@ -443,6 +443,54 @@ class RouteOptimizerImplTest {
     }
 
     @Test
+    void changing_vehicle_capacity_should_take_effect_when_solver_is_started_or_be_published() {
+        // 1 depot, 1 vehicle
+        final int capacity = VehicleFactory.DEFAULT_VEHICLE_CAPACITY * 2 + 29;
+        final long vehicleId1 = 10;
+        routeOptimizer.addVehicle(vehicle(vehicleId1));
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        clearInvocations(solutionPublisher);
+
+        // change capacity when solver is not running
+        routeOptimizer.changeCapacity(vehicle(vehicleId1), capacity);
+        verifyZeroInteractions(solverManager);
+        VehicleRoutingSolution preliminarySolution = verifyPublishingPreliminarySolution();
+        assertThat(preliminarySolution.getVehicleList().get(0).getCapacity()).isEqualTo(capacity);
+
+        // start solver
+        routeOptimizer.addLocation(location2, distanceMatrix);
+
+        VehicleRoutingSolution solution = verifySolverStartedWithSolution();
+        assertThat(solution.getVehicleList().get(0).getCapacity()).isEqualTo(capacity);
+    }
+
+    @Test
+    void changing_vehicle_capacity_must_happen_through_problem_fact_change_when_solver_is_running() {
+        // 1 vehicle, 1 depot, 1 visit
+        final int capacity = 14816;
+        final long vehicleId1 = 10;
+        routeOptimizer.addVehicle(vehicle(vehicleId1));
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        routeOptimizer.addLocation(location2, distanceMatrix);
+        verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
+
+        routeOptimizer.changeCapacity(vehicle(vehicleId1), capacity);
+
+        verify(solverManager).changeCapacity(any(org.optaplanner.examples.vehiclerouting.domain.Vehicle.class));
+    }
+
+    @Test
+    void changing_vehicle_capacity_must_fail_fast_if_the_vehicle_does_not_exist() {
+        // 1 vehicle, 1 depot, 1 visit
+        final long vehicleId = 10;
+        routeOptimizer.addVehicle(vehicle(vehicleId));
+
+        assertThatIllegalArgumentException()
+                .isThrownBy(() -> routeOptimizer.changeCapacity(vehicle(vehicleId + 1), 0))
+                .withMessageContaining("exist");
+    }
+
+    @Test
     void clear_should_stop_solver_and_publish_initial_solution() {
         // set up a situation where solver is running with 1 depot and 2 visits
         long vehicleId = 10;

@@ -53,4 +53,11 @@ public class VehicleService {
             optimizer.removeVehicle(removed);
         });
     }
+
+    public void changeCapacity(Long vehicleId, int capacity) {
+        Vehicle vehicle = vehicleRepository.find(vehicleId).orElseThrow(() -> new IllegalArgumentException(
+                "Can't remove Vehicle{id=" + vehicleId + "} because it doesn't exist"
+        ));
+        optimizer.changeCapacity(vehicle, capacity);
+    }
 }

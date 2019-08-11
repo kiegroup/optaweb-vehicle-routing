@@ -29,6 +29,7 @@ import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.change.ChangeVehicleCapacity;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
@@ -157,6 +158,11 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
     void removeVehicle(Vehicle vehicle) {
         assertSolverIsAlive();
         solver.addProblemFactChange(new RemoveVehicle(vehicle));
+    }
+
+    void changeCapacity(Vehicle vehicle) {
+        assertSolverIsAlive();
+        solver.addProblemFactChange(new ChangeVehicleCapacity(vehicle));
     }
 
     interface SolvingTask extends Callable<VehicleRoutingSolution> {

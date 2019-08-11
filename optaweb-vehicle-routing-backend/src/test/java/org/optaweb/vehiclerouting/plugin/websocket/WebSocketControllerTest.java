@@ -156,6 +156,14 @@ class WebSocketControllerTest {
     }
 
     @Test
+    void changeCapacity() {
+        long vehicleId = 2000;
+        int capacity = 50;
+        webSocketController.changeCapacity(vehicleId, capacity);
+        verify(vehicleService).changeCapacity(vehicleId, capacity);
+    }
+
+    @Test
     void demo() {
         String problemName = "xy";
         webSocketController.demo(problemName);
