@@ -143,4 +143,9 @@ class WebSocketController {
     void removeAnyVehicle() {
         vehicleService.removeAnyVehicle();
     }
+
+    @MessageMapping({"/vehicle/{id}/capacity/{capacity}"})
+    void changeCapacity(@DestinationVariable Long id, @DestinationVariable int capacity) {
+        vehicleService.changeCapacity(id, capacity);
+    }
 }

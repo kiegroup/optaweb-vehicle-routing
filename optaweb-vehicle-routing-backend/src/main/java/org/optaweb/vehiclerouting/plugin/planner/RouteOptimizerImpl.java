@@ -133,6 +133,22 @@ class RouteOptimizerImpl implements RouteOptimizer {
     }
 
     @Override
+    public void changeCapacity(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle, int capacity) {
+        Vehicle vehicle = vehicles.stream()
+                .filter(item -> item.getId().equals(domainVehicle.id()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Cannot change capacity of " + domainVehicle + " because it doesn't exist"
+                ));
+        vehicle.setCapacity(capacity);
+        if (!visits.isEmpty()) {
+            solverManager.changeCapacity(vehicle);
+        } else {
+            publishSolution();
+        }
+    }
+
+    @Override
     public void clear() {
         solverManager.stopSolver();
         depot = null;

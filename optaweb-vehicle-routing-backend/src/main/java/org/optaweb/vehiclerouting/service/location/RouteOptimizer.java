@@ -33,4 +33,6 @@ public interface RouteOptimizer {
     void addVehicle(Vehicle vehicle);
 
     void removeVehicle(Vehicle vehicle);
+
+    void changeCapacity(Vehicle vehicle, int capacity);
 }

@@ -91,6 +91,8 @@ class SolverIntegrationTest {
         assertThat(sf.buildSolver().solve(SolutionFactory.emptySolution())).isNotNull();
     }
 
+    // TODO remove vehicle, change capacity, change demand...
+
     @Test
     void removing_customers_should_not_fail() {
         Vehicle vehicle = VehicleFactory.vehicle(1);

@@ -16,6 +16,8 @@
 
 package org.optaweb.vehiclerouting.service.vehicle;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -76,5 +78,17 @@ class VehicleServiceTest {
 
         verify(vehicleRepository).removeVehicle(vehicleId1);
         verify(optimizer).removeVehicle(vehicle1);
+    }
+
+    @Test
+    void changeCapacity() {
+        final long vehicleId = 1;
+        final int capacity = 123;
+        final Vehicle vehicle = new Vehicle(vehicleId, "1");
+        when(vehicleRepository.find(vehicleId)).thenReturn(Optional.of(vehicle));
+
+        vehicleService.changeCapacity(vehicleId, capacity);
+
+        verify(optimizer).changeCapacity(vehicle, capacity);
     }
 }
