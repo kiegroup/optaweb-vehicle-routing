@@ -149,12 +149,17 @@ class RouteOptimizerImpl implements RouteOptimizer {
     }
 
     @Override
-    public void clear() {
+    public void removeAllLocations() {
         solverManager.stopSolver();
         depot = null;
-        // TODO keep vehicles, only remove depot and visits
-        vehicles.clear();
         visits.clear();
+        publishSolution();
+    }
+
+    @Override
+    public void removeAllVehicles() {
+        solverManager.stopSolver();
+        vehicles.clear();
         publishSolution();
     }
 

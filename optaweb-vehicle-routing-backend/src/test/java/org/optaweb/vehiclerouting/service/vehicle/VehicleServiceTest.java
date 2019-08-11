@@ -81,6 +81,13 @@ class VehicleServiceTest {
     }
 
     @Test
+    void removeAll() {
+        vehicleService.removeAll();
+        verify(optimizer).removeAllVehicles();
+        verify(vehicleRepository).removeAll();
+    }
+
+    @Test
     void changeCapacity() {
         final long vehicleId = 1;
         final int capacity = 123;
