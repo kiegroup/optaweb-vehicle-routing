@@ -78,13 +78,13 @@ const twoRoutes: RouteProps = {
   visits: [visit2, visit3, visit4, visit5],
 
   routes: [{
-    vehicle: { id: 1, name: 'v1' },
+    vehicle: { id: 1, name: 'v1', capacity: 5 },
     visits: [depot, visit2, visit3],
 
     track: [],
 
   }, {
-    vehicle: { id: 2, name: 'v2' },
+    vehicle: { id: 2, name: 'v2', capacity: 5 },
     visits: [depot, visit4, visit5],
 
     track: [],

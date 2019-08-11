@@ -31,6 +31,7 @@ import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
@@ -64,7 +65,7 @@ class WebSocketControllerTest {
         // arrange
         String distance = "some distance";
         Location depot = new Location(1, Coordinates.valueOf(3, 5));
-        Vehicle vehicle = new Vehicle(1, "vehicle");
+        Vehicle vehicle = VehicleFactory.createVehicle(1, "vehicle", 77);
         Location visit = new Location(2, Coordinates.valueOf(321, 123));
         Route route = new Route(vehicle, depot, singletonList(visit));
         Coordinates pointOnTrack = Coordinates.valueOf(0, 0);

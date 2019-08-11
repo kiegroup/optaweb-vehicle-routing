@@ -29,7 +29,7 @@ import { connect } from 'react-redux';
 import { routeOperations } from 'store/route';
 import { Vehicle } from 'store/route/types';
 import { AppState } from 'store/types';
-import LocationItem from 'ui/components/Location';
+import VehicleItem from 'ui/components/Vehicle';
 
 interface StateProps {
   vehicles: Vehicle[];
@@ -79,13 +79,12 @@ export const Vehicles: React.FC<Props> = ({ vehicles, addVehicleHandler, removeV
           // sort is done in place (that would affect the route)
           .sort((a, b) => a.id - b.id)
           .map(vehicle => (
-            <LocationItem
+            <VehicleItem
               key={vehicle.id}
               id={vehicle.id}
               description={vehicle.name}
-              removeDisabled={false}
+              capacity={vehicle.capacity}
               removeHandler={removeVehicleHandler}
-              selectHandler={() => null}
             />
           ))}
       </DataList>

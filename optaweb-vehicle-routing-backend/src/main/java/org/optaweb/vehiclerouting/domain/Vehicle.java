@@ -25,10 +25,12 @@ public class Vehicle {
 
     private final long id;
     private final String name;
+    private final int capacity;
 
-    public Vehicle(long id, String name) {
+    Vehicle(long id, String name, int capacity) {
         this.id = id;
         this.name = Objects.requireNonNull(name);
+        this.capacity = capacity;
     }
 
     /**
@@ -45,6 +47,14 @@ public class Vehicle {
      */
     public String name() {
         return name;
+    }
+
+    /**
+     * Vehicle's capacity.
+     * @return vehicle's capacity
+     */
+    public int capacity() {
+        return capacity;
     }
 
     @Override
@@ -69,6 +79,7 @@ public class Vehicle {
         return "Vehicle{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", capacity=" + capacity +
                 '}';
     }
 }

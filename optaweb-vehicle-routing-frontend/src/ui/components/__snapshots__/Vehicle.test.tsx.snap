@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Vehicle Component should render correctly 1`] = `
+<DataListItem
+  aria-labelledby="vehicle-10"
+  className=""
+  isExpanded={false}
+>
+  <DataListItemRow
+    className=""
+  >
+    <DataListCell
+      alignRight={false}
+      className=""
+      isFilled={true}
+      isIcon={false}
+      width={1}
+    >
+      <span
+        id="vehicle-10"
+      >
+        x
+      </span>
+    </DataListCell>
+    <DataListCell
+      alignRight={false}
+      className=""
+      isFilled={true}
+      isIcon={false}
+      width={1}
+    >
+      7
+    </DataListCell>
+    <DataListCell
+      alignRight={false}
+      className=""
+      isFilled={false}
+      isIcon={false}
+      width={1}
+    >
+      <Button
+        isDisabled={false}
+        onClick={[Function]}
+        type="button"
+        variant="link"
+      >
+        <TimesIcon
+          color="currentColor"
+          size="sm"
+          title={null}
+        />
+      </Button>
+    </DataListCell>
+  </DataListItemRow>
+</DataListItem>
+`;

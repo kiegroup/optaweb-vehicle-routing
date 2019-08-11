@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,57 +14,42 @@
  * limitations under the License.
  */
 
-import { Button, DataListCell, DataListItem, DataListItemRow, Tooltip } from '@patternfly/react-core';
+import { Button, DataListCell, DataListItem, DataListItemRow } from '@patternfly/react-core';
 import { TimesIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 
-export interface LocationProps {
+export interface VehicleProps {
   id: number;
-  description: string | null;
-  removeDisabled: boolean;
+  description: string;
+  capacity: number;
   removeHandler: (id: number) => void;
-  selectHandler: (id: number) => void;
 }
 
-const Location: React.FC<LocationProps> = ({
+const Vehicle: React.FC<VehicleProps> = ({
   id,
   description,
-  removeDisabled,
+  capacity,
   removeHandler,
-  selectHandler,
 }) => {
   const [clicked, setClicked] = React.useState(false);
-
-  function shorten(text: string) {
-    const first = text.replace(/,.*/, '').trim();
-    const short = first.substring(0, Math.min(20, first.length)).trim();
-    if (short.length < first.length) {
-      return `${short}...`;
-    }
-    return short;
-  }
 
   return (
     <DataListItem
       isExpanded={false}
-      aria-labelledby={`location-${id}`}
-      onMouseEnter={() => selectHandler(id)}
-      onMouseLeave={() => selectHandler(NaN)}
+      aria-labelledby={`vehicle-${id}`}
     >
       <DataListItemRow>
         <DataListCell isFilled={true}>
-          {(description && (
-            <Tooltip content={description}>
-              <span id={`location-${id}`}>{shorten(description)}</span>
-            </Tooltip>
-          ))
-          || <span id={`location-${id}`}>{`Location ${id}`}</span>}
+          <span id={`vehicle-${id}`}>{description}</span>
+        </DataListCell>
+        <DataListCell isFilled={true}>
+          {capacity}
         </DataListCell>
         <DataListCell isFilled={false}>
           <Button
             type="button"
             variant="link"
-            isDisabled={removeDisabled || clicked}
+            isDisabled={clicked}
             onClick={() => {
               setClicked(true);
               removeHandler(id);
@@ -78,4 +63,4 @@ const Location: React.FC<LocationProps> = ({
   );
 };
 
-export default Location;
+export default Vehicle;

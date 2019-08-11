@@ -21,7 +21,7 @@ import java.io.IOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.springframework.boot.test.json.JacksonTester;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -40,24 +40,28 @@ class PortableVehicleTest {
     void marshall_to_json() throws IOException {
         long id = 321;
         String name = "Pink: {XY-123} \"B\"";
-        PortableVehicle portableVehicle = new PortableVehicle(id, name);
+        int capacity = 78;
+        PortableVehicle portableVehicle = new PortableVehicle(id, name, capacity);
+        String jsonTemplate = "{\"id\":%d,\"name\":\"%s\",\"capacity\":%d}";
         assertThat(json.write(portableVehicle)).isEqualToJson(
-                String.format("{\"id\":%d,\"name\":\"%s\"}", id, name.replaceAll("\"", "\\\\\""))
+                String.format(jsonTemplate, id, name.replaceAll("\"", "\\\\\""), capacity)
         );
     }
 
     @Test
     void constructor_params_must_not_be_null() {
-        assertThatNullPointerException().isThrownBy(() -> new PortableVehicle(1, null));
+        assertThatNullPointerException().isThrownBy(() -> new PortableVehicle(1, null, 2));
     }
 
     @Test
     void fromVehicle() {
         long id = 321;
         String name = "Pink XY-123 B";
-        PortableVehicle portableVehicle = PortableVehicle.fromVehicle(new Vehicle(id, name));
+        int capacity = 31;
+        PortableVehicle portableVehicle = PortableVehicle.fromVehicle(VehicleFactory.createVehicle(id, name, capacity));
         assertThat(portableVehicle.getId()).isEqualTo(id);
         assertThat(portableVehicle.getName()).isEqualTo(name);
+        assertThat(portableVehicle.getCapacity()).isEqualTo(capacity);
 
         assertThatNullPointerException()
                 .isThrownBy(() -> PortableVehicle.fromVehicle(null))
@@ -68,23 +72,26 @@ class PortableVehicleTest {
     void equals_hashCode_toString() {
         long id = 123456;
         String name = "x y";
-        PortableVehicle portableVehicle = new PortableVehicle(id, name);
+        int capacity = 444111;
+        PortableVehicle portableVehicle = new PortableVehicle(id, name, capacity);
 
         // equals()
         assertThat(portableVehicle).isNotEqualTo(null);
-        assertThat(portableVehicle).isNotEqualTo(new Vehicle(id, name));
-        assertThat(portableVehicle).isNotEqualTo(new PortableVehicle(id + 1, name));
-        assertThat(portableVehicle).isNotEqualTo(new PortableVehicle(id, name + "z"));
+        assertThat(portableVehicle).isNotEqualTo(VehicleFactory.createVehicle(id, name, capacity));
+        assertThat(portableVehicle).isNotEqualTo(new PortableVehicle(id + 1, name, capacity));
+        assertThat(portableVehicle).isNotEqualTo(new PortableVehicle(id, name + "z", capacity));
+        assertThat(portableVehicle).isNotEqualTo(new PortableVehicle(id, name, capacity + 1));
         assertThat(portableVehicle).isEqualTo(portableVehicle);
-        assertThat(portableVehicle).isEqualTo(new PortableVehicle(id, name));
+        assertThat(portableVehicle).isEqualTo(new PortableVehicle(id, name, capacity));
 
         // hasCode()
-        assertThat(portableVehicle).hasSameHashCodeAs(new PortableVehicle(id, name));
+        assertThat(portableVehicle).hasSameHashCodeAs(new PortableVehicle(id, name, capacity));
 
         // toString()
         assertThat(portableVehicle.toString()).contains(
                 String.valueOf(id),
-                name
+                name,
+                String.valueOf(capacity)
         );
     }
 }

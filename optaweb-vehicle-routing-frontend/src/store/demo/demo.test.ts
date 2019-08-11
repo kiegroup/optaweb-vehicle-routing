@@ -15,6 +15,7 @@
  */
 
 import { mockStore } from '../mockStore';
+import { Vehicle } from '../route/types';
 import { AppState } from '../types';
 import { WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
@@ -63,7 +64,7 @@ describe('Demo reducers', () => {
   });
 });
 
-const vehicle1 = { id: 1, name: 'v1' };
+const vehicle1: Vehicle = { id: 1, name: 'v1', capacity: 5 };
 const visit1 = {
   id: 1,
   lat: 1.345678,

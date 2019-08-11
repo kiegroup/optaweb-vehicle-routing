@@ -25,17 +25,18 @@ class VehicleTest {
 
     @Test
     void constructor_params_must_not_be_null() {
-        assertThatNullPointerException().isThrownBy(() -> new Vehicle(0, null));
+        assertThatNullPointerException().isThrownBy(() -> new Vehicle(0, null, 0));
     }
 
     @Test
     void vehicles_are_identified_based_on_id() {
-        final String description = "test description";
         final long id = 0;
-        final Vehicle vehicle = new Vehicle(id, description);
+        final String description = "test description";
+        final int capacity = 1;
+        final Vehicle vehicle = new Vehicle(id, description, capacity);
 
         // different ID
-        assertThat(vehicle).isNotEqualTo(new Vehicle(id + 1, description));
+        assertThat(vehicle).isNotEqualTo(new Vehicle(id + 1, description, capacity));
         // null
         assertThat(vehicle).isNotEqualTo(null);
         // different class
@@ -43,8 +44,10 @@ class VehicleTest {
         // same object -> OK
         assertThat(vehicle).isEqualTo(vehicle);
         // same properties -> OK
-        assertThat(vehicle).isEqualTo(new Vehicle(id, description));
+        assertThat(vehicle).isEqualTo(new Vehicle(id, description, capacity));
         // same ID, different description -> OK
-        assertThat(vehicle).isEqualTo(new Vehicle(id, description + "x"));
+        assertThat(vehicle).isEqualTo(new Vehicle(id, description + "x", capacity));
+        // same ID, different capacity -> OK
+        assertThat(vehicle).isEqualTo(new Vehicle(id, description, capacity + 1));
     }
 }

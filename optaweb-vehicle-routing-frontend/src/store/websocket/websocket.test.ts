@@ -17,7 +17,7 @@
 import { demoOperations } from '../demo';
 import { mockStore } from '../mockStore';
 import { routeOperations } from '../route';
-import { RoutingPlan } from '../route/types';
+import { RoutingPlan, Vehicle } from '../route/types';
 import { serverOperations } from '../server';
 import { ServerInfo } from '../server/types';
 import { AppState } from '../types';
@@ -222,8 +222,8 @@ const emptyPlan: RoutingPlan = {
   routes: [],
 };
 
-const vehicle1 = { id: 1, name: 'v1' };
-const vehicle2 = { id: 2, name: 'v2' };
+const vehicle1: Vehicle = { id: 1, name: 'v1', capacity: 5 };
+const vehicle2: Vehicle = { id: 2, name: 'v2', capacity: 5 };
 const visit1 = {
   id: 1,
   lat: 1.345678,

@@ -24,6 +24,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -33,8 +34,8 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     private Map<Long, Vehicle> vehicles = new HashMap<>(10);
 
     @Override
-    public Vehicle createVehicle(String name) {
-        Vehicle vehicle = new Vehicle(idSequence++, name);
+    public Vehicle createVehicle(String name, int capacity) {
+        Vehicle vehicle = VehicleFactory.createVehicle(idSequence++, name, capacity);
         vehicles.put(vehicle.id(), vehicle);
         return vehicle;
     }

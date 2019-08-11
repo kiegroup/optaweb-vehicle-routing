@@ -103,7 +103,7 @@ const threeLocationsProps: DemoProps = {
   }],
 
   routes: [{
-    vehicle: { id: 1, name: 'v1' },
+    vehicle: { id: 1, name: 'v1', capacity: 5 },
     visits: [{
       id: 1,
       lat: 1.345678,

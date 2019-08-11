@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
+import { Button } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import { Props, Vehicles } from './Vehicles';
+import Vehicle, { VehicleProps } from './Vehicle';
 
-describe('Vehicles page', () => {
+describe('Vehicle Component', () => {
   it('should render correctly', () => {
-    const props: Props = {
-      addVehicleHandler: jest.fn(),
-      removeVehicleHandler: jest.fn(),
-      vehicles: [
-        { id: 1, name: 'Vehicle 1', capacity: 5 },
-        { id: 2, name: 'Vehicle 2', capacity: 5 },
-      ],
+    const props: VehicleProps = {
+      id: 10,
+      description: 'x',
+      capacity: 7,
+      removeHandler: jest.fn(),
     };
-    const vehicles = shallow(<Vehicles {...props} />);
-    expect(toJson(vehicles)).toMatchSnapshot();
+    const vehicle = shallow(<Vehicle {...props} />);
+    expect(toJson(vehicle)).toMatchSnapshot();
+    vehicle.find(Button).simulate('click');
+
+    expect(props.removeHandler).toHaveBeenCalledTimes(1);
   });
 });
