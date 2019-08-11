@@ -68,4 +68,9 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     public long nextId() {
         return idSequence;
     }
+
+    @Override
+    public void update(Vehicle vehicle) {
+        vehicles.put(vehicle.id(), vehicle);
+    }
 }

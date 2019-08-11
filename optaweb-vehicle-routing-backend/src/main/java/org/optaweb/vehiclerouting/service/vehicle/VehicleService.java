@@ -66,8 +66,8 @@ public class VehicleService {
         Vehicle vehicle = vehicleRepository.find(vehicleId).orElseThrow(() -> new IllegalArgumentException(
                 "Can't remove Vehicle{id=" + vehicleId + "} because it doesn't exist"
         ));
-        // TODO persist capacity change
         Vehicle updatedVehicle = VehicleFactory.createVehicle(vehicle.id(), vehicle.name(), capacity);
+        vehicleRepository.update(updatedVehicle);
         optimizer.changeCapacity(updatedVehicle);
     }
 }

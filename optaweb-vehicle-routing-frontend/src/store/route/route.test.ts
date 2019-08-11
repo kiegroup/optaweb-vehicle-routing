@@ -20,7 +20,7 @@ import { WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
 import reducer, { routeOperations } from './index';
 import { initialRouteState } from './reducers';
-import { LatLngWithDescription, Vehicle } from './types';
+import { LatLngWithDescription, Vehicle, VehicleCapacity } from './types';
 
 describe('Route operations', () => {
   it('clearRoute() should call client', () => {
@@ -82,6 +82,16 @@ describe('Route operations', () => {
     expect(store.getActions()).toEqual([actions.addVehicle()]);
     expect(client.addVehicle).toHaveBeenCalledTimes(1);
     expect(client.addVehicle).toHaveBeenCalledWith();
+  });
+
+  it('changeVehicleCapacity() should call client', () => {
+    const { store, client } = mockStore(state);
+
+    const capacityChange: VehicleCapacity = { vehicleId: 5, capacity: 50 };
+    store.dispatch(routeOperations.changeVehicleCapacity(capacityChange));
+
+    expect(store.getActions()).toEqual([]);
+    expect(client.changeVehicleCapacity).toHaveBeenCalledWith(capacityChange.vehicleId, capacityChange.capacity);
   });
 });
 

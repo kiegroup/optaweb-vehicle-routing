@@ -23,6 +23,7 @@ import {
   DeleteLocationAction,
   DeleteVehicleAction,
   LatLngWithDescription,
+  VehicleCapacity,
 } from './types';
 
 export const { updateRoute } = actions;
@@ -51,9 +52,14 @@ export const deleteVehicle: ThunkCommandFactory<number, DeleteVehicleAction> = (
     client.deleteVehicle(vehicleId);
   });
 
-export const deleteAnyVehicle: ThunkCommandFactory<void, DeleteVehicleAction> = (
+export const deleteAnyVehicle: ThunkCommandFactory<void, never> = (
   () => (dispatch, getState, client) => {
     client.deleteAnyVehicle();
+  });
+
+export const changeVehicleCapacity: ThunkCommandFactory<VehicleCapacity, never> = (
+  ({ vehicleId, capacity }: VehicleCapacity) => (dispatch, getState, client) => {
+    client.changeVehicleCapacity(vehicleId, capacity);
   });
 
 export const clearRoute: ThunkCommandFactory<void, ClearRouteAction> = (
