@@ -14,41 +14,34 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.planner;
-
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
+package org.optaweb.vehiclerouting.domain;
 
 /**
  * Creates {@link Vehicle} instances.
  */
-class VehicleFactory {
+public class VehicleFactory {
 
     private VehicleFactory() {
         throw new AssertionError("Utility class");
     }
 
     /**
-     * Create planning vehicle from domain vehicle.
-     * @param domainVehicle domain vehicle
-     * @return planning vehicle
+     * Create a new vehicle with give id, name and capacity.
+     * @param id vehicle's ID
+     * @param name vehicle's name
+     * @param capacity vehicle's capacity
+     * @return new vehicle
      */
-    static Vehicle fromDomain(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
-        return vehicle(domainVehicle.id(), domainVehicle.capacity());
+    public static Vehicle createVehicle(long id, String name, int capacity) {
+        return new Vehicle(id, name, capacity);
     }
 
     /**
-     * Create vehicle with zero capacity.
+     * Create a vehicle with given ID and capacity of zero. The vehicle will have a non-empty name.
      * @param id vehicle's ID
-     * @return new vehicle with zero capacity
+     * @return new testing vehicle instance
      */
-    static Vehicle vehicle(long id) {
-        return vehicle(id, 0);
-    }
-
-    private static Vehicle vehicle(long id, int capacity) {
-        Vehicle vehicle = new Vehicle();
-        vehicle.setId(id);
-        vehicle.setCapacity(capacity);
-        return vehicle;
+    public static Vehicle testVehicle(long id) {
+        return new Vehicle(id, "Vehicle " + id, 0);
     }
 }

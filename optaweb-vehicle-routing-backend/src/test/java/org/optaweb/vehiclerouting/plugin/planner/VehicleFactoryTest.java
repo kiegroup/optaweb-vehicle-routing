@@ -28,11 +28,13 @@ class VehicleFactoryTest {
     void planning_vehicle() {
         long vehicleId = 2;
         String name = "not used";
-        Vehicle domainVehicle = new Vehicle(vehicleId, name);
+        int capacity = 7;
+        Vehicle domainVehicle
+                = org.optaweb.vehiclerouting.domain.VehicleFactory.createVehicle(vehicleId, name, capacity);
 
         org.optaplanner.examples.vehiclerouting.domain.Vehicle vehicle = fromDomain(domainVehicle);
 
         assertThat(vehicle.getId()).isEqualTo(vehicleId);
-        assertThat(vehicle.getCapacity()).isEqualTo(VehicleFactory.DEFAULT_VEHICLE_CAPACITY);
+        assertThat(vehicle.getCapacity()).isEqualTo(capacity);
     }
 }

@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 class RoutingPlanTest {
 
-    private final Vehicle vehicle = new Vehicle(1, "V");
+    private final Vehicle vehicle = VehicleFactory.testVehicle(1);
     private final List<Vehicle> vehicles = singletonList(vehicle);
     private final Location depot = new Location(1, Coordinates.valueOf(5, 5));
     private final Location visit = new Location(2, Coordinates.valueOf(3, 3));
@@ -79,7 +79,7 @@ class RoutingPlanTest {
 
     @Test
     void routes_vehicle_references_must_be_consistent_with_vehicles_in_routing_plan() {
-        List<Vehicle> unexpectedVehicles = singletonList(new Vehicle(vehicle.id() + 1, ""));
+        List<Vehicle> unexpectedVehicles = singletonList(VehicleFactory.testVehicle(vehicle.id() + 1));
         List<RouteWithTrack> routes = singletonList(emptyRoute);
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new RoutingPlan("", unexpectedVehicles, depot, emptyList(), routes))
@@ -89,8 +89,8 @@ class RoutingPlanTest {
 
     @Test
     void routes_visit_references_must_be_consistent_with_visits_in_routing_plan() {
-        Vehicle vehicle1 = new Vehicle(1, "");
-        Vehicle vehicle2 = new Vehicle(2, "");
+        Vehicle vehicle1 = VehicleFactory.testVehicle(1);
+        Vehicle vehicle2 = VehicleFactory.testVehicle(2);
 
         Location depot = new Location(100, Coordinates.valueOf(0, 0), "depot");
         Location visit1 = new Location(101, Coordinates.valueOf(1, 1), "visit1");

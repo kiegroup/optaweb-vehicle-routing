@@ -29,9 +29,10 @@ public interface VehicleRepository {
     /**
      * Create a vehicle with a unique ID.
      * @param name vehicle name
+     * @param capacity vehicle's capacity
      * @return a new vehicle
      */
-    Vehicle createVehicle(String name);
+    Vehicle createVehicle(String name, int capacity);
 
     /**
      * Get all vehicles.

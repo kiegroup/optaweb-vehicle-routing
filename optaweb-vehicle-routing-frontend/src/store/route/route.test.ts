@@ -20,7 +20,7 @@ import { WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
 import reducer, { routeOperations } from './index';
 import { initialRouteState } from './reducers';
-import { LatLngWithDescription } from './types';
+import { LatLngWithDescription, Vehicle } from './types';
 
 describe('Route operations', () => {
   it('clearRoute() should call client', () => {
@@ -127,8 +127,8 @@ describe('Route reducers', () => {
   });
 });
 
-const vehicle1 = { id: 1, name: 'v1' };
-const vehicle2 = { id: 2, name: 'v2' };
+const vehicle1: Vehicle = { id: 1, name: 'v1', capacity: 5 };
+const vehicle2: Vehicle = { id: 2, name: 'v2', capacity: 5 };
 const visit1 = {
   id: 1,
   lat: 1.345678,

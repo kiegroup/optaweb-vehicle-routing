@@ -34,6 +34,7 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 
@@ -71,7 +72,7 @@ class RouteListenerTest {
     @Test
     void event_with_no_routes_should_be_published_as_an_empty_routing_plan() {
         final long vehicleId = 12;
-        final Vehicle vehicle = new Vehicle(vehicleId, "");
+        final Vehicle vehicle = VehicleFactory.testVehicle(vehicleId);
         when(vehicleRepository.find(vehicleId)).thenReturn(Optional.of(vehicle));
         RouteChangedEvent event = new RouteChangedEvent(
                 this,
@@ -96,7 +97,7 @@ class RouteListenerTest {
         final Coordinates depotCoordinates = Coordinates.valueOf(0.0, 0.1);
         final Location depot = new Location(1, depotCoordinates);
         final long vehicleId = 448;
-        final Vehicle vehicle = new Vehicle(vehicleId, "Test vehicle");
+        final Vehicle vehicle = VehicleFactory.testVehicle(vehicleId);
         ShallowRoute route = new ShallowRoute(vehicle.id(), depot.id(), emptyList());
         when(vehicleRepository.find(vehicleId)).thenReturn(Optional.of(vehicle));
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
@@ -137,7 +138,7 @@ class RouteListenerTest {
         when(router.getPath(visitCoordinates, depotCoordinates)).thenReturn(path2);
 
         final long vehicleId = -5;
-        final Vehicle vehicle = new Vehicle(vehicleId, "vehicle");
+        final Vehicle vehicle = VehicleFactory.testVehicle(vehicleId);
         final Location depot = new Location(1, depotCoordinates);
         final Location visit = new Location(2, visitCoordinates);
         final String distance = "xy";
@@ -173,8 +174,8 @@ class RouteListenerTest {
     }
 
     @Test
-    void should_discard_update_gracefully_if_one_of_the_locations_has_been_removed() {
-        final Vehicle vehicle = new Vehicle(3, "x");
+    void should_discard_update_gracefully_if_one_of_the_locations_no_longer_exist() {
+        final Vehicle vehicle = VehicleFactory.testVehicle(3);
         final Location depot = new Location(1, Coordinates.valueOf(1.0, 2.0));
         final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
         when(vehicleRepository.find(vehicle.id())).thenReturn(Optional.of(vehicle));
@@ -204,8 +205,8 @@ class RouteListenerTest {
     }
 
     @Test
-    void should_discard_update_gracefully_if_one_of_the_vehicles_has_been_removed() {
-        final Vehicle vehicle = new Vehicle(3, "x");
+    void should_discard_update_gracefully_if_one_of_the_vehicles_no_longer_exist() {
+        final Vehicle vehicle = VehicleFactory.testVehicle(3);
         final Location depot = new Location(1, Coordinates.valueOf(1.0, 2.0));
         final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
         when(vehicleRepository.find(vehicle.id())).thenReturn(Optional.empty());

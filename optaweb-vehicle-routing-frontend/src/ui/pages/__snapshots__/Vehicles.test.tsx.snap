@@ -52,21 +52,19 @@ exports[`Vehicles page should render correctly 1`] = `
       aria-label="List of vehicles"
       className=""
     >
-      <Location
+      <Vehicle
+        capacity={5}
         description="Vehicle 1"
         id={1}
         key="1"
-        removeDisabled={false}
         removeHandler={[MockFunction]}
-        selectHandler={[Function]}
       />
-      <Location
+      <Vehicle
+        capacity={5}
         description="Vehicle 2"
         id={2}
         key="2"
-        removeDisabled={false}
         removeHandler={[MockFunction]}
-        selectHandler={[Function]}
       />
     </DataList>
   </div>

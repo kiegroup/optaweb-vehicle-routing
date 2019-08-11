@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import * as React from 'react';
-import { Props, Vehicles } from './Vehicles';
+package org.optaweb.vehiclerouting.domain;
 
-describe('Vehicles page', () => {
-  it('should render correctly', () => {
-    const props: Props = {
-      addVehicleHandler: jest.fn(),
-      removeVehicleHandler: jest.fn(),
-      vehicles: [
-        { id: 1, name: 'Vehicle 1', capacity: 5 },
-        { id: 2, name: 'Vehicle 2', capacity: 5 },
-      ],
-    };
-    const vehicles = shallow(<Vehicles {...props} />);
-    expect(toJson(vehicles)).toMatchSnapshot();
-  });
-});
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+class VehicleFactoryTest {
+
+    @Test
+    void createVehicle() {
+        long vehicleId = 4;
+        String name = "Vehicle four";
+        int capacity = 99;
+
+        Vehicle vehicle = VehicleFactory.createVehicle(vehicleId, name, capacity);
+
+        assertThat(vehicle.id()).isEqualTo(vehicleId);
+        assertThat(vehicle.name()).isEqualTo(name);
+        assertThat(vehicle.capacity()).isEqualTo(capacity);
+    }
+}

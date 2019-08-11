@@ -25,6 +25,7 @@ import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleFactory;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
@@ -61,8 +62,8 @@ class PortableRoutingPlanFactoryTest {
         final Location location3 = new Location(3, coordinates3);
         final String distance = "xy";
 
-        final Vehicle vehicle1 = new Vehicle(1, "Vehicle 1");
-        final Vehicle vehicle2 = new Vehicle(2, "Vehicle 2");
+        final Vehicle vehicle1 = VehicleFactory.createVehicle(1, "Vehicle 1", 100);
+        final Vehicle vehicle2 = VehicleFactory.createVehicle(2, "Vehicle 2", 200);
 
         RouteWithTrack route1 = new RouteWithTrack(
                 new Route(vehicle1, location1, singletonList(location2)),

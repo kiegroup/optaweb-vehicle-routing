@@ -19,12 +19,15 @@ package org.optaweb.vehiclerouting.service.vehicle;
 import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VehicleService {
+
+    static final int DEFAULT_VEHICLE_CAPACITY = 10;
 
     private final RouteOptimizer optimizer;
     private final VehicleRepository vehicleRepository;
@@ -37,7 +40,7 @@ public class VehicleService {
 
     public void addVehicle() {
         long id = vehicleRepository.nextId();
-        Vehicle vehicle = vehicleRepository.createVehicle("Vehicle " + id);
+        Vehicle vehicle = vehicleRepository.createVehicle("Vehicle " + id, DEFAULT_VEHICLE_CAPACITY);
         optimizer.addVehicle(vehicle);
     }
 
@@ -63,6 +66,8 @@ public class VehicleService {
         Vehicle vehicle = vehicleRepository.find(vehicleId).orElseThrow(() -> new IllegalArgumentException(
                 "Can't remove Vehicle{id=" + vehicleId + "} because it doesn't exist"
         ));
-        optimizer.changeCapacity(vehicle, capacity);
+        // TODO persist capacity change
+        Vehicle updatedVehicle = VehicleFactory.createVehicle(vehicle.id(), vehicle.name(), capacity);
+        optimizer.changeCapacity(updatedVehicle);
     }
 }
