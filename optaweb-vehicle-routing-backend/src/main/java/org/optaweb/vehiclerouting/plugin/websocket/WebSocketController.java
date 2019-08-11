@@ -122,7 +122,9 @@ class WebSocketController {
 
     @MessageMapping("/clear")
     void clear() {
-        locationService.clear();
+        // TODO do this in one step (=> new RoutingPlanService)
+        locationService.removeAll();
+        vehicleService.removeAll();
     }
 
     @MessageMapping({"vehicle"})

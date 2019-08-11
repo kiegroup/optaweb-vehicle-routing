@@ -28,11 +28,13 @@ public interface RouteOptimizer {
 
     void removeLocation(Location location);
 
-    void clear();
+    void removeAllLocations();
 
     void addVehicle(Vehicle vehicle);
 
     void removeVehicle(Vehicle vehicle);
+
+    void removeAllVehicles();
 
     void changeCapacity(Vehicle vehicle, int capacity);
 }

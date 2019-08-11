@@ -34,7 +34,7 @@ public class LocationService {
     private static final Logger logger = LoggerFactory.getLogger(LocationService.class);
 
     private final LocationRepository repository;
-    private final RouteOptimizer optimizer;
+    private final RouteOptimizer optimizer; // TODO move to RoutingPlanService (SRP)
     private final DistanceMatrix distanceMatrix;
 
     @Autowired
@@ -82,8 +82,8 @@ public class LocationService {
         optimizer.removeLocation(location);
     }
 
-    public synchronized void clear() {
-        optimizer.clear();
+    public synchronized void removeAll() {
+        optimizer.removeAllLocations();
         repository.removeAll();
         distanceMatrix.clear();
     }

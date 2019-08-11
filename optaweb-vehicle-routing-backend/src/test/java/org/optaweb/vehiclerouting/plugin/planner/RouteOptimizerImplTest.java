@@ -491,7 +491,7 @@ class RouteOptimizerImplTest {
     }
 
     @Test
-    void clear_should_stop_solver_and_publish_initial_solution() {
+    void remove_all_locations_should_stop_solver_and_publish_preliminary_solution() {
         // set up a situation where solver is running with 1 depot and 2 visits
         long vehicleId = 10;
         routeOptimizer.addVehicle(vehicle(vehicleId));
@@ -501,20 +501,46 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location3, distanceMatrix);
         clearInvocations(solutionPublisher);
 
-        routeOptimizer.clear();
+        routeOptimizer.removeAllLocations();
 
         verify(solverManager).stopSolver();
 
         VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
-        assertThat(solution.getVehicleList()).isEmpty();
+        assertThat(solution.getVehicleList()).hasSize(1);
         assertThat(solution.getDepotList()).isEmpty();
         assertThat(solution.getCustomerList()).isEmpty();
         assertThat(solution.getLocationList()).isEmpty();
     }
 
     @Test
-    void clear_should_not_fail_when_solver_is_not_solving() {
-        assertThatCode(() -> routeOptimizer.clear()).doesNotThrowAnyException();
+    void remove_all_vehicles_should_stop_solver_and_publish_preliminary_solution() {
+        long vehicleId = 10;
+        routeOptimizer.addVehicle(vehicle(vehicleId));
+        routeOptimizer.addLocation(location1, distanceMatrix);
+        routeOptimizer.addLocation(location2, distanceMatrix);
+        verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
+        routeOptimizer.addLocation(location3, distanceMatrix);
+        clearInvocations(solutionPublisher);
+
+        routeOptimizer.removeAllVehicles();
+
+        verify(solverManager).stopSolver();
+
+        VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
+        assertThat(solution.getVehicleList()).isEmpty();
+        assertThat(solution.getDepotList()).hasSize(1);
+        assertThat(solution.getCustomerList()).hasSize(2);
+        assertThat(solution.getLocationList()).hasSize(3);
+    }
+
+    @Test
+    void removing_all_locations_should_not_fail_when_solver_is_not_solving() {
+        assertThatCode(() -> routeOptimizer.removeAllLocations()).doesNotThrowAnyException();
+    }
+
+    @Test
+    void removing_all_vehicles_should_not_fail_when_solver_is_not_solving() {
+        assertThatCode(() -> routeOptimizer.removeAllVehicles()).doesNotThrowAnyException();
     }
 
     private VehicleRoutingSolution verifyPublishingPreliminarySolution() {

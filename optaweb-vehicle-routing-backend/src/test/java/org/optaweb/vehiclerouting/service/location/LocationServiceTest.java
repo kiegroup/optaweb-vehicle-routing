@@ -91,8 +91,8 @@ class LocationServiceTest {
 
     @Test
     void clear() {
-        locationService.clear();
-        verify(optimizer).clear();
+        locationService.removeAll();
+        verify(optimizer).removeAllLocations();
         verify(distanceMatrix).clear();
         verify(repository).removeAll();
     }

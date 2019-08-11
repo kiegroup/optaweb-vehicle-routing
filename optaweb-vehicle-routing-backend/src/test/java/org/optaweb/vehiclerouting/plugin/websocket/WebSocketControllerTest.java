@@ -173,6 +173,7 @@ class WebSocketControllerTest {
     @Test
     void clear() {
         webSocketController.clear();
-        verify(locationService).clear();
+        verify(locationService).removeAll();
+        verify(vehicleService).removeAll();
     }
 }
