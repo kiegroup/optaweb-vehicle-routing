@@ -54,6 +54,7 @@ exports[`Vehicles page should render correctly 1`] = `
     >
       <Vehicle
         capacity={5}
+        capacityChangeHandler={[Function]}
         description="Vehicle 1"
         id={1}
         key="1"
@@ -61,6 +62,7 @@ exports[`Vehicles page should render correctly 1`] = `
       />
       <Vehicle
         capacity={5}
+        capacityChangeHandler={[Function]}
         description="Vehicle 2"
         id={2}
         key="2"

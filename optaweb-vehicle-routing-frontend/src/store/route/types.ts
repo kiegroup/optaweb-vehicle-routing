@@ -83,6 +83,11 @@ export interface DeleteVehicleAction extends Action<ActionType.DELETE_VEHICLE> {
   readonly value: number;
 }
 
+export interface VehicleCapacity {
+  vehicleId: number;
+  capacity: number;
+}
+
 export interface UpdateRouteAction extends Action<ActionType.UPDATE_ROUTING_PLAN> {
   readonly plan: RoutingPlan;
 }

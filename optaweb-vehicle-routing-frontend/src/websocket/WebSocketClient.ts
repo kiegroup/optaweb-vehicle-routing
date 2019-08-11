@@ -68,7 +68,7 @@ export default class WebSocketClient {
 
   deleteLocation(locationId: number) {
     if (this.stompClient) {
-      this.stompClient.send(`/app/location/${locationId}/delete`, JSON.stringify(locationId));
+      this.stompClient.send(`/app/location/${locationId}/delete`, JSON.stringify(locationId)); // TODO no body
     }
   }
 
@@ -80,7 +80,13 @@ export default class WebSocketClient {
 
   deleteVehicle(vehicleId: number) {
     if (this.stompClient) {
-      this.stompClient.send(`/app/vehicle/${vehicleId}/delete`, JSON.stringify(vehicleId));
+      this.stompClient.send(`/app/vehicle/${vehicleId}/delete`, JSON.stringify(vehicleId)); // TODO no body
+    }
+  }
+
+  changeVehicleCapacity(vehicleId: number, capacity: number) {
+    if (this.stompClient) {
+      this.stompClient.send(`/app/vehicle/${vehicleId}/capacity`, JSON.stringify(capacity));
     }
   }
 

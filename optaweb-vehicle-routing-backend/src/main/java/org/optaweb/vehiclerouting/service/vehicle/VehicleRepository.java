@@ -59,4 +59,6 @@ public interface VehicleRepository {
      * @return unique ID that will be used for the next new vehicle.
      */
     long nextId();
+
+    void update(Vehicle vehicle);
 }
