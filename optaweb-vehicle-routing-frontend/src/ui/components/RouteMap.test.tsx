@@ -17,11 +17,11 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import TspMap, { TspMapProps } from './TspMap';
+import RouteMap, { Props } from './RouteMap';
 
-describe('TSP Map View', () => {
+describe('Route Map', () => {
   it('should show the whole world when bounding box is null', () => {
-    const props: TspMapProps = {
+    const props: Props = {
       clickHandler: jest.fn(),
       removeHandler: jest.fn(),
       selectedId: 1,
@@ -37,8 +37,8 @@ describe('TSP Map View', () => {
       }],
       boundingBox: null,
     };
-    const tspMap = shallow(<TspMap {...props} />);
-    expect(toJson(tspMap)).toMatchSnapshot();
+    const routeMap = shallow(<RouteMap {...props} />);
+    expect(toJson(routeMap)).toMatchSnapshot();
   });
 
   it('should pan and zoom to show bounding box', () => {
@@ -57,7 +57,7 @@ describe('TSP Map View', () => {
       lat: 3.676111,
       lng: 3.568333,
     };
-    const props: TspMapProps = {
+    const props: Props = {
       clickHandler: jest.fn(),
       removeHandler: jest.fn(),
       selectedId: 1,
@@ -69,7 +69,7 @@ describe('TSP Map View', () => {
         track: [[0.111222, 0.222333], [0.444555, 0.555666]],
       }],
     };
-    const tspMap = shallow(<TspMap {...props} />);
-    expect(toJson(tspMap)).toMatchSnapshot();
+    const routeMap = shallow(<RouteMap {...props} />);
+    expect(toJson(routeMap)).toMatchSnapshot();
   });
 });

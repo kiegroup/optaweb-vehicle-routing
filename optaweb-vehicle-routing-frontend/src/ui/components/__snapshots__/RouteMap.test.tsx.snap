@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TSP Map View should pan and zoom to show bounding box 1`] = `
+exports[`Route Map should pan and zoom to show bounding box 1`] = `
 <Map
   bounds={
     Object {
@@ -163,7 +163,7 @@ exports[`TSP Map View should pan and zoom to show bounding box 1`] = `
 </Map>
 `;
 
-exports[`TSP Map View should show the whole world when bounding box is null 1`] = `
+exports[`Route Map should show the whole world when bounding box is null 1`] = `
 <Map
   center={
     Object {
