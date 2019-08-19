@@ -17,7 +17,7 @@
 import * as L from 'leaflet';
 import * as React from 'react';
 import { Marker, Tooltip } from 'react-leaflet';
-import { Location } from '../../store/route/types';
+import { Location } from 'store/route/types';
 
 const homeIcon = L.icon({
   iconAnchor: [12, 12],

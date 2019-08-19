@@ -16,8 +16,8 @@
 
 import SockJS from 'sockjs-client';
 import { LatLngWithDescription, RoutingPlan } from 'store/route/types';
+import { ServerInfo } from 'store/server/types';
 import { Client, Frame, over } from 'webstomp-client';
-import { ServerInfo } from '../store/server/types';
 
 export default class WebSocketClient {
   readonly socketUrl: string;

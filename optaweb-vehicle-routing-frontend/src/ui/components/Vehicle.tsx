@@ -25,7 +25,7 @@ import {
 } from '@patternfly/react-core';
 import { MinusIcon, PlusIcon, TimesIcon } from '@patternfly/react-icons';
 import * as React from 'react';
-import { VehicleCapacity } from '../../store/route/types';
+import { VehicleCapacity } from 'store/route/types';
 
 export interface VehicleProps {
   id: number;
