@@ -53,9 +53,14 @@ const LocationMarker: React.FC<Props> = ({
       onClick={() => removeHandler(location.id)}
     >
       <Tooltip
-        // The permanent and non-permanent tooltips are different components
-        // and need to have different keys
-        key={location.id + (isSelected ? 'T' : 't')}
+        // `permanent` is a static property (this is a React-Leaflet-specific
+        // approach: https://react-leaflet.js.org/docs/en/components). Changing `permanent` prop
+        // doesn't result in calling `setPermanent()` on the Leaflet element after the Tooltip component is mounted.
+        // We're using `key` to force re-rendering of Tooltip when `isSelected` changes. A similar use case for
+        // the `key` property is described here:
+        // https://reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html
+        // #recommendation-fully-uncontrolled-component-with-a-key
+        key={isSelected ? 'selected' : ''}
         permanent={isSelected}
       >
         {`Location ${location.id} [Lat=${location.lat}, Lng=${location.lng}]`}
