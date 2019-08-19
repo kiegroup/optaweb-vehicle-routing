@@ -17,6 +17,7 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
+import { UserViewport } from 'store/client/types';
 import { Route, RouteProps } from './Route';
 
 describe('Route page', () => {
@@ -31,11 +32,19 @@ describe('Route page', () => {
   });
 });
 
+const userViewport: UserViewport = {
+  isDirty: false,
+  zoom: 1,
+  center: [0, 0],
+};
+
 const noRoutes: RouteProps = {
   addHandler: jest.fn(),
   removeHandler: jest.fn(),
+  updateViewport: jest.fn(),
 
   boundingBox: null,
+  userViewport,
 
   depot: null,
   visits: [],
@@ -71,8 +80,10 @@ const visit5 = {
 const twoRoutes: RouteProps = {
   addHandler: jest.fn(),
   removeHandler: jest.fn(),
+  updateViewport: jest.fn(),
 
   boundingBox: null,
+  userViewport,
 
   depot,
   visits: [visit2, visit3, visit4, visit5],

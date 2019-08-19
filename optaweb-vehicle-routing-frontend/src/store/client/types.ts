@@ -14,14 +14,27 @@
  * limitations under the License.
  */
 
-import { resetViewport } from '../client/actions';
-import { ResetViewportAction } from '../client/types';
-import { ThunkCommandFactory } from '../types';
-import * as actions from './actions';
-import { ServerInfo, ServerInfoAction } from './types';
+import { Viewport as LeafletViewport } from 'react-leaflet';
+import { Action } from 'redux';
 
-export const serverInfo: ThunkCommandFactory<ServerInfo, ServerInfoAction | ResetViewportAction> = (
-  info => (dispatch) => {
-    dispatch(resetViewport());
-    dispatch(actions.serverInfo(info));
-  });
+export enum ActionType {
+  UPDATE_VIEWPORT = 'UPDATE_VIEWPORT',
+  RESET_VIEWPORT = 'RESET_VIEWPORT',
+}
+
+export interface UpdateViewportAction extends Action<ActionType.UPDATE_VIEWPORT> {
+  value: LeafletViewport;
+}
+
+export interface ResetViewportAction extends Action<ActionType.RESET_VIEWPORT> {
+}
+
+export interface UserViewport {
+  isDirty: boolean;
+  center: [number, number];
+  zoom: number;
+}
+
+export type ViewportAction =
+  | UpdateViewportAction
+  | ResetViewportAction;

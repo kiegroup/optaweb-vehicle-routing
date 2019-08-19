@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
+import { resetViewport } from '../client/actions';
+import { UserViewport } from '../client/types';
 import { demoOperations } from '../demo';
 import { mockStore } from '../mockStore';
 import { routeOperations } from '../route';
 import { RoutingPlan, Vehicle } from '../route/types';
-import { serverOperations } from '../server';
+import { serverInfo } from '../server/actions';
 import { ServerInfo } from '../server/types';
 import { AppState } from '../types';
 import * as actions from './actions';
@@ -29,6 +31,12 @@ jest.useFakeTimers();
 
 const uninitializedCallbackCapture = () => {
   throw new Error('Error callback is uninitialized');
+};
+
+const userViewport: UserViewport = {
+  isDirty: true,
+  zoom: 1,
+  center: [0, 0],
 };
 
 describe('WebSocket client operations', () => {
@@ -45,6 +53,7 @@ describe('WebSocket client operations', () => {
         isLoading: false,
       },
       plan: emptyPlan,
+      userViewport,
     };
 
     let errorCallbackCapture: (err: any) => void = uninitializedCallbackCapture;
@@ -112,6 +121,7 @@ describe('WebSocket client operations', () => {
         isLoading: true,
       },
       plan: emptyPlan,
+      userViewport,
     };
 
     const { store, client } = mockStore(state);
@@ -151,7 +161,7 @@ describe('WebSocket client operations', () => {
     ]);
   });
 
-  it('should dispatch server info', () => {
+  it('should dispatch server info and reset viewport', () => {
     const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
       serverInfo: {
@@ -164,6 +174,7 @@ describe('WebSocket client operations', () => {
         isLoading: false,
       },
       plan: emptyPlan,
+      userViewport,
     };
 
     const { store, client } = mockStore(state);
@@ -188,15 +199,18 @@ describe('WebSocket client operations', () => {
     store.clearActions();
 
     // when server info arrives
-    const serverInfo: ServerInfo = {
+    const info: ServerInfo = {
       boundingBox: null,
       countryCodes: ['AB', 'XY'],
       demos: [{ name: 'Demo name', visits: 20 }],
     };
-    serverInfoSubscriptionCallback(serverInfo);
+    serverInfoSubscriptionCallback(info);
 
     // action should be dispatched
-    expect(store.getActions()).toEqual([serverOperations.serverInfo(serverInfo)]);
+    expect(store.getActions()).toEqual([
+      resetViewport(),
+      serverInfo(info),
+    ]);
   });
 });
 

@@ -18,6 +18,7 @@ import { Button } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
+import { UserViewport } from 'store/client/types';
 import { Demo, DemoProps, ID_CLEAR_BUTTON, ID_EXPORT_BUTTON } from './Demo';
 
 describe('Demo page', () => {
@@ -51,6 +52,12 @@ describe('Demo page', () => {
   });
 });
 
+const userViewport: UserViewport = {
+  isDirty: false,
+  zoom: 1,
+  center: [0, 0],
+};
+
 const emptyRouteProps: DemoProps = {
   loadHandler: jest.fn(),
   clearHandler: jest.fn(),
@@ -58,12 +65,14 @@ const emptyRouteProps: DemoProps = {
   removeVehicleHandler: jest.fn,
   addLocationHandler: jest.fn(),
   removeLocationHandler: jest.fn(),
+  updateViewport: jest.fn(),
 
   distance: '0',
   vehicleCount: 0,
   demoNames: ['demo'],
   isDemoLoading: false,
   boundingBox: null,
+  userViewport,
   countryCodeSearchFilter: [],
 
   depot: null,
@@ -78,12 +87,14 @@ const threeLocationsProps: DemoProps = {
   removeVehicleHandler: jest.fn,
   addLocationHandler: jest.fn(),
   removeLocationHandler: jest.fn(),
+  updateViewport: jest.fn(),
 
   distance: '10',
   vehicleCount: 8,
   demoNames: ['demo'],
   isDemoLoading: false,
   boundingBox: null,
+  userViewport,
   countryCodeSearchFilter: ['XY'],
 
   depot: {

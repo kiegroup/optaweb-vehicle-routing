@@ -1,6 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Route Map should pan and zoom to show bounding box 1`] = `
+exports[`Route Map should ignore bounds if viewport is dirty 1`] = `
+<Map
+  onClick={[MockFunction]}
+  onViewportChanged={[MockFunction]}
+  style={
+    Object {
+      "height": "calc(100vh - 176px)",
+      "width": "100%",
+    }
+  }
+  viewport={
+    Object {
+      "center": Array [
+        1,
+        1,
+      ],
+      "isDirty": true,
+      "zoom": 4,
+    }
+  }
+  zoomControl={false}
+>
+  <ForwardRef(Leaflet(TileLayer))
+    attribution="© <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
+  <ForwardRef(Leaflet(ZoomControl))
+    position="topright"
+  />
+  <LocationMarker
+    isDepot={true}
+    isSelected={false}
+    location={
+      Object {
+        "id": 1,
+        "lat": 1.345678,
+        "lng": 1.345678,
+      }
+    }
+    removeHandler={[MockFunction]}
+  />
+  <ForwardRef(Leaflet(Rectangle))
+    bounds={
+      Object {
+        "_northEast": Object {
+          "lat": 10,
+          "lng": 20,
+        },
+        "_southWest": Object {
+          "lat": -1,
+          "lng": -2,
+        },
+      }
+    }
+    color="seagreen"
+    dashArray="10,5"
+    fill={false}
+    weight={1}
+  />
+</Map>
+`;
+
+exports[`Route Map should pan and zoom to show bounding box if viewport is not dirty 1`] = `
 <Map
   bounds={
     Object {
@@ -15,7 +77,7 @@ exports[`Route Map should pan and zoom to show bounding box 1`] = `
     }
   }
   onClick={[MockFunction]}
-  onViewportChanged={[Function]}
+  onViewportChanged={[MockFunction]}
   style={
     Object {
       "height": "calc(100vh - 176px)",
@@ -25,10 +87,11 @@ exports[`Route Map should pan and zoom to show bounding box 1`] = `
   viewport={
     Object {
       "center": Array [
-        0,
-        0,
+        1,
+        1,
       ],
-      "zoom": 2,
+      "isDirty": false,
+      "zoom": 4,
     }
   }
   zoomControl={false}
@@ -129,10 +192,11 @@ exports[`Route Map should show the whole world when bounding box is null 1`] = `
   viewport={
     Object {
       "center": Array [
-        0,
-        0,
+        1,
+        1,
       ],
-      "zoom": 2,
+      "isDirty": false,
+      "zoom": 4,
     }
   }
   zoomControl={false}
