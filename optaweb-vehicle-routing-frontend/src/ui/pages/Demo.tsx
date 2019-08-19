@@ -34,15 +34,15 @@ import { MinusIcon, PlusIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { clientOperations } from 'store/client';
+import { UserViewport } from 'store/client/types';
 import { demoOperations } from 'store/demo';
 import { routeOperations } from 'store/route';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 import { AppState } from 'store/types';
+import { DemoDropdown } from 'ui/components/DemoDropdown';
 import LocationList from 'ui/components/LocationList';
 import RouteMap from 'ui/components/RouteMap';
 import SearchBox, { Result } from 'ui/components/SearchBox';
-import { UserViewport } from '../../store/client/types';
-import { DemoDropdown } from '../components/DemoDropdown';
 
 export const ID_CLEAR_BUTTON = 'clear-button';
 export const ID_EXPORT_BUTTON = 'export-button';

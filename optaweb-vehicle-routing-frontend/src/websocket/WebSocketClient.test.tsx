@@ -15,8 +15,8 @@
  */
 
 import * as SockJS from 'sockjs-client';
+import { LatLngWithDescription } from 'store/route/types';
 import { Client, Options, over } from 'webstomp-client';
-import { LatLngWithDescription } from '../store/route/types';
 import WebSocketClient from './WebSocketClient';
 
 jest.mock('sockjs-client');
