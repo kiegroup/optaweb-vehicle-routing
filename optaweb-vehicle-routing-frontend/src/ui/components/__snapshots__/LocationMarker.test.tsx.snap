@@ -42,7 +42,7 @@ exports[`Location Marker render depot 1`] = `
   }
 >
   <ForwardRef(Leaflet(Tooltip))
-    key="1t"
+    key=""
     permanent={false}
   >
     Location 1 [Lat=1.345678, Lng=1.345678]
@@ -69,7 +69,7 @@ exports[`Location Marker render visit 1`] = `
   }
 >
   <ForwardRef(Leaflet(Tooltip))
-    key="1t"
+    key=""
     permanent={false}
   >
     Location 1 [Lat=1.345678, Lng=1.345678]
@@ -96,7 +96,7 @@ exports[`Location Marker selected visit should show a tooltip 1`] = `
   }
 >
   <ForwardRef(Leaflet(Tooltip))
-    key="1T"
+    key="selected"
     permanent={true}
   >
     Location 1 [Lat=1.345678, Lng=1.345678]
