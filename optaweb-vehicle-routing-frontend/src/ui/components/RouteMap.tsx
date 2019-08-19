@@ -16,7 +16,7 @@
 
 import * as L from 'leaflet';
 import * as React from 'react';
-import { Map, Marker, Polyline, Rectangle, TileLayer, Tooltip, ZoomControl } from 'react-leaflet';
+import { Map, Marker, Polyline, Rectangle, TileLayer, Tooltip, Viewport, ZoomControl } from 'react-leaflet';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
@@ -29,6 +29,10 @@ export interface Props {
   visits: Location[];
   routes: Omit<RouteWithTrack, 'vehicle'>[];
   boundingBox: [LatLng, LatLng] | null;
+}
+
+export interface State {
+  viewport: Viewport;
 }
 
 // TODO unlimited unique (random) colors
@@ -76,55 +80,75 @@ const marker = (
   );
 };
 
-const RouteMap: React.FC<Props> = ({
-  boundingBox,
-  selectedId,
-  depot,
-  visits,
-  routes,
-  clickHandler,
-  removeHandler,
-}) => {
-  const bounds = boundingBox ? new L.LatLngBounds(boundingBox[0], boundingBox[1]) : undefined;
-  const center = bounds ? undefined : new L.LatLng(0, 0);
-  const zoom = bounds ? undefined : 2;
-  return (
-    <Map
-      bounds={bounds}
-      center={center}
-      zoom={zoom}
-      onClick={clickHandler}
-      // FIXME use height: 100%
-      style={{ width: '100%', height: 'calc(100vh - 176px)' }}
-      zoomControl={false} // hide the default zoom control which is on top left
-    >
-      <TileLayer
-        attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <ZoomControl position="topright" />
-      {depot && marker(removeHandler, selectedId, depot, true)}
-      {visits.map(location => marker(removeHandler, selectedId, location, false))}
-      {routes.map((route, index) => (
-        <Polyline
-          // eslint-disable-next-line react/no-array-index-key
-          key={index} // FIXME use unique id (not iteration index)
-          positions={route.track}
-          fill={false}
-          color={color(index)}
+class RouteMap extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      viewport: { center: [0, 0], zoom: 2 },
+    };
+    this.setViewport = this.setViewport.bind(this);
+  }
+
+  componentWillUnmount(): void {
+    const { viewport } = this.state;
+    console.log(`${viewport.center} [${viewport.zoom}]`);
+    // TODO propagate viewport to AppState
+  }
+
+  setViewport(viewport: Viewport) {
+    this.setState({ viewport });
+  }
+
+  render() {
+    const {
+      boundingBox,
+      selectedId,
+      depot,
+      visits,
+      routes,
+      clickHandler,
+      removeHandler,
+    } = this.props;
+    const bounds = boundingBox ? new L.LatLngBounds(boundingBox[0], boundingBox[1]) : undefined;
+    const { viewport } = this.state;
+    return (
+      <Map
+        bounds={bounds}
+        viewport={viewport}
+        onViewportChanged={this.setViewport}
+        onClick={clickHandler}
+        // FIXME use height: 100%
+        style={{ width: '100%', height: 'calc(100vh - 176px)' }}
+        zoomControl={false} // hide the default zoom control which is on top left
+      >
+        <TileLayer
+          attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-      ))}
-      {bounds && (
-        <Rectangle
-          bounds={bounds}
-          color="seagreen"
-          fill={false}
-          dashArray="10,5"
-          weight={1}
-        />
-      )}
-    </Map>
-  );
-};
+        <ZoomControl position="topright" />
+        {depot && marker(removeHandler, selectedId, depot, true)}
+        {visits.map(location => marker(removeHandler, selectedId, location, false))}
+        {routes.map((route, index) => (
+          <Polyline
+            // eslint-disable-next-line react/no-array-index-key
+            key={index} // FIXME use unique id (not iteration index)
+            positions={route.track}
+            fill={false}
+            color={color(index)}
+          />
+        ))}
+        {bounds && (
+          <Rectangle
+            bounds={bounds}
+            color="seagreen"
+            fill={false}
+            dashArray="10,5"
+            weight={1}
+          />
+        )}
+      </Map>
+    );
+  }
+}
 
 export default RouteMap;
