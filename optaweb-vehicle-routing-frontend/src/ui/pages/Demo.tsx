@@ -227,7 +227,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
               >
                 Export
               </Button>
-              {(routes.length === 0 && (
+              {(depot === null && (
                 <DemoDropdown
                   demos={demoNames}
                   onSelect={this.handleDemoLoadClick}
