@@ -16,8 +16,9 @@
 
 import * as L from 'leaflet';
 import * as React from 'react';
-import { Map, Marker, Polyline, Rectangle, TileLayer, Tooltip, Viewport, ZoomControl } from 'react-leaflet';
+import { Map, Polyline, Rectangle, TileLayer, Viewport, ZoomControl } from 'react-leaflet';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
+import LocationMarker from './LocationMarker';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
@@ -41,44 +42,6 @@ const colors = ['deepskyblue', 'crimson', 'seagreen', 'slateblue', 'gold', 'dark
 function color(index: number) {
   return colors[index % colors.length];
 }
-
-const homeIcon = L.icon({
-  iconAnchor: [12, 12],
-  iconSize: [24, 24],
-  iconUrl: 'if_big_house-home_2222740.png',
-  popupAnchor: [0, -10],
-  shadowAnchor: [16, 2],
-  shadowSize: [50, 16],
-  shadowUrl: 'if_big_house-home_2222740_shadow.png',
-});
-
-const defaultIcon = new L.Icon.Default();
-
-const marker = (
-  removeHandler: (id: number) => void,
-  selectedId: number,
-  location: Location,
-  isDepot: boolean,
-) => {
-  const icon = isDepot ? homeIcon : defaultIcon;
-  return (
-    <Marker
-      key={location.id}
-      position={location}
-      icon={icon}
-      onClick={() => removeHandler(location.id)}
-    >
-      <Tooltip
-        // The permanent and non-permanent tooltips are different components
-        // and need to have different keys
-        key={location.id + (location.id === selectedId ? 'T' : 't')}
-        permanent={location.id === selectedId}
-      >
-        {`Location ${location.id} [Lat=${location.lat}, Lng=${location.lng}]`}
-      </Tooltip>
-    </Marker>
-  );
-};
 
 class RouteMap extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -126,8 +89,23 @@ class RouteMap extends React.Component<Props, State> {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <ZoomControl position="topright" />
-        {depot && marker(removeHandler, selectedId, depot, true)}
-        {visits.map(location => marker(removeHandler, selectedId, location, false))}
+        {depot && (
+          <LocationMarker
+            location={depot}
+            isDepot
+            isSelected={depot.id === selectedId}
+            removeHandler={removeHandler}
+          />
+        )}
+        {visits.map(location => (
+          <LocationMarker
+            key={location.id}
+            location={location}
+            isDepot={false}
+            isSelected={location.id === selectedId}
+            removeHandler={removeHandler}
+          />
+        ))}
         {routes.map((route, index) => (
           <Polyline
             // eslint-disable-next-line react/no-array-index-key
