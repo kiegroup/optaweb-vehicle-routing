@@ -15,10 +15,20 @@ exports[`Route Map should pan and zoom to show bounding box 1`] = `
     }
   }
   onClick={[MockFunction]}
+  onViewportChanged={[Function]}
   style={
     Object {
       "height": "calc(100vh - 176px)",
       "width": "100%",
+    }
+  }
+  viewport={
+    Object {
+      "center": Array [
+        0,
+        0,
+      ],
+      "zoom": 2,
     }
   }
   zoomControl={false}
@@ -165,20 +175,23 @@ exports[`Route Map should pan and zoom to show bounding box 1`] = `
 
 exports[`Route Map should show the whole world when bounding box is null 1`] = `
 <Map
-  center={
-    Object {
-      "lat": 0,
-      "lng": 0,
-    }
-  }
   onClick={[MockFunction]}
+  onViewportChanged={[Function]}
   style={
     Object {
       "height": "calc(100vh - 176px)",
       "width": "100%",
     }
   }
-  zoom={2}
+  viewport={
+    Object {
+      "center": Array [
+        0,
+        0,
+      ],
+      "zoom": 2,
+    }
+  }
   zoomControl={false}
 >
   <ForwardRef(Leaflet(TileLayer))
