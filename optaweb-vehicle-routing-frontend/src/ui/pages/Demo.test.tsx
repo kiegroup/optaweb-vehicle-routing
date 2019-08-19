@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Button } from '@patternfly/react-core';
+import { Button, Dropdown } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
@@ -49,6 +49,30 @@ describe('Demo page', () => {
 
     const exportButton = demo.find(Button).filter(`#${ID_EXPORT_BUTTON}`);
     expect(exportButton.props().isDisabled).toEqual(true);
+  });
+
+  it('clear button should replace demo dropdown as soon as there is a depot', () => {
+    const props: DemoProps = {
+      ...emptyRouteProps,
+      depot: {
+        id: 1,
+        lat: 1,
+        lng: 1,
+        description: '',
+      },
+    };
+    const demo = shallow(<Demo {...props} />);
+    expect(toJson(demo)).toMatchSnapshot();
+
+    const clearButton = demo.find(Button).filter(`#${ID_CLEAR_BUTTON}`);
+    expect(clearButton).toHaveLength(1);
+    expect(clearButton.props().isDisabled).toEqual(false);
+
+    const exportButton = demo.find(Button).filter(`#${ID_EXPORT_BUTTON}`);
+    expect(exportButton).toHaveLength(1);
+    expect(exportButton.props().isDisabled).toEqual(false);
+
+    expect(demo.find(Dropdown)).toHaveLength(0);
   });
 });
 
