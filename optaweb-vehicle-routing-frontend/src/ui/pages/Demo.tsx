@@ -39,7 +39,7 @@ import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
 import SearchBox, { Result } from 'ui/components/SearchBox';
-import TspMap from 'ui/components/TspMap';
+import RouteMap from 'ui/components/RouteMap';
 import { DemoDropdown } from '../components/DemoDropdown';
 
 export const ID_CLEAR_BUTTON = 'clear-button';
@@ -236,7 +236,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
               )}
             </SplitItem>
           </Split>
-          <TspMap
+          <RouteMap
             boundingBox={boundingBox}
             selectedId={selectedId}
             clickHandler={this.handleMapClick}

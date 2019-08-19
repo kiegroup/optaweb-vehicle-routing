@@ -21,7 +21,7 @@ import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
-export interface TspMapProps {
+export interface Props {
   selectedId: number;
   clickHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
   removeHandler: (id: number) => void;
@@ -76,7 +76,7 @@ const marker = (
   );
 };
 
-const TspMap: React.FC<TspMapProps> = ({
+const RouteMap: React.FC<Props> = ({
   boundingBox,
   selectedId,
   depot,
@@ -127,4 +127,4 @@ const TspMap: React.FC<TspMapProps> = ({
   );
 };
 
-export default TspMap;
+export default RouteMap;

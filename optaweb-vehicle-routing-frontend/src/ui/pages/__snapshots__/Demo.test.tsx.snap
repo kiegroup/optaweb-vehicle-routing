@@ -224,7 +224,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
         </Button>
       </SplitItem>
     </Split>
-    <TspMap
+    <RouteMap
       boundingBox={null}
       clickHandler={[Function]}
       depot={
@@ -508,7 +508,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
         </Button>
       </SplitItem>
     </Split>
-    <TspMap
+    <RouteMap
       boundingBox={null}
       clickHandler={[Function]}
       depot={
@@ -764,7 +764,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
         />
       </SplitItem>
     </Split>
-    <TspMap
+    <RouteMap
       boundingBox={null}
       clickHandler={[Function]}
       depot={null}

@@ -31,7 +31,7 @@ import { routeOperations } from 'store/route';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
-import TspMap from 'ui/components/TspMap';
+import RouteMap from 'ui/components/RouteMap';
 
 export interface StateProps {
   depot: Location | null;
@@ -140,7 +140,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
             />
           </SplitItem>
           <SplitItem isFilled={true}>
-            <TspMap
+            <RouteMap
               boundingBox={boundingBox}
               selectedId={selectedId}
               clickHandler={this.handleMapClick}
