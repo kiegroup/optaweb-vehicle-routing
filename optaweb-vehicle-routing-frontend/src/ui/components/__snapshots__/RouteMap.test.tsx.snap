@@ -40,101 +40,44 @@ exports[`Route Map should pan and zoom to show bounding box 1`] = `
   <ForwardRef(Leaflet(ZoomControl))
     position="topright"
   />
-  <ForwardRef(Leaflet(Marker))
-    icon={
-      NewClass {
-        "_initHooksCalled": true,
-        "options": Object {
-          "iconAnchor": Array [
-            12,
-            12,
-          ],
-          "iconSize": Array [
-            24,
-            24,
-          ],
-          "iconUrl": "if_big_house-home_2222740.png",
-          "popupAnchor": Array [
-            0,
-            -10,
-          ],
-          "shadowAnchor": Array [
-            16,
-            2,
-          ],
-          "shadowSize": Array [
-            50,
-            16,
-          ],
-          "shadowUrl": "if_big_house-home_2222740_shadow.png",
-        },
-      }
-    }
-    key="1"
-    onClick={[Function]}
-    position={
+  <LocationMarker
+    isDepot={true}
+    isSelected={true}
+    location={
       Object {
         "id": 1,
         "lat": 1.345678,
         "lng": 1.345678,
       }
     }
-  >
-    <ForwardRef(Leaflet(Tooltip))
-      key="1T"
-      permanent={true}
-    >
-      Location 1 [Lat=1.345678, Lng=1.345678]
-    </ForwardRef(Leaflet(Tooltip))>
-  </ForwardRef(Leaflet(Marker))>
-  <ForwardRef(Leaflet(Marker))
-    icon={
-      NewClass {
-        "_initHooksCalled": true,
-        "options": Object {},
-      }
-    }
+    removeHandler={[MockFunction]}
+  />
+  <LocationMarker
+    isDepot={false}
+    isSelected={false}
     key="2"
-    onClick={[Function]}
-    position={
+    location={
       Object {
         "id": 2,
         "lat": 2.345678,
         "lng": 2.345678,
       }
     }
-  >
-    <ForwardRef(Leaflet(Tooltip))
-      key="2t"
-      permanent={false}
-    >
-      Location 2 [Lat=2.345678, Lng=2.345678]
-    </ForwardRef(Leaflet(Tooltip))>
-  </ForwardRef(Leaflet(Marker))>
-  <ForwardRef(Leaflet(Marker))
-    icon={
-      NewClass {
-        "_initHooksCalled": true,
-        "options": Object {},
-      }
-    }
+    removeHandler={[MockFunction]}
+  />
+  <LocationMarker
+    isDepot={false}
+    isSelected={false}
     key="3"
-    onClick={[Function]}
-    position={
+    location={
       Object {
         "id": 3,
         "lat": 3.676111,
         "lng": 3.568333,
       }
     }
-  >
-    <ForwardRef(Leaflet(Tooltip))
-      key="3t"
-      permanent={false}
-    >
-      Location 3 [Lat=3.676111, Lng=3.568333]
-    </ForwardRef(Leaflet(Tooltip))>
-  </ForwardRef(Leaflet(Marker))>
+    removeHandler={[MockFunction]}
+  />
   <ForwardRef(Leaflet(Polyline))
     color="deepskyblue"
     fill={false}
@@ -201,53 +144,18 @@ exports[`Route Map should show the whole world when bounding box is null 1`] = `
   <ForwardRef(Leaflet(ZoomControl))
     position="topright"
   />
-  <ForwardRef(Leaflet(Marker))
-    icon={
-      NewClass {
-        "_initHooksCalled": true,
-        "options": Object {
-          "iconAnchor": Array [
-            12,
-            12,
-          ],
-          "iconSize": Array [
-            24,
-            24,
-          ],
-          "iconUrl": "if_big_house-home_2222740.png",
-          "popupAnchor": Array [
-            0,
-            -10,
-          ],
-          "shadowAnchor": Array [
-            16,
-            2,
-          ],
-          "shadowSize": Array [
-            50,
-            16,
-          ],
-          "shadowUrl": "if_big_house-home_2222740_shadow.png",
-        },
-      }
-    }
-    key="1"
-    onClick={[Function]}
-    position={
+  <LocationMarker
+    isDepot={true}
+    isSelected={true}
+    location={
       Object {
         "id": 1,
         "lat": 1.345678,
         "lng": 1.345678,
       }
     }
-  >
-    <ForwardRef(Leaflet(Tooltip))
-      key="1T"
-      permanent={true}
-    >
-      Location 1 [Lat=1.345678, Lng=1.345678]
-    </ForwardRef(Leaflet(Tooltip))>
-  </ForwardRef(Leaflet(Marker))>
+    removeHandler={[MockFunction]}
+  />
   <ForwardRef(Leaflet(Polyline))
     color="deepskyblue"
     fill={false}
