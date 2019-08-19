@@ -172,6 +172,11 @@ const state: AppState = {
     countryCodes: [],
     demos: [],
   },
+  userViewport: {
+    isDirty: false,
+    zoom: 1,
+    center: [0, 0],
+  },
   demo: {
     demoName: null,
     isLoading: false,

@@ -33,13 +33,15 @@ import {
 import { MinusIcon, PlusIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { clientOperations } from 'store/client';
 import { demoOperations } from 'store/demo';
 import { routeOperations } from 'store/route';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
-import SearchBox, { Result } from 'ui/components/SearchBox';
 import RouteMap from 'ui/components/RouteMap';
+import SearchBox, { Result } from 'ui/components/SearchBox';
+import { UserViewport } from '../../store/client/types';
 import { DemoDropdown } from '../components/DemoDropdown';
 
 export const ID_CLEAR_BUTTON = 'clear-button';
@@ -53,6 +55,7 @@ export interface StateProps {
   routes: RouteWithTrack[];
   isDemoLoading: boolean;
   boundingBox: [LatLng, LatLng] | null;
+  userViewport: UserViewport;
   countryCodeSearchFilter: string[];
   demoNames: string[];
 }
@@ -64,9 +67,10 @@ export interface DispatchProps {
   removeLocationHandler: typeof routeOperations.deleteLocation;
   addVehicleHandler: typeof routeOperations.addVehicle;
   removeVehicleHandler: typeof routeOperations.deleteAnyVehicle;
+  updateViewport: typeof clientOperations.updateViewport;
 }
 
-const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
+const mapStateToProps = ({ plan, demo, serverInfo, userViewport }: AppState): StateProps => ({
   distance: plan.distance,
   vehicleCount: plan.vehicles.length,
   depot: plan.depot,
@@ -74,6 +78,7 @@ const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
   routes: plan.routes,
   isDemoLoading: demo.isLoading,
   boundingBox: serverInfo.boundingBox,
+  userViewport,
   countryCodeSearchFilter: serverInfo.countryCodes,
   // TODO use selector
   // TODO sort demos alphabetically?
@@ -87,6 +92,7 @@ const mapDispatchToProps: DispatchProps = {
   removeLocationHandler: routeOperations.deleteLocation,
   addVehicleHandler: routeOperations.addVehicle,
   removeVehicleHandler: routeOperations.deleteAnyVehicle,
+  updateViewport: clientOperations.updateViewport,
 };
 
 export type DemoProps = DispatchProps & StateProps;
@@ -135,11 +141,13 @@ export class Demo extends React.Component<DemoProps, DemoState> {
       demoNames,
       isDemoLoading,
       boundingBox,
+      userViewport,
       countryCodeSearchFilter,
       addVehicleHandler,
       removeVehicleHandler,
       removeLocationHandler,
       clearHandler,
+      updateViewport,
     } = this.props;
 
     const exportDataSet = () => {
@@ -238,6 +246,8 @@ export class Demo extends React.Component<DemoProps, DemoState> {
           </Split>
           <RouteMap
             boundingBox={boundingBox}
+            userViewport={userViewport}
+            updateViewport={updateViewport}
             selectedId={selectedId}
             clickHandler={this.handleMapClick}
             removeHandler={removeLocationHandler}

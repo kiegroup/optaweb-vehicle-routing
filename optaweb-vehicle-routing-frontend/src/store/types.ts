@@ -17,6 +17,7 @@
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import WebSocketClient from 'websocket/WebSocketClient';
+import { UserViewport } from './client/types';
 import { Demo } from './demo/types';
 import { RoutingPlan } from './route/types';
 import { ServerInfo } from './server/types';
@@ -57,4 +58,5 @@ export interface AppState {
   readonly plan: RoutingPlan;
   readonly connectionStatus: WebSocketConnectionStatus;
   readonly demo: Demo;
+  readonly userViewport: UserViewport;
 }
