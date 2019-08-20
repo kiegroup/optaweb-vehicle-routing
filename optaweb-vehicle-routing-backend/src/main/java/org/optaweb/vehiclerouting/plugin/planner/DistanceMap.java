@@ -20,8 +20,8 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
+import org.optaweb.vehiclerouting.domain.location.RoadLocation;
 
 /**
  * Temporary distance map implementation that allows to compute and store distances purely from
@@ -30,11 +30,11 @@ import org.optaweb.vehiclerouting.domain.Location;
 // TODO get rid of dependency on Planning domain
 class DistanceMap implements Map<RoadLocation, Double> {
 
-    private final Location location;
+    private final LocationNew locationNew;
     private final Map<Long, Double> distanceMap;
 
-    DistanceMap(Location location, Map<Long, Double> distanceMap) {
-        this.location = location;
+    DistanceMap(LocationNew locationNew, Map<Long, Double> distanceMap) {
+        this.locationNew = locationNew;
         this.distanceMap = distanceMap;
     }
 
@@ -62,7 +62,7 @@ class DistanceMap implements Map<RoadLocation, Double> {
     public Double get(Object key) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException(
-                    "Distance from " + location
+                    "Distance from " + locationNew
                             + " to " + key
                             + " hasn't been recorded.\n"
                             + "We only know distances to " + distanceMap.keySet());

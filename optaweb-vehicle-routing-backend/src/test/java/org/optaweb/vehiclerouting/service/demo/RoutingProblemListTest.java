@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,8 +38,8 @@ class RoutingProblemListTest {
 
     @Test
     void all_by_name_should_return_expected_problems() {
-        Location depot = new Location(0, Coordinates.valueOf(10, -20));
-        List<Location> visits = Collections.emptyList();
+        LocationNew depot = new LocationNew(0, Coordinates.valueOf(10, -20));
+        List<LocationNew> visits = Collections.emptyList();
         String name1 = "Problem A";
         String name2 = "Problem B";
         RoutingProblemList routingProblemList = new RoutingProblemList(Arrays.asList(

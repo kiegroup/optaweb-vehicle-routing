@@ -31,7 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -41,7 +41,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
-class LocationRepositoryImplTest {
+class LocationNewRepositoryImplTest {
 
     @Mock
     private LocationCrudRepository crudRepository;
@@ -51,7 +51,7 @@ class LocationRepositoryImplTest {
     private LocationEntity locationEntity;
     @Captor
     private ArgumentCaptor<LocationEntity> locationEntityCaptor;
-    private Location testLocation;
+    private LocationNew testLocationNew;
 
     @BeforeEach
     void setUp() {
@@ -59,7 +59,7 @@ class LocationRepositoryImplTest {
         final BigDecimal latitude = BigDecimal.valueOf(1.2);
         final BigDecimal longitude = BigDecimal.valueOf(3.4);
         final String description = "description";
-        testLocation = new Location(id, new Coordinates(latitude, longitude), description);
+        testLocationNew = new LocationNew(id, new Coordinates(latitude, longitude), description);
         when(locationEntity.getId()).thenReturn(id);
         when(locationEntity.getLatitude()).thenReturn(latitude);
         when(locationEntity.getLongitude()).thenReturn(longitude);
@@ -74,7 +74,7 @@ class LocationRepositoryImplTest {
         String savedDescription = "new location";
 
         // act
-        Location createdLocation = repository.createLocation(savedCoordinates, savedDescription);
+        LocationNew createdLocationNew = repository.createLocation(savedCoordinates, savedDescription);
 
         // assert
         // -- the correct values were used to save the entity
@@ -87,19 +87,19 @@ class LocationRepositoryImplTest {
         // This may be confusing but that's the contract of Spring Repository API.
         // The entity instance that is being saved is meant to be discarded. The returned instance should be used
         // for further operations as the save() operation may update it (for example generate the ID).
-        assertThat(createdLocation.id()).isEqualTo(locationEntity.getId());
-        assertThat(createdLocation.coordinates())
+        assertThat(createdLocationNew.id()).isEqualTo(locationEntity.getId());
+        assertThat(createdLocationNew.coordinates())
                 .isEqualTo(new Coordinates(locationEntity.getLatitude(), locationEntity.getLongitude()));
-        assertThat(createdLocation.description()).isEqualTo(locationEntity.getDescription());
+        assertThat(createdLocationNew.description()).isEqualTo(locationEntity.getDescription());
     }
 
     @Test
     void remove_created_location_by_id() {
-        final long id = testLocation.id();
+        final long id = testLocationNew.id();
         when(crudRepository.findById(id)).thenReturn(Optional.of(locationEntity));
 
-        Location removed = repository.removeLocation(id);
-        assertThat(removed).isEqualTo(testLocation);
+        LocationNew removed = repository.removeLocation(id);
+        assertThat(removed).isEqualTo(testLocationNew);
         verify(crudRepository).deleteById(id);
     }
 
@@ -123,12 +123,12 @@ class LocationRepositoryImplTest {
     @Test
     void get_all_locations() {
         when(crudRepository.findAll()).thenReturn(Collections.singletonList(locationEntity));
-        assertThat(repository.locations()).containsExactly(testLocation);
+        assertThat(repository.locations()).containsExactly(testLocationNew);
     }
 
     @Test
     void find_by_id() {
-        when(crudRepository.findById(testLocation.id())).thenReturn(Optional.of(locationEntity));
-        assertThat(repository.find(testLocation.id())).contains(testLocation);
+        when(crudRepository.findById(testLocationNew.id())).thenReturn(Optional.of(locationEntity));
+        assertThat(repository.find(testLocationNew.id())).contains(testLocationNew);
     }
 }

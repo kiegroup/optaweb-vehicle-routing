@@ -16,14 +16,14 @@
 
 package org.optaweb.vehiclerouting.service.distance;
 
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 
 /**
  * Stores distances between locations.
  */
 public interface DistanceRepository {
 
-    void saveDistance(Location from, Location to, double distance);
+    void saveDistance(LocationNew from, LocationNew to, double distance);
 
-    double getDistance(Location from, Location to);
+    double getDistance(LocationNew from, LocationNew to);
 }

@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.springframework.boot.test.json.JacksonTester;
 
 import static java.util.Arrays.asList;
@@ -64,7 +64,7 @@ class PortableRouteTest {
     }
 
     private static PortableLocation visit(long id, double latitude, double longitude, String description) {
-        return fromLocation(new Location(id, Coordinates.valueOf(latitude, longitude), description));
+        return fromLocation(new LocationNew(id, Coordinates.valueOf(latitude, longitude), description));
     }
 
     private static PortableCoordinates coordinates(double latitude, double longitude) {

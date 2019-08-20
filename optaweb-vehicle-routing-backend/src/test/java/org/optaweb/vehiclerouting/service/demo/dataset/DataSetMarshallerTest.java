@@ -68,8 +68,8 @@ class DataSetMarshallerTest {
         String name = "Test data set";
         dataSet.setName(name);
         DataSetLocation depot = new DataSetLocation("Depot", -1.1, -9.9);
-        DataSetLocation location1 = new DataSetLocation("Location 1", 1.0, 0.1);
-        DataSetLocation location2 = new DataSetLocation("Location 2", 2.0, 0.2);
+        DataSetLocation location1 = new DataSetLocation("LocationNew 1", 1.0, 0.1);
+        DataSetLocation location2 = new DataSetLocation("LocationNew 2", 2.0, 0.2);
         dataSet.setDepot(depot);
         dataSet.setVisits(Arrays.asList(location1, location2));
         String yaml = new DataSetMarshaller().marshal(dataSet);

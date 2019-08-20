@@ -26,7 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
@@ -59,7 +59,7 @@ class WebSocketControllerTest {
     void subscribeToRouteTopic() {
         // arrange
         String distance = "some distance";
-        Location depot = new Location(1, Coordinates.valueOf(3, 5));
+        LocationNew depot = new LocationNew(1, Coordinates.valueOf(3, 5));
         List<RouteWithTrack> routes = Collections.singletonList(mock(RouteWithTrack.class));
         RoutingPlan plan = new RoutingPlan(distance, depot, routes);
         when(routeListener.getBestRoutingPlan()).thenReturn(plan);
@@ -84,8 +84,8 @@ class WebSocketControllerTest {
         BoundingBox boundingBox = new BoundingBox(southWest, northEast);
         when(regionService.boundingBox()).thenReturn(boundingBox);
 
-        Location depot = new Location(1, Coordinates.valueOf(1.0, 7), "Depot");
-        List<Location> visits = Arrays.asList(new Location(2, Coordinates.valueOf(2.0, 9), "Visit"));
+        LocationNew depot = new LocationNew(1, Coordinates.valueOf(1.0, 7), "Depot");
+        List<LocationNew> visits = Arrays.asList(new LocationNew(2, Coordinates.valueOf(2.0, 9), "Visit"));
         String demoName = "Testing problem";
         RoutingProblem routingProblem = new RoutingProblem(demoName, depot, visits);
         when(demoService.demos()).thenReturn(Arrays.asList(routingProblem));

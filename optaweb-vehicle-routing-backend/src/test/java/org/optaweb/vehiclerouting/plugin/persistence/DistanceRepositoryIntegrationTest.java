@@ -20,7 +20,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -57,19 +57,19 @@ class DistanceRepositoryIntegrationTest {
 
     @Test
     void should_return_saved_distance() {
-        Location location1 = new Location(1, Coordinates.valueOf(7, -4.0));
-        Location location2 = new Location(2, Coordinates.valueOf(5, 9.0));
+        LocationNew locationNew1 = new LocationNew(1, Coordinates.valueOf(7, -4.0));
+        LocationNew locationNew2 = new LocationNew(2, Coordinates.valueOf(5, 9.0));
 
         double distance = 95676.6417;
-        repository.saveDistance(location1, location2, distance);
-        assertThat(repository.getDistance(location1, location2)).isEqualTo(distance);
+        repository.saveDistance(locationNew1, locationNew2, distance);
+        assertThat(repository.getDistance(locationNew1, locationNew2)).isEqualTo(distance);
     }
 
     @Test
     void should_return_negative_number_when_distance_not_found() {
-        Location location1 = new Location(1, Coordinates.valueOf(7, -4.0));
-        Location location2 = new Location(2, Coordinates.valueOf(5, 9.0));
+        LocationNew locationNew1 = new LocationNew(1, Coordinates.valueOf(7, -4.0));
+        LocationNew locationNew2 = new LocationNew(2, Coordinates.valueOf(5, 9.0));
 
-        assertThat(repository.getDistance(location1, location2)).isNegative();
+        assertThat(repository.getDistance(locationNew1, locationNew2)).isNegative();
     }
 }

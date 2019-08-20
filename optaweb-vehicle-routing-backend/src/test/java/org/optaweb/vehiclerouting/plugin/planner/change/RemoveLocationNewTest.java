@@ -21,17 +21,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.plugin.planner.SolutionUtil;
+import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RemoveLocationTest {
+class RemoveLocationNewTest {
 
     @Mock
     private ScoreDirector<VehicleRoutingSolution> scoreDirector;

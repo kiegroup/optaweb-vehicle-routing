@@ -19,7 +19,7 @@ package org.optaweb.vehiclerouting.domain;
 import java.util.Objects;
 
 /**
- * Location properties. It's not an entity yet (it doesn't have an identity, it's a value object).
+ * LocationNew properties. It's not an entity yet (it doesn't have an identity, it's a value object).
  * Might be the data about a location sent from a client or data stored in a file,
  * ready to be loaded but not yet tied to a specific location entity.
  */

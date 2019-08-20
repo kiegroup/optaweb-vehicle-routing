@@ -21,16 +21,16 @@ import java.util.Objects;
 /**
  * A unique location significant to the user.
  */
-public class Location extends LocationData {
+public class LocationNew extends LocationData {
 
     private final long id;
 
-    public Location(long id, Coordinates coordinates) {
+    public LocationNew(long id, Coordinates coordinates) {
         // TODO remove this?
         this(id, coordinates, "");
     }
 
-    public Location(long id, Coordinates coordinates, String description) {
+    public LocationNew(long id, Coordinates coordinates, String description) {
         super(coordinates, description);
         this.id = id;
     }
@@ -47,8 +47,8 @@ public class Location extends LocationData {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Location location = (Location) o;
-        return id == location.id;
+        LocationNew locationNew = (LocationNew) o;
+        return id == locationNew.id;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class Location extends LocationData {
 
     @Override
     public String toString() {
-        return "Location{" +
+        return "LocationNew{" +
                 "id=" + id +
                 '}';
     }

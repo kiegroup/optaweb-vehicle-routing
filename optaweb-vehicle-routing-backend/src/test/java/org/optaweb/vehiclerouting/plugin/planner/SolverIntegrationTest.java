@@ -37,14 +37,13 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
-import org.optaplanner.examples.vehiclerouting.app.VehicleRoutingApp;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.domain.Depot;
+import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
+import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -68,7 +67,7 @@ class SolverIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        sf = SolverFactory.createFromXmlResource(VehicleRoutingApp.SOLVER_CONFIG);
+        sf = SolverFactory.createFromXmlResource(RouteOptimizerConfig.SOLVER_CONFIG);
         executor = Executors.newSingleThreadExecutor();
         monitor = new ProblemFactChangeProcessingMonitor();
         when(distanceMap.get(any(RoadLocation.class))).thenReturn(1.0);
@@ -183,7 +182,7 @@ class SolverIntegrationTest {
 
         @Override
         public void bestSolutionChanged(BestSolutionChangedEvent<VehicleRoutingSolution> event) {
-            // This happens on solver thread
+            // This happens on org.optaweb.vehiclerouting.solver thread
             if (!event.isEveryProblemFactChangeProcessed()) {
                 logger.debug("UNPROCESSED");
             } else if (!event.getNewBestScore().isSolutionInitialized()) {

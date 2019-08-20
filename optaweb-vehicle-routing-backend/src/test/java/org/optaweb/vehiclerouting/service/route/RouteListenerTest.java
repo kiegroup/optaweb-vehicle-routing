@@ -30,7 +30,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
@@ -82,7 +82,7 @@ class RouteListenerTest {
     @Test
     void event_with_no_visits_and_a_depot_should_be_published_as_plan_with_empty_routes() {
         final Coordinates depotCoordinates = Coordinates.valueOf(0.0, 0.1);
-        final Location depot = new Location(1, depotCoordinates);
+        final LocationNew depot = new LocationNew(1, depotCoordinates);
         ShallowRoute route = new ShallowRoute(depot.id(), emptyList());
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
 
@@ -112,8 +112,8 @@ class RouteListenerTest {
         when(router.getPath(depotCoordinates, visitCoordinates)).thenReturn(path1);
         when(router.getPath(visitCoordinates, depotCoordinates)).thenReturn(path2);
 
-        final Location depot = new Location(1, depotCoordinates);
-        final Location visit = new Location(2, visitCoordinates);
+        final LocationNew depot = new LocationNew(1, depotCoordinates);
+        final LocationNew visit = new LocationNew(2, visitCoordinates);
         final String distance = "xy";
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
         when(locationRepository.find(visit.id())).thenReturn(Optional.of(visit));
@@ -138,8 +138,8 @@ class RouteListenerTest {
 
     @Test
     void should_discard_update_gracefully_if_one_of_location_has_been_removed() {
-        final Location depot = new Location(1, Coordinates.valueOf(1.0, 2.0));
-        final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
+        final LocationNew depot = new LocationNew(1, Coordinates.valueOf(1.0, 2.0));
+        final LocationNew visit = new LocationNew(2, Coordinates.valueOf(-1.0, -2.0));
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
         when(locationRepository.find(visit.id())).thenReturn(Optional.empty());
 

@@ -19,7 +19,7 @@ package org.optaweb.vehiclerouting.service.location;
 import java.util.Objects;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -58,27 +58,28 @@ public class LocationService {
         return submitToPlanner(repository.createLocation(coordinates, description));
     }
 
-    private boolean submitToPlanner(Location location) {
+    private boolean submitToPlanner(LocationNew locationNew) {
         try {
-            distanceMatrix.addLocation(location);
+            distanceMatrix.addLocation(locationNew);
         } catch (Exception e) {
             // TODO relay the error event to the client
-            logger.warn("Failed to calculate distances for {}, it will be discarded", location);
+            logger.warn("Failed to calculate distances for {}, it will be discarded", locationNew);
             logger.debug("Details:", e);
-            repository.removeLocation(location.id());
+            repository.removeLocation(locationNew.id());
             return false; // do not proceed to optimizer
         }
-        optimizer.addLocation(location, distanceMatrix);
+        optimizer.addLocation(locationNew, distanceMatrix);
         return true;
     }
 
     public synchronized void removeLocation(long id) {
         // TODO missing validation (id might be out of date or completely invalid)
-        // A) Take Location as an argument => it's valid but still might be out of date. Decide how to handle that case.
+        // A) Take LocationNew as an argument => it's valid but still might be out of date. Decide how to handle that
+        // case.
         // B) removeLocation() returns Optional instead of throwing IllArgException. Still need to decide how to handle
         //    the case when location with given ID doesn't exist.
-        Location location = repository.removeLocation(id);
-        optimizer.removeLocation(location);
+        LocationNew locationNew = repository.removeLocation(id);
+        optimizer.removeLocation(locationNew);
     }
 
     public synchronized void clear() {

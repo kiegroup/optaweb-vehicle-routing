@@ -21,10 +21,10 @@ import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 
 /**
- * {@link Location} representation convenient for marshalling.
+ * {@link LocationNew} representation convenient for marshalling.
  */
 class PortableLocation {
 
@@ -37,12 +37,12 @@ class PortableLocation {
 
     private final String description;
 
-    static PortableLocation fromLocation(Location location) {
+    static PortableLocation fromLocation(LocationNew locationNew) {
         return new PortableLocation(
-                location.id(),
-                location.coordinates().latitude(),
-                location.coordinates().longitude(),
-                location.description()
+                locationNew.id(),
+                locationNew.coordinates().latitude(),
+                locationNew.coordinates().longitude(),
+                locationNew.description()
         );
     }
 

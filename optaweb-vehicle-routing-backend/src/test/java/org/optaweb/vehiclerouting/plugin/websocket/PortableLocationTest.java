@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.springframework.boot.test.json.JacksonTester;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -67,12 +67,12 @@ class PortableLocationTest {
 
     @Test
     void fromLocation() {
-        Location location = new Location(17, Coordinates.valueOf(5.1, -0.0007), "Hello, world!");
-        PortableLocation portableLocation = PortableLocation.fromLocation(location);
-        assertThat(portableLocation.getId()).isEqualTo(location.id());
-        assertThat(portableLocation.getLatitude()).isEqualTo(location.coordinates().latitude());
-        assertThat(portableLocation.getLongitude()).isEqualTo(location.coordinates().longitude());
-        assertThat(portableLocation.getDescription()).isEqualTo(location.description());
+        LocationNew locationNew = new LocationNew(17, Coordinates.valueOf(5.1, -0.0007), "Hello, world!");
+        PortableLocation portableLocation = PortableLocation.fromLocation(locationNew);
+        assertThat(portableLocation.getId()).isEqualTo(locationNew.id());
+        assertThat(portableLocation.getLatitude()).isEqualTo(locationNew.coordinates().latitude());
+        assertThat(portableLocation.getLongitude()).isEqualTo(locationNew.coordinates().longitude());
+        assertThat(portableLocation.getDescription()).isEqualTo(locationNew.description());
     }
 
     @Test
@@ -87,7 +87,7 @@ class PortableLocationTest {
 
         // equals()
         assertThat(portableLocation).isNotEqualTo(null);
-        assertThat(portableLocation).isNotEqualTo(new Location(id, new Coordinates(lat1, lon1)));
+        assertThat(portableLocation).isNotEqualTo(new LocationNew(id, new Coordinates(lat1, lon1)));
         assertThat(portableLocation).isNotEqualTo(new PortableLocation(id + 1, lat1, lon1, description));
         assertThat(portableLocation).isNotEqualTo(new PortableLocation(id, lat1, lon2, description));
         assertThat(portableLocation).isNotEqualTo(new PortableLocation(id, lat2, lon1, description));

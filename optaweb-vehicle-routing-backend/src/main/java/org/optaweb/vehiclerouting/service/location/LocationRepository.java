@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 
 /**
  * Defines repository operations on locations.
@@ -33,25 +33,25 @@ public interface LocationRepository {
      * @param description description of the location
      * @return a new location
      */
-    Location createLocation(Coordinates coordinates, String description);
+    LocationNew createLocation(Coordinates coordinates, String description);
 
     /**
      * Get all locations.
      * @return all locations
      */
-    List<Location> locations();
+    List<LocationNew> locations();
 
     /**
      * Remove location.
      * @param id location's id
      * @return the removed location
      */
-    Location removeLocation(long id);
+    LocationNew removeLocation(long id);
 
     /**
      * Remove all locations from the repository.
      */
     void removeAll();
 
-    Optional<Location> find(Long locationId);
+    Optional<LocationNew> find(Long locationId);
 }

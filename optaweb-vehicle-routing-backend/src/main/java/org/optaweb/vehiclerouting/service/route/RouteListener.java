@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
@@ -57,7 +57,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     @Override
     public void onApplicationEvent(RouteChangedEvent event) {
         // TODO persist the best solution
-        Location depot = event.depot().flatMap(locationRepository::find).orElse(null);
+        LocationNew depot = event.depot().flatMap(locationRepository::find).orElse(null);
         try {
             List<RouteWithTrack> routes = event.routes().stream()
                     // list of deep locations
@@ -77,25 +77,25 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
         }
     }
 
-    private Location findLocationById(Long id) {
+    private LocationNew findLocationById(Long id) {
         return locationRepository.find(id).orElseThrow(() -> new IllegalStateException(
-                "Location {id=" + id + "} not found in the repository")
+                "LocationNew {id=" + id + "} not found in the repository")
         );
     }
 
-    private List<List<Coordinates>> track(Location depot, List<Location> route) {
+    private List<List<Coordinates>> track(LocationNew depot, List<LocationNew> route) {
         if (route.isEmpty()) {
             return Collections.emptyList();
         }
-        ArrayList<Location> itinerary = new ArrayList<>();
+        ArrayList<LocationNew> itinerary = new ArrayList<>();
         itinerary.add(depot);
         itinerary.addAll(route);
         itinerary.add(depot);
         List<List<Coordinates>> paths = new ArrayList<>();
         for (int i = 0; i < itinerary.size() - 1; i++) {
-            Location fromLocation = itinerary.get(i);
-            Location toLocation = itinerary.get(i + 1);
-            List<Coordinates> path = router.getPath(fromLocation.coordinates(), toLocation.coordinates());
+            LocationNew fromLocationNew = itinerary.get(i);
+            LocationNew toLocationNew = itinerary.get(i + 1);
+            List<Coordinates> path = router.getPath(fromLocationNew.coordinates(), toLocationNew.coordinates());
             paths.add(path);
         }
         return paths;

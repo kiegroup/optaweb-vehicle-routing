@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,32 +41,32 @@ class LocationRepositoryImpl implements LocationRepository {
     }
 
     @Override
-    public Location createLocation(Coordinates coordinates, String description) {
+    public LocationNew createLocation(Coordinates coordinates, String description) {
         LocationEntity locationEntity = repository.save(
                 new LocationEntity(coordinates.latitude(), coordinates.longitude(), description)
         );
-        Location location = toDomain(locationEntity);
-        logger.info("Created {}", location);
-        return location;
+        LocationNew locationNew = toDomain(locationEntity);
+        logger.info("Created {}", locationNew);
+        return locationNew;
     }
 
     @Override
-    public List<Location> locations() {
+    public List<LocationNew> locations() {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
                 .map(LocationRepositoryImpl::toDomain)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Location removeLocation(long id) {
+    public LocationNew removeLocation(long id) {
         Optional<LocationEntity> maybeLocation = repository.findById(id);
         maybeLocation.ifPresent(locationEntity -> repository.deleteById(id));
         LocationEntity locationEntity = maybeLocation.orElseThrow(
-                () -> new IllegalArgumentException("Location{id=" + id + "} doesn't exist.")
+                () -> new IllegalArgumentException("LocationNew{id=" + id + "} doesn't exist.")
         );
-        Location location = toDomain(locationEntity);
-        logger.info("Deleted {}", location);
-        return location;
+        LocationNew locationNew = toDomain(locationEntity);
+        logger.info("Deleted {}", locationNew);
+        return locationNew;
     }
 
     @Override
@@ -75,12 +75,12 @@ class LocationRepositoryImpl implements LocationRepository {
     }
 
     @Override
-    public Optional<Location> find(Long locationId) {
+    public Optional<LocationNew> find(Long locationId) {
         return repository.findById(locationId).map(LocationRepositoryImpl::toDomain);
     }
 
-    private static Location toDomain(LocationEntity locationEntity) {
-        return new Location(
+    private static LocationNew toDomain(LocationEntity locationEntity) {
+        return new LocationNew(
                 locationEntity.getId(),
                 new Coordinates(locationEntity.getLatitude(), locationEntity.getLongitude()),
                 locationEntity.getDescription()

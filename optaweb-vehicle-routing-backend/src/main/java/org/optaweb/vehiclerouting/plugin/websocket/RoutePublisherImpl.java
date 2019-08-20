@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.route.RoutePublisher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +68,7 @@ class RoutePublisherImpl implements RoutePublisher {
         return portableTrack;
     }
 
-    private static List<PortableLocation> portableVisits(List<Location> visits) {
+    private static List<PortableLocation> portableVisits(List<LocationNew> visits) {
         return visits.stream()
                 .map(PortableLocation::fromLocation)
                 .collect(Collectors.toList());

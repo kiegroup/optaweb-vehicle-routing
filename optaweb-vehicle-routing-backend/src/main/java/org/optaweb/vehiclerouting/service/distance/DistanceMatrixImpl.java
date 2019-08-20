@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ class DistanceMatrixImpl implements DistanceMatrix {
 
     private final DistanceCalculator distanceCalculator;
     private final DistanceRepository distanceRepository;
-    private final Map<Location, Map<Long, Double>> matrix = new HashMap<>();
+    private final Map<LocationNew, Map<Long, Double>> matrix = new HashMap<>();
 
     @Autowired
     DistanceMatrixImpl(DistanceCalculator distanceCalculator, DistanceRepository distanceRepository) {
@@ -39,7 +39,7 @@ class DistanceMatrixImpl implements DistanceMatrix {
     }
 
     @Override
-    public void addLocation(Location newLocation) {
+    public void addLocation(LocationNew newLocationNew) {
         // Matrix == distance rows.
         // We're adding a whole new row with distances from the new location to existing ones.
         // We're also creating a new column by "appending" a new cell to each existing row.
@@ -47,29 +47,29 @@ class DistanceMatrixImpl implements DistanceMatrix {
 
         // The map must be thread-safe because:
         // - we're updating it from the parallel stream below
-        // - it is accessed from solver thread!
+        // - it is accessed from org.optaweb.vehiclerouting.solver thread!
         Map<Long, Double> distancesToOthers = new ConcurrentHashMap<>(); // the new row
 
         // distance to self is 0
-        distancesToOthers.put(newLocation.id(), 0.0);
+        distancesToOthers.put(newLocationNew.id(), 0.0);
 
         // for all entries (rows) in the matrix:
         matrix.entrySet().stream().parallel().forEach(distanceRow -> {
             // entry key is the existing (other) location
-            Location other = distanceRow.getKey();
+            LocationNew other = distanceRow.getKey();
             // entry value is the data (cells) in the row (distances from the entry key location to any other)
             Map<Long, Double> distancesFromOther = distanceRow.getValue();
             // add a new cell to the row with the distance from the entry key location to the new location
             // (results in a new column at the end of the loop)
-            distancesFromOther.put(newLocation.id(), calculateOrRestoreDistance(other, newLocation));
+            distancesFromOther.put(newLocationNew.id(), calculateOrRestoreDistance(other, newLocationNew));
             // add a cell the new distance's row
-            distancesToOthers.put(other.id(), calculateOrRestoreDistance(newLocation, other));
+            distancesToOthers.put(other.id(), calculateOrRestoreDistance(newLocationNew, other));
         });
 
-        matrix.put(newLocation, distancesToOthers);
+        matrix.put(newLocationNew, distancesToOthers);
     }
 
-    private double calculateOrRestoreDistance(Location from, Location to) {
+    private double calculateOrRestoreDistance(LocationNew from, LocationNew to) {
         double distance = distanceRepository.getDistance(from, to);
         if (distance < 0) {
             distance = distanceCalculator.travelTimeMillis(from.coordinates(), to.coordinates());
@@ -79,8 +79,8 @@ class DistanceMatrixImpl implements DistanceMatrix {
     }
 
     @Override
-    public Map<Long, Double> getRow(Location location) {
-        return matrix.get(location);
+    public Map<Long, Double> getRow(LocationNew locationNew) {
+        return matrix.get(locationNew);
     }
 
     @Override

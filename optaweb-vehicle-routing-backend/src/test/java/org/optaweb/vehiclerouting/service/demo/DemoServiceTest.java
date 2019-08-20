@@ -32,7 +32,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
@@ -64,8 +64,8 @@ class DemoServiceTest {
     @Captor
     private ArgumentCaptor<RoutingProblem> routingProblemCaptor;
 
-    private final Location depot = new Location(1, Coordinates.valueOf(1.0, 7), "Depot");
-    private final List<Location> visits = Arrays.asList(new Location(2, Coordinates.valueOf(2.0, 9), "Visit"));
+    private final LocationNew depot = new LocationNew(1, Coordinates.valueOf(1.0, 7), "Depot");
+    private final List<LocationNew> visits = Arrays.asList(new LocationNew(2, Coordinates.valueOf(2.0, 9), "Visit"));
     private final String problemName = "Testing problem";
     private final RoutingProblem routingProblem = new RoutingProblem(problemName, depot, visits);
 
@@ -100,9 +100,9 @@ class DemoServiceTest {
 
     @Test
     void export_should_marshal_routing_plans_with_locations_from_repository() {
-        Location depot = new Location(0, Coordinates.valueOf(1.0, 2.0), "Depot");
-        Location visit1 = new Location(1, Coordinates.valueOf(11.0, 22.0), "Visit 1");
-        Location visit2 = new Location(2, Coordinates.valueOf(22.0, 33.0), "Visit 2");
+        LocationNew depot = new LocationNew(0, Coordinates.valueOf(1.0, 2.0), "Depot");
+        LocationNew visit1 = new LocationNew(1, Coordinates.valueOf(11.0, 22.0), "Visit 1");
+        LocationNew visit2 = new LocationNew(2, Coordinates.valueOf(22.0, 33.0), "Visit 2");
         when(locationRepository.locations()).thenReturn(Arrays.asList(depot, visit1, visit2));
 
         demoService.exportDataSet();

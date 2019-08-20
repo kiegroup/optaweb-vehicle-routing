@@ -18,19 +18,19 @@ package org.optaweb.vehiclerouting.service.location;
 
 import java.util.Map;
 
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 
 /**
  * Holds distances between every pair of locations.
  */
 public interface DistanceMatrix {
 
-    void addLocation(Location location);
+    void addLocation(LocationNew locationNew);
 
     // TODO Currently, the API is encumbered by usage of OptaPlanner VRP example code that works with
     // {@code Map<RoadLocation, Double>}.
     // TODO replace with travelTimeMillis(Coordinates, Coordinates, VehicleType)
-    Map<Long, Double> getRow(Location location);
+    Map<Long, Double> getRow(LocationNew locationNew);
 
     void clear();
 }

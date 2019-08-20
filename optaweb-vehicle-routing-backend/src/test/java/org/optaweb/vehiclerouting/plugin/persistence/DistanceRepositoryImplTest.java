@@ -26,7 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,8 +45,8 @@ class DistanceRepositoryImplTest {
     @Mock
     private DistanceEntity distanceEntity;
 
-    private final Location from = new Location(1, Coordinates.valueOf(7, -4.0));
-    private final Location to = new Location(2, Coordinates.valueOf(5, 9.0));
+    private final LocationNew from = new LocationNew(1, Coordinates.valueOf(7, -4.0));
+    private final LocationNew to = new LocationNew(2, Coordinates.valueOf(5, 9.0));
 
     @Test
     void should_save_distance() {

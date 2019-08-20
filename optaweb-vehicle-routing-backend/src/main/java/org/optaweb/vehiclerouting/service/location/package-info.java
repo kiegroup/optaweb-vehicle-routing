@@ -12,9 +12,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ */git a
 
 /**
- * Use cases that involve {@link org.optaweb.vehiclerouting.domain.Location locations}.
+ * Use cases that involve {@link org.optaweb.vehiclerouting.domain.LocationNew locations}.
  */
 package org.optaweb.vehiclerouting.service.location;

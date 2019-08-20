@@ -22,7 +22,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
-class LocationRepositoryIntegrationTest {
+class LocationNewRepositoryIntegrationTest {
 
     @Autowired
     private LocationCrudRepository crudRepository;
@@ -65,15 +65,15 @@ class LocationRepositoryIntegrationTest {
     void remove_created_location() {
         Coordinates coordinates = Coordinates.valueOf(0.00213, 32.777);
         assertThat(crudRepository.count()).isZero();
-        Location location = repository.createLocation(coordinates, "");
-        assertThat(location.coordinates()).isEqualTo(coordinates);
+        LocationNew locationNew = repository.createLocation(coordinates, "");
+        assertThat(locationNew.coordinates()).isEqualTo(coordinates);
         assertThat(crudRepository.count()).isOne();
 
-        Location removed = repository.removeLocation(location.id());
-        assertThat(removed).isEqualTo(location);
+        LocationNew removed = repository.removeLocation(locationNew.id());
+        assertThat(removed).isEqualTo(locationNew);
 
         // removing the same location twice should fail
-        assertThatIllegalArgumentException().isThrownBy(() -> repository.removeLocation(location.id()));
+        assertThatIllegalArgumentException().isThrownBy(() -> repository.removeLocation(locationNew.id()));
 
         // removing nonexistent location should fail and its ID should appear in the exception message
         int uniqueNonexistentId = 7173;
@@ -95,14 +95,14 @@ class LocationRepositoryIntegrationTest {
         LocationEntity testEntity = crudRepository
                 .findById((long) locationCount)
                 .orElseThrow(IllegalStateException::new);
-        Location testLocation = new Location(
+        LocationNew testLocationNew = new LocationNew(
                 testEntity.getId(),
                 new Coordinates(testEntity.getLatitude(), testEntity.getLongitude())
         );
 
         assertThat(repository.locations())
                 .hasSize(locationCount)
-                .contains(testLocation);
+                .contains(testLocationNew);
 
         repository.removeAll();
         assertThat(crudRepository.count()).isZero();

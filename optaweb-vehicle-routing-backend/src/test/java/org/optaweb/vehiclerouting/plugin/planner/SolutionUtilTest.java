@@ -19,12 +19,12 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.domain.Customer;
+import org.optaweb.vehiclerouting.domain.Depot;
+import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
+import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;

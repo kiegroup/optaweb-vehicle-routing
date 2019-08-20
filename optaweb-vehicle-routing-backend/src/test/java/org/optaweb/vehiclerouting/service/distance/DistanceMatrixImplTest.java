@@ -27,7 +27,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -53,9 +53,9 @@ class DistanceMatrixImplTest {
         when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0); // empty repository
         DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockDistanceCalculator(), distanceRepository);
 
-        Location l0 = location(100, 0);
-        Location l1 = location(111, 1);
-        Location l9neg = location(321, -9);
+        LocationNew l0 = location(100, 0);
+        LocationNew l1 = location(111, 1);
+        LocationNew l9neg = location(321, -9);
 
         distanceMatrix.addLocation(l0);
         Map<Long, Double> mapL0 = distanceMatrix.getRow(l0);
@@ -99,8 +99,8 @@ class DistanceMatrixImplTest {
 
     @Test
     void should_call_router_and_persist_distances_when_repo_is_empty() {
-        Location l1 = location(100, -1);
-        Location l2 = location(111, 20);
+        LocationNew l1 = location(100, -1);
+        LocationNew l2 = location(111, 20);
         long dist12 = 12;
         long dist21 = 21;
         when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0);
@@ -125,8 +125,8 @@ class DistanceMatrixImplTest {
 
     @Test
     void should_not_call_router_when_repo_is_full() {
-        Location l1 = location(1, 0);
-        Location l2 = location(2, 0);
+        LocationNew l1 = location(1, 0);
+        LocationNew l2 = location(2, 0);
         when(distanceRepository.getDistance(l1, l2)).thenReturn(0.0);
         when(distanceRepository.getDistance(l2, l1)).thenReturn(1.0);
 
@@ -142,13 +142,13 @@ class DistanceMatrixImplTest {
         verify(distanceRepository).getDistance(l1, l2);
 
         // nothing to persist
-        verify(distanceRepository, never()).saveDistance(any(Location.class), any(Location.class), anyDouble());
+        verify(distanceRepository, never()).saveDistance(any(LocationNew.class), any(LocationNew.class), anyDouble());
         // no calculation
         verifyZeroInteractions(distanceCalculator);
     }
 
-    private static Location location(long id, int longitude) {
-        return new Location(id, new Coordinates(BigDecimal.ZERO, BigDecimal.valueOf(longitude)));
+    private static LocationNew location(long id, int longitude) {
+        return new LocationNew(id, new Coordinates(BigDecimal.ZERO, BigDecimal.valueOf(longitude)));
     }
 
     private static class MockDistanceCalculator implements DistanceCalculator {

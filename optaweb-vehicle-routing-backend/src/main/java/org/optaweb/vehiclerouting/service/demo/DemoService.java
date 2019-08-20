@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationNew;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
@@ -81,8 +81,8 @@ public class DemoService {
 
     public String exportDataSet() {
         // FIXME still relying on the fact that the first location in the repository is the depot
-        List<Location> visits = new ArrayList<>(locationRepository.locations());
-        Location depot = visits.isEmpty() ? null : visits.remove(0);
+        List<LocationNew> visits = new ArrayList<>(locationRepository.locations());
+        LocationNew depot = visits.isEmpty() ? null : visits.remove(0);
         return dataSetMarshaller.marshal(new RoutingProblem("Custom Vehicle Routing instance", depot, visits));
     }
 }
