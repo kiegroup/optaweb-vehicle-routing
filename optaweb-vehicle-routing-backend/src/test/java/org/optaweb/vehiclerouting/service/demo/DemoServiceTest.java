@@ -32,7 +32,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;

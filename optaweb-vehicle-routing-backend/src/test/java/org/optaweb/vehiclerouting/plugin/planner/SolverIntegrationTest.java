@@ -38,7 +38,7 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaweb.vehiclerouting.domain.Depot;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
@@ -180,7 +180,7 @@ class SolverIntegrationTest {
 
         @Override
         public void bestSolutionChanged(BestSolutionChangedEvent<VehicleRoutingSolution> event) {
-            // This happens on org.optaweb.vehiclerouting.solver thread
+            // This happens on listener thread
             if (!event.isEveryProblemFactChangeProcessed()) {
                 logger.debug("UNPROCESSED");
             } else if (!event.getNewBestScore().isSolutionInitialized()) {

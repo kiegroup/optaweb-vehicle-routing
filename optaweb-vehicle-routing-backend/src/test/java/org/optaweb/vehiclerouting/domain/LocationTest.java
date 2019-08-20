@@ -19,17 +19,16 @@ package org.optaweb.vehiclerouting.domain;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.domain.location.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-class LocationNewTest {
+class LocationTest {
 
     @Test
     void constructor_params_must_not_be_null() {
-        assertThatNullPointerException().isThrownBy(() -> new LocationNew(0, null, ""));
-        assertThatNullPointerException().isThrownBy(() -> new LocationNew(0, Coordinates.valueOf(1, 1), null));
+        assertThatNullPointerException().isThrownBy(() -> new Location(0, null, ""));
+        assertThatNullPointerException().isThrownBy(() -> new Location(0, Coordinates.valueOf(1, 1), null));
     }
 
     @Test
@@ -39,26 +38,26 @@ class LocationNewTest {
         final String description = "test description";
         final long id = 0;
 
-        final LocationNew locationNew = new LocationNew(id, coordinates0, description);
+        final Location location = new Location(id, coordinates0, description);
 
         // different ID
-        assertThat(locationNew).isNotEqualTo(new LocationNew(1, coordinates0, description));
+        assertThat(location).isNotEqualTo(new Location(1, coordinates0, description));
         // null
-        assertThat(locationNew).isNotEqualTo(null);
+        assertThat(location).isNotEqualTo(null);
         // different class
-        assertThat(locationNew).isNotEqualTo(new LocationData(coordinates0, description));
+        assertThat(location).isNotEqualTo(new LocationData(coordinates0, description));
         // same object -> OK
-        assertThat(locationNew).isEqualTo(locationNew);
+        assertThat(location).isEqualTo(location);
         // same properties -> OK
-        assertThat(locationNew).isEqualTo(new LocationNew(id, coordinates0, description));
+        assertThat(location).isEqualTo(new Location(id, coordinates0, description));
         // same ID, different coordinate -> OK
-        assertThat(locationNew).isEqualTo(new LocationNew(id, coordinates1, description));
+        assertThat(location).isEqualTo(new Location(id, coordinates1, description));
         // same ID, different description -> OK
-        assertThat(locationNew).isEqualTo(new LocationNew(id, coordinates0, "xyz"));
+        assertThat(location).isEqualTo(new Location(id, coordinates0, "xyz"));
     }
 
     @Test
     void constructor_without_description_should_create_empty_description() {
-        assertThat(new LocationNew(7, Coordinates.valueOf(3.14, 4.13)).description()).isEmpty();
+        assertThat(new Location(7, Coordinates.valueOf(3.14, 4.13)).description()).isEmpty();
     }
 }

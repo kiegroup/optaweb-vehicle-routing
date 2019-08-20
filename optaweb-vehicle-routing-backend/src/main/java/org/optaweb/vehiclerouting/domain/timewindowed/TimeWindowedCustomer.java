@@ -21,7 +21,7 @@ import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.CustomShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableReference;
 import org.optaweb.vehiclerouting.domain.Customer;
-import org.optaweb.vehiclerouting.domain.timewindowed.solver.ArrivalTimeUpdatingVariableListener;
+import org.optaweb.vehiclerouting.domain.timewindowed.listener.ArrivalTimeUpdatingVariableListener;
 
 @PlanningEntity
 @XStreamAlias("VrpTimeWindowedCustomer")

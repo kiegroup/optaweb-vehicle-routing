@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 
 /**
  * Temporary distance map implementation that allows to compute and store distances purely from

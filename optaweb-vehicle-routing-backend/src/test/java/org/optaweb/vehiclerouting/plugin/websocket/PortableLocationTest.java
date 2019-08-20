@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.boot.test.json.JacksonTester;
 
 import static org.assertj.core.api.Assertions.assertThat;

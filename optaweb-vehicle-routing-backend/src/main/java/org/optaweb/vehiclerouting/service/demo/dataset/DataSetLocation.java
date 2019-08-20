@@ -40,7 +40,7 @@ class DataSetLocation {
     }
 
     /**
-     * LocationNew label.
+     * Location label.
      * @return label
      */
     public String getLabel() {

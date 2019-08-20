@@ -19,7 +19,7 @@ package org.optaweb.vehiclerouting.plugin.persistence;
 import org.springframework.data.repository.CrudRepository;
 
 /**
- * LocationNew repository.
+ * Location repository.
  */
 interface LocationCrudRepository extends CrudRepository<LocationEntity, Long> {
 

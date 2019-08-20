@@ -20,7 +20,7 @@ package org.optaweb.vehiclerouting.solver;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScoreHolder;
 
 import org.optaweb.vehiclerouting.domain.Depot;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.domain.Customer;

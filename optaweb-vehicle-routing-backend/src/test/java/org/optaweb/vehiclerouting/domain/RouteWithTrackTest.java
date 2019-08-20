@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.domain.location.Location;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -30,9 +29,9 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 class RouteWithTrackTest {
 
-    private final LocationNew depot = new LocationNew(1, Coordinates.valueOf(5, 5));
-    private final LocationNew visit1 = new LocationNew(2, Coordinates.valueOf(5, 5));
-    private final LocationNew visit2 = new LocationNew(3, Coordinates.valueOf(5, 5));
+    private final Location depot = new Location(1, Coordinates.valueOf(5, 5));
+    private final Location visit1 = new Location(2, Coordinates.valueOf(5, 5));
+    private final Location visit2 = new Location(3, Coordinates.valueOf(5, 5));
 
     @Test
     void constructor_args_not_null() {

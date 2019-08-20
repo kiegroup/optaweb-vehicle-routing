@@ -26,7 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;

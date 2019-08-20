@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.route.RoutePublisher;
 import org.springframework.beans.factory.annotation.Autowired;

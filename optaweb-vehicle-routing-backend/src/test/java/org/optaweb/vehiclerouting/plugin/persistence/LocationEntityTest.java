@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-class LocationNewEntityTest {
+class LocationEntityTest {
 
     @Test
     void constructor_params_must_not_be_null() {

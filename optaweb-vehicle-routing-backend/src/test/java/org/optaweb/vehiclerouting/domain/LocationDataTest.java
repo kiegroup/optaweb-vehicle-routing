@@ -19,12 +19,11 @@ package org.optaweb.vehiclerouting.domain;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.domain.location.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-class LocationNewDataTest {
+class LocationDataTest {
 
     @Test
     void constructor_params_must_not_be_null() {
@@ -47,7 +46,7 @@ class LocationNewDataTest {
         // null
         assertThat(locationData).isNotEqualTo(null);
         // different type with equal properties
-        assertThat(locationData).isNotEqualTo(new LocationNew(0, coordinates0, description));
+        assertThat(locationData).isNotEqualTo(new Location(0, coordinates0, description));
         // same object -> OK
         assertThat(locationData).isEqualTo(locationData);
         // same properties -> OK

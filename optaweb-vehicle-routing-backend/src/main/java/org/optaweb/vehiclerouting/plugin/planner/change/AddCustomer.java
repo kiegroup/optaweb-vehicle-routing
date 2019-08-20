@@ -22,7 +22,7 @@ import java.util.Objects;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
 import org.optaweb.vehiclerouting.domain.Customer;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.plugin.planner.SolutionUtil;
 import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 

@@ -26,7 +26,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 import org.springframework.context.ApplicationEventPublisher;

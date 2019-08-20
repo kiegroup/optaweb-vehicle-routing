@@ -22,10 +22,9 @@ import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.AnchorShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableGraphType;
-import org.optaweb.vehiclerouting.domain.common.AbstractPersistable;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.persistable.AbstractPersistable;
 import org.optaweb.vehiclerouting.domain.timewindowed.TimeWindowedCustomer;
-import org.optaweb.vehiclerouting.solver.DepotAngleCustomerDifficultyWeightFactory;
+import org.optaweb.vehiclerouting.solver.weight.DepotAngleCustomerDifficultyWeightFactory;
 
 @PlanningEntity(difficultyWeightFactoryClass = DepotAngleCustomerDifficultyWeightFactory.class)
 @XStreamAlias("VrpCustomer")

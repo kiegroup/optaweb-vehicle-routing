@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;

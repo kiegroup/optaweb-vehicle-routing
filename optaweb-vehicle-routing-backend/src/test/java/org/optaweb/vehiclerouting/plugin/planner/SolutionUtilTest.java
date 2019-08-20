@@ -22,8 +22,8 @@ import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Customer;
 import org.optaweb.vehiclerouting.domain.Depot;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
-import org.optaweb.vehiclerouting.domain.location.Location;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 

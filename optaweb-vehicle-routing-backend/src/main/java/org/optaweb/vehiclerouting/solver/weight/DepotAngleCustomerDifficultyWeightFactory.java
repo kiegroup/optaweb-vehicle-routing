@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.solver;
+package org.optaweb.vehiclerouting.solver.weight;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionSorterWeightFactory;
 import org.optaweb.vehiclerouting.domain.Customer;
 import org.optaweb.vehiclerouting.domain.Depot;
+import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 
 /**
  * On large datasets, the constructed solution looks like pizza slices.

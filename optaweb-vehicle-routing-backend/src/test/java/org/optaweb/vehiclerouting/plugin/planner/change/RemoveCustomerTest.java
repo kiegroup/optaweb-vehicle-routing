@@ -22,8 +22,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaweb.vehiclerouting.domain.Customer;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
-import org.optaweb.vehiclerouting.domain.location.Location;
 import org.optaweb.vehiclerouting.plugin.planner.SolutionUtil;
 import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 

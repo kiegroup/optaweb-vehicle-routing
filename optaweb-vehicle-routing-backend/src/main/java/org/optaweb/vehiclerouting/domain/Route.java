@@ -22,22 +22,20 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.optaweb.vehiclerouting.domain.location.Location;
-
 /**
  * Vehicle's itinerary (sequence of visits) and depot.
  */
 public class Route {
 
-    private final LocationNew depot;
-    private final List<LocationNew> visits;
+    private final Location depot;
+    private final List<Location> visits;
 
     /**
      * Create a vehicle route.
      * @param depot vehicle's depot (not null)
      * @param visits list of visits (not null)
      */
-    public Route(LocationNew depot, List<LocationNew> visits) {
+    public Route(Location depot, List<Location> visits) {
         this.depot = Objects.requireNonNull(depot);
         this.visits = new ArrayList<>(Objects.requireNonNull(visits));
         // TODO Probably remove this check when we have more types: new Route(Depot depot, List<Visit> visits).
@@ -57,7 +55,7 @@ public class Route {
      * Depot in which the route starts and ends.
      * @return route's depot (never null)
      */
-    public LocationNew depot() {
+    public Location depot() {
         return depot;
     }
 
@@ -65,7 +63,7 @@ public class Route {
      * List of vehicle's visits (not including the depot).
      * @return list of visits
      */
-    public List<LocationNew> visits() {
+    public List<Location> visits() {
         return Collections.unmodifiableList(visits);
     }
 
@@ -73,7 +71,7 @@ public class Route {
     public String toString() {
         return "Route{" +
                 "depot=" + depot.id() +
-                ", visits=" + visits.stream().map(LocationNew::id).collect(Collectors.toList()) +
+                ", visits=" + visits.stream().map(Location::id).collect(Collectors.toList()) +
                 '}';
     }
 }

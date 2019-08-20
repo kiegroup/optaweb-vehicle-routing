@@ -38,8 +38,8 @@ import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Customer;
 import org.optaweb.vehiclerouting.domain.Depot;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Standstill;
-import org.optaweb.vehiclerouting.domain.location.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
@@ -89,7 +89,7 @@ class RouteOptimizerImplTest {
     @BeforeEach
     void setUp() {
         // always run the runnable submitted to executor (that's what every executor does)
-        // we can then verify that org.optaweb.vehiclerouting.solver.solve() has been called
+        // we can then verify that listener.solve() has been called
         when(executor.submit(any(RouteOptimizerImpl.SolvingTask.class))).thenAnswer(
                 answer((Answer1<Future<VehicleRoutingSolution>, RouteOptimizerImpl.SolvingTask>) callable -> {
                     callable.call();
@@ -173,7 +173,7 @@ class RouteOptimizerImplTest {
         // solving has started after adding a second location (depot + visit)
         verify(solver).solve(any());
 
-        // problem fact change only happens when adding location to a running org.optaweb.vehiclerouting.solver
+        // problem fact change only happens when adding location to a running listener
         // or when more than 1 location remains after removing one
         verify(solver, never()).addProblemFactChange(any());
     }
@@ -184,7 +184,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
 
-        // remove 1 location from running org.optaweb.vehiclerouting.solver
+        // remove 1 location from running listener
         assertThat(solver.isSolving()).isTrue();
         routeOptimizer.removeLocation(location2);
 
@@ -192,7 +192,7 @@ class RouteOptimizerImplTest {
         verify(solver).terminateEarly();
         verify(solverFuture).get();
 
-        // problem fact change only happens when adding location to a running org.optaweb.vehiclerouting.solver
+        // problem fact change only happens when adding location to a running listener
         // or when more than 1 location remains after removing one
         verify(solver, never()).addProblemFactChange(any());
     }
@@ -214,11 +214,11 @@ class RouteOptimizerImplTest {
         assertThat(SolutionUtil.routes(solution)).allMatch(shallowRoute -> shallowRoute.visitIds.size() == 1);
         solution.setScore(HardSoftLongScore.ofSoft(-1000)); // set non-zero travel distance
 
-        // Start org.optaweb.vehiclerouting.solver by adding two locations
+        // Start org.optaweb.vehiclerouting.listener by adding two locations
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
 
-        // Pretend org.optaweb.vehiclerouting.solver found a new best best solution
+        // Pretend org.optaweb.vehiclerouting.listener found a new best best solution
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
         routeOptimizer.bestSolutionChanged(bestSolutionChangedEvent);
@@ -263,7 +263,7 @@ class RouteOptimizerImplTest {
 
     @Test
     void removing_location_from_solver_with_more_than_two_locations_must_happen_through_problem_fact_change() {
-        // set up a situation where org.optaweb.vehiclerouting.solver is running with 1 depot and 2 visits
+        // set up a situation where listener is running with 1 depot and 2 visits
         VehicleRoutingSolution solution = createSolution(location1, location2, location3);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
@@ -274,13 +274,13 @@ class RouteOptimizerImplTest {
 
         routeOptimizer.removeLocation(location2);
         verify(solver).addProblemFactChanges(any()); // note that it's plural
-        // org.optaweb.vehiclerouting.solver still running
+        // listener still running
         verify(solver, never()).terminateEarly();
     }
 
     @Test
     void clear_should_stop_solver_and_publish_initial_solution() throws ExecutionException, InterruptedException {
-        // set up a situation where org.optaweb.vehiclerouting.solver is running with 1 depot and 2 visits
+        // set up a situation where listener is running with 1 depot and 2 visits
         VehicleRoutingSolution solution = createSolution(location1, location2, location3);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
@@ -311,7 +311,7 @@ class RouteOptimizerImplTest {
     void reset_interrupted_flag() throws ExecutionException, InterruptedException {
         when(solverFuture.isDone()).thenReturn(true);
         when(solverFuture.get()).thenThrow(InterruptedException.class);
-        // start org.optaweb.vehiclerouting.solver by adding 2 locations
+        // start listener by adding 2 locations
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
 

@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ class DistanceMatrixImpl implements DistanceMatrix {
 
         // The map must be thread-safe because:
         // - we're updating it from the parallel stream below
-        // - it is accessed from org.optaweb.vehiclerouting.solver thread!
+        // - it is accessed from listener thread!
         Map<Long, Double> distancesToOthers = new ConcurrentHashMap<>(); // the new row
 
         // distance to self is 0

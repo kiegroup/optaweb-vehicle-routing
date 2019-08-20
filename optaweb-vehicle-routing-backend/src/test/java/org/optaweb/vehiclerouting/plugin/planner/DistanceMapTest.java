@@ -20,7 +20,7 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

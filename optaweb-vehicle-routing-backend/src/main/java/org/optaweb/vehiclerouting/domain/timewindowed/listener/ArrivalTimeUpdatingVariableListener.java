@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.domain.timewindowed.solver;
+package org.optaweb.vehiclerouting.domain.timewindowed.listener;
 
 import java.util.Objects;
 

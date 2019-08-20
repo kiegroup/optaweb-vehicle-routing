@@ -14,23 +14,22 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.domain.location;
+package org.optaweb.vehiclerouting.domain;
 
 import java.util.Map;
 import java.util.Objects;
 
-import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.LocationData;
-import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * A unique location significant to the user.
  */
+@XStreamAlias("VrpLocation")
 public class Location extends LocationData {
 
 
     // Prefer Map over array or List because customers might be added and removed in real-time planning.
-    protected Map<Location, Double> travelDistanceMap;
+    private Map<Location, Double> travelDistanceMap;
 
     public Location(long id, Coordinates coordinates) {
         // TODO remove this?

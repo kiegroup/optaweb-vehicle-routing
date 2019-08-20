@@ -31,9 +31,9 @@ import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.persistence.xstream.api.score.buildin.hardsoftlong.HardSoftLongScoreXStreamConverter;
 import org.optaweb.vehiclerouting.domain.Customer;
 import org.optaweb.vehiclerouting.domain.Depot;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
-import org.optaweb.vehiclerouting.domain.common.AbstractPersistable;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.persistable.AbstractPersistable;
 import org.optaweb.vehiclerouting.domain.timewindowed.TimeWindowedVehicleRoutingSolution;
 
 @PlanningSolution
@@ -41,13 +41,13 @@ import org.optaweb.vehiclerouting.domain.timewindowed.TimeWindowedVehicleRouting
 @XStreamInclude({TimeWindowedVehicleRoutingSolution.class})
 public class VehicleRoutingSolution extends AbstractPersistable {
     protected String name;
-    protected String distanceUnitOfMeasurement;
-    protected List<Location> locationList;
-    protected List<Depot> depotList;
-    protected List<Vehicle> vehicleList;
-    protected List<Customer> customerList;
+    private String distanceUnitOfMeasurement;
+    private List<Location> locationList;
+    private List<Depot> depotList;
+    private List<Vehicle> vehicleList;
+    private List<Customer> customerList;
     @XStreamConverter(HardSoftLongScoreXStreamConverter.class)
-    protected HardSoftLongScore score;
+    private HardSoftLongScore score;
 
     public VehicleRoutingSolution() {
     }

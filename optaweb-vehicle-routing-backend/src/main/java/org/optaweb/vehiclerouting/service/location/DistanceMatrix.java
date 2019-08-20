@@ -18,7 +18,7 @@ package org.optaweb.vehiclerouting.service.location;
 
 import java.util.Map;
 
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 
 /**
  * Holds distances between every pair of locations.

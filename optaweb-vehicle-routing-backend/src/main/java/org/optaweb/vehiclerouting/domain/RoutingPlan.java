@@ -22,8 +22,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.optaweb.vehiclerouting.domain.location.Location;
-
 /**
  * Route plan for the whole vehicle fleet.
  */
@@ -32,7 +30,7 @@ public class RoutingPlan {
     private static final RoutingPlan EMPTY = new RoutingPlan("", null, Collections.emptyList());
 
     private final String distance;
-    private final LocationNew depot;
+    private final Location depot;
     private final List<RouteWithTrack> routes;
 
     /**
@@ -41,7 +39,7 @@ public class RoutingPlan {
      * @param depot the depot (may be null)
      * @param routes routes of all vehicles
      */
-    public RoutingPlan(String distance, LocationNew depot, List<RouteWithTrack> routes) {
+    public RoutingPlan(String distance, Location depot, List<RouteWithTrack> routes) {
         this.distance = Objects.requireNonNull(distance);
         this.depot = depot;
         this.routes = new ArrayList<>(Objects.requireNonNull(routes));
@@ -78,7 +76,7 @@ public class RoutingPlan {
      * The depot.
      * @return depot (may be missing)
      */
-    public Optional<LocationNew> depot() {
+    public Optional<Location> depot() {
         return Optional.ofNullable(depot);
     }
 }

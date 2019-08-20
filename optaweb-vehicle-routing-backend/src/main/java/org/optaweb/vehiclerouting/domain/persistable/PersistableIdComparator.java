@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.domain.common;
+package org.optaweb.vehiclerouting.domain.persistable;
 
 import java.io.Serializable;
 import java.util.Comparator;

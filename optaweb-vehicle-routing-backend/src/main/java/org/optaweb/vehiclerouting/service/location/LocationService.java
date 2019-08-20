@@ -19,7 +19,7 @@ package org.optaweb.vehiclerouting.service.location;
 import java.util.Objects;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -74,7 +74,7 @@ public class LocationService {
 
     public synchronized void removeLocation(long id) {
         // TODO missing validation (id might be out of date or completely invalid)
-        // A) Take location as an argument => it's valid but still might be out of date. Decide how to handle that
+        // A) Take Location as an argument => it's valid but still might be out of date. Decide how to handle that
         // case.
         // B) removeLocation() returns Optional instead of throwing IllArgException. Still need to decide how to handle
         //    the case when location with given ID doesn't exist.

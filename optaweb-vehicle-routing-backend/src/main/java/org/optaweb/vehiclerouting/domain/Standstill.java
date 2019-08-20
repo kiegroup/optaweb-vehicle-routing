@@ -16,10 +16,8 @@
 
 package org.optaweb.vehiclerouting.domain;
 
-
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.InverseRelationShadowVariable;
-import org.optaweb.vehiclerouting.domain.location.Location;
 
 @PlanningEntity
 public interface Standstill {

@@ -17,8 +17,7 @@
 package org.optaweb.vehiclerouting.domain;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import org.optaweb.vehiclerouting.domain.common.AbstractPersistable;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.persistable.AbstractPersistable;
 
 @XStreamAlias("VrpVehicle")
 public class Vehicle extends AbstractPersistable implements Standstill {

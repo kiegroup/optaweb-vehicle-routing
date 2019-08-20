@@ -23,8 +23,8 @@ import java.util.List;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaweb.vehiclerouting.domain.Customer;
 import org.optaweb.vehiclerouting.domain.Depot;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
-import org.optaweb.vehiclerouting.domain.location.Location;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 
@@ -34,9 +34,9 @@ import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 public class SolutionUtil {
 
     public static final int DEFAULT_CUSTOMER_DEMAND = 1;
-    static final int DEFAULT_VEHICLE_CAPACITY = 10;
+    public static final int DEFAULT_VEHICLE_CAPACITY = 10;
 
-    private SolutionUtil() {
+    SolutionUtil() {
         throw new AssertionError("Utility class");
     }
 
@@ -59,7 +59,7 @@ public class SolutionUtil {
      * Create an initial solution with no locations and some vehicles.
      * @return initial solution
      */
-    static VehicleRoutingSolution initialSolution() {
+    public static VehicleRoutingSolution initialSolution() {
         VehicleRoutingSolution solution = emptySolution();
         addVehicle(solution, 1, DEFAULT_VEHICLE_CAPACITY);
         addVehicle(solution, 2, DEFAULT_VEHICLE_CAPACITY);
@@ -76,7 +76,7 @@ public class SolutionUtil {
      * @param id vehicle id
      * @return the new vehicle
      */
-    static Vehicle addVehicle(VehicleRoutingSolution solution, long id) {
+    public static Vehicle addVehicle(VehicleRoutingSolution solution, long id) {
         return addVehicle(solution, id, 0);
     }
 
@@ -93,7 +93,7 @@ public class SolutionUtil {
      * @param solution solution
      * @return one route per vehicle
      */
-    static List<ShallowRoute> routes(VehicleRoutingSolution solution) {
+    public static List<ShallowRoute> routes(VehicleRoutingSolution solution) {
         // TODO include unconnected customers in the result
         if (solution.getDepotList().isEmpty()) {
             return Collections.emptyList();
@@ -127,7 +127,7 @@ public class SolutionUtil {
      * @param solution the solution in which to look for the depot
      * @return first depot ID from the solution or {@code null} if there are no depots
      */
-    static Long depot(VehicleRoutingSolution solution) {
+    public static Long depot(VehicleRoutingSolution solution) {
         return solution.getDepotList().isEmpty() ? null : solution.getDepotList().get(0).getId();
     }
 
@@ -137,7 +137,7 @@ public class SolutionUtil {
      * @param location depot's location
      * @return the new depot
      */
-    static Depot addDepot(VehicleRoutingSolution solution, Location location) {
+    public static Depot addDepot(VehicleRoutingSolution solution, Location location) {
         Depot depot = new Depot();
         depot.setId(location.getId());
         depot.setLocation(location);
@@ -152,7 +152,7 @@ public class SolutionUtil {
      * @param location customer's location
      * @return the new customer
      */
-    static Customer addCustomer(VehicleRoutingSolution solution, Location location) {
+    public static Customer addCustomer(VehicleRoutingSolution solution, Location location) {
         return addCustomer(solution, location, 0);
     }
 
@@ -163,7 +163,7 @@ public class SolutionUtil {
      * @param demand customer's demand
      * @return the new customer
      */
-    static Customer addCustomer(VehicleRoutingSolution solution, Location location, int demand) {
+    public static Customer addCustomer(VehicleRoutingSolution solution, Location location, int demand) {
         Customer customer = new Customer();
         customer.setId(location.getId());
         customer.setLocation(location);
@@ -178,7 +178,7 @@ public class SolutionUtil {
      * @param solution solution
      * @param depot new vehicles' depot. May be null.
      */
-    static void moveAllVehiclesTo(VehicleRoutingSolution solution, Depot depot) {
+    public static void moveAllVehiclesTo(VehicleRoutingSolution solution, Depot depot) {
         solution.getVehicleList().forEach(vehicle -> vehicle.setDepot(depot));
     }
 }

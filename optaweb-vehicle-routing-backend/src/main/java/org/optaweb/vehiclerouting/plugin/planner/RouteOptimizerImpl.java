@@ -27,7 +27,7 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaweb.vehiclerouting.domain.Depot;
-import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
@@ -59,7 +59,6 @@ class RouteOptimizerImpl implements RouteOptimizer,
     RouteOptimizerImpl(ApplicationEventPublisher publisher,
                        Solver<VehicleRoutingSolution> solver,
                        AsyncTaskExecutor executor) {
-        logger.warn("{}", Thread.currentThread().getContextClassLoader());
         this.publisher = publisher;
         this.solver = solver;
         this.executor = executor;
@@ -89,8 +88,6 @@ class RouteOptimizerImpl implements RouteOptimizer,
         }
         // TODO move this to @Async method?
         // TODO use ListenableFuture to react to solve() exceptions immediately?
-        logger.warn("{}", Thread.currentThread().getContextClassLoader());
-
         solverFuture = executor.submit((SolvingTask) () -> solver.solve(solution));
     }
 
@@ -118,27 +115,25 @@ class RouteOptimizerImpl implements RouteOptimizer,
 
     void stopSolver() {
         if (solverFuture != null) {
-            // TODO what happens if org.optaweb.vehiclerouting.solver hasn't started yet (solve() is called
-            //  asynchronously)
+            // TODO what happens if listener hasn't started yet (solve() is called asynchronously)
             solver.terminateEarly();
-            // make sure org.optaweb.vehiclerouting.solver has terminated and propagate exceptions
+            // make sure listener has terminated and propagate exceptions
             try {
                 solverFuture.get();
                 solverFuture = null;
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                throw new RuntimeException("Failed to stop org.optaweb.vehiclerouting.solver", e);
+                throw new RuntimeException("Failed to stop listener", e);
             } catch (ExecutionException e) {
-                throw new RuntimeException("Failed to stop org.optaweb.vehiclerouting.solver", e);
+                throw new RuntimeException("Failed to stop listener", e);
             }
         }
     }
 
     @Override
     public void bestSolutionChanged(BestSolutionChangedEvent<VehicleRoutingSolution> bestSolutionChangedEvent) {
-        // CAUTION! This runs on the org.optaweb.vehiclerouting.solver thread. Implications:
-        // 1. The method should be as quick as possible to avoid blocking org.optaweb.vehiclerouting.solver
-        // unnecessarily.
+        // CAUTION! This runs on the listener thread. Implications:
+        // 1. The method should be as quick as possible to avoid blocking listener unnecessarily.
         // 2. This place is a potential source of race conditions.
         if (!bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()) {
             logger.info("Ignoring a new best solution that has some problem facts missing");
@@ -147,7 +142,7 @@ class RouteOptimizerImpl implements RouteOptimizer,
         // TODO do not store best solution, just publish it
         solution = bestSolutionChangedEvent.getNewBestSolution();
         // TODO Race condition, if a servlet thread deletes that location in the middle of this method happening
-        //      on the org.optaweb.vehiclerouting.solver thread. Make sure that location is still in the repository.
+        //      on the listener thread. Make sure that location is still in the repository.
         //      Maybe repair the solution OR ignore if it's inconsistent (log a WARNING).
         publishRoute(solution); // TODO @Async
     }
@@ -157,8 +152,7 @@ class RouteOptimizerImpl implements RouteOptimizer,
                             DistanceMatrix distanceMatrix) {
         DistanceMap distanceMap = new DistanceMap(location, distanceMatrix.getRow(location));
         location.setTravelDistanceMap(distanceMap);
-        // Unfortunately can't start org.optaweb.vehiclerouting.solver with an empty solution (see https://issues
-        // .jboss.org/browse/PLANNER-776)
+        // Unfortunately can't start listener with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (!isSolving()) {
             switch (solution.getLocationList().size()) {
                 case 0:
@@ -172,7 +166,7 @@ class RouteOptimizerImpl implements RouteOptimizer,
                     break;
                 default:
                     throw new IllegalStateException(
-                            "Illegal number of locations when org.optaweb.vehiclerouting.solver is not solving: "
+                            "Illegal number of locations when listener is not solving: "
                                     + solution.getLocationList().size()
                     );
             }
@@ -187,7 +181,7 @@ class RouteOptimizerImpl implements RouteOptimizer,
             if (solution.getLocationList().size() != 1) {
                 throw new IllegalStateException(
                         "Impossible number of locations (" + solution.getLocationList().size()
-                                + ") when org.optaweb.vehiclerouting.solver is not solving.\n"
+                                + ") when listener is not solving.\n"
                                 + solution.getLocationList()
                 );
             }

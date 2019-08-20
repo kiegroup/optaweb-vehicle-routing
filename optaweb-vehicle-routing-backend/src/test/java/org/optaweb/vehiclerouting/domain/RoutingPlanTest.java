@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.domain.location.Location;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -29,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 class RoutingPlanTest {
 
-    private final LocationNew depot = new LocationNew(1, Coordinates.valueOf(5, 5));
+    private final Location depot = new Location(1, Coordinates.valueOf(5, 5));
     private final RouteWithTrack emptyRoute = new RouteWithTrack(new Route(depot, emptyList()), emptyList());
 
     @Test

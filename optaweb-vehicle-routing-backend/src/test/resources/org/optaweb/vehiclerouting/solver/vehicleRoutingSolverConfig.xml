@@ -9,8 +9,8 @@
   <entityClass>org.optaweb.vehiclerouting.domain.timewindowed.TimeWindowedCustomer</entityClass>
 
   <scoreDirectorFactory>
-    <!--<easyScoreCalculatorClass>org.optaplanner.examples.vehiclerouting.org.optaweb.vehiclerouting.solver.score.VehicleRoutingEasyScoreCalculator</easyScoreCalculatorClass>-->
-    <!--<incrementalScoreCalculatorClass>org.optaplanner.examples.vehiclerouting.org.optaweb.vehiclerouting.solver.score.VehicleRoutingIncrementalScoreCalculator</incrementalScoreCalculatorClass>-->
+    <!--<easyScoreCalculatorClass>org.optaplanner.examples.vehiclerouting.org.optaweb.vehiclerouting.listener.score.VehicleRoutingEasyScoreCalculator</easyScoreCalculatorClass>-->
+    <!--<incrementalScoreCalculatorClass>org.optaplanner.examples.vehiclerouting.org.optaweb.vehiclerouting.listener.score.VehicleRoutingIncrementalScoreCalculator</incrementalScoreCalculatorClass>-->
     <scoreDrl>org/optaweb/vehiclerouting/solver/vehicleRoutingScoreRules.drl</scoreDrl>
     <initializingScoreTrend>ONLY_DOWN</initializingScoreTrend>
   </scoreDirectorFactory>
