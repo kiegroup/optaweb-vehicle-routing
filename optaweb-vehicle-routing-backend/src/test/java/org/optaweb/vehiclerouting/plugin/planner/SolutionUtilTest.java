@@ -19,12 +19,13 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Customer;
+import org.optaweb.vehiclerouting.domain.Depot;
+import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.location.Location;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
+import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
@@ -43,18 +44,18 @@ class SolutionUtilTest {
     @Test
     void adding_depot_should_create_depot_and_add_location() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        RoadLocation roadLocation = new RoadLocation(1, 1.0, 1.0);
-        Depot depot = SolutionUtil.addDepot(solution, roadLocation);
-        assertThat(solution.getLocationList()).containsExactly(roadLocation);
+        Location location = new Location(1,1.0, 1.0);
+        Depot depot = SolutionUtil.addDepot(solution, location);
+        assertThat(solution.getLocationList()).containsExactly(location);
         assertThat(solution.getDepotList()).containsExactly(depot);
-        assertThat(solution.getDepotList().get(0).getLocation()).isSameAs(roadLocation);
+        assertThat(solution.getDepotList().get(0).getLocation()).isSameAs(location);
     }
 
     @Test
     void move_all_vehicles_to_a_depot() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        RoadLocation roadLocation = new RoadLocation(1, 1.0, 1.0);
-        Depot depot = SolutionUtil.addDepot(solution, roadLocation);
+        Location location = new Location(1, 1.0, 1.0);
+        Depot depot = SolutionUtil.addDepot(solution, location);
 
         SolutionUtil.addVehicle(solution, 1);
         SolutionUtil.addVehicle(solution, 2);
@@ -66,12 +67,12 @@ class SolutionUtilTest {
     @Test
     void adding_customer_should_create_customer_and_add_location() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        RoadLocation roadLocation = new RoadLocation(1, 1.0, 1.0);
-        Customer customer = SolutionUtil.addCustomer(solution, roadLocation);
+        Location location = new Location(1, Coordinates.valueOf(1.0, 1.0));
+        Customer customer = SolutionUtil.addCustomer(solution, location);
         assertThat(customer.getDemand()).isEqualTo(0);
-        assertThat(solution.getLocationList()).containsExactly(roadLocation);
+        assertThat(solution.getLocationList()).containsExactly(location);
         assertThat(solution.getCustomerList()).containsExactly(customer);
-        assertThat(solution.getCustomerList().get(0).getLocation()).isSameAs(roadLocation);
+        assertThat(solution.getCustomerList().get(0).getLocation()).isSameAs(location);
     }
 
     @Test
@@ -85,8 +86,8 @@ class SolutionUtilTest {
     void nonempty_uninitialized_solution_should_have_zero_routes() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
 
-        SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
-        SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
+        SolutionUtil.addDepot(solution, new Location(1, 1.0, 1.0));
+        SolutionUtil.addCustomer(solution, new Location(2, 2.0, 2.0));
 
         List<ShallowRoute> routes = SolutionUtil.routes(solution);
         assertThat(routes).isEmpty();
@@ -98,8 +99,8 @@ class SolutionUtilTest {
         SolutionUtil.addVehicle(solution, 1);
         SolutionUtil.addVehicle(solution, 2);
 
-        Depot depot = SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
-        Customer customer = SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
+        Depot depot = SolutionUtil.addDepot(solution, new Location(1, 1.0, 1.0));
+        Customer customer = SolutionUtil.addCustomer(solution, new Location(2, 2.0, 2.0));
 
         for (Vehicle vehicle : solution.getVehicleList()) {
             vehicle.setDepot(depot);
@@ -120,7 +121,7 @@ class SolutionUtilTest {
     @Test
     void vehicle_without_a_depot_is_illegal() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
+        SolutionUtil.addDepot(solution, new Location(1, 1.0, 1.0));
         SolutionUtil.addVehicle(solution, 1);
         assertThatIllegalStateException().isThrownBy(() -> SolutionUtil.routes(solution));
     }
@@ -128,10 +129,10 @@ class SolutionUtilTest {
     @Test
     void fail_fast_if_vehicles_next_customer_doesnt_exist() {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        Depot depot = SolutionUtil.addDepot(solution, new RoadLocation(1, 1.0, 1.0));
+        Depot depot = SolutionUtil.addDepot(solution, new Location(1, 1.0, 1.0));
         Vehicle vehicle = SolutionUtil.addVehicle(solution, 1);
         SolutionUtil.moveAllVehiclesTo(solution, depot);
-        Customer customer = SolutionUtil.addCustomer(solution, new RoadLocation(2, 2.0, 2.0));
+        Customer customer = SolutionUtil.addCustomer(solution, new Location(2, 2.0, 2.0));
         vehicle.setNextCustomer(customer);
         solution.getCustomerList().clear();
         solution.getLocationList().clear();

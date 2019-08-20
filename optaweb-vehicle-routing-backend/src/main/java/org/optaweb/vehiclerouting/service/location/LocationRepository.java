@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.location.Location;
 
 /**
  * Defines repository operations on locations.

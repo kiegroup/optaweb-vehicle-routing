@@ -21,8 +21,7 @@ import java.time.Duration;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
-import org.optaplanner.examples.vehiclerouting.app.VehicleRoutingApp;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,6 +34,10 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 @Configuration
 class RouteOptimizerConfig {
 
+
+    public static final String SOLVER_CONFIG
+            = "org.optaweb.vehiclerouting.solver/vehicleRoutingSolverConfig.xml";
+
     private final OptimizerProperties optimizerProperties;
 
     @Autowired
@@ -44,7 +47,7 @@ class RouteOptimizerConfig {
 
     @Bean
     Solver<VehicleRoutingSolution> solver() {
-        SolverFactory<VehicleRoutingSolution> sf = SolverFactory.createFromXmlResource(VehicleRoutingApp.SOLVER_CONFIG);
+        SolverFactory<VehicleRoutingSolution> sf = SolverFactory.createFromXmlResource(SOLVER_CONFIG);
         Duration timeout = optimizerProperties.getTimeout();
         sf.getSolverConfig().setTerminationConfig(new TerminationConfig().withSecondsSpentLimit(timeout.getSeconds()));
         sf.getSolverConfig().setDaemon(true);

@@ -16,7 +16,7 @@
 
 package org.optaweb.vehiclerouting.service.distance;
 
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.location.Location;
 
 /**
  * Stores distances between locations.

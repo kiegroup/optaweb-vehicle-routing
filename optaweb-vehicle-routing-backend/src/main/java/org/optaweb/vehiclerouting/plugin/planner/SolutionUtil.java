@@ -21,13 +21,12 @@ import java.util.Collections;
 import java.util.List;
 
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.domain.Customer;
+import org.optaweb.vehiclerouting.domain.Depot;
+import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.location.Location;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
+import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 
 /**
  * Provides common operations on solution that are not part of its API.
@@ -121,19 +120,6 @@ public class SolutionUtil {
             routes.add(new ShallowRoute(depot.getId(), visits));
         }
         return routes;
-    }
-
-    /**
-     * Translate domain location to a planning location.
-     * @param location domain location
-     * @return planning location
-     */
-    static RoadLocation planningLocation(org.optaweb.vehiclerouting.domain.Location location) {
-        return new RoadLocation(
-                location.id(),
-                location.coordinates().latitude().doubleValue(),
-                location.coordinates().longitude().doubleValue()
-        );
     }
 
     /**

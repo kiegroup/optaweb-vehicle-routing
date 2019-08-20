@@ -20,9 +20,9 @@ import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.domain.Customer;
+import org.optaweb.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 
 public class RemoveCustomer implements ProblemFactChange<VehicleRoutingSolution> {
 

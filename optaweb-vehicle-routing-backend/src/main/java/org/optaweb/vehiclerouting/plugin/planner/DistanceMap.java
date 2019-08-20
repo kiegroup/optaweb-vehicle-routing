@@ -20,15 +20,14 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.location.Location;
 
 /**
  * Temporary distance map implementation that allows to compute and store distances purely from
  * {@link org.optaweb.vehiclerouting.domain domain objects} and later be queried using Planning domain objects.
  */
 // TODO get rid of dependency on Planning domain
-class DistanceMap implements Map<RoadLocation, Double> {
+class DistanceMap implements Map<Location, Double> {
 
     private final Location location;
     private final Map<Long, Double> distanceMap;
@@ -50,7 +49,7 @@ class DistanceMap implements Map<RoadLocation, Double> {
 
     @Override
     public boolean containsKey(Object key) {
-        return distanceMap.containsKey(((RoadLocation) key).getId());
+        return distanceMap.containsKey(((Location) key).getId());
     }
 
     @Override
@@ -68,11 +67,11 @@ class DistanceMap implements Map<RoadLocation, Double> {
                             + "We only know distances to " + distanceMap.keySet());
         }
         // convert millis to secs (required by optaplanner-examples' vehicle routing solution)
-        return distanceMap.get(((RoadLocation) key).getId()) / 1000;
+        return distanceMap.get(((Location) key).getId()) / 1000;
     }
 
     @Override
-    public Double put(RoadLocation key, Double value) {
+    public Double put(Location key, Double value) {
         throw new UnsupportedOperationException();
     }
 
@@ -82,7 +81,7 @@ class DistanceMap implements Map<RoadLocation, Double> {
     }
 
     @Override
-    public void putAll(Map<? extends RoadLocation, ? extends Double> m) {
+    public void putAll(Map<? extends Location, ? extends Double> m) {
         throw new UnsupportedOperationException();
     }
 
@@ -92,7 +91,7 @@ class DistanceMap implements Map<RoadLocation, Double> {
     }
 
     @Override
-    public Set<RoadLocation> keySet() {
+    public Set<Location> keySet() {
         throw new UnsupportedOperationException();
     }
 
@@ -102,7 +101,7 @@ class DistanceMap implements Map<RoadLocation, Double> {
     }
 
     @Override
-    public Set<Entry<RoadLocation, Double>> entrySet() {
+    public Set<Entry<Location, Double>> entrySet() {
         throw new UnsupportedOperationException();
     }
 }

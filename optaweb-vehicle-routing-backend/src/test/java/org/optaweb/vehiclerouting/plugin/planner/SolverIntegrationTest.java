@@ -37,14 +37,12 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
-import org.optaplanner.examples.vehiclerouting.app.VehicleRoutingApp;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.domain.Depot;
+import org.optaweb.vehiclerouting.domain.location.Location;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
+import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +57,7 @@ class SolverIntegrationTest {
     private static final Logger logger = LoggerFactory.getLogger(SolverIntegrationTest.class);
 
     @Mock
-    private Map<RoadLocation, Double> distanceMap;
+    private Map<Location, Double> distanceMap;
 
     private SolverFactory<VehicleRoutingSolution> sf;
     private ExecutorService executor;
@@ -68,10 +66,10 @@ class SolverIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        sf = SolverFactory.createFromXmlResource(VehicleRoutingApp.SOLVER_CONFIG);
+        sf = SolverFactory.createFromXmlResource(RouteOptimizerConfig.SOLVER_CONFIG);
         executor = Executors.newSingleThreadExecutor();
         monitor = new ProblemFactChangeProcessingMonitor();
-        when(distanceMap.get(any(RoadLocation.class))).thenReturn(1.0);
+        when(distanceMap.get(any(Location.class))).thenReturn(1.0);
     }
 
     @AfterEach
@@ -148,8 +146,7 @@ class SolverIntegrationTest {
     }
 
     private Location location(long id) {
-        RoadLocation location = new RoadLocation();
-        location.setId(id);
+        Location location = new Location(id, 1.0, 1.0);
         location.setTravelDistanceMap(distanceMap);
         return location;
     }
@@ -183,7 +180,7 @@ class SolverIntegrationTest {
 
         @Override
         public void bestSolutionChanged(BestSolutionChangedEvent<VehicleRoutingSolution> event) {
-            // This happens on solver thread
+            // This happens on org.optaweb.vehiclerouting.solver thread
             if (!event.isEveryProblemFactChangeProcessed()) {
                 logger.debug("UNPROCESSED");
             } else if (!event.getNewBestScore().isSolutionInitialized()) {

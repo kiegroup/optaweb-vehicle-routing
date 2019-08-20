@@ -19,6 +19,7 @@ package org.optaweb.vehiclerouting.domain;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Test;
+import org.optaweb.vehiclerouting.domain.location.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;

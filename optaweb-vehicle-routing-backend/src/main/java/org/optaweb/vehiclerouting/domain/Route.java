@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.optaweb.vehiclerouting.domain.location.Location;
+
 /**
  * Vehicle's itinerary (sequence of visits) and depot.
  */

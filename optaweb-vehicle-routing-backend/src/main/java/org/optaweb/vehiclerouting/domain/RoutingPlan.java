@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.optaweb.vehiclerouting.domain.location.Location;
+
 /**
  * Route plan for the whole vehicle fleet.
  */

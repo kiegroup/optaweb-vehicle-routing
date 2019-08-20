@@ -105,8 +105,8 @@ class DataSetMarshallerTest {
         assertThat(dataSetLocation.getLabel()).isEqualTo(description);
 
         // data set -> domain
-        LocationData domainLocation = toDomain(dataSetLocation);
-        assertThat(domainLocation).isEqualTo(new LocationData(Coordinates.valueOf(lat, lng), description));
+        LocationData location = toDomain(dataSetLocation);
+        assertThat(location).isEqualTo(new LocationData(Coordinates.valueOf(lat, lng), description));
     }
 
     @Test

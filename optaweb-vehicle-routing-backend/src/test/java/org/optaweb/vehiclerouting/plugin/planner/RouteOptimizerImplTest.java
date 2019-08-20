@@ -35,23 +35,22 @@ import org.mockito.stubbing.VoidAnswer1;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Standstill;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Customer;
+import org.optaweb.vehiclerouting.domain.Depot;
+import org.optaweb.vehiclerouting.domain.Standstill;
+import org.optaweb.vehiclerouting.domain.location.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
+import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.task.AsyncTaskExecutor;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOfType;
 import static org.mockito.AdditionalAnswers.answer;
 import static org.mockito.AdditionalAnswers.answerVoid;
 import static org.mockito.ArgumentMatchers.any;
@@ -59,7 +58,6 @@ import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.optaweb.vehiclerouting.plugin.planner.SolutionUtil.planningLocation;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
@@ -91,7 +89,7 @@ class RouteOptimizerImplTest {
     @BeforeEach
     void setUp() {
         // always run the runnable submitted to executor (that's what every executor does)
-        // we can then verify that solver.solve() has been called
+        // we can then verify that org.optaweb.vehiclerouting.solver.solve() has been called
         when(executor.submit(any(RouteOptimizerImpl.SolvingTask.class))).thenAnswer(
                 answer((Answer1<Future<VehicleRoutingSolution>, RouteOptimizerImpl.SolvingTask>) callable -> {
                     callable.call();
@@ -175,7 +173,7 @@ class RouteOptimizerImplTest {
         // solving has started after adding a second location (depot + visit)
         verify(solver).solve(any());
 
-        // problem fact change only happens when adding location to a running solver
+        // problem fact change only happens when adding location to a running org.optaweb.vehiclerouting.solver
         // or when more than 1 location remains after removing one
         verify(solver, never()).addProblemFactChange(any());
     }
@@ -186,7 +184,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
 
-        // remove 1 location from running solver
+        // remove 1 location from running org.optaweb.vehiclerouting.solver
         assertThat(solver.isSolving()).isTrue();
         routeOptimizer.removeLocation(location2);
 
@@ -194,7 +192,7 @@ class RouteOptimizerImplTest {
         verify(solver).terminateEarly();
         verify(solverFuture).get();
 
-        // problem fact change only happens when adding location to a running solver
+        // problem fact change only happens when adding location to a running org.optaweb.vehiclerouting.solver
         // or when more than 1 location remains after removing one
         verify(solver, never()).addProblemFactChange(any());
     }
@@ -207,20 +205,20 @@ class RouteOptimizerImplTest {
 
         // Prepare a solution with 1 depot, 2 vehicles, 1 customer and both vehicles visiting to that customer
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        Depot depot = SolutionUtil.addDepot(solution, planningLocation(location1));
+        Depot depot = SolutionUtil.addDepot(solution, location1);
         SolutionUtil.addVehicle(solution, 1);
         SolutionUtil.addVehicle(solution, 2);
         SolutionUtil.moveAllVehiclesTo(solution, depot);
-        Customer customer = SolutionUtil.addCustomer(solution, planningLocation(location2));
+        Customer customer = SolutionUtil.addCustomer(solution, location2);
         solution.getVehicleList().forEach(vehicle -> vehicle.setNextCustomer(customer));
         assertThat(SolutionUtil.routes(solution)).allMatch(shallowRoute -> shallowRoute.visitIds.size() == 1);
         solution.setScore(HardSoftLongScore.ofSoft(-1000)); // set non-zero travel distance
 
-        // Start solver by adding two locations
+        // Start org.optaweb.vehiclerouting.solver by adding two locations
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
 
-        // Pretend solver found a new best best solution
+        // Pretend org.optaweb.vehiclerouting.solver found a new best best solution
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
         routeOptimizer.bestSolutionChanged(bestSolutionChangedEvent);
@@ -265,7 +263,7 @@ class RouteOptimizerImplTest {
 
     @Test
     void removing_location_from_solver_with_more_than_two_locations_must_happen_through_problem_fact_change() {
-        // set up a situation where solver is running with 1 depot and 2 visits
+        // set up a situation where org.optaweb.vehiclerouting.solver is running with 1 depot and 2 visits
         VehicleRoutingSolution solution = createSolution(location1, location2, location3);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
@@ -276,13 +274,13 @@ class RouteOptimizerImplTest {
 
         routeOptimizer.removeLocation(location2);
         verify(solver).addProblemFactChanges(any()); // note that it's plural
-        // solver still running
+        // org.optaweb.vehiclerouting.solver still running
         verify(solver, never()).terminateEarly();
     }
 
     @Test
     void clear_should_stop_solver_and_publish_initial_solution() throws ExecutionException, InterruptedException {
-        // set up a situation where solver is running with 1 depot and 2 visits
+        // set up a situation where org.optaweb.vehiclerouting.solver is running with 1 depot and 2 visits
         VehicleRoutingSolution solution = createSolution(location1, location2, location3);
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
@@ -313,7 +311,7 @@ class RouteOptimizerImplTest {
     void reset_interrupted_flag() throws ExecutionException, InterruptedException {
         when(solverFuture.isDone()).thenReturn(true);
         when(solverFuture.get()).thenThrow(InterruptedException.class);
-        // start solver by adding 2 locations
+        // start org.optaweb.vehiclerouting.solver by adding 2 locations
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
 
@@ -326,29 +324,22 @@ class RouteOptimizerImplTest {
         assertThat(Thread.interrupted()).isTrue();
     }
 
-    @Test
-    void planning_location_should_have_same_latitude_and_longitude() {
-        RoadLocation roadLocation = planningLocation(location1);
-        assertThat(roadLocation.getId()).isEqualTo(location1.id());
-        assertThat(roadLocation.getLatitude()).isEqualTo(location1.coordinates().latitude().doubleValue());
-        assertThat(roadLocation.getLongitude()).isEqualTo(location1.coordinates().longitude().doubleValue());
-    }
-
     /**
      * Create a solution with 1 vehicle with depot being the first location and visiting all customers specified by
      * the rest of locations.
-     * @param domainLocations depot and customer locations
+     *
+     * @param locations depot and customer locations
      * @return initialized solution
      */
-    private static VehicleRoutingSolution createSolution(Location... domainLocations) {
+    private static VehicleRoutingSolution createSolution(Location... locations) {
         VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        Depot depot = SolutionUtil.addDepot(solution, planningLocation(domainLocations[0]));
+        Depot depot = SolutionUtil.addDepot(solution, locations[0]);
         SolutionUtil.addVehicle(solution, 1);
         SolutionUtil.moveAllVehiclesTo(solution, depot);
 
         // create customers
-        for (int i = 1; i < domainLocations.length; i++) {
-            SolutionUtil.addCustomer(solution, planningLocation(domainLocations[i]));
+        for (int i = 1; i < locations.length; i++) {
+            SolutionUtil.addCustomer(solution, locations[i]);
         }
 
         // visit all customers

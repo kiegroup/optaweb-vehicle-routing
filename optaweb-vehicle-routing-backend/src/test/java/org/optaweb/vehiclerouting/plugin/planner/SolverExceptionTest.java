@@ -25,11 +25,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.api.solver.Solver;
-import org.optaplanner.examples.tsp.domain.TspSolution;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.location.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
+import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.task.AsyncTaskExecutor;
 
@@ -48,7 +47,7 @@ class SolverExceptionTest {
     @Mock
     private ApplicationEventPublisher eventPublisher;
     @Mock
-    private Solver<TspSolution> solver;
+    private Solver<VehicleRoutingSolution> solver;
     @Mock
     private DistanceMatrix distanceMatrix;
     @Mock
