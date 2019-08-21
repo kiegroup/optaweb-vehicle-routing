@@ -26,9 +26,10 @@ import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.plugin.planner.SolutionUtil;
+import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
@@ -42,7 +43,7 @@ class RemoveCustomerTest {
 
     @Test
     void remove_last_customer() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         Customer removedCustomer = customer(1);
@@ -55,8 +56,10 @@ class RemoveCustomerTest {
         otherCustomer.setNextCustomer(removedCustomer);
         removedCustomer.setPreviousStandstill(otherCustomer);
 
+        when(scoreDirector.lookUpWorkingObject(removedCustomer)).thenReturn(removedCustomer);
+
         // do change
-        RemoveCustomer removeCustomer = new RemoveCustomer(removedCustomer.getLocation());
+        RemoveCustomer removeCustomer = new RemoveCustomer(removedCustomer);
         removeCustomer.doChange(scoreDirector);
 
         verify(scoreDirector).beforeEntityRemoved(any(Customer.class));
@@ -68,7 +71,7 @@ class RemoveCustomerTest {
 
     @Test
     void remove_middle_customer() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         Customer firstCustomer = customer(1);
@@ -85,8 +88,10 @@ class RemoveCustomerTest {
         removedCustomer.setNextCustomer(lastCustomer);
         lastCustomer.setPreviousStandstill(removedCustomer);
 
+        when(scoreDirector.lookUpWorkingObject(removedCustomer)).thenReturn(removedCustomer);
+
         // do change
-        RemoveCustomer removeCustomer = new RemoveCustomer(removedCustomer.getLocation());
+        RemoveCustomer removeCustomer = new RemoveCustomer(removedCustomer);
         removeCustomer.doChange(scoreDirector);
 
         // TODO make this more accurate once Customer overrides equals()
@@ -102,6 +107,36 @@ class RemoveCustomerTest {
         assertThat(lastCustomer.getPreviousStandstill()).isEqualTo(firstCustomer);
 
         verify(scoreDirector).triggerVariableListeners();
+    }
+
+    @Test
+    void fail_fast_if_working_solution_customer_list_does_not_contain_working_customer() {
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
+
+        long removedId = 111L;
+        Customer removedCustomer = customer(removedId);
+        long wrongId = 222L;
+        Customer wrongCustomer = customer(wrongId);
+        wrongCustomer.setPreviousStandstill(new Vehicle());
+        solution.getCustomerList().add(wrongCustomer);
+
+        when(scoreDirector.getWorkingSolution()).thenReturn(solution);
+        when(scoreDirector.lookUpWorkingObject(removedCustomer)).thenReturn(removedCustomer);
+
+        // do change
+        RemoveCustomer removeCustomer = new RemoveCustomer(removedCustomer);
+        assertThatIllegalStateException()
+                .isThrownBy(() -> removeCustomer.doChange(scoreDirector))
+                .withMessageMatching(".*List .*" + wrongId + ".* doesn't contain the working.*" + removedId + ".*");
+    }
+
+    @Test
+    void fail_fast_if_working_object_is_null() {
+        when(scoreDirector.getWorkingSolution()).thenReturn(SolutionFactory.emptySolution());
+
+        assertThatIllegalStateException()
+                .isThrownBy(() -> new RemoveCustomer(customer(0)).doChange(scoreDirector))
+                .withMessageContaining("working copy of");
     }
 
     private static Customer customer(long id) {

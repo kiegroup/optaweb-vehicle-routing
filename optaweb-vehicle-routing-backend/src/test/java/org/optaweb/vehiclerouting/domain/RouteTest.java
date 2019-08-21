@@ -28,30 +28,32 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 class RouteTest {
 
+    private final Vehicle vehicle = VehicleFactory.testVehicle(4);
     private final Location depot = new Location(1, Coordinates.valueOf(5, 5));
     private final Location visit1 = new Location(2, Coordinates.valueOf(5, 5));
     private final Location visit2 = new Location(3, Coordinates.valueOf(5, 5));
 
     @Test
     void constructor_args_not_null() {
-        assertThatNullPointerException().isThrownBy(() -> new Route(depot, null));
-        assertThatNullPointerException().isThrownBy(() -> new Route(null, Collections.emptyList()));
+        assertThatNullPointerException().isThrownBy(() -> new Route(null, depot, Collections.emptyList()));
+        assertThatNullPointerException().isThrownBy(() -> new Route(vehicle, null, Collections.emptyList()));
+        assertThatNullPointerException().isThrownBy(() -> new Route(vehicle, depot, null));
     }
 
     @Test
     void visits_should_not_contain_depot() {
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new Route(depot, Arrays.asList(depot, visit1)))
+                .isThrownBy(() -> new Route(vehicle, depot, Arrays.asList(depot, visit1)))
                 .withMessageContaining(depot.toString());
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new Route(depot, Arrays.asList(visit1, depot, visit2)))
+                .isThrownBy(() -> new Route(vehicle, depot, Arrays.asList(visit1, depot, visit2)))
                 .withMessageContaining(depot.toString());
     }
 
     @Test
     void no_customer_should_be_visited_twice_by_the_same_vehicle() {
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new Route(depot, Arrays.asList(visit1, visit1)))
+                .isThrownBy(() -> new Route(vehicle, depot, Arrays.asList(visit1, visit1)))
                 .withMessageContaining("(1)");
     }
 
@@ -59,7 +61,7 @@ class RouteTest {
     void cannot_modify_visits_externally() {
         ArrayList<Location> visits = new ArrayList<>();
         visits.add(visit1);
-        Route route = new Route(depot, visits);
+        Route route = new Route(vehicle, depot, visits);
 
         assertThatExceptionOfType(UnsupportedOperationException.class)
                 .isThrownBy(() -> route.visits().clear());

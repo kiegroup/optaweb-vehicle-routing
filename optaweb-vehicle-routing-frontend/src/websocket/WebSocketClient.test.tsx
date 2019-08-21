@@ -15,8 +15,8 @@
  */
 
 import * as SockJS from 'sockjs-client';
+import { LatLngWithDescription } from 'store/route/types';
 import { Client, Options, over } from 'webstomp-client';
-import { LatLngWithDescription } from '../store/route/types';
 import WebSocketClient from './WebSocketClient';
 
 jest.mock('sockjs-client');
@@ -87,6 +87,39 @@ describe('WebSocketClient', () => {
     client.deleteLocation(locationId);
 
     expect(mockClient.send).toHaveBeenCalledWith(`/app/location/${locationId}/delete`, JSON.stringify(locationId));
+  });
+
+  it('addVehicle() should add vehicle', () => {
+    client.connect(onSuccess, onError);
+    client.addVehicle();
+
+    expect(mockClient.send).toHaveBeenCalledWith('/app/vehicle');
+  });
+
+  it('deleteVehicle() should send vehicle ID', () => {
+    const vehicleId = 34;
+
+    client.connect(onSuccess, onError);
+    client.deleteVehicle(vehicleId);
+
+    expect(mockClient.send).toHaveBeenCalledWith(`/app/vehicle/${vehicleId}/delete`, JSON.stringify(vehicleId));
+  });
+
+  it('deleteAnyVehicle() should send message to the correct destination', () => {
+    client.connect(onSuccess, onError);
+    client.deleteAnyVehicle();
+
+    expect(mockClient.send).toHaveBeenCalledWith('/app/vehicle/deleteAny');
+  });
+
+  it('deleteAnyVehicle() should send message to the correct destination', () => {
+    const vehicleId = 7;
+    const capacity = 54;
+
+    client.connect(onSuccess, onError);
+    client.changeVehicleCapacity(vehicleId, capacity);
+
+    expect(mockClient.send).toHaveBeenCalledWith(`/app/vehicle/${vehicleId}/capacity`, JSON.stringify(capacity));
   });
 
   it('loadDemo() should send demo name', () => {

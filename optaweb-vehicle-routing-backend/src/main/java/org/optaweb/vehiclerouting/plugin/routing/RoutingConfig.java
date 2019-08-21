@@ -60,7 +60,7 @@ class RoutingConfig {
         if (!new File(osmPath).exists()) {
             throw new IllegalStateException(
                     "The osmPath (" + new File(osmPath).getAbsolutePath() + ") does not exist.\n"
-                            + "Download the osm file from http://download.geofabrik.de/ first."
+                            + "Download the osm file from http://download.geofabrik.de/ first"
             );
         }
         graphHopper.setOSMFile(osmPath);
@@ -68,7 +68,7 @@ class RoutingConfig {
         graphHopper.setEncodingManager(EncodingManager.create(FlagEncoderFactory.CAR));
         logger.info("GraphHopper loading...");
         graphHopper.importOrLoad();
-        logger.info("GraphHopper loaded.");
+        logger.info("GraphHopper loaded");
         return graphHopper;
     }
 }

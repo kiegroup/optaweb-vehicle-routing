@@ -38,7 +38,7 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.examples.vehiclerouting.app.VehicleRoutingApp;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
+import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
 import org.optaplanner.examples.vehiclerouting.domain.location.Location;
 import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
@@ -48,10 +48,14 @@ import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
+import static org.optaweb.vehiclerouting.plugin.planner.CustomerFactory.customer;
+import static org.optaweb.vehiclerouting.plugin.planner.DepotFactory.depot;
+import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromLocations;
 
 @ExtendWith(MockitoExtension.class)
 class SolverIntegrationTest {
@@ -84,16 +88,19 @@ class SolverIntegrationTest {
     @Test
     void solver_in_daemon_mode_should_not_fail_on_empty_solution() {
         sf.getSolverConfig().setDaemon(true);
-        assertThat(sf.buildSolver().solve(SolutionUtil.emptySolution())).isNotNull();
+        assertThat(sf.buildSolver().solve(SolutionFactory.emptySolution())).isNotNull();
     }
+
+    // TODO remove vehicle, change capacity, change demand...
 
     @Test
     void removing_customers_should_not_fail() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
-        Depot depot = SolutionUtil.addDepot(solution, location(1));
-        SolutionUtil.addVehicle(solution, 1);
-        SolutionUtil.moveAllVehiclesTo(solution, depot);
-        SolutionUtil.addCustomer(solution, location(2));
+        Vehicle vehicle = VehicleFactory.vehicle(1);
+        VehicleRoutingSolution solution = solutionFromLocations(
+                singletonList(vehicle),
+                depot(location(1)),
+                singletonList(location(2))
+        );
 
         sf.getSolverConfig().setDaemon(true);
         Solver<VehicleRoutingSolution> solver = sf.buildSolver();
@@ -103,19 +110,18 @@ class SolverIntegrationTest {
         for (int id = 3; id < 6; id++) {
             logger.info("Add customer ({})", id);
             monitor.beforeProblemFactChange();
-            solver.addProblemFactChange(new AddCustomer(location(id)));
+            solver.addProblemFactChange(new AddCustomer(customer(location(id))));
             assertThat(monitor.awaitAllProblemFactChanges(1000)).isTrue();
         }
 
         List<Integer> customerIds = Arrays.asList(5, 2, 3);
         for (int id : customerIds) {
             logger.info("Remove customer ({})", id);
-            Location removeLocation = location(id);
             assertThat(solver.isEveryProblemFactChangeProcessed()).isTrue();
             monitor.beforeProblemFactChange();
             solver.addProblemFactChanges(Arrays.asList(
-                    new RemoveCustomer(removeLocation),
-                    new RemoveLocation(removeLocation)
+                    new RemoveCustomer(customer(location(id))),
+                    new RemoveLocation(location(id))
             ));
             assertThat(solver.isEveryProblemFactChangeProcessed()).isFalse(); // probably not 100% safe
             // Notice that it's not possible to check individual problem fact changes completion.
@@ -123,7 +129,7 @@ class SolverIntegrationTest {
             // we don't know how many of them there are.
             if (!monitor.awaitAllProblemFactChanges(1000)) {
                 assertThat(terminateSolver(solver)).isNotNull();
-                fail("Problem fact change hasn't been completed.");
+                fail("Problem fact change hasn't been completed");
             }
         }
 

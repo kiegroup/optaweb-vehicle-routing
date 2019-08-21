@@ -16,25 +16,33 @@
 
 import {
   Button,
+  ButtonVariant,
   Grid,
   GridItem,
   GutterSize,
+  InputGroup,
+  InputGroupText,
+  Level,
+  LevelItem,
   Split,
   SplitItem,
   Text,
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
+import { MinusIcon, PlusIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { clientOperations } from 'store/client';
+import { UserViewport } from 'store/client/types';
 import { demoOperations } from 'store/demo';
-import { routeOperations, routeSelectors } from 'store/route';
+import { routeOperations } from 'store/route';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 import { AppState } from 'store/types';
+import { DemoDropdown } from 'ui/components/DemoDropdown';
 import LocationList from 'ui/components/LocationList';
+import RouteMap from 'ui/components/RouteMap';
 import SearchBox, { Result } from 'ui/components/SearchBox';
-import TspMap from 'ui/components/TspMap';
-import { DemoDropdown } from '../components/DemoDropdown';
 
 export const ID_CLEAR_BUTTON = 'clear-button';
 export const ID_EXPORT_BUTTON = 'export-button';
@@ -42,10 +50,12 @@ export const ID_EXPORT_BUTTON = 'export-button';
 export interface StateProps {
   distance: string;
   depot: Location | null;
+  vehicleCount: number;
   visits: Location[];
   routes: RouteWithTrack[];
   isDemoLoading: boolean;
   boundingBox: [LatLng, LatLng] | null;
+  userViewport: UserViewport;
   countryCodeSearchFilter: string[];
   demoNames: string[];
 }
@@ -53,26 +63,36 @@ export interface StateProps {
 export interface DispatchProps {
   loadHandler: typeof demoOperations.requestDemo;
   clearHandler: typeof routeOperations.clearRoute;
-  addHandler: typeof routeOperations.addLocation;
-  removeHandler: typeof routeOperations.deleteLocation;
+  addLocationHandler: typeof routeOperations.addLocation;
+  removeLocationHandler: typeof routeOperations.deleteLocation;
+  addVehicleHandler: typeof routeOperations.addVehicle;
+  removeVehicleHandler: typeof routeOperations.deleteAnyVehicle;
+  updateViewport: typeof clientOperations.updateViewport;
 }
 
-const mapStateToProps = ({ plan, demo, serverInfo }: AppState): StateProps => ({
+const mapStateToProps = ({ plan, demo, serverInfo, userViewport }: AppState): StateProps => ({
   distance: plan.distance,
+  vehicleCount: plan.vehicles.length,
   depot: plan.depot,
-  visits: routeSelectors.getVisits(plan),
+  visits: plan.visits,
   routes: plan.routes,
   isDemoLoading: demo.isLoading,
   boundingBox: serverInfo.boundingBox,
+  userViewport,
   countryCodeSearchFilter: serverInfo.countryCodes,
-  demoNames: (serverInfo.demos && serverInfo.demos.map(value => value.name)) || [], // TODO use selector
+  // TODO use selector
+  // TODO sort demos alphabetically?
+  demoNames: (serverInfo.demos && serverInfo.demos.map(value => value.name)) || [],
 });
 
 const mapDispatchToProps: DispatchProps = {
   loadHandler: demoOperations.requestDemo,
   clearHandler: routeOperations.clearRoute,
-  addHandler: routeOperations.addLocation,
-  removeHandler: routeOperations.deleteLocation,
+  addLocationHandler: routeOperations.addLocation,
+  removeLocationHandler: routeOperations.deleteLocation,
+  addVehicleHandler: routeOperations.addVehicle,
+  removeVehicleHandler: routeOperations.deleteAnyVehicle,
+  updateViewport: clientOperations.updateViewport,
 };
 
 export type DemoProps = DispatchProps & StateProps;
@@ -95,11 +115,11 @@ export class Demo extends React.Component<DemoProps, DemoState> {
   }
 
   handleMapClick(e: any) {
-    this.props.addHandler({ ...e.latlng, description: '' }); // TODO use reverse geocoding to find address
+    this.props.addLocationHandler({ ...e.latlng, description: '' }); // TODO use reverse geocoding to find address
   }
 
   handleSearchResultClick(result: Result) {
-    this.props.addHandler({ ...result.latLng, description: result.address });
+    this.props.addLocationHandler({ ...result.latLng, description: result.address });
   }
 
   handleDemoLoadClick(demoName: string) {
@@ -115,14 +135,19 @@ export class Demo extends React.Component<DemoProps, DemoState> {
     const {
       distance,
       depot,
+      vehicleCount,
       visits,
       routes,
       demoNames,
       isDemoLoading,
       boundingBox,
+      userViewport,
       countryCodeSearchFilter,
-      removeHandler,
+      addVehicleHandler,
+      removeVehicleHandler,
+      removeLocationHandler,
       clearHandler,
+      updateViewport,
     } = this.props;
 
     const exportDataSet = () => {
@@ -147,7 +172,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
           <LocationList
             depot={depot}
             visits={visits}
-            removeHandler={removeHandler}
+            removeHandler={removeLocationHandler}
             selectHandler={this.onSelectLocation}
           />
         </SplitItem>
@@ -159,8 +184,38 @@ export class Demo extends React.Component<DemoProps, DemoState> {
           <Split gutter={GutterSize.md}>
             <SplitItem isFilled={true}>
               <Grid>
-                <GridItem span={6}>{`Visits: ${visits.length}`}</GridItem>
-                <GridItem span={6}>{`Total travel time: ${distance}`}</GridItem>
+                <GridItem span={8}>
+                  <Level gutter="sm">
+                    <LevelItem style={{ display: 'flex' }}>
+                      <Level gutter="sm">
+                        <LevelItem>
+                          <InputGroup>
+                            <Button
+                              variant={ButtonVariant.primary}
+                              isDisabled={vehicleCount === 0}
+                              onClick={removeVehicleHandler}
+                            >
+                              <MinusIcon />
+                            </Button>
+                            <InputGroupText readOnly>
+                              {vehicleCount}
+                            </InputGroupText>
+                            <Button
+                              variant={ButtonVariant.primary}
+                              onClick={addVehicleHandler}
+                            >
+                              <PlusIcon />
+                            </Button>
+                          </InputGroup>
+                        </LevelItem>
+                        <LevelItem>vehicles</LevelItem>
+                      </Level>
+                    </LevelItem>
+                    <LevelItem>{`${visits.length} visits`}</LevelItem>
+                    <LevelItem>{`Total travel time: ${distance}`}</LevelItem>
+                  </Level>
+                </GridItem>
+                <GridItem span={4} />
               </Grid>
             </SplitItem>
             <SplitItem isFilled={false}>
@@ -172,7 +227,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
               >
                 Export
               </Button>
-              {(routes.length === 0 && (
+              {(depot === null && (
                 <DemoDropdown
                   demos={demoNames}
                   onSelect={this.handleDemoLoadClick}
@@ -189,13 +244,16 @@ export class Demo extends React.Component<DemoProps, DemoState> {
               )}
             </SplitItem>
           </Split>
-          <TspMap
+          <RouteMap
             boundingBox={boundingBox}
+            userViewport={userViewport}
+            updateViewport={updateViewport}
             selectedId={selectedId}
             clickHandler={this.handleMapClick}
-            removeHandler={removeHandler}
+            removeHandler={removeLocationHandler}
             depot={depot}
             routes={routes}
+            visits={visits}
           />
         </SplitItem>
       </Split>

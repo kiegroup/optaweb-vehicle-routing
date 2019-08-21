@@ -14,16 +14,6 @@
  * limitations under the License.
  */
 
-import { Location, RoutingPlan } from './types';
+import * as actions from './actions';
 
-function reducer<T>(accumulator: T[], currentValue: T[]): T[] {
-  return accumulator.concat(currentValue);
-}
-
-export const getVisits = (plan: RoutingPlan): Location[] => {
-  if (plan.routes.length === 0) {
-    return [];
-  }
-
-  return plan.routes.map(route => route.visits).reduce(reducer, []);
-};
+export const { updateViewport, resetViewport } = actions;

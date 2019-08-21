@@ -17,7 +17,6 @@
 package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -27,17 +26,21 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
+import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
+import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -48,6 +51,8 @@ class WebSocketControllerTest {
     private RouteListener routeListener;
     @Mock
     private RegionService regionService;
+    @Mock
+    private VehicleService vehicleService;
     @Mock
     private LocationService locationService;
     @Mock
@@ -60,8 +65,18 @@ class WebSocketControllerTest {
         // arrange
         String distance = "some distance";
         Location depot = new Location(1, Coordinates.valueOf(3, 5));
-        List<RouteWithTrack> routes = Collections.singletonList(mock(RouteWithTrack.class));
-        RoutingPlan plan = new RoutingPlan(distance, depot, routes);
+        Vehicle vehicle = VehicleFactory.createVehicle(1, "vehicle", 77);
+        Location visit = new Location(2, Coordinates.valueOf(321, 123));
+        Route route = new Route(vehicle, depot, singletonList(visit));
+        Coordinates pointOnTrack = Coordinates.valueOf(0, 0);
+        RouteWithTrack routeWithTrack = new RouteWithTrack(route, singletonList(singletonList(pointOnTrack)));
+        RoutingPlan plan = new RoutingPlan(
+                distance,
+                singletonList(vehicle),
+                depot,
+                singletonList(visit),
+                singletonList(routeWithTrack)
+        );
         when(routeListener.getBestRoutingPlan()).thenReturn(plan);
 
         // act
@@ -69,6 +84,8 @@ class WebSocketControllerTest {
 
         // assert
         assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);
+        assertThat(portableRoutingPlan.getVisits()).containsExactly(PortableLocation.fromLocation(visit));
+        assertThat(portableRoutingPlan.getVehicles()).containsExactly(PortableVehicle.fromVehicle(vehicle));
         assertThat(portableRoutingPlan.getDepot()).isEqualTo(PortableLocation.fromLocation(depot));
         assertThat(portableRoutingPlan.getRoutes()).hasSize(1);
     }
@@ -122,6 +139,32 @@ class WebSocketControllerTest {
     }
 
     @Test
+    void addVehicle() {
+        webSocketController.addVehicle();
+        verify(vehicleService).addVehicle();
+    }
+
+    @Test
+    void removeVehicle() {
+        webSocketController.removeVehicle(11L);
+        verify(vehicleService).removeVehicle(11);
+    }
+
+    @Test
+    void removeAnyVehicle() {
+        webSocketController.removeAnyVehicle();
+        verify(vehicleService).removeAnyVehicle();
+    }
+
+    @Test
+    void changeCapacity() {
+        long vehicleId = 2000;
+        int capacity = 50;
+        webSocketController.changeCapacity(vehicleId, capacity);
+        verify(vehicleService).changeCapacity(vehicleId, capacity);
+    }
+
+    @Test
     void demo() {
         String problemName = "xy";
         webSocketController.demo(problemName);
@@ -131,6 +174,7 @@ class WebSocketControllerTest {
     @Test
     void clear() {
         webSocketController.clear();
-        verify(locationService).clear();
+        verify(locationService).removeAll();
+        verify(vehicleService).removeAll();
     }
 }

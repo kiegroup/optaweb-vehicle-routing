@@ -24,7 +24,7 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 public interface DistanceCalculator {
 
     /**
-     * Calculate ravel time in milliseconds.
+     * Calculate travel time in milliseconds.
      * @param from origin
      * @param to destination
      * @return travel time in milliseconds

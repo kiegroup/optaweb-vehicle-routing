@@ -17,8 +17,10 @@
 import { ActionType, RouteAction, RoutingPlan } from './types';
 
 export const initialRouteState: RoutingPlan = {
-  distance: '0.00',
+  distance: 'no data',
+  vehicles: [],
   depot: null,
+  visits: [],
   routes: [],
 };
 

@@ -27,6 +27,7 @@ import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
+import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -43,16 +44,21 @@ class WebSocketController {
     private final RouteListener routeListener;
     private final RegionService regionService;
     private final LocationService locationService;
+    private final VehicleService vehicleService;
     private final DemoService demoService;
 
     @Autowired
-    WebSocketController(RouteListener routeListener,
-                        RegionService regionService,
-                        LocationService locationService,
-                        DemoService demoService) {
+    WebSocketController(
+            RouteListener routeListener,
+            RegionService regionService,
+            LocationService locationService,
+            VehicleService vehicleService,
+            DemoService demoService
+    ) {
         this.routeListener = routeListener;
         this.regionService = regionService;
         this.locationService = locationService;
+        this.vehicleService = vehicleService;
         this.demoService = demoService;
     }
 
@@ -81,7 +87,7 @@ class WebSocketController {
     @SubscribeMapping("/route")
     PortableRoutingPlan subscribeToRouteTopic() {
         RoutingPlan routingPlan = routeListener.getBestRoutingPlan();
-        return RoutePublisherImpl.portable(routingPlan);
+        return PortableRoutingPlanFactory.fromRoutingPlan(routingPlan);
     }
 
     /**
@@ -116,6 +122,32 @@ class WebSocketController {
 
     @MessageMapping("/clear")
     void clear() {
-        locationService.clear();
+        // TODO do this in one step (=> new RoutingPlanService)
+        locationService.removeAll();
+        vehicleService.removeAll();
+    }
+
+    @MessageMapping({"vehicle"})
+    void addVehicle() {
+        vehicleService.addVehicle();
+    }
+
+    /**
+     * Delete vehicle.
+     * @param id ID of the vehicle to be deleted
+     */
+    @MessageMapping({"/vehicle/{id}/delete"})
+    void removeVehicle(@DestinationVariable Long id) {
+        vehicleService.removeVehicle(id);
+    }
+
+    @MessageMapping({"/vehicle/deleteAny"})
+    void removeAnyVehicle() {
+        vehicleService.removeAnyVehicle();
+    }
+
+    @MessageMapping({"/vehicle/{id}/capacity"})
+    void changeCapacity(@DestinationVariable Long id, int capacity) {
+        vehicleService.changeCapacity(id, capacity);
     }
 }

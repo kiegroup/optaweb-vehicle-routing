@@ -21,6 +21,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { createLogger } from 'redux-logger';
 import thunk from 'redux-thunk';
 import WebSocketClient from 'websocket/WebSocketClient';
+import clientReducer from './client';
 import demoReducer from './demo';
 import routeReducer from './route';
 import serverInfoReducer from './server';
@@ -49,6 +50,7 @@ export function configureStore(
     serverInfo: serverInfoReducer,
     demo: demoReducer,
     plan: routeReducer,
+    userViewport: clientReducer,
   });
 
   /* if (process.env.NODE_ENV !== 'production' && module.hot) {

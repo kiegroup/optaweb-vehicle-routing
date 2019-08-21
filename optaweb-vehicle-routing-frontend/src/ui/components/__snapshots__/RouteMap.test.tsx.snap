@@ -1,0 +1,230 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Route Map should ignore bounds if viewport is dirty 1`] = `
+<Map
+  onClick={[MockFunction]}
+  onViewportChanged={[MockFunction]}
+  style={
+    Object {
+      "height": "calc(100vh - 176px)",
+      "width": "100%",
+    }
+  }
+  viewport={
+    Object {
+      "center": Array [
+        1,
+        1,
+      ],
+      "isDirty": true,
+      "zoom": 4,
+    }
+  }
+  zoomControl={false}
+>
+  <ForwardRef(Leaflet(TileLayer))
+    attribution="© <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
+  <ForwardRef(Leaflet(ZoomControl))
+    position="topright"
+  />
+  <LocationMarker
+    isDepot={true}
+    isSelected={false}
+    location={
+      Object {
+        "id": 1,
+        "lat": 1.345678,
+        "lng": 1.345678,
+      }
+    }
+    removeHandler={[MockFunction]}
+  />
+  <ForwardRef(Leaflet(Rectangle))
+    bounds={
+      Object {
+        "_northEast": Object {
+          "lat": 10,
+          "lng": 20,
+        },
+        "_southWest": Object {
+          "lat": -1,
+          "lng": -2,
+        },
+      }
+    }
+    color="seagreen"
+    dashArray="10,5"
+    fill={false}
+    weight={1}
+  />
+</Map>
+`;
+
+exports[`Route Map should pan and zoom to show bounding box if viewport is not dirty 1`] = `
+<Map
+  bounds={
+    Object {
+      "_northEast": Object {
+        "lat": 10,
+        "lng": 20,
+      },
+      "_southWest": Object {
+        "lat": -1,
+        "lng": -2,
+      },
+    }
+  }
+  onClick={[MockFunction]}
+  onViewportChanged={[MockFunction]}
+  style={
+    Object {
+      "height": "calc(100vh - 176px)",
+      "width": "100%",
+    }
+  }
+  viewport={
+    Object {
+      "center": Array [
+        1,
+        1,
+      ],
+      "isDirty": false,
+      "zoom": 4,
+    }
+  }
+  zoomControl={false}
+>
+  <ForwardRef(Leaflet(TileLayer))
+    attribution="© <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
+  <ForwardRef(Leaflet(ZoomControl))
+    position="topright"
+  />
+  <LocationMarker
+    isDepot={true}
+    isSelected={true}
+    location={
+      Object {
+        "id": 1,
+        "lat": 1.345678,
+        "lng": 1.345678,
+      }
+    }
+    removeHandler={[MockFunction]}
+  />
+  <LocationMarker
+    isDepot={false}
+    isSelected={false}
+    key="2"
+    location={
+      Object {
+        "id": 2,
+        "lat": 2.345678,
+        "lng": 2.345678,
+      }
+    }
+    removeHandler={[MockFunction]}
+  />
+  <LocationMarker
+    isDepot={false}
+    isSelected={false}
+    key="3"
+    location={
+      Object {
+        "id": 3,
+        "lat": 3.676111,
+        "lng": 3.568333,
+      }
+    }
+    removeHandler={[MockFunction]}
+  />
+  <ForwardRef(Leaflet(Polyline))
+    color="deepskyblue"
+    fill={false}
+    key="0"
+    positions={
+      Array [
+        Array [
+          0.111222,
+          0.222333,
+        ],
+        Array [
+          0.444555,
+          0.555666,
+        ],
+      ]
+    }
+  />
+  <ForwardRef(Leaflet(Rectangle))
+    bounds={
+      Object {
+        "_northEast": Object {
+          "lat": 10,
+          "lng": 20,
+        },
+        "_southWest": Object {
+          "lat": -1,
+          "lng": -2,
+        },
+      }
+    }
+    color="seagreen"
+    dashArray="10,5"
+    fill={false}
+    weight={1}
+  />
+</Map>
+`;
+
+exports[`Route Map should show the whole world when bounding box is null 1`] = `
+<Map
+  onClick={[MockFunction]}
+  onViewportChanged={[Function]}
+  style={
+    Object {
+      "height": "calc(100vh - 176px)",
+      "width": "100%",
+    }
+  }
+  viewport={
+    Object {
+      "center": Array [
+        1,
+        1,
+      ],
+      "isDirty": false,
+      "zoom": 4,
+    }
+  }
+  zoomControl={false}
+>
+  <ForwardRef(Leaflet(TileLayer))
+    attribution="© <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
+  <ForwardRef(Leaflet(ZoomControl))
+    position="topright"
+  />
+  <LocationMarker
+    isDepot={true}
+    isSelected={true}
+    location={
+      Object {
+        "id": 1,
+        "lat": 1.345678,
+        "lng": 1.345678,
+      }
+    }
+    removeHandler={[MockFunction]}
+  />
+  <ForwardRef(Leaflet(Polyline))
+    color="deepskyblue"
+    fill={false}
+    key="0"
+    positions={Array []}
+  />
+</Map>
+`;

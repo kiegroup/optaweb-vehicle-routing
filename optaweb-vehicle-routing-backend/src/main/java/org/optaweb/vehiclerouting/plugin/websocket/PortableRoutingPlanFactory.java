@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,38 +23,29 @@ import java.util.stream.Collectors;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
-import org.optaweb.vehiclerouting.service.route.RoutePublisher;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Component;
+import org.optaweb.vehiclerouting.domain.Vehicle;
 
 /**
- * Broadcasts updated route to interested clients over WebSocket.
+ * Creates instances of {@link PortableRoutingPlan}.
  */
-@Component
-class RoutePublisherImpl implements RoutePublisher {
+class PortableRoutingPlanFactory {
 
-    private final SimpMessagingTemplate webSocket;
-
-    @Autowired
-    RoutePublisherImpl(SimpMessagingTemplate webSocket) {
-        this.webSocket = webSocket;
+    private PortableRoutingPlanFactory() {
+        throw new AssertionError("Utility class");
     }
 
-    @Override
-    public void publish(RoutingPlan routingPlan) {
-        webSocket.convertAndSend("/topic/route", portable(routingPlan));
-    }
-
-    static PortableRoutingPlan portable(RoutingPlan routingPlan) {
+    static PortableRoutingPlan fromRoutingPlan(RoutingPlan routingPlan) {
+        List<PortableVehicle> vehicles = portableVehicles(routingPlan.vehicles());
         PortableLocation depot = routingPlan.depot().map(PortableLocation::fromLocation).orElse(null);
+        List<PortableLocation> visits = portableVisits(routingPlan.visits());
         List<PortableRoute> routes = routingPlan.routes().stream()
                 .map(routeWithTrack -> new PortableRoute(
+                        PortableVehicle.fromVehicle(routeWithTrack.vehicle()),
                         depot,
                         portableVisits(routeWithTrack.visits()),
                         portableTrack(routeWithTrack.track())))
                 .collect(Collectors.toList());
-        return new PortableRoutingPlan(routingPlan.distance(), depot, routes);
+        return new PortableRoutingPlan(routingPlan.distance(), vehicles, depot, visits, routes);
     }
 
     private static List<List<PortableCoordinates>> portableTrack(List<List<Coordinates>> track) {
@@ -71,6 +62,12 @@ class RoutePublisherImpl implements RoutePublisher {
     private static List<PortableLocation> portableVisits(List<Location> visits) {
         return visits.stream()
                 .map(PortableLocation::fromLocation)
+                .collect(Collectors.toList());
+    }
+
+    private static List<PortableVehicle> portableVehicles(List<Vehicle> vehicles) {
+        return vehicles.stream()
+                .map(PortableVehicle::fromVehicle)
                 .collect(Collectors.toList());
     }
 }

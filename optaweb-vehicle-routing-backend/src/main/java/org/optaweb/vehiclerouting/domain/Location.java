@@ -35,6 +35,10 @@ public class Location extends LocationData {
         this.id = id;
     }
 
+    /**
+     * Location's ID.
+     * @return unique ID
+     */
     public long id() {
         return id;
     }
@@ -58,8 +62,8 @@ public class Location extends LocationData {
 
     @Override
     public String toString() {
-        return "Location{" +
-                "id=" + id +
-                '}';
+        return "Location ["
+                + id +
+                "]: '" + description() + "'";
     }
 }

@@ -45,14 +45,14 @@ exports[`Route page should render correctly with a few routes 1`] = `
             className=""
             isDisabled={false}
             key="0"
-            label="Route 0"
+            label="v1"
             value={0}
           />
           <FormSelectOption
             className=""
             isDisabled={false}
             key="1"
-            label="Route 1"
+            label="v2"
             value={1}
           />
         </FormSelect>
@@ -92,7 +92,7 @@ exports[`Route page should render correctly with a few routes 1`] = `
       className=""
       isFilled={true}
     >
-      <TspMap
+      <RouteMap
         boundingBox={null}
         clickHandler={[Function]}
         depot={
@@ -107,6 +107,11 @@ exports[`Route page should render correctly with a few routes 1`] = `
           Array [
             Object {
               "track": Array [],
+              "vehicle": Object {
+                "capacity": 5,
+                "id": 1,
+                "name": "v1",
+              },
               "visits": Array [
                 Object {
                   "id": 1,
@@ -132,6 +137,41 @@ exports[`Route page should render correctly with a few routes 1`] = `
           ]
         }
         selectedId={NaN}
+        updateViewport={[MockFunction]}
+        userViewport={
+          Object {
+            "center": Array [
+              0,
+              0,
+            ],
+            "isDirty": false,
+            "zoom": 1,
+          }
+        }
+        visits={
+          Array [
+            Object {
+              "id": 2,
+              "lat": 2.345678,
+              "lng": 2.345678,
+            },
+            Object {
+              "id": 3,
+              "lat": 3.676111,
+              "lng": 3.568333,
+            },
+            Object {
+              "id": 4,
+              "lat": 4.345678,
+              "lng": 4.345678,
+            },
+            Object {
+              "id": 5,
+              "lat": 5.345678,
+              "lng": 5.345678,
+            },
+          ]
+        }
       />
     </SplitItem>
   </Split>
@@ -191,13 +231,25 @@ exports[`Route page should render correctly with no routes 1`] = `
       className=""
       isFilled={true}
     >
-      <TspMap
+      <RouteMap
         boundingBox={null}
         clickHandler={[Function]}
         depot={null}
         removeHandler={[MockFunction]}
         routes={Array []}
         selectedId={NaN}
+        updateViewport={[MockFunction]}
+        userViewport={
+          Object {
+            "center": Array [
+              0,
+              0,
+            ],
+            "isDirty": false,
+            "zoom": 1,
+          }
+        }
+        visits={Array []}
       />
     </SplitItem>
   </Split>

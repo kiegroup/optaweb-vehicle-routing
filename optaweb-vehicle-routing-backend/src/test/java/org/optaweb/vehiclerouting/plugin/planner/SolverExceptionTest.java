@@ -25,36 +25,28 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.api.solver.Solver;
-import org.optaplanner.examples.tsp.domain.TspSolution;
+import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
 import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
+import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.task.AsyncTaskExecutor;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class SolverExceptionTest {
 
-    private final Location location1 = new Location(1, Coordinates.valueOf(1.0, 0.1));
-    private final Location location2 = new Location(2, Coordinates.valueOf(0.2, 2.2));
-    private final Location location3 = new Location(3, Coordinates.valueOf(3.4, 5.6));
-
     @Mock
-    private ApplicationEventPublisher eventPublisher;
-    @Mock
-    private Solver<TspSolution> solver;
-    @Mock
-    private DistanceMatrix distanceMatrix;
+    private Solver<VehicleRoutingSolution> solver;
     @Mock
     private AsyncTaskExecutor executor;
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
     @InjectMocks
-    private RouteOptimizerImpl routeOptimizer;
+    private SolverManager solverManager;
 
     @Test
     void should_propagate_any_exception_from_solver() {
@@ -63,28 +55,25 @@ class SolverExceptionTest {
         FutureTask<VehicleRoutingSolution> task = new FutureTask<>(() -> {
             throw new TestException();
         }, null);
-        when(executor.submit(any(RouteOptimizerImpl.SolvingTask.class))).thenReturn(task);
+        when(executor.submit(any(SolverManager.SolvingTask.class))).thenReturn(task);
         // Run it synchronously (otherwise the test would be unreliable!)
         task.run();
+        solverManager.startSolver(mock(VehicleRoutingSolution.class));
 
-        // act
-        routeOptimizer.addLocation(location1, distanceMatrix);
-        assertThat(routeOptimizer.isSolving()).isFalse();
-        routeOptimizer.addLocation(location2, distanceMatrix);
+        // act & assert
+        assertTestExceptionThrownDuringOperation(() -> solverManager.addLocation(mock(RoadLocation.class)));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.removeLocation(mock(RoadLocation.class)));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.addVehicle(mock(Vehicle.class)));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.removeVehicle(mock(Vehicle.class)));
 
-        // assert
-        assertTestExceptionThrownDuringOperation(() -> routeOptimizer.isSolving());
-        assertTestExceptionThrownDuringOperation(() -> routeOptimizer.addLocation(location3, distanceMatrix));
-        assertTestExceptionThrownDuringOperation(() -> routeOptimizer.removeLocation(location2));
-
-        assertTestExceptionThrownWhenStoppingSolver(routeOptimizer);
+        assertTestExceptionThrownWhenStoppingSolver(solverManager);
     }
 
     private static void assertTestExceptionThrownDuringOperation(ThrowingCallable runnable) {
         assertTestExceptionThrownDuring(runnable, "died");
     }
 
-    private static void assertTestExceptionThrownWhenStoppingSolver(RouteOptimizerImpl routeOptimizer) {
+    private static void assertTestExceptionThrownWhenStoppingSolver(SolverManager routeOptimizer) {
         assertTestExceptionThrownDuring(routeOptimizer::stopSolver, "stop");
     }
 
@@ -92,7 +81,7 @@ class SolverExceptionTest {
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(runnable)
                 .withMessageContaining(message)
-                .withRootCauseExactlyInstanceOf(TestException.class);
+                .withCauseInstanceOf(TestException.class);
     }
 
     private static class TestException extends RuntimeException {
