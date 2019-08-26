@@ -34,6 +34,7 @@
   <modules>
     <module>optaweb-vehicle-routing-backend</module>
     <module>optaweb-vehicle-routing-frontend</module>
+    <module>optaweb-vehicle-routing-distribution</module>
   </modules>
 
   <properties>
@@ -48,6 +49,18 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.optaweb.vehiclerouting</groupId>
+        <artifactId>optaweb-vehicle-routing-frontend</artifactId>
+        <type>war</type>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.optaweb.vehiclerouting</groupId>
+        <artifactId>optaweb-vehicle-routing-backend</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
       <!-- Temporarily override Spring Boot's Junit version to get access to @TempDir -->
       <dependency>
         <groupId>org.junit</groupId>
