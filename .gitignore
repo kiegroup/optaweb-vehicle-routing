@@ -9,7 +9,7 @@
 /*.ipr
 /*.iws
 /*.iml
-
+*.iml
 # NetBeans
 /nbproject
 

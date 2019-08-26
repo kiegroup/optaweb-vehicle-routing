@@ -26,25 +26,46 @@
   </parent>
 
   <artifactId>optaweb-vehicle-routing-frontend</artifactId>
-  <packaging>pom</packaging>
+  <packaging>war</packaging>
 
   <name>OptaWeb Vehicle Routing Frontend</name>
 
   <properties>
     <sonar.sources>src</sonar.sources>
-    <sonar.test.inclusions>optaweb-vehicle-routing-frontend/**/*test.ts,optaweb-vehicle-routing-frontend/**/*test.tsx</sonar.test.inclusions>
+    <sonar.test.inclusions>
+      optaweb-vehicle-routing-frontend/**/*test.ts,optaweb-vehicle-routing-frontend/**/*test.tsx
+    </sonar.test.inclusions>
     <sonar.typescript.lcov.reportPaths>coverage/lcov.info</sonar.typescript.lcov.reportPaths>
+
+    <!-- Frontend properties -->
+    <frontend-maven-plugin.version>1.7.5</frontend-maven-plugin.version>
+    <maven-resources-plugin.version>3.1.0</maven-resources-plugin.version>
   </properties>
 
+
   <build>
+    <finalName>optaweb-vehicle-routing-frontend</finalName>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.github.eirslett</groupId>
+          <artifactId>frontend-maven-plugin</artifactId>
+          <version>${frontend-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>${maven-resources-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>com.github.eirslett</groupId>
         <artifactId>frontend-maven-plugin</artifactId>
-        <version>1.7.5</version>
         <executions>
           <execution>
             <id>install node and npm</id>
+            <phase>initialize</phase>
             <goals>
               <goal>install-node-and-npm</goal>
             </goals>
@@ -55,20 +76,20 @@
           </execution>
           <execution>
             <id>npm install</id>
+            <phase>compile</phase>
             <goals>
               <goal>npm</goal>
             </goals>
-            <phase>compile</phase>
             <configuration>
               <arguments>install</arguments>
             </configuration>
           </execution>
           <execution>
             <id>npm run lint</id>
+            <phase>test</phase>
             <goals>
               <goal>npm</goal>
             </goals>
-            <phase>test</phase>
             <configuration>
               <arguments>run lint</arguments>
             </configuration>
@@ -85,12 +106,32 @@
           </execution>
           <execution>
             <id>npm run build</id>
-            <phase>package</phase>
+            <phase>prepare-package</phase>
             <goals>
               <goal>npm</goal>
             </goals>
             <configuration>
               <arguments>run build</arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>build</directory>
+                </resource>
+              </resources>
             </configuration>
           </execution>
         </executions>
