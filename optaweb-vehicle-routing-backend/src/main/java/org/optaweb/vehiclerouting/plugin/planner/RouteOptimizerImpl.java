@@ -60,7 +60,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
         location.setTravelDistanceMap(distanceMap);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (depot == null) {
-            depot = PlanningDepotFactory.depot(location);
+            depot = new PlanningDepot(location);
             publishSolution();
         } else {
             visits.add(location);

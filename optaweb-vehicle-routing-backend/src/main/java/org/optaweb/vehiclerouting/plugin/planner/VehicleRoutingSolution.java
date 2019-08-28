@@ -34,6 +34,7 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 
+
 @PlanningSolution
 @XStreamAlias("VrpVehicleRoutingSolution")
 public class VehicleRoutingSolution extends AbstractPersistable {
@@ -135,12 +136,7 @@ public class VehicleRoutingSolution extends AbstractPersistable {
                 long seconds = distance % 60000L / 1000L;
                 long milliseconds = distance % 1000L;
                 return hours + "h " + minutes + "m " + seconds + "s " + milliseconds + "ms";
-            case "km": { // TODO why are the values 1000 larger?
-                long km = distance / 1000L;
-                long meter = distance % 1000L;
-                return km + "km " + meter + "m";
-            }
-            case "meter": {
+            case "meter": { // TODO why are the values 1000 larger?
                 long km = distance / 1000L;
                 long meter = distance % 1000L;
                 return km + "km " + meter + "m";

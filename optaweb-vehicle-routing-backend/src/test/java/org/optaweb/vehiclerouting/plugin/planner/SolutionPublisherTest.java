@@ -35,7 +35,6 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.optaweb.vehiclerouting.plugin.planner.PlanningDepotFactory.depot;
 import static org.optaweb.vehiclerouting.plugin.planner.PlanningVehicleFactory.vehicle;
 import static org.optaweb.vehiclerouting.plugin.planner.PlanningVisitFactory.visit;
 import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromCustomers;
@@ -89,7 +88,7 @@ class SolutionPublisherTest {
         long visitId = 2;
         VehicleRoutingSolution solution = solutionFromLocations(
                 emptyList(),
-                depot(new PlanningLocation(depotId, 1.0, 1.0)),
+                new PlanningDepot(new PlanningLocation(depotId, 1.0, 1.0)),
                 singletonList(new PlanningLocation(visitId, 2.0, 2.0))
         );
 
@@ -113,7 +112,7 @@ class SolutionPublisherTest {
         long depotId = 1;
         long visitId1 = 2;
         long visitId2 = 3;
-        PlanningDepot depot = depot(new PlanningLocation(depotId, 1.0, 1.0));
+        PlanningDepot depot = new PlanningDepot(new PlanningLocation(depotId, 1.0, 1.0));
         PlanningVisit visit1 = visit(new PlanningLocation(visitId1, 2.0, 2.0));
         PlanningVisit visit2 = visit(new PlanningLocation(visitId2, 0.2, 0.2));
 
@@ -164,7 +163,7 @@ class SolutionPublisherTest {
 
         VehicleRoutingSolution solution = solutionFromLocations(
                 singletonList(vehicle),
-                depot(new PlanningLocation(1, 1.0, 1.0)),
+                new PlanningDepot(new PlanningLocation(1, 1.0, 1.0)),
                 singletonList(new PlanningLocation(3, 3.0, 3.0))
         );
 
@@ -175,7 +174,7 @@ class SolutionPublisherTest {
 
     @Test
     void vehicle_without_a_depot_is_illegal_if_depot_exists() {
-        PlanningDepot depot = depot(new PlanningLocation(1, 1.0, 1.0));
+        PlanningDepot depot = new PlanningDepot(new PlanningLocation(1, 1.0, 1.0));
         PlanningVehicle vehicle = vehicle(1);
         VehicleRoutingSolution solution = solutionFromCustomers(singletonList(vehicle), depot, emptyList());
         vehicle.setDepot(null);

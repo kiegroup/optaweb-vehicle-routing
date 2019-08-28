@@ -40,6 +40,7 @@ import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.slf4j.Logger;
@@ -50,7 +51,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
-import static org.optaweb.vehiclerouting.plugin.planner.PlanningDepotFactory.depot;
 import static org.optaweb.vehiclerouting.plugin.planner.PlanningVisitFactory.visit;
 import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromLocations;
 
@@ -96,7 +96,7 @@ class SolverIntegrationTest {
         PlanningVehicle vehicle = PlanningVehicleFactory.vehicle(1);
         VehicleRoutingSolution solution = solutionFromLocations(
                 singletonList(vehicle),
-                depot(location(1)),
+                new PlanningDepot(location(1)),
                 singletonList(location(2))
         );
 

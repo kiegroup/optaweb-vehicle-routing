@@ -20,8 +20,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import java.util.Objects;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 

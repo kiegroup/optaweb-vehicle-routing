@@ -16,14 +16,18 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import java.util.Objects;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 
 @XStreamAlias("VrpDepot")
 public class PlanningDepot extends AbstractPersistable {
 
+    public PlanningDepot() {}
+
+    public PlanningDepot(PlanningLocation location) {
+        super(location.getId());
+        this.location = location;
+    }
 
     protected PlanningLocation location;
 
@@ -35,18 +39,6 @@ public class PlanningDepot extends AbstractPersistable {
         this.location = location;
     }
 
-    // ************************************************************************
-    // Complex methods
-    // ************************************************************************
-
-    /**
-     * @param standstill never null
-     * @return a positive number, the distance multiplied by 1000 to avoid floating point arithmetic rounding errors
-     */
-    public long getDistanceTo(Standstill standstill) {
-        return location.getDistanceTo(standstill.getLocation());
-    }
-
     @Override
     public String toString() {
         return "PlanningDepot{" +
@@ -54,4 +46,5 @@ public class PlanningDepot extends AbstractPersistable {
                 ",id=" + id +
                 '}';
     }
+
 }

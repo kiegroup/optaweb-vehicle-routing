@@ -24,8 +24,6 @@ import org.optaplanner.core.impl.solver.ProblemFactChange;
 import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AddVisit implements ProblemFactChange<VehicleRoutingSolution> {
 

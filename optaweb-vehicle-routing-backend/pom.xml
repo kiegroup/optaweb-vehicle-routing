@@ -103,7 +103,11 @@
     <!-- Production dependencies -->
     <dependency>
       <groupId>org.optaplanner</groupId>
-      <artifactId>optaplanner-examples</artifactId>
+      <artifactId>optaplanner-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.optaplanner</groupId>
+      <artifactId>optaplanner-persistence-xstream</artifactId>
     </dependency>
     <dependency>
       <groupId>com.graphhopper</groupId>
@@ -121,9 +125,11 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
     </dependency>
+    <!-- Enable Spring Boot Automatic Restart, see Development Guide in Readme to learn how to use it. -->
     <dependency>
-      <groupId>org.optaplanner</groupId>
-      <artifactId>optaplanner-persistence-xstream</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <optional>true</optional>
     </dependency>
     <!-- Include annotation processor that generates metadata for @ConfigurationProperties -->
     <dependency>
@@ -131,8 +137,6 @@
       <artifactId>spring-boot-configuration-processor</artifactId>
       <optional>true</optional>
     </dependency>
-    <!-- Had to remove dev tools cause the restart classloader was giving a weird class ClassCastException
-    . https://github.com/AxonFramework/AxonFramework/issues/344-->
   </dependencies>
 
   <build>
