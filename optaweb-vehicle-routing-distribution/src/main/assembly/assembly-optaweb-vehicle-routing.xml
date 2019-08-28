@@ -30,20 +30,14 @@
         <exclude>*.iws</exclude>
         <exclude>**/*.iml</exclude>
         <exclude>.git/**</exclude>
+        <exclude>**/node_modules/**</exclude>
+        <exclude>optaweb-vehicle-routing-distribution/**</exclude>
+        <exclude>**/.scannerwork/**</exclude>
       </excludes>
     </fileSet>
   </fileSets>
 
   <dependencySets>
-    <dependencySet>
-      <includes>
-        <include>org.optaweb.vehiclerouting:optaweb-vehicle-routing-frontend:war</include>
-        <include>org.optaweb.vehiclerouting:optaweb-vehicle-routing-backend:jar</include>
-      </includes>
-      <outputDirectory>binaries</outputDirectory>
-      <useStrictFiltering>true</useStrictFiltering>
-      <useTransitiveFiltering>false</useTransitiveFiltering><!-- Only include war -->
-    </dependencySet>
     <!-- TODO: pending Reference Manual -->
   </dependencySets>
 
