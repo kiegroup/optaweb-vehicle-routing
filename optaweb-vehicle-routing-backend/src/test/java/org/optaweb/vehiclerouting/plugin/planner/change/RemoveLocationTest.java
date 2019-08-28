@@ -21,11 +21,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.plugin.planner.SolutionUtil;
-import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -37,10 +38,10 @@ class RemoveLocationTest {
 
     @Test
     void remove_location() {
-        VehicleRoutingSolution solution = SolutionUtil.emptySolution();
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
-        Location location = new Location(1, 2.0, 3.0);
+        PlanningLocation location = new PlanningLocation(1, 2.0, 3.0);
         solution.getLocationList().add(location);
 
         when(scoreDirector.lookUpWorkingObject(location)).thenReturn(location);
@@ -54,5 +55,36 @@ class RemoveLocationTest {
         assertThat(solution.getLocationList()).isEmpty();
 
         verify(scoreDirector).triggerVariableListeners();
+    }
+
+    @Test
+    void fail_fast_if_working_solution_location_list_does_not_contain_working_location() {
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
+
+        long removedId = 111L;
+        PlanningLocation removedLocation = new PlanningLocation(removedId, 0, 1);
+        removedLocation.setId(removedId);
+        long wrongId = 222L;
+        PlanningLocation wrongLocation = new PlanningLocation(wrongId, 1, 0);
+        wrongLocation.setId(wrongId);
+        solution.getLocationList().add(wrongLocation);
+
+        when(scoreDirector.getWorkingSolution()).thenReturn(solution);
+        when(scoreDirector.lookUpWorkingObject(removedLocation)).thenReturn(removedLocation);
+
+        // do change
+        RemoveLocation removeLocation = new RemoveLocation(removedLocation);
+        assertThatIllegalStateException()
+                .isThrownBy(() -> removeLocation.doChange(scoreDirector))
+                .withMessageMatching(".*List .*" + wrongId + ".* doesn't contain the working.*" + removedId + ".*");
+    }
+
+    @Test
+    void fail_fast_if_working_object_is_null() {
+        when(scoreDirector.getWorkingSolution()).thenReturn(SolutionFactory.emptySolution());
+
+        assertThatIllegalStateException()
+                .isThrownBy(() -> new RemoveLocation(new PlanningLocation(1, 2, 3)).doChange(scoreDirector))
+                .withMessageContaining("working copy of");
     }
 }

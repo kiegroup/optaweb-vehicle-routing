@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Location Marker render depot 1`] = `
+<ForwardRef(Leaflet(Marker))
+  icon={
+    NewClass {
+      "_initHooksCalled": true,
+      "options": Object {
+        "iconAnchor": Array [
+          12,
+          12,
+        ],
+        "iconSize": Array [
+          24,
+          24,
+        ],
+        "iconUrl": "if_big_house-home_2222740.png",
+        "popupAnchor": Array [
+          0,
+          -10,
+        ],
+        "shadowAnchor": Array [
+          16,
+          2,
+        ],
+        "shadowSize": Array [
+          50,
+          16,
+        ],
+        "shadowUrl": "if_big_house-home_2222740_shadow.png",
+      },
+    }
+  }
+  key="1"
+  onClick={[Function]}
+  position={
+    Object {
+      "id": 1,
+      "lat": 1.345678,
+      "lng": 1.345678,
+    }
+  }
+>
+  <ForwardRef(Leaflet(Tooltip))
+    key=""
+    permanent={false}
+  >
+    Location 1 [Lat=1.345678, Lng=1.345678]
+  </ForwardRef(Leaflet(Tooltip))>
+</ForwardRef(Leaflet(Marker))>
+`;
+
+exports[`Location Marker render visit 1`] = `
+<ForwardRef(Leaflet(Marker))
+  icon={
+    NewClass {
+      "_initHooksCalled": true,
+      "options": Object {},
+    }
+  }
+  key="1"
+  onClick={[Function]}
+  position={
+    Object {
+      "id": 1,
+      "lat": 1.345678,
+      "lng": 1.345678,
+    }
+  }
+>
+  <ForwardRef(Leaflet(Tooltip))
+    key=""
+    permanent={false}
+  >
+    Location 1 [Lat=1.345678, Lng=1.345678]
+  </ForwardRef(Leaflet(Tooltip))>
+</ForwardRef(Leaflet(Marker))>
+`;
+
+exports[`Location Marker selected visit should show a tooltip 1`] = `
+<ForwardRef(Leaflet(Marker))
+  icon={
+    NewClass {
+      "_initHooksCalled": true,
+      "options": Object {},
+    }
+  }
+  key="1"
+  onClick={[Function]}
+  position={
+    Object {
+      "id": 1,
+      "lat": 1.345678,
+      "lng": 1.345678,
+    }
+  }
+>
+  <ForwardRef(Leaflet(Tooltip))
+    key="selected"
+    permanent={true}
+  >
+    Location 1 [Lat=1.345678, Lng=1.345678]
+  </ForwardRef(Leaflet(Tooltip))>
+</ForwardRef(Leaflet(Marker))>
+`;

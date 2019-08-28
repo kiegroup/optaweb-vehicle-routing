@@ -17,6 +17,7 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
+import { UserViewport } from 'store/client/types';
 import { Route, RouteProps } from './Route';
 
 describe('Route page', () => {
@@ -31,59 +32,71 @@ describe('Route page', () => {
   });
 });
 
+const userViewport: UserViewport = {
+  isDirty: false,
+  zoom: 1,
+  center: [0, 0],
+};
+
 const noRoutes: RouteProps = {
   addHandler: jest.fn(),
   removeHandler: jest.fn(),
+  updateViewport: jest.fn(),
 
   boundingBox: null,
+  userViewport,
 
   depot: null,
+  visits: [],
   routes: [],
+};
+
+const depot = {
+  id: 1,
+  lat: 1.345678,
+  lng: 1.345678,
+};
+const visit2 = {
+  id: 2,
+  lat: 2.345678,
+  lng: 2.345678,
+};
+const visit3 = {
+  id: 3,
+  lat: 3.676111,
+  lng: 3.568333,
+};
+const visit4 = {
+  id: 4,
+  lat: 4.345678,
+  lng: 4.345678,
+};
+const visit5 = {
+  id: 5,
+  lat: 5.345678,
+  lng: 5.345678,
 };
 
 const twoRoutes: RouteProps = {
   addHandler: jest.fn(),
   removeHandler: jest.fn(),
+  updateViewport: jest.fn(),
 
   boundingBox: null,
+  userViewport,
 
-  depot: {
-    id: 1,
-    lat: 1.345678,
-    lng: 1.345678,
-  },
+  depot,
+  visits: [visit2, visit3, visit4, visit5],
 
   routes: [{
-    visits: [{
-      id: 1,
-      lat: 1.345678,
-      lng: 1.345678,
-    }, {
-      id: 2,
-      lat: 2.345678,
-      lng: 2.345678,
-    }, {
-      id: 3,
-      lat: 3.676111,
-      lng: 3.568333,
-    }],
+    vehicle: { id: 1, name: 'v1', capacity: 5 },
+    visits: [depot, visit2, visit3],
 
     track: [],
 
   }, {
-    visits: [{
-      id: 1,
-      lat: 1.345678,
-      lng: 1.345678,
-    }, {
-      id: 4,
-      lat: 4.345678,
-      lng: 4.345678,
-    }, {
-      id: 5,
-      lat: 5.676111,
-      lng: 5.568333,
-    }],
+    vehicle: { id: 2, name: 'v2', capacity: 5 },
+    visits: [depot, visit4, visit5],
 
     track: [],
 

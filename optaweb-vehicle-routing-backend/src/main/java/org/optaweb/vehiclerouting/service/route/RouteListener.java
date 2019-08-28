@@ -19,6 +19,7 @@ package org.optaweb.vehiclerouting.service.route;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
@@ -26,9 +27,12 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
+import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
+import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 
@@ -42,14 +46,22 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
 
     private final Router router;
     private final RoutePublisher publisher;
+    private final VehicleRepository vehicleRepository;
     private final LocationRepository locationRepository;
 
     // TODO maybe remove state from the service and get best route from a repository
     private RoutingPlan bestRoutingPlan;
 
-    RouteListener(Router router, RoutePublisher publisher, LocationRepository locationRepository) {
+    @Autowired
+    RouteListener(
+            Router router,
+            RoutePublisher publisher,
+            VehicleRepository vehicleRepository,
+            LocationRepository locationRepository
+    ) {
         this.router = router;
         this.publisher = publisher;
+        this.vehicleRepository = vehicleRepository;
         this.locationRepository = locationRepository;
         bestRoutingPlan = RoutingPlan.empty();
     }
@@ -57,24 +69,43 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     @Override
     public void onApplicationEvent(RouteChangedEvent event) {
         // TODO persist the best solution
-        Location depot = event.depot().flatMap(locationRepository::find).orElse(null);
+        Location depot = event.depotId().flatMap(locationRepository::find).orElse(null);
         try {
+            // TODO do this without try-catch
+            Map<Long, Vehicle> vehicleMap = event.vehicleIds().stream()
+                    .collect(Collectors.toMap(vehicleId -> vehicleId, this::findVehicleById));
+            Map<Long, Location> visitMap = event.visitIds().stream()
+                    .collect(Collectors.toMap(visitId -> visitId, this::findLocationById));
+
             List<RouteWithTrack> routes = event.routes().stream()
                     // list of deep locations
                     .map(shallowRoute -> new Route(
+                            vehicleMap.get(shallowRoute.vehicleId),
                             findLocationById(shallowRoute.depotId),
                             shallowRoute.visitIds.stream()
-                                    .map(this::findLocationById)
+                                    .map(visitMap::get)
                                     .collect(Collectors.toList())
                     ))
                     // add tracks
                     .map(route -> new RouteWithTrack(route, track(route.depot(), route.visits())))
                     .collect(Collectors.toList());
-            bestRoutingPlan = new RoutingPlan(event.distance(), depot, routes);
+            bestRoutingPlan = new RoutingPlan(
+                    event.distance(),
+                    new ArrayList<>(vehicleMap.values()),
+                    depot,
+                    new ArrayList<>(visitMap.values()),
+                    routes
+            );
             publisher.publish(bestRoutingPlan);
         } catch (IllegalStateException e) {
             logger.warn("Discarding an outdated routing plan: {}", e.toString());
         }
+    }
+
+    private Vehicle findVehicleById(Long id) {
+        return vehicleRepository.find(id).orElseThrow(() -> new IllegalStateException(
+                "Vehicle {id=" + id + "} not found in the repository")
+        );
     }
 
     private Location findLocationById(Long id) {

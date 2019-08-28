@@ -16,8 +16,8 @@
 
 import SockJS from 'sockjs-client';
 import { LatLngWithDescription, RoutingPlan } from 'store/route/types';
+import { ServerInfo } from 'store/server/types';
 import { Client, Frame, over } from 'webstomp-client';
-import { ServerInfo } from '../store/server/types';
 
 export default class WebSocketClient {
   readonly socketUrl: string;
@@ -54,6 +54,12 @@ export default class WebSocketClient {
     }
   }
 
+  addVehicle() {
+    if (this.stompClient) {
+      this.stompClient.send('/app/vehicle');
+    }
+  }
+
   loadDemo(name: string): void {
     if (this.stompClient) {
       this.stompClient.send(`/app/demo/${name}`);
@@ -62,7 +68,25 @@ export default class WebSocketClient {
 
   deleteLocation(locationId: number) {
     if (this.stompClient) {
-      this.stompClient.send(`/app/location/${locationId}/delete`, JSON.stringify(locationId));
+      this.stompClient.send(`/app/location/${locationId}/delete`, JSON.stringify(locationId)); // TODO no body
+    }
+  }
+
+  deleteAnyVehicle() {
+    if (this.stompClient) {
+      this.stompClient.send('/app/vehicle/deleteAny');
+    }
+  }
+
+  deleteVehicle(vehicleId: number) {
+    if (this.stompClient) {
+      this.stompClient.send(`/app/vehicle/${vehicleId}/delete`, JSON.stringify(vehicleId)); // TODO no body
+    }
+  }
+
+  changeVehicleCapacity(vehicleId: number, capacity: number) {
+    if (this.stompClient) {
+      this.stompClient.send(`/app/vehicle/${vehicleId}/capacity`, JSON.stringify(capacity));
     }
   }
 

@@ -47,7 +47,7 @@ const Location: React.FC<LocationProps> = ({
   return (
     <DataListItem
       isExpanded={false}
-      aria-labelledby={`aria-${id}`}
+      aria-labelledby={`location-${id}`}
       onMouseEnter={() => selectHandler(id)}
       onMouseLeave={() => selectHandler(NaN)}
     >
@@ -55,20 +55,20 @@ const Location: React.FC<LocationProps> = ({
         <DataListCell isFilled={true}>
           {(description && (
             <Tooltip content={description}>
-              <span aria-labelledby={`aria-${id}`}>{shorten(description)}</span>
+              <span id={`location-${id}`}>{shorten(description)}</span>
             </Tooltip>
           ))
-          || <span aria-labelledby={`aria-${id}`}>{`Location ${id}`}</span>}
+          || <span id={`location-${id}`}>{`Location ${id}`}</span>}
         </DataListCell>
         <DataListCell isFilled={false}>
           <Button
+            type="button"
             variant="link"
             isDisabled={removeDisabled || clicked}
             onClick={() => {
               setClicked(true);
               removeHandler(id);
             }}
-            type="button"
           >
             <TimesIcon />
           </Button>

@@ -16,14 +16,13 @@
 
 package org.optaweb.vehiclerouting.domain;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
  * Horizontal geographical coordinates consisting of latitude and longitude.
  */
-public class Coordinates implements Serializable {
+public class Coordinates {
 
     private final BigDecimal latitude;
     private final BigDecimal longitude;

@@ -26,6 +26,7 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.springframework.boot.test.json.JacksonTester;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 class PortableCoordinatesTest {
 
@@ -53,6 +54,10 @@ class PortableCoordinatesTest {
         PortableCoordinates portableCoordinates = PortableCoordinates.fromCoordinates(coordinates);
         assertThat(portableCoordinates.getLatitude()).isEqualTo(coordinates.latitude());
         assertThat(portableCoordinates.getLongitude()).isEqualTo(coordinates.longitude());
+
+        assertThatNullPointerException()
+                .isThrownBy(() -> PortableCoordinates.fromCoordinates(null))
+                .withMessageContaining("coordinates");
     }
 
     @Test

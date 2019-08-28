@@ -16,20 +16,14 @@
 
 package org.optaweb.vehiclerouting.domain;
 
-import java.util.Map;
 import java.util.Objects;
-
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 /**
  * A unique location significant to the user.
  */
-@XStreamAlias("VrpLocation")
 public class Location extends LocationData {
 
-
-    // Prefer Map over array or List because customers might be added and removed in real-time planning.
-    private Map<Location, Double> travelDistanceMap;
+    private final long id;
 
     public Location(long id, Coordinates coordinates) {
         // TODO remove this?
@@ -40,15 +34,14 @@ public class Location extends LocationData {
         super(coordinates, description);
         this.id = id;
     }
-    public Location(long id, double latitude, double longitude) {
-        this(id, Coordinates.valueOf(latitude,longitude));
-    }
 
+    /**
+     * Location's ID.
+     * @return unique ID
+     */
     public long id() {
         return id;
     }
-
-
 
     @Override
     public boolean equals(Object o) {
@@ -69,39 +62,8 @@ public class Location extends LocationData {
 
     @Override
     public String toString() {
-        return "Location{" +
-                "id=" + id +
-                '}';
-    }
-
-
-    public void setTravelDistanceMap(Map<Location, Double> travelDistanceMap) {
-        this.travelDistanceMap = travelDistanceMap;
-    }
-
-    /**
-     * Get distance to the given location
-     * @param location
-     * @return
-     */
-    public long getDistanceTo(Location location) {
-        if (this == location) {
-            return 0L;
-        }
-        double distance = travelDistanceMap.get(location);
-        // Multiplied by 1000 to avoid floating point arithmetic rounding errors
-        return (long) (distance * 1000.0 + 0.5);
-    }
-
-    /**
-     * The angle relative to the direction EAST.
-     * @param location never null
-     * @return in Cartesian coordinates
-     */
-    public double getAngle(Location location) {
-        // Euclidean distance (Pythagorean theorem) - not correct when the surface is a sphere
-        double latitudeDifference = location.coordinates().latitude().subtract(coordinates().latitude()).longValue();
-        double longitudeDifference = location.coordinates().longitude().subtract(coordinates().longitude()).longValue();
-        return Math.atan2(latitudeDifference, longitudeDifference);
+        return "Location ["
+                + id +
+                "]: '" + description() + "'";
     }
 }

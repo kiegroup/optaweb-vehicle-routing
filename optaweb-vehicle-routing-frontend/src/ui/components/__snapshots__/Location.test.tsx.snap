@@ -2,7 +2,7 @@
 
 exports[`Location Component should render correctly 1`] = `
 <DataListItem
-  aria-labelledby="aria-10"
+  aria-labelledby="location-10"
   className=""
   isExpanded={false}
   onMouseEnter={[Function]}
@@ -31,7 +31,7 @@ exports[`Location Component should render correctly 1`] = `
         zIndex={9999}
       >
         <span
-          aria-labelledby="aria-10"
+          id="location-10"
         >
           x
         </span>
@@ -63,7 +63,7 @@ exports[`Location Component should render correctly 1`] = `
 
 exports[`Location Component should render correctly when description is missing 1`] = `
 <DataListItem
-  aria-labelledby="aria-11"
+  aria-labelledby="location-11"
   className=""
   isExpanded={false}
   onMouseEnter={[Function]}
@@ -80,7 +80,7 @@ exports[`Location Component should render correctly when description is missing 
       width={1}
     >
       <span
-        aria-labelledby="aria-11"
+        id="location-11"
       >
         Location 11
       </span>

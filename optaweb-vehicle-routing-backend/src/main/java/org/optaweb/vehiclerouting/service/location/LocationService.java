@@ -22,8 +22,7 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,20 +34,18 @@ public class LocationService {
     private static final Logger logger = LoggerFactory.getLogger(LocationService.class);
 
     private final LocationRepository repository;
-    private final RouteOptimizer optimizer;
+    private final RouteOptimizer optimizer; // TODO move to RoutingPlanService (SRP)
     private final DistanceMatrix distanceMatrix;
 
-    LocationService(LocationRepository repository,
-                    RouteOptimizer optimizer,
-                    DistanceMatrix distanceMatrix) {
+    @Autowired
+    LocationService(
+            LocationRepository repository,
+            RouteOptimizer optimizer,
+            DistanceMatrix distanceMatrix
+    ) {
         this.repository = repository;
         this.optimizer = optimizer;
         this.distanceMatrix = distanceMatrix;
-    }
-
-    @EventListener
-    public synchronized void reload(ApplicationStartedEvent event) {
-        repository.locations().forEach(this::submitToPlanner);
     }
 
     public synchronized boolean createLocation(Coordinates coordinates, String description) {
@@ -56,6 +53,10 @@ public class LocationService {
         Objects.requireNonNull(description);
         // TODO if (router.isLocationAvailable(coordinates))
         return submitToPlanner(repository.createLocation(coordinates, description));
+    }
+
+    public synchronized boolean addLocation(Location location) {
+        return submitToPlanner(Objects.requireNonNull(location));
     }
 
     private boolean submitToPlanner(Location location) {
@@ -82,8 +83,8 @@ public class LocationService {
         optimizer.removeLocation(location);
     }
 
-    public synchronized void clear() {
-        optimizer.clear();
+    public synchronized void removeAll() {
+        optimizer.removeAllLocations();
         repository.removeAll();
         distanceMatrix.clear();
     }

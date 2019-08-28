@@ -1,11 +1,11 @@
 /*
- * Copyright 2012 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -16,73 +16,70 @@
 
 package org.optaweb.vehiclerouting.domain;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
-import org.optaweb.vehiclerouting.domain.persistable.AbstractPersistable;
+import java.util.Objects;
 
-@XStreamAlias("VrpVehicle")
-public class Vehicle extends AbstractPersistable implements Standstill {
+/**
+ * Vehicle that can be used to deliver cargo to visits.
+ */
+public class Vehicle {
 
-    protected int capacity;
-    protected Depot depot;
+    private final long id;
+    private final String name;
+    private final int capacity;
 
-    // Shadow variables
-    protected Customer nextCustomer;
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
+    Vehicle(long id, String name, int capacity) {
+        this.id = id;
+        this.name = Objects.requireNonNull(name);
         this.capacity = capacity;
     }
 
-    public Depot getDepot() {
-        return depot;
-    }
-
-    public void setDepot(Depot depot) {
-        this.depot = depot;
-    }
-
-    @Override
-    public Customer getNextCustomer() {
-        return nextCustomer;
-    }
-
-    @Override
-    public void setNextCustomer(Customer nextCustomer) {
-        this.nextCustomer = nextCustomer;
-    }
-
-    // ************************************************************************
-    // Complex methods
-    // ************************************************************************
-
-    @Override
-    public Vehicle getVehicle() {
-        return this;
-    }
-
-    @Override
-    public Location getLocation() {
-        return depot.getLocation();
+    /**
+     * Vehicle's ID.
+     * @return unique ID
+     */
+    public long id() {
+        return id;
     }
 
     /**
-     * @param standstill never null
-     * @return a positive number, the distance multiplied by 1000 to avoid floating point arithmetic rounding errors
+     * Vehicle's name (unique description).
+     * @return vehicle's name
      */
-    public long getDistanceTo(Standstill standstill) {
-        return depot.getDistanceTo(standstill);
+    public String name() {
+        return name;
+    }
+
+    /**
+     * Vehicle's capacity.
+     * @return vehicle's capacity
+     */
+    public int capacity() {
+        return capacity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Vehicle vehicle = (Vehicle) o;
+        return id == vehicle.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
-        Location location = getLocation();
-        if (location == null || location.getDescription() == null) {
-            return super.toString();
-        }
-        return location.getDescription() + "/" + super.toString();
+        return "Vehicle{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", capacity=" + capacity +
+                '}';
     }
-
 }

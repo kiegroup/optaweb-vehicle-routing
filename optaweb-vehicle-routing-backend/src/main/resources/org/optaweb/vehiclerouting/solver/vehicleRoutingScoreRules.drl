@@ -19,15 +19,11 @@ package org.optaweb.vehiclerouting.solver;
 
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScoreHolder;
 
-import org.optaweb.vehiclerouting.domain.Depot;
-import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.domain.Vehicle;
-import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
-import org.optaweb.vehiclerouting.domain.Customer;
-import org.optaweb.vehiclerouting.domain.timewindowed.TimeWindowedDepot;
-import org.optaweb.vehiclerouting.domain.timewindowed.TimeWindowedVehicleRoutingSolution;
-import org.optaweb.vehiclerouting.domain.timewindowed.TimeWindowedCustomer
-import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
 global HardSoftLongScoreHolder scoreHolder;
 
@@ -35,19 +31,22 @@ global HardSoftLongScoreHolder scoreHolder;
 // Hard constraints
 // ############################################################################
 
+
 rule "vehicleCapacity"
     when
-        $vehicle : Vehicle($capacity : capacity)
+        $vehicle : PlanningVehicle($capacity : capacity)
         accumulate(
-            Customer(
-                vehicle == $vehicle,
-                $demand : demand);
-            $demandTotal : sum($demand);
-            $demandTotal > $capacity
-        )
+                    PlanningVisit(
+                        vehicle == $vehicle,
+                        $demand : demand);
+                    $demandTotal : sum($demand);
+                    $demandTotal > $capacity
+                )
     then
         scoreHolder.addHardConstraintMatch(kcontext, $capacity - $demandTotal);
 end
+
+
 
 // ############################################################################
 // Soft constraints
@@ -55,30 +54,17 @@ end
 
 rule "distanceToPreviousStandstill"
     when
-        $customer : Customer(previousStandstill != null, $distanceFromPreviousStandstill : distanceFromPreviousStandstill)
+        $visit : PlanningVisit(previousStandstill != null, $distanceFromPreviousStandstill : distanceFromPreviousStandstill)
     then
         scoreHolder.addSoftConstraintMatch(kcontext, - $distanceFromPreviousStandstill);
 end
 
 rule "distanceFromLastCustomerToDepot"
     when
-        $customer : Customer(previousStandstill != null)
-        not Customer(previousStandstill == $customer)
+        $visit : PlanningVisit(previousStandstill != null)
+        not PlanningVisit(previousStandstill == $visit)
     then
-        Vehicle vehicle = $customer.getVehicle();
-        scoreHolder.addSoftConstraintMatch(kcontext, - $customer.getDistanceTo(vehicle));
+        PlanningVehicle vehicle = $visit.getVehicle();
+        scoreHolder.addSoftConstraintMatch(kcontext, - $visit.getDistanceTo(vehicle));
 end
 
-
-// ############################################################################
-// TimeWindowed: additional hard constraints
-// ############################################################################
-
-rule "arrivalAfterDueTime"
-    when
-        TimeWindowedCustomer(dueTime < arrivalTime, $dueTime : dueTime, $arrivalTime : arrivalTime)
-    then
-        scoreHolder.addHardConstraintMatch(kcontext, $dueTime - $arrivalTime.longValue());
-end
-
-// Score constraint arrivalAfterDueTimeAtDepot is a built-in hard constraint in VehicleRoutingImporter

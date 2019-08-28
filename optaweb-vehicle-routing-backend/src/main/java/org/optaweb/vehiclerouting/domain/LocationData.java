@@ -18,14 +18,12 @@ package org.optaweb.vehiclerouting.domain;
 
 import java.util.Objects;
 
-import org.optaweb.vehiclerouting.domain.persistable.AbstractPersistable;
-
 /**
  * Location properties. It's not an entity yet (it doesn't have an identity, it's a value object).
- * Might be the data about a location sent from a client or data stored in a file,
+ * It might be the data about a location sent from a client or data stored in a file,
  * ready to be loaded but not yet tied to a specific location entity.
  */
-public class LocationData extends AbstractPersistable {
+public class LocationData {
 
     private final Coordinates coordinates;
     private final String description;
@@ -40,14 +38,6 @@ public class LocationData extends AbstractPersistable {
     }
 
     public String description() {
-        return description;
-    }
-
-    public Coordinates getCoordinates() {
-        return coordinates;
-    }
-
-    public String getDescription() {
         return description;
     }
 

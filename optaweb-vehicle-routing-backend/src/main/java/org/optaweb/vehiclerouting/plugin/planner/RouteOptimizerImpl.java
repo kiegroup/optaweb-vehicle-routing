@@ -16,205 +16,156 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
-import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
-import org.optaplanner.core.api.solver.Solver;
-import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
-import org.optaplanner.core.api.solver.event.SolverEventListener;
-import org.optaweb.vehiclerouting.domain.Depot;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
-import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
-import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
+import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
-import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
-import org.optaweb.vehiclerouting.service.route.ShallowRoute;
-import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.stereotype.Component;
 
+/**
+ * Accumulates vehicles, depots and visits until there's enough data to start the optimization.
+ * Solutions are published even if solving hasn't started yet due to missing facts (e.g. no vehicles or no visits).
+ * Stops solver when vehicles or visits are reduced to zero.
+ */
 @Component
-class RouteOptimizerImpl implements RouteOptimizer,
-        SolverEventListener<VehicleRoutingSolution> {
+class RouteOptimizerImpl implements RouteOptimizer {
 
-    private static final Logger logger = LoggerFactory.getLogger(RouteOptimizerImpl.class);
+    private final SolverManager solverManager;
+    private final SolutionPublisher solutionPublisher;
 
-    private final ApplicationEventPublisher publisher;
-    private final Solver<VehicleRoutingSolution> solver;
-    private final AsyncTaskExecutor executor;
-    private Future<VehicleRoutingSolution> solverFuture;
-    private VehicleRoutingSolution solution;
+    private final List<PlanningVehicle> vehicles = new ArrayList<>();
+    private final List<PlanningLocation> visits = new ArrayList<>();
+    private PlanningDepot depot;
 
     @Autowired
-    RouteOptimizerImpl(ApplicationEventPublisher publisher,
-                       Solver<VehicleRoutingSolution> solver,
-                       AsyncTaskExecutor executor) {
-        this.publisher = publisher;
-        this.solver = solver;
-        this.executor = executor;
-
-        this.solver.addEventListener(this);
-        // TODO make initial solution a dependency?
-        solution = SolutionUtil.initialSolution();
-    }
-
-    private void publishRoute(VehicleRoutingSolution solution) {
-        String distanceString = solution.getDistanceString(null).replaceFirst(" \\d+ms$", "");
-        logger.info(
-                "New solution with {} depots, {} vehicles, {} customers, distance: {}",
-                solution.getDepotList().size(),
-                solution.getVehicleList().size(),
-                solution.getCustomerList().size(),
-                distanceString
-        );
-        List<ShallowRoute> routes = SolutionUtil.routes(solution);
-        logger.debug("Routes: {}", routes);
-        publisher.publishEvent(new RouteChangedEvent(this, distanceString, SolutionUtil.depot(solution), routes));
-    }
-
-    private void startSolver() {
-        if (solverFuture != null) {
-            throw new IllegalStateException("Solver start has already been requested");
-        }
-        // TODO move this to @Async method?
-        // TODO use ListenableFuture to react to solve() exceptions immediately?
-        solverFuture = executor.submit((SolvingTask) () -> solver.solve(solution));
-    }
-
-    boolean isSolving() {
-        if (solverFuture == null) {
-            return false;
-        }
-        assertSolverIsAlive();
-        return true;
-    }
-
-    private void assertSolverIsAlive() {
-        if (solverFuture.isDone()) {
-            try {
-                solverFuture.get();
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException("Solver has died", e);
-            } catch (ExecutionException e) {
-                throw new RuntimeException("Solver has died", e);
-            }
-            throw new IllegalStateException("Solver has finished solving even though it operates in daemon mode.");
-        }
-    }
-
-    void stopSolver() {
-        if (solverFuture != null) {
-            // TODO what happens if listener hasn't started yet (solve() is called asynchronously)
-            solver.terminateEarly();
-            // make sure listener has terminated and propagate exceptions
-            try {
-                solverFuture.get();
-                solverFuture = null;
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException("Failed to stop listener", e);
-            } catch (ExecutionException e) {
-                throw new RuntimeException("Failed to stop listener", e);
-            }
-        }
+    RouteOptimizerImpl(SolverManager solverManager, SolutionPublisher solutionPublisher) {
+        this.solverManager = solverManager;
+        this.solutionPublisher = solutionPublisher;
     }
 
     @Override
-    public void bestSolutionChanged(BestSolutionChangedEvent<VehicleRoutingSolution> bestSolutionChangedEvent) {
-        // CAUTION! This runs on the listener thread. Implications:
-        // 1. The method should be as quick as possible to avoid blocking listener unnecessarily.
-        // 2. This place is a potential source of race conditions.
-        if (!bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()) {
-            logger.info("Ignoring a new best solution that has some problem facts missing");
-            return;
-        }
-        // TODO do not store best solution, just publish it
-        solution = bestSolutionChangedEvent.getNewBestSolution();
-        // TODO Race condition, if a servlet thread deletes that location in the middle of this method happening
-        //      on the listener thread. Make sure that location is still in the repository.
-        //      Maybe repair the solution OR ignore if it's inconsistent (log a WARNING).
-        publishRoute(solution); // TODO @Async
-    }
-
-    @Override
-    public void addLocation(Location location,
-                            DistanceMatrix distanceMatrix) {
-        DistanceMap distanceMap = new DistanceMap(location, distanceMatrix.getRow(location));
+    public void addLocation(
+            Location domainLocation,
+            DistanceMatrix distanceMatrix
+    ) {
+        PlanningLocation location = new PlanningLocation(domainLocation);
+        DistanceMap distanceMap = new DistanceMap(location, distanceMatrix.getRow(domainLocation));
         location.setTravelDistanceMap(distanceMap);
-        // Unfortunately can't start listener with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
-        if (!isSolving()) {
-            switch (solution.getLocationList().size()) {
-                case 0:
-                    Depot depot = SolutionUtil.addDepot(solution, location);
-                    SolutionUtil.moveAllVehiclesTo(solution, depot);
-                    publishRoute(solution);
-                    break;
-                case 1:
-                    SolutionUtil.addCustomer(solution, location, SolutionUtil.DEFAULT_CUSTOMER_DEMAND);
-                    startSolver();
-                    break;
-                default:
-                    throw new IllegalStateException(
-                            "Illegal number of locations when listener is not solving: "
-                                    + solution.getLocationList().size()
-                    );
-            }
+        // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
+        if (depot == null) {
+            depot = PlanningDepotFactory.depot(location);
+            publishSolution();
         } else {
-            solver.addProblemFactChange(new AddCustomer(location));
+            visits.add(location);
+            if (vehicles.isEmpty()) {
+                publishSolution();
+            } else if (visits.size() == 1) {
+                solverManager.startSolver(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
+            } else {
+                solverManager.addLocation(location);
+            }
         }
     }
 
     @Override
-    public void removeLocation(Location location) {
-        if (!isSolving()) {
-            if (solution.getLocationList().size() != 1) {
-                throw new IllegalStateException(
-                        "Impossible number of locations (" + solution.getLocationList().size()
-                                + ") when listener is not solving.\n"
-                                + solution.getLocationList()
+    public void removeLocation(org.optaweb.vehiclerouting.domain.Location domainLocation) {
+        if (visits.isEmpty()) {
+            if (depot == null) {
+                throw new IllegalArgumentException(
+                        "Cannot remove " + domainLocation + " because there are no locations"
                 );
             }
-            solution.getLocationList().clear();
-            solution.getDepotList().clear();
-            SolutionUtil.moveAllVehiclesTo(solution, null);
-            publishRoute(solution);
-        } else {
-            if (solution.getDepotList().get(0).getLocation().getId().equals(location.getId())) {
-                throw new IllegalStateException("You can only remove depot if there are no customers.");
+            if (!depot.getId().equals(domainLocation.id())) {
+                throw new IllegalArgumentException("Cannot remove " + domainLocation + " because it doesn't exist");
             }
-            if (solution.getCustomerList().size() == 1) {
-                // depot and 1 customer remaining
-                stopSolver();
-                solution.getCustomerList().clear();
-                solution.getLocationList().removeIf(l -> l.getId().equals(location.getId()));
-                solution.getVehicleList().forEach(vehicle -> vehicle.setNextCustomer(null));
-                solution.setScore(HardSoftLongScore.ZERO);
-                publishRoute(solution);
+            depot = null;
+            publishSolution();
+        } else {
+            if (depot.getId().equals(domainLocation.id())) {
+                throw new IllegalStateException("You can only remove depot if there are no customers");
+            }
+            if (!visits.removeIf(item -> item.getId().equals(domainLocation.id()))) {
+                throw new IllegalArgumentException("Cannot remove " + domainLocation + " because it doesn't exist");
+            }
+            if (vehicles.isEmpty()) { // solver is not running
+                publishSolution();
+            } else if (visits.isEmpty()) { // solver is running
+                solverManager.stopSolver();
+                publishSolution();
             } else {
-                solver.addProblemFactChanges(Arrays.asList(new RemoveCustomer(location), new RemoveLocation(location)));
+                solverManager.removeLocation(new PlanningLocation(domainLocation));
             }
         }
     }
 
     @Override
-    public void clear() {
-        stopSolver();
-        solution = SolutionUtil.initialSolution();
-        publishRoute(solution);
+    public void addVehicle(Vehicle domainVehicle) {
+        PlanningVehicle vehicle = PlanningVehicleFactory.fromDomain(domainVehicle);
+        vehicle.setDepot(depot);
+        vehicles.add(vehicle);
+        if (visits.isEmpty()) {
+            publishSolution();
+        } else if (vehicles.size() == 1) {
+            solverManager.startSolver(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
+        } else {
+            solverManager.addVehicle(vehicle);
+        }
     }
 
-    interface SolvingTask extends Callable<VehicleRoutingSolution> {
+    @Override
+    public void removeVehicle(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
+        if (!vehicles.removeIf(vehicle -> vehicle.getId().equals(domainVehicle.id()))) {
+            throw new IllegalArgumentException("Cannot remove " + domainVehicle + " because it doesn't exist");
+        }
+        if (visits.isEmpty()) { // solver is not running
+            publishSolution();
+        } else if (vehicles.isEmpty()) { // solver is running
+            solverManager.stopSolver();
+            publishSolution();
+        } else {
+            solverManager.removeVehicle(PlanningVehicleFactory.fromDomain(domainVehicle));
+        }
+    }
 
+    @Override
+    public void changeCapacity(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
+        PlanningVehicle vehicle = vehicles.stream()
+                .filter(item -> item.getId().equals(domainVehicle.id()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Cannot change capacity of " + domainVehicle + " because it doesn't exist"
+                ));
+        vehicle.setCapacity(domainVehicle.capacity());
+        if (!visits.isEmpty()) {
+            solverManager.changeCapacity(vehicle);
+        } else {
+            publishSolution();
+        }
+    }
+
+    @Override
+    public void removeAllLocations() {
+        solverManager.stopSolver();
+        depot = null;
+        visits.clear();
+        publishSolution();
+    }
+
+    @Override
+    public void removeAllVehicles() {
+        solverManager.stopSolver();
+        vehicles.clear();
+        publishSolution();
+    }
+
+    private void publishSolution() {
+        solutionPublisher.publishSolution(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
     }
 }

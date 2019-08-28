@@ -21,31 +21,41 @@ import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
-import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.solver.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 
 public class RemoveLocation implements ProblemFactChange<VehicleRoutingSolution> {
 
-    private final Location location;
+    private final PlanningLocation removedLocation;
 
-    public RemoveLocation(Location location) {
-        this.location = Objects.requireNonNull(location);
+    public  RemoveLocation(PlanningLocation removedLocation) {
+        this.removedLocation = Objects.requireNonNull(removedLocation);
     }
 
     @Override
     public void doChange(ScoreDirector<VehicleRoutingSolution> scoreDirector) {
         VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
 
-        Location workingLocation = scoreDirector.lookUpWorkingObject(location);
+        // Look up a working copy of the location
+        PlanningLocation workingLocation = scoreDirector.lookUpWorkingObject(removedLocation);
         if (workingLocation == null) {
-            throw new IllegalStateException("Can't look up working copy of " + location);
+            throw new IllegalStateException("Can't look up a working copy of " + removedLocation);
         }
-        // shallow clone fact list
+
         // TODO think if we can fail fast when user forgets to make the clone (PLANNER)
+        // Shallow clone fact list (facts and fact collections are not planning-cloned)
         workingSolution.setLocationList(new ArrayList<>(workingSolution.getLocationList()));
+
+        // Remove the location
         scoreDirector.beforeProblemFactRemoved(workingLocation);
         if (!workingSolution.getLocationList().remove(workingLocation)) {
-            throw new IllegalStateException("This is a bug.");
+            throw new IllegalStateException(
+                    "Working solution's locationList "
+                            + workingSolution.getLocationList()
+                            + " doesn't contain the workingLocation ("
+                            + workingLocation
+                            + "). This is a bug!"
+            );
         }
         scoreDirector.afterProblemFactRemoved(workingLocation);
 

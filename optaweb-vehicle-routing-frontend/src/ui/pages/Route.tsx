@@ -27,32 +27,40 @@ import {
 } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { clientOperations } from 'store/client';
+import { UserViewport } from 'store/client/types';
 import { routeOperations } from 'store/route';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
-import TspMap from 'ui/components/TspMap';
+import RouteMap from 'ui/components/RouteMap';
 
 export interface StateProps {
   depot: Location | null;
+  visits: Location[];
   routes: RouteWithTrack[];
   boundingBox: [LatLng, LatLng] | null;
+  userViewport: UserViewport;
 }
 
 export interface DispatchProps {
   addHandler: typeof routeOperations.addLocation;
   removeHandler: typeof routeOperations.deleteLocation;
+  updateViewport: typeof clientOperations.updateViewport;
 }
 
-const mapStateToProps = ({ plan, serverInfo }: AppState): StateProps => ({
+const mapStateToProps = ({ plan, serverInfo, userViewport }: AppState): StateProps => ({
   depot: plan.depot,
+  visits: plan.visits,
   routes: plan.routes,
   boundingBox: serverInfo.boundingBox,
+  userViewport,
 });
 
 const mapDispatchToProps: DispatchProps = {
   addHandler: routeOperations.addLocation,
   removeHandler: routeOperations.deleteLocation,
+  updateViewport: clientOperations.updateViewport,
 };
 
 export type RouteProps = DispatchProps & StateProps;
@@ -86,9 +94,12 @@ export class Route extends React.Component<RouteProps, RouteState> {
     const { selectedId, selectedRouteId } = this.state;
     const {
       boundingBox,
+      userViewport,
       depot,
+      visits,
       routes,
       removeHandler,
+      updateViewport,
     } = this.props;
 
     // FIXME quick hack to preserve route color by keeping its index
@@ -117,13 +128,13 @@ export class Route extends React.Component<RouteProps, RouteState> {
                 aria-label="FormSelect Input"
               >
                 {routes.map(
-                  (option, index) => (
+                  (route, index) => (
                     <FormSelectOption
                       isDisabled={false}
                       // eslint-disable-next-line react/no-array-index-key
                       key={index}
                       value={index}
-                      label={`Route ${index}`}
+                      label={route.vehicle.name}
                     />
                   ),
                 )}
@@ -137,12 +148,15 @@ export class Route extends React.Component<RouteProps, RouteState> {
             />
           </SplitItem>
           <SplitItem isFilled={true}>
-            <TspMap
+            <RouteMap
               boundingBox={boundingBox}
+              userViewport={userViewport}
+              updateViewport={updateViewport}
               selectedId={selectedId}
               clickHandler={this.handleMapClick}
               removeHandler={removeHandler}
               depot={depot}
+              visits={visits}
               routes={filteredRoutes}
             />
           </SplitItem>

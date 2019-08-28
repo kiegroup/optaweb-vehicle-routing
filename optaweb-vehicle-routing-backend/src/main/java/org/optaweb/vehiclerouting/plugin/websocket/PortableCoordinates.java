@@ -40,6 +40,7 @@ class PortableCoordinates {
     private final BigDecimal longitude;
 
     static PortableCoordinates fromCoordinates(Coordinates coordinates) {
+        Objects.requireNonNull(coordinates, "coordinates must not be null");
         return new PortableCoordinates(
                 coordinates.latitude(),
                 coordinates.longitude()

@@ -27,6 +27,7 @@ import com.graphhopper.util.PointList;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
 import org.optaweb.vehiclerouting.service.route.Router;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -38,6 +39,7 @@ class RouterImpl implements Router,
 
     private final GraphHopperOSM graphHopper;
 
+    @Autowired
     RouterImpl(GraphHopperOSM graphHopper) {
         this.graphHopper = graphHopper;
     }

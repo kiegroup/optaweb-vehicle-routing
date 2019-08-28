@@ -105,12 +105,72 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
             sm={null}
             smOffset={null}
             smRowSpan={null}
-            span={6}
+            span={8}
             xl={null}
             xlOffset={null}
             xlRowSpan={null}
           >
-            Visits: 2
+            <Level
+              className=""
+              gutter="sm"
+            >
+              <LevelItem
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <Level
+                  className=""
+                  gutter="sm"
+                >
+                  <LevelItem>
+                    <InputGroup
+                      className=""
+                    >
+                      <Button
+                        isDisabled={false}
+                        onClick={[Function]}
+                        variant="primary"
+                      >
+                        <MinusIcon
+                          color="currentColor"
+                          size="sm"
+                          title={null}
+                        />
+                      </Button>
+                      <InputGroupText
+                        className=""
+                        component="span"
+                        readOnly={true}
+                      >
+                        8
+                      </InputGroupText>
+                      <Button
+                        onClick={[Function]}
+                        variant="primary"
+                      >
+                        <PlusIcon
+                          color="currentColor"
+                          size="sm"
+                          title={null}
+                        />
+                      </Button>
+                    </InputGroup>
+                  </LevelItem>
+                  <LevelItem>
+                    vehicles
+                  </LevelItem>
+                </Level>
+              </LevelItem>
+              <LevelItem>
+                2 visits
+              </LevelItem>
+              <LevelItem>
+                Total travel time: 10
+              </LevelItem>
+            </Level>
           </GridItem>
           <GridItem
             className=""
@@ -125,13 +185,11 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
             sm={null}
             smOffset={null}
             smRowSpan={null}
-            span={6}
+            span={4}
             xl={null}
             xlOffset={null}
             xlRowSpan={null}
-          >
-            Total travel time: 10
-          </GridItem>
+          />
         </Grid>
       </SplitItem>
       <SplitItem
@@ -166,7 +224,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
         </Button>
       </SplitItem>
     </Split>
-    <TspMap
+    <RouteMap
       boundingBox={null}
       clickHandler={[Function]}
       depot={
@@ -181,6 +239,11 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
         Array [
           Object {
             "track": Array [],
+            "vehicle": Object {
+              "capacity": 5,
+              "id": 1,
+              "name": "v1",
+            },
             "visits": Array [
               Object {
                 "id": 1,
@@ -202,6 +265,270 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
         ]
       }
       selectedId={NaN}
+      updateViewport={[MockFunction]}
+      userViewport={
+        Object {
+          "center": Array [
+            0,
+            0,
+          ],
+          "isDirty": false,
+          "zoom": 1,
+        }
+      }
+      visits={
+        Array [
+          Object {
+            "id": 2,
+            "lat": 2.345678,
+            "lng": 2.345678,
+          },
+          Object {
+            "id": 3,
+            "lat": 3.676111,
+            "lng": 3.568333,
+          },
+        ]
+      }
+    />
+  </SplitItem>
+</Split>
+`;
+
+exports[`Demo page clear button should replace demo dropdown as soon as there is a depot 1`] = `
+<Split
+  className=""
+  component="div"
+  gutter="md"
+  style={
+    Object {
+      "overflowY": "auto",
+    }
+  }
+>
+  <SplitItem
+    className=""
+    isFilled={false}
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
+  >
+    <TextContent>
+      <Text
+        component="h1"
+      >
+        Demo
+      </Text>
+    </TextContent>
+    <SearchBox
+      addHandler={[Function]}
+      boundingBox={null}
+      countryCodeSearchFilter={Array []}
+      searchDelay={500}
+    />
+    <LocationList
+      depot={
+        Object {
+          "description": "",
+          "id": 1,
+          "lat": 1,
+          "lng": 1,
+        }
+      }
+      removeHandler={[MockFunction]}
+      selectHandler={[Function]}
+      visits={Array []}
+    />
+  </SplitItem>
+  <SplitItem
+    className=""
+    isFilled={true}
+    style={
+      Object {
+        "display": "flex",
+        "flexDirection": "column",
+      }
+    }
+  >
+    <Split
+      className=""
+      component="div"
+      gutter="md"
+    >
+      <SplitItem
+        className=""
+        isFilled={true}
+      >
+        <Grid
+          className=""
+          gutter={null}
+          lg={null}
+          md={null}
+          sm={null}
+          span={null}
+          xl={null}
+        >
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={8}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          >
+            <Level
+              className=""
+              gutter="sm"
+            >
+              <LevelItem
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <Level
+                  className=""
+                  gutter="sm"
+                >
+                  <LevelItem>
+                    <InputGroup
+                      className=""
+                    >
+                      <Button
+                        isDisabled={true}
+                        onClick={[Function]}
+                        variant="primary"
+                      >
+                        <MinusIcon
+                          color="currentColor"
+                          size="sm"
+                          title={null}
+                        />
+                      </Button>
+                      <InputGroupText
+                        className=""
+                        component="span"
+                        readOnly={true}
+                      >
+                        0
+                      </InputGroupText>
+                      <Button
+                        onClick={[Function]}
+                        variant="primary"
+                      >
+                        <PlusIcon
+                          color="currentColor"
+                          size="sm"
+                          title={null}
+                        />
+                      </Button>
+                    </InputGroup>
+                  </LevelItem>
+                  <LevelItem>
+                    vehicles
+                  </LevelItem>
+                </Level>
+              </LevelItem>
+              <LevelItem>
+                0 visits
+              </LevelItem>
+              <LevelItem>
+                Total travel time: 0
+              </LevelItem>
+            </Level>
+          </GridItem>
+          <GridItem
+            className=""
+            lg={null}
+            lgOffset={null}
+            lgRowSpan={null}
+            md={null}
+            mdOffset={null}
+            mdRowSpan={null}
+            offset={null}
+            rowSpan={null}
+            sm={null}
+            smOffset={null}
+            smRowSpan={null}
+            span={4}
+            xl={null}
+            xlOffset={null}
+            xlRowSpan={null}
+          />
+        </Grid>
+      </SplitItem>
+      <SplitItem
+        className=""
+        isFilled={false}
+      >
+        <Button
+          id="export-button"
+          isDisabled={false}
+          onClick={[Function]}
+          style={
+            Object {
+              "marginBottom": 16,
+              "marginLeft": 16,
+            }
+          }
+        >
+          Export
+        </Button>
+        <Button
+          id="clear-button"
+          isDisabled={false}
+          onClick={[MockFunction]}
+          style={
+            Object {
+              "marginBottom": 16,
+              "marginLeft": 16,
+            }
+          }
+        >
+          Clear
+        </Button>
+      </SplitItem>
+    </Split>
+    <RouteMap
+      boundingBox={null}
+      clickHandler={[Function]}
+      depot={
+        Object {
+          "description": "",
+          "id": 1,
+          "lat": 1,
+          "lng": 1,
+        }
+      }
+      removeHandler={[MockFunction]}
+      routes={Array []}
+      selectedId={NaN}
+      updateViewport={[MockFunction]}
+      userViewport={
+        Object {
+          "center": Array [
+            0,
+            0,
+          ],
+          "isDirty": false,
+          "zoom": 1,
+        }
+      }
+      visits={Array []}
     />
   </SplitItem>
 </Split>
@@ -312,12 +639,72 @@ exports[`Demo page should render correctly with a few routes 1`] = `
             sm={null}
             smOffset={null}
             smRowSpan={null}
-            span={6}
+            span={8}
             xl={null}
             xlOffset={null}
             xlRowSpan={null}
           >
-            Visits: 2
+            <Level
+              className=""
+              gutter="sm"
+            >
+              <LevelItem
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <Level
+                  className=""
+                  gutter="sm"
+                >
+                  <LevelItem>
+                    <InputGroup
+                      className=""
+                    >
+                      <Button
+                        isDisabled={false}
+                        onClick={[Function]}
+                        variant="primary"
+                      >
+                        <MinusIcon
+                          color="currentColor"
+                          size="sm"
+                          title={null}
+                        />
+                      </Button>
+                      <InputGroupText
+                        className=""
+                        component="span"
+                        readOnly={true}
+                      >
+                        8
+                      </InputGroupText>
+                      <Button
+                        onClick={[Function]}
+                        variant="primary"
+                      >
+                        <PlusIcon
+                          color="currentColor"
+                          size="sm"
+                          title={null}
+                        />
+                      </Button>
+                    </InputGroup>
+                  </LevelItem>
+                  <LevelItem>
+                    vehicles
+                  </LevelItem>
+                </Level>
+              </LevelItem>
+              <LevelItem>
+                2 visits
+              </LevelItem>
+              <LevelItem>
+                Total travel time: 10
+              </LevelItem>
+            </Level>
           </GridItem>
           <GridItem
             className=""
@@ -332,13 +719,11 @@ exports[`Demo page should render correctly with a few routes 1`] = `
             sm={null}
             smOffset={null}
             smRowSpan={null}
-            span={6}
+            span={4}
             xl={null}
             xlOffset={null}
             xlRowSpan={null}
-          >
-            Total travel time: 10
-          </GridItem>
+          />
         </Grid>
       </SplitItem>
       <SplitItem
@@ -373,7 +758,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
         </Button>
       </SplitItem>
     </Split>
-    <TspMap
+    <RouteMap
       boundingBox={null}
       clickHandler={[Function]}
       depot={
@@ -388,6 +773,11 @@ exports[`Demo page should render correctly with a few routes 1`] = `
         Array [
           Object {
             "track": Array [],
+            "vehicle": Object {
+              "capacity": 5,
+              "id": 1,
+              "name": "v1",
+            },
             "visits": Array [
               Object {
                 "id": 1,
@@ -409,6 +799,31 @@ exports[`Demo page should render correctly with a few routes 1`] = `
         ]
       }
       selectedId={NaN}
+      updateViewport={[MockFunction]}
+      userViewport={
+        Object {
+          "center": Array [
+            0,
+            0,
+          ],
+          "isDirty": false,
+          "zoom": 1,
+        }
+      }
+      visits={
+        Array [
+          Object {
+            "id": 2,
+            "lat": 2.345678,
+            "lng": 2.345678,
+          },
+          Object {
+            "id": 3,
+            "lat": 3.676111,
+            "lng": 3.568333,
+          },
+        ]
+      }
     />
   </SplitItem>
 </Split>
@@ -496,12 +911,72 @@ exports[`Demo page should render correctly with no routes 1`] = `
             sm={null}
             smOffset={null}
             smRowSpan={null}
-            span={6}
+            span={8}
             xl={null}
             xlOffset={null}
             xlRowSpan={null}
           >
-            Visits: 0
+            <Level
+              className=""
+              gutter="sm"
+            >
+              <LevelItem
+                style={
+                  Object {
+                    "display": "flex",
+                  }
+                }
+              >
+                <Level
+                  className=""
+                  gutter="sm"
+                >
+                  <LevelItem>
+                    <InputGroup
+                      className=""
+                    >
+                      <Button
+                        isDisabled={true}
+                        onClick={[Function]}
+                        variant="primary"
+                      >
+                        <MinusIcon
+                          color="currentColor"
+                          size="sm"
+                          title={null}
+                        />
+                      </Button>
+                      <InputGroupText
+                        className=""
+                        component="span"
+                        readOnly={true}
+                      >
+                        0
+                      </InputGroupText>
+                      <Button
+                        onClick={[Function]}
+                        variant="primary"
+                      >
+                        <PlusIcon
+                          color="currentColor"
+                          size="sm"
+                          title={null}
+                        />
+                      </Button>
+                    </InputGroup>
+                  </LevelItem>
+                  <LevelItem>
+                    vehicles
+                  </LevelItem>
+                </Level>
+              </LevelItem>
+              <LevelItem>
+                0 visits
+              </LevelItem>
+              <LevelItem>
+                Total travel time: 0
+              </LevelItem>
+            </Level>
           </GridItem>
           <GridItem
             className=""
@@ -516,13 +991,11 @@ exports[`Demo page should render correctly with no routes 1`] = `
             sm={null}
             smOffset={null}
             smRowSpan={null}
-            span={6}
+            span={4}
             xl={null}
             xlOffset={null}
             xlRowSpan={null}
-          >
-            Total travel time: 0
-          </GridItem>
+          />
         </Grid>
       </SplitItem>
       <SplitItem
@@ -552,13 +1025,25 @@ exports[`Demo page should render correctly with no routes 1`] = `
         />
       </SplitItem>
     </Split>
-    <TspMap
+    <RouteMap
       boundingBox={null}
       clickHandler={[Function]}
       depot={null}
       removeHandler={[MockFunction]}
       routes={Array []}
       selectedId={NaN}
+      updateViewport={[MockFunction]}
+      userViewport={
+        Object {
+          "center": Array [
+            0,
+            0,
+          ],
+          "isDirty": false,
+          "zoom": 1,
+        }
+      }
+      visits={Array []}
     />
   </SplitItem>
 </Split>

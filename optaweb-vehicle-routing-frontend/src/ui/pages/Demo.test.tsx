@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-import { Button } from '@patternfly/react-core';
+import { Button, Dropdown } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
+import { UserViewport } from 'store/client/types';
 import { Demo, DemoProps, ID_CLEAR_BUTTON, ID_EXPORT_BUTTON } from './Demo';
 
 describe('Demo page', () => {
@@ -49,18 +50,53 @@ describe('Demo page', () => {
     const exportButton = demo.find(Button).filter(`#${ID_EXPORT_BUTTON}`);
     expect(exportButton.props().isDisabled).toEqual(true);
   });
+
+  it('clear button should replace demo dropdown as soon as there is a depot', () => {
+    const props: DemoProps = {
+      ...emptyRouteProps,
+      depot: {
+        id: 1,
+        lat: 1,
+        lng: 1,
+        description: '',
+      },
+    };
+    const demo = shallow(<Demo {...props} />);
+    expect(toJson(demo)).toMatchSnapshot();
+
+    const clearButton = demo.find(Button).filter(`#${ID_CLEAR_BUTTON}`);
+    expect(clearButton).toHaveLength(1);
+    expect(clearButton.props().isDisabled).toEqual(false);
+
+    const exportButton = demo.find(Button).filter(`#${ID_EXPORT_BUTTON}`);
+    expect(exportButton).toHaveLength(1);
+    expect(exportButton.props().isDisabled).toEqual(false);
+
+    expect(demo.find(Dropdown)).toHaveLength(0);
+  });
 });
+
+const userViewport: UserViewport = {
+  isDirty: false,
+  zoom: 1,
+  center: [0, 0],
+};
 
 const emptyRouteProps: DemoProps = {
   loadHandler: jest.fn(),
   clearHandler: jest.fn(),
-  addHandler: jest.fn(),
-  removeHandler: jest.fn(),
+  addVehicleHandler: jest.fn,
+  removeVehicleHandler: jest.fn,
+  addLocationHandler: jest.fn(),
+  removeLocationHandler: jest.fn(),
+  updateViewport: jest.fn(),
 
   distance: '0',
+  vehicleCount: 0,
   demoNames: ['demo'],
   isDemoLoading: false,
   boundingBox: null,
+  userViewport,
   countryCodeSearchFilter: [],
 
   depot: null,
@@ -71,13 +107,18 @@ const emptyRouteProps: DemoProps = {
 const threeLocationsProps: DemoProps = {
   loadHandler: jest.fn(),
   clearHandler: jest.fn(),
-  addHandler: jest.fn(),
-  removeHandler: jest.fn(),
+  addVehicleHandler: jest.fn,
+  removeVehicleHandler: jest.fn,
+  addLocationHandler: jest.fn(),
+  removeLocationHandler: jest.fn(),
+  updateViewport: jest.fn(),
 
   distance: '10',
+  vehicleCount: 8,
   demoNames: ['demo'],
   isDemoLoading: false,
   boundingBox: null,
+  userViewport,
   countryCodeSearchFilter: ['XY'],
 
   depot: {
@@ -97,6 +138,7 @@ const threeLocationsProps: DemoProps = {
   }],
 
   routes: [{
+    vehicle: { id: 1, name: 'v1', capacity: 5 },
     visits: [{
       id: 1,
       lat: 1.345678,
