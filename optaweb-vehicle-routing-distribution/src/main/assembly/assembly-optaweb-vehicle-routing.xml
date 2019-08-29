@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+
+  <id>assembly-optaweb-vehicle-routing</id>
+  <formats>
+    <format>dir</format>
+    <format>zip</format>
+  </formats>
+
+  <includeBaseDirectory>true</includeBaseDirectory>
+
+  <fileSets>
+    <fileSet><!-- Note: going outside the module dir is bad, but it is not fetching generated files -->
+      <includes>
+        <include>../LICENSE-Apache-2.0.txt</include>
+      </includes>
+      <outputDirectory/>
+    </fileSet>
+    <!-- Examples -->
+    <fileSet><!-- Note: going outside the module dir is bad, but it is not fetching generated files -->
+      <directory>..</directory>
+      <outputDirectory>sources</outputDirectory>
+      <excludes>
+        <exclude>**/target/**</exclude>
+        <exclude>**/local/**</exclude>
+        <exclude>.*/**</exclude>
+        <exclude>nbproject/**</exclude>
+        <exclude>*.ipr</exclude>
+        <exclude>*.iws</exclude>
+        <exclude>**/*.iml</exclude>
+        <exclude>.git/**</exclude>
+        <exclude>optaweb-vehicle-routing-distribution/**</exclude>
+        <exclude>optaweb-vehicle-routing-frontend/node_modules/**</exclude>
+        <exclude>optaweb-vehicle-routing-frontend/.scannerwork/**</exclude>
+        <exclude>optaweb-vehicle-routing-frontend/coverage/**</exclude>
+        <exclude>optaweb-vehicle-routing-frontend/node/**</exclude>
+        <exclude>optaweb-vehicle-routing-frontend/build/**</exclude>
+      </excludes>
+    </fileSet>
+  </fileSets>
+
+  <dependencySets>
+    <!-- TODO: pending Reference Manual -->
+  </dependencySets>
+
+</assembly>
