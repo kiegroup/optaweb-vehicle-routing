@@ -30,9 +30,12 @@
         <exclude>*.iws</exclude>
         <exclude>**/*.iml</exclude>
         <exclude>.git/**</exclude>
-        <exclude>**/node_modules/**</exclude>
         <exclude>optaweb-vehicle-routing-distribution/**</exclude>
-        <exclude>**/.scannerwork/**</exclude>
+        <exclude>optaweb-vehicle-routing-frontend/node_modules/**</exclude>
+        <exclude>optaweb-vehicle-routing-frontend/.scannerwork/**</exclude>
+        <exclude>optaweb-vehicle-routing-frontend/coverage/**</exclude>
+        <exclude>optaweb-vehicle-routing-frontend/node/**</exclude>
+        <exclude>optaweb-vehicle-routing-frontend/build/**</exclude>
       </excludes>
     </fileSet>
   </fileSets>

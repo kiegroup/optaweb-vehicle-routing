@@ -36,18 +36,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <dependencies>
-
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>optaweb-vehicle-routing-frontend</artifactId>
-      <type>war</type>
-    </dependency>
-
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>optaweb-vehicle-routing-backend</artifactId>
-    </dependency>
-  </dependencies>
 </project>

@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.kie</groupId>
     <artifactId>kie-parent</artifactId>
-    <version>7.26.0-SNAPSHOT</version>
+    <version>7.27.0-SNAPSHOT</version>
   </parent>
 
   <groupId>org.optaweb.vehiclerouting</groupId>
@@ -49,18 +49,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>org.optaweb.vehiclerouting</groupId>
-        <artifactId>optaweb-vehicle-routing-frontend</artifactId>
-        <type>war</type>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.optaweb.vehiclerouting</groupId>
-        <artifactId>optaweb-vehicle-routing-backend</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
       <!-- Temporarily override Spring Boot's Junit version to get access to @TempDir -->
       <dependency>
         <groupId>org.junit</groupId>
