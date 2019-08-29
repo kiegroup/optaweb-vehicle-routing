@@ -4,7 +4,6 @@
 
   <id>assembly-optaweb-vehicle-routing</id>
   <formats>
-    <format>dir</format>
     <format>zip</format>
   </formats>
 
