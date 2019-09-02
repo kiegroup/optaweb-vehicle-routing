@@ -1,5 +1,6 @@
 {
   "name": "optaweb-vehicle-routing-frontend",
+  "homepage": ".",
   "private": true,
   "license": "Apache-2.0",
   "dependencies": {
