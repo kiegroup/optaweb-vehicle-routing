@@ -34,6 +34,7 @@
   <modules>
     <module>optaweb-vehicle-routing-backend</module>
     <module>optaweb-vehicle-routing-frontend</module>
+    <module>optaweb-vehicle-routing-distribution</module>
   </modules>
 
   <properties>

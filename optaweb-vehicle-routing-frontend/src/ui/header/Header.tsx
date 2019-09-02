@@ -21,7 +21,7 @@ import Toolbar from './Toolbar';
 
 const Header: React.FC = () => (
   <PageHeader
-    logo={<Brand src="/assets/images/optaPlannerLogo200px.png" alt="OptaPlanner Logo" />}
+    logo={<Brand src="./assets/images/optaPlannerLogo200px.png" alt="OptaPlanner Logo" />}
     toolbar={<Toolbar />}
     topNav={<Navigation />}
   />
