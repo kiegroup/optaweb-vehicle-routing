@@ -16,6 +16,7 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -90,7 +91,6 @@ class SolverIntegrationTest {
 
     // TODO remove vehicle, change capacity, change demand...
 
-    @Disabled("Test Failing currently")
     @Test
     void removing_customers_should_not_fail() {
         PlanningVehicle vehicle = PlanningVehicleFactory.vehicle(1);
@@ -125,14 +125,13 @@ class SolverIntegrationTest {
             // Notice that it's not possible to check individual problem fact changes completion.
             // When we receive a BestSolutionChangedEvent with unprocessed PFCs,
             // we don't know how many of them there are.
-//            if (!monitor.awaitAllProblemFactChanges(1000)) {
-//                assertThat(terminateSolver(solver)).isNotNull();
-//                fail("Problem fact change hasn't been completed");
-//            }
+            if (!monitor.awaitAllProblemFactChanges(1000)) {
+                assertThat(terminateSolver(solver)).isNotNull();
+                fail("Problem fact change hasn't been completed");
+            }
         }
 
         assertThat(terminateSolver(solver)).isNotNull();
-        logger.info("{}", solver.getBestSolution());
     }
 
     private void startSolver(Solver<VehicleRoutingSolution> solver, VehicleRoutingSolution solution) {
@@ -156,6 +155,8 @@ class SolverIntegrationTest {
         PlanningLocation location = new PlanningLocation();
         location.setId(id);
         location.setTravelDistanceMap(distanceMap);
+        location.setLatitude(BigDecimal.ZERO);
+        location.setLongitude(BigDecimal.ZERO);
         return location;
     }
 
