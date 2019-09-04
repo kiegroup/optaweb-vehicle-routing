@@ -41,7 +41,6 @@
         <exclude>**/.vscode/**</exclude>
         <exclude>**/.DS_Store</exclude>
         <exclude>.git/**</exclude>
-        <exclude>optaweb-vehicle-routing-distribution/**</exclude>
         <exclude>optaweb-vehicle-routing-frontend/node_modules/**</exclude>
         <exclude>optaweb-vehicle-routing-frontend/.scannerwork/**</exclude>
         <exclude>optaweb-vehicle-routing-frontend/coverage/**</exclude>
