@@ -18,7 +18,7 @@ describe('Locations can be added and route is computed', () => {
 
   /**
    * Adds a location by searching for a city of a given name.
-   * @param {city name} name 
+   * @param {city name} name
    */
   const addCity = (name) => {
     cy.get('[data-cy=demo-location-text-input]').type(name);
@@ -27,7 +27,7 @@ describe('Locations can be added and route is computed', () => {
 
   /**
    * Clears locations by clicking on a 'Clear' button.
-   */ 
+   */
   const clearLocations = () => {
     // Add one city to make sure there is a location in the list and the clear button shows up
     addCity('Brussels');
