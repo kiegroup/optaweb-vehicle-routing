@@ -1,0 +1,5 @@
+# Notify the owner of this repository about pull requests that don't have
+# a reviewer assigned. This happens with pull requests from external
+# contributors, who don't have rights to assign reviewers, or team members,
+# who forget to assign a reviewer.
+* @yurloc
