@@ -15,7 +15,6 @@
  */
 
 describe('Locations can be added and route is computed', () => {
-
   /**
    * Adds a location by searching for a city of a given name.
    * @param {city name} name
@@ -32,7 +31,7 @@ describe('Locations can be added and route is computed', () => {
     // Add one city to make sure there is a location in the list and the clear button shows up
     addCity('Brussels');
     cy.get('[data-cy=demo-clear-button]').click({ force: true });
-  }
+  };
 
   /**
    * Waits for a websocket connection to be established.
@@ -49,7 +48,7 @@ describe('Locations can be added and route is computed', () => {
     clearLocations();
   });
 
-  it('Locations added via clicking on a map are added to a route', function () {
+  it('Locations added via clicking on a map are added to a route', () => {
     const cities = ['Waterloo', 'Gent'];
 
     cities.forEach((city) => {
@@ -59,7 +58,7 @@ describe('Locations can be added and route is computed', () => {
     cy.get('[data-cy=demo-add-vehicle]').click();
     cy.visit('/route');
     cy.get('[data-cy=location-list]').find('li').should((list) => {
-      cities.forEach((city) => expect(list).to.contain(city));
+      cities.forEach(city => expect(list).to.contain(city));
     });
   });
 });
