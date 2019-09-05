@@ -69,7 +69,11 @@
           </execution>
           <execution>
             <id>npm install</id>
-            <phase>initialize</phase>
+            <!--
+              Using compile phase so that `npm install` doesn't run during sonar analysis,
+              which is bound to generate-resources.
+            -->
+            <phase>compile</phase>
             <goals>
               <goal>npm</goal>
             </goals>
@@ -107,18 +111,40 @@
               <arguments>run coverage</arguments>
             </configuration>
           </execution>
-          <execution>
-            <id>npm run build</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>run build</arguments>
-            </configuration>
-          </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <!-- Do npm run build by default but allow to skip it (mvn -P-npmBuild) to speed up local builds. -->
+      <id>npmBuild</id>
+      <!-- Active unless deactivated (https://stackoverflow.com/a/57141425/1691152). -->
+      <activation>
+        <file>
+          <exists>.</exists>
+        </file>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>npm run build</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>run build</arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
