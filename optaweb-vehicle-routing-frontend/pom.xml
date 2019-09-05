@@ -32,10 +32,9 @@
 
   <properties>
     <sonar.sources>src</sonar.sources>
-    <!-- Do not insert line breaks to the following property, Sonar seems to be white-space-sensitive
-      to this. If the inclusion pattern stops working, Sonar will measure coverage on test sources,
-      which is undesirable -->
-    <sonar.test.inclusions>${project.artifactId}/**/*test.ts,${project.artifactId}/**/*test.tsx</sonar.test.inclusions>
+    <sonar.test.inclusions>
+      optaweb-vehicle-routing-frontend/**/*test.ts,optaweb-vehicle-routing-frontend/**/*test.tsx
+    </sonar.test.inclusions>
     <sonar.typescript.lcov.reportPaths>coverage/lcov.info</sonar.typescript.lcov.reportPaths>
 
     <!-- Frontend properties -->
