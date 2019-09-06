@@ -143,8 +143,10 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <configuration>
             <compilerArgs>
-              <!-- Visit https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javac.html
-                   to learn more about javac warnings -->
+              <!--
+                Visit https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javac.html
+                to learn more about javac warnings
+               -->
               <arg>-Xlint:all</arg>
               <arg>-Xlint:-processing</arg>
               <arg>-Xlint:-serial</arg>
@@ -162,8 +164,11 @@
               <version>0.8</version>
             </dependency>
           </dependencies>
-          <!-- kie-parent contains Pitest configuration that doesn't work well for this project and it's not possible to change it
-               without a complete override (combine.self="override), for example excludedClasses, timeoutConstant. -->
+          <!--
+            kie-parent contains Pitest configuration that doesn't work well for this project and it's not possible
+            to change it without a complete override (combine.self="override"), for example excludedClasses,
+            timeoutConstant.
+          -->
           <configuration combine.self="override">
             <reportsDirectory>local/pit-reports</reportsDirectory>
             <timestampedReports>true</timestampedReports>
@@ -242,8 +247,9 @@
                     <property name="eachLine" value="true"/>
                   </module>
                   <module name="TreeWalker">
-                    <!-- Import settings: getting rid of redundant import, forbid star notation,
-                         defined order of imports. -->
+                    <!--
+                      Import settings: getting rid of redundant import, forbid star notation, defined order of imports.
+                    -->
                     <module name="RedundantImport"/>
                     <module name="AvoidStarImport">
                       <property name="allowClassImports" value="false"/>

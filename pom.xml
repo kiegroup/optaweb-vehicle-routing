@@ -48,7 +48,7 @@
 
   <dependencyManagement>
     <dependencies>
-      <!-- Temporarily override Spring Boot's Junit version to get access to @TempDir -->
+      <!-- Temporarily override Spring Boot's JUnit version to get access to @TempDir -->
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
@@ -109,8 +109,10 @@
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${version.org.springframework.boot}</version>
         </plugin>
-        <!-- Disable Jacoco check inherited from kie-parent. Remove this when it's removed from kie-parent (but some projects
-             still use the check fail build). -->
+        <!--
+          Disable Jacoco check inherited from kie-parent. Remove this when it's removed from kie-parent
+          (but some projects still use the check fail build).
+        -->
         <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
@@ -146,8 +148,8 @@
         <module>optaweb-vehicle-routing-distribution</module>
       </modules>
     </profile>
+    <!-- Skip Sonar plugin execution if SONARCLOUD_TOKEN is not set. -->
     <profile>
-      <!-- Skip Sonar plugin execution if SONARCLOUD_TOKEN is not set. -->
       <id>skipSonar</id>
       <activation>
         <property>
@@ -160,17 +162,21 @@
     </profile>
     <profile>
       <id>pullRequestAnalysis-Travis</id>
-      <!-- Only set sonar.pullrequest properties when the Travis build is triggered by a PR.
-           When the build is triggered by push to a branch or by cron, the consumed env.TRAVIS properties are empty,
-           resulting in invalid sonar.pullrequest properties and the Sonar plugin would fail. -->
+      <!--
+        Only set sonar.pullrequest properties when the Travis build is triggered by a PR.
+        When the build is triggered by push to a branch or by cron, the consumed env.TRAVIS properties are empty,
+        resulting in invalid sonar.pullrequest properties and the Sonar plugin would fail.
+      -->
       <activation>
         <property>
           <name>env.TRAVIS_EVENT_TYPE</name>
           <value>pull_request</value>
         </property>
       </activation>
-      <!-- See https://docs.travis-ci.com/user/environment-variables/ for list of Travis environment variables. -->
-      <!-- See https://docs.sonarqube.org/latest/analysis/pull-request/ for properties required by Sonar for PR analysis. -->
+      <!--
+        See https://docs.travis-ci.com/user/environment-variables/ for list of Travis environment variables.
+        See https://docs.sonarqube.org/latest/analysis/pull-request/ for properties required by Sonar for PR analysis.
+      -->
       <properties>
         <!--suppress UnresolvedMavenProperty -->
         <sonar.pullrequest.branch>${env.TRAVIS_PULL_REQUEST_BRANCH}</sonar.pullrequest.branch>
@@ -188,8 +194,10 @@
           <value>!pull_request</value>
         </property>
       </activation>
-      <!-- See https://docs.travis-ci.com/user/environment-variables/ for list of Travis environment variables. -->
-      <!-- See https://docs.sonarqube.org/latest/branches/overview/ for properties required by Sonar for branch analysis. -->
+      <!--
+        See https://docs.travis-ci.com/user/environment-variables/ for list of Travis environment variables.
+        See https://docs.sonarqube.org/latest/branches/overview/ for properties required by Sonar for branch analysis.
+      -->
       <properties>
         <!--suppress UnresolvedMavenProperty -->
         <sonar.branch.name>${env.TRAVIS_BRANCH}</sonar.branch.name>
