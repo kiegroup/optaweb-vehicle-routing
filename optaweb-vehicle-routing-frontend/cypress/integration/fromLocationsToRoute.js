@@ -25,7 +25,7 @@ describe('Locations can be added and route is computed', () => {
   };
 
   /**
-   * Clears locations by clicking on a 'Clear' button.
+   * Clears locations by clicking on the 'Clear' button.
    */
   const clearLocations = () => {
     // Add one city to make sure there is a location in the list and the clear button shows up
