@@ -19,7 +19,6 @@ package org.optaweb.vehiclerouting.plugin.planner.weight;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,6 +32,8 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.Standstill;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.WARN)
@@ -55,14 +56,9 @@ class DepotAngleCustomerDifficultyWeightFactoryTest {
         DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight farCustomerWeight =
                 weightFactory.createSorterWeight(solution,
                     solution.getVisitList().get(1));
-        assert(closeCustomerWeight.compareTo(farCustomerWeight) < 0);
+        assertThat(closeCustomerWeight.compareTo(farCustomerWeight) < 0);
 
     }
-    @BeforeEach
-    void setUp() {
-    }
-
-
 
     /**
      * Create a solution with 1 vehicle with depot being the first location and visiting all customers specified by
@@ -117,13 +113,13 @@ class DepotAngleCustomerDifficultyWeightFactoryTest {
      * @return the new customer
      */
     public static PlanningVisit addVisit(VehicleRoutingSolution solution, PlanningLocation location) {
-        PlanningVisit cvisit = new PlanningVisit();
-        cvisit.setId(location.getId());
-        cvisit.setLocation(location);
-        cvisit.setDemand(1);
-        solution.getVisitList().add(cvisit);
+        PlanningVisit visit = new PlanningVisit();
+        visit.setId(location.getId());
+        visit.setLocation(location);
+        visit.setDemand(1);
+        solution.getVisitList().add(visit);
         solution.getLocationList().add(location);
-        return cvisit;
+        return visit;
     }
 
     /**

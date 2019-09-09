@@ -47,7 +47,7 @@ class DistanceMatrixImpl implements DistanceMatrix {
 
         // The map must be thread-safe because:
         // - we're updating it from the parallel stream below
-        // - it is accessed from listener thread!
+        // - it is accessed from solver thread!
         Map<Long, Double> distancesToOthers = new ConcurrentHashMap<>(); // the new row
 
         // distance to self is 0
