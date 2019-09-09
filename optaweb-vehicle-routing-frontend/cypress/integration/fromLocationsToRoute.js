@@ -17,7 +17,7 @@
 describe('Locations can be added and route is computed', () => {
   /**
    * Adds a location by searching for a city of a given name.
-   * @param {city name} name
+   * @param { string } name - city name
    */
   const addCity = (name) => {
     cy.get('[data-cy=geosearch-text-input]').type(name);
