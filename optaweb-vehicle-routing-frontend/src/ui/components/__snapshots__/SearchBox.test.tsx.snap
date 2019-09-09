@@ -5,7 +5,7 @@ exports[`Search box should hide results when query is empty 1`] = `
   <TextInput
     aria-label="geosearch text input"
     className=""
-    data-cy="demo-location-text-input"
+    data-cy="geosearch-text-input"
     isDisabled={false}
     isReadOnly={false}
     isRequired={false}
@@ -28,7 +28,7 @@ exports[`Search box should invoke add handler with the selected result and clear
   <TextInput
     aria-label="geosearch text input"
     className=""
-    data-cy="demo-location-text-input"
+    data-cy="geosearch-text-input"
     isDisabled={false}
     isReadOnly={false}
     isRequired={false}
@@ -62,7 +62,7 @@ exports[`Search box should invoke add handler with the selected result and clear
         >
           <Button
             className="pf-c-options-menu__menu-item-icon"
-            data-cy="demo-location-item-button-0"
+            data-cy="geosearch-location-item-button-0"
             onClick={[Function]}
             type="button"
             variant="link"
@@ -83,7 +83,7 @@ exports[`Search box should invoke add handler with the selected result and clear
         >
           <Button
             className="pf-c-options-menu__menu-item-icon"
-            data-cy="demo-location-item-button-1"
+            data-cy="geosearch-location-item-button-1"
             onClick={[Function]}
             type="button"
             variant="link"
@@ -104,7 +104,7 @@ exports[`Search box should invoke add handler with the selected result and clear
         >
           <Button
             className="pf-c-options-menu__menu-item-icon"
-            data-cy="demo-location-item-button-2"
+            data-cy="geosearch-location-item-button-2"
             onClick={[Function]}
             type="button"
             variant="link"
@@ -125,7 +125,7 @@ exports[`Search box should invoke add handler with the selected result and clear
         >
           <Button
             className="pf-c-options-menu__menu-item-icon"
-            data-cy="demo-location-item-button-3"
+            data-cy="geosearch-location-item-button-3"
             onClick={[Function]}
             type="button"
             variant="link"
@@ -176,7 +176,7 @@ exports[`Search box should render text input initially 1`] = `
   <TextInput
     aria-label="geosearch text input"
     className=""
-    data-cy="demo-location-text-input"
+    data-cy="geosearch-text-input"
     isDisabled={false}
     isReadOnly={false}
     isRequired={false}
@@ -199,7 +199,7 @@ exports[`Search box should show results when query is entered 1`] = `
   <TextInput
     aria-label="geosearch text input"
     className=""
-    data-cy="demo-location-text-input"
+    data-cy="geosearch-text-input"
     isDisabled={false}
     isReadOnly={false}
     isRequired={false}
@@ -234,7 +234,7 @@ exports[`Search box should show results when query is entered 1`] = `
           London, ON, Canada
           <Button
             className="pf-c-options-menu__menu-item-icon"
-            data-cy="demo-location-item-button-0"
+            data-cy="geosearch-location-item-button-0"
             onClick={[Function]}
             type="button"
             variant="link"
@@ -256,7 +256,7 @@ exports[`Search box should show results when query is entered 1`] = `
           London, OH, USA
           <Button
             className="pf-c-options-menu__menu-item-icon"
-            data-cy="demo-location-item-button-1"
+            data-cy="geosearch-location-item-button-1"
             onClick={[Function]}
             type="button"
             variant="link"
@@ -278,7 +278,7 @@ exports[`Search box should show results when query is entered 1`] = `
           London, KY, USA
           <Button
             className="pf-c-options-menu__menu-item-icon"
-            data-cy="demo-location-item-button-2"
+            data-cy="geosearch-location-item-button-2"
             onClick={[Function]}
             type="button"
             variant="link"
@@ -300,7 +300,7 @@ exports[`Search box should show results when query is entered 1`] = `
           London, UK
           <Button
             className="pf-c-options-menu__menu-item-icon"
-            data-cy="demo-location-item-button-3"
+            data-cy="geosearch-location-item-button-3"
             onClick={[Function]}
             type="button"
             variant="link"

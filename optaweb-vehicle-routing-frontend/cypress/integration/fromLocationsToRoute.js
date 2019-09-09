@@ -20,8 +20,8 @@ describe('Locations can be added and route is computed', () => {
    * @param {city name} name
    */
   const addCity = (name) => {
-    cy.get('[data-cy=demo-location-text-input]').type(name);
-    cy.get('[data-cy=demo-location-item-button-1]').click();
+    cy.get('[data-cy=geosearch-text-input]').type(name);
+    cy.get('[data-cy=geosearch-location-item-button-1]').click();
   };
 
   /**
