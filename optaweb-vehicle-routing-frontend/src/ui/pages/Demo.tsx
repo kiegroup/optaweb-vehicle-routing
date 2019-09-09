@@ -203,6 +203,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
                             <Button
                               variant={ButtonVariant.primary}
                               onClick={addVehicleHandler}
+                              data-cy="demo-add-vehicle"
                             >
                               <PlusIcon />
                             </Button>
@@ -238,6 +239,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
                   isDisabled={isDemoLoading}
                   style={{ marginBottom: 16, marginLeft: 16 }}
                   onClick={clearHandler}
+                  data-cy="demo-clear-button"
                 >
                   Clear
                 </Button>

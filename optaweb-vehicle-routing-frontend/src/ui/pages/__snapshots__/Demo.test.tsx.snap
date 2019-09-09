@@ -148,6 +148,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
                         8
                       </InputGroupText>
                       <Button
+                        data-cy="demo-add-vehicle"
                         onClick={[Function]}
                         variant="primary"
                       >
@@ -210,6 +211,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
           Export
         </Button>
         <Button
+          data-cy="demo-clear-button"
           id="clear-button"
           isDisabled={true}
           onClick={[MockFunction]}
@@ -427,6 +429,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
                         0
                       </InputGroupText>
                       <Button
+                        data-cy="demo-add-vehicle"
                         onClick={[Function]}
                         variant="primary"
                       >
@@ -489,6 +492,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
           Export
         </Button>
         <Button
+          data-cy="demo-clear-button"
           id="clear-button"
           isDisabled={false}
           onClick={[MockFunction]}
@@ -682,6 +686,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
                         8
                       </InputGroupText>
                       <Button
+                        data-cy="demo-add-vehicle"
                         onClick={[Function]}
                         variant="primary"
                       >
@@ -744,6 +749,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
           Export
         </Button>
         <Button
+          data-cy="demo-clear-button"
           id="clear-button"
           isDisabled={false}
           onClick={[MockFunction]}
@@ -954,6 +960,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
                         0
                       </InputGroupText>
                       <Button
+                        data-cy="demo-add-vehicle"
                         onClick={[Function]}
                         variant="primary"
                       >

@@ -56,6 +56,8 @@ const RouteMap: React.FC<Props> = ({
   const bounds = boundingBox ? new L.LatLngBounds(boundingBox[0], boundingBox[1]) : undefined;
   // do not use bounds if user's viewport is dirty
   const mapBounds = userViewport.isDirty ? undefined : bounds;
+  // @ts-ignore
+  const tileLayerUrl = window.Cypress ? 'test-mode-empty-url' : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   return (
     <Map
       bounds={mapBounds}
@@ -68,7 +70,7 @@ const RouteMap: React.FC<Props> = ({
     >
       <TileLayer
         attribution="&copy; <a href='http://osm.org/copyright'>OpenStreetMap</a> contributors"
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        url={tileLayerUrl}
       />
       <ZoomControl position="topright" />
       {depot && (

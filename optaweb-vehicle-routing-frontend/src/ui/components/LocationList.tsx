@@ -39,7 +39,7 @@ const renderLocationList: React.FC<LocationListProps> = ({
   removeHandler,
   selectHandler,
 }) => (
-  <div style={{ overflowY: 'auto' }}>
+  <div style={{ overflowY: 'auto' }} data-cy="location-list">
     <DataList
       aria-label="List of locations"
     >

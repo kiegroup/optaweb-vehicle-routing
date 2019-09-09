@@ -134,6 +134,7 @@ class SearchBox extends React.Component<Props, State> {
           placeholder="Search to add a location..."
           aria-label="geosearch text input"
           onChange={this.handleTextInputChange}
+          data-cy="geosearch-text-input"
         />
         {results.length > 0 && (
           <div className="pf-c-options-menu pf-m-expanded" style={{ zIndex: 1100 }}>
@@ -147,6 +148,7 @@ class SearchBox extends React.Component<Props, State> {
                       variant="link"
                       type="button"
                       onClick={() => this.handleClick(index)}
+                      data-cy={`geosearch-location-item-button-${index}`}
                     >
                       <PlusSquareIcon />
                     </Button>
