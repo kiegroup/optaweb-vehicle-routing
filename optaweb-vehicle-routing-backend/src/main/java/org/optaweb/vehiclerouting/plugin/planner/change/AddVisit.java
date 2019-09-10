@@ -21,16 +21,16 @@ import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
-public class AddCustomer implements ProblemFactChange<VehicleRoutingSolution> {
+public class AddVisit implements ProblemFactChange<VehicleRoutingSolution> {
 
-    private final Customer customer;
+    private final PlanningVisit visit;
 
-    public AddCustomer(Customer customer) {
-        this.customer = Objects.requireNonNull(customer);
+    public AddVisit(PlanningVisit visit) {
+        this.visit = Objects.requireNonNull(visit);
     }
 
     @Override
@@ -38,14 +38,14 @@ public class AddCustomer implements ProblemFactChange<VehicleRoutingSolution> {
         VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
         workingSolution.setLocationList(new ArrayList<>(workingSolution.getLocationList()));
 
-        Location location = customer.getLocation();
+        PlanningLocation location = visit.getLocation();
         scoreDirector.beforeProblemFactAdded(location);
         workingSolution.getLocationList().add(location);
         scoreDirector.afterProblemFactAdded(location);
 
-        scoreDirector.beforeEntityAdded(customer);
-        workingSolution.getCustomerList().add(customer);
-        scoreDirector.afterEntityAdded(customer);
+        scoreDirector.beforeEntityAdded(visit);
+        workingSolution.getVisitList().add(visit);
+        scoreDirector.afterEntityAdded(visit);
 
         scoreDirector.triggerVariableListeners();
     }

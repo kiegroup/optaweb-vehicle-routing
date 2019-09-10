@@ -16,14 +16,14 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 
 /**
- * Creates {@link Vehicle} instances.
+ * Creates {@link PlanningVehicle} instances.
  */
-class VehicleFactory {
+class PlanningVehicleFactory {
 
-    private VehicleFactory() {
+    private PlanningVehicleFactory() {
         throw new AssertionError("Utility class");
     }
 
@@ -32,7 +32,7 @@ class VehicleFactory {
      * @param domainVehicle domain vehicle
      * @return planning vehicle
      */
-    static Vehicle fromDomain(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
+    static PlanningVehicle fromDomain(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
         return vehicle(domainVehicle.id(), domainVehicle.capacity());
     }
 
@@ -41,12 +41,12 @@ class VehicleFactory {
      * @param id vehicle's ID
      * @return new vehicle with zero capacity
      */
-    static Vehicle vehicle(long id) {
+    static PlanningVehicle vehicle(long id) {
         return vehicle(id, 0);
     }
 
-    private static Vehicle vehicle(long id, int capacity) {
-        Vehicle vehicle = new Vehicle();
+    private static PlanningVehicle vehicle(long id, int capacity) {
+        PlanningVehicle vehicle = new PlanningVehicle();
         vehicle.setId(id);
         vehicle.setCapacity(capacity);
         return vehicle;

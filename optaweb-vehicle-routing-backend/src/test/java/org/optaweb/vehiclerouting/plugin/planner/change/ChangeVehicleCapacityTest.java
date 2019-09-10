@@ -21,11 +21,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
@@ -40,18 +39,18 @@ class ChangeVehicleCapacityTest {
 
     @Test
     void change_vehicle_capacity() {
-        Location location = new RoadLocation(1, 2.0, 3.0);
-        Depot depot = new Depot();
+        PlanningLocation location = new PlanningLocation(1, 2.0, 3.0);
+        PlanningDepot depot = new PlanningDepot();
         depot.setLocation(location);
 
         int oldCapacity = 100;
         int newCapacity = 50;
 
-        Vehicle workingVehicle = new Vehicle();
+        PlanningVehicle workingVehicle = new PlanningVehicle();
         workingVehicle.setId(1L);
         workingVehicle.setDepot(depot);
         workingVehicle.setCapacity(oldCapacity);
-        Vehicle changeVehicle = new Vehicle();
+        PlanningVehicle changeVehicle = new PlanningVehicle();
         changeVehicle.setId(1L);
         changeVehicle.setDepot(depot);
         changeVehicle.setCapacity(newCapacity);
@@ -71,9 +70,9 @@ class ChangeVehicleCapacityTest {
 
     @Test
     void fail_fast_if_working_object_is_null() {
-        Depot depot = new Depot();
-        depot.setLocation(new RoadLocation(4L, 1, 2));
-        Vehicle vehicle = new Vehicle();
+        PlanningDepot depot = new PlanningDepot();
+        depot.setLocation(new PlanningLocation(4L, 1, 2));
+        PlanningVehicle vehicle = new PlanningVehicle();
         vehicle.setId(1L);
         vehicle.setDepot(depot);
 

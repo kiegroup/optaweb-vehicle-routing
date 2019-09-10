@@ -16,6 +16,7 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -37,14 +38,12 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
-import org.optaplanner.examples.vehiclerouting.app.VehicleRoutingApp;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
-import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
+import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
+import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,8 +52,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
-import static org.optaweb.vehiclerouting.plugin.planner.CustomerFactory.customer;
-import static org.optaweb.vehiclerouting.plugin.planner.DepotFactory.depot;
+import static org.optaweb.vehiclerouting.plugin.planner.PlanningVisitFactory.visit;
 import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromLocations;
 
 @ExtendWith(MockitoExtension.class)
@@ -63,7 +61,7 @@ class SolverIntegrationTest {
     private static final Logger logger = LoggerFactory.getLogger(SolverIntegrationTest.class);
 
     @Mock
-    private Map<RoadLocation, Double> distanceMap;
+    private Map<PlanningLocation, Double> distanceMap;
 
     private SolverFactory<VehicleRoutingSolution> sf;
     private ExecutorService executor;
@@ -72,10 +70,10 @@ class SolverIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        sf = SolverFactory.createFromXmlResource(VehicleRoutingApp.SOLVER_CONFIG);
+        sf = SolverFactory.createFromXmlResource(RouteOptimizerConfig.SOLVER_CONFIG);
         executor = Executors.newSingleThreadExecutor();
         monitor = new ProblemFactChangeProcessingMonitor();
-        when(distanceMap.get(any(RoadLocation.class))).thenReturn(1.0);
+        when(distanceMap.get(any(PlanningLocation.class))).thenReturn(1.0);
     }
 
     @AfterEach
@@ -95,10 +93,10 @@ class SolverIntegrationTest {
 
     @Test
     void removing_customers_should_not_fail() {
-        Vehicle vehicle = VehicleFactory.vehicle(1);
+        PlanningVehicle vehicle = PlanningVehicleFactory.vehicle(1);
         VehicleRoutingSolution solution = solutionFromLocations(
                 singletonList(vehicle),
-                depot(location(1)),
+                new PlanningDepot(location(1)),
                 singletonList(location(2))
         );
 
@@ -108,19 +106,19 @@ class SolverIntegrationTest {
         startSolver(solver, solution);
 
         for (int id = 3; id < 6; id++) {
-            logger.info("Add customer ({})", id);
+            logger.info("Add visit ({})", id);
             monitor.beforeProblemFactChange();
-            solver.addProblemFactChange(new AddCustomer(customer(location(id))));
+            solver.addProblemFactChange(new AddVisit(visit(location(id))));
             assertThat(monitor.awaitAllProblemFactChanges(1000)).isTrue();
         }
 
         List<Integer> customerIds = Arrays.asList(5, 2, 3);
         for (int id : customerIds) {
-            logger.info("Remove customer ({})", id);
+            logger.info("Remove visit ({})", id);
             assertThat(solver.isEveryProblemFactChangeProcessed()).isTrue();
             monitor.beforeProblemFactChange();
             solver.addProblemFactChanges(Arrays.asList(
-                    new RemoveCustomer(customer(location(id))),
+                    new RemoveVisit(visit(location(id))),
                     new RemoveLocation(location(id))
             ));
             assertThat(solver.isEveryProblemFactChangeProcessed()).isFalse(); // probably not 100% safe
@@ -153,10 +151,12 @@ class SolverIntegrationTest {
         throw new AssertionError();
     }
 
-    private Location location(long id) {
-        RoadLocation location = new RoadLocation();
+    private PlanningLocation location(long id) {
+        PlanningLocation location = new PlanningLocation();
         location.setId(id);
         location.setTravelDistanceMap(distanceMap);
+        location.setLatitude(BigDecimal.ZERO);
+        location.setLongitude(BigDecimal.ZERO);
         return location;
     }
 

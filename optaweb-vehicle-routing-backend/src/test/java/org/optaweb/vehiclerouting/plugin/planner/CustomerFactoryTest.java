@@ -17,8 +17,8 @@
 package org.optaweb.vehiclerouting.plugin.planner;
 
 import org.junit.jupiter.api.Test;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,12 +27,12 @@ class CustomerFactoryTest {
     @Test
     void customer_should_have_location_id_and_default_demand() {
         long id = 4;
-        RoadLocation location = new RoadLocation(id, 1.0, 2.0);
+        PlanningLocation location = new PlanningLocation(id, 1.0, 2.0f);
 
-        Customer customer = CustomerFactory.customer(location);
+        PlanningVisit visit = PlanningVisitFactory.visit(location);
 
-        assertThat(customer.getId()).isEqualTo(location.getId());
-        assertThat(customer.getLocation()).isEqualTo(location);
-        assertThat(customer.getDemand()).isEqualTo(CustomerFactory.DEFAULT_CUSTOMER_DEMAND);
+        assertThat(visit.getId()).isEqualTo(location.getId());
+        assertThat(visit.getLocation()).isEqualTo(location);
+        assertThat(visit.getDemand()).isEqualTo(PlanningVisitFactory.DEFAULT_CUSTOMER_DEMAND);
     }
 }

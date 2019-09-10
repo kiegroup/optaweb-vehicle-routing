@@ -16,28 +16,30 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
 /**
- * Creates {@link Location} instances.
+ * Creates {@link PlanningVisit} instances.
  */
-class LocationFactory {
+public class PlanningVisitFactory {
 
-    private LocationFactory() {
+    static final int DEFAULT_CUSTOMER_DEMAND = 1;
+
+    private PlanningVisitFactory() {
         throw new AssertionError("Utility class");
     }
 
     /**
-     * Create planning location from domain location.
-     * @param location domain location
-     * @return planning location
+     * Create visit with {@link #DEFAULT_CUSTOMER_DEMAND}.
+     * @param location visit's location
+     * @return new visit with the default demand
      */
-    static RoadLocation fromDomain(org.optaweb.vehiclerouting.domain.Location location) {
-        return new RoadLocation(
-                location.id(),
-                location.coordinates().latitude().doubleValue(),
-                location.coordinates().longitude().doubleValue()
-        );
+    public static PlanningVisit visit(PlanningLocation location) {
+        PlanningVisit visit = new PlanningVisit();
+        visit.setId(location.getId());
+        visit.setLocation(location);
+        visit.setDemand(DEFAULT_CUSTOMER_DEMAND);
+        return visit;
     }
 }

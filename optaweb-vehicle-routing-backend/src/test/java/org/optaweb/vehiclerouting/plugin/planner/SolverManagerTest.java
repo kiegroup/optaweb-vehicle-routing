@@ -31,15 +31,14 @@ import org.mockito.stubbing.Answer1;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
 import org.optaweb.vehiclerouting.plugin.planner.change.ChangeVehicleCapacity;
-import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.springframework.core.task.AsyncTaskExecutor;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -149,7 +148,7 @@ class SolverManagerTest {
         when(solverFuture.get()).thenThrow(InterruptedException.class);
 
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> solverManager.removeLocation(new RoadLocation()));
+                .isThrownBy(() -> solverManager.removeLocation(new PlanningLocation()));
         assertThat(Thread.interrupted()).isTrue();
 
         assertThatExceptionOfType(RuntimeException.class)
@@ -160,19 +159,19 @@ class SolverManagerTest {
     @Test
     void change_operations_should_fail_if_solver_has_not_started_yet() {
         assertThatIllegalStateException()
-                .isThrownBy(() -> solverManager.addVehicle(mock(Vehicle.class)))
+                .isThrownBy(() -> solverManager.addVehicle(mock(PlanningVehicle.class)))
                 .withMessageContaining("started");
         assertThatIllegalStateException()
-                .isThrownBy(() -> solverManager.removeVehicle(mock(Vehicle.class)))
+                .isThrownBy(() -> solverManager.removeVehicle(mock(PlanningVehicle.class)))
                 .withMessageContaining("started");
         assertThatIllegalStateException()
-                .isThrownBy(() -> solverManager.changeCapacity(mock(Vehicle.class)))
+                .isThrownBy(() -> solverManager.changeCapacity(mock(PlanningVehicle.class)))
                 .withMessageContaining("started");
         assertThatIllegalStateException()
-                .isThrownBy(() -> solverManager.addLocation(mock(RoadLocation.class)))
+                .isThrownBy(() -> solverManager.addLocation(mock(PlanningLocation.class)))
                 .withMessageContaining("started");
         assertThatIllegalStateException()
-                .isThrownBy(() -> solverManager.removeLocation(mock(RoadLocation.class)))
+                .isThrownBy(() -> solverManager.removeLocation(mock(PlanningLocation.class)))
                 .withMessageContaining("started");
     }
 
@@ -184,19 +183,19 @@ class SolverManagerTest {
         when(solverFuture.get()).thenThrow(ExecutionException.class);
 
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> solverManager.addVehicle(mock(Vehicle.class)))
+                .isThrownBy(() -> solverManager.addVehicle(mock(PlanningVehicle.class)))
                 .withMessageContaining("died");
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> solverManager.removeVehicle(mock(Vehicle.class)))
+                .isThrownBy(() -> solverManager.removeVehicle(mock(PlanningVehicle.class)))
                 .withMessageContaining("died");
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> solverManager.changeCapacity(mock(Vehicle.class)))
+                .isThrownBy(() -> solverManager.changeCapacity(mock(PlanningVehicle.class)))
                 .withMessageContaining("died");
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> solverManager.addLocation(mock(RoadLocation.class)))
+                .isThrownBy(() -> solverManager.addLocation(mock(PlanningLocation.class)))
                 .withMessageContaining("died");
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> solverManager.removeLocation(mock(RoadLocation.class)))
+                .isThrownBy(() -> solverManager.removeLocation(mock(PlanningLocation.class)))
                 .withMessageContaining("died");
     }
 
@@ -206,23 +205,23 @@ class SolverManagerTest {
         solverManager.startSolver(mock(VehicleRoutingSolution.class));
         when(solverFuture.isDone()).thenReturn(false);
 
-        solverManager.addVehicle(mock(Vehicle.class));
+        solverManager.addVehicle(mock(PlanningVehicle.class));
         verify(solver).addProblemFactChange(any(AddVehicle.class));
 
-        solverManager.removeVehicle(mock(Vehicle.class));
+        solverManager.removeVehicle(mock(PlanningVehicle.class));
         verify(solver).addProblemFactChange(any(RemoveVehicle.class));
 
-        solverManager.changeCapacity(mock(Vehicle.class));
+        solverManager.changeCapacity(mock(PlanningVehicle.class));
         verify(solver).addProblemFactChange(any(ChangeVehicleCapacity.class));
 
-        solverManager.addLocation(mock(RoadLocation.class));
-        verify(solver).addProblemFactChange(any(AddCustomer.class));
+        solverManager.addLocation(mock(PlanningLocation.class));
+        verify(solver).addProblemFactChange(any(AddVisit.class));
 
-        solverManager.removeLocation(mock(RoadLocation.class));
+        solverManager.removeLocation(mock(PlanningLocation.class));
         verify(solver).addProblemFactChanges(problemFactChangeArgumentCaptor.capture());
         List<ProblemFactChange<VehicleRoutingSolution>> problemFactChanges = problemFactChangeArgumentCaptor.getValue();
         assertThat(problemFactChanges).hasSize(2);
-        assertThat(problemFactChanges.get(0)).isInstanceOf(RemoveCustomer.class);
+        assertThat(problemFactChanges.get(0)).isInstanceOf(RemoveVisit.class);
         assertThat(problemFactChanges.get(1)).isInstanceOf(RemoveLocation.class);
     }
 }

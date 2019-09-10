@@ -24,15 +24,14 @@ import java.util.concurrent.Future;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
-import org.optaweb.vehiclerouting.plugin.planner.change.AddCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
 import org.optaweb.vehiclerouting.plugin.planner.change.ChangeVehicleCapacity;
-import org.optaweb.vehiclerouting.plugin.planner.change.RemoveCustomer;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,30 +136,30 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
         }
     }
 
-    void addLocation(Location location) {
+    void addLocation(PlanningLocation location) {
         assertSolverIsAlive();
-        solver.addProblemFactChange(new AddCustomer(CustomerFactory.customer(location)));
+        solver.addProblemFactChange(new AddVisit(PlanningVisitFactory.visit(location)));
     }
 
-    void removeLocation(Location location) {
+    void removeLocation(PlanningLocation location) {
         assertSolverIsAlive();
         solver.addProblemFactChanges(Arrays.asList(
-                new RemoveCustomer(CustomerFactory.customer(location)),
+                new RemoveVisit(PlanningVisitFactory.visit(location)),
                 new RemoveLocation(location)
         ));
     }
 
-    void addVehicle(Vehicle vehicle) {
+    void addVehicle(PlanningVehicle vehicle) {
         assertSolverIsAlive();
         solver.addProblemFactChange(new AddVehicle(vehicle));
     }
 
-    void removeVehicle(Vehicle vehicle) {
+    void removeVehicle(PlanningVehicle vehicle) {
         assertSolverIsAlive();
         solver.addProblemFactChange(new RemoveVehicle(vehicle));
     }
 
-    void changeCapacity(Vehicle vehicle) {
+    void changeCapacity(PlanningVehicle vehicle) {
         assertSolverIsAlive();
         solver.addProblemFactChange(new ChangeVehicleCapacity(vehicle));
     }

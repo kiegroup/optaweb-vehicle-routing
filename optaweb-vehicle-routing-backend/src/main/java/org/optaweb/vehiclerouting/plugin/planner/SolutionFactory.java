@@ -21,11 +21,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
 /**
  * Creates {@link VehicleRoutingSolution} instances.
@@ -42,8 +41,9 @@ public class SolutionFactory {
      */
     public static VehicleRoutingSolution emptySolution() {
         VehicleRoutingSolution solution = new VehicleRoutingSolution();
+        solution.setName("Empty Solution");
         solution.setLocationList(new ArrayList<>());
-        solution.setCustomerList(new ArrayList<>());
+        solution.setVisitList(new ArrayList<>());
         solution.setDepotList(new ArrayList<>());
         solution.setVehicleList(new ArrayList<>());
         solution.setScore(HardSoftLongScore.ZERO);
@@ -52,8 +52,8 @@ public class SolutionFactory {
     }
 
     /**
-     * Create a new solution from given vehicles, depot and customer locations.
-     * This will create a customer for each given customer location. All vehicles will be placed in the depot.
+     * Create a new solution from given vehicles, depot and visit locations.
+     * This will create a visit for each given visit location. All vehicles will be placed in the depot.
      * <p>
      * The returned solution's vehicles and locations are new collections so modifying the solution
      * won't affect the collections given as arguments.
@@ -61,19 +61,19 @@ public class SolutionFactory {
      * <strong><em>Elements of the argument collections are NOT cloned.</em></strong>
      * @param vehicles vehicles
      * @param depot depot (may be {@code null})
-     * @param customerLocations customer locations
+     * @param visitLocations visit locations
      * @return solution containing the given vehicles, depot, visits and their locations
      */
     static VehicleRoutingSolution solutionFromLocations(
-            List<Vehicle> vehicles,
-            Depot depot,
-            List<? extends Location> customerLocations
+            List<PlanningVehicle> vehicles,
+            PlanningDepot depot,
+            List<? extends PlanningLocation> visitLocations
     ) {
         return solution(
                 vehicles,
                 depot,
-                customerLocations.stream().map(CustomerFactory::customer).collect(Collectors.toList()),
-                customerLocations
+                visitLocations.stream().map(PlanningVisitFactory::visit).collect(Collectors.toList()),
+                visitLocations
         );
     }
 
@@ -87,27 +87,27 @@ public class SolutionFactory {
      * <strong><em>Elements of the argument collections are NOT cloned.</em></strong>
      * @param vehicles vehicles
      * @param depot depot
-     * @param customers customers
+     * @param visits visits
      * @return solution containing the given vehicles, depot, visits and their locations
      */
     static VehicleRoutingSolution solutionFromCustomers(
-            List<Vehicle> vehicles,
-            Depot depot,
-            List<Customer> customers
+            List<PlanningVehicle> vehicles,
+            PlanningDepot depot,
+            List<PlanningVisit> visits
     ) {
         return solution(
                 vehicles,
                 depot,
-                customers,
-                customers.stream().map(Customer::getLocation).collect(Collectors.toList())
+                visits,
+                visits.stream().map(PlanningVisit::getLocation).collect(Collectors.toList())
         );
     }
 
     private static VehicleRoutingSolution solution(
-            List<Vehicle> vehicles,
-            Depot depot,
-            List<Customer> customers,
-            List<? extends Location> visitLocations
+            List<PlanningVehicle> vehicles,
+            PlanningDepot depot,
+            List<PlanningVisit> visits,
+            List<? extends PlanningLocation> visitLocations
     ) {
         VehicleRoutingSolution solution = new VehicleRoutingSolution();
         solution.setVehicleList(new ArrayList<>(vehicles));
@@ -118,13 +118,13 @@ public class SolutionFactory {
             solution.getDepotList().add(depot);
             moveAllVehiclesToDepot(vehicles, depot);
         }
-        solution.setCustomerList(new ArrayList<>(customers));
+        solution.setVisitList(new ArrayList<>(visits));
         solution.setScore(HardSoftLongScore.ZERO);
         solution.setDistanceUnitOfMeasurement("sec");
         return solution;
     }
 
-    private static void moveAllVehiclesToDepot(List<Vehicle> vehicles, Depot depot) {
+    private static void moveAllVehiclesToDepot(List<PlanningVehicle> vehicles, PlanningDepot depot) {
         vehicles.forEach(vehicle -> vehicle.setDepot(depot));
     }
 }

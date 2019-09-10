@@ -19,9 +19,11 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +40,9 @@ class RouteOptimizerImpl implements RouteOptimizer {
     private final SolverManager solverManager;
     private final SolutionPublisher solutionPublisher;
 
-    private final List<Vehicle> vehicles = new ArrayList<>();
-    private final List<RoadLocation> visits = new ArrayList<>();
-    private Depot depot;
+    private final List<PlanningVehicle> vehicles = new ArrayList<>();
+    private final List<PlanningLocation> visits = new ArrayList<>();
+    private PlanningDepot depot;
 
     @Autowired
     RouteOptimizerImpl(SolverManager solverManager, SolutionPublisher solutionPublisher) {
@@ -50,15 +52,15 @@ class RouteOptimizerImpl implements RouteOptimizer {
 
     @Override
     public void addLocation(
-            org.optaweb.vehiclerouting.domain.Location domainLocation,
+            Location domainLocation,
             DistanceMatrix distanceMatrix
     ) {
-        RoadLocation location = LocationFactory.fromDomain(domainLocation);
-        DistanceMap distanceMap = new DistanceMap(domainLocation, distanceMatrix.getRow(domainLocation));
+        PlanningLocation location = new PlanningLocation(domainLocation);
+        DistanceMap distanceMap = new DistanceMap(location, distanceMatrix.getRow(domainLocation));
         location.setTravelDistanceMap(distanceMap);
         // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
         if (depot == null) {
-            depot = DepotFactory.depot(location);
+            depot = new PlanningDepot(location);
             publishSolution();
         } else {
             visits.add(location);
@@ -98,14 +100,14 @@ class RouteOptimizerImpl implements RouteOptimizer {
                 solverManager.stopSolver();
                 publishSolution();
             } else {
-                solverManager.removeLocation(LocationFactory.fromDomain(domainLocation));
+                solverManager.removeLocation(new PlanningLocation(domainLocation));
             }
         }
     }
 
     @Override
-    public void addVehicle(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
-        Vehicle vehicle = VehicleFactory.fromDomain(domainVehicle);
+    public void addVehicle(Vehicle domainVehicle) {
+        PlanningVehicle vehicle = PlanningVehicleFactory.fromDomain(domainVehicle);
         vehicle.setDepot(depot);
         vehicles.add(vehicle);
         if (visits.isEmpty()) {
@@ -128,13 +130,13 @@ class RouteOptimizerImpl implements RouteOptimizer {
             solverManager.stopSolver();
             publishSolution();
         } else {
-            solverManager.removeVehicle(VehicleFactory.fromDomain(domainVehicle));
+            solverManager.removeVehicle(PlanningVehicleFactory.fromDomain(domainVehicle));
         }
     }
 
     @Override
     public void changeCapacity(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
-        Vehicle vehicle = vehicles.stream()
+        PlanningVehicle vehicle = vehicles.stream()
                 .filter(item -> item.getId().equals(domainVehicle.id()))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(

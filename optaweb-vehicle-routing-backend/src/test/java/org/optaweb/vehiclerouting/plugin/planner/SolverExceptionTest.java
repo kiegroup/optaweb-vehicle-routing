@@ -25,9 +25,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.api.solver.Solver;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.task.AsyncTaskExecutor;
 
@@ -61,10 +60,10 @@ class SolverExceptionTest {
         solverManager.startSolver(mock(VehicleRoutingSolution.class));
 
         // act & assert
-        assertTestExceptionThrownDuringOperation(() -> solverManager.addLocation(mock(RoadLocation.class)));
-        assertTestExceptionThrownDuringOperation(() -> solverManager.removeLocation(mock(RoadLocation.class)));
-        assertTestExceptionThrownDuringOperation(() -> solverManager.addVehicle(mock(Vehicle.class)));
-        assertTestExceptionThrownDuringOperation(() -> solverManager.removeVehicle(mock(Vehicle.class)));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.addLocation(mock(PlanningLocation.class)));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.removeLocation(mock(PlanningLocation.class)));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.addVehicle(mock(PlanningVehicle.class)));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.removeVehicle(mock(PlanningVehicle.class)));
 
         assertTestExceptionThrownWhenStoppingSolver(solverManager);
     }

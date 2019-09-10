@@ -17,11 +17,10 @@
 package org.optaweb.vehiclerouting.plugin.planner;
 
 import org.junit.jupiter.api.Test;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -34,7 +33,7 @@ class SolutionFactoryTest {
     void empty_solution_should_be_empty() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         assertThat(solution.getLocationList()).isEmpty();
-        assertThat(solution.getCustomerList()).isEmpty();
+        assertThat(solution.getVisitList()).isEmpty();
         assertThat(solution.getDepotList()).isEmpty();
         assertThat(solution.getVehicleList()).isEmpty();
         assertThat(solution.getDistanceUnitOfMeasurement()).isEqualTo("sec");
@@ -42,27 +41,27 @@ class SolutionFactoryTest {
 
     @Test
     void solution_created_from_vehicles_depot_and_visits_should_be_consistent() {
-        Vehicle vehicle = new Vehicle();
+        PlanningVehicle vehicle = new PlanningVehicle();
 
-        RoadLocation depotLocation = new RoadLocation(1, 1, 1);
-        Depot depot = new Depot();
+        PlanningLocation depotLocation = new PlanningLocation(1, 1, 1);
+        PlanningDepot depot = new PlanningDepot();
         depot.setLocation(depotLocation);
 
-        Customer customer = CustomerFactory.customer(new RoadLocation(2, 2, 2));
+        PlanningVisit visit = PlanningVisitFactory.visit(new PlanningLocation(2, 2, 2));
 
         VehicleRoutingSolution solutionWithDepot = solutionFromCustomers(
                 singletonList(vehicle),
                 depot,
-                singletonList(customer)
+                singletonList(visit)
         );
         assertThat(solutionWithDepot.getVehicleList()).containsExactly(vehicle);
         assertThat(vehicle.getDepot()).isEqualTo(depot);
         assertThat(solutionWithDepot.getDepotList()).containsExactly(depot);
-        assertThat(solutionWithDepot.getCustomerList()).hasSize(1);
-        assertThat(solutionWithDepot.getCustomerList()).containsExactly(customer);
-        assertThat(solutionWithDepot.getCustomerList().get(0).getLocation()).isEqualTo(customer.getLocation());
+        assertThat(solutionWithDepot.getVisitList()).hasSize(1);
+        assertThat(solutionWithDepot.getVisitList()).containsExactly(visit);
+        assertThat(solutionWithDepot.getVisitList().get(0).getLocation()).isEqualTo(visit.getLocation());
         assertThat(solutionWithDepot.getLocationList())
-                .containsExactlyInAnyOrder(depotLocation, customer.getLocation());
+                .containsExactlyInAnyOrder(depotLocation, visit.getLocation());
 
         VehicleRoutingSolution solutionWithNoDepot = solutionFromCustomers(
                 singletonList(vehicle),

@@ -18,9 +18,10 @@ package org.optaweb.vehiclerouting.plugin.planner;
 
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.optaweb.vehiclerouting.plugin.planner.VehicleFactory.fromDomain;
+import static org.optaweb.vehiclerouting.plugin.planner.PlanningVehicleFactory.fromDomain;
 
 class VehicleFactoryTest {
 
@@ -32,7 +33,7 @@ class VehicleFactoryTest {
         Vehicle domainVehicle
                 = org.optaweb.vehiclerouting.domain.VehicleFactory.createVehicle(vehicleId, name, capacity);
 
-        org.optaplanner.examples.vehiclerouting.domain.Vehicle vehicle = fromDomain(domainVehicle);
+        PlanningVehicle vehicle = fromDomain(domainVehicle);
 
         assertThat(vehicle.getId()).isEqualTo(vehicleId);
         assertThat(vehicle.getCapacity()).isEqualTo(capacity);

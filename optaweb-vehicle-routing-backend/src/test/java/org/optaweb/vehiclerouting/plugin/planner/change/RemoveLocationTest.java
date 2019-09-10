@@ -21,10 +21,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
@@ -42,7 +41,7 @@ class RemoveLocationTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
-        Location location = new RoadLocation(1, 2.0, 3.0);
+        PlanningLocation location = new PlanningLocation(1, 2.0, 3.0);
         solution.getLocationList().add(location);
 
         when(scoreDirector.lookUpWorkingObject(location)).thenReturn(location);
@@ -63,10 +62,10 @@ class RemoveLocationTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
 
         long removedId = 111L;
-        RoadLocation removedLocation = new RoadLocation(removedId, 0, 1);
+        PlanningLocation removedLocation = new PlanningLocation(removedId, 0, 1);
         removedLocation.setId(removedId);
         long wrongId = 222L;
-        RoadLocation wrongLocation = new RoadLocation(wrongId, 1, 0);
+        PlanningLocation wrongLocation = new PlanningLocation(wrongId, 1, 0);
         wrongLocation.setId(wrongId);
         solution.getLocationList().add(wrongLocation);
 
@@ -85,7 +84,7 @@ class RemoveLocationTest {
         when(scoreDirector.getWorkingSolution()).thenReturn(SolutionFactory.emptySolution());
 
         assertThatIllegalStateException()
-                .isThrownBy(() -> new RemoveLocation(new RoadLocation(1, 2, 3)).doChange(scoreDirector))
+                .isThrownBy(() -> new RemoveLocation(new PlanningLocation(1, 2, 3)).doChange(scoreDirector))
                 .withMessageContaining("working copy of");
     }
 }

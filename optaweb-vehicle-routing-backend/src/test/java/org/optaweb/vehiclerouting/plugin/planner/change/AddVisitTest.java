@@ -21,19 +21,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.plugin.planner.CustomerFactory;
+import org.optaweb.vehiclerouting.plugin.planner.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AddCustomerTest {
+class AddVisitTest {
 
     @Mock
     private ScoreDirector<VehicleRoutingSolution> scoreDirector;
@@ -43,18 +42,18 @@ class AddCustomerTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
-        Location location = new RoadLocation(1, 1.0, 2.0);
-        Customer customer = CustomerFactory.customer(location);
-        AddCustomer addCustomer = new AddCustomer(customer);
+        PlanningLocation location = new PlanningLocation(1, 1.0, 2.0);
+        PlanningVisit visit = PlanningVisitFactory.visit(location);
+        AddVisit addCustomer = new AddVisit(visit);
         addCustomer.doChange(scoreDirector);
 
         verify(scoreDirector).beforeProblemFactAdded(location);
         verify(scoreDirector).afterProblemFactAdded(location);
         assertThat(solution.getLocationList()).containsExactly(location);
 
-        verify(scoreDirector).beforeEntityAdded(customer);
-        verify(scoreDirector).afterEntityAdded(customer);
-        assertThat(solution.getCustomerList()).containsExactly(customer);
+        verify(scoreDirector).beforeEntityAdded(visit);
+        verify(scoreDirector).afterEntityAdded(visit);
+        assertThat(solution.getVisitList()).containsExactly(visit);
 
         verify(scoreDirector).triggerVariableListeners();
     }

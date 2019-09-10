@@ -21,15 +21,15 @@ import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
 public class RemoveVehicle implements ProblemFactChange<VehicleRoutingSolution> {
 
-    private final Vehicle removedVehicle;
+    private final PlanningVehicle removedVehicle;
 
-    public RemoveVehicle(Vehicle removedVehicle) {
+    public RemoveVehicle(PlanningVehicle removedVehicle) {
         this.removedVehicle = Objects.requireNonNull(removedVehicle);
     }
 
@@ -38,19 +38,19 @@ public class RemoveVehicle implements ProblemFactChange<VehicleRoutingSolution> 
         VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
 
         // Look up a working copy of the vehicle
-        Vehicle workingVehicle = scoreDirector.lookUpWorkingObject(removedVehicle);
+        PlanningVehicle workingVehicle = scoreDirector.lookUpWorkingObject(removedVehicle);
         if (workingVehicle == null) {
             throw new IllegalStateException("Can't look up a working copy of " + removedVehicle);
         }
 
         // Un-initialize all customers visited by this vehicle
-        Customer visitedCustomer = workingVehicle.getNextCustomer();
+        PlanningVisit visitedCustomer = workingVehicle.getNextVisit();
         while (visitedCustomer != null) {
             scoreDirector.beforeVariableChanged(visitedCustomer, "previousStandstill");
             visitedCustomer.setPreviousStandstill(null);
             scoreDirector.afterVariableChanged(visitedCustomer, "previousStandstill");
 
-            visitedCustomer = visitedCustomer.getNextCustomer();
+            visitedCustomer = visitedCustomer.getNextVisit();
         }
 
         // Shallow clone fact list (facts and fact collections are not planning-cloned)

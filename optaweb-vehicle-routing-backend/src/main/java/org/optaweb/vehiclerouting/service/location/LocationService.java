@@ -75,7 +75,8 @@ public class LocationService {
 
     public synchronized void removeLocation(long id) {
         // TODO missing validation (id might be out of date or completely invalid)
-        // A) Take Location as an argument => it's valid but still might be out of date. Decide how to handle that case.
+        // A) Take Location as an argument => it's valid but still might be out of date. Decide how to handle that
+        // case.
         // B) removeLocation() returns Optional instead of throwing IllArgException. Still need to decide how to handle
         //    the case when location with given ID doesn't exist.
         Location location = repository.removeLocation(id);

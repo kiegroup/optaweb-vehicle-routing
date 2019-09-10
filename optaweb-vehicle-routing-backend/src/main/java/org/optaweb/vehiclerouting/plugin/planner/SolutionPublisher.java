@@ -21,10 +21,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.slf4j.Logger;
@@ -55,12 +54,14 @@ class SolutionPublisher {
      */
     void publishSolution(VehicleRoutingSolution solution) {
         RouteChangedEvent event = solutionToEvent(solution, this);
+        logger.info("{}",solution);
         logger.info(
-                "New solution with {} depots, {} vehicles, {} customers, distance: {}",
+                "New solution with {} depots, {} vehicles, {} customers, distance: {}, score : {}",
                 solution.getDepotList().size(),
                 solution.getVehicleList().size(),
-                solution.getCustomerList().size(),
-                event.distance()
+                solution.getVisitList().size(),
+                event.distance(),
+                solution.getScore()
         );
         logger.debug("Routes: {}", event.routes());
         eventPublisher.publishEvent(event);
@@ -86,7 +87,7 @@ class SolutionPublisher {
     }
 
     private static List<Long> visitIds(VehicleRoutingSolution solution) {
-        return solution.getCustomerList().stream()
+        return solution.getVisitList().stream()
                 .map(customer -> customer.getLocation().getId())
                 .collect(Collectors.toList());
     }
@@ -102,8 +103,8 @@ class SolutionPublisher {
             return Collections.emptyList();
         }
         ArrayList<ShallowRoute> routes = new ArrayList<>();
-        for (Vehicle vehicle : solution.getVehicleList()) {
-            Depot depot = vehicle.getDepot();
+        for (PlanningVehicle vehicle : solution.getVehicleList()) {
+            PlanningDepot depot = vehicle.getDepot();
             if (depot == null) {
                 throw new IllegalArgumentException(
                         "Vehicle (id=" + vehicle.getId() + ") is not in the depot. That's not allowed"
@@ -111,14 +112,14 @@ class SolutionPublisher {
             }
             List<Long> visits = new ArrayList<>();
             for (
-                    Customer customer = vehicle.getNextCustomer();
-                    customer != null;
-                    customer = customer.getNextCustomer()
+                    PlanningVisit visit = vehicle.getNextVisit();
+                    visit != null;
+                    visit = visit.getNextVisit()
             ) {
-                if (!solution.getCustomerList().contains(customer)) {
-                    throw new IllegalArgumentException("Customer (" + customer + ") doesn't exist");
+                if (!solution.getVisitList().contains(visit)) {
+                    throw new IllegalArgumentException("Visit (" + visit + ") doesn't exist");
                 }
-                visits.add(customer.getLocation().getId());
+                visits.add(visit.getLocation().getId());
             }
             routes.add(new ShallowRoute(vehicle.getId(), depot.getId(), visits));
         }
@@ -132,7 +133,7 @@ class SolutionPublisher {
      */
     private static List<Long> vehicleIds(VehicleRoutingSolution solution) {
         return solution.getVehicleList().stream()
-                .map(Vehicle::getId)
+                .map(PlanningVehicle::getId)
                 .collect(Collectors.toList());
     }
 

@@ -103,7 +103,7 @@
     <!-- Production dependencies -->
     <dependency>
       <groupId>org.optaplanner</groupId>
-      <artifactId>optaplanner-examples</artifactId>
+      <artifactId>optaplanner-core</artifactId>
     </dependency>
     <dependency>
       <groupId>com.graphhopper</groupId>

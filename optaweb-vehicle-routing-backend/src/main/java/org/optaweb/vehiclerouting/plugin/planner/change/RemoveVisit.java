@@ -20,29 +20,29 @@ import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
-public class RemoveCustomer implements ProblemFactChange<VehicleRoutingSolution> {
+public class RemoveVisit implements ProblemFactChange<VehicleRoutingSolution> {
 
-    private final Customer removedCustomer;
+    private final PlanningVisit planningVisit;
 
-    public RemoveCustomer(Customer removedCustomer) {
-        this.removedCustomer = Objects.requireNonNull(removedCustomer);
+    public RemoveVisit(PlanningVisit planningVisit) {
+        this.planningVisit = Objects.requireNonNull(planningVisit);
     }
 
     @Override
     public void doChange(ScoreDirector<VehicleRoutingSolution> scoreDirector) {
         VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
 
-        // Look up a working copy of the customer
-        Customer workingCustomer = scoreDirector.lookUpWorkingObject(removedCustomer);
+        // Look up a working copy of the visit
+        PlanningVisit workingCustomer = scoreDirector.lookUpWorkingObject(planningVisit);
         if (workingCustomer == null) {
-            throw new IllegalStateException("Can't look up a working copy of " + removedCustomer);
+            throw new IllegalStateException("Can't look up a working copy of " + planningVisit);
         }
 
-        // Fix the next customer and set its previousStandstill to the removed customer's previousStandstill
-        for (Customer nextCustomer : workingSolution.getCustomerList()) {
+        // Fix the next visit and set its previousStandstill to the removed visit's previousStandstill
+        for (PlanningVisit nextCustomer : workingSolution.getVisitList()) {
             if (nextCustomer.getPreviousStandstill().equals(workingCustomer)) {
                 scoreDirector.beforeVariableChanged(nextCustomer, "previousStandstill");
                 nextCustomer.setPreviousStandstill(workingCustomer.getPreviousStandstill());
@@ -56,12 +56,12 @@ public class RemoveCustomer implements ProblemFactChange<VehicleRoutingSolution>
         // To learn more about problem fact changes, see:
         // https://docs.jboss.org/optaplanner/release/latest/optaplanner-docs/html_single/#problemFactChangeExample
 
-        // Remove the customer
+        // Remove the visit
         scoreDirector.beforeEntityRemoved(workingCustomer);
-        if (!workingSolution.getCustomerList().remove(workingCustomer)) {
+        if (!workingSolution.getVisitList().remove(workingCustomer)) {
             throw new IllegalStateException(
                     "Working solution's customerList "
-                            + workingSolution.getCustomerList()
+                            + workingSolution.getVisitList()
                             + " doesn't contain the workingCustomer ("
                             + workingCustomer
                             + "). This is a bug!"

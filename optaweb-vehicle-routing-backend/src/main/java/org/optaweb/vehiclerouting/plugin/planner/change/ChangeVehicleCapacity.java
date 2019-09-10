@@ -20,20 +20,20 @@ import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 
 public class ChangeVehicleCapacity implements ProblemFactChange<VehicleRoutingSolution> {
 
-    private final Vehicle vehicle;
+    private final PlanningVehicle vehicle;
 
-    public ChangeVehicleCapacity(Vehicle vehicle) {
+    public ChangeVehicleCapacity(PlanningVehicle  vehicle) {
         this.vehicle = Objects.requireNonNull(vehicle);
     }
 
     @Override
     public void doChange(ScoreDirector<VehicleRoutingSolution> scoreDirector) {
-        Vehicle workingVehicle = scoreDirector.lookUpWorkingObject(vehicle);
+        PlanningVehicle  workingVehicle = scoreDirector.lookUpWorkingObject(vehicle);
         if (workingVehicle == null) {
             throw new IllegalStateException("Can't look up a working copy of " + vehicle);
         }

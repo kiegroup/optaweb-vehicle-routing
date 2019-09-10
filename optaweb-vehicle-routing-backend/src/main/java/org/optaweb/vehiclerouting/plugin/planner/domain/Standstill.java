@@ -14,23 +14,29 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.location;
+package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import java.util.Map;
+import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.variable.InverseRelationShadowVariable;
 
-import org.optaweb.vehiclerouting.domain.Location;
+@PlanningEntity
+public interface Standstill {
 
-/**
- * Holds distances between every pair of locations.
- */
-public interface DistanceMatrix {
+    /**
+     * @return never null
+     */
+    PlanningLocation getLocation();
 
-    void addLocation(Location location);
+    /**
+     * @return sometimes null
+     */
+    PlanningVehicle getVehicle();
 
-    // TODO Currently, the API is encumbered by usage of OptaPlanner VRP example code that works with
-    // {@code Map<Location, Double>}.
-    // TODO replace with travelTimeMillis(Coordinates, Coordinates, VehicleType)
-    Map<Long, Double> getRow(Location location);
+    /**
+     * @return sometimes null
+     */
+    @InverseRelationShadowVariable(sourceVariableName = "previousStandstill")
+    PlanningVisit getNextVisit();
+    void setNextVisit(PlanningVisit nextVisit);
 
-    void clear();
 }

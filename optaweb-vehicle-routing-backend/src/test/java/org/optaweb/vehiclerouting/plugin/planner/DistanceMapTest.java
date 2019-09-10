@@ -19,9 +19,7 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
-import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,14 +27,14 @@ class DistanceMapTest {
 
     @Test
     void distance_map_should_convert_millis_to_secs() {
-        Location location = new Location(1, Coordinates.valueOf(8.0, 0.8));
+        PlanningLocation location = new PlanningLocation(1, 8.0, 0.8);
         long otherId = 2;
-        RoadLocation roadLocation = new RoadLocation(otherId, 0.0, 0.0);
+        PlanningLocation location2 = new PlanningLocation(otherId, 0.0, 0.0);
         double distance = 45000;
         HashMap<Long, Double> distanceMap = new HashMap<>(1);
         distanceMap.put(otherId, distance);
         DistanceMap distanceMapBridge = new DistanceMap(location, distanceMap);
-        assertThat(distanceMapBridge).containsKey(roadLocation);
-        assertThat(distanceMapBridge.get(roadLocation)).isEqualTo(distance / 1000);
+        assertThat(distanceMapBridge).containsKey(location2);
+        assertThat(distanceMapBridge.get(location2)).isEqualTo(distance / 1000);
     }
 }

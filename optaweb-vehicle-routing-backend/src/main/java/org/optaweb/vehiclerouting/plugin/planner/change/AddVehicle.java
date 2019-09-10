@@ -21,14 +21,14 @@ import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 
 public class AddVehicle implements ProblemFactChange<VehicleRoutingSolution> {
 
-    private final Vehicle vehicle;
+    private final PlanningVehicle vehicle;
 
-    public AddVehicle(Vehicle vehicle) {
+    public AddVehicle(PlanningVehicle vehicle) {
         this.vehicle = Objects.requireNonNull(vehicle);
     }
 

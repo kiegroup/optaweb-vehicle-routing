@@ -22,11 +22,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.springframework.context.ApplicationEventPublisher;
@@ -36,11 +35,10 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.optaweb.vehiclerouting.plugin.planner.CustomerFactory.customer;
-import static org.optaweb.vehiclerouting.plugin.planner.DepotFactory.depot;
+import static org.optaweb.vehiclerouting.plugin.planner.PlanningVehicleFactory.vehicle;
+import static org.optaweb.vehiclerouting.plugin.planner.PlanningVisitFactory.visit;
 import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromCustomers;
 import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromLocations;
-import static org.optaweb.vehiclerouting.plugin.planner.VehicleFactory.vehicle;
 
 @ExtendWith(MockitoExtension.class)
 class SolutionPublisherTest {
@@ -72,7 +70,7 @@ class SolutionPublisherTest {
     @Test
     void solution_with_vehicles_and_no_depot_should_have_zero_routes() {
         long vehicleId = 1;
-        Vehicle vehicle = vehicle(vehicleId);
+        PlanningVehicle vehicle = vehicle(vehicleId);
         VehicleRoutingSolution solution = solutionFromCustomers(singletonList(vehicle), null, emptyList());
 
         RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
@@ -90,8 +88,8 @@ class SolutionPublisherTest {
         long visitId = 2;
         VehicleRoutingSolution solution = solutionFromLocations(
                 emptyList(),
-                depot(new RoadLocation(depotId, 1.0, 1.0)),
-                singletonList(new RoadLocation(visitId, 2.0, 2.0))
+                new PlanningDepot(new PlanningLocation(depotId, 1.0, 1.0)),
+                singletonList(new PlanningLocation(visitId, 2.0, 2.0))
         );
 
         RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
@@ -108,35 +106,35 @@ class SolutionPublisherTest {
         // arrange
         long vehicleId1 = 1001;
         long vehicleId2 = 2001;
-        Vehicle vehicle1 = vehicle(vehicleId1);
-        Vehicle vehicle2 = vehicle(vehicleId2);
+        PlanningVehicle vehicle1 = vehicle(vehicleId1);
+        PlanningVehicle vehicle2 = vehicle(vehicleId2);
 
         long depotId = 1;
         long visitId1 = 2;
         long visitId2 = 3;
-        Depot depot = depot(new RoadLocation(depotId, 1.0, 1.0));
-        Customer customer1 = customer(new RoadLocation(visitId1, 2.0, 2.0));
-        Customer customer2 = customer(new RoadLocation(visitId2, 0.2, 0.2));
+        PlanningDepot depot = new PlanningDepot(new PlanningLocation(depotId, 1.0, 1.0));
+        PlanningVisit visit1 = visit(new PlanningLocation(visitId1, 2.0, 2.0));
+        PlanningVisit visit2 = visit(new PlanningLocation(visitId2, 0.2, 0.2));
 
         VehicleRoutingSolution solution = solutionFromCustomers(
                 asList(vehicle1, vehicle2),
                 depot,
-                asList(customer1, customer2)
+                asList(visit1, visit2)
         );
 
         /* Send both vehicles to both visits
          * V1
          *   \
-         *    |---> customer1 ---> customer2
+         *    |---> visit1 ---> customer2
          *   /
          * V2
          */
-        for (Vehicle vehicle : solution.getVehicleList()) {
-            vehicle.setNextCustomer(customer1);
-            customer1.setPreviousStandstill(vehicle);
+        for (PlanningVehicle vehicle : solution.getVehicleList()) {
+            vehicle.setNextVisit(visit1);
+            visit1.setPreviousStandstill(vehicle);
         }
-        customer1.setNextCustomer(customer2);
-        customer2.setPreviousStandstill(customer1);
+        visit1.setNextVisit(visit2);
+        visit2.setPreviousStandstill(visit1);
 
         // act
         RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
@@ -160,24 +158,24 @@ class SolutionPublisherTest {
 
     @Test
     void fail_fast_if_vehicles_next_customer_doesnt_exist() {
-        Vehicle vehicle = vehicle(1);
-        vehicle.setNextCustomer(customer(new RoadLocation(2, 2.0, 2.0)));
+        PlanningVehicle vehicle = vehicle(1);
+        vehicle.setNextVisit(visit(new PlanningLocation(2, 2.0, 2.0)));
 
         VehicleRoutingSolution solution = solutionFromLocations(
                 singletonList(vehicle),
-                depot(new RoadLocation(1, 1.0, 1.0)),
-                singletonList(new RoadLocation(3, 3.0, 3.0))
+                new PlanningDepot(new PlanningLocation(1, 1.0, 1.0)),
+                singletonList(new PlanningLocation(3, 3.0, 3.0))
         );
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> SolutionPublisher.solutionToEvent(solution, this))
-                .withMessageContaining("Customer");
+                .withMessageContaining("Visit");
     }
 
     @Test
     void vehicle_without_a_depot_is_illegal_if_depot_exists() {
-        Depot depot = depot(new RoadLocation(1, 1.0, 1.0));
-        Vehicle vehicle = vehicle(1);
+        PlanningDepot depot = new PlanningDepot(new PlanningLocation(1, 1.0, 1.0));
+        PlanningVehicle vehicle = vehicle(1);
         VehicleRoutingSolution solution = solutionFromCustomers(singletonList(vehicle), depot, emptyList());
         vehicle.setDepot(null);
         assertThatIllegalArgumentException()

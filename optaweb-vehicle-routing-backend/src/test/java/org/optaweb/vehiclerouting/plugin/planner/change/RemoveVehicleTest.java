@@ -21,13 +21,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaplanner.examples.vehiclerouting.domain.Customer;
-import org.optaplanner.examples.vehiclerouting.domain.Depot;
-import org.optaplanner.examples.vehiclerouting.domain.Vehicle;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
@@ -46,14 +45,14 @@ class RemoveVehicleTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
-        Location location = new RoadLocation(1, 2.0, 3.0);
-        Depot depot = new Depot();
+        PlanningLocation location = new PlanningLocation(1, 2.0, 3.0);
+        PlanningDepot depot = new PlanningDepot();
         depot.setLocation(location);
 
-        Vehicle removedVehicle = new Vehicle();
+        PlanningVehicle removedVehicle = new PlanningVehicle();
         removedVehicle.setId(1L);
         removedVehicle.setDepot(depot);
-        Vehicle otherVehicle = new Vehicle();
+        PlanningVehicle otherVehicle = new PlanningVehicle();
         otherVehicle.setId(2L);
         otherVehicle.setDepot(depot);
         solution.getVehicleList().add(removedVehicle);
@@ -61,33 +60,33 @@ class RemoveVehicleTest {
 
         when(scoreDirector.lookUpWorkingObject(removedVehicle)).thenReturn(removedVehicle);
 
-        Customer firstCustomer = customer(1);
-        Customer lastCustomer = customer(2);
-        solution.getCustomerList().add(firstCustomer);
-        solution.getCustomerList().add(lastCustomer);
+        PlanningVisit firstVisit = visit(1);
+        PlanningVisit lastVisit = visit(2);
+        solution.getVisitList().add(firstVisit);
+        solution.getVisitList().add(lastVisit);
 
         // V -> first -> last
-        removedVehicle.setNextCustomer(firstCustomer);
-        firstCustomer.setPreviousStandstill(removedVehicle);
-        firstCustomer.setVehicle(removedVehicle);
-        firstCustomer.setNextCustomer(lastCustomer);
-        lastCustomer.setPreviousStandstill(firstCustomer);
-        lastCustomer.setVehicle(removedVehicle);
+        removedVehicle.setNextVisit(firstVisit);
+        firstVisit.setPreviousStandstill(removedVehicle);
+        firstVisit.setVehicle(removedVehicle);
+        firstVisit.setNextVisit(lastVisit);
+        lastVisit.setPreviousStandstill(firstVisit);
+        lastVisit.setVehicle(removedVehicle);
 
         // do change
         RemoveVehicle removeVehicle = new RemoveVehicle(removedVehicle);
         removeVehicle.doChange(scoreDirector);
 
-        assertThat(firstCustomer.getPreviousStandstill()).isNull();
-        assertThat(lastCustomer.getPreviousStandstill()).isNull();
+        assertThat(firstVisit.getPreviousStandstill()).isNull();
+        assertThat(lastVisit.getPreviousStandstill()).isNull();
         assertThat(solution.getVehicleList()).containsExactly(otherVehicle);
 
-        verify(scoreDirector).beforeVariableChanged(firstCustomer, "previousStandstill");
-        verify(scoreDirector).afterVariableChanged(firstCustomer, "previousStandstill");
-        verify(scoreDirector).beforeVariableChanged(lastCustomer, "previousStandstill");
-        verify(scoreDirector).afterVariableChanged(lastCustomer, "previousStandstill");
-        verify(scoreDirector).beforeProblemFactRemoved(any(Vehicle.class));
-        verify(scoreDirector).afterProblemFactRemoved(any(Vehicle.class));
+        verify(scoreDirector).beforeVariableChanged(firstVisit, "previousStandstill");
+        verify(scoreDirector).afterVariableChanged(firstVisit, "previousStandstill");
+        verify(scoreDirector).beforeVariableChanged(lastVisit, "previousStandstill");
+        verify(scoreDirector).afterVariableChanged(lastVisit, "previousStandstill");
+        verify(scoreDirector).beforeProblemFactRemoved(any(PlanningVehicle.class));
+        verify(scoreDirector).afterProblemFactRemoved(any(PlanningVehicle.class));
         verify(scoreDirector).triggerVariableListeners();
     }
 
@@ -95,16 +94,16 @@ class RemoveVehicleTest {
     void fail_fast_if_working_solution_vehicle_list_does_not_contain_working_vehicle() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
 
-        Location location = new RoadLocation(1, 2.0, 3.0);
-        Depot depot = new Depot();
+        PlanningLocation location = new PlanningLocation(1, 2.0, 3.0);
+        PlanningDepot depot = new PlanningDepot();
         depot.setLocation(location);
 
         long removedId = 111L;
-        Vehicle removedVehicle = new Vehicle();
+        PlanningVehicle removedVehicle = new PlanningVehicle();
         removedVehicle.setId(removedId);
         removedVehicle.setDepot(depot);
         long wrongId = 222L;
-        Vehicle wrongVehicle = new Vehicle();
+        PlanningVehicle wrongVehicle = new PlanningVehicle();
         wrongVehicle.setId(wrongId);
         wrongVehicle.setDepot(depot);
         solution.getVehicleList().add(wrongVehicle);
@@ -122,9 +121,9 @@ class RemoveVehicleTest {
     @Test
     void fail_fast_if_working_object_is_null() {
         when(scoreDirector.getWorkingSolution()).thenReturn(SolutionFactory.emptySolution());
-        Depot depot = new Depot();
-        depot.setLocation(new RoadLocation(4L, 1, 2));
-        Vehicle vehicle = new Vehicle();
+        PlanningDepot depot = new PlanningDepot();
+        depot.setLocation(new PlanningLocation(4L, 1, 2));
+        PlanningVehicle vehicle = new PlanningVehicle();
         vehicle.setId(1L);
         vehicle.setDepot(depot);
 
@@ -133,11 +132,11 @@ class RemoveVehicleTest {
                 .withMessageContaining("working copy of");
     }
 
-    private static Customer customer(long id) {
-        Location location = new RoadLocation(1000000 + id, id, id);
-        Customer customer = new Customer();
-        customer.setId(id);
-        customer.setLocation(location);
-        return customer;
+    private static PlanningVisit visit(long id) {
+        PlanningLocation location = new PlanningLocation(1000000 + id, id, id);
+        PlanningVisit visit = new PlanningVisit();
+        visit.setId(id);
+        visit.setLocation(location);
+        return visit;
     }
 }

@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.planner;
+package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import org.junit.jupiter.api.Test;
-import org.optaplanner.examples.vehiclerouting.domain.location.RoadLocation;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.optaweb.vehiclerouting.plugin.planner.LocationFactory.fromDomain;
 
-class LocationFactoryTest {
+
+class PlanningLocationTest {
 
     @Test
     void planning_location_should_have_same_latitude_and_longitude_as_domain_location() {
         Location domainLocation = new Location(1, Coordinates.valueOf(1.0, 0.1));
-        RoadLocation roadLocation = fromDomain(domainLocation);
-        assertThat(roadLocation.getId()).isEqualTo(domainLocation.id());
-        assertThat(roadLocation.getLatitude()).isEqualTo(domainLocation.coordinates().latitude().doubleValue());
-        assertThat(roadLocation.getLongitude()).isEqualTo(domainLocation.coordinates().longitude().doubleValue());
+        PlanningLocation planningLocation = new PlanningLocation(domainLocation);
+        assertThat(planningLocation.getId()).isEqualTo(domainLocation.id());
+        assertThat(planningLocation.getLatitude()).isEqualTo(domainLocation.coordinates().latitude());
+        assertThat(planningLocation.getLongitude()).isEqualTo(domainLocation.coordinates().longitude());
     }
 }

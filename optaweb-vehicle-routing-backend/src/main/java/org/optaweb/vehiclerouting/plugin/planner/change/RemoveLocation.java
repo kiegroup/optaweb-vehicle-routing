@@ -21,14 +21,14 @@ import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
-import org.optaplanner.examples.vehiclerouting.domain.VehicleRoutingSolution;
-import org.optaplanner.examples.vehiclerouting.domain.location.Location;
+import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 
 public class RemoveLocation implements ProblemFactChange<VehicleRoutingSolution> {
 
-    private final Location removedLocation;
+    private final PlanningLocation removedLocation;
 
-    public RemoveLocation(Location removedLocation) {
+    public  RemoveLocation(PlanningLocation removedLocation) {
         this.removedLocation = Objects.requireNonNull(removedLocation);
     }
 
@@ -37,7 +37,7 @@ public class RemoveLocation implements ProblemFactChange<VehicleRoutingSolution>
         VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
 
         // Look up a working copy of the location
-        Location workingLocation = scoreDirector.lookUpWorkingObject(removedLocation);
+        PlanningLocation workingLocation = scoreDirector.lookUpWorkingObject(removedLocation);
         if (workingLocation == null) {
             throw new IllegalStateException("Can't look up a working copy of " + removedLocation);
         }
