@@ -54,9 +54,8 @@ class SolutionPublisher {
      */
     void publishSolution(VehicleRoutingSolution solution) {
         RouteChangedEvent event = solutionToEvent(solution, this);
-        logger.info("{}", solution);
         logger.info(
-                "New solution with {} depots, {} vehicles, {} customers, distance: {}, score : {}",
+                "New solution with {} depots, {} vehicles, {} customers, distance: {}, score: {}",
                 solution.getDepotList().size(),
                 solution.getVehicleList().size(),
                 solution.getVisitList().size(),
