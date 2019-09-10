@@ -45,7 +45,14 @@ class RouteOptimizerConfig {
 
     @Bean
     Solver<VehicleRoutingSolution> solver() {
-        SolverFactory<VehicleRoutingSolution> sf = SolverFactory.createFromXmlResource(SOLVER_CONFIG);
+        // Use context classloader to avoid ClassCastException during solution cloning:
+        // https://stackoverflow.com/questions/52586747/classcastexception-occured-on-solver-solve
+        // as recommended in
+        // CHECKSTYLE:OFF
+        // https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html#using-boot-devtools-customizing-classload
+        // CHECKSTYLE:ON
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        SolverFactory<VehicleRoutingSolution> sf = SolverFactory.createFromXmlResource(SOLVER_CONFIG, classLoader);
         Duration timeout = optimizerProperties.getTimeout();
         sf.getSolverConfig().setTerminationConfig(new TerminationConfig().withSecondsSpentLimit(timeout.getSeconds()));
         sf.getSolverConfig().setDaemon(true);
