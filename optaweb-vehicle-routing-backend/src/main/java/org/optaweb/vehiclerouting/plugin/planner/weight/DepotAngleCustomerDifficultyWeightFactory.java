@@ -25,15 +25,13 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 public class DepotAngleCustomerDifficultyWeightFactory
         implements SelectionSorterWeightFactory<VehicleRoutingSolution, PlanningVisit> {
 
-    public DepotAngleCustomerDifficultyWeightFactory() {
-    }
-
-    public DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight createSorterWeight(
+    @Override
+    public DepotAngleCustomerDifficultyWeight createSorterWeight(
             VehicleRoutingSolution vehicleRoutingSolution,
             PlanningVisit customer
     ) {
-        PlanningDepot depot = (PlanningDepot) vehicleRoutingSolution.getDepotList().get(0);
-        return new DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight(
+        PlanningDepot depot = vehicleRoutingSolution.getDepotList().get(0);
+        return new DepotAngleCustomerDifficultyWeight(
                 customer,
                 customer.getLocation().getAngle(depot.getLocation()),
                 customer.getLocation().getDistanceTo(depot.getLocation())
@@ -41,14 +39,13 @@ public class DepotAngleCustomerDifficultyWeightFactory
         );
     }
 
-    public static class DepotAngleCustomerDifficultyWeight
-            implements Comparable<DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight> {
+    public static class DepotAngleCustomerDifficultyWeight implements Comparable<DepotAngleCustomerDifficultyWeight> {
 
         private final PlanningVisit customer;
         private final double depotAngle;
         private final long depotRoundTripDistance;
 
-        public DepotAngleCustomerDifficultyWeight(
+        private DepotAngleCustomerDifficultyWeight(
                 PlanningVisit customer,
                 double depotAngle,
                 long depotRoundTripDistance
@@ -58,7 +55,8 @@ public class DepotAngleCustomerDifficultyWeightFactory
             this.depotRoundTripDistance = depotRoundTripDistance;
         }
 
-        public int compareTo(DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight other) {
+        @Override
+        public int compareTo(DepotAngleCustomerDifficultyWeight other) {
             return new CompareToBuilder()
                     .append(this.depotAngle, other.depotAngle)
                     .append(this.depotRoundTripDistance, other.depotRoundTripDistance)
