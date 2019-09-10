@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -52,7 +51,6 @@ public class PlanningVehicle extends AbstractPersistable implements Standstill {
     public void setNextVisit(PlanningVisit nextVisit) {
         this.nextVisit = nextVisit;
     }
-
 
     @Override
     public PlanningVehicle getVehicle() {

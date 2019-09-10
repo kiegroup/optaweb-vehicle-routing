@@ -44,26 +44,21 @@ class DepotAngleCustomerDifficultyWeightFactoryTest {
     private final PlanningLocation location3 = new PlanningLocation(3, 1.0, 50.0);
 
     @InjectMocks
-    private DepotAngleCustomerDifficultyWeightFactory  weightFactory;
-
+    private DepotAngleCustomerDifficultyWeightFactory weightFactory;
 
     @Test
     void createSorterWeight_close_customer_should_have_smaller_weight() {
         VehicleRoutingSolution solution = createSolution(location1, location2, location3);
         DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight closeCustomerWeight =
-                weightFactory.createSorterWeight(solution,
-                solution.getVisitList().get(0));
+                weightFactory.createSorterWeight(solution, solution.getVisitList().get(0));
         DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight farCustomerWeight =
-                weightFactory.createSorterWeight(solution,
-                    solution.getVisitList().get(1));
+                weightFactory.createSorterWeight(solution, solution.getVisitList().get(1));
         assertThat(closeCustomerWeight.compareTo(farCustomerWeight) < 0);
-
     }
 
     /**
      * Create a solution with 1 vehicle with depot being the first location and visiting all customers specified by
      * the rest of locations.
-     *
      * @param locations depot and visit locations
      * @return initialized solution
      */
@@ -89,7 +84,6 @@ class DepotAngleCustomerDifficultyWeightFactoryTest {
         return solution;
     }
 
-
     /**
      * Add depot.
      * @param solution solution
@@ -104,7 +98,6 @@ class DepotAngleCustomerDifficultyWeightFactoryTest {
         solution.getLocationList().add(location);
         return depot;
     }
-
 
     /**
      * Add customer with demand.
@@ -128,19 +121,17 @@ class DepotAngleCustomerDifficultyWeightFactoryTest {
      * @param id vehicle id
      * @return the new vehicle
      */
-    public static PlanningVehicle  addVehicle(VehicleRoutingSolution solution, long id) {
+    public static PlanningVehicle addVehicle(VehicleRoutingSolution solution, long id) {
         return addVehicle(solution, id, 0);
     }
 
-
     private static PlanningVehicle addVehicle(VehicleRoutingSolution solution, long id, int capacity) {
-        PlanningVehicle  vehicle = new PlanningVehicle ();
+        PlanningVehicle vehicle = new PlanningVehicle();
         vehicle.setId(id);
         vehicle.setCapacity(capacity);
         solution.getVehicleList().add(vehicle);
         return vehicle;
     }
-
 
     public DepotAngleCustomerDifficultyWeightFactoryTest() {
         //Location 1 is close to location 2 and far away from location 3

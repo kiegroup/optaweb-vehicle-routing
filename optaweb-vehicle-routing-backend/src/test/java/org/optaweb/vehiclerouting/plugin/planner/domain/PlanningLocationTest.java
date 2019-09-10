@@ -22,7 +22,6 @@ import org.optaweb.vehiclerouting.domain.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 class PlanningLocationTest {
 
     @Test

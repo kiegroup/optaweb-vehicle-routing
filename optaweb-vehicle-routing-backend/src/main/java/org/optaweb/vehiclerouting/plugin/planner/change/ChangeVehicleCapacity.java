@@ -27,13 +27,13 @@ public class ChangeVehicleCapacity implements ProblemFactChange<VehicleRoutingSo
 
     private final PlanningVehicle vehicle;
 
-    public ChangeVehicleCapacity(PlanningVehicle  vehicle) {
+    public ChangeVehicleCapacity(PlanningVehicle vehicle) {
         this.vehicle = Objects.requireNonNull(vehicle);
     }
 
     @Override
     public void doChange(ScoreDirector<VehicleRoutingSolution> scoreDirector) {
-        PlanningVehicle  workingVehicle = scoreDirector.lookUpWorkingObject(vehicle);
+        PlanningVehicle workingVehicle = scoreDirector.lookUpWorkingObject(vehicle);
         if (workingVehicle == null) {
             throw new IllegalStateException("Can't look up a working copy of " + vehicle);
         }

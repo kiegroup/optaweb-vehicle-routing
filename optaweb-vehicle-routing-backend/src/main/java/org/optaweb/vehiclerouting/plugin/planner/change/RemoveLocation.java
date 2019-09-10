@@ -28,7 +28,7 @@ public class RemoveLocation implements ProblemFactChange<VehicleRoutingSolution>
 
     private final PlanningLocation removedLocation;
 
-    public  RemoveLocation(PlanningLocation removedLocation) {
+    public RemoveLocation(PlanningLocation removedLocation) {
         this.removedLocation = Objects.requireNonNull(removedLocation);
     }
 

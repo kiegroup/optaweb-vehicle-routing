@@ -139,7 +139,7 @@ class RemoveVisitTest {
                 .withMessageContaining("working copy of");
     }
 
-    private static PlanningVehicle planningVehicle(long id){
+    private static PlanningVehicle planningVehicle(long id) {
         PlanningVehicle vehicle = new PlanningVehicle();
         vehicle.setDepot(new PlanningDepot());
         vehicle.getDepot().setLocation(new PlanningLocation());

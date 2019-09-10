@@ -22,38 +22,48 @@ import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
-public class DepotAngleCustomerDifficultyWeightFactory implements SelectionSorterWeightFactory<VehicleRoutingSolution
-        , PlanningVisit> {
+public class DepotAngleCustomerDifficultyWeightFactory
+        implements SelectionSorterWeightFactory<VehicleRoutingSolution, PlanningVisit> {
+
     public DepotAngleCustomerDifficultyWeightFactory() {
     }
 
     public DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight createSorterWeight(
-            VehicleRoutingSolution vehicleRoutingSolution, PlanningVisit customer) {
+            VehicleRoutingSolution vehicleRoutingSolution,
+            PlanningVisit customer
+    ) {
         PlanningDepot depot = (PlanningDepot) vehicleRoutingSolution.getDepotList().get(0);
-        return new DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight(customer,
+        return new DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight(
+                customer,
                 customer.getLocation().getAngle(depot.getLocation()),
                 customer.getLocation().getDistanceTo(depot.getLocation())
-                        + depot.getLocation().getDistanceTo(customer.getLocation()));
+                        + depot.getLocation().getDistanceTo(customer.getLocation())
+        );
     }
 
-    public static class DepotAngleCustomerDifficultyWeight implements
-            Comparable<DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight> {
+    public static class DepotAngleCustomerDifficultyWeight
+            implements Comparable<DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight> {
+
         private final PlanningVisit customer;
         private final double depotAngle;
         private final long depotRoundTripDistance;
 
-        public DepotAngleCustomerDifficultyWeight(PlanningVisit customer, double depotAngle,
-                                                  long depotRoundTripDistance) {
+        public DepotAngleCustomerDifficultyWeight(
+                PlanningVisit customer,
+                double depotAngle,
+                long depotRoundTripDistance
+        ) {
             this.customer = customer;
             this.depotAngle = depotAngle;
             this.depotRoundTripDistance = depotRoundTripDistance;
         }
 
         public int compareTo(DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight other) {
-            return (new CompareToBuilder()).append(this.depotAngle, other.depotAngle).
-                    append(this.depotRoundTripDistance, other.depotRoundTripDistance).append(this.customer.getId(),
-                    other.customer.getId()).toComparison();
+            return new CompareToBuilder()
+                    .append(this.depotAngle, other.depotAngle)
+                    .append(this.depotRoundTripDistance, other.depotRoundTripDistance)
+                    .append(this.customer.getId(), other.customer.getId())
+                    .toComparison();
         }
     }
-
 }

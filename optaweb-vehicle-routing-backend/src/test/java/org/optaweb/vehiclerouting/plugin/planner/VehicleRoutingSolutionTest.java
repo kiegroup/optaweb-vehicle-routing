@@ -46,5 +46,4 @@ public class VehicleRoutingSolutionTest {
         String distanceString = solution.getDistanceString(null);
         assertThat(distanceString).isEqualTo("100km 100m");
     }
-
 }

@@ -80,5 +80,4 @@ class ChangeVehicleCapacityTest {
                 .isThrownBy(() -> new ChangeVehicleCapacity(vehicle).doChange(scoreDirector))
                 .withMessageContaining("working copy of");
     }
-
 }

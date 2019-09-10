@@ -89,14 +89,15 @@ public class PlanningVisit extends AbstractPersistable implements Standstill {
     // Complex methods
     // ************************************************************************
 
-
     /**
      * @return a positive number, the distance multiplied by 1000 to avoid floating point arithmetic rounding errors
      */
     public long getDistanceFromPreviousStandstill() {
         if (previousStandstill == null) {
-            throw new IllegalStateException("This method must not be called when the previousStandstill ("
-                    + previousStandstill + ") is not initialized yet.");
+            throw new IllegalStateException(
+                    "This method must not be called when the previousStandstill ("
+                            + previousStandstill + ") is not initialized yet."
+            );
         }
         return getDistanceFrom(previousStandstill);
     }

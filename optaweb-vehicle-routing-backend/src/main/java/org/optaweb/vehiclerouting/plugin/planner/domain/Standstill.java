@@ -37,6 +37,6 @@ public interface Standstill {
      */
     @InverseRelationShadowVariable(sourceVariableName = "previousStandstill")
     PlanningVisit getNextVisit();
-    void setNextVisit(PlanningVisit nextVisit);
 
+    void setNextVisit(PlanningVisit nextVisit);
 }

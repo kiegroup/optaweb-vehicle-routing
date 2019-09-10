@@ -22,7 +22,8 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPers
 @XStreamAlias("VrpDepot")
 public class PlanningDepot extends AbstractPersistable {
 
-    public PlanningDepot() {}
+    public PlanningDepot() {
+    }
 
     public PlanningDepot(PlanningLocation location) {
         super(location.getId());
@@ -46,5 +47,4 @@ public class PlanningDepot extends AbstractPersistable {
                 ",id=" + id +
                 '}';
     }
-
 }

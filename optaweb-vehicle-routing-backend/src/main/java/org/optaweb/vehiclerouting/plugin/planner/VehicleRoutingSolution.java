@@ -32,10 +32,10 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 
-
 @PlanningSolution
 @XStreamAlias("VrpVehicleRoutingSolution")
 public class VehicleRoutingSolution extends AbstractPersistable {
+
     protected String name;
     private String distanceUnitOfMeasurement;
     private List<PlanningLocation> locationList;

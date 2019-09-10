@@ -29,7 +29,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPers
 @XStreamAlias("VrpLocation")
 public class PlanningLocation extends AbstractPersistable {
 
-
     private BigDecimal latitude;
     private BigDecimal longitude;
     private String description;
@@ -57,15 +56,13 @@ public class PlanningLocation extends AbstractPersistable {
     }
 
     public PlanningLocation(Location location) {
-        if(location.coordinates() != null) {
+        if (location.coordinates() != null) {
             latitude = location.coordinates().latitude();
-            longitude = location. coordinates().longitude();
+            longitude = location.coordinates().longitude();
         }
         description = location.description();
         id = location.id();
     }
-
-
 
     // Prefer Map over array or List because customers might be added and removed in real-time planning.
     private Map<PlanningLocation, Double> travelDistanceMap;
