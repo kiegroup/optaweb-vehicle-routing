@@ -33,8 +33,7 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 @Configuration
 class RouteOptimizerConfig {
 
-    public static final String SOLVER_CONFIG
-            = "org/optaweb/vehiclerouting/solver/vehicleRoutingSolverConfig.xml";
+    static final String SOLVER_CONFIG = "org/optaweb/vehiclerouting/solver/vehicleRoutingSolverConfig.xml";
 
     private final OptimizerProperties optimizerProperties;
 
