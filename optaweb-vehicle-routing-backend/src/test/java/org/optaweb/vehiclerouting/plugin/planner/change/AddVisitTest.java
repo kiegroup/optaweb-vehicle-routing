@@ -21,11 +21,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaweb.vehiclerouting.plugin.planner.PlanningVisitFactory;
-import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
-import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;

@@ -18,9 +18,9 @@ package org.optaweb.vehiclerouting.plugin.planner.weight;
 
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionSorterWeightFactory;
-import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
 public class DepotAngleCustomerDifficultyWeightFactory
         implements SelectionSorterWeightFactory<VehicleRoutingSolution, PlanningVisit> {

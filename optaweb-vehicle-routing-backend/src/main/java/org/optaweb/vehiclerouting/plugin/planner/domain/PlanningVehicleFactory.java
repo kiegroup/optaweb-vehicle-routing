@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.planner;
-
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 /**
  * Creates {@link PlanningVehicle} instances.
  */
-class PlanningVehicleFactory {
+public class PlanningVehicleFactory {
 
     private PlanningVehicleFactory() {
         throw new AssertionError("Utility class");
@@ -32,7 +30,7 @@ class PlanningVehicleFactory {
      * @param domainVehicle domain vehicle
      * @return planning vehicle
      */
-    static PlanningVehicle fromDomain(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
+    public static PlanningVehicle fromDomain(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
         return vehicle(domainVehicle.id(), domainVehicle.capacity());
     }
 
@@ -41,7 +39,7 @@ class PlanningVehicleFactory {
      * @param id vehicle's ID
      * @return new vehicle with zero capacity
      */
-    static PlanningVehicle vehicle(long id) {
+    public static PlanningVehicle vehicle(long id) {
         return vehicle(id, 0);
     }
 

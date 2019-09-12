@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.planner;
+package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

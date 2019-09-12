@@ -14,10 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.planner;
-
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 /**
  * Creates {@link PlanningVisit} instances.

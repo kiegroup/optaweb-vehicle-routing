@@ -26,6 +26,8 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.springframework.context.ApplicationEventPublisher;
@@ -35,10 +37,10 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.optaweb.vehiclerouting.plugin.planner.PlanningVehicleFactory.vehicle;
-import static org.optaweb.vehiclerouting.plugin.planner.PlanningVisitFactory.visit;
-import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromVisits;
-import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromLocations;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory.vehicle;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.visit;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromLocations;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
 
 @ExtendWith(MockitoExtension.class)
 class SolutionPublisherTest {

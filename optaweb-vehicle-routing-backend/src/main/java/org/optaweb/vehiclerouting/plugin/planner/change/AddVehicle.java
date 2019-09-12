@@ -21,8 +21,8 @@ import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
-import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
 public class AddVehicle implements ProblemFactChange<VehicleRoutingSolution> {
 

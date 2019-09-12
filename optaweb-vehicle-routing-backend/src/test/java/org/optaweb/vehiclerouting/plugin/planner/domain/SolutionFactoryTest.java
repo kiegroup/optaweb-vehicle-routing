@@ -14,18 +14,13 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.planner;
+package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromVisits;
 
 class SolutionFactoryTest {
 
@@ -49,7 +44,7 @@ class SolutionFactoryTest {
 
         PlanningVisit visit = PlanningVisitFactory.visit(new PlanningLocation(2, 2, 2));
 
-        VehicleRoutingSolution solutionWithDepot = solutionFromVisits(
+        VehicleRoutingSolution solutionWithDepot = SolutionFactory.solutionFromVisits(
                 singletonList(vehicle),
                 depot,
                 singletonList(visit)
@@ -63,7 +58,7 @@ class SolutionFactoryTest {
         assertThat(solutionWithDepot.getLocationList())
                 .containsExactlyInAnyOrder(depotLocation, visit.getLocation());
 
-        VehicleRoutingSolution solutionWithNoDepot = solutionFromVisits(
+        VehicleRoutingSolution solutionWithNoDepot = SolutionFactory.solutionFromVisits(
                 singletonList(vehicle),
                 null,
                 emptyList()

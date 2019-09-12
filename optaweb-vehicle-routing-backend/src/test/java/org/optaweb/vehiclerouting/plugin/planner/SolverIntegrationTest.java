@@ -44,6 +44,9 @@ import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,8 +55,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
-import static org.optaweb.vehiclerouting.plugin.planner.PlanningVisitFactory.visit;
-import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromLocations;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.visit;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromLocations;
 
 @ExtendWith(MockitoExtension.class)
 class SolverIntegrationTest {

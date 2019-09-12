@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.planner;
+package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class VehicleRoutingSolutionTest {
+class VehicleRoutingSolutionTest {
 
     private VehicleRoutingSolution solution;
 

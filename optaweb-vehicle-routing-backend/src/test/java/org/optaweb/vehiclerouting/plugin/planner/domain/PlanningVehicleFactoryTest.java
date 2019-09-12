@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.planner;
+package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Vehicle;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.domain.VehicleFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.optaweb.vehiclerouting.plugin.planner.PlanningVehicleFactory.fromDomain;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory.fromDomain;
 
-class VehicleFactoryTest {
+class PlanningVehicleFactoryTest {
 
     @Test
     void planning_vehicle() {
         long vehicleId = 2;
         String name = "not used";
         int capacity = 7;
-        Vehicle domainVehicle
-                = org.optaweb.vehiclerouting.domain.VehicleFactory.createVehicle(vehicleId, name, capacity);
+        Vehicle domainVehicle = VehicleFactory.createVehicle(vehicleId, name, capacity);
 
         PlanningVehicle vehicle = fromDomain(domainVehicle);
 

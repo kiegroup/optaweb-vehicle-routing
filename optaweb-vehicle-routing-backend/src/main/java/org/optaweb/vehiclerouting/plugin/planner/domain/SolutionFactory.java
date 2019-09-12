@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.planner;
+package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
 /**
  * Creates {@link VehicleRoutingSolution} instances.
@@ -64,7 +60,7 @@ public class SolutionFactory {
      * @param visitLocations visit locations
      * @return solution containing the given vehicles, depot, visits and their locations
      */
-    static VehicleRoutingSolution solutionFromLocations(
+    public static VehicleRoutingSolution solutionFromLocations(
             List<PlanningVehicle> vehicles,
             PlanningDepot depot,
             List<? extends PlanningLocation> visitLocations
@@ -90,7 +86,7 @@ public class SolutionFactory {
      * @param visits visits
      * @return solution containing the given vehicles, depot, visits and their locations
      */
-    static VehicleRoutingSolution solutionFromVisits(
+    public static VehicleRoutingSolution solutionFromVisits(
             List<PlanningVehicle> vehicles,
             PlanningDepot depot,
             List<PlanningVisit> visits

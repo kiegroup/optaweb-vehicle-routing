@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
-import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.Standstill;
+import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
