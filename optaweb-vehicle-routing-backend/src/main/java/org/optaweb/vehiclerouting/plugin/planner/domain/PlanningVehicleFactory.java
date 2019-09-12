@@ -16,6 +16,8 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
+import org.optaweb.vehiclerouting.domain.Vehicle;
+
 /**
  * Creates {@link PlanningVehicle} instances.
  */
@@ -30,7 +32,7 @@ public class PlanningVehicleFactory {
      * @param domainVehicle domain vehicle
      * @return planning vehicle
      */
-    public static PlanningVehicle fromDomain(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
+    public static PlanningVehicle fromDomain(Vehicle domainVehicle) {
         return vehicle(domainVehicle.id(), domainVehicle.capacity());
     }
 
