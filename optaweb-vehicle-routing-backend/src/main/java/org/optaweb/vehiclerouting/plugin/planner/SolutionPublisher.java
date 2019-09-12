@@ -111,11 +111,7 @@ class SolutionPublisher {
                 );
             }
             List<Long> visits = new ArrayList<>();
-            for (
-                    PlanningVisit visit = vehicle.getNextVisit();
-                    visit != null;
-                    visit = visit.getNextVisit()
-            ) {
+            for (PlanningVisit visit : vehicle.getFutureVisits()) {
                 if (!solution.getVisitList().contains(visit)) {
                     throw new IllegalArgumentException("Visit (" + visit + ") doesn't exist");
                 }

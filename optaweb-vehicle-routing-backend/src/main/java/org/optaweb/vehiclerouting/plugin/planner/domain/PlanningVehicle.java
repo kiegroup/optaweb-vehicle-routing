@@ -17,6 +17,9 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 
@@ -51,6 +54,27 @@ public class PlanningVehicle extends AbstractPersistable implements Standstill {
 
     public void setNextVisit(PlanningVisit nextVisit) {
         this.nextVisit = nextVisit;
+    }
+    
+    public Iterable<PlanningVisit> getFutureVisits() {
+        return () -> new Iterator<PlanningVisit>() {
+            PlanningVisit nextVisit = getNextVisit();
+            
+            @Override
+            public boolean hasNext() {
+                return nextVisit != null;
+            }
+            
+            @Override
+            public PlanningVisit next() {
+                if (nextVisit == null) {
+                    throw new NoSuchElementException();
+                }
+                PlanningVisit out = nextVisit;
+                nextVisit = nextVisit.getNextVisit();
+                return out;
+            }
+        };
     }
 
 
