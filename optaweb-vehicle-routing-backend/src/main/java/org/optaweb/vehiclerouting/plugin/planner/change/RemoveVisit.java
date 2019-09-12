@@ -36,38 +36,38 @@ public class RemoveVisit implements ProblemFactChange<VehicleRoutingSolution> {
         VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
 
         // Look up a working copy of the visit
-        PlanningVisit workingCustomer = scoreDirector.lookUpWorkingObject(planningVisit);
-        if (workingCustomer == null) {
+        PlanningVisit workingVisit = scoreDirector.lookUpWorkingObject(planningVisit);
+        if (workingVisit == null) {
             throw new IllegalStateException("Can't look up a working copy of " + planningVisit);
         }
 
         // Fix the next visit and set its previousStandstill to the removed visit's previousStandstill
-        for (PlanningVisit nextCustomer : workingSolution.getVisitList()) {
-            if (nextCustomer.getPreviousStandstill().equals(workingCustomer)) {
-                scoreDirector.beforeVariableChanged(nextCustomer, "previousStandstill");
-                nextCustomer.setPreviousStandstill(workingCustomer.getPreviousStandstill());
-                scoreDirector.afterVariableChanged(nextCustomer, "previousStandstill");
+        for (PlanningVisit nextVisit : workingSolution.getVisitList()) {
+            if (nextVisit.getPreviousStandstill().equals(workingVisit)) {
+                scoreDirector.beforeVariableChanged(nextVisit, "previousStandstill");
+                nextVisit.setPreviousStandstill(workingVisit.getPreviousStandstill());
+                scoreDirector.afterVariableChanged(nextVisit, "previousStandstill");
                 break;
             }
         }
 
         // Note: Unlike facts and fact collections, which are shared between best solutions and working solutions,
-        // planning entities and collections are cloned during solving, so we don't need to clone customerList here.
+        // planning entities and collections are cloned during solving, so we don't need to clone visitList here.
         // To learn more about problem fact changes, see:
         // https://docs.jboss.org/optaplanner/release/latest/optaplanner-docs/html_single/#problemFactChangeExample
 
         // Remove the visit
-        scoreDirector.beforeEntityRemoved(workingCustomer);
-        if (!workingSolution.getVisitList().remove(workingCustomer)) {
+        scoreDirector.beforeEntityRemoved(workingVisit);
+        if (!workingSolution.getVisitList().remove(workingVisit)) {
             throw new IllegalStateException(
-                    "Working solution's customerList "
+                    "Working solution's visitList "
                             + workingSolution.getVisitList()
-                            + " doesn't contain the workingCustomer ("
-                            + workingCustomer
+                            + " doesn't contain the workingVisit ("
+                            + workingVisit
                             + "). This is a bug!"
             );
         }
-        scoreDirector.afterEntityRemoved(workingCustomer);
+        scoreDirector.afterEntityRemoved(workingVisit);
 
         scoreDirector.triggerVariableListeners();
     }

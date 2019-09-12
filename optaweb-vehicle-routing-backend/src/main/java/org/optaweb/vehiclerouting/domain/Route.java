@@ -55,7 +55,7 @@ public class Route {
         long uniqueVisits = visits.stream().distinct().count();
         if (uniqueVisits < visits.size()) {
             long duplicates = visits.size() - uniqueVisits;
-            throw new IllegalArgumentException("Some customer have been visited multiple times (" + duplicates + ")");
+            throw new IllegalArgumentException("Some visits have been visited multiple times (" + duplicates + ")");
         }
     }
 

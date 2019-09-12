@@ -24,14 +24,14 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
  */
 public class PlanningVisitFactory {
 
-    static final int DEFAULT_CUSTOMER_DEMAND = 1;
+    static final int DEFAULT_VISIT_DEMAND = 1;
 
     private PlanningVisitFactory() {
         throw new AssertionError("Utility class");
     }
 
     /**
-     * Create visit with {@link #DEFAULT_CUSTOMER_DEMAND}.
+     * Create visit with {@link #DEFAULT_VISIT_DEMAND}.
      * @param location visit's location
      * @return new visit with the default demand
      */
@@ -39,7 +39,7 @@ public class PlanningVisitFactory {
         PlanningVisit visit = new PlanningVisit();
         visit.setId(location.getId());
         visit.setLocation(location);
-        visit.setDemand(DEFAULT_CUSTOMER_DEMAND);
+        visit.setDemand(DEFAULT_VISIT_DEMAND);
         return visit;
     }
 }

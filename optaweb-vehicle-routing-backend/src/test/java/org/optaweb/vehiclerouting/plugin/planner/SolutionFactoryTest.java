@@ -25,7 +25,7 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromCustomers;
+import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromVisits;
 
 class SolutionFactoryTest {
 
@@ -49,7 +49,7 @@ class SolutionFactoryTest {
 
         PlanningVisit visit = PlanningVisitFactory.visit(new PlanningLocation(2, 2, 2));
 
-        VehicleRoutingSolution solutionWithDepot = solutionFromCustomers(
+        VehicleRoutingSolution solutionWithDepot = solutionFromVisits(
                 singletonList(vehicle),
                 depot,
                 singletonList(visit)
@@ -63,7 +63,7 @@ class SolutionFactoryTest {
         assertThat(solutionWithDepot.getLocationList())
                 .containsExactlyInAnyOrder(depotLocation, visit.getLocation());
 
-        VehicleRoutingSolution solutionWithNoDepot = solutionFromCustomers(
+        VehicleRoutingSolution solutionWithNoDepot = solutionFromVisits(
                 singletonList(vehicle),
                 null,
                 emptyList()

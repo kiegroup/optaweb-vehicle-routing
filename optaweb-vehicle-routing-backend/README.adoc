@@ -34,7 +34,7 @@ which enables Spring auto-configuration and component scanning in sub-packages.
 === Domain Package
 
 Contains "business objects" that model the domain of this project,
-for example Customer, Depot, Location, Vehicle.
+for example Visit, Depot, Location, Vehicle.
 These objects are strictly business-oriented and must not be influenced
 by any tools and frameworks (e.g. ORM, marshalling formats etc.).
 

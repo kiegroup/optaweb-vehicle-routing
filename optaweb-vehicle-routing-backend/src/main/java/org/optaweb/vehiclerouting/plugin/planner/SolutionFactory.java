@@ -36,7 +36,7 @@ public class SolutionFactory {
     }
 
     /**
-     * Create an empty solution. Empty solution has zero locations, depots, customers and vehicles and a zero score.
+     * Create an empty solution. Empty solution has zero locations, depots, visits and vehicles and a zero score.
      * @return empty solution
      */
     public static VehicleRoutingSolution emptySolution() {
@@ -78,7 +78,7 @@ public class SolutionFactory {
     }
 
     /**
-     * Create a new solution from given vehicles, depot and customers.
+     * Create a new solution from given vehicles, depot and visits.
      * All vehicles will be placed in the depot.
      * <p>
      * The returned solution's vehicles and locations are new collections so modifying the solution
@@ -90,7 +90,7 @@ public class SolutionFactory {
      * @param visits visits
      * @return solution containing the given vehicles, depot, visits and their locations
      */
-    static VehicleRoutingSolution solutionFromCustomers(
+    static VehicleRoutingSolution solutionFromVisits(
             List<PlanningVehicle> vehicles,
             PlanningDepot depot,
             List<PlanningVisit> visits

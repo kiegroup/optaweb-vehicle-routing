@@ -92,7 +92,7 @@ class SolverIntegrationTest {
     // TODO remove vehicle, change capacity, change demand...
 
     @Test
-    void removing_customers_should_not_fail() {
+    void removing_visits_should_not_fail() {
         PlanningVehicle vehicle = PlanningVehicleFactory.vehicle(1);
         VehicleRoutingSolution solution = solutionFromLocations(
                 singletonList(vehicle),
@@ -112,8 +112,8 @@ class SolverIntegrationTest {
             assertThat(monitor.awaitAllProblemFactChanges(1000)).isTrue();
         }
 
-        List<Integer> customerIds = Arrays.asList(5, 2, 3);
-        for (int id : customerIds) {
+        List<Integer> visitIds = Arrays.asList(5, 2, 3);
+        for (int id : visitIds) {
             logger.info("Remove visit ({})", id);
             assertThat(solver.isEveryProblemFactChangeProcessed()).isTrue();
             monitor.beforeProblemFactChange();

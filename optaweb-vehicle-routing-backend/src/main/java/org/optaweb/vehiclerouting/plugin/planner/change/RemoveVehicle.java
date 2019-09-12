@@ -43,14 +43,14 @@ public class RemoveVehicle implements ProblemFactChange<VehicleRoutingSolution> 
             throw new IllegalStateException("Can't look up a working copy of " + removedVehicle);
         }
 
-        // Un-initialize all customers visited by this vehicle
-        PlanningVisit visitedCustomer = workingVehicle.getNextVisit();
-        while (visitedCustomer != null) {
-            scoreDirector.beforeVariableChanged(visitedCustomer, "previousStandstill");
-            visitedCustomer.setPreviousStandstill(null);
-            scoreDirector.afterVariableChanged(visitedCustomer, "previousStandstill");
+        // Un-initialize all visits of this vehicle
+        PlanningVisit nextVisit = workingVehicle.getNextVisit();
+        while (nextVisit != null) {
+            scoreDirector.beforeVariableChanged(nextVisit, "previousStandstill");
+            nextVisit.setPreviousStandstill(null);
+            scoreDirector.afterVariableChanged(nextVisit, "previousStandstill");
 
-            visitedCustomer = visitedCustomer.getNextVisit();
+            nextVisit = nextVisit.getNextVisit();
         }
 
         // Shallow clone fact list (facts and fact collections are not planning-cloned)

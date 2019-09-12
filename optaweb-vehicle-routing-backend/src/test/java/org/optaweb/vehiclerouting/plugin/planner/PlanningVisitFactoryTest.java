@@ -22,10 +22,10 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class CustomerFactoryTest {
+class PlanningVisitFactoryTest {
 
     @Test
-    void customer_should_have_location_id_and_default_demand() {
+    void visit_should_have_same_id_as_location_and_default_demand() {
         long id = 4;
         PlanningLocation location = new PlanningLocation(id, 1.0, 2.0f);
 
@@ -33,6 +33,6 @@ class CustomerFactoryTest {
 
         assertThat(visit.getId()).isEqualTo(location.getId());
         assertThat(visit.getLocation()).isEqualTo(location);
-        assertThat(visit.getDemand()).isEqualTo(PlanningVisitFactory.DEFAULT_CUSTOMER_DEMAND);
+        assertThat(visit.getDemand()).isEqualTo(PlanningVisitFactory.DEFAULT_VISIT_DEMAND);
     }
 }

@@ -37,7 +37,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.optaweb.vehiclerouting.plugin.planner.PlanningVehicleFactory.vehicle;
 import static org.optaweb.vehiclerouting.plugin.planner.PlanningVisitFactory.visit;
-import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromCustomers;
+import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromVisits;
 import static org.optaweb.vehiclerouting.plugin.planner.SolutionFactory.solutionFromLocations;
 
 @ExtendWith(MockitoExtension.class)
@@ -71,7 +71,7 @@ class SolutionPublisherTest {
     void solution_with_vehicles_and_no_depot_should_have_zero_routes() {
         long vehicleId = 1;
         PlanningVehicle vehicle = vehicle(vehicleId);
-        VehicleRoutingSolution solution = solutionFromCustomers(singletonList(vehicle), null, emptyList());
+        VehicleRoutingSolution solution = solutionFromVisits(singletonList(vehicle), null, emptyList());
 
         RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
 
@@ -116,7 +116,7 @@ class SolutionPublisherTest {
         PlanningVisit visit1 = visit(new PlanningLocation(visitId1, 2.0, 2.0));
         PlanningVisit visit2 = visit(new PlanningLocation(visitId2, 0.2, 0.2));
 
-        VehicleRoutingSolution solution = solutionFromCustomers(
+        VehicleRoutingSolution solution = solutionFromVisits(
                 asList(vehicle1, vehicle2),
                 depot,
                 asList(visit1, visit2)
@@ -125,7 +125,7 @@ class SolutionPublisherTest {
         /* Send both vehicles to both visits
          * V1
          *   \
-         *    |---> visit1 ---> customer2
+         *    |---> visit1 ---> visit2
          *   /
          * V2
          */
@@ -157,7 +157,7 @@ class SolutionPublisherTest {
     }
 
     @Test
-    void fail_fast_if_vehicles_next_customer_doesnt_exist() {
+    void fail_fast_if_vehicles_next_visit_doesnt_exist() {
         PlanningVehicle vehicle = vehicle(1);
         vehicle.setNextVisit(visit(new PlanningLocation(2, 2.0, 2.0)));
 
@@ -176,7 +176,7 @@ class SolutionPublisherTest {
     void vehicle_without_a_depot_is_illegal_if_depot_exists() {
         PlanningDepot depot = new PlanningDepot(new PlanningLocation(1, 1.0, 1.0));
         PlanningVehicle vehicle = vehicle(1);
-        VehicleRoutingSolution solution = solutionFromCustomers(singletonList(vehicle), depot, emptyList());
+        VehicleRoutingSolution solution = solutionFromVisits(singletonList(vehicle), depot, emptyList());
         vehicle.setDepot(null);
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> SolutionPublisher.solutionToEvent(solution, this))

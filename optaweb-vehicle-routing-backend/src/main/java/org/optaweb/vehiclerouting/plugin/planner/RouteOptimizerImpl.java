@@ -89,7 +89,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
             publishSolution();
         } else {
             if (depot.getId().equals(domainLocation.id())) {
-                throw new IllegalStateException("You can only remove depot if there are no customers");
+                throw new IllegalStateException("You can only remove depot if there are no visits");
             }
             if (!visits.removeIf(item -> item.getId().equals(domainLocation.id()))) {
                 throw new IllegalArgumentException("Cannot remove " + domainLocation + " because it doesn't exist");

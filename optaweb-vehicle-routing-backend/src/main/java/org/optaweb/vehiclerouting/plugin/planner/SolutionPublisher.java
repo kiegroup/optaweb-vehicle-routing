@@ -55,7 +55,7 @@ class SolutionPublisher {
     void publishSolution(VehicleRoutingSolution solution) {
         RouteChangedEvent event = solutionToEvent(solution, this);
         logger.info(
-                "New solution with {} depots, {} vehicles, {} customers, distance: {}, score: {}",
+                "New solution with {} depots, {} vehicles, {} visits, distance: {}, score: {}",
                 solution.getDepotList().size(),
                 solution.getVehicleList().size(),
                 solution.getVisitList().size(),
@@ -87,7 +87,7 @@ class SolutionPublisher {
 
     private static List<Long> visitIds(VehicleRoutingSolution solution) {
         return solution.getVisitList().stream()
-                .map(customer -> customer.getLocation().getId())
+                .map(visit -> visit.getLocation().getId())
                 .collect(Collectors.toList());
     }
 

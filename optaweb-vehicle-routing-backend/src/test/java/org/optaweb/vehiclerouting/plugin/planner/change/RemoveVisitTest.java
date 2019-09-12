@@ -42,35 +42,35 @@ class RemoveVisitTest {
     private ScoreDirector<VehicleRoutingSolution> scoreDirector;
 
     @Test
-    void remove_last_customer() {
+    void remove_last_visit() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         PlanningVisit removedVisit = visit(1);
-        PlanningVisit otherCustomer = visit(2);
-        solution.getVisitList().add(otherCustomer);
+        PlanningVisit otherVisit = visit(2);
+        solution.getVisitList().add(otherVisit);
         solution.getVisitList().add(removedVisit);
 
         // V -> other -> removed
-        otherCustomer.setPreviousStandstill(visit(10));
-        otherCustomer.setNextVisit(removedVisit);
-        removedVisit.setPreviousStandstill(otherCustomer);
+        otherVisit.setPreviousStandstill(visit(10));
+        otherVisit.setNextVisit(removedVisit);
+        removedVisit.setPreviousStandstill(otherVisit);
 
         when(scoreDirector.lookUpWorkingObject(removedVisit)).thenReturn(removedVisit);
 
         // do change
-        RemoveVisit removeCustomer = new RemoveVisit(removedVisit);
-        removeCustomer.doChange(scoreDirector);
+        RemoveVisit removeVisit = new RemoveVisit(removedVisit);
+        removeVisit.doChange(scoreDirector);
 
         verify(scoreDirector).beforeEntityRemoved(any(PlanningVisit.class));
         verify(scoreDirector).afterEntityRemoved(any(PlanningVisit.class));
-        assertThat(solution.getVisitList()).containsExactly(otherCustomer);
+        assertThat(solution.getVisitList()).containsExactly(otherVisit);
 
         verify(scoreDirector).triggerVariableListeners();
     }
 
     @Test
-    void remove_middle_customer() {
+    void remove_middle_visit() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
@@ -91,8 +91,8 @@ class RemoveVisitTest {
         when(scoreDirector.lookUpWorkingObject(removedVisit)).thenReturn(removedVisit);
 
         // do change
-        RemoveVisit removeCustomer = new RemoveVisit(removedVisit);
-        removeCustomer.doChange(scoreDirector);
+        RemoveVisit removeVisit = new RemoveVisit(removedVisit);
+        removeVisit.doChange(scoreDirector);
 
         // TODO make this more accurate once Customer overrides equals()
         verify(scoreDirector).beforeVariableChanged(any(PlanningVisit.class), anyString());
@@ -110,7 +110,7 @@ class RemoveVisitTest {
     }
 
     @Test
-    void fail_fast_if_working_solution_customer_list_does_not_contain_working_customer() {
+    void fail_fast_if_working_solution_visit_list_does_not_contain_working_visit() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
 
         long removedId = 111L;
