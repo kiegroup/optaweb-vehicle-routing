@@ -44,13 +44,10 @@ public class RemoveVehicle implements ProblemFactChange<VehicleRoutingSolution> 
         }
 
         // Un-initialize all visits of this vehicle
-        PlanningVisit nextVisit = workingVehicle.getNextVisit();
-        while (nextVisit != null) {
-            scoreDirector.beforeVariableChanged(nextVisit, "previousStandstill");
-            nextVisit.setPreviousStandstill(null);
-            scoreDirector.afterVariableChanged(nextVisit, "previousStandstill");
-
-            nextVisit = nextVisit.getNextVisit();
+        for (PlanningVisit visit : workingVehicle.getFutureVisits()) {
+            scoreDirector.beforeVariableChanged(visit, "previousStandstill");
+            visit.setPreviousStandstill(null);
+            scoreDirector.afterVariableChanged(visit, "previousStandstill");
         }
 
         // Shallow clone fact list (facts and fact collections are not planning-cloned)
