@@ -26,8 +26,6 @@ import org.optaweb.vehiclerouting.plugin.planner.weight.DepotAngleCustomerDiffic
 @PlanningEntity(difficultyWeightFactoryClass = DepotAngleCustomerDifficultyWeightFactory.class)
 public class PlanningVisit extends AbstractPersistable implements Standstill {
 
-    static final int DEFAULT_CUSTOMER_DEMAND = 1;
-
     protected PlanningLocation location;
     protected int demand;
 
