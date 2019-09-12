@@ -20,11 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
@@ -35,25 +30,39 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.Standstill;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.WARN)
 class DepotAngleCustomerDifficultyWeightFactoryTest {
 
     private final PlanningLocation location1 = new PlanningLocation(1, 1.0, 1.0);
     private final PlanningLocation location2 = new PlanningLocation(2, 1.0, 1.0);
     private final PlanningLocation location3 = new PlanningLocation(3, 1.0, 50.0);
 
-    @InjectMocks
-    private DepotAngleCustomerDifficultyWeightFactory weightFactory;
+    DepotAngleCustomerDifficultyWeightFactoryTest() {
+        //Location 1 is close to location 2 and far away from location 3
+        Map<PlanningLocation, Double> travelMap1 = new HashMap<>();
+        travelMap1.put(location2, 100.0);
+        travelMap1.put(location3, 10000.0);
+        //Location 2 is close to location 1 and far away from location 3
+        location1.setTravelDistanceMap(travelMap1);
+        Map<PlanningLocation, Double> travelMap2 = new HashMap<>();
+        travelMap2.put(location1, 100.0);
+        travelMap2.put(location3, 10000.0);
+        location2.setTravelDistanceMap(travelMap2);
+        //Location 3 is far away form everything
+        Map<PlanningLocation, Double> travelMap3 = new HashMap<>();
+        travelMap3.put(location1, 10000.0);
+        travelMap3.put(location3, 10000.0);
+        location3.setTravelDistanceMap(travelMap3);
+    }
 
     @Test
     void createSorterWeight_close_customer_should_have_smaller_weight() {
         VehicleRoutingSolution solution = createSolution(location1, location2, location3);
+        DepotAngleCustomerDifficultyWeightFactory weightFactory = new DepotAngleCustomerDifficultyWeightFactory();
         DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight closeCustomerWeight =
                 weightFactory.createSorterWeight(solution, solution.getVisitList().get(0));
         DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight farCustomerWeight =
                 weightFactory.createSorterWeight(solution, solution.getVisitList().get(1));
-        assertThat(closeCustomerWeight.compareTo(farCustomerWeight) < 0);
+        assertThat(closeCustomerWeight).isLessThan(farCustomerWeight);
     }
 
     /**
@@ -90,7 +99,7 @@ class DepotAngleCustomerDifficultyWeightFactoryTest {
      * @param location depot's location
      * @return the new depot
      */
-    public static PlanningDepot addDepot(VehicleRoutingSolution solution, PlanningLocation location) {
+    private static PlanningDepot addDepot(VehicleRoutingSolution solution, PlanningLocation location) {
         PlanningDepot depot = new PlanningDepot();
         depot.setId(location.getId());
         depot.setLocation(location);
@@ -103,52 +112,30 @@ class DepotAngleCustomerDifficultyWeightFactoryTest {
      * Add customer with demand.
      * @param solution solution
      * @param location customer's location
-     * @return the new customer
      */
-    public static PlanningVisit addVisit(VehicleRoutingSolution solution, PlanningLocation location) {
+    private static void addVisit(VehicleRoutingSolution solution, PlanningLocation location) {
         PlanningVisit visit = new PlanningVisit();
         visit.setId(location.getId());
         visit.setLocation(location);
         visit.setDemand(1);
         solution.getVisitList().add(visit);
         solution.getLocationList().add(location);
-        return visit;
     }
 
     /**
      * Add vehicle with zero capacity.
      * @param solution solution
      * @param id vehicle id
-     * @return the new vehicle
      */
-    public static PlanningVehicle addVehicle(VehicleRoutingSolution solution, long id) {
-        return addVehicle(solution, id, 0);
+    private static void addVehicle(VehicleRoutingSolution solution, long id) {
+        addVehicle(solution, id, 0);
     }
 
-    private static PlanningVehicle addVehicle(VehicleRoutingSolution solution, long id, int capacity) {
+    private static void addVehicle(VehicleRoutingSolution solution, long id, int capacity) {
         PlanningVehicle vehicle = new PlanningVehicle();
         vehicle.setId(id);
         vehicle.setCapacity(capacity);
         solution.getVehicleList().add(vehicle);
-        return vehicle;
-    }
-
-    public DepotAngleCustomerDifficultyWeightFactoryTest() {
-        //Location 1 is close to location 2 and far away from location 3
-        Map<PlanningLocation, Double> travelMap1 = new HashMap<>();
-        travelMap1.put(location2, 100.0);
-        travelMap1.put(location3, 10000.0);
-        //Location 2 is close to location 1 and far away from location 3
-        location1.setTravelDistanceMap(travelMap1);
-        Map<PlanningLocation, Double> travelMap2 = new HashMap<>();
-        travelMap2.put(location1, 100.0);
-        travelMap2.put(location3, 10000.0);
-        location2.setTravelDistanceMap(travelMap2);
-        //Location 3 is far away form everything
-        Map<PlanningLocation, Double> travelMap3 = new HashMap<>();
-        travelMap3.put(location1, 10000.0);
-        travelMap3.put(location3, 10000.0);
-        location3.setTravelDistanceMap(travelMap3);
     }
 
     /**
@@ -156,8 +143,7 @@ class DepotAngleCustomerDifficultyWeightFactoryTest {
      * @param solution solution
      * @param depot new vehicles' depot. May be null.
      */
-    public static void moveAllVehiclesTo(VehicleRoutingSolution solution, PlanningDepot depot) {
+    static void moveAllVehiclesTo(VehicleRoutingSolution solution, PlanningDepot depot) {
         solution.getVehicleList().forEach(vehicle -> vehicle.setDepot(depot));
     }
 }
-
