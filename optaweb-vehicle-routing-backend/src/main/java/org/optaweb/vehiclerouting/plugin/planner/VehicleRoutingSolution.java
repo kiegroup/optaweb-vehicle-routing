@@ -19,7 +19,6 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.text.NumberFormat;
 import java.util.List;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningScore;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
@@ -33,7 +32,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 
 @PlanningSolution
-@XStreamAlias("VrpVehicleRoutingSolution")
 public class VehicleRoutingSolution extends AbstractPersistable {
 
     protected String name;

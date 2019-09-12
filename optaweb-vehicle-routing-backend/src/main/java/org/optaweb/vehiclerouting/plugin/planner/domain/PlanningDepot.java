@@ -16,10 +16,8 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 
-@XStreamAlias("VrpDepot")
 public class PlanningDepot extends AbstractPersistable {
 
     public PlanningDepot() {

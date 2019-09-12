@@ -19,14 +19,12 @@ package org.optaweb.vehiclerouting.plugin.planner.domain;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 
 /**
  * A unique location significant to the user.
  */
-@XStreamAlias("VrpLocation")
 public class PlanningLocation extends AbstractPersistable {
 
     private BigDecimal latitude;

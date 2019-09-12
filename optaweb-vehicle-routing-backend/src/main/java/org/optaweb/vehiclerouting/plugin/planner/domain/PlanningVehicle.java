@@ -16,10 +16,8 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 
-@XStreamAlias("VrpVehicle")
 public class PlanningVehicle extends AbstractPersistable implements Standstill {
 
     protected int capacity;
