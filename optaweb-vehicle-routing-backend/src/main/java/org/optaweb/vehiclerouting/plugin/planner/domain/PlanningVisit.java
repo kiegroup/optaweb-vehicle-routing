@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,8 +25,6 @@ import org.optaweb.vehiclerouting.plugin.planner.weight.DepotAngleCustomerDiffic
 
 @PlanningEntity(difficultyWeightFactoryClass = DepotAngleCustomerDifficultyWeightFactory.class)
 public class PlanningVisit extends AbstractPersistable implements Standstill {
-
-    static final int DEFAULT_CUSTOMER_DEMAND = 1;
 
     protected PlanningLocation location;
     protected int demand;
@@ -89,14 +87,15 @@ public class PlanningVisit extends AbstractPersistable implements Standstill {
     // Complex methods
     // ************************************************************************
 
-
     /**
      * @return a positive number, the distance multiplied by 1000 to avoid floating point arithmetic rounding errors
      */
     public long getDistanceFromPreviousStandstill() {
         if (previousStandstill == null) {
-            throw new IllegalStateException("This method must not be called when the previousStandstill ("
-                    + previousStandstill + ") is not initialized yet.");
+            throw new IllegalStateException(
+                    "This method must not be called when the previousStandstill ("
+                            + previousStandstill + ") is not initialized yet."
+            );
         }
         return getDistanceFrom(previousStandstill);
     }

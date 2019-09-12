@@ -21,14 +21,14 @@ import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
-import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
 public class RemoveLocation implements ProblemFactChange<VehicleRoutingSolution> {
 
     private final PlanningLocation removedLocation;
 
-    public  RemoveLocation(PlanningLocation removedLocation) {
+    public RemoveLocation(PlanningLocation removedLocation) {
         this.removedLocation = Objects.requireNonNull(removedLocation);
     }
 

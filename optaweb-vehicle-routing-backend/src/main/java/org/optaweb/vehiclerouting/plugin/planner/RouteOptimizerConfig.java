@@ -21,6 +21,7 @@ import java.time.Duration;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
+import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,8 +34,7 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 @Configuration
 class RouteOptimizerConfig {
 
-    public static final String SOLVER_CONFIG
-            = "org/optaweb/vehiclerouting/solver/vehicleRoutingSolverConfig.xml";
+    static final String SOLVER_CONFIG = "org/optaweb/vehiclerouting/solver/vehicleRoutingSolverConfig.xml";
 
     private final OptimizerProperties optimizerProperties;
 
@@ -45,7 +45,14 @@ class RouteOptimizerConfig {
 
     @Bean
     Solver<VehicleRoutingSolution> solver() {
-        SolverFactory<VehicleRoutingSolution> sf = SolverFactory.createFromXmlResource(SOLVER_CONFIG);
+        // Use context classloader to avoid ClassCastException during solution cloning:
+        // https://stackoverflow.com/questions/52586747/classcastexception-occured-on-solver-solve
+        // as recommended in
+        // CHECKSTYLE:OFF
+        // https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html#using-boot-devtools-customizing-classload
+        // CHECKSTYLE:ON
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        SolverFactory<VehicleRoutingSolution> sf = SolverFactory.createFromXmlResource(SOLVER_CONFIG, classLoader);
         Duration timeout = optimizerProperties.getTimeout();
         sf.getSolverConfig().setTerminationConfig(new TerminationConfig().withSecondsSpentLimit(timeout.getSeconds()));
         sf.getSolverConfig().setDaemon(true);

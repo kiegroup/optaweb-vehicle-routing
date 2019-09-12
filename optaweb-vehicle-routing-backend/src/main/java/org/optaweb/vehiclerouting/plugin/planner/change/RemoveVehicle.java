@@ -21,9 +21,9 @@ import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaplanner.core.impl.solver.ProblemFactChange;
-import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
 public class RemoveVehicle implements ProblemFactChange<VehicleRoutingSolution> {
 
@@ -43,14 +43,14 @@ public class RemoveVehicle implements ProblemFactChange<VehicleRoutingSolution> 
             throw new IllegalStateException("Can't look up a working copy of " + removedVehicle);
         }
 
-        // Un-initialize all customers visited by this vehicle
-        PlanningVisit visitedCustomer = workingVehicle.getNextVisit();
-        while (visitedCustomer != null) {
-            scoreDirector.beforeVariableChanged(visitedCustomer, "previousStandstill");
-            visitedCustomer.setPreviousStandstill(null);
-            scoreDirector.afterVariableChanged(visitedCustomer, "previousStandstill");
+        // Un-initialize all visits of this vehicle
+        PlanningVisit nextVisit = workingVehicle.getNextVisit();
+        while (nextVisit != null) {
+            scoreDirector.beforeVariableChanged(nextVisit, "previousStandstill");
+            nextVisit.setPreviousStandstill(null);
+            scoreDirector.afterVariableChanged(nextVisit, "previousStandstill");
 
-            visitedCustomer = visitedCustomer.getNextVisit();
+            nextVisit = nextVisit.getNextVisit();
         }
 
         // Shallow clone fact list (facts and fact collections are not planning-cloned)

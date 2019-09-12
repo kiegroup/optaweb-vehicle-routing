@@ -24,6 +24,8 @@ import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,7 +77,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
     }
 
     @Override
-    public void removeLocation(org.optaweb.vehiclerouting.domain.Location domainLocation) {
+    public void removeLocation(Location domainLocation) {
         if (visits.isEmpty()) {
             if (depot == null) {
                 throw new IllegalArgumentException(
@@ -89,7 +91,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
             publishSolution();
         } else {
             if (depot.getId().equals(domainLocation.id())) {
-                throw new IllegalStateException("You can only remove depot if there are no customers");
+                throw new IllegalStateException("You can only remove depot if there are no visits");
             }
             if (!visits.removeIf(item -> item.getId().equals(domainLocation.id()))) {
                 throw new IllegalArgumentException("Cannot remove " + domainLocation + " because it doesn't exist");
@@ -120,7 +122,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
     }
 
     @Override
-    public void removeVehicle(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
+    public void removeVehicle(Vehicle domainVehicle) {
         if (!vehicles.removeIf(vehicle -> vehicle.getId().equals(domainVehicle.id()))) {
             throw new IllegalArgumentException("Cannot remove " + domainVehicle + " because it doesn't exist");
         }
@@ -135,7 +137,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
     }
 
     @Override
-    public void changeCapacity(org.optaweb.vehiclerouting.domain.Vehicle domainVehicle) {
+    public void changeCapacity(Vehicle domainVehicle) {
         PlanningVehicle vehicle = vehicles.stream()
                 .filter(item -> item.getId().equals(domainVehicle.id()))
                 .findFirst()

@@ -271,6 +271,7 @@
                     <module name="LineLength">
                       <property name="max" value="120"/>
                     </module>
+                    <module name="SuppressionCommentFilter"/>
                   </module>
                   <module name="RegexpHeader">
                     <property name="header" value="${checkstyle.header.template}"/>

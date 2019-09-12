@@ -51,7 +51,7 @@ class RouteTest {
     }
 
     @Test
-    void no_customer_should_be_visited_twice_by_the_same_vehicle() {
+    void no_visit_should_be_visited_twice_by_the_same_vehicle() {
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> new Route(vehicle, depot, Arrays.asList(visit1, visit1)))
                 .withMessageContaining("(1)");

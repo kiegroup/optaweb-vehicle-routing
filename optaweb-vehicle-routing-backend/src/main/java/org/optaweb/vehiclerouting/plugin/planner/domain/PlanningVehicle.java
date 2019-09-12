@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 
-@XStreamAlias("VrpVehicle")
 public class PlanningVehicle extends AbstractPersistable implements Standstill {
 
     protected int capacity;
@@ -52,7 +49,6 @@ public class PlanningVehicle extends AbstractPersistable implements Standstill {
     public void setNextVisit(PlanningVisit nextVisit) {
         this.nextVisit = nextVisit;
     }
-
 
     @Override
     public PlanningVehicle getVehicle() {

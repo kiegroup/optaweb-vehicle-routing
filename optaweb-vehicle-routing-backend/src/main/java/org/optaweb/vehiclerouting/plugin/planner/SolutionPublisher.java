@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.slf4j.Logger;
@@ -54,9 +55,8 @@ class SolutionPublisher {
      */
     void publishSolution(VehicleRoutingSolution solution) {
         RouteChangedEvent event = solutionToEvent(solution, this);
-        logger.info("{}",solution);
         logger.info(
-                "New solution with {} depots, {} vehicles, {} customers, distance: {}, score : {}",
+                "New solution with {} depots, {} vehicles, {} visits, distance: {}, score: {}",
                 solution.getDepotList().size(),
                 solution.getVehicleList().size(),
                 solution.getVisitList().size(),
@@ -88,7 +88,7 @@ class SolutionPublisher {
 
     private static List<Long> visitIds(VehicleRoutingSolution solution) {
         return solution.getVisitList().stream()
-                .map(customer -> customer.getLocation().getId())
+                .map(visit -> visit.getLocation().getId())
                 .collect(Collectors.toList());
     }
 

@@ -21,11 +21,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaweb.vehiclerouting.plugin.planner.PlanningVisitFactory;
-import org.optaweb.vehiclerouting.plugin.planner.SolutionFactory;
-import org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
@@ -38,14 +38,14 @@ class AddVisitTest {
     private ScoreDirector<VehicleRoutingSolution> scoreDirector;
 
     @Test
-    void add_customer_should_add_location_and_create_customer() {
+    void add_visit_should_add_location_and_create_visit() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         PlanningLocation location = new PlanningLocation(1, 1.0, 2.0);
         PlanningVisit visit = PlanningVisitFactory.visit(location);
-        AddVisit addCustomer = new AddVisit(visit);
-        addCustomer.doChange(scoreDirector);
+        AddVisit addVisit = new AddVisit(visit);
+        addVisit.doChange(scoreDirector);
 
         verify(scoreDirector).beforeProblemFactAdded(location);
         verify(scoreDirector).afterProblemFactAdded(location);

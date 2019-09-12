@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2019 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,13 @@ package org.optaweb.vehiclerouting.plugin.planner.domain;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import com.thoughtworks.xstream.annotations.XStreamAlias;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 
 /**
  * A unique location significant to the user.
  */
-@XStreamAlias("VrpLocation")
 public class PlanningLocation extends AbstractPersistable {
-
 
     private BigDecimal latitude;
     private BigDecimal longitude;
@@ -57,15 +54,13 @@ public class PlanningLocation extends AbstractPersistable {
     }
 
     public PlanningLocation(Location location) {
-        if(location.coordinates() != null) {
+        if (location.coordinates() != null) {
             latitude = location.coordinates().latitude();
-            longitude = location. coordinates().longitude();
+            longitude = location.coordinates().longitude();
         }
         description = location.description();
         id = location.id();
     }
-
-
 
     // Prefer Map over array or List because customers might be added and removed in real-time planning.
     private Map<PlanningLocation, Double> travelDistanceMap;
