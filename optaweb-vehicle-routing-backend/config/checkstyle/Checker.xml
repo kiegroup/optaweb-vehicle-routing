@@ -10,6 +10,10 @@
     <property name="severity" value="error"/>
     <property name="eachLine" value="true"/>
   </module>
+  <module name="RegexpSingleline">
+    <property name="format" value="\s+$"/>
+    <property name="message" value="Line contains trailing whitespace."/>
+  </module>
   <module name="TreeWalker">
     <!-- Import settings: getting rid of redundant import, forbid star notation,
          defined order of imports. -->
@@ -34,6 +38,11 @@
     <module name="LineLength">
       <property name="max" value="120"/>
       <property name="ignorePattern" value="\s*//.*"/>
+    </module>
+    <module name="EmptyLineSeparator">
+      <property name="allowNoEmptyLineBetweenFields" value="true"/>
+      <property name="allowMultipleEmptyLines" value="false"/>
+      <property name="allowMultipleEmptyLinesInsideClassMembers" value="false"/>
     </module>
   </module>
   <module name="RegexpHeader">
