@@ -31,9 +31,14 @@
   <name>OptaWeb Vehicle Routing Backend</name>
 
   <properties>
+    <!--
+      Do not fail on Checkstyle errors when building locally to interrupt development as little as possible.
+      To enforce code style, build will fail on Checkstyle errors when running in CI environment (see profile below).
+    -->
+    <checkstyle.failOnViolation>false</checkstyle.failOnViolation>
+    <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>1.8</java.version>
   </properties>
 
   <dependencies>
@@ -219,9 +224,9 @@
               <goal>check</goal>
             </goals>
             <configuration combine.self="override">
-              <failOnViolation>true</failOnViolation>
-              <logViolationsToConsole>true</logViolationsToConsole>
               <configLocation>config/checkstyle/Checker.xml</configLocation>
+              <failOnViolation>${checkstyle.failOnViolation}</failOnViolation>
+              <logViolationsToConsole>true</logViolationsToConsole>
               <includeTestSourceDirectory>true</includeTestSourceDirectory>
               <includeResources>true</includeResources>
               <includeTestResources>true</includeTestResources>
@@ -269,6 +274,19 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+
+    <!-- Fail the build if there are Checkstyle errors only when running in CI environment. -->
+    <profile>
+      <id>checkstyleCI</id>
+      <activation>
+        <property>
+          <name>env.CI</name>
+        </property>
+      </activation>
+      <properties>
+        <checkstyle.failOnViolation>true</checkstyle.failOnViolation>
+      </properties>
     </profile>
   </profiles>
 </project>
