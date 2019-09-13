@@ -38,7 +38,11 @@ public class ChangeVehicleCapacity implements ProblemFactChange<VehicleRoutingSo
             throw new IllegalStateException("Can't look up a working copy of " + vehicle);
         }
 
-        // TODO should probably clone the vehicle first as it's a fact and it's shared between solution clones
+        // Note: Unlike facts and fact collections, which are shared between best solutions and working solutions,
+        // planning entities and collections are cloned during solving, so we don't need to clone vehicleList here.
+        // To learn more about problem fact changes, see:
+        // https://docs.jboss.org/optaplanner/release/latest/optaplanner-docs/html_single/#problemFactChangeExample
+
         scoreDirector.beforeProblemPropertyChanged(workingVehicle);
         workingVehicle.setCapacity(vehicle.getCapacity());
         scoreDirector.afterProblemPropertyChanged(workingVehicle);

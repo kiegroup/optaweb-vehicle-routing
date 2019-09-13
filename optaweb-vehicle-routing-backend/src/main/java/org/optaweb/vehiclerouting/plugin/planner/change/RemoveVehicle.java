@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.change;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
@@ -50,8 +49,10 @@ public class RemoveVehicle implements ProblemFactChange<VehicleRoutingSolution> 
             scoreDirector.afterVariableChanged(visit, "previousStandstill");
         }
 
-        // Shallow clone fact list (facts and fact collections are not planning-cloned)
-        workingSolution.setVehicleList(new ArrayList<>(workingSolution.getVehicleList()));
+        // Note: Unlike facts and fact collections, which are shared between best solutions and working solutions,
+        // planning entities and collections are cloned during solving, so we don't need to clone vehicleList here.
+        // To learn more about problem fact changes, see:
+        // https://docs.jboss.org/optaplanner/release/latest/optaplanner-docs/html_single/#problemFactChangeExample
 
         // Remove the vehicle
         scoreDirector.beforeProblemFactRemoved(workingVehicle);
