@@ -234,55 +234,26 @@
         <executions>
           <execution>
             <id>validate</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
+            <phase>none</phase>
             <configuration>
-              <checkstyleRules>
-                <module name="Checker">
-                  <!-- Checks for whitespace. -->
-                  <module name="FileTabCharacter">
-                    <property name="severity" value="error"/>
-                    <property name="eachLine" value="true"/>
-                  </module>
-                  <module name="TreeWalker">
-                    <!--
-                      Import settings: getting rid of redundant import, forbid star notation, defined order of imports.
-                    -->
-                    <module name="RedundantImport"/>
-                    <module name="AvoidStarImport">
-                      <property name="allowClassImports" value="false"/>
-                      <property name="allowStaticMemberImports" value="false"/>
-                    </module>
-                    <module name="CustomImportOrder">
-                      <property name="customImportOrderRules"
-                                value="STANDARD_JAVA_PACKAGE###SPECIAL_IMPORTS###THIRD_PARTY_PACKAGE###STATIC"/>
-                      <property name="specialImportsRegExp" value="^javax\."/>
-                      <property name="standardPackageRegExp" value="^java\."/>
-                      <property name="sortImportsInGroupAlphabetically" value="true"/>
-                      <property name="separateLineBetweenGroups" value="true"/>
-                    </module>
-                    <module name="UnusedImports"/>
-                    <module name="NeedBraces">
-                      <property name="tokens" value="LITERAL_IF, LITERAL_ELSE, LITERAL_FOR, LITERAL_WHILE, LITERAL_DO"/>
-                    </module>
-                    <module name="EqualsHashCode"/>
-                    <module name="LineLength">
-                      <property name="max" value="120"/>
-                    </module>
-                    <module name="SuppressionCommentFilter"/>
-                  </module>
-                  <module name="RegexpHeader">
-                    <property name="header" value="${checkstyle.header.template}"/>
-                    <property name="fileExtensions" value="java"/>
-                  </module>
-                </module>
-              </checkstyleRules>
-              <includeTestSourceDirectory>true</includeTestSourceDirectory>
-              <includeResources>true</includeResources>
-              <includeTestResources>true</includeTestResources>
+              <skip>true</skip>
             </configuration>
+          </execution>
+          <execution>
+          <id>validate-override</id>
+          <phase>validate</phase>
+          <goals>
+            <goal>check</goal>
+          </goals>
+          <configuration>
+            <failOnViolation>true</failOnViolation>
+            <logViolationsToConsole>true</logViolationsToConsole>
+            <propertyExpansion>checkstyle.header.template=${checkstyle.header.template}</propertyExpansion>
+            <configLocation>config/checkstyle/Checker.xml</configLocation>
+            <includeTestSourceDirectory>true</includeTestSourceDirectory>
+            <includeResources>true</includeResources>
+            <includeTestResources>true</includeTestResources>
+          </configuration>
           </execution>
         </executions>
       </plugin>
