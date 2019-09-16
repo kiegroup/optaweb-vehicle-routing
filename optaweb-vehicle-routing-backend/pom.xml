@@ -31,26 +31,6 @@
   <name>OptaWeb Vehicle Routing Backend</name>
 
   <properties>
-    <checkstyle.header.template><![CDATA[
-^\/\*$\n^
-\* Copyright \d\d\d\d Red Hat, Inc\. and\/or its affiliates\.$\n^
-\*$\n^
-\* Licensed under the Apache License, Version 2\.0 \(the &quot;License&quot;\);$\n^
-\* you may not use this file except in compliance with the License\.$\n^
-\* You may obtain a copy of the License at$\n^
-\*$\n^
-\*     http:\/\/www\.apache\.org\/licenses\/LICENSE-2\.0$\n^
-\*$\n^
-\* Unless required by applicable law or agreed to in writing, software$\n^
-\* distributed under the License is distributed on an &quot;AS IS&quot; BASIS,$\n^
-\* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied\.$\n^
-\* See the License for the specific language governing permissions and$\n^
-\* limitations under the License\.$\n^
-\*\/$
-]]>
-    </checkstyle.header.template>
-    <checkstyle.failOnViolation>true</checkstyle.failOnViolation>
-    <checkstyle.logViolationsToConsole>true</checkstyle.logViolationsToConsole>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
@@ -240,20 +220,19 @@
             </configuration>
           </execution>
           <execution>
-          <id>validate-override</id>
-          <phase>validate</phase>
-          <goals>
-            <goal>check</goal>
-          </goals>
-          <configuration>
-            <failOnViolation>true</failOnViolation>
-            <logViolationsToConsole>true</logViolationsToConsole>
-            <propertyExpansion>checkstyle.header.template=${checkstyle.header.template}</propertyExpansion>
-            <configLocation>config/checkstyle/Checker.xml</configLocation>
-            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-            <includeResources>true</includeResources>
-            <includeTestResources>true</includeTestResources>
-          </configuration>
+            <id>validate-override</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <configuration combine.self="override">
+              <failOnViolation>true</failOnViolation>
+              <logViolationsToConsole>true</logViolationsToConsole>
+              <configLocation>config/checkstyle/Checker.xml</configLocation>
+              <includeTestSourceDirectory>true</includeTestSourceDirectory>
+              <includeResources>true</includeResources>
+              <includeTestResources>true</includeTestResources>
+            </configuration>
           </execution>
         </executions>
       </plugin>
