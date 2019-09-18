@@ -17,13 +17,75 @@ image:https://travis-ci.com/kiegroup/optaweb-vehicle-routing.svg?branch=master[
 Web application for solving the https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html[Vehicle Routing Problem]
 using https://www.optaplanner.org/[OptaPlanner].
 
-== Running the Application
+== Starting the Application
 
 First, clone this repository and `cd` into it.
 
-Frontend and backend are built and run independently. Open two terminal windows.
+Frontend and backend are built and run independently. Open two terminal windows. Start the backend first, and then, when the backend is ready, start the frontend.
 
-== Run Frontend
+=== Run Backend
+
+JDK 8 is the only system prerequisite for the backend. To install OpenJDK 8 on Fedora, run:
+
+[source,shell]
+----
+sudo dnf install java-1.8.0-openjdk-devel
+----
+
+. Download OpenStreetMap data for a region. For demonstration purposes, we use data for Belgium from Geofabrik:
+.. Open http://download.geofabrik.de/europe/belgium.html.
+.. Download the OSM file http://download.geofabrik.de/europe/belgium-latest.osm.pbf[belgium-latest.osm.pbf].
+.. Save it to `optaweb-vehicle-routing/optaweb-vehicle-routing-backend/local/openstreetmap/belgium-latest.osm.pbf`.
+
+. Build backend:
++
+[source,shell]
+----
+cd optaweb-vehicle-routing-backend
+./mvnw install
+----
+
+. Run backend:
++
+[source,shell]
+----
+java -jar target/optaweb-vehicle-routing-backend-*.jar
+----
+
+When you start the backend for the first time, it will need several minutes to process the geographical information. Monitoring the terminal output, wait until the processing is complete, then start the frontend.
+
+See
+xref:optaweb-vehicle-routing-backend/README.adoc#development-guide[Backend Development Guide]
+to learn how to run backend during development.
+
+==== Configuring the Working Region
+
+If you want to try a different region than Belgium, download an OSM file from
+http://download.geofabrik.de/[Geofabrik]
+and select it with `app.routing.osm-file` property when starting the backend.
+
+Don't forget to use `app.region.country-codes` property to override geosearch results constraint.
+
+There is currently only one out-of-the-box data set for Belgium
+so the *Load demo* button won't work with other regions.
+
+[source,shell]
+----
+java -jar target/optaweb-vehicle-routing-backend-*.jar \
+--app.routing.osm-file=massachusetts-latest.osm.pbf \
+--app.region.country-codes=US
+----
+
+[CAUTION]
+.Using large OSM files
+====
+For best user experience, use smaller regions like individual European or US states.
+Using OSM files larger than 1 GB will require significant RAM size
+and take a lot of time (up to several hours) for the initial processing.
+====
+
+
+=== Run Frontend
 
 . Install `npm`. If you're on Fedora, you can do this by running:
 +
@@ -47,7 +109,7 @@ npm install
 npm start
 ----
 
-. Open http://localhost:3000/
+. Open http://localhost:3000/ . By default, the `npm start` command attempts to open this URL in your default browser.
 
 [TIP]
 .Prevent `npm start` from launching your default browser
@@ -64,66 +126,8 @@ echo BROWSER=none >> .env.local
 ----
 ====
 
-== Run Backend
 
-JDK 8 is the only system prerequisite. To install OpenJDK 8 on Fedora, run:
-
-[source,shell]
-----
-sudo dnf install java-1.8.0-openjdk-devel
-----
-
-. Download OpenStreetMap data for Belgium from Geofabrik:
-.. Open http://download.geofabrik.de/europe/belgium.html.
-.. Download the OSM file http://download.geofabrik.de/europe/belgium-latest.osm.pbf[belgium-latest.osm.pbf].
-.. Save it to `optaweb-vehicle-routing/optaweb-vehicle-routing-backend/local/openstreetmap/belgium-latest.osm.pbf`.
-
-. Build backend:
-+
-[source,shell]
-----
-cd optaweb-vehicle-routing-backend
-./mvnw install
-----
-
-. Run backend:
-+
-[source,shell]
-----
-java -jar target/optaweb-vehicle-routing-backend-*.jar
-----
-
-See
-xref:optaweb-vehicle-routing-backend/README.adoc#development-guide[Backend Development Guide]
-to learn how to run backend during development.
-
-== Configuring the Working Region
-
-If you want to try a different region than Belgium, download an OSM file from
-http://download.geofabrik.de/[Geofabrik]
-and select it with `app.routing.osm-file` property when starting the backend.
-
-Don't forget to use `app.region.country-codes` property to override geosearch results constraint.
-
-There is currently only one out-of-the-box data set for Belgium
-so the *Load demo* button won't work with other regions.
-
-[source,shell]
-----
-java -jar target/optaweb-vehicle-routing-backend-*.jar \
---app.routing.osm-file=massachusetts-latest.osm.pbf \
---app.region.country-codes=US
-----
-
-[CAUTION]
-.Using large OSM files
-====
-For best user experience it is recommended to use smaller regions like individual European or US states.
-Using OSM files larger than 1 GB will require significant RAM size
-and take a lot of time (up to several hours) for the initial processing.
-====
-
-== Creating Custom Data Sets
+=== Creating Custom Data Sets
 
 There is a built-in demo data set consisting of a several large Belgian cities.
 If you want to have more demos offered by the *Load demo* dropdown,
@@ -137,3 +141,53 @@ To do that, follow these steps:
 
 After you restart the backend, files in the `data` directory will be made available
 in the *Load demo* dropdown.
+
+== Using the application
+
+In the OptaWeb Vehicle Routing application, you can mark a number of locations on the map. The first location is assumed to be the warehouse. Vehicles must deliver goods from this warehouse to every other location that you marked.
+
+You can set the number of vehicles and the carrying capacity of every vehicle. However, the route is not guaranteed to use all vehicles. The application uses many vehicles as required for an optimal route.
+
+The current version has certain limitations:
+
+* Every delivery to a location is supposed to take 1 point of vehicle capacity. For example, a vehicle with a capacity of 10 can visit up to 10 locations before returning to the warehouse.
+* Setting custom names of vehicles and locations is not supported.
+* Error information is not supported in the user interface. You must view the terminal output of the backend to see detailed error messages.
+
+=== Creating a route
+
+To create a optimal route, use the *Demo* tab of the user interface.
+
+. Click *Demo* to open the *Demo* tab.
+. Use the blue *+* and *-* buttons above the map to set the number of vehicles. Each vehicle has a default capacity of 10.
+. Use the *+* button on the map to zoom in as necessary. 
++
+[NOTE]
+==== 
+Do not double-click to zoom in. A double click also creates a location.
+====
++
+. Click a location for the warehouse.
+. Click other locations on the map for delivery points.
+. If you want to delete a location:
+.. Hover the mouse cursor over the location to see the location name.
+.. Find the location name in the list in the left part of the screen.
+.. Click the *x* icon next to the name.
+
+Every time you add or remove a location or change the number of vehicles, the application creates and displays a new optimal route. If the solution uses several vehicles, the application shows the route for every vehicle in a different colour.
+
+=== Viewing and setting other details.
+You can use other tabs of the user interface to view and set additional details.
+
+* In the *Vehicles* tab, you can view, add, and remove vehicles, and also set the capacity for every vehicle.
+* In the *Visits* tab, you can view and remove locations.
+* In the *Route* tab, you can select every vehicle and view the route for this vehicle.
+
+=== Troubleshooting
+
+If the application behaves unexpectedly, review the backend terminal output log.
+
+To resolve issues, remove the backend database:
+
+. Stop the backend by pressing Ctrl+C in the backend terminal window.
+. Remove the directory `optaweb-vehicle-routing/optaweb-vehicle-routing-backend/local/db`. 
