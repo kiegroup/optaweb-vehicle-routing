@@ -214,13 +214,6 @@
         <executions>
           <execution>
             <id>validate</id>
-            <phase>none</phase>
-            <configuration>
-              <skip>true</skip>
-            </configuration>
-          </execution>
-          <execution>
-            <id>validate-override</id>
             <phase>validate</phase>
             <goals>
               <goal>check</goal>
