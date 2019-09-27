@@ -7,6 +7,7 @@
     "@patternfly/patternfly": "^2.6.16",
     "@patternfly/react-core": "^3.30.1",
     "@patternfly/react-icons": "^3.9.2",
+    "jest-junit": "^8.0.0",
     "leaflet": "^1.5.1",
     "leaflet-geosearch": "^2.7.0",
     "react": "^16.8.6",
@@ -26,7 +27,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --reporters=default --reporters=jest-junit",
     "eject": "react-scripts eject",
     "coverage": "npm run test -- --coverage --watchAll=false",
     "typecheck": "tsc --noEmit",
@@ -34,6 +35,14 @@
     "lint:fix": "npm run lint -- --fix",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
+  },
+  "jest-junit": {
+    "outputDirectory": "./target",
+    "suiteName": "org.optaweb.vehiclerouting.frontend.tests",
+    "suiteNameTemplate": "{filepath}",
+    "classNameTemplate": "org.optaweb.vehiclerouting.frontend.{filename}.{classname}",
+    "titleTemplate": "{title}",
+    "ancestorSeparator": "."
   },
   "devDependencies": {
     "@types/enzyme": "^3.9.3",
