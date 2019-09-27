@@ -146,7 +146,7 @@ in the *Load demo* dropdown.
 
 In the OptaWeb Vehicle Routing application, you can mark a number of locations on the map. The first location is assumed to be the warehouse. Vehicles must deliver goods from this warehouse to every other location that you marked.
 
-You can set the number of vehicles and the carrying capacity of every vehicle. However, the route is not guaranteed to use all vehicles. The application uses many vehicles as required for an optimal route.
+You can set the number of vehicles and the carrying capacity of every vehicle. However, the route is not guaranteed to use all vehicles. The application uses as many vehicles as required for an optimal route.
 
 The current version has certain limitations:
 
@@ -156,7 +156,7 @@ The current version has certain limitations:
 
 === Creating a route
 
-To create a optimal route, use the *Demo* tab of the user interface.
+To create an optimal route, use the *Demo* tab of the user interface.
 
 . Click *Demo* to open the *Demo* tab.
 . Use the blue *+* and *-* buttons above the map to set the number of vehicles. Each vehicle has a default capacity of 10.
@@ -174,9 +174,9 @@ Do not double-click to zoom in. A double click also creates a location.
 .. Find the location name in the list in the left part of the screen.
 .. Click the *x* icon next to the name.
 
-Every time you add or remove a location or change the number of vehicles, the application creates and displays a new optimal route. If the solution uses several vehicles, the application shows the route for every vehicle in a different colour.
+Every time you add or remove a location or change the number of vehicles, the application creates and displays a new optimal route. If the solution uses several vehicles, the application shows the route for every vehicle in a different color.
 
-=== Viewing and setting other details.
+=== Viewing and setting other details
 You can use other tabs of the user interface to view and set additional details.
 
 * In the *Vehicles* tab, you can view, add, and remove vehicles, and also set the capacity for every vehicle.
