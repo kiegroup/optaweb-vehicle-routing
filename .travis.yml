@@ -15,6 +15,9 @@ cache:
 #
 # We also want to prevent Maven's install phase from writing to ~/.m2/repository, which is cached.
 install: mvn dependency:go-offline -Pcode-coverage,sonarcloud-analysis --show-version
+before_script:
+  # Fail the the build if the Red Hat package registry is referenced from package-lock.json.
+  - '! grep "\"resolved\".*\.redhat\.com" optaweb-vehicle-routing-frontend/package-lock.json'
 # do not install to avoid dirtying the cache
 script:
   - mvn verify -Pcode-coverage --show-version
