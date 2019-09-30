@@ -17,13 +17,13 @@ image:https://travis-ci.com/kiegroup/optaweb-vehicle-routing.svg?branch=master[
 Web application for solving the https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html[Vehicle Routing Problem]
 using https://www.optaplanner.org/[OptaPlanner].
 
-== Starting the Application
+== Starting the application
 
 First, clone this repository and `cd` into it.
 
 Frontend and backend are built and run independently. Open two terminal windows. Start the backend first, and then, when the backend is ready, start the frontend.
 
-=== Run Backend
+=== Running the backend
 
 JDK 8 is the only system prerequisite for the backend. To install OpenJDK 8 on Fedora, run:
 
@@ -58,7 +58,7 @@ See
 xref:optaweb-vehicle-routing-backend/README.adoc#development-guide[Backend Development Guide]
 to learn how to run backend during development.
 
-==== Configuring the Working Region
+==== Configuring the working region
 
 If you want to try a different region than Belgium, download an OSM file from
 http://download.geofabrik.de/[Geofabrik]
@@ -85,7 +85,7 @@ and take a lot of time (up to several hours) for the initial processing.
 ====
 
 
-=== Run Frontend
+=== Running the frontend
 
 . Install `npm`. If you're on Fedora, you can do this by running:
 +
@@ -127,7 +127,7 @@ echo BROWSER=none >> .env.local
 ====
 
 
-=== Creating Custom Data Sets
+=== Creating custom data sets
 
 There is a built-in demo data set consisting of a several large Belgian cities.
 If you want to have more demos offered by the *Load demo* dropdown,
