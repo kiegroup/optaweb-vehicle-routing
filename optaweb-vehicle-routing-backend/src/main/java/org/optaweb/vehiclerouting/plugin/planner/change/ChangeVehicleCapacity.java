@@ -38,8 +38,7 @@ public class ChangeVehicleCapacity implements ProblemFactChange<VehicleRoutingSo
             throw new IllegalStateException("Can't look up a working copy of " + vehicle);
         }
 
-        // Note: Unlike facts and fact collections, which are shared between best solutions and working solutions,
-        // planning entities and collections are cloned during solving, so we don't need to clone vehicleList here.
+        // No need to clone the workingVehicle because it is a planning entity, so it is already planning-cloned.
         // To learn more about problem fact changes, see:
         // https://docs.jboss.org/optaplanner/release/latest/optaplanner-docs/html_single/#problemFactChangeExample
 

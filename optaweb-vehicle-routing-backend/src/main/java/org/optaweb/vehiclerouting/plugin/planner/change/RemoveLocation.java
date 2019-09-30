@@ -43,7 +43,9 @@ public class RemoveLocation implements ProblemFactChange<VehicleRoutingSolution>
         }
 
         // TODO think if we can fail fast when user forgets to make the clone (PLANNER)
-        // Shallow clone fact list (facts and fact collections are not planning-cloned)
+        // Shallow-clone fact list (facts and fact collections are not planning-cloned).
+        // To learn more about problem fact changes, see:
+        // https://docs.jboss.org/optaplanner/release/latest/optaplanner-docs/html_single/#problemFactChangeExample
         workingSolution.setLocationList(new ArrayList<>(workingSolution.getLocationList()));
 
         // Remove the location

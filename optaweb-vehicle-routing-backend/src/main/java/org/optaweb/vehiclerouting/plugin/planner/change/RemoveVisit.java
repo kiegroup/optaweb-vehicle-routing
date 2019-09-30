@@ -51,8 +51,7 @@ public class RemoveVisit implements ProblemFactChange<VehicleRoutingSolution> {
             }
         }
 
-        // Note: Unlike facts and fact collections, which are shared between best solutions and working solutions,
-        // planning entities and collections are cloned during solving, so we don't need to clone visitList here.
+        // No need to clone the visitList because it is a planning entity collection, so it is already planning-cloned.
         // To learn more about problem fact changes, see:
         // https://docs.jboss.org/optaplanner/release/latest/optaplanner-docs/html_single/#problemFactChangeExample
 
