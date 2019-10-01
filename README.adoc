@@ -109,7 +109,7 @@ npm install
 npm start
 ----
 
-. Open http://localhost:3000/ . By default, the `npm start` command attempts to open this URL in your default browser.
+. Open http://localhost:3000/ in a web browser. By default, the `npm start` command attempts to open this URL in your default browser.
 
 [TIP]
 .Prevent `npm start` from launching your default browser
