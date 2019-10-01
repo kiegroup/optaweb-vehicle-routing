@@ -26,7 +26,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --reporters=default --reporters=jest-junit",
     "eject": "react-scripts eject",
     "coverage": "npm run test -- --coverage --watchAll=false",
     "typecheck": "tsc --noEmit",
@@ -34,6 +34,14 @@
     "lint:fix": "npm run lint -- --fix",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run"
+  },
+  "jest-junit": {
+    "outputDirectory": "./target/surefire-reports",
+    "suiteName": "org.optaweb.vehiclerouting.frontend.tests",
+    "suiteNameTemplate": "{filepath}",
+    "classNameTemplate": "org.optaweb.vehiclerouting.frontend.{filename}.{classname}",
+    "titleTemplate": "{title}",
+    "ancestorSeparator": "."
   },
   "devDependencies": {
     "@types/enzyme": "^3.9.3",
@@ -64,6 +72,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.13.0",
     "history": "^4.9.0",
+    "jest-junit": "^8.0.0",
     "react-test-renderer": "^16.8.6",
     "redux-mock-store": "^1.5.3",
     "typescript": "^3.4.5"
