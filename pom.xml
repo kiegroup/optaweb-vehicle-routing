@@ -112,6 +112,13 @@
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${version.org.springframework.boot}</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
         <!--
           Disable Jacoco check inherited from kie-parent. Remove this when it's removed from kie-parent
           (but some projects still use the check fail build).
