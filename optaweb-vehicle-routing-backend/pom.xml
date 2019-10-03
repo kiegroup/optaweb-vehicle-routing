@@ -244,7 +244,7 @@
         </configuration>
         <executions>
           <execution>
-            <id>repackage-fatjar</id>
+            <id>repackage-fat-jar</id>
             <goals>
               <goal>repackage</goal>
             </goals>
