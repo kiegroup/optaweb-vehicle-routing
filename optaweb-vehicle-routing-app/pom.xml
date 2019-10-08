@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2019 Red Hat, Inc. and/or its affiliates.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.optaweb.vehiclerouting</groupId>
+    <artifactId>optaweb-vehicle-routing</artifactId>
+    <version>7.28.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>optaweb-vehicle-routing-app</artifactId>
+  <packaging>jar</packaging>
+
+  <name>OptaWeb Vehicle Routing App</name>
+
+  <dependencies>
+    <!-- Just to make sure this module builds after backend and frontend. -->
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>optaweb-vehicle-routing-backend</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>optaweb-vehicle-routing-frontend</artifactId>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-backend</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.optaweb.vehiclerouting</groupId>
+                  <artifactId>optaweb-vehicle-routing-backend</artifactId>
+                  <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack-frontend</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.optaweb.vehiclerouting</groupId>
+                  <artifactId>optaweb-vehicle-routing-frontend</artifactId>
+                  <type>war</type>
+                  <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+              <excludes>META-INF/**,WEB-INF/**</excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+            <configuration>
+              <mainClass>org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication</mainClass>
+              <excludes>
+                <exclude>
+                  <groupId>org.optaweb.vehiclerouting</groupId>
+                  <artifactId>optaweb-vehicle-routing-backend</artifactId>
+                </exclude>
+                <exclude>
+                  <groupId>org.optaweb.vehiclerouting</groupId>
+                  <artifactId>optaweb-vehicle-routing-frontend</artifactId>
+                </exclude>
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
