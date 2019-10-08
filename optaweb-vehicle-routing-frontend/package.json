@@ -89,11 +89,6 @@
       "last 1 safari version"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-push": "CI=true npm test"
-    }
-  },
   "jest": {
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
