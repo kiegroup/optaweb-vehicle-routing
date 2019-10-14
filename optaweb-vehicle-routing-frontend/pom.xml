@@ -31,13 +31,6 @@
   <name>OptaWeb Vehicle Routing Frontend</name>
 
   <properties>
-    <!--
-      Intentionally leaving these properties empty so that the Frontend plugin uses default values and downloads
-      Node.js and npm from https://nodejs.org/dist/. Having these properties here makes it possible to change the URLs
-      using system properties. This is necessary for CI builds running on Red Hat infrastructure.
-    -->
-    <nodeDownloadRoot/>
-    <npmDownloadRoot/>
     <sonar.sources>src</sonar.sources>
     <sonar.test.inclusions>
       optaweb-vehicle-routing-frontend/**/*test.ts,optaweb-vehicle-routing-frontend/**/*test.tsx
@@ -72,8 +65,6 @@
             <configuration>
               <nodeVersion>v11.6.0</nodeVersion>
               <npmVersion>6.9.0</npmVersion>
-              <nodeDownloadRoot>${nodeDownloadRoot}</nodeDownloadRoot>
-              <npmDownloadRoot>${npmDownloadRoot}</npmDownloadRoot>
             </configuration>
           </execution>
           <execution>
