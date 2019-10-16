@@ -37,6 +37,7 @@
   },
   "jest-junit": {
     "outputDirectory": "./target/surefire-reports",
+    "outputName": "TEST-frontend.xml",
     "suiteName": "org.optaweb.vehiclerouting.frontend.tests",
     "suiteNameTemplate": "{filepath}",
     "classNameTemplate": "org.optaweb.vehiclerouting.frontend.{filename}.{classname}",
