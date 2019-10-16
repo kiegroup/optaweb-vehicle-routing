@@ -52,7 +52,7 @@ const Location: React.FC<LocationProps> = ({
       onMouseLeave={() => selectHandler(NaN)}
     >
       <DataListItemRow>
-        <DataListCell isFilled={true}>
+        <DataListCell isFilled>
           {(description && (
             <Tooltip content={description}>
               <span id={`location-${id}`}>{shorten(description)}</span>

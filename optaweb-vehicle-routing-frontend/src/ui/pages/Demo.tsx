@@ -178,11 +178,11 @@ export class Demo extends React.Component<DemoProps, DemoState> {
         </SplitItem>
 
         <SplitItem
-          isFilled={true}
+          isFilled
           style={{ display: 'flex', flexDirection: 'column' }}
         >
           <Split gutter={GutterSize.md}>
-            <SplitItem isFilled={true}>
+            <SplitItem isFilled>
               <Grid>
                 <GridItem span={8}>
                   <Level gutter="sm">

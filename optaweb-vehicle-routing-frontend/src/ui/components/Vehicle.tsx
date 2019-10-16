@@ -50,10 +50,10 @@ const Vehicle: React.FC<VehicleProps> = ({
       aria-labelledby={`vehicle-${id}`}
     >
       <DataListItemRow>
-        <DataListCell isFilled={true}>
+        <DataListCell isFilled>
           <span id={`vehicle-${id}`}>{description}</span>
         </DataListCell>
-        <DataListCell isFilled={true}>
+        <DataListCell isFilled>
           <InputGroup>
             <Button
               variant={ButtonVariant.primary}

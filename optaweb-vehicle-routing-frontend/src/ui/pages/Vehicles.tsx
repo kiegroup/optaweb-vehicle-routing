@@ -58,9 +58,7 @@ export const Vehicles: React.FC<Props> = ({
 }) => (
   <>
     <Split gutter={GutterSize.md} style={{ overflowY: 'auto' }}>
-      <SplitItem
-        isFilled={true}
-      >
+      <SplitItem isFilled>
         <TextContent>
           <Text component={TextVariants.h1}>{`Vehicles (${vehicles.length})`}</Text>
         </TextContent>
