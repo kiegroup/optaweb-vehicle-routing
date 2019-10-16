@@ -83,9 +83,8 @@
         "ExportDeclaration": {"multiline": true}
       }
     ],
-    "react/jsx-boolean-value": ["on", "always"],
     "react/destructuring-assignment": "off",
-    "react/jsx-filename-extension": ["on", {"extensions": [".tsx"]}],
+    "react/jsx-filename-extension": ["error", {"extensions": [".tsx"]}],
     "react/prop-types": "off",
     "react/sort-comp": "off"
   }

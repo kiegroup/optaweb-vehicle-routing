@@ -147,7 +147,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
               selectHandler={this.onSelectLocation}
             />
           </SplitItem>
-          <SplitItem isFilled={true}>
+          <SplitItem isFilled>
             <RouteMap
               boundingBox={boundingBox}
               userViewport={userViewport}

@@ -39,22 +39,22 @@ const App: React.FC = () => (
         <Switch>
           <Route
             path="/vehicles"
-            exact={true}
+            exact
             component={Vehicles}
           />
           <Route
             path="/visits"
-            exact={true}
+            exact
             component={Visits}
           />
           <Route
             path="/route"
-            exact={true}
+            exact
             component={RoutePage}
           />
           <Route
             path="/demo"
-            exact={true}
+            exact
             component={Demo}
           />
         </Switch>

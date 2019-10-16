@@ -37,7 +37,7 @@ const ToolbarComponent: React.FC = () => {
       <ToolbarGroup>
         <ToolbarItem>
           <Dropdown
-            isPlain={true}
+            isPlain
             position={DropdownPosition.right}
             // eslint-disable-next-line no-console
             onSelect={event => console.log(event)}
