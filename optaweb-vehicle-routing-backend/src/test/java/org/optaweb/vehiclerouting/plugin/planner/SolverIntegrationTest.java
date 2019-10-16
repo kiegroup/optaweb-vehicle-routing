@@ -38,6 +38,7 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
+import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
@@ -45,7 +46,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
-import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +56,7 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.visit;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.emptySolution;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromLocations;
 
 @ExtendWith(MockitoExtension.class)
@@ -66,14 +67,14 @@ class SolverIntegrationTest {
     @Mock
     private Map<PlanningLocation, Double> distanceMap;
 
-    private SolverFactory<VehicleRoutingSolution> sf;
+    private SolverConfig solverConfig;
     private ExecutorService executor;
     private ProblemFactChangeProcessingMonitor monitor;
     private Future<VehicleRoutingSolution> futureSolution;
 
     @BeforeEach
     void setUp() {
-        sf = SolverFactory.createFromXmlResource(RouteOptimizerConfig.SOLVER_CONFIG);
+        solverConfig = SolverConfig.createFromXmlResource(RouteOptimizerConfig.SOLVER_CONFIG);
         executor = Executors.newSingleThreadExecutor();
         monitor = new ProblemFactChangeProcessingMonitor();
         when(distanceMap.get(any(PlanningLocation.class))).thenReturn(1.0);
@@ -88,8 +89,10 @@ class SolverIntegrationTest {
     @Disabled("Solver fails fast on empty value ranges") // TODO file an OptaPlanner ticket for empty value ranges
     @Test
     void solver_in_daemon_mode_should_not_fail_on_empty_solution() {
-        sf.getSolverConfig().setDaemon(true);
-        assertThat(sf.buildSolver().solve(SolutionFactory.emptySolution())).isNotNull();
+        solverConfig.setDaemon(true);
+        Solver<VehicleRoutingSolution> solver
+                = SolverFactory.<VehicleRoutingSolution>create(solverConfig).buildSolver();
+        assertThat(solver.solve(emptySolution())).isNotNull();
     }
 
     // TODO remove vehicle, change capacity, change demand...
@@ -103,8 +106,9 @@ class SolverIntegrationTest {
                 singletonList(location(2))
         );
 
-        sf.getSolverConfig().setDaemon(true);
-        Solver<VehicleRoutingSolution> solver = sf.buildSolver();
+        solverConfig.setDaemon(true);
+        Solver<VehicleRoutingSolution> solver
+                = SolverFactory.<VehicleRoutingSolution>create(solverConfig).buildSolver();
         solver.addEventListener(monitor);
         startSolver(solver, solution);
 

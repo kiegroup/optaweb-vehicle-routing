@@ -20,6 +20,7 @@ import java.time.Duration;
 
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
+import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,11 +53,11 @@ class RouteOptimizerConfig {
         // https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html#using-boot-devtools-customizing-classload
         // CHECKSTYLE:ON
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        SolverFactory<VehicleRoutingSolution> sf = SolverFactory.createFromXmlResource(SOLVER_CONFIG, classLoader);
+        SolverConfig solverConfig = SolverConfig.createFromXmlResource(SOLVER_CONFIG, classLoader);
         Duration timeout = optimizerProperties.getTimeout();
-        sf.getSolverConfig().setTerminationConfig(new TerminationConfig().withSecondsSpentLimit(timeout.getSeconds()));
-        sf.getSolverConfig().setDaemon(true);
-        return sf.buildSolver();
+        solverConfig.setTerminationConfig(new TerminationConfig().withSecondsSpentLimit(timeout.getSeconds()));
+        solverConfig.setDaemon(true);
+        return SolverFactory.<VehicleRoutingSolution>create(solverConfig).buildSolver();
     }
 
     @Bean
