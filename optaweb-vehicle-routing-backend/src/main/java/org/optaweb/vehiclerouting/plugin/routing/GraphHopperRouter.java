@@ -28,19 +28,19 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
 import org.optaweb.vehiclerouting.service.route.Router;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 /**
  * Provides geographical information needed for route optimization.
  */
 @Component
-class RouterImpl implements Router,
-                            DistanceCalculator {
+class GraphHopperRouter implements Router, DistanceCalculator {
 
     private final GraphHopperOSM graphHopper;
 
     @Autowired
-    RouterImpl(GraphHopperOSM graphHopper) {
+    GraphHopperRouter(GraphHopperOSM graphHopper) {
         this.graphHopper = graphHopper;
     }
 
