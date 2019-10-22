@@ -25,6 +25,7 @@ import org.optaweb.vehiclerouting.Profiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -53,6 +54,7 @@ class RoutingConfig {
      */
     @Profile(Profiles.NOT_TEST)
     @Bean
+    @ConditionalOnProperty(prefix = "app.routing", name = "engine", havingValue = "graphhopper", matchIfMissing = true)
     GraphHopperOSM graphHopper() {
         GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
         String osmPath = OSM_DIR + routingProperties.getOsmFile();

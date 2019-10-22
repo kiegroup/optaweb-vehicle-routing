@@ -24,8 +24,11 @@ import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.PointList;
+import com.graphhopper.util.shapes.BBox;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
+import org.optaweb.vehiclerouting.service.region.BoundingBox;
+import org.optaweb.vehiclerouting.service.region.Region;
 import org.optaweb.vehiclerouting.service.route.Router;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -36,7 +39,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ConditionalOnProperty(prefix = "app.routing", name = "engine", havingValue = "graphhopper", matchIfMissing = true)
-class GraphHopperRouter implements Router, DistanceCalculator {
+class GraphHopperRouter implements Router, DistanceCalculator, Region {
 
     private final GraphHopperOSM graphHopper;
 
@@ -71,5 +74,14 @@ class GraphHopperRouter implements Router, DistanceCalculator {
             throw new RuntimeException("No route", ghResponse.getErrors().get(0));
         }
         return ghResponse.getBest().getTime();
+    }
+
+    @Override
+    public BoundingBox getBounds() {
+        BBox bounds = graphHopper.getGraphHopperStorage().getBounds();
+        return new BoundingBox(
+                Coordinates.valueOf(bounds.minLat, bounds.minLon),
+                Coordinates.valueOf(bounds.maxLat, bounds.maxLon)
+        );
     }
 }

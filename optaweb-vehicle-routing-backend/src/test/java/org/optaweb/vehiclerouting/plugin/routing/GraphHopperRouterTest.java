@@ -23,7 +23,9 @@ import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.PathWrapper;
 import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.storage.GraphHopperStorage;
 import com.graphhopper.util.PointList;
+import com.graphhopper.util.shapes.BBox;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +34,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.service.region.BoundingBox;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -51,6 +54,8 @@ class GraphHopperRouterTest {
     private GHResponse ghResponse;
     @Mock
     private PathWrapper pathWrapper;
+    @Mock
+    private GraphHopperStorage graphHopperStorage;
 
     @BeforeEach
     void setUp() {
@@ -104,5 +109,22 @@ class GraphHopperRouterTest {
                 coordinates2,
                 coordinates3
         );
+    }
+
+    @Test
+    void should_return_graphHopper_bounds() {
+        when(graphHopper.getGraphHopperStorage()).thenReturn(graphHopperStorage);
+        double minLat_Y = -90;
+        double minLon_X = -180;
+        double maxLat_Y = 90;
+        double maxLon_X = 180;
+        BBox bbox = new BBox(minLon_X, maxLon_X, minLat_Y, maxLat_Y);
+        when(graphHopperStorage.getBounds()).thenReturn(bbox);
+
+        GraphHopperRouter routing = new GraphHopperRouter(graphHopper);
+        BoundingBox boundingBox = routing.getBounds();
+
+        assertThat(boundingBox.getSouthWest()).isEqualTo(Coordinates.valueOf(minLat_Y, minLon_X));
+        assertThat(boundingBox.getNorthEast()).isEqualTo(Coordinates.valueOf(maxLat_Y, maxLon_X));
     }
 }

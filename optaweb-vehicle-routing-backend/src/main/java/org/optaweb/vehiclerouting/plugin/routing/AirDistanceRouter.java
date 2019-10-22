@@ -22,13 +22,15 @@ import java.util.List;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
+import org.optaweb.vehiclerouting.service.region.BoundingBox;
+import org.optaweb.vehiclerouting.service.region.Region;
 import org.optaweb.vehiclerouting.service.route.Router;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
 @ConditionalOnProperty(prefix = "app.routing", name = "engine", havingValue = "air")
-public class AirDistanceRouter implements Router, DistanceCalculator {
+public class AirDistanceRouter implements Router, DistanceCalculator, Region {
 
     @Override
     public long travelTimeMillis(Coordinates from, Coordinates to) {
@@ -43,5 +45,10 @@ public class AirDistanceRouter implements Router, DistanceCalculator {
     @Override
     public List<Coordinates> getPath(Coordinates from, Coordinates to) {
         return Arrays.asList(from, to);
+    }
+
+    @Override
+    public BoundingBox getBounds() {
+        return new BoundingBox(Coordinates.valueOf(-90, -180), Coordinates.valueOf(90, 180));
     }
 }
