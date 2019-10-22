@@ -28,13 +28,14 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
 import org.optaweb.vehiclerouting.service.route.Router;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 /**
  * Provides geographical information needed for route optimization.
  */
 @Component
+@ConditionalOnProperty(prefix = "app.routing", name = "engine", havingValue = "graphhopper", matchIfMissing = true)
 class GraphHopperRouter implements Router, DistanceCalculator {
 
     private final GraphHopperOSM graphHopper;

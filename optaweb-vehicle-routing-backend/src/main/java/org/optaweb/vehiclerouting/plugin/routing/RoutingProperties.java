@@ -33,11 +33,29 @@ class RoutingProperties {
     @NotNull
     private String osmFile;
 
+    /**
+     * Routing engine providing distances and paths.
+     */
+    private RoutingEngine engine;
+
     public String getOsmFile() {
         return osmFile;
     }
 
     public void setOsmFile(String osmFile) {
         this.osmFile = osmFile;
+    }
+
+    public RoutingEngine getEngine() {
+        return engine;
+    }
+
+    public void setEngine(RoutingEngine engine) {
+        this.engine = engine;
+    }
+
+    public enum RoutingEngine {
+        AIR,
+        GRAPHHOPPER
     }
 }
