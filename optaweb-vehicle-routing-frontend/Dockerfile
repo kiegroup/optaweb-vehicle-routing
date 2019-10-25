@@ -1,4 +1,4 @@
-FROM docker.io/nginx
+FROM docker.io/library/nginx
 RUN rm /etc/nginx/conf.d/default.conf
 COPY default.conf /tmp/default.template
 ARG BACKEND_URL
