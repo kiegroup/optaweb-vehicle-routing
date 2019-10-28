@@ -43,7 +43,6 @@
     <version.org.mockito>2.23.4</version.org.mockito>
     <version.org.junit>5.4.2</version.org.junit>
     <version.org.springframework>5.1.7.RELEASE</version.org.springframework>
-    <version.org.springframework.boot>2.1.5.RELEASE</version.org.springframework.boot>
   </properties>
 
   <dependencyManagement>
@@ -53,13 +52,6 @@
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
         <version>${version.org.junit}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-dependencies</artifactId>
-        <version>${version.org.springframework.boot}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -94,11 +86,6 @@
   <build>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-maven-plugin</artifactId>
-          <version>${version.org.springframework.boot}</version>
-        </plugin>
         <!--
           Disable Jacoco check inherited from kie-parent. Remove this when it's removed from kie-parent
           (but some projects still use the check fail build).
