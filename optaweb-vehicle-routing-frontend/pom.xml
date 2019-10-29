@@ -38,7 +38,9 @@
     <sonar.typescript.lcov.reportPaths>coverage/lcov.info</sonar.typescript.lcov.reportPaths>
 
     <!-- Frontend properties -->
-    <version.frontend.plugin>1.7.5</version.frontend.plugin>
+    <frontend-maven-plugin.version>1.7.5</frontend-maven-plugin.version>
+    <node.version>v11.6.0</node.version>
+    <npm.version>6.9.0</npm.version>
   </properties>
 
   <build>
@@ -47,7 +49,7 @@
         <plugin>
           <groupId>com.github.eirslett</groupId>
           <artifactId>frontend-maven-plugin</artifactId>
-          <version>${version.frontend.plugin}</version>
+          <version>${frontend-maven-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -63,8 +65,8 @@
               <goal>install-node-and-npm</goal>
             </goals>
             <configuration>
-              <nodeVersion>v11.6.0</nodeVersion>
-              <npmVersion>6.9.0</npmVersion>
+              <nodeVersion>${node.version}</nodeVersion>
+              <npmVersion>${npm.version}</npmVersion>
             </configuration>
           </execution>
           <execution>
@@ -146,5 +148,55 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>productizedProfile</id>
+      <activation>
+          <property>
+              <name>productized</name>
+          </property>
+      </activation>
+
+      <build>
+          <plugins>
+              <plugin>
+                  <groupId>com.github.eirslett</groupId>
+                  <artifactId>frontend-maven-plugin</artifactId>
+                  <executions>
+                      <execution>
+                          <id>install node and npm</id>
+                          <phase>initialize</phase>
+                          <goals>
+                              <goal>install-node-and-npm</goal>
+                          </goals>
+                          <configuration>
+                              <nodeVersion>${node.version}</nodeVersion>
+                              <npmVersion>${npm.version}</npmVersion>
+                          </configuration>
+                      </execution>
+                      <execution>
+                          <id>npm install lock-treatment-tool and run-node</id>
+                          <phase>initialize</phase>
+                          <goals>
+                              <goal>npm</goal>
+                          </goals>
+                          <configuration>
+                              <arguments>install lock-treatment-tool --global-style --no-package-lock</arguments>
+                          </configuration>
+                      </execution>
+                      <execution>
+                          <id>lock-treatment-tool execution</id>
+                          <phase>initialize</phase>
+                          <goals>
+                              <goal>npm</goal>
+                          </goals>
+                          <configuration>
+                              <arguments>run env -- locktt</arguments>
+                          </configuration>
+                      </execution>
+                  </executions>
+              </plugin>
+          </plugins>
+      </build>
+    </profile>    
   </profiles>
 </project>
