@@ -75,6 +75,7 @@ class SolverIntegrationTest {
     @BeforeEach
     void setUp() {
         solverConfig = SolverConfig.createFromXmlResource(RouteOptimizerConfig.SOLVER_CONFIG);
+        solverConfig.setDaemon(true);
         executor = Executors.newSingleThreadExecutor();
         monitor = new ProblemFactChangeProcessingMonitor();
         when(distanceMap.get(any(PlanningLocation.class))).thenReturn(1.0);
@@ -89,7 +90,6 @@ class SolverIntegrationTest {
     @Disabled("Solver fails fast on empty value ranges") // TODO file an OptaPlanner ticket for empty value ranges
     @Test
     void solver_in_daemon_mode_should_not_fail_on_empty_solution() {
-        solverConfig.setDaemon(true);
         Solver<VehicleRoutingSolution> solver
                 = SolverFactory.<VehicleRoutingSolution>create(solverConfig).buildSolver();
         assertThat(solver.solve(emptySolution())).isNotNull();
@@ -106,7 +106,6 @@ class SolverIntegrationTest {
                 singletonList(location(2))
         );
 
-        solverConfig.setDaemon(true);
         Solver<VehicleRoutingSolution> solver
                 = SolverFactory.<VehicleRoutingSolution>create(solverConfig).buildSolver();
         solver.addEventListener(monitor);
