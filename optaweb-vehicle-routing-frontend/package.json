@@ -26,6 +26,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "rimraf docker/build && copyfiles -E 'build/**/*' docker",
     "test": "react-scripts test --reporters=default --reporters=jest-junit",
     "eject": "react-scripts eject",
     "coverage": "npm run test -- --coverage --watchAll=false",
@@ -60,6 +61,7 @@
     "@types/sockjs-client": "^1.1.1",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@typescript-eslint/parser": "^1.9.0",
+    "copyfiles": "^2.1.1",
     "cypress": "^3.4.1",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.13.2",
@@ -77,6 +79,7 @@
     "kill-port": "^1.6.0",
     "react-test-renderer": "^16.8.6",
     "redux-mock-store": "^1.5.3",
+    "rimraf": "^3.0.0",
     "typescript": "^3.4.5"
   },
   "browserslist": {
