@@ -188,6 +188,7 @@
                   <processLogFile>${project.build.directory}/${project.artifactId}.log</processLogFile>
                   <arguments>
                     <argument>java</argument>
+                    <argument>-Dspring.profiles.active=dev</argument>
                     <argument>-Dapp.region.country-codes=DE</argument>
                     <argument>-Dapp.routing.osm-file=${backend.osm.file}</argument>
                     <argument>-Dserver.port=${application.port}</argument>
