@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2019 Red Hat, Inc. and/or its affiliates.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.optaweb.vehiclerouting</groupId>
+    <artifactId>optaweb-vehicle-routing</artifactId>
+    <version>7.30.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>optaweb-vehicle-routing-tests</artifactId>
+  <packaging>pom</packaging>
+  <name>OptaWeb Vehicle Routing Tests</name>
+
+  <properties>
+    <backend.port>8180</backend.port>
+    <backend.project.name>optaweb-vehicle-routing-backend</backend.project.name>
+    <backend.osm.file>planet_12.032,53.0171_12.1024,53.0491.osm.pbf</backend.osm.file>
+    <frontend.port>3100</frontend.port>
+    <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.bazaarvoice.maven.plugins</groupId>
+          <artifactId>process-exec-maven-plugin</artifactId>
+          <version>0.9</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-osm-file</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.parent.basedir}/local/openstreetmap</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>../${backend.project.name}/src/test/resources/org/optaweb/vehiclerouting/plugin/routing</directory>
+                  <includes>
+                    <include>${backend.osm.file}</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.bazaarvoice.maven.plugins</groupId>
+        <artifactId>process-exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>start-backend-service</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <name>${backend.project.name}</name>
+              <healthcheckUrl>http://localhost:${backend.port}</healthcheckUrl>
+              <waitForInterrupt>false</waitForInterrupt>
+              <workingDir>/${project.parent.basedir}</workingDir>
+              <processLogFile>${project.build.directory}/${backend.project.name}.log</processLogFile>
+              <arguments>
+                <argument>java</argument>
+                <argument>-Dapp.region.country-codes=DE</argument>
+                <argument>-Dapp.routing.osm-file=${backend.osm.file}</argument>
+                <argument>-Dserver.port=${backend.port}</argument>
+                <argument>-jar</argument>
+                <argument>${backend.project.name}/target/${backend.project.name}-${project.version}.jar</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop-process-migration-service</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop-all</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <configuration>
+          <workingDirectory>/${project.parent.basedir}/${frontend.project.name}</workingDirectory>
+        </configuration>
+        <executions>
+          <execution>
+            <id>run cypress tests</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <environmentVariables>
+                <CYPRESS_baseUrl>http://localhost:${frontend.port}</CYPRESS_baseUrl>
+                <REACT_APP_BACKEND_URL>http://localhost:${backend.port}</REACT_APP_BACKEND_URL>
+                <PORT>${frontend.port}</PORT>
+              </environmentVariables>
+              <arguments>run cypress:ci</arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
