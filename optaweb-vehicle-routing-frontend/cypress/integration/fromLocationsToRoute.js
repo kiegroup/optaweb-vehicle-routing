@@ -21,7 +21,8 @@ describe('Locations can be added and route is computed', () => {
    */
   const addCity = (name) => {
     cy.get('[data-cy=geosearch-text-input]').type(name);
-    cy.get('[data-cy=geosearch-location-item-button-1]').click();
+    // TODO: replace by mocking the request (search depends on a 3rd-party service)
+    cy.get('[data-cy=geosearch-location-item-button-0]', { timeout: 60000 }).click();
   };
 
   /**
@@ -29,7 +30,7 @@ describe('Locations can be added and route is computed', () => {
    */
   const clearLocations = () => {
     // Add one city to make sure there is a location in the list and the clear button shows up
-    addCity('Brussels');
+    addCity('Garz');
     cy.get('[data-cy=demo-clear-button]').click({ force: true });
   };
 
@@ -49,7 +50,7 @@ describe('Locations can be added and route is computed', () => {
   });
 
   it('Locations added via clicking on a map are added to a route', () => {
-    const cities = ['Waterloo', 'Gent'];
+    const cities = ['Garz', 'Hoppenrade'];
 
     cities.forEach((city) => {
       addCity(city);
