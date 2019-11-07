@@ -27,6 +27,7 @@
 
   <fileSets>
     <fileSet><!-- Note: going outside the module dir is bad, but it is not fetching generated files -->
+      <useDefaultExcludes>false</useDefaultExcludes>
       <directory>..</directory>
       <outputDirectory>sources</outputDirectory>
       <excludes>
