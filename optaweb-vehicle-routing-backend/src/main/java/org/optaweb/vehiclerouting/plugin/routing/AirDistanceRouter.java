@@ -19,6 +19,7 @@ package org.optaweb.vehiclerouting.plugin.routing;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
@@ -32,14 +33,18 @@ import org.springframework.stereotype.Component;
 @ConditionalOnProperty(prefix = "app.routing", name = "engine", havingValue = "air")
 public class AirDistanceRouter implements Router, DistanceCalculator, Region {
 
+    protected static final int TRAVEL_SPEED_KPH = 60;
+    // Approximate Metric Equivalents for Degrees. At the equator for longitude and for latitude anywhere,
+    // the following approximations are valid: 1° = 111 km (or 60 nautical miles) 0.1° = 11.1 km.
+    protected static final double KILOMETERS_PER_DEGREE = 111;
+    protected static final long MILLIS_IN_ONE_HOUR = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS);
+
     @Override
     public long travelTimeMillis(Coordinates from, Coordinates to) {
         BigDecimal latDiff = to.latitude().subtract(from.latitude());
         BigDecimal lngDiff = to.longitude().subtract(from.longitude());
-        double distance = Math.sqrt(latDiff.pow(2).add(lngDiff.pow(2)).doubleValue());
-        // Approximate Metric Equivalents for Degrees. At the equator for longitude and for latitude anywhere,
-        // the following approximations are valid: 1° = 111 km (or 60 nautical miles) 0.1° = 11.1 km.
-        return (long) Math.floor(distance * 60 * 60 * 1000);
+        double distanceKilometers = Math.sqrt(latDiff.pow(2).add(lngDiff.pow(2)).doubleValue()) * KILOMETERS_PER_DEGREE;
+        return (long) Math.floor(distanceKilometers / TRAVEL_SPEED_KPH * MILLIS_IN_ONE_HOUR);
     }
 
     @Override
