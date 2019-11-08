@@ -28,6 +28,16 @@ import org.springframework.validation.annotation.Validated;
 class RoutingProperties {
 
     /**
+     * Directory to read OSM files from.
+     */
+    private String osmDir = "local/openstreetmap";
+
+    /**
+     * Directory where GraphHopper graphs are stored.
+     */
+    private String ghDir = "local/graphhopper";
+
+    /**
      * OpenStreetMap file name.
      */
     @NotNull
@@ -37,6 +47,22 @@ class RoutingProperties {
      * Routing engine providing distances and paths.
      */
     private RoutingEngine engine;
+
+    public String getOsmDir() {
+        return osmDir;
+    }
+
+    public void setOsmDir(String osmDir) {
+        this.osmDir = osmDir;
+    }
+
+    public String getGhDir() {
+        return ghDir;
+    }
+
+    public void setGhDir(String ghDir) {
+        this.ghDir = ghDir;
+    }
 
     public String getOsmFile() {
         return osmFile;

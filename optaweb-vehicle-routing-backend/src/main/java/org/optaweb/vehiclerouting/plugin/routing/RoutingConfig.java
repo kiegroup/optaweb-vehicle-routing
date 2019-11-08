@@ -38,8 +38,6 @@ import org.springframework.context.annotation.Profile;
 class RoutingConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutingConfig.class);
-    private static final String OSM_DIR = "local/openstreetmap/";
-    private static final String GH_DIR = "local/graphhopper/";
 
     private final RoutingProperties routingProperties;
 
@@ -57,16 +55,17 @@ class RoutingConfig {
     @ConditionalOnProperty(prefix = "app.routing", name = "engine", havingValue = "graphhopper", matchIfMissing = true)
     GraphHopperOSM graphHopper() {
         GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
-        String osmPath = OSM_DIR + routingProperties.getOsmFile();
-        logger.info("OSM file: {}", osmPath);
-        if (!new File(osmPath).exists()) {
+        File osmFile = new File(routingProperties.getOsmDir(), routingProperties.getOsmFile());
+        logger.info("OSM file: {}", osmFile.getAbsolutePath());
+        if (!osmFile.exists()) {
             throw new IllegalStateException(
-                    "The osmPath (" + new File(osmPath).getAbsolutePath() + ") does not exist.\n"
+                    "The osmFile (" + osmFile.getAbsolutePath() + ") does not exist.\n"
                             + "Download the osm file from http://download.geofabrik.de/ first"
             );
         }
-        graphHopper.setOSMFile(osmPath);
-        graphHopper.setGraphHopperLocation(GH_DIR + osmPath.replaceFirst(".*/(.*)\\.osm\\.pbf$", "$1"));
+        graphHopper.setOSMFile(osmFile.getAbsolutePath());
+        String regionName = routingProperties.getOsmFile().replaceFirst("\\.osm\\.pbf$", "");
+        graphHopper.setGraphHopperLocation(new File(routingProperties.getGhDir(), regionName).getAbsolutePath());
         graphHopper.setEncodingManager(EncodingManager.create(FlagEncoderFactory.CAR));
         logger.info("GraphHopper loading...");
         graphHopper.importOrLoad();
