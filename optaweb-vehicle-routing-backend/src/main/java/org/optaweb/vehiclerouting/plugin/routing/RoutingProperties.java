@@ -44,6 +44,11 @@ class RoutingProperties {
     private String osmFile;
 
     /**
+     * URL of an .osm.pbf file that will be downloaded in case the file doesn't exist on the file system.
+     */
+    private String osmDownloadUrl;
+
+    /**
      * Routing engine providing distances and paths.
      */
     private RoutingEngine engine;
@@ -70,6 +75,14 @@ class RoutingProperties {
 
     public void setOsmFile(String osmFile) {
         this.osmFile = osmFile;
+    }
+
+    public String getOsmDownloadUrl() {
+        return osmDownloadUrl;
+    }
+
+    public void setOsmDownloadUrl(String osmDownloadUrl) {
+        this.osmDownloadUrl = osmDownloadUrl;
     }
 
     public RoutingEngine getEngine() {
