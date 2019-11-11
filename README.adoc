@@ -84,7 +84,6 @@ Using OSM files larger than 1 GB will require significant RAM size
 and take a lot of time (up to several hours) for the initial processing.
 ====
 
-
 === Running the frontend
 
 . Install `npm`. If you're on Fedora, you can do this by running:
@@ -126,7 +125,6 @@ echo BROWSER=none >> .env.local
 ----
 ====
 
-
 === Creating custom data sets
 
 There is a built-in demo data set consisting of a several large Belgian cities.
@@ -160,10 +158,10 @@ To create an optimal route, use the *Demo* tab of the user interface.
 
 . Click *Demo* to open the *Demo* tab.
 . Use the blue *+* and *-* buttons above the map to set the number of vehicles. Each vehicle has a default capacity of 10.
-. Use the *+* button on the map to zoom in as necessary. 
+. Use the *+* button on the map to zoom in as necessary.
 +
 [NOTE]
-==== 
+====
 Do not double-click to zoom in. A double click also creates a location.
 ====
 +
@@ -177,6 +175,7 @@ Do not double-click to zoom in. A double click also creates a location.
 Every time you add or remove a location or change the number of vehicles, the application creates and displays a new optimal route. If the solution uses several vehicles, the application shows the route for every vehicle in a different color.
 
 === Viewing and setting other details
+
 You can use other tabs of the user interface to view and set additional details.
 
 * In the *Vehicles* tab, you can view, add, and remove vehicles, and also set the capacity for every vehicle.
@@ -190,4 +189,64 @@ If the application behaves unexpectedly, review the backend terminal output log.
 To resolve issues, remove the backend database:
 
 . Stop the backend by pressing Ctrl+C in the backend terminal window.
-. Remove the directory `optaweb-vehicle-routing/optaweb-vehicle-routing-backend/local/db`. 
+. Remove the directory `optaweb-vehicle-routing/optaweb-vehicle-routing-backend/local/db`.
+
+== Running on a local OpenShift cluster
+
+Use https://developers.redhat.com/products/codeready-containers[Red Hat CodeReady Containers]
+to easily set up a single-node OpenShift 4 cluster on your local computer.
+
+.Prerequisites
+You have successfully built the project with Maven.
+
+.Procedure
+1. To install CRC, follow the https://code-ready.github.io/crc/[Getting Started Guide].
+
+2. When the cluster has started,
+
+a. add oc command-line interface to your `$PATH`:
++
+[source,shell]
+----
+eval $(crc oc-env)
+----
+
+b. log in as "developer".
+
+3. Create a new project
++
+[source,subs="quotes"]
+----
+oc new-project _project_name_
+----
+
+4. Run the script:
++
+[source,shell]
+----
+./provision.sh
+----
+
+=== Updating the deployed application with local changes
+
+==== Backend
+
+Change the source code and build the backend module with Maven.
+Then start OpenShift build:
+
+[source,shell]
+----
+cd optaweb-vehicle-routing-backend
+oc start-build backend --from-dir=. --follow
+----
+
+==== Frontend
+
+Change the source code and build the frontend module with npm.
+Then start OpenShift build:
+
+[source,shell]
+----
+cd optaweb-vehicle-routing-frontend
+oc start-build frontend --from-dir=docker --follow
+----
