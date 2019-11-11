@@ -4,6 +4,94 @@ set -e
 readonly dir_backend=optaweb-vehicle-routing-backend
 readonly dir_frontend=optaweb-vehicle-routing-frontend
 
+function wrong_args() {
+  echo >&2 "Wrong number of arguments! Usage:"
+  echo >&2 "  $(basename "$0")"
+  echo >&2 "  $(basename "$0") region-name country-code-list [osm-file-download-url]"
+  echo >&2 "Example:"
+  echo >&2 "  $(basename "$0") belgium BE http://download.geofabrik.de/europe/belgium-latest.osm.pbf"
+  exit 1
+}
+
+function usage() {
+  echo "Usage:"
+  echo "  $(basename "$0")"
+  echo "  $(basename "$0") region-name country-code-list [osm-file-download-url]"
+  echo
+  echo "Example 1."
+  echo "  $(basename "$0")"
+  echo
+  echo "  Sets up backend to run in air distances routing mode."
+  echo "  WARNING: Air mode doesn't give reliable values. \
+It's only useful for evaluation, debugging, or incremental setup purpose."
+  echo
+  echo
+  echo "Example 2."
+  echo "  $(basename "$0") belgium-latest.osm.pbf BE"
+  echo
+  echo "  Use GraphHopper routing mode and upload OSM file or GraphHopper data manually. \
+The backend will be initially configured to air routing mode. When it starts for the first time, \
+use it to upload Belgium OSM file or GraphHopper data to the claimed Persistent Volume. For example:"
+  echo
+  echo "      oc rsync ~/.vrp/openstreetmap/belgium-latest.osm.pbf backend-1-7k5pl:/deployments/local/openstreetmap/"
+  echo
+  echo "  if you haven't run the application locally and you just have the OSM file that hasn't been processed by \
+GraphHopper into a routing graph."
+  echo "  If you have run the application, you can upload the processed graph to skip the processing step in OpenShift:"
+  echo
+  echo "      oc rsync ~/.vrp/graphhopper/belgium-latest backend-1-7k5pl:/deployments/local/graphhopper/"
+  echo
+  echo "  When the upload is complete. Change routing engine to GraphHopper:"
+  echo
+  echo "      oc set env dc/backend APP_ROUTING_ENGINE=graphhopper"
+  echo
+  echo "  The deployment config change will trigger a new pod with the updated environment, \
+which will replace the old pod."
+  echo
+  echo "Example 3."
+  echo "  $(basename "$0") belgium BE http://download.geofabrik.de/europe/belgium-latest.osm.pbf"
+  echo
+  echo "  Sets up backend to run in GraphHopper routing mode and downloads an OSM file from the provided URL \
+on startup. This provides the best out-of-the-box experience. No additional manual steps."
+  exit 0
+}
+
+[[ $1 == "--help" ]] && usage
+
+# Check number of arguments and choose summary or display usage
+case $# in
+  0)
+    summary="No routing config provided. The backend will start in air routing mode.\n\n\
+WARNING: Air mode doesn't give reliable values. \
+It's only useful for evaluation, debugging, or incremental setup purpose. \
+You can run ‘$(basename "$0") --help’ to see other options."
+    ;;
+  2)
+    summary="The backend pod will start in air mode. Use the pod to upload a graph directory or an OSM file. \
+Then change routing mode to graphopper. Run ‘$(basename "$0") --help’ for more info."
+    ;;
+  3)
+    summary="The backend will download an OSM file on startup."
+    ;;
+  *)
+    wrong_args
+esac
+
+# Process arguments
+declare -a dc_backend_env
+if [[ $# -ge 2 ]]
+then
+  dc_backend_env+=("APP_ROUTING_OSM_FILE=$1")
+  dc_backend_env+=("APP_REGION_COUNTRY_CODES=$2")
+fi
+if [[ $# == 3 ]]
+then
+  dc_backend_env+=("APP_ROUTING_ENGINE=graphhopper")
+  dc_backend_env+=("APP_ROUTING_OSM_DOWNLOAD_URL=$3")
+else
+  dc_backend_env+=("APP_ROUTING_ENGINE=air")
+fi
+
 # Change dir to the project root (where provision.sh is located) to correctly resolve module paths.
 # This is needed in case the script was called from a different location than the project root.
 cd "$(dirname "$(readlink -f "$0")")"
@@ -35,10 +123,18 @@ if [[ -z "$get_all" ]]
 then
   echo "The project appears to be empty."
 else
-  echo >&2 -e "\nProject content:\n\n${get_all}\n"
+  echo >&2
+  echo >&2 "Project content:"
+  echo >&2
+  echo >&2 "${get_all}"
+  echo >&2
   echo >&2 "ERROR: The project is not empty."
   exit 1
 fi
+
+echo
+echo -e "$summary"
+echo
 
 declare -l answer_continue # -l converts the value to lower case before it's assigned
 read -r -p "Do you want to continue? [y/N]: " "answer_continue"
@@ -58,6 +154,7 @@ oc start-build backend --from-dir=${dir_backend} --follow
 oc new-app backend
 # -- use PostgreSQL secret
 oc set env dc/backend --from=secret/postgresql
+oc set env dc/backend "${dc_backend_env[@]}"
 # Remove the default emptyDir volume
 oc set volumes dc/backend --remove --name backend-volume-1
 # Replace it with a PVC
