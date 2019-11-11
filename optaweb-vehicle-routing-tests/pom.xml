@@ -29,133 +29,22 @@
   <packaging>pom</packaging>
   <name>OptaWeb Vehicle Routing Tests</name>
 
-  <properties>
-    <backend.port>8180</backend.port>
-    <backend.project.name>optaweb-vehicle-routing-backend</backend.project.name>
-    <backend.osm.file>planet_12.032,53.0171_12.1024,53.0491.osm.pbf</backend.osm.file>
-    <frontend.port>3100</frontend.port>
-    <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
-  </properties>
-
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>com.bazaarvoice.maven.plugins</groupId>
-          <artifactId>process-exec-maven-plugin</artifactId>
-          <version>0.9</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-resources-plugin</artifactId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
         <executions>
-          <execution>
-            <id>copy-osm-file</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>${project.basedir}/local/openstreetmap</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.parent.basedir}/${backend.project.name}/src/test/resources/org/optaweb/vehiclerouting/plugin/routing</directory>
-                  <includes>
-                    <include>${backend.osm.file}</include>
-                  </includes>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.bazaarvoice.maven.plugins</groupId>
-        <artifactId>process-exec-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>start-backend-service</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>start</goal>
-            </goals>
-            <configuration>
-              <name>${backend.project.name}</name>
-              <healthcheckUrl>http://localhost:${backend.port}</healthcheckUrl>
-              <waitForInterrupt>false</waitForInterrupt>
-              <workingDir>${project.basedir}</workingDir>
-              <processLogFile>${project.build.directory}/${backend.project.name}.log</processLogFile>
-              <arguments>
-                <argument>java</argument>
-                <argument>-Dapp.region.country-codes=DE</argument>
-                <argument>-Dapp.routing.osm-file=${backend.osm.file}</argument>
-                <argument>-Dserver.port=${backend.port}</argument>
-                <argument>-jar</argument>
-                <argument>${project.parent.basedir}/${backend.project.name}/target/${backend.project.name}-${project.version}.jar</argument>
-              </arguments>
-            </configuration>
-          </execution>
           <execution>
             <id>run-cypress-tests</id>
             <phase>integration-test</phase>
             <goals>
-              <goal>start</goal>
+              <goal>exec</goal>
             </goals>
             <configuration>
-              <name>Run Cypress in Docker</name>
-              <waitForInterrupt>false</waitForInterrupt>
-              <workingDir>${project.parent.basedir}/${frontend.project.name}</workingDir>
-              <arguments>
-                <argument>docker</argument>
-                <argument>run</argument>
-                <argument>--network=host</argument>
-                <argument>-v</argument>
-                <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
-                <argument>-w</argument>
-                <argument>/e2e</argument>
-                <argument>--entrypoint</argument>
-                <argument>cypress</argument>
-                <argument>cypress/included:3.6.0</argument>
-                <argument>run</argument>
-                <argument>--project</argument>
-                <argument>.</argument>
-                <argument>--config</argument>
-                <argument>baseUrl=http://localhost:${frontend.port}</argument>
-              </arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>stop-process-migration-service</id>
-            <phase>post-integration-test</phase>
-            <goals>
-              <goal>stop-all</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <configuration>
-          <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
-        </configuration>
-        <executions>
-          <execution>
-            <id>start-frontend</id>
-            <phase>pre-integration-test</phase>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <environmentVariables>
-                <CYPRESS_baseUrl>http://localhost:${frontend.port}</CYPRESS_baseUrl>
-                <REACT_APP_BACKEND_URL>http://localhost:${backend.port}</REACT_APP_BACKEND_URL>
-                <PORT>${frontend.port}</PORT>
-              </environmentVariables>
-              <arguments>run start</arguments>
+              <skip>${skipTests}</skip>
+              <executable>${project.basedir}/cypress.sh</executable>
+              <workingDirectory>${project.basedir}</workingDirectory>
             </configuration>
           </execution>
         </executions>
