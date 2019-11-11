@@ -29,8 +29,92 @@
   <packaging>pom</packaging>
   <name>OptaWeb Vehicle Routing Tests</name>
 
+  <properties>
+    <backend.port>8180</backend.port>
+    <backend.project.name>optaweb-vehicle-routing-backend</backend.project.name>
+    <backend.osm.file>planet_12.032,53.0171_12.1024,53.0491.osm.pbf</backend.osm.file>
+    <frontend.port>3100</frontend.port>
+    <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
+    <version.cypress.docker>3.6.0</version.cypress.docker>
+    <skipTests>false</skipTests>
+  </properties>
+
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.bazaarvoice.maven.plugins</groupId>
+          <artifactId>process-exec-maven-plugin</artifactId>
+          <version>0.9</version>
+          <configuration>
+            <skip>${skipTests}</skip>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
+      <plugin> <!-- Copy test OSM file to a local directory -->
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-osm-file</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <skip>${skipTests}</skip>
+              <outputDirectory>${project.basedir}/local/openstreetmap</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.parent.basedir}/${backend.project.name}/src/test/resources/org/optaweb/vehiclerouting/plugin/routing</directory>
+                  <includes>
+                    <include>${backend.osm.file}</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin> <!-- Start backend as a separate process -->
+        <groupId>com.bazaarvoice.maven.plugins</groupId>
+        <artifactId>process-exec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>start-backend-service</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <name>Run backend</name>
+              <healthcheckUrl>http://localhost:${backend.port}</healthcheckUrl>
+              <workingDir>${project.basedir}</workingDir>
+              <processLogFile>${project.build.directory}/${backend.project.name}.log</processLogFile>
+              <arguments>
+                <argument>java</argument>
+                <argument>-Dapp.region.country-codes=DE</argument>
+                <argument>-Dapp.routing.osm-file=${backend.osm.file}</argument>
+                <argument>-Dserver.port=${backend.port}</argument>
+                <argument>-jar</argument>
+                <argument>${project.parent.basedir}/${backend.project.name}/target/${backend.project.name}-${project.version}.jar</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <!-- Kill all running processes -->
+          <execution>
+            <id>stop-running-processes</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop-all</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Run Cypress tests in a docker container.
+               See https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command -->
       <plugin>
         <artifactId>exec-maven-plugin</artifactId>
         <groupId>org.codehaus.mojo</groupId>
@@ -43,8 +127,59 @@
             </goals>
             <configuration>
               <skip>${skipTests}</skip>
-              <executable>${project.basedir}/cypress.sh</executable>
-              <workingDirectory>${project.basedir}</workingDirectory>
+              <executable>docker</executable>
+              <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
+              <arguments>
+                <argument>run</argument>
+                <argument>--network=host</argument> <!-- Cypress accesses UI running on the host -->
+                <argument>-v</argument>
+                <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
+                <argument>-w</argument>
+                <argument>/e2e</argument>
+                <argument>--entrypoint</argument>
+                <argument>cypress</argument>
+                <argument>cypress/included:${version.cypress.docker}</argument>
+                <argument>run</argument> <!-- Executing cypress:run -->
+                <argument>--project</argument>
+                <argument>.</argument>
+                <argument>--config</argument>
+                <argument>baseUrl=http://localhost:${frontend.port}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Start frontend on background and wait for it to become available -->
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <configuration>
+          <skip>${skipTests}</skip>
+          <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
+          <environmentVariables>
+            <REACT_APP_BACKEND_URL>http://localhost:${backend.port}</REACT_APP_BACKEND_URL>
+            <PORT>${frontend.port}</PORT>
+          </environmentVariables>
+        </configuration>
+        <executions>
+          <execution>
+            <id>start-frontend</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>run start:ci</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>stop-frontend</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>run stop:ci</arguments>
             </configuration>
           </execution>
         </executions>

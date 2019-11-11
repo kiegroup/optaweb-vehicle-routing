@@ -34,7 +34,8 @@
     "lint:fix": "npm run lint -- --fix",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "wait": "wait-on http://localhost:$PORT"
+    "start:ci": "npm run start &",
+    "stop:ci": "kill-port $PORT"
   },
   "jest-junit": {
     "outputDirectory": "./target/surefire-reports",
@@ -75,10 +76,10 @@
     "eslint-plugin-react": "^7.13.0",
     "history": "^4.9.0",
     "jest-junit": "^8.0.0",
+    "kill-port": "^1.6.0",
     "react-test-renderer": "^16.8.6",
     "redux-mock-store": "^1.5.3",
-    "typescript": "^3.4.5",
-    "wait-on": "^3.3.0"
+    "typescript": "^3.4.5"
   },
   "browserslist": {
     "production": [
