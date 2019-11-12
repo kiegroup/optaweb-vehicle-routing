@@ -212,6 +212,11 @@ eval $(crc oc-env)
 ----
 
 b. log in as "developer".
++
+[source,shell]
+----
+oc login -u developer -p developer https://api.crc.testing:6443
+----
 
 3. Create a new project
 +
