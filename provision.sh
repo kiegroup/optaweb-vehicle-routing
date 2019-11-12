@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-readonly dir_backend=optaweb-vehicle-routing-backend
-readonly dir_frontend=optaweb-vehicle-routing-frontend
-
 function wrong_args() {
   echo >&2 "Wrong number of arguments! Usage:"
   echo >&2 "  $(basename "$0")"
@@ -95,6 +92,21 @@ fi
 # Change dir to the project root (where provision.sh is located) to correctly resolve module paths.
 # This is needed in case the script was called from a different location than the project root.
 cd "$(dirname "$(readlink -f "$0")")"
+
+readonly dir_backend=optaweb-vehicle-routing-backend
+readonly dir_frontend=optaweb-vehicle-routing-frontend
+
+# Fail fast if the project hasn't been built
+if ! stat -t ${dir_backend}/target/*.jar > /dev/null 2>&1
+then
+  echo >&2 "Backend not built! Build the project before running this script."
+  exit 1
+fi
+if [[ ! -d ${dir_frontend}/docker/build ]]
+then
+  echo >&2 "Frontend not built! Build the project before running this script."
+  exit 1
+fi
 
 command -v oc > /dev/null 2>&1 || {
   echo >&2 "ERROR: The oc client tool needs to be installed to connect to OpenShift."
