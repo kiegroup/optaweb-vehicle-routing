@@ -156,7 +156,7 @@ read -r -p "Do you want to continue? [y/N]: " "answer_continue"
 }
 
 # Set up PostgreSQL
-oc new-app postgresql-persistent
+oc new-app --name postgresql postgresql-persistent
 
 # Backend
 # -- binary build (upload local artifacts + Dockerfile)
