@@ -6,7 +6,7 @@ readonly script_name=$(basename "$0")
 function wrong_args() {
   echo >&2 "Wrong number of arguments! Usage:"
   echo >&2 "  $script_name"
-  echo >&2 "  $script_name region-name country-code-list [osm-file-download-url]"
+  echo >&2 "  $script_name osm-file-name country-code-list [osm-file-download-url]"
   echo >&2
   echo >&2 "Run $script_name --help for more information."
   exit 1
@@ -15,7 +15,7 @@ function wrong_args() {
 function usage() {
   echo "Usage:"
   echo "  $script_name"
-  echo "  $script_name region-name country-code-list [osm-file-download-url]"
+  echo "  $script_name osm-file-name country-code-list [osm-file-download-url]"
   echo
   echo "Example 1."
   echo "  $script_name"
@@ -48,7 +48,7 @@ GraphHopper into a routing graph."
 which will replace the old pod."
   echo
   echo "Example 3."
-  echo "  $script_name belgium BE http://download.geofabrik.de/europe/belgium-latest.osm.pbf"
+  echo "  $script_name belgium-latest.osm.pbf BE http://download.geofabrik.de/europe/belgium-latest.osm.pbf"
   echo
   echo "  Sets up backend to run in GraphHopper routing mode and downloads an OSM file from the provided URL \
 on startup. This provides the best out-of-the-box experience. No additional manual steps."
