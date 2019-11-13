@@ -37,6 +37,8 @@
     <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
     <version.cypress.docker>3.6.0</version.cypress.docker>
     <skipTests>false</skipTests>
+    <!-- Override to run with Podman -->
+    <container.runtime>docker</container.runtime>
   </properties>
 
   <dependencies>
@@ -204,7 +206,7 @@
             </goals>
             <configuration>
               <skip>${skipTests}</skip>
-              <executable>docker</executable>
+              <executable>${container.runtime}</executable>
               <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
               <arguments>
                 <argument>run</argument>
