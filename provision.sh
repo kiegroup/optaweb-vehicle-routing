@@ -1,22 +1,24 @@
 #!/usr/bin/env bash
 set -e
 
+readonly script_name=$(basename "$0")
+
 function wrong_args() {
   echo >&2 "Wrong number of arguments! Usage:"
-  echo >&2 "  $(basename "$0")"
-  echo >&2 "  $(basename "$0") region-name country-code-list [osm-file-download-url]"
-  echo >&2 "Example:"
-  echo >&2 "  $(basename "$0") belgium BE http://download.geofabrik.de/europe/belgium-latest.osm.pbf"
+  echo >&2 "  $script_name"
+  echo >&2 "  $script_name region-name country-code-list [osm-file-download-url]"
+  echo >&2
+  echo >&2 "Run $script_name --help for more information."
   exit 1
 }
 
 function usage() {
   echo "Usage:"
-  echo "  $(basename "$0")"
-  echo "  $(basename "$0") region-name country-code-list [osm-file-download-url]"
+  echo "  $script_name"
+  echo "  $script_name region-name country-code-list [osm-file-download-url]"
   echo
   echo "Example 1."
-  echo "  $(basename "$0")"
+  echo "  $script_name"
   echo
   echo "  Sets up backend to run in air distances routing mode."
   echo "  WARNING: Air mode doesn't give reliable values. \
@@ -24,7 +26,7 @@ It's only useful for evaluation, debugging, or incremental setup purpose."
   echo
   echo
   echo "Example 2."
-  echo "  $(basename "$0") belgium-latest.osm.pbf BE"
+  echo "  $script_name belgium-latest.osm.pbf BE"
   echo
   echo "  Use GraphHopper routing mode and upload OSM file or GraphHopper data manually. \
 The backend will be initially configured to air routing mode. When it starts for the first time, \
@@ -46,7 +48,7 @@ GraphHopper into a routing graph."
 which will replace the old pod."
   echo
   echo "Example 3."
-  echo "  $(basename "$0") belgium BE http://download.geofabrik.de/europe/belgium-latest.osm.pbf"
+  echo "  $script_name belgium BE http://download.geofabrik.de/europe/belgium-latest.osm.pbf"
   echo
   echo "  Sets up backend to run in GraphHopper routing mode and downloads an OSM file from the provided URL \
 on startup. This provides the best out-of-the-box experience. No additional manual steps."
@@ -61,11 +63,11 @@ case $# in
     summary="No routing config provided. The backend will start in air routing mode.\n\n\
 WARNING: Air mode doesn't give reliable values. \
 It's only useful for evaluation, debugging, or incremental setup purpose. \
-You can run ‘$(basename "$0") --help’ to see other options."
+You can run ‘$script_name --help’ to see other options."
     ;;
   2)
     summary="The backend pod will start in air mode. Use the pod to upload a graph directory or an OSM file. \
-Then change routing mode to graphopper. Run ‘$(basename "$0") --help’ for more info."
+Then change routing mode to graphopper. Run ‘$script_name --help’ for more info."
     ;;
   3)
     summary="The backend will download an OSM file on startup."
@@ -138,7 +140,7 @@ else
   echo >&2
   echo >&2 "Project content:"
   echo >&2
-  echo >&2 "${get_all}"
+  echo >&2 "$get_all"
   echo >&2
   echo >&2 "ERROR: The project is not empty."
   exit 1
