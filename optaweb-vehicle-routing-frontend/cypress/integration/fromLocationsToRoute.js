@@ -37,15 +37,13 @@ describe('Locations can be added and route is computed', () => {
   /**
    * Waits for a websocket connection to be established.
    */
-  const waitForWebSocketToConnect = () => {
-    cy.server();
-    cy.route('/vrp-websocket/*').as('vrp');
-    cy.visit('/demo');
-    cy.wait('@vrp');
+  const visitDemo = () => {
+    cy.visit('/');
+    cy.get(':nth-child(4) > .pf-c-nav__link').click();
   };
 
   before(() => {
-    waitForWebSocketToConnect();
+    visitDemo();
     clearLocations();
   });
 
@@ -57,7 +55,7 @@ describe('Locations can be added and route is computed', () => {
     });
 
     cy.get('[data-cy=demo-add-vehicle]').click();
-    cy.visit('/route');
+    cy.get(':nth-child(3) > .pf-c-nav__link').click();
     cy.get('[data-cy=location-list]').find('li').should((list) => {
       cities.forEach(city => expect(list).to.contain(city));
     });
