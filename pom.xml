@@ -33,7 +33,7 @@
   <name>OptaWeb Vehicle Routing</name>
 
   <modules>
-    <module>optaweb-vehicle-routing-app</module>
+    <module>optaweb-vehicle-routing-demo-app</module>
     <module>optaweb-vehicle-routing-backend</module>
     <module>optaweb-vehicle-routing-frontend</module>
   </modules>
@@ -212,19 +212,6 @@
         <!--suppress UnresolvedMavenProperty -->
         <sonar.branch.name>${env.TRAVIS_BRANCH}</sonar.branch.name>
       </properties>
-    </profile>
-    <!-- Avoid running integration tests by default -->
-    <profile>
-      <id>integration-tests</id>
-      <activation>
-        <property>
-          <name>integration-tests</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <modules>
-        <module>optaweb-vehicle-routing-tests</module>
-      </modules>
     </profile>
   </profiles>
 

@@ -33,9 +33,7 @@
     "lint": "./node_modules/eslint/bin/eslint.js --ext .js,.ts,.tsx .",
     "lint:fix": "npm run lint -- --fix",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-    "start:ci": "npm run start &",
-    "stop:ci": "kill-port $PORT"
+    "cypress:run": "cypress run"
   },
   "jest-junit": {
     "outputDirectory": "./target/surefire-reports",

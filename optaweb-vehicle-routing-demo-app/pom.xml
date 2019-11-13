@@ -16,7 +16,7 @@
   -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
@@ -25,9 +25,10 @@
     <version>7.30.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>optaweb-vehicle-routing-tests</artifactId>
-  <packaging>pom</packaging>
-  <name>OptaWeb Vehicle Routing Tests</name>
+  <artifactId>optaweb-vehicle-routing-demo-app</artifactId>
+  <packaging>jar</packaging>
+
+  <name>OptaWeb Vehicle Routing Demo App</name>
 
   <properties>
     <application.port>8180</application.port>
@@ -37,6 +38,19 @@
     <version.cypress.docker>3.6.0</version.cypress.docker>
     <skipTests>false</skipTests>
   </properties>
+
+  <dependencies>
+    <!-- Just to make sure this module builds after backend and frontend. -->
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>optaweb-vehicle-routing-backend</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>optaweb-vehicle-routing-frontend</artifactId>
+      <type>war</type>
+    </dependency>
+  </dependencies>
 
   <build>
     <pluginManagement>
@@ -52,6 +66,70 @@
       </plugins>
     </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-backend</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.optaweb.vehiclerouting</groupId>
+                  <artifactId>optaweb-vehicle-routing-backend</artifactId>
+                  <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack-frontend</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.optaweb.vehiclerouting</groupId>
+                  <artifactId>optaweb-vehicle-routing-frontend</artifactId>
+                  <type>war</type>
+                  <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+              <excludes>META-INF/**,WEB-INF/**</excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+            <configuration>
+              <mainClass>org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication</mainClass>
+              <excludes>
+                <exclude>
+                  <groupId>org.optaweb.vehiclerouting</groupId>
+                  <artifactId>optaweb-vehicle-routing-backend</artifactId>
+                </exclude>
+                <exclude>
+                  <groupId>org.optaweb.vehiclerouting</groupId>
+                  <artifactId>optaweb-vehicle-routing-frontend</artifactId>
+                </exclude>
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin> <!-- Copy test OSM file to a local directory -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
@@ -82,23 +160,23 @@
         <artifactId>process-exec-maven-plugin</artifactId>
         <executions>
           <execution>
-            <id>start-backend-service</id>
+            <id>start-application</id>
             <phase>pre-integration-test</phase>
             <goals>
               <goal>start</goal>
             </goals>
             <configuration>
-              <name>Run backend</name>
+              <name>Run application</name>
               <healthcheckUrl>http://localhost:${application.port}</healthcheckUrl>
               <workingDir>${project.basedir}</workingDir>
-              <processLogFile>${project.build.directory}/${backend.project.name}.log</processLogFile>
+              <processLogFile>${project.build.directory}/${project.artifactId}.log</processLogFile>
               <arguments>
                 <argument>java</argument>
                 <argument>-Dapp.region.country-codes=DE</argument>
                 <argument>-Dapp.routing.osm-file=${backend.osm.file}</argument>
                 <argument>-Dserver.port=${application.port}</argument>
                 <argument>-jar</argument>
-                <argument>${project.parent.basedir}/${backend.project.name}/target/${backend.project.name}-${project.version}.jar</argument>
+                <argument>target/${project.artifactId}-${project.version}.jar</argument>
               </arguments>
             </configuration>
           </execution>
