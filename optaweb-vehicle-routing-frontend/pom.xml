@@ -82,7 +82,7 @@
           </execution>
           <execution>
             <id>lock-treatment-tool execution</id>
-            <phase>initialize</phase>
+            <phase>compile</phase>
             <goals>
               <goal>npm</goal>
             </goals>
