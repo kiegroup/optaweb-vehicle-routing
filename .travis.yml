@@ -9,12 +9,7 @@ cache:
     - "$HOME/.sonar/cache"
     - "$HOME/.sonar/native-sonar-scanner"
     - "$HOME/optaweb-vehicle-routing/optaweb-vehicle-routing-frontend/node"
-# Change Travis install phase to only resolve dependencies needed to run the build.
-# Otherwise it would run `mvn install`, which results in doing some Maven phases twice (validate, compile, jar, ...).
-# https://docs.travis-ci.com/user/languages/java/#projects-using-maven
-#
-# We also want to prevent Maven's install phase from writing to ~/.m2/repository, which is cached.
-install: mvn dependency:go-offline -Pcode-coverage,sonarcloud-analysis --show-version
+install: mvn clean install -DskipTests=true -DskipITs -Dmaven.javadoc.skip=true -B -V
 before_script:
   # Fail the the build if the Red Hat package registry is referenced from package-lock.json.
   - '! grep "\"resolved\".*\.redhat\.com" optaweb-vehicle-routing-frontend/package-lock.json'
