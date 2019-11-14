@@ -39,7 +39,7 @@ describe('Locations can be added and route is computed', () => {
    */
   const visitDemo = () => {
     cy.visit('/');
-    cy.get(':nth-child(4) > .pf-c-nav__link').click();
+    cy.get('a[href="/demo"]').click();
   };
 
   before(() => {
@@ -55,7 +55,7 @@ describe('Locations can be added and route is computed', () => {
     });
 
     cy.get('[data-cy=demo-add-vehicle]').click();
-    cy.get(':nth-child(3) > .pf-c-nav__link').click();
+    cy.get('a[href="/route"]').click();
     cy.get('[data-cy=location-list]').find('li').should((list) => {
       cities.forEach(city => expect(list).to.contain(city));
     });
