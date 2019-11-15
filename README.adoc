@@ -227,10 +227,18 @@ oc new-project _project_name_
 
 4. Run the script:
 +
+[source,subs="quotes"]
+----
+./provision.sh _osm_file_name_ _country_code_list_ _osm_file_download_url_
+----
+or
+
++
 [source,shell]
 ----
-./provision.sh
+./provision.sh --help
 ----
+to see more details about how to use the script.
 
 === Updating the deployed application with local changes
 
