@@ -74,6 +74,7 @@
     "eslint-plugin-react": "^7.13.0",
     "history": "^4.9.0",
     "jest-junit": "^8.0.0",
+    "kill-port": "^1.6.0",
     "react-test-renderer": "^16.8.6",
     "redux-mock-store": "^1.5.3",
     "typescript": "^3.4.5"

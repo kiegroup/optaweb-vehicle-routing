@@ -21,7 +21,8 @@ describe('Locations can be added and route is computed', () => {
    */
   const addCity = (name) => {
     cy.get('[data-cy=geosearch-text-input]').type(name);
-    cy.get('[data-cy=geosearch-location-item-button-1]').click();
+    // TODO: replace by mocking the request (search depends on a 3rd-party service)
+    cy.get('[data-cy=geosearch-location-item-button-0]', { timeout: 60000 }).click();
   };
 
   /**
@@ -29,34 +30,32 @@ describe('Locations can be added and route is computed', () => {
    */
   const clearLocations = () => {
     // Add one city to make sure there is a location in the list and the clear button shows up
-    addCity('Brussels');
+    addCity('Garz');
     cy.get('[data-cy=demo-clear-button]').click({ force: true });
   };
 
   /**
    * Waits for a websocket connection to be established.
    */
-  const waitForWebSocketToConnect = () => {
-    cy.server();
-    cy.route('/vrp-websocket/*').as('vrp');
-    cy.visit('/demo');
-    cy.wait('@vrp');
+  const visitDemo = () => {
+    cy.visit('/');
+    cy.get('a[href="/demo"]').click();
   };
 
   before(() => {
-    waitForWebSocketToConnect();
+    visitDemo();
     clearLocations();
   });
 
   it('Locations added via clicking on a map are added to a route', () => {
-    const cities = ['Waterloo', 'Gent'];
+    const cities = ['Garz', 'Hoppenrade'];
 
     cities.forEach((city) => {
       addCity(city);
     });
 
     cy.get('[data-cy=demo-add-vehicle]').click();
-    cy.visit('/route');
+    cy.get('a[href="/route"]').click();
     cy.get('[data-cy=location-list]').find('li').should((list) => {
       cities.forEach(city => expect(list).to.contain(city));
     });

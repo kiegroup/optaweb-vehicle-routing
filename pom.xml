@@ -33,11 +33,14 @@
   <name>OptaWeb Vehicle Routing</name>
 
   <modules>
+    <module>optaweb-vehicle-routing-demo-app</module>
     <module>optaweb-vehicle-routing-backend</module>
     <module>optaweb-vehicle-routing-frontend</module>
   </modules>
 
   <properties>
+    <!-- Avoid deploying artifacts into Nexus -->
+    <deploy.skip>true</deploy.skip>
     <version.com.h2database>1.4.199</version.com.h2database>
     <version.javax.validation>2.0.1.Final</version.javax.validation>
     <version.org.assertj>3.11.1</version.org.assertj>
@@ -49,6 +52,17 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.optaweb.vehiclerouting</groupId>
+        <artifactId>optaweb-vehicle-routing-backend</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.optaweb.vehiclerouting</groupId>
+        <artifactId>optaweb-vehicle-routing-frontend</artifactId>
+        <version>${project.version}</version>
+        <type>war</type>
+      </dependency>
       <!-- Temporarily override Spring Boot's JUnit version to get access to @TempDir -->
       <dependency>
         <groupId>org.junit</groupId>
@@ -99,6 +113,13 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${version.org.springframework.boot}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <configuration>
+            <skip>${deploy.skip}</skip>
+          </configuration>
         </plugin>
         <!--
           Disable Jacoco check inherited from kie-parent. Remove this when it's removed from kie-parent

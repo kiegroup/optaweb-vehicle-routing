@@ -27,7 +27,7 @@
   </parent>
 
   <artifactId>optaweb-vehicle-routing-frontend</artifactId>
-  <packaging>pom</packaging>
+  <packaging>war</packaging>
 
   <name>OptaWeb Vehicle Routing Frontend</name>
 
@@ -39,18 +39,19 @@
     <sonar.typescript.lcov.reportPaths>coverage/lcov.info</sonar.typescript.lcov.reportPaths>
 
     <!-- Frontend properties -->
-    <frontend-maven-plugin.version>1.7.5</frontend-maven-plugin.version>
+    <version.frontend.plugin>1.7.5</version.frontend.plugin>
     <node.version>v11.6.0</node.version>
     <npm.version>6.9.0</npm.version>
   </properties>
 
   <build>
+    <finalName>optaweb-vehicle-routing-frontend</finalName>
     <pluginManagement>
       <plugins>
         <plugin>
           <groupId>com.github.eirslett</groupId>
           <artifactId>frontend-maven-plugin</artifactId>
-          <version>${frontend-maven-plugin.version}</version>
+          <version>${version.frontend.plugin}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -132,6 +133,26 @@
             </goals>
             <configuration>
               <arguments>run coverage</arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>build</directory>
+                </resource>
+              </resources>
             </configuration>
           </execution>
         </executions>

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2019 Red Hat, Inc. and/or its affiliates.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.optaweb.vehiclerouting</groupId>
+    <artifactId>optaweb-vehicle-routing</artifactId>
+    <version>7.30.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>optaweb-vehicle-routing-demo-app</artifactId>
+  <packaging>jar</packaging>
+
+  <name>OptaWeb Vehicle Routing Demo App</name>
+
+  <properties>
+    <application.port>8180</application.port>
+    <backend.project.name>optaweb-vehicle-routing-backend</backend.project.name>
+    <backend.osm.file>planet_12.032,53.0171_12.1024,53.0491.osm.pbf</backend.osm.file>
+    <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
+    <version.cypress.docker>3.6.0</version.cypress.docker>
+    <skipTests>false</skipTests>
+    <!-- Override to run with Podman -->
+    <container.runtime>docker</container.runtime>
+  </properties>
+
+  <dependencies>
+    <!-- Just to make sure this module builds after backend and frontend. -->
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>optaweb-vehicle-routing-backend</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>optaweb-vehicle-routing-frontend</artifactId>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>unpack-backend</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.optaweb.vehiclerouting</groupId>
+                  <artifactId>optaweb-vehicle-routing-backend</artifactId>
+                  <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unpack-frontend</id>
+            <phase>prepare-package</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.optaweb.vehiclerouting</groupId>
+                  <artifactId>optaweb-vehicle-routing-frontend</artifactId>
+                  <type>war</type>
+                  <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+                </artifactItem>
+              </artifactItems>
+              <excludes>META-INF/**,WEB-INF/**</excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+            <configuration>
+              <mainClass>org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication</mainClass>
+              <excludes>
+                <exclude>
+                  <groupId>org.optaweb.vehiclerouting</groupId>
+                  <artifactId>optaweb-vehicle-routing-backend</artifactId>
+                </exclude>
+                <exclude>
+                  <groupId>org.optaweb.vehiclerouting</groupId>
+                  <artifactId>optaweb-vehicle-routing-frontend</artifactId>
+                </exclude>
+              </excludes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>integration-tests</id>
+      <activation>
+        <property>
+          <name>integration-tests</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>com.bazaarvoice.maven.plugins</groupId>
+              <artifactId>process-exec-maven-plugin</artifactId>
+              <version>0.9</version>
+              <configuration>
+                <skip>${skipTests}</skip>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+        <plugins>
+          <plugin> <!-- Copy test OSM file to a local directory -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-resources-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-osm-file</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>copy-resources</goal>
+                </goals>
+                <configuration>
+                  <skip>${skipTests}</skip>
+                  <outputDirectory>${project.basedir}/local/openstreetmap</outputDirectory>
+                  <resources>
+                    <resource>
+                      <directory>${project.parent.basedir}/${backend.project.name}/src/test/resources/org/optaweb/vehiclerouting/plugin/routing</directory>
+                      <includes>
+                        <include>${backend.osm.file}</include>
+                      </includes>
+                    </resource>
+                  </resources>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin> <!-- Start backend as a separate process -->
+            <groupId>com.bazaarvoice.maven.plugins</groupId>
+            <artifactId>process-exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>start-application</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+                <configuration>
+                  <name>Run application</name>
+                  <healthcheckUrl>http://localhost:${application.port}</healthcheckUrl>
+                  <workingDir>${project.basedir}</workingDir>
+                  <processLogFile>${project.build.directory}/${project.artifactId}.log</processLogFile>
+                  <arguments>
+                    <argument>java</argument>
+                    <argument>-Dapp.region.country-codes=DE</argument>
+                    <argument>-Dapp.routing.osm-file=${backend.osm.file}</argument>
+                    <argument>-Dserver.port=${application.port}</argument>
+                    <argument>-jar</argument>
+                    <argument>target/${project.artifactId}-${project.version}.jar</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <!-- Kill all running processes -->
+              <execution>
+                <id>stop-running-processes</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop-all</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Run Cypress tests in a docker container.
+                   See https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command -->
+          <plugin>
+            <artifactId>exec-maven-plugin</artifactId>
+            <groupId>org.codehaus.mojo</groupId>
+            <executions>
+              <execution>
+                <id>run-cypress-tests</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <skip>${skipTests}</skip>
+                  <executable>${container.runtime}</executable>
+                  <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
+                  <arguments>
+                    <argument>run</argument>
+                    <argument>--network=host</argument> <!-- Cypress accesses UI running on the host -->
+                    <argument>-v</argument>
+                    <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
+                    <argument>-w</argument>
+                    <argument>/e2e</argument>
+                    <argument>--entrypoint</argument>
+                    <argument>cypress</argument>
+                    <argument>cypress/included:${version.cypress.docker}</argument>
+                    <argument>run</argument> <!-- Executing cypress:run -->
+                    <argument>--project</argument>
+                    <argument>.</argument>
+                    <argument>--config</argument>
+                    <argument>baseUrl=http://localhost:${application.port}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
