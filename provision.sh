@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-readonly script_name=$(basename "$0")
+readonly script_name="./$(basename "$0")"
 
 function print_help() {
   echo "Usage:"
@@ -9,9 +9,13 @@ function print_help() {
   echo "  $script_name --air"
   echo "  $script_name --help"
   echo
-  echo "First form configures backend to use GraphHopper routing mode and downloads an OSM data file during startup."
+  echo "First form configures backend to use GraphHopper routing mode and downloads an OSM data file during startup. \
+Note that download and processing of the OSM file can take some time depending on its size. \
+During this period, the application informs about backend service being unreachable."
+  echo
   echo "Second form configures backend to use air routing mode. This is useful for development, debugging and \
 hacking. Air distance routing is only an approximation. It's not useful for real vehicle routing."
+  echo
   echo
   echo "OSM_FILE_NAME"
   echo "  The file downloaded from OSM_FILE_DOWNLOAD_URL will be saved under this name."
@@ -78,7 +82,9 @@ Then change routing mode to graphopper. Run ‘$script_name --help’ for more i
     dc_backend_env+=("APP_ROUTING_OSM_FILE=$1")
     dc_backend_env+=("APP_REGION_COUNTRY_CODES=$2")
     dc_backend_env+=("APP_ROUTING_OSM_DOWNLOAD_URL=$3")
-    summary="The backend will download an OSM file on startup."
+    summary="The backend will download an OSM file on startup. \
+It may take several minutes to download and process the file before the application is fully available!"
+    download=1
     ;;
   *)
     wrong_args
@@ -183,5 +189,13 @@ oc expose svc/frontend
 # -- change target port to 8080
 oc patch route frontend -p '{"spec":{"port":{"targetPort":"8080-tcp"}}}'
 
+echo
 echo "You can access the application at http://$(oc get route frontend -o custom-columns=:spec.host | tr -d '\n') \
 once the deployment is done."
+if [[ -v download ]]
+then
+  echo
+  echo "The OSM file download and its processing can take some time depending on its size. \
+For large files (hundreds of MB) this can be several minutes. \
+During this period, the application informs about backend service being unreachable."
+fi
