@@ -3,93 +3,86 @@ set -e
 
 readonly script_name=$(basename "$0")
 
-function wrong_args() {
-  echo >&2 "Wrong number of arguments! Usage:"
-  echo >&2 "  $script_name"
-  echo >&2 "  $script_name osm-file-name country-code-list [osm-file-download-url]"
-  echo >&2
-  echo >&2 "Run $script_name --help for more information."
-  exit 1
-}
-
-function usage() {
+function print_help() {
   echo "Usage:"
-  echo "  $script_name"
-  echo "  $script_name osm-file-name country-code-list [osm-file-download-url]"
+  echo "  $script_name [OSM_FILE_NAME COUNTRY_CODE_LIST OSM_FILE_DOWNLOAD_URL]"
+  echo "  $script_name --air"
+  echo "  $script_name --help"
   echo
-  echo "Example 1."
-  echo "  $script_name"
+  echo "First form configures backend to use GraphHopper routing mode and downloads an OSM data file during startup."
+  echo "Second form configures backend to use air routing mode. This is useful for development, debugging and \
+hacking. Air distance routing is only an approximation. It's not useful for real vehicle routing."
   echo
-  echo "  Sets up backend to run in air distances routing mode."
-  echo "  WARNING: Air mode doesn't give reliable values. \
-It's only useful for evaluation, debugging, or incremental setup purpose."
+  echo "OSM_FILE_NAME"
+  echo "  The file downloaded from OSM_FILE_DOWNLOAD_URL will be saved under this name."
+  echo
+  echo "COUNTRY_CODE_LIST"
+  echo "  ISO_3166-1 country code used to filter geosearch results. You can provide multiple, comma-separated values."
+  echo
+  echo "OSM_FILE_DOWNLOAD_URL"
+  echo "  Should point to an OSM data file in PBF format accessible from OpenShift. The file will be downloaded \
+during backend startup and saved as /deployments/local/OSM_FILE_NAME."
   echo
   echo
-  echo "Example 2."
-  echo "  $script_name belgium-latest.osm.pbf BE"
-  echo
-  echo "  Use GraphHopper routing mode and upload OSM file or GraphHopper data manually. \
-The backend will be initially configured to air routing mode. When it starts for the first time, \
-use it to upload Belgium OSM file or GraphHopper data to the claimed Persistent Volume. For example:"
-  echo
-  echo "      oc rsync ~/.vrp/openstreetmap/belgium-latest.osm.pbf backend-1-7k5pl:/deployments/local/openstreetmap/"
-  echo
-  echo "  if you haven't run the application locally and you just have the OSM file that hasn't been processed by \
-GraphHopper into a routing graph."
-  echo "  If you have run the application, you can upload the processed graph to skip the processing step in OpenShift:"
-  echo
-  echo "      oc rsync ~/.vrp/graphhopper/belgium-latest backend-1-7k5pl:/deployments/local/graphhopper/"
-  echo
-  echo "  When the upload is complete. Change routing engine to GraphHopper:"
-  echo
-  echo "      oc set env dc/backend APP_ROUTING_ENGINE=graphhopper"
-  echo
-  echo "  The deployment config change will trigger a new pod with the updated environment, \
-which will replace the old pod."
-  echo
-  echo "Example 3."
+  echo "Example 1"
   echo "  $script_name belgium-latest.osm.pbf BE http://download.geofabrik.de/europe/belgium-latest.osm.pbf"
   echo
-  echo "  Sets up backend to run in GraphHopper routing mode and downloads an OSM file from the provided URL \
-on startup. This provides the best out-of-the-box experience. No additional manual steps."
-  exit 0
+  echo "  Configures the application to filter geosearch results to Belgium and download the latest Belgium \
+OSM extract from GeoFabrik."
+  echo
+  echo
+  echo "Example 2"
+  echo "  $script_name my-city.osm.pbf FR https://download.bbbike.org/osm/extract/planet_12.032,53.0171_12.1024,53.0491.osm.pbf"
+  echo
+  echo "  Configures the application to download a custom region defined using the BBBike service and save it \
+as my-city.osm.pbf."
 }
 
-[[ $1 == "--help" ]] && usage
+function wrong_args() {
+    print_help
+    echo
+    echo >&2 "ERROR: Wrong arguments."
+    exit 1
+}
 
-# Check number of arguments and choose summary or display usage
+[[ $1 == "--help" ]] && print_help && exit 0
+
+# Process arguments
+declare -a dc_backend_env
 case $# in
   0)
-    summary="No routing config provided. The backend will start in air routing mode.\n\n\
+    print_help
+    exit 0
+    ;;
+  1)
+    if [[ $1 == --air ]]
+    then
+      dc_backend_env+=("APP_ROUTING_ENGINE=air")
+      summary="No routing config provided. The backend will start in air routing mode.\n\n\
 WARNING: Air mode doesn't give reliable values. \
 It's only useful for evaluation, debugging, or incremental setup purpose. \
 You can run ‘$script_name --help’ to see other options."
+    else
+      wrong_args
+    fi
     ;;
   2)
-    summary="The backend pod will start in air mode. Use the pod to upload a graph directory or an OSM file. \
+    dc_backend_env+=("APP_ROUTING_ENGINE=air")
+    dc_backend_env+=("APP_ROUTING_OSM_FILE=$1")
+    dc_backend_env+=("APP_REGION_COUNTRY_CODES=$2")
+    summary="The backend will start in air mode. Use the backend pod to upload a graph directory or an OSM file. \
 Then change routing mode to graphopper. Run ‘$script_name --help’ for more info."
     ;;
   3)
+    dc_backend_env+=("APP_ROUTING_ENGINE=graphhopper")
+    dc_backend_env+=("APP_ROUTING_OSM_FILE=$1")
+    dc_backend_env+=("APP_REGION_COUNTRY_CODES=$2")
+    dc_backend_env+=("APP_ROUTING_OSM_DOWNLOAD_URL=$3")
     summary="The backend will download an OSM file on startup."
     ;;
   *)
     wrong_args
 esac
-
-# Process arguments
-declare -a dc_backend_env
-if [[ $# -ge 2 ]]
-then
-  dc_backend_env+=("APP_ROUTING_OSM_FILE=$1")
-  dc_backend_env+=("APP_REGION_COUNTRY_CODES=$2")
-fi
-if [[ $# == 3 ]]
-then
-  dc_backend_env+=("APP_ROUTING_ENGINE=graphhopper")
-  dc_backend_env+=("APP_ROUTING_OSM_DOWNLOAD_URL=$3")
-else
-  dc_backend_env+=("APP_ROUTING_ENGINE=air")
-fi
 
 # Change dir to the project root (where provision.sh is located) to correctly resolve module paths.
 # This is needed in case the script was called from a different location than the project root.
@@ -101,12 +94,12 @@ readonly dir_frontend=optaweb-vehicle-routing-frontend
 # Fail fast if the project hasn't been built
 if ! stat -t ${dir_backend}/target/*.jar > /dev/null 2>&1
 then
-  echo >&2 "Backend not built! Build the project before running this script."
+  echo >&2 "ERROR: Backend not built! Build the project before running this script."
   exit 1
 fi
 if [[ ! -d ${dir_frontend}/docker/build ]]
 then
-  echo >&2 "Frontend not built! Build the project before running this script."
+  echo >&2 "ERROR: Frontend not built! Build the project before running this script."
   exit 1
 fi
 
