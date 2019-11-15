@@ -18,9 +18,6 @@ package org.optaweb.vehiclerouting.service.region;
 
 import java.util.List;
 
-import com.graphhopper.reader.osm.GraphHopperOSM;
-import com.graphhopper.util.shapes.BBox;
-import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +28,12 @@ import org.springframework.stereotype.Service;
 public class RegionService {
 
     private final RegionProperties regionProperties;
-    private final GraphHopperOSM graphHopper;
+    private final Region region;
 
     @Autowired
-    RegionService(RegionProperties regionProperties, GraphHopperOSM graphHopper) {
+    RegionService(RegionProperties regionProperties, Region region) {
         this.regionProperties = regionProperties;
-        this.graphHopper = graphHopper;
+        this.region = region;
     }
 
     /**
@@ -52,10 +49,6 @@ public class RegionService {
      * @return bounding box of the working region.
      */
     public BoundingBox boundingBox() {
-        BBox bounds = graphHopper.getGraphHopperStorage().getBounds();
-        return new BoundingBox(
-                Coordinates.valueOf(bounds.minLat, bounds.minLon),
-                Coordinates.valueOf(bounds.maxLat, bounds.maxLon)
-        );
+        return region.getBounds();
     }
 }

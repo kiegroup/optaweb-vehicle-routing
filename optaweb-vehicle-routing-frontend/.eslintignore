@@ -1,5 +1,6 @@
 /build
 /coverage
+/docker
 /local
 /node
 /public

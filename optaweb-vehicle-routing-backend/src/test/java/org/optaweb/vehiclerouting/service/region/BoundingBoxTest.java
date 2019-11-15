@@ -19,7 +19,9 @@ package org.optaweb.vehiclerouting.service.region;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 class BoundingBoxTest {
 
@@ -64,5 +66,23 @@ class BoundingBoxTest {
                 Coordinates.valueOf(0.0, 10.0),
                 Coordinates.valueOf(1.0, 10.0)
         )).withMessageMatching(".*\\(10\\.0E.*\\(10\\.0E.*");
+    }
+
+    @Test
+    void constructor_args_not_null() {
+        assertThatNullPointerException().isThrownBy(() -> new BoundingBox(null, Coordinates.valueOf(1.0, 1.0)));
+        assertThatNullPointerException().isThrownBy(() -> new BoundingBox(Coordinates.valueOf(1.0, 1.0), null));
+    }
+
+    @Test
+    void should_work_with_southwest_and_northeast() {
+        // ┌───2
+        // │ ↗ │
+        // 1───┘
+        Coordinates sw = Coordinates.valueOf(-10.0, -100.0);
+        Coordinates ne = Coordinates.valueOf(20.0, -2.0);
+        BoundingBox boundingBox = new BoundingBox(sw, ne);
+        assertThat(boundingBox.getSouthWest()).isEqualTo(sw);
+        assertThat(boundingBox.getNorthEast()).isEqualTo(ne);
     }
 }
