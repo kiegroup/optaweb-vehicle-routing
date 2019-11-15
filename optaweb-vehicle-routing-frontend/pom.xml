@@ -71,6 +71,26 @@
             </configuration>
           </execution>
           <execution>
+            <id>npm install lock-treatment-tool and run-node</id>
+            <phase>initialize</phase>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>install lock-treatment-tool --global-style --no-package-lock --no-save</arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>lock-treatment-tool execution</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <configuration>
+              <arguments>run env -- locktt</arguments>
+            </configuration>
+          </execution>
+          <execution>
             <id>npm install</id>
             <!--
               Using compile phase so that `npm install` doesn't run during sonar analysis,
