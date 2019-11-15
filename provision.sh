@@ -180,7 +180,7 @@ oc set volumes dc/backend --add \
 
 # Frontend
 # -- binary build
-oc new-build --name frontend --strategy=docker --binary -e BACKEND_URL=http://backend:8080
+oc new-build --name frontend --strategy=docker --binary
 oc start-build frontend --from-dir=${dir_frontend}/docker --follow
 # -- new app
 oc new-app frontend
