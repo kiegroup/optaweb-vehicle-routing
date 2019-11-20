@@ -39,7 +39,6 @@
     <sonar.typescript.lcov.reportPaths>coverage/lcov.info</sonar.typescript.lcov.reportPaths>
 
     <!-- Frontend properties -->
-    <version.frontend.plugin>1.7.5</version.frontend.plugin>
     <node.version>v11.6.0</node.version>
     <npm.version>6.9.0</npm.version>
   </properties>
@@ -51,7 +50,7 @@
         <plugin>
           <groupId>com.github.eirslett</groupId>
           <artifactId>frontend-maven-plugin</artifactId>
-          <version>${version.frontend.plugin}</version>
+          <version>${version.frontend-maven-plugin}</version>
         </plugin>
       </plugins>
     </pluginManagement>
