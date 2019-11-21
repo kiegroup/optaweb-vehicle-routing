@@ -1,0 +1,4 @@
+All `.osm.pbf` files in this folder contain data
+link:https://www.openstreetmap.org/copyright[copyrighted by OpenStreetMap contributors]
+and licensed under
+link:https://opendatacommons.org/licenses/odbl/[Open Database License (ODbL)].

@@ -162,31 +162,6 @@
               </execution>
             </executions>
           </plugin>
-          <plugin> <!-- Copy test OSM file to a local directory -->
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>copy-osm-file</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-                <configuration>
-                  <skip>${skipTests}</skip>
-                  <outputDirectory>${project.basedir}/local/openstreetmap</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>${project.parent.basedir}/${backend.project.name}/src/test/resources/org/optaweb/vehiclerouting/plugin/routing</directory>
-                      <includes>
-                        <include>${backend.osm.file}</include>
-                      </includes>
-                    </resource>
-                  </resources>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <plugin> <!-- Start backend as a separate process -->
             <groupId>com.bazaarvoice.maven.plugins</groupId>
             <artifactId>process-exec-maven-plugin</artifactId>
@@ -211,6 +186,8 @@
                     <!--suppress UnresolvedMavenProperty -->
                     <argument>--app.persistence.h2-dir=${project.build.directory}/db_${dbDirSuffix}</argument>
                     <argument>--app.region.country-codes=DE</argument>
+                    <argument>--app.routing.gh-dir=target/graphhopper</argument>
+                    <argument>--app.routing.osm-dir=data/openstreetmap</argument>
                     <argument>--app.routing.osm-file=${backend.osm.file}</argument>
                   </arguments>
                 </configuration>
