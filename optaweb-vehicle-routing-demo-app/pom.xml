@@ -208,8 +208,10 @@
               </execution>
             </executions>
           </plugin>
-          <!-- Run Cypress tests in a docker container.
-                   See https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command -->
+          <!--
+            Run Cypress tests in a docker container.
+            See https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command.
+           -->
           <plugin>
             <artifactId>exec-maven-plugin</artifactId>
             <groupId>org.codehaus.mojo</groupId>
