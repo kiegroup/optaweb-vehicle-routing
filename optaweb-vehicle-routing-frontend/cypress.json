@@ -3,6 +3,7 @@
     "chromeWebSecurity": false,
     "reporter": "junit",
     "reporterOptions": {
-          "mochaFile": "target/test-reports/TEST-cypress.xml"
+          "mochaFile": "target/test-reports/TEST-cypress.xml",
+          "jenkinsMode": true
     }
 }
