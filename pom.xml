@@ -51,8 +51,6 @@
     <version.org.mockito>2.23.4</version.org.mockito>
     <version.org.junit>5.4.2</version.org.junit>
     <version.org.postgresql>42.2.5</version.org.postgresql>
-    <version.org.springframework>5.1.7.RELEASE</version.org.springframework>
-    <version.org.springframework.boot>2.1.5.RELEASE</version.org.springframework.boot>
   </properties>
 
   <dependencyManagement>
