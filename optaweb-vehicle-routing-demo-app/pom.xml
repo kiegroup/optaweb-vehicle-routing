@@ -147,6 +147,21 @@
           </plugins>
         </pluginManagement>
         <plugins>
+          <plugin>
+            <groupId>org.soulwing</groupId>
+            <artifactId>uuid-maven-plugin</artifactId>
+            <version>1.0.0</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>uuid</goal>
+                </goals>
+                <configuration>
+                  <targetProperty>dbDirSuffix</targetProperty>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
           <plugin> <!-- Copy test OSM file to a local directory -->
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-resources-plugin</artifactId>
@@ -192,9 +207,11 @@
                     <argument>-jar</argument>
                     <argument>target/${project.build.finalName}.jar</argument>
                     <argument>--spring.profiles.active=dev</argument>
+                    <argument>--server.port=${application.port}</argument>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <argument>--app.persistence.h2-dir=${project.build.directory}/db_${dbDirSuffix}</argument>
                     <argument>--app.region.country-codes=DE</argument>
                     <argument>--app.routing.osm-file=${backend.osm.file}</argument>
-                    <argument>--server.port=${application.port}</argument>
                   </arguments>
                 </configuration>
               </execution>
