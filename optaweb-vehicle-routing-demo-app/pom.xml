@@ -162,7 +162,7 @@
               </execution>
             </executions>
           </plugin>
-          <plugin> <!-- Start backend as a separate process -->
+          <plugin> <!-- Start demo-app as a separate process -->
             <groupId>com.bazaarvoice.maven.plugins</groupId>
             <artifactId>process-exec-maven-plugin</artifactId>
             <executions>
