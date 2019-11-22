@@ -1,5 +1,7 @@
 /build
 /coverage
+/cypress/support
+/cypress/plugins
 /docker
 /local
 /node
