@@ -223,9 +223,9 @@
                   <arguments>
                     <argument>run</argument>
                     <argument>--network=host</argument> <!-- Cypress accesses UI running on the host -->
-                    <argument>-v</argument>
+                    <argument>--volume</argument>
                     <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
-                    <argument>-w</argument>
+                    <argument>--workdir</argument>
                     <argument>/e2e</argument>
                     <argument>--entrypoint</argument>
                     <argument>cypress</argument>
