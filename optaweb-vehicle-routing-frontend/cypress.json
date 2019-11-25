@@ -1,6 +1,5 @@
 {
-  "baseUrl": "http://localhost:8180",
-  "chromeWebSecurity": false,
+  "baseUrl": "http://localhost:3000",
   "reporter": "junit",
   "reporterOptions": {
     "mochaFile": "target/test-reports/TEST-cypress.xml",
