@@ -34,7 +34,8 @@
     "lint": "eslint --ext .js,.ts,.tsx .",
     "lint:fix": "npm run lint -- --fix",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "cypress:run": "cypress run",
+    "locktt": "locktt"
   },
   "jest-junit": {
     "outputDirectory": "./target/test-reports",
@@ -77,6 +78,7 @@
     "history": "^4.9.0",
     "jest-junit": "^8.0.0",
     "kill-port": "^1.6.0",
+    "lock-treatment-tool": "^0.4.1",
     "react-test-renderer": "^16.8.6",
     "redux-mock-store": "^1.5.3",
     "rimraf": "^3.0.0",
