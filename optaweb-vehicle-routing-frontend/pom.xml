@@ -33,9 +33,6 @@
 
   <properties>
     <sonar.sources>src</sonar.sources>
-    <sonar.test.inclusions>
-      optaweb-vehicle-routing-frontend/**/*test.ts,optaweb-vehicle-routing-frontend/**/*test.tsx
-    </sonar.test.inclusions>
     <sonar.typescript.lcov.reportPaths>coverage/lcov.info</sonar.typescript.lcov.reportPaths>
 
     <!-- Frontend properties -->
