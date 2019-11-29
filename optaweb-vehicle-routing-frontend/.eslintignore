@@ -1,7 +1,2 @@
-/build
-/coverage
-/docker
-/local
-/node
-/public
-/target
+/cypress/support
+/cypress/plugins

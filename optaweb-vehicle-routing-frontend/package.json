@@ -31,7 +31,7 @@
     "eject": "react-scripts eject",
     "coverage": "npm run test -- --coverage --watchAll=false",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint --ext .js,.ts,.tsx .",
+    "lint": "eslint --ext .js,.ts,.tsx src/ cypress/",
     "lint:fix": "npm run lint -- --fix",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",

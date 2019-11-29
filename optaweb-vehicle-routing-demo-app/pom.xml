@@ -147,32 +147,22 @@
           </plugins>
         </pluginManagement>
         <plugins>
-          <plugin> <!-- Copy test OSM file to a local directory -->
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
+          <plugin>
+            <groupId>org.soulwing</groupId>
+            <artifactId>uuid-maven-plugin</artifactId>
+            <version>1.0.0</version>
             <executions>
               <execution>
-                <id>copy-osm-file</id>
-                <phase>pre-integration-test</phase>
                 <goals>
-                  <goal>copy-resources</goal>
+                  <goal>uuid</goal>
                 </goals>
                 <configuration>
-                  <skip>${skipTests}</skip>
-                  <outputDirectory>${project.basedir}/local/openstreetmap</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>${project.parent.basedir}/${backend.project.name}/src/test/resources/org/optaweb/vehiclerouting/plugin/routing</directory>
-                      <includes>
-                        <include>${backend.osm.file}</include>
-                      </includes>
-                    </resource>
-                  </resources>
+                  <targetProperty>dbDirSuffix</targetProperty>
                 </configuration>
               </execution>
             </executions>
           </plugin>
-          <plugin> <!-- Start backend as a separate process -->
+          <plugin> <!-- Start demo-app as a separate process -->
             <groupId>com.bazaarvoice.maven.plugins</groupId>
             <artifactId>process-exec-maven-plugin</artifactId>
             <executions>
@@ -189,12 +179,16 @@
                   <processLogFile>${project.build.directory}/${project.artifactId}.log</processLogFile>
                   <arguments>
                     <argument>java</argument>
-                    <argument>-Dspring.profiles.active=dev</argument>
-                    <argument>-Dapp.region.country-codes=DE</argument>
-                    <argument>-Dapp.routing.osm-file=${backend.osm.file}</argument>
-                    <argument>-Dserver.port=${application.port}</argument>
                     <argument>-jar</argument>
-                    <argument>target/${project.artifactId}-${project.version}.jar</argument>
+                    <argument>target/${project.build.finalName}.jar</argument>
+                    <argument>--spring.profiles.active=dev</argument>
+                    <argument>--server.port=${application.port}</argument>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <argument>--app.persistence.h2-dir=${project.build.directory}/db_${dbDirSuffix}</argument>
+                    <argument>--app.region.country-codes=DE</argument>
+                    <argument>--app.routing.gh-dir=target/graphhopper</argument>
+                    <argument>--app.routing.osm-dir=data/openstreetmap</argument>
+                    <argument>--app.routing.osm-file=${backend.osm.file}</argument>
                   </arguments>
                 </configuration>
               </execution>
@@ -208,8 +202,10 @@
               </execution>
             </executions>
           </plugin>
-          <!-- Run Cypress tests in a docker container.
-                   See https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command -->
+          <!--
+            Run Cypress tests in a docker container.
+            See https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command.
+           -->
           <plugin>
             <artifactId>exec-maven-plugin</artifactId>
             <groupId>org.codehaus.mojo</groupId>
@@ -227,9 +223,9 @@
                   <arguments>
                     <argument>run</argument>
                     <argument>--network=host</argument> <!-- Cypress accesses UI running on the host -->
-                    <argument>-v</argument>
+                    <argument>--volume</argument>
                     <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
-                    <argument>-w</argument>
+                    <argument>--workdir</argument>
                     <argument>/e2e</argument>
                     <argument>--entrypoint</argument>
                     <argument>cypress</argument>
