@@ -11,7 +11,8 @@ cache:
     - "$HOME/optaweb-vehicle-routing/optaweb-vehicle-routing-frontend/node"
 # Download dependencies in quiet mode to avoid exceeding maximum log length.
 install: >
-  mvn de.qaware.maven:go-offline-maven-plugin:1.2.1:resolve-dependencies
+  mvn de.qaware.maven:go-offline-maven-plugin:1.2.3:resolve-dependencies
+  -DfailOnErrors -DdownloadSources=false
   -Pcode-coverage,sonarcloud-analysis
   --quiet
 before_script:
