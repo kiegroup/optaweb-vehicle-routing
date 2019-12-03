@@ -9,7 +9,11 @@ cache:
     - "$HOME/.sonar/cache"
     - "$HOME/.sonar/native-sonar-scanner"
     - "$HOME/optaweb-vehicle-routing/optaweb-vehicle-routing-frontend/node"
-install: true
+# Download dependencies in quiet mode to avoid exceeding maximum log length.
+install: >
+  mvn de.qaware.maven:go-offline-maven-plugin:1.2.1:resolve-dependencies
+  -Pcode-coverage,sonarcloud-analysis
+  --quiet
 before_script:
   # Fail the the build if the Red Hat package registry is referenced from package-lock.json.
   - '! grep "\"resolved\".*\.redhat\.com" optaweb-vehicle-routing-frontend/package-lock.json'
