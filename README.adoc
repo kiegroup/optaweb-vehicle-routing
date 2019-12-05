@@ -49,7 +49,7 @@ cd optaweb-vehicle-routing-backend
 +
 [source,shell]
 ----
-java -jar target/optaweb-vehicle-routing-backend-*.jar
+java -jar target/optaweb-vehicle-routing-backend-*.jar --spring.profiles.active=dev
 ----
 
 When you start the backend for the first time, it will need several minutes to process the geographical information. Monitoring the terminal output, wait until the processing is complete, then start the frontend.
