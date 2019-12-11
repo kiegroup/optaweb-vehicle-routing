@@ -98,11 +98,6 @@
         <artifactId>graphhopper-reader-osm</artifactId>
         <version>0.13.0-pre13</version>
       </dependency>
-      <dependency>
-        <groupId>com.neovisionaries</groupId>
-        <artifactId>nv-i18n</artifactId>
-        <version>1.24</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
