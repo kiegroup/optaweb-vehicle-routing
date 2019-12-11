@@ -60,7 +60,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
         PlanningLocation location = new PlanningLocation(domainLocation);
         DistanceMap distanceMap = new DistanceMap(location, distanceMatrix.getRow(domainLocation));
         location.setTravelDistanceMap(distanceMap);
-        // Unfortunately can't start solver with an empty solution (see https://issues.jboss.org/browse/PLANNER-776)
+        // Unfortunately can't start solver with an empty solution (see https://issues.redhat.com/browse/PLANNER-776)
         if (depot == null) {
             depot = new PlanningDepot(location);
             publishSolution();
