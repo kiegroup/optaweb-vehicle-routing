@@ -39,8 +39,6 @@
   </modules>
 
   <properties>
-    <!-- Avoid deploying artifacts into Nexus -->
-    <deploy.skip>true</deploy.skip>
     <sonar.test.inclusions>
       optaweb-vehicle-routing-frontend/**/*test.ts,
       optaweb-vehicle-routing-frontend/**/*test.tsx
@@ -116,13 +114,6 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${version.org.springframework.boot}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <configuration>
-            <skip>${deploy.skip}</skip>
-          </configuration>
         </plugin>
         <!--
           Disable Jacoco check inherited from kie-parent. Remove this when it's removed from kie-parent
