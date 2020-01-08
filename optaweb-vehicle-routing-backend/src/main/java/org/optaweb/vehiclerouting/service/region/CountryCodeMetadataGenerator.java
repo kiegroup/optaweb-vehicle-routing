@@ -19,9 +19,9 @@ package org.optaweb.vehiclerouting.service.region;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,26 +49,26 @@ public class CountryCodeMetadataGenerator {
      * @throws NoSuchMethodException if {@link RegionProperties} inspection fails
      */
     public static void main(String[] args) throws IOException, NoSuchFieldException, NoSuchMethodException {
-        ItemMetadata property = ItemMetadata.newProperty(
-                RegionProperties.class.getAnnotation(ConfigurationProperties.class).value(),
-                "country-codes",
-                RegionProperties.class.getDeclaredField("countryCodes").getGenericType().toString(),
-                RegionProperties.class.getName(),
-                RegionProperties.class.getDeclaredMethod("getCountryCodes").getName() + "()",
-                null, null, null
-        );
+        File metadataFile = prepareMetadataFile(moduleRoot());
+        try (FileOutputStream outputStream = new FileOutputStream(metadataFile)) {
+            writeMetaData(outputStream, metadata());
+        }
+    }
 
-        List<ItemHint.ValueHint> valueHints = Arrays.stream(CountryCode.values())
-                .filter(countryCode -> countryCode != CountryCode.UNDEFINED)
-                .map(countryCode -> new ItemHint.ValueHint(countryCode.getAlpha2(), countryCode.getName() + "."))
-                .collect(Collectors.toList());
-        ItemHint itemHint = new ItemHint(property.getName(), valueHints, Collections.emptyList());
+    static File moduleRoot() {
+        URL resource = CountryCodeMetadataGenerator.class.getResource(".");
+        if (!resource.toString().contains("/target/")) {
+            throw new IllegalStateException(resource.toString());
+        }
+        File file = new File(resource.getFile());
+        while (!file.getName().equals("target")) {
+            file = file.getParentFile();
+        }
+        return file.getParentFile();
+    }
 
-        ConfigurationMetadata configurationMetadata = new ConfigurationMetadata();
-        configurationMetadata.add(property);
-        configurationMetadata.add(itemHint);
-
-        File metaInfDir = new File(moduleRoot(), "src/main/resources/META-INF/");
+    static File prepareMetadataFile(File module) throws IOException {
+        File metaInfDir = new File(module, "src/main/resources/META-INF/");
         if (!metaInfDir.exists() && !metaInfDir.mkdirs()) {
             throw new IllegalStateException("Cannot create directory: " + metaInfDir);
         }
@@ -79,20 +79,33 @@ public class CountryCodeMetadataGenerator {
         if (!metadataFile.canWrite()) {
             throw new IllegalStateException("Cannot write to file: " + metadataFile);
         }
-        try (FileOutputStream outputStream = new FileOutputStream(metadataFile)) {
-            new JsonMarshaller().write(configurationMetadata, outputStream);
-        }
+        return metadataFile;
     }
 
-    private static File moduleRoot() {
-        URL resource = CountryCodeMetadataGenerator.class.getResource(".");
-        if (!resource.toString().contains("/target/")) {
-            throw new IllegalStateException(resource.toString());
-        }
-        File file = new File(resource.getFile());
-        while (!file.getName().equals("target")) {
-            file = file.getParentFile();
-        }
-        return file.getParentFile();
+    static ConfigurationMetadata metadata() throws NoSuchFieldException, NoSuchMethodException {
+        String fieldName = "countryCodes";
+        ItemMetadata property = ItemMetadata.newProperty(
+                RegionProperties.class.getAnnotation(ConfigurationProperties.class).value(),
+                fieldName,
+                RegionProperties.class.getDeclaredField(fieldName).getGenericType().toString(),
+                RegionProperties.class.getName(),
+                RegionProperties.class.getDeclaredMethod("getCountryCodes").getName() + "()",
+                null, null, null
+        );
+
+        List<ItemHint.ValueHint> valueHints = Arrays.stream(CountryCode.values())
+                .filter(countryCode -> countryCode != CountryCode.UNDEFINED)
+                .map(countryCode -> new ItemHint.ValueHint(countryCode.getAlpha2(), countryCode.getName() + "."))
+                .collect(Collectors.toList());
+        ItemHint itemHint = new ItemHint(property.getName(), valueHints, null);
+
+        ConfigurationMetadata configurationMetadata = new ConfigurationMetadata();
+        configurationMetadata.add(property);
+        configurationMetadata.add(itemHint);
+        return configurationMetadata;
+    }
+
+    static void writeMetaData(OutputStream outputStream, ConfigurationMetadata metadata) throws IOException {
+        new JsonMarshaller().write(metadata, outputStream);
     }
 }

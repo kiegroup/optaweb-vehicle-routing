@@ -191,7 +191,6 @@
             <excludedClasses>
               <excludedClass>*Config</excludedClass>
               <excludedClass>*Properties</excludedClass>
-              <excludedClass>org.optaweb.vehiclerouting.service.region.CountryCodeMetadataGenerator</excludedClass>
             </excludedClasses>
             <excludedMethods>hashCode</excludedMethods>
             <excludedTestClasses>
