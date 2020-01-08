@@ -60,6 +60,12 @@
       </dependency>
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
+        <artifactId>optaweb-vehicle-routing-docs</artifactId>
+        <version>${project.version}</version>
+        <type>zip</type>
+      </dependency>
+      <dependency>
+        <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>optaweb-vehicle-routing-frontend</artifactId>
         <version>${project.version}</version>
         <type>war</type>
