@@ -55,7 +55,16 @@
   </fileSets>
 
   <dependencySets>
-    <!-- TODO: pending Reference Manual -->
+    <dependencySet>
+      <includes>
+        <include>org.optaweb.vehiclerouting:optaweb-vehicle-routing-docs:zip</include>
+      </includes>
+      <outputDirectory>reference_manual</outputDirectory>
+      <unpack>true</unpack>
+      <!-- Don't include the artifact produced during the current project's build. -->
+      <useProjectArtifact>false</useProjectArtifact>
+      <!-- Fail the build if any include/exclude patterns aren't used to filter an actual artifact. -->
+      <useStrictFiltering>true</useStrictFiltering>
+    </dependencySet>
   </dependencySets>
-
 </assembly>

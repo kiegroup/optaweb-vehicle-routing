@@ -1,0 +1,20 @@
+/target
+/local
+
+# IntelliJ
+/.idea
+/*.ipr
+/*.iws
+/*.iml
+
+# NetBeans
+/nbproject
+
+# STS (Spring Tools Suite)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
