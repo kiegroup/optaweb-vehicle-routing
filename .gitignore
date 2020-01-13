@@ -1,20 +1,26 @@
 /target
 /local
 
-# Eclipse
-/.project
-
 # IntelliJ
-/.idea
-/*.ipr
-/*.iws
-/*.iml
+.idea
+*.ipr
+*.iws
+*.iml
 
 # NetBeans
-/nbproject
+nbproject
+
+# STS (Spring Tools Suite)
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
 
 # Visual Studio Code
-/.vscode
+.vscode
 
-# Repository wide ignore mac DS_Store files
+# macOS .DS_Store files
 .DS_Store

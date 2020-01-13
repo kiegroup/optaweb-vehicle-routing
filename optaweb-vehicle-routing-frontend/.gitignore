@@ -1,4 +1,8 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
+
+/target
+/local
+
 # dependencies
 /node_modules
 # frontend-maven-plugin
@@ -10,12 +14,13 @@
 # production
 /build
 
-# misc
+# .env files
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 
+# logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -23,21 +28,3 @@ yarn-error.log*
 # SonarQube Scanner working dir
 # Runs on Travis but can be run locally with npx (see travis-sonarcloud.sh)
 /.scannerwork
-
-/target
-/local
-
-# Eclipse
-/.project
-
-# IntelliJ
-/.idea
-/*.ipr
-/*.iws
-/*.iml
-
-# NetBeans
-/nbproject
-
-# Visual Studio Code
-/.vscode
