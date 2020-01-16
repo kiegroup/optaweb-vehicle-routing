@@ -57,6 +57,14 @@
   <dependencySets>
     <dependencySet>
       <includes>
+        <include>org.optaweb.vehiclerouting:optaweb-vehicle-routing-standalone</include>
+      </includes>
+      <outputDirectory>bin</outputDirectory>
+      <useStrictFiltering>true</useStrictFiltering>
+      <useProjectArtifact>false</useProjectArtifact>
+    </dependencySet>
+    <dependencySet>
+      <includes>
         <include>org.optaweb.vehiclerouting:optaweb-vehicle-routing-docs:zip</include>
       </includes>
       <outputDirectory>reference_manual</outputDirectory>
