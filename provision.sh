@@ -44,7 +44,7 @@ as my-city.osm.pbf."
 
 function wrong_args() {
     print_help
-    echo
+    echo >&2
     echo >&2 "ERROR: Wrong arguments."
     exit 1
 }
