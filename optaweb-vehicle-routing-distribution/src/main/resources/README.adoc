@@ -1,0 +1,4 @@
+= Welcome to OptaWeb Vehicle Routing
+
+If you want to run the application without building it from source, go to `bin` folder and use the run script.
+You only need Java Runtime Environment (JRE).

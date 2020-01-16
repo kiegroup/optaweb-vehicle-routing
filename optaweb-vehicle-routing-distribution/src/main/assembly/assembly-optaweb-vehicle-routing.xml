@@ -26,6 +26,11 @@
   <includeBaseDirectory>true</includeBaseDirectory>
 
   <fileSets>
+    <fileSet>
+      <directory>src/main/resources</directory>
+      <filtered>true</filtered>
+      <outputDirectory/>
+    </fileSet>
     <fileSet><!-- Note: going outside the module dir is bad, but it is not fetching generated files -->
       <useDefaultExcludes>false</useDefaultExcludes>
       <directory>..</directory>
