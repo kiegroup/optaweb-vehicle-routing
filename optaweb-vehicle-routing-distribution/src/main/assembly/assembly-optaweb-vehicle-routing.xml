@@ -26,6 +26,11 @@
   <includeBaseDirectory>true</includeBaseDirectory>
 
   <fileSets>
+    <fileSet>
+      <directory>src/main/resources</directory>
+      <filtered>true</filtered>
+      <outputDirectory/>
+    </fileSet>
     <fileSet><!-- Note: going outside the module dir is bad, but it is not fetching generated files -->
       <useDefaultExcludes>false</useDefaultExcludes>
       <directory>..</directory>
@@ -55,6 +60,14 @@
   </fileSets>
 
   <dependencySets>
+    <dependencySet>
+      <includes>
+        <include>org.optaweb.vehiclerouting:optaweb-vehicle-routing-standalone</include>
+      </includes>
+      <outputDirectory>bin</outputDirectory>
+      <useStrictFiltering>true</useStrictFiltering>
+      <useProjectArtifact>false</useProjectArtifact>
+    </dependencySet>
     <dependencySet>
       <includes>
         <include>org.optaweb.vehiclerouting:optaweb-vehicle-routing-docs:zip</include>
