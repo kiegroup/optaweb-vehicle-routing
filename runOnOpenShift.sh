@@ -90,7 +90,7 @@ It may take several minutes to download and process the file before the applicat
     wrong_args
 esac
 
-# Change dir to the project root (where provision.sh is located) to correctly resolve module paths.
+# Change dir to the project root (where the script is located) to correctly resolve module paths.
 # This is needed in case the script was called from a different location than the project root.
 cd "$(dirname "$(readlink -f "$0")")"
 
