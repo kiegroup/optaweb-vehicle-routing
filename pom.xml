@@ -53,6 +53,7 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- Internal dependencies -->
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>optaweb-vehicle-routing-backend</artifactId>
@@ -70,6 +71,7 @@
         <version>${project.version}</version>
         <type>war</type>
       </dependency>
+      <!-- BOM imports -->
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>optaweb-vehicle-routing-standalone</artifactId>
@@ -84,9 +86,12 @@
       </dependency>
       <dependency>
         <groupId>org.optaplanner</groupId>
-        <artifactId>optaplanner-core</artifactId>
+        <artifactId>optaplanner-bom</artifactId>
         <version>${version.org.optaplanner}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
+      <!-- Dependencies not managed by kie-parent and version overrides -->
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
