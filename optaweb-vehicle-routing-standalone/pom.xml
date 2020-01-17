@@ -53,6 +53,11 @@
       <artifactId>optaweb-vehicle-routing-frontend</artifactId>
       <type>war</type>
     </dependency>
+    <!-- Used by WebConfig -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
   </dependencies>
 
   <build>
