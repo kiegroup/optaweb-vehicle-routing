@@ -23,3 +23,8 @@ git init && git add . && git commit -m 'Initial commit'
 ----
 
 Find out more in `sources/README.adoc` or in the documentation.
+
+== Run on OpenShift
+
+Build the project first.
+Then deploy it to OpenShift using the `runOnOpenShift.sh` script under `sources` directory.
