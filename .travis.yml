@@ -13,14 +13,14 @@ cache:
 install: >
   mvn de.qaware.maven:go-offline-maven-plugin:1.2.3:resolve-dependencies
   -DfailOnErrors -DdownloadSources=false
-  -Pcode-coverage,sonarcloud-analysis
+  -Prun-code-coverage,sonarcloud-analysis
   --quiet
 before_script:
   # Fail the the build if the Red Hat package registry is referenced from package-lock.json.
   - '! grep "\"resolved\".*\.redhat\.com" optaweb-vehicle-routing-frontend/package-lock.json'
 # do not install to avoid dirtying the cache
 script:
-  - mvn clean install -Pcode-coverage -Dintegration-tests=true --show-version
+  - mvn clean install -Prun-code-coverage -Dintegration-tests=true --show-version
   - mvn generate-resources -Psonarcloud-analysis,-distribution
   # check that git working tree is clean after running npm install via a frontend-maven-plugin
   # the git command returns 1 and fails the build if there are any uncommitted changes
