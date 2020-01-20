@@ -48,12 +48,12 @@
     <version.com.h2database>1.4.199</version.com.h2database>
     <version.javax.validation>2.0.1.Final</version.javax.validation>
     <version.org.mockito>3.1.0</version.org.mockito>
-    <version.org.junit>5.4.2</version.org.junit>
     <version.org.postgresql>42.2.5</version.org.postgresql>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+      <!-- Internal dependencies -->
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>optaweb-vehicle-routing-backend</artifactId>
@@ -71,18 +71,11 @@
         <version>${project.version}</version>
         <type>war</type>
       </dependency>
+      <!-- BOM imports -->
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>optaweb-vehicle-routing-standalone</artifactId>
         <version>${project.version}</version>
-      </dependency>
-      <!-- Temporarily override Spring Boot's JUnit version to get access to @TempDir -->
-      <dependency>
-        <groupId>org.junit</groupId>
-        <artifactId>junit-bom</artifactId>
-        <version>${version.org.junit}</version>
-        <type>pom</type>
-        <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>org.springframework.boot</groupId>
@@ -93,9 +86,12 @@
       </dependency>
       <dependency>
         <groupId>org.optaplanner</groupId>
-        <artifactId>optaplanner-core</artifactId>
+        <artifactId>optaplanner-bom</artifactId>
         <version>${version.org.optaplanner}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
+      <!-- Dependencies not managed by kie-parent and version overrides -->
       <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
