@@ -127,90 +127,36 @@
   </dependencies>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <compilerArgs>
-              <!--
-                Visit https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javac.html
-                to learn more about javac warnings
-               -->
-              <arg>-Xlint:all</arg>
-              <arg>-Xlint:-processing</arg>
-              <arg>-Xlint:-serial</arg>
-            </compilerArgs>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.pitest</groupId>
-          <artifactId>pitest-maven</artifactId>
-          <version>1.4.3</version>
-          <dependencies>
-            <dependency>
-              <groupId>org.pitest</groupId>
-              <artifactId>pitest-junit5-plugin</artifactId>
-              <version>0.8</version>
-            </dependency>
-          </dependencies>
-          <!--
-            kie-parent contains Pitest configuration that doesn't work well for this project and it's not possible
-            to change it without a complete override (combine.self="override"), for example excludedClasses,
-            timeoutConstant.
-          -->
-          <configuration combine.self="override">
-            <reportsDirectory>local/pit-reports</reportsDirectory>
-            <timestampedReports>true</timestampedReports>
-            <!--
-              Experimental. Using more than 2 threads doesn't reduce execution time further
-              and leads to minion timeouts.
-            -->
-            <threads>2</threads>
-            <mutators>
-              <!-- See http://pitest.org/quickstart/mutators/ -->
-              <mutator>DEFAULTS</mutator>
-              <mutator>NON_VOID_METHOD_CALLS</mutator>
-              <mutator>REMOVE_CONDITIONALS</mutator>
-            </mutators>
-            <avoidCallsTo>
-              <!--
-                String concatenation ("a" + "b") is implemented using StringBuilder.append() in bytecode.
-                We're not interested in mutations of these calls - it's mostly toString() and exception messages.
-                Reducing number of mutations also improves execution time.
-              -->
-              <avoidCallsTo>java.lang.StringBuilder</avoidCallsTo>
-              <avoidCallsTo>org.slf4j</avoidCallsTo>
-              <avoidCallsTo>org.springframework.boot.SpringApplication</avoidCallsTo>
-            </avoidCallsTo>
-            <excludedClasses>
-              <excludedClass>*Config</excludedClass>
-              <excludedClass>*Properties</excludedClass>
-            </excludedClasses>
-            <excludedMethods>hashCode</excludedMethods>
-            <excludedTestClasses>
-              <param>*IntegrationTest</param>
-            </excludedTestClasses>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-failsafe-plugin</artifactId>
-          <configuration>
-            <!--
-              Required due to the "repackage" goal of spring-boot-maven-plugin, as the maven-failsafe-plugin cannot
-              find classes in the fat jar. For more details see:
-              https://sandor-nemeth.github.io/2017/10/16/integration-tests-with-spring-boot-classnotfoundexception.html
-            -->
-            <additionalClasspathElements>
-              <additionalClasspathElement>${project.build.outputDirectory}</additionalClasspathElement>
-            </additionalClasspathElements>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <compilerArgs>
+            <!--
+              Visit https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javac.html
+              to learn more about javac warnings
+             -->
+            <arg>-Xlint:all</arg>
+            <arg>-Xlint:-processing</arg>
+            <arg>-Xlint:-serial</arg>
+          </compilerArgs>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <configuration>
+          <!--
+            Required due to the "repackage" goal of spring-boot-maven-plugin, as the maven-failsafe-plugin cannot
+            find classes in the fat jar. For more details see:
+            https://sandor-nemeth.github.io/2017/10/16/integration-tests-with-spring-boot-classnotfoundexception.html
+          -->
+          <additionalClasspathElements>
+            <additionalClasspathElement>${project.build.outputDirectory}</additionalClasspathElement>
+          </additionalClasspathElements>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -271,6 +217,52 @@
           <plugin>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-maven</artifactId>
+            <version>1.4.3</version>
+            <dependencies>
+              <dependency>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-junit5-plugin</artifactId>
+                <version>0.8</version>
+              </dependency>
+            </dependencies>
+            <!--
+              kie-parent contains Pitest configuration that doesn't work well for this project and it's not possible
+              to change it without a complete override (combine.self="override"), for example excludedClasses,
+              timeoutConstant.
+            -->
+            <configuration combine.self="override">
+              <reportsDirectory>local/pit-reports</reportsDirectory>
+              <timestampedReports>true</timestampedReports>
+              <!--
+                Experimental. Using more than 2 threads doesn't reduce execution time further
+                and leads to minion timeouts.
+              -->
+              <threads>2</threads>
+              <mutators>
+                <!-- See http://pitest.org/quickstart/mutators/ -->
+                <mutator>DEFAULTS</mutator>
+                <mutator>NON_VOID_METHOD_CALLS</mutator>
+                <mutator>REMOVE_CONDITIONALS</mutator>
+              </mutators>
+              <avoidCallsTo>
+                <!--
+                  String concatenation ("a" + "b") is implemented using StringBuilder.append() in bytecode.
+                  We're not interested in mutations of these calls - it's mostly toString() and exception messages.
+                  Reducing number of mutations also improves execution time.
+                -->
+                <avoidCallsTo>java.lang.StringBuilder</avoidCallsTo>
+                <avoidCallsTo>org.slf4j</avoidCallsTo>
+                <avoidCallsTo>org.springframework.boot.SpringApplication</avoidCallsTo>
+              </avoidCallsTo>
+              <excludedClasses>
+                <excludedClass>*Config</excludedClass>
+                <excludedClass>*Properties</excludedClass>
+              </excludedClasses>
+              <excludedMethods>hashCode</excludedMethods>
+              <excludedTestClasses>
+                <param>*IntegrationTest</param>
+              </excludedTestClasses>
+            </configuration>
             <executions>
               <execution>
                 <id>default-pitest</id>
