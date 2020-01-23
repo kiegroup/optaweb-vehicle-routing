@@ -137,15 +137,6 @@
         </property>
       </activation>
       <build>
-        <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>com.bazaarvoice.maven.plugins</groupId>
-              <artifactId>process-exec-maven-plugin</artifactId>
-              <version>0.9</version>
-            </plugin>
-          </plugins>
-        </pluginManagement>
         <plugins>
           <plugin>
             <groupId>org.soulwing</groupId>
@@ -165,6 +156,7 @@
           <plugin> <!-- Start standalone JAR as a separate process -->
             <groupId>com.bazaarvoice.maven.plugins</groupId>
             <artifactId>process-exec-maven-plugin</artifactId>
+            <version>0.9</version>
             <executions>
               <execution>
                 <id>start-application</id>
