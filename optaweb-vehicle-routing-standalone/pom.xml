@@ -33,17 +33,15 @@
 
   <properties>
     <application.port>8180</application.port>
-    <backend.project.name>optaweb-vehicle-routing-backend</backend.project.name>
-    <backend.osm.file>planet_12.032,53.0171_12.1024,53.0491.osm.pbf</backend.osm.file>
-    <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
-    <version.cypress.docker>3.6.0</version.cypress.docker>
-    <skipTests>false</skipTests>
     <!-- Override to run with Podman -->
     <container.runtime>docker</container.runtime>
+    <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
+    <test.osm.file>planet_12.032,53.0171_12.1024,53.0491.osm.pbf</test.osm.file>
+    <version.cypress.docker>3.6.0</version.cypress.docker>
   </properties>
 
   <dependencies>
-    <!-- Just to make sure this module builds after backend and frontend. -->
+    <!-- Only to make sure this module is built after backend and frontend. -->
     <dependency>
       <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>optaweb-vehicle-routing-backend</artifactId>
@@ -145,9 +143,6 @@
               <groupId>com.bazaarvoice.maven.plugins</groupId>
               <artifactId>process-exec-maven-plugin</artifactId>
               <version>0.9</version>
-              <configuration>
-                <skip>${skipTests}</skip>
-              </configuration>
             </plugin>
           </plugins>
         </pluginManagement>
@@ -193,7 +188,7 @@
                     <argument>--app.region.country-codes=DE</argument>
                     <argument>--app.routing.gh-dir=target/graphhopper</argument>
                     <argument>--app.routing.osm-dir=data/openstreetmap</argument>
-                    <argument>--app.routing.osm-file=${backend.osm.file}</argument>
+                    <argument>--app.routing.osm-file=${test.osm.file}</argument>
                   </arguments>
                 </configuration>
               </execution>
@@ -222,7 +217,6 @@
                   <goal>exec</goal>
                 </goals>
                 <configuration>
-                  <skip>${skipTests}</skip>
                   <executable>${container.runtime}</executable>
                   <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
                   <arguments>
