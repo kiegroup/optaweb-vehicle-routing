@@ -20,7 +20,7 @@ before_script:
   - '! grep "\"resolved\".*\.redhat\.com" optaweb-vehicle-routing-frontend/package-lock.json'
 # do not install to avoid dirtying the cache
 script:
-  - mvn clean install -Prun-code-coverage -Dintegration-tests=true --show-version
+  - mvn clean install -Prun-code-coverage,integration-tests --show-version
   - mvn generate-resources -Psonarcloud-analysis
   # check that git working tree is clean after running npm install via a frontend-maven-plugin
   # the git command returns 1 and fails the build if there are any uncommitted changes
