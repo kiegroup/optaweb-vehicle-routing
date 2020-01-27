@@ -38,6 +38,7 @@
     <module>optaweb-vehicle-routing-frontend</module>
     <module>optaweb-vehicle-routing-standalone</module>
     <module>optaweb-vehicle-routing-docs</module>
+    <module>optaweb-vehicle-routing-distribution</module>
   </modules>
 
   <properties>
@@ -148,23 +149,6 @@
   </build>
 
   <profiles>
-    <!--
-      Include distribution module by default but allow to exclude it to prevent inaccurate Sonar coverage analysis.
-      When the distribution module is included, it affects Sonar project configuration in a mysterious way resulting
-      in wrong exclusion filters and test sources' coverage being analyzed.
-    -->
-    <profile>
-      <id>distribution</id>
-      <!-- Active unless deactivated (https://stackoverflow.com/a/57141425/1691152). -->
-      <activation>
-        <file>
-          <exists>.</exists>
-        </file>
-      </activation>
-      <modules>
-        <module>optaweb-vehicle-routing-distribution</module>
-      </modules>
-    </profile>
     <!-- Skip Sonar plugin execution if SONARCLOUD_TOKEN is not set. -->
     <profile>
       <id>skipSonar</id>
