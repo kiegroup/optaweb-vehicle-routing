@@ -55,6 +55,11 @@
         <exclude>optaweb-vehicle-routing-frontend/docker/build/**</exclude>
         <exclude>optaweb-vehicle-routing-frontend/node/**</exclude>
         <exclude>optaweb-vehicle-routing-frontend/node_modules/**</exclude>
+        <!--
+          TODO: Fix Jenkins jobs that build and deploy snapshots not to clone upstream repositories
+          TODO: under the root of the target repository.
+        -->
+        <exclude>upstream-repos/**</exclude>
       </excludes>
     </fileSet>
   </fileSets>
