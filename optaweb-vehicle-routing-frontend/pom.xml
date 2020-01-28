@@ -82,7 +82,7 @@
             <id>npm install</id>
             <!--
               Using compile phase so that `npm install` doesn't run during sonar analysis,
-              which is bound to generate-resources.
+              which is bound to generate-resources in kie-parent.
             -->
             <phase>compile</phase>
             <goals>
