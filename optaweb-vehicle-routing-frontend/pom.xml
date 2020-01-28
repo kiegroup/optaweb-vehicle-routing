@@ -90,6 +90,14 @@
             </goals>
             <configuration>
               <arguments>install</arguments>
+              <environmentVariables>
+                <!--
+                  Do not download Cypress binary during `npm install`. It's large (0.5G) and it's only needed locally
+                  when running `npm run cypress:run`. When building the project with Maven (e.g. on Jenkins), Cypress
+                  tests are executed in a Docker container so the binary downloaded by the npm package is not used.
+                 -->
+                <CYPRESS_INSTALL_BINARY>0</CYPRESS_INSTALL_BINARY>
+              </environmentVariables>
             </configuration>
           </execution>
           <execution>
