@@ -49,7 +49,7 @@ cd optaweb-vehicle-routing-backend
 +
 [source,shell]
 ----
-java -jar target/optaweb-vehicle-routing-backend-*.jar --spring.profiles.active=dev
+java -jar target/optaweb-vehicle-routing-backend-*.jar
 ----
 
 When you start the backend for the first time, it will need several minutes to process the geographical information. Monitoring the terminal output, wait until the processing is complete, then start the frontend.
@@ -231,6 +231,7 @@ oc new-project _project_name_
 ----
 ./runOnOpenShift.sh _osm_file_name_ _country_code_list_ _osm_file_download_url_
 ----
+
 or
 
 +
@@ -238,6 +239,7 @@ or
 ----
 ./runOnOpenShift.sh --help
 ----
+
 to see more details about how to use the script.
 
 === Updating the deployed application with local changes

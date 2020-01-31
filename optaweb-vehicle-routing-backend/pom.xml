@@ -190,7 +190,6 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
           <profiles>
-            <profile>dev</profile>
             <profile>local</profile>
           </profiles>
         </configuration>
@@ -315,7 +314,6 @@
             <artifactId>spring-boot-maven-plugin</artifactId>
             <configuration>
               <profiles>
-                <profile>dev</profile>
                 <profile>dev-cypress</profile>
               </profiles>
             </configuration>

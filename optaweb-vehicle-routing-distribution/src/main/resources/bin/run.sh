@@ -49,5 +49,4 @@ fi
 java -jar ${script_dir}/optaweb-vehicle-routing-standalone-${project.version}.jar \
 --server.address=localhost \
 --server.port=8080 \
---spring.profiles.active=dev \
 ${options}
