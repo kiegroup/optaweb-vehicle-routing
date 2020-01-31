@@ -173,7 +173,6 @@
                     <argument>java</argument>
                     <argument>-jar</argument>
                     <argument>target/${project.build.finalName}.jar</argument>
-                    <argument>--spring.profiles.active=dev</argument>
                     <argument>--server.port=${application.port}</argument>
                     <!--suppress UnresolvedMavenProperty -->
                     <argument>--app.persistence.h2-dir=${project.build.directory}/db_${dbDirSuffix}</argument>
