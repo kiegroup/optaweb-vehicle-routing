@@ -67,6 +67,7 @@ function wrong_args() {
 
 # Process arguments
 declare -a dc_backend_env
+dc_backend_env+=("SPRING_PROFILES_ACTIVE=production")
 case $# in
   0)
     print_help
@@ -181,6 +182,7 @@ oc start-build backend --from-dir=${dir_backend} --follow
 oc new-app backend
 # -- use PostgreSQL secret
 oc set env dc/backend --from=secret/postgresql
+# -- set the rest of the configuration
 oc set env dc/backend "${dc_backend_env[@]}"
 # Remove the default emptyDir volume
 oc set volumes dc/backend --remove --name backend-volume-1
