@@ -82,6 +82,15 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
     </dependency>
+    <!--
+      Add JAXB API dependency that's been deprecated in Java 9 and dropped in Java 11. See
+      https://stackoverflow.com/questions/43574426/how-to-resolve-java-lang-noclassdeffounderror-javax-xml-bind-jaxbexception-in-j
+    -->
+    <dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <scope>runtime</scope>
+    </dependency>
     <!-- Testing dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
