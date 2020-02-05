@@ -1,1 +1,7 @@
 = OptaWeb Vehicle Routing User Guide
+The OptaPlanner Team <https://www.optaplanner.org/community/team.html>
+:doctype: book
+:sectanchors:
+:sectlinks:
+:sectnums:
+:toc: left
