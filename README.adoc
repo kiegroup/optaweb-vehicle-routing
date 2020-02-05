@@ -239,7 +239,7 @@ or
 ----
 ./runOnOpenShift.sh --help
 ----
-
++
 to see more details about how to use the script.
 
 === Updating the deployed application with local changes
