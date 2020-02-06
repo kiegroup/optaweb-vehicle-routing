@@ -16,6 +16,37 @@ The data need to be downloaded and stored on the local file system first.
 Choose a region, for example Massachusetts, Belgium or India, and download it from http://download.geofabrik.de/.
 The OSM data files are large, typically from 100 MB to 1 GB, and take some time to download so it is a good idea to begin with this step before building or starting the application.
 
+==== Data directory structure
+
+The application reads and writes several types of data on the file system.
+It reads OSM files from the `openstreetmap` directory, writes a road network graph to the `graphhopper` directory and persists user data in a directory called `db`.
+We recommend to create a new directory that will be dedicated to storing all of these data.
+It'll make it easier for you to upgrade to a newer version of the application and continue working with the data you have created previously.
+
+Start by creating the `openstreetmap` directory somewhere in your user account's home directory. For example:
+
+[source]
+----
+$HOME/.vrp
+└── openstreetmap
+----
+
+Move all your downloaded OSM files (`.osm.pbf`) to the `openstreetmap` directory.
+The rest of the directory structure will be created by the application when it is run for the first time.
+It may look like this:
+
+// TODO maybe replace this with a screenshot, doesn't look good in PDF.
+[source]
+----
+$HOME/.vrp
+├── db
+│   └── vrp.mv.db
+├── graphhopper
+│   └── belgium-latest
+└── openstreetmap
+    └── belgium-latest.osm.pbf
+----
+
 ==== Air mode
 
 The application can work in a routing mode that calculates travel times based on air distance approximation.
@@ -37,9 +68,43 @@ To install OpenJDK 8 on Fedora, run:
 sudo dnf install java-1.8.0-openjdk-devel
 ----
 
+=== Get the application
+
+If you don't have the application on your computer yet, download a distribution archive from OptaPlanner website.
+The distribution archive is a good way to quickly evaluate the application without having to set up build tools.
+Java is all you need.
+// TODO cross-reference
+If you want to modify the application and build it yourself or contribute back to upstream, head over to the Development chapter.
+
+To download the latest final release of OptaWeb Vehicle Routing, go to https://www.optaplanner.org/download/download.html
+and click *Download OptaWeb Vehicle Routing*.
+
+image::download.png[align="center"]
+
+Unpack the downloaded distribution ZIP file.
+It contains both sources and binary build of the application and the complete documentation you are reading now.
+
+image::distribution.png[align="center"]
+
+=== Run the application
+
+Use the `run.sh` script to run the application.
+It needs three arguments to run:
+
+- the data directory,
+- the OSM file name to use,
+- a country code used to filter search queries.
+
+Provided you want to start the application with Belgium and you have downloaded `belgium-latest.osm.pbf` from Geofabrik, use the run script like this:
+
+[source,bash]
+----
+./bin/run.sh ~/.vrp/ belgium-latest.osm.pbf BE
+----
+
 === Build the application
 
-If you don't have runnable distribution of the application,
+If you don't have a runnable distribution of the application,
 for example you have just cloned the Git repository from https://github.com/kiegroup/optaweb-vehicle-routing,
 you need to build the project before you can run the application.
 To build the application, change directory to the root of the project with the `mvnw` script file:
@@ -56,5 +121,4 @@ and run Maven build:
 ./mvnw clean install -DskipTests
 ----
 
-// TODO cross-reference
 For more information on building the application, see Development chapter.
