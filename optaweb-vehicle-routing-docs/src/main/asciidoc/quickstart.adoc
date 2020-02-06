@@ -1,1 +1,38 @@
 == Quickstart
+
+=== Before you begin
+
+==== Internet access
+
+You need internet access when you build and run the application.
+The application source code depends on Maven and NPM packages that will be downloaded during build.
+When the application runs it uses third party, public services such as link:https://www.openstreetmap.org/about[OpenStreetMap]
+to display map tiles and provide search results.
+
+==== Routing data
+
+The routing engine needs geographical data to calculate the time it takes vehicles to travel between locations.
+The data need to be downloaded and stored on the local file system first.
+Choose a region, for example Massachusetts, Belgium or India, and download it from http://download.geofabrik.de/.
+The OSM data files are large, typically from 100 MB to 1 GB, and take some time to download so it is a good idea to begin with this step before building or starting the application.
+
+==== Air mode
+
+The application can work in a routing mode that calculates travel times based on air distance approximation.
+Use this mode in situations where you need to get the application up and running as quickly as possible.
+Air mode is only useful if you need to smoke-test the application and you don't need accurate travel times.
+
+==== Java
+
+Make sure you have Java SE 8 or higher installed on your system.
+// TODO Java 11
+If you have a binary distribution of the application, you only need the Java SE Runtime Environment (JRE).
+If you want to build the application from source, Java SE Development Kit (JDK) needs to by installed on your system.
+Installing JDK is recommended.
+
+To install OpenJDK 8 on Fedora, run:
+
+[source,shell]
+----
+sudo dnf install java-1.8.0-openjdk-devel
+----
