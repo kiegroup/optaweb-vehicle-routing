@@ -5,3 +5,5 @@ The OptaPlanner Team <https://www.optaplanner.org/community/team.html>
 :sectlinks:
 :sectnums:
 :toc: left
+
+include::quickstart.adoc[]
