@@ -36,3 +36,25 @@ To install OpenJDK 8 on Fedora, run:
 ----
 sudo dnf install java-1.8.0-openjdk-devel
 ----
+
+=== Build the application
+
+If you don't have runnable distribution of the application,
+for example you have just cloned the Git repository from https://github.com/kiegroup/optaweb-vehicle-routing,
+you need to build the project before you can run the application.
+To build the application, change directory to the root of the project with the `mvnw` script file:
+
+[source,bash]
+----
+cd optaweb-vehicle-routing
+----
+
+and run Maven build:
+
+[source,bash]
+----
+./mvnw clean install -DskipTests
+----
+
+// TODO cross-reference
+For more information on building the application, see Development chapter.
