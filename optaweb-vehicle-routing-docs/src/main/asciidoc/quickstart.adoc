@@ -47,11 +47,11 @@ $HOME/.vrp
     └── belgium-latest.osm.pbf
 ----
 
-==== Air mode
+==== Air distance mode
 
 The application can work in a routing mode that calculates travel times based on air distance approximation.
 Use this mode in situations where you need to get the application up and running as quickly as possible.
-Air mode is only useful if you need to smoke-test the application and you don't need accurate travel times.
+Air distance mode is only useful if you need to smoke-test the application and you don't need accurate travel times.
 
 ==== Java
 
@@ -101,6 +101,8 @@ Provided you want to start the application with Belgium and you have downloaded 
 ----
 ./bin/run.sh ~/.vrp/ belgium-latest.osm.pbf BE
 ----
+
+Alternatively, you can start in air distance mode by running the script without arguments and confirming the decision to start in air distance mode.
 
 === Build the application
 
