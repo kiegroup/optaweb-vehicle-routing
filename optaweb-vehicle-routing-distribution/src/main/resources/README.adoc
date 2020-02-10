@@ -28,3 +28,8 @@ Find out more in `sources/README.adoc` or in the documentation.
 
 Build the project first.
 Then deploy it to OpenShift using the `runOnOpenShift.sh` script under `sources` directory.
+
+== Get help
+
+In case you need any kind of help, please go to https://www.optaplanner.org/community/getHelp.html.
+You will find a way to contact us whether you need to ask a question, report a bug or start a discussion.
