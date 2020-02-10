@@ -6,4 +6,6 @@ The OptaPlanner Team <https://www.optaplanner.org/community/team.html>
 :sectnums:
 :toc: left
 
+include::introduction.adoc[]
+
 include::quickstart.adoc[]
