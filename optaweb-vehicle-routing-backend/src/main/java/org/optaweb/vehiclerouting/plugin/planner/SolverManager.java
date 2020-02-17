@@ -53,7 +53,7 @@ import org.springframework.stereotype.Component;
  * <li>Listens for best solution changes and publishes new best solutions via {@link SolutionPublisher}.</li>
  * </ul>
  */
-@Component
+@Component("optaweb-solver-manager")
 class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
 
     private static final Logger logger = LoggerFactory.getLogger(SolverManager.class);
