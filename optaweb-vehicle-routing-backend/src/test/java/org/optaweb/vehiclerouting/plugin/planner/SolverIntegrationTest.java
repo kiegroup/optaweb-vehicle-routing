@@ -74,7 +74,7 @@ class SolverIntegrationTest {
 
     @BeforeEach
     void setUp() {
-        solverConfig = SolverConfig.createFromXmlResource(RouteOptimizerConfig.SOLVER_CONFIG);
+        solverConfig = SolverConfig.createFromXmlResource(Constants.SOLVER_CONFIG);
         solverConfig.setDaemon(true);
         executor = Executors.newSingleThreadExecutor();
         monitor = new ProblemFactChangeProcessingMonitor();

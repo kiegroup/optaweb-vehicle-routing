@@ -64,7 +64,7 @@
     </dependency>
     <dependency>
       <groupId>org.optaplanner</groupId>
-      <artifactId>optaplanner-core</artifactId>
+      <artifactId>optaplanner-spring-boot-starter</artifactId>
     </dependency>
     <dependency>
       <groupId>com.graphhopper</groupId>

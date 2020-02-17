@@ -16,14 +16,9 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.time.Duration;
-
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
-import org.optaplanner.core.config.solver.SolverConfig;
-import org.optaplanner.core.config.solver.termination.TerminationConfig;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.AsyncTaskExecutor;
@@ -35,29 +30,15 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 @Configuration
 class RouteOptimizerConfig {
 
-    static final String SOLVER_CONFIG = "org/optaweb/vehiclerouting/solver/vehicleRoutingSolverConfig.xml";
+    private final SolverFactory<VehicleRoutingSolution> solverFactory;
 
-    private final OptimizerProperties optimizerProperties;
-
-    @Autowired
-    RouteOptimizerConfig(OptimizerProperties optimizerProperties) {
-        this.optimizerProperties = optimizerProperties;
+    RouteOptimizerConfig(SolverFactory<VehicleRoutingSolution> solverFactory) {
+        this.solverFactory = solverFactory;
     }
 
     @Bean
     Solver<VehicleRoutingSolution> solver() {
-        // Use context classloader to avoid ClassCastException during solution cloning:
-        // https://stackoverflow.com/questions/52586747/classcastexception-occured-on-solver-solve
-        // as recommended in
-        // CHECKSTYLE:OFF
-        // https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-devtools.html#using-boot-devtools-customizing-classload
-        // CHECKSTYLE:ON
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        SolverConfig solverConfig = SolverConfig.createFromXmlResource(SOLVER_CONFIG, classLoader);
-        Duration timeout = optimizerProperties.getTimeout();
-        solverConfig.setTerminationConfig(new TerminationConfig().withSecondsSpentLimit(timeout.getSeconds()));
-        solverConfig.setDaemon(true);
-        return SolverFactory.<VehicleRoutingSolution>create(solverConfig).buildSolver();
+        return solverFactory.buildSolver();
     }
 
     @Bean

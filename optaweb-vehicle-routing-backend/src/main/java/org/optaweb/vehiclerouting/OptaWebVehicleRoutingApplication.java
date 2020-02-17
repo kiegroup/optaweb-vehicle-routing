@@ -16,8 +16,9 @@
 
 package org.optaweb.vehiclerouting;
 
-import org.springframework.boot.SpringApplication;
+import org.optaweb.vehiclerouting.plugin.planner.Constants;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 @SpringBootApplication
@@ -25,6 +26,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class OptaWebVehicleRoutingApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OptaWebVehicleRoutingApplication.class, args);
+        new SpringApplicationBuilder(OptaWebVehicleRoutingApplication.class)
+                .properties("optaplanner.solver-config-xml=" + Constants.SOLVER_CONFIG)
+                .run(args);
     }
 }
