@@ -1,9 +1,12 @@
 git:
   depth: false
 language: java
-jdk:
-  - openjdk8
-  - openjdk11
+jobs:
+  include:
+    - jdk: openjdk8
+    - jdk: openjdk11
+      env:
+        - SONAR_SKIP=true
 cache:
   directories:
     - "$HOME/.m2/repository"
@@ -23,7 +26,7 @@ before_script:
 # do not install to avoid dirtying the cache
 script:
   - mvn clean install -Prun-code-coverage,integration-tests --show-version
-  - mvn sonar:sonar -Psonarcloud-analysis
+  - mvn sonar:sonar -Psonarcloud-analysis -Dsonar.skip=$SONAR_SKIP
   # check that git working tree is clean after running npm install via a frontend-maven-plugin
   # the git command returns 1 and fails the build if there are any uncommitted changes
   - git diff HEAD --exit-code
