@@ -1,0 +1,22 @@
+[id="proc-vrp-download_{context}"]
+
+= Download OptaWeb Vehicle Routing
+
+Download the  OptaWeb Vehicle Routing distribution archive, available from the OptaPlanner website, to quickly evaluate OptaWeb Vehicle Routing without having to set up build tools.
+
+.Prerequisites
+* Java 8 or higher is installed.
+
+// TODO cross-reference
+NOTE: If you want to modify OptaWeb Vehicle Routing and build it yourself or contribute to upstream, see the Development chapter.
+
+.Procedure
+. Go to https://www.optaplanner.org/download/download.html
+and click the *OptaWeb Vehicle Routing* tab.
+. Click *Download OptaWeb Vehicle Routing <version>.Final*.
++
+image::download.png[align="center"]
++
+. Extract the downloaded distribution ZIP file. The archive contains source files and a binary build of OptaWeb Vehicle Routing as well as the OptaWeb Vehicle Routing documentation.
++
+image::distribution.png[align="center"]

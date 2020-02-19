@@ -1,0 +1,31 @@
+[id="proc-vrp-create-dir_{context}"]
+
+= Create the OptaWeb Vehicle Routing data directory structure
+
+OptaWeb Vehicle Routing reads and writes several types of data on the file system. It reads OSM (OpenStreetMap) files from the `openstreetmap` directory, writes a road network graph to the `graphhopper` directory, and persists user data in a directory called `db`.
+Create a new directory dedicated to storing all of these data to make it easier to upgrade to a newer version of OptaWeb Vehicle Routing in the future and continue working with the data you created previously.
+
+.Procedure
+. Create the `openstreetmap` directory in your user account `home` directory, for example:
++
+[source]
+----
+$HOME/.vrp
+└── openstreetmap
+----
+
+. Move all of your downloaded OSM files (files with the extension `.osm.pbf`) to the `openstreetmap` directory.
+
+The rest of the directory structure will be created by the OptaWeb Vehicle Routing application when runs for the first time. After that, your directory structure will look similar to the following example:
+
+// TODO maybe replace this with a screenshot, doesn't look good in PDF.
+[source]
+----
+$HOME/.vrp
+├── db
+│   └── vrp.mv.db
+├── graphhopper
+│   └── belgium-latest
+└── openstreetmap
+    └── belgium-latest.osm.pbf
+----

@@ -1,0 +1,28 @@
+[id="proc-vrp-build_{context}"]
+
+= Building OptaWeb Vehicle Routing
+COMMENT: This seems incomplete or out of context. Flagging to review in the context of the entire guide.
+
+
+If you do not have an executable distribution of OptaWeb Vehicle Routing,
+for example you have just cloned the Git repository from `https://github.com/kiegroup/optaweb-vehicle-routing`, you must build OptaWeb Vehicle Routing before you can run it.
+
+.Prerequisites
+* You have cloned the OptaWeb Git repository.
+
+.Procedure
+. To build OptaWeb Vehicle Routing, change directory to the root of the project with the `mvnw` script file:
++
+[source,bash]
+----
+cd optaweb-vehicle-routing
+----
+
+. Build Maven:
++
+[source,bash]
+----
+./mvnw clean install -DskipTests
+----
+
+For more information about building OptaWeb Vehicle Routing, see the Development chapter.

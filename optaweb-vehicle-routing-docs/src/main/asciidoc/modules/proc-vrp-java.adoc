@@ -1,0 +1,22 @@
+[id="proc-vrp-java_{context}"]
+
+= Verify the Java version
+
+// TODO Java 11
+Java SE 8 or higher must be installed on your system before you can use OptaWeb Vehicle Routing. It is recommended that you install JDK. However, if you have a binary distribution of OptaWeb Vehicle Routing, you only need the Java SE Runtime Environment (JRE). But if you want to build OptaWeb Vehicle Routing from source, your system must have the Java SE Development Kit (JDK).
+
+.Procedure:
+. To verify the current Java installation, enter the following command:
++
+[source,shell]
+----
+java -version
+----
+. If necessary, install OpenJDK 8.
+* To install OpenJDK 8 on Fedora, enter the following command:
++
+[source,shell]
+----
+sudo dnf install java-1.8.0-openjdk-devel
+----
+COMMENT: For balance, we should include another installation example. What is the most common platform for Optaweb?

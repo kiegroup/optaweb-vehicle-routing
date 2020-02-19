@@ -1,0 +1,19 @@
+[id="proc-vrp-air-mode_{context}"]
+
+= Using air distance mode
+
+OptaWeb Vehicle Routing can work in air distance mode that calculates travel times based on the distance between two coordinates. Use this mode in situations where you need to get OptaWeb Vehicle Routing up and running as quickly as possible and do not want to use an OSM (OpenStreetMap) file. Air distance mode is only useful if you need to smoke-test OptaWeb Vehicle Routing and you do not need accurate travel times.
+
+.Prerequisites
+* Java 8 or higher is installed.
+* OptaWeb Vehicle Routing distribution archive is downloaded and extracted.
+
+.Procedure
+. Enter the `run.sh` script without arguments to start OptaWeb Vehicle Routing in air distance mode:
++
+[source,bash]
+----
+./bin/run.sh
+----
+
+. When prompted,  confirm that you want to start OptaWeb Vehicle Routing in air distance mode.

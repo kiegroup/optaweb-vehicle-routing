@@ -1,0 +1,27 @@
+[id="proc-vrp-run_{context}"]
+
+= Run OptaWeb Vehicle Routing
+After you download OptaWeb Vehicle Routing, use the `run.sh` script to run it.
+
+.Prerequisites
+* Internet access is available. When OptaWeb Vehicle Routing runs it uses third-party public services such as link:https://www.openstreetmap.org/about[OpenStreetMap]
+to display map tiles and provide search results.
+* Java 8 or higher is installed.
+* A data directory with at least one OSM file exists.
+* A country code to use in search queries is identified.
+
+
+.Procedure
+Enter the following command, where `<COUNTRY>` is the country that you downloaded data for and `<CODE>` is the code for that country:
+
+[source,bash]
+----
+./bin/run.sh ~/.vrp/ <COUNTRY>-latest.osm.pbf <CODE>
+----
+
+For example, if you want to run OptaWeb Vehicle Routing with Belgium and you  downloaded the `belgium-latest.osm.pbf` from the Geofabrik web site, enter the following command:
+
+[source,bash]
+----
+./bin/run.sh ~/.vrp/ belgium-latest.osm.pbf BE
+----
