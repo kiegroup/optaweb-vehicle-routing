@@ -97,10 +97,7 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
       <exclusions>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
+        <!-- Needed because kie-parent depends on hamcrest-core. -->
         <exclusion>
           <groupId>org.hamcrest</groupId>
           <artifactId>hamcrest</artifactId>
