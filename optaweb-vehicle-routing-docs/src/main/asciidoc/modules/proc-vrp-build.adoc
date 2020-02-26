@@ -1,9 +1,6 @@
 [id="proc-vrp-build_{context}"]
 
 = Building OptaWeb Vehicle Routing
-COMMENT: This seems incomplete or out of context. Flagging to review in the context of the entire guide.
-
-
 If you do not have an executable distribution of OptaWeb Vehicle Routing,
 for example you have just cloned the Git repository from `https://github.com/kiegroup/optaweb-vehicle-routing`, you must build OptaWeb Vehicle Routing before you can run it.
 

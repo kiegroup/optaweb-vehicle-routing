@@ -19,4 +19,4 @@ java -version
 ----
 sudo dnf install java-1.8.0-openjdk-devel
 ----
-COMMENT: For balance, we should include another installation example. What is the most common platform for Optaweb?
+// TODO For balance, we should include another installation example. What is the most common platform for Optaweb?
