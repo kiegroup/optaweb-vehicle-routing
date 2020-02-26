@@ -16,20 +16,22 @@
 
 package org.optaweb.vehiclerouting.plugin.routing;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.routing.util.FlagEncoderFactory;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.io.TempDir;
 
 class GraphHopperIntegrationTest {
 
     private static final String OSM_PBF = "planet_12.032,53.0171_12.1024,53.0491.osm.pbf";
 
     @Test
-    void graphhopper_should_import_and_load_osm_file_successfully(@TempDir Path tempDir) {
+    void graphhopper_should_import_and_load_osm_file_successfully() throws IOException {
+        Path tempDir = Files.createTempDirectory("test");
         Path graphhopperDir = tempDir.resolve("graphhopper");
         GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
         graphHopper.setGraphHopperLocation(graphhopperDir.toString());
