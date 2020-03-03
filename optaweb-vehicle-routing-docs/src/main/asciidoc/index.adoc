@@ -1,10 +1,14 @@
-= OptaWeb Vehicle Routing User Guide
+= Using OptaWeb Vehicle Routing
 The OptaPlanner Team <https://www.optaplanner.org/community/team.html>
 :doctype: book
 :sectanchors:
 :sectlinks:
 :sectnums:
 :toc: left
+
+[.normal]
+As a developer, you can use OptaWeb Vehicle Routing to optimize your vehicle fleet deliveries.
+In this guide, you will create and run a sample OptaWeb Vehicle Routing application.
 
 include::introduction.adoc[]
 

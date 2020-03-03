@@ -1,126 +1,172 @@
 == Quickstart
 
-=== Before you begin
+You can get up and running with OptaWeb Vehicle Routing in just a few steps.
 
-==== Internet access
+// TODO make this a prerequisite of build procedure
+//==== Internet access
+//
+//You need internet access when you build and run the application.
+//The application source code depends on Maven and NPM packages that will be downloaded during build.
+//When the application runs it uses third party, public services such as link:https://www.openstreetmap.org/about[OpenStreetMap]
+//to display map tiles and provide search results.
 
-You need internet access when you build and run the application.
-The application source code depends on Maven and NPM packages that will be downloaded during build.
-When the application runs it uses third party, public services such as link:https://www.openstreetmap.org/about[OpenStreetMap]
-to display map tiles and provide search results.
+=== Download routing data
 
-==== Routing data
+The routing engine requires geographical data to calculate the time it takes vehicles to travel between locations.
+You must download and store OSM (OpenStreetMap) data files on the local file system before you run OptaWeb Vehicle Routing.
 
-The routing engine needs geographical data to calculate the time it takes vehicles to travel between locations.
-The data need to be downloaded and stored on the local file system first.
-Choose a region, for example Massachusetts, Belgium or India, and download it from http://download.geofabrik.de/.
-The OSM data files are large, typically from 100 MB to 1 GB, and take some time to download so it is a good idea to begin with this step before building or starting the application.
+NOTE: The OSM data files are typically between 100 MB to 1 GB and take time to download so it is a good idea to download the files before building or starting the OptaWeb Vehicle Routing application.
 
-==== Data directory structure
+.Procedure
+. Open http://download.geofabrik.de/ in a web browser.
+. Click a region in the *Sub Region* list, for example *Europe*.
+The sub region's page opens.
+. In the *Sub Regions* table, download the OSM file (`.osm.pbf`) for a country, for example Belgium.
 
-The application reads and writes several types of data on the file system.
-It reads OSM files from the `openstreetmap` directory, writes a road network graph to the `graphhopper` directory and persists user data in a directory called `db`.
-We recommend to create a new directory that will be dedicated to storing all of these data.
-It'll make it easier for you to upgrade to a newer version of the application and continue working with the data you have created previously.
+=== Create the OptaWeb Vehicle Routing data directory structure
 
-Start by creating the `openstreetmap` directory somewhere in your user account's home directory. For example:
+OptaWeb Vehicle Routing reads and writes several types of data on the file system.
+It reads OSM (OpenStreetMap) files from the `openstreetmap` directory, writes a road network graph to the `graphhopper` directory, and persists user data in a directory called `db`.
+Create a new directory dedicated to storing all of these data to make it easier to upgrade to a newer version of OptaWeb Vehicle Routing in the future and continue working with the data you created previously.
 
+.Procedure
+. Create the `openstreetmap` directory in your user account `home` directory, for example:
++
 [source]
 ----
 $HOME/.vrp
 └── openstreetmap
 ----
 
-Move all your downloaded OSM files (`.osm.pbf`) to the `openstreetmap` directory.
-The rest of the directory structure will be created by the application when it is run for the first time.
-It may look like this:
+. Move all of your downloaded OSM files (files with the extension `.osm.pbf`) to the `openstreetmap` directory.
+
+The rest of the directory structure will be created by the OptaWeb Vehicle Routing application when it runs for the first time.
+After that, your directory structure will look similar to the following example:
 
 // TODO maybe replace this with a screenshot, doesn't look good in PDF.
 [source]
 ----
 $HOME/.vrp
 ├── db
-│   └── vrp.mv.db
+│   └── vrp.mv.db
 ├── graphhopper
-│   └── belgium-latest
+│   └── belgium-latest
 └── openstreetmap
     └── belgium-latest.osm.pbf
 ----
 
-==== Air distance mode
+=== Verify the Java version
 
-The application can work in a routing mode that calculates travel times based on air distance approximation.
-Use this mode in situations where you need to get the application up and running as quickly as possible.
-Air distance mode is only useful if you need to smoke-test the application and you don't need accurate travel times.
-
-==== Java
-
-Make sure you have Java SE 8 or higher installed on your system.
 // TODO Java 11
-If you have a binary distribution of the application, you only need the Java SE Runtime Environment (JRE).
-If you want to build the application from source, Java SE Development Kit (JDK) needs to by installed on your system.
-Installing JDK is recommended.
+Java SE 8 or higher must be installed on your system before you can use OptaWeb Vehicle Routing.
+It is recommended that you install JDK.
+However, if you have a binary distribution of OptaWeb Vehicle Routing, you only need the Java SE Runtime Environment (JRE).
+But if you want to build OptaWeb Vehicle Routing from source, your system must have the Java SE Development Kit (JDK).
 
-To install OpenJDK 8 on Fedora, run:
-
+.Procedure:
+. To verify the current Java installation, enter the following command:
++
+[source,shell]
+----
+java -version
+----
+. If necessary, install OpenJDK 8.
+* To install OpenJDK 8 on Fedora, enter the following command:
++
 [source,shell]
 ----
 sudo dnf install java-1.8.0-openjdk-devel
 ----
 
-=== Get the application
+=== Download OptaWeb Vehicle Routing
 
-If you don't have the application on your computer yet, download a distribution archive from OptaPlanner website.
-The distribution archive is a good way to quickly evaluate the application without having to set up build tools.
-Java is all you need.
+Download the OptaWeb Vehicle Routing distribution archive, available from the OptaPlanner website, to quickly evaluate OptaWeb Vehicle Routing without having to set up build tools.
+
+.Prerequisites
+* Java 8 or higher is installed.
+
 // TODO cross-reference
-If you want to modify the application and build it yourself or contribute back to upstream, head over to the Development chapter.
+NOTE: If you want to modify OptaWeb Vehicle Routing and build it yourself or contribute to upstream, see the Development chapter.
 
-To download the latest final release of OptaWeb Vehicle Routing, go to https://www.optaplanner.org/download/download.html
-and click *Download OptaWeb Vehicle Routing*.
-
+.Procedure
+. Go to https://www.optaplanner.org/download/download.html
+and click the *OptaWeb Vehicle Routing* tab.
+. Click *Download OptaWeb Vehicle Routing <version>*.
++
 image::download.png[align="center"]
-
-Unpack the downloaded distribution ZIP file.
-It contains both sources and binary build of the application and the complete documentation you are reading now.
-
++
+. Extract the downloaded distribution ZIP file. The archive contains source files and a binary build of OptaWeb Vehicle Routing as well as the OptaWeb Vehicle Routing documentation.
++
 image::distribution.png[align="center"]
 
-=== Run the application
+=== Run OptaWeb Vehicle Routing
 
-Use the `run.sh` script to run the application.
-It needs three arguments to run:
+After you download OptaWeb Vehicle Routing, use the `run.sh` script to run it.
 
-- the data directory,
-- the OSM file name to use,
-- a country code used to filter search queries.
+.Prerequisites
+* Internet access is available.
+When OptaWeb Vehicle Routing runs it uses third-party public services such as link:https://www.openstreetmap.org/about[OpenStreetMap] to display map tiles and provide search results.
+* Java 8 or higher is installed.
+* A data directory with at least one OSM file exists.
+* A country code to use in search queries is identified.
 
-Provided you want to start the application with Belgium and you have downloaded `belgium-latest.osm.pbf` from Geofabrik, use the run script like this:
+.Procedure
+Enter the following command, where `<COUNTRY>` is the country that you downloaded data for and `<CODE>` is the code for that country:
+
+[source,bash]
+----
+./bin/run.sh ~/.vrp/ <COUNTRY>-latest.osm.pbf <CODE>
+----
+
+For example, if you want to run OptaWeb Vehicle Routing with Belgium and you downloaded the `belgium-latest.osm.pbf` from the Geofabrik web site, enter the following command:
 
 [source,bash]
 ----
 ./bin/run.sh ~/.vrp/ belgium-latest.osm.pbf BE
 ----
 
-Alternatively, you can start in air distance mode by running the script without arguments and confirming the decision to start in air distance mode.
+=== Using air distance mode
 
-=== Build the application
+OptaWeb Vehicle Routing can work in air distance mode that calculates travel times based on the distance between two coordinates.
+Use this mode in situations where you need to get OptaWeb Vehicle Routing up and running as quickly as possible and do not want to use an OSM (OpenStreetMap) file.
+Air distance mode is only useful if you need to smoke-test OptaWeb Vehicle Routing and you do not need accurate travel times.
 
-If you don't have a runnable distribution of the application,
+.Prerequisites
+* Java 8 or higher is installed.
+* OptaWeb Vehicle Routing distribution archive is downloaded and extracted.
+
+.Procedure
+. Enter the `run.sh` script without arguments to start OptaWeb Vehicle Routing in air distance mode:
++
+[source,bash]
+----
+./bin/run.sh
+----
+
+. When prompted,  confirm that you want to start OptaWeb Vehicle Routing in air distance mode.
+
+=== Building OptaWeb Vehicle Routing
+
+If you do not have an executable distribution of OptaWeb Vehicle Routing,
 for example you have just cloned the Git repository from https://github.com/kiegroup/optaweb-vehicle-routing,
-you need to build the project before you can run the application.
-To build the application, change directory to the root of the project with the `mvnw` script file:
+you must build OptaWeb Vehicle Routing before you can run it.
 
+.Prerequisites
+* You have cloned the OptaWeb Git repository.
+
+.Procedure
+. To build OptaWeb Vehicle Routing, change directory to the root of the project with the `mvnw` script file:
++
 [source,bash]
 ----
 cd optaweb-vehicle-routing
 ----
 
-and run Maven build:
-
+. Build with Maven:
++
 [source,bash]
 ----
 ./mvnw clean install -DskipTests
 ----
 
-For more information on building the application, see Development chapter.
+For more information about building OptaWeb Vehicle Routing, see the Development chapter.
