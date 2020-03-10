@@ -77,8 +77,8 @@ case $# in
     if [[ $1 == --air ]]
     then
       dc_backend_env+=("APP_ROUTING_ENGINE=air")
-      summary="No routing config provided. The backend will start in air routing mode.\n\n\
-WARNING: Air mode doesn't give reliable values. \
+      summary="No routing config provided. The backend will start in air distance mode.\n\n\
+WARNING: Air distance mode doesn't give accurate values. \
 It's only useful for evaluation, debugging, or incremental setup purpose. \
 You can run ‘$script_name --help’ to see other options."
     else

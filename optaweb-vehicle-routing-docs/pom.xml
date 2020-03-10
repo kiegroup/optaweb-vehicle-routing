@@ -31,10 +31,6 @@
 
   <name>OptaWeb Vehicle Routing Documentation</name>
 
-  <properties>
-    <source.document.name>index.adoc</source.document.name>
-  </properties>
-
   <build>
     <plugins>
       <plugin>
@@ -42,6 +38,8 @@
         <artifactId>asciidoctor-maven-plugin</artifactId>
         <configuration>
           <imagesDir>.</imagesDir>
+          <!-- Needs to be overridden to avoid rendering each adoc separately. -->
+          <sourceDocumentName>index.adoc</sourceDocumentName>
           <attributes>
             <revnumber>${project.version}</revnumber>
           </attributes>
@@ -54,8 +52,6 @@
               <goal>process-asciidoc</goal>
             </goals>
             <configuration>
-              <!-- Needs to be duplicated to avoid rendering each adoc separately -->
-              <sourceDocumentName>${source.document.name}</sourceDocumentName>
               <backend>html5</backend>
               <sourceHighlighter>highlightjs</sourceHighlighter>
               <outputDirectory>${project.build.directory}/generated-docs/html_single</outputDirectory>
@@ -68,11 +64,10 @@
               <goal>process-asciidoc</goal>
             </goals>
             <configuration>
-              <!-- Needs to be duplicated to avoid rendering each adoc separately -->
-              <sourceDocumentName>${source.document.name}</sourceDocumentName>
               <backend>pdf</backend>
               <sourceHighlighter>coderay</sourceHighlighter><!-- highlightjs does not work in PDF -->
               <outputDirectory>${project.build.directory}/generated-docs/pdf</outputDirectory>
+              <outputFile>${project.artifactId}.pdf</outputFile>
             </configuration>
           </execution>
         </executions>

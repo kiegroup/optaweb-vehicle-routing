@@ -33,9 +33,8 @@
   </fileSets>
   <files>
     <file>
-      <source>${project.build.directory}/generated-docs/pdf/index.pdf</source>
+      <source>${project.build.directory}/generated-docs/pdf/optaweb-vehicle-routing-docs.pdf</source>
       <outputDirectory>pdf/</outputDirectory>
-      <destName>optaweb-vehicle-routing-docs.pdf</destName>
     </file>
   </files>
 </assembly>

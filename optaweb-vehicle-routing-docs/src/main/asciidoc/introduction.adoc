@@ -1,0 +1,15 @@
+== Introduction
+
+=== What is OptaWeb Vehicle Routing?
+
+The main purpose of many types of businesses is to transport various types of cargo.
+The goal of these businesses is to deliver a piece of cargo from the loading point to a destination and use its vehicle fleet in the most efficient way.
+This type of optimization problem is referred to as the https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html[vehicle routing problem] (VRP) and has many variations.
+
+https://www.optaplanner.org/[OptaPlanner] can solve many of these vehicle routing variations and provides solution examples.
+OptaPlanner enables developers to focus on modeling business rules and requirements instead of learning https://en.wikipedia.org/wiki/Constraint_programming[constraint programming] theory.
+OptaWeb Vehicle Routing expands OptaPlanner's vehicle routing capabilities by providing a reference implementation that answers questions such as these:
+
+* Where do I get the distances and travel times?
+* How do I visualize the solution on a map?
+* How do I build an application that runs in the cloud?
