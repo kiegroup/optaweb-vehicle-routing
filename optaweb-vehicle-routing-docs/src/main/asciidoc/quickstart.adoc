@@ -94,11 +94,13 @@ NOTE: If you want to modify OptaWeb Vehicle Routing and build it yourself or con
 and click the *OptaWeb Vehicle Routing* tab.
 . Click *Download OptaWeb Vehicle Routing <version>*.
 +
-image::download.png[align="center"]
+.OptaPlanner download page
+image::download.png[OptaPlanner download page at www.optaplanner.org,salign="center"]
 +
 . Extract the downloaded distribution ZIP file. The archive contains source files and a binary build of OptaWeb Vehicle Routing as well as the OptaWeb Vehicle Routing documentation.
 +
-image::distribution.png[align="center"]
+.Content of the OptaWeb Vehicle Routing distribution archive
+image::distribution.png[Content of the OptaWeb Vehicle Routing distribution archive,align="center"]
 
 === Run OptaWeb Vehicle Routing
 
