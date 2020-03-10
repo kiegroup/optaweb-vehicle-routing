@@ -77,6 +77,7 @@ java -version
 ----
 sudo dnf install java-1.8.0-openjdk-devel
 ----
+* To install OpenJDK on other platforms, follow instructions at https://openjdk.java.net/install/.
 
 === Download OptaWeb Vehicle Routing
 
