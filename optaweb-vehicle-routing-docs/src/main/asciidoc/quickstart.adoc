@@ -114,14 +114,14 @@ When OptaWeb Vehicle Routing runs it uses third-party public services such as li
 * A country code to use in search queries is identified.
 
 .Procedure
-Enter the following command, where `<DATA_DIR>` is the parent of the `openstreetmap` directory, `<COUNTRY>` is the country that you downloaded data for and `<CODE>` is the code for that country:
+Enter the following command, where `<DATA_DIR>` is the parent of the `openstreetmap` directory, `<COUNTRY>` is the country that you downloaded data for, and `<CODE>` is the code for that country:
 
 [source,bash]
 ----
 ./bin/run.sh <DATA_DIR> <COUNTRY>-latest.osm.pbf <CODE>
 ----
 
-For example, if you want to run OptaWeb Vehicle Routing with Belgium and you downloaded the `belgium-latest.osm.pbf` from the Geofabrik website and saved it as `~/.vrp/openstreetmap/belgium-latest.osm.pbf`, enter the following command:
+For example, if you want to run OptaWeb Vehicle Routing with Belgium and you downloaded the `belgium-latest.osm.pbf` file from the Geofabrik website and saved it as `~/.vrp/openstreetmap/belgium-latest.osm.pbf`, enter the following command:
 
 [source,bash]
 ----

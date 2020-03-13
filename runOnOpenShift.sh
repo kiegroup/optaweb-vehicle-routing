@@ -28,7 +28,7 @@ Note that download and processing of the OSM file can take some time depending o
 During this period, the application informs about backend service being unreachable."
   echo
   echo "Second form configures backend to use air routing mode. This is useful for development, debugging and \
-hacking. Air distance routing is only an approximation. It's not useful for real vehicle routing."
+hacking. Air distance routing is only an approximation. It is not useful for real vehicle routing."
   echo
   echo
   echo "OSM_FILE_NAME"
@@ -46,7 +46,7 @@ during backend startup and saved as /deployments/local/OSM_FILE_NAME."
   echo "  $script_name belgium-latest.osm.pbf BE http://download.geofabrik.de/europe/belgium-latest.osm.pbf"
   echo
   echo "  Configures the application to filter geosearch results to Belgium and download the latest Belgium \
-OSM extract from GeoFabrik."
+OSM extract from Geofabrik."
   echo
   echo
   echo "Example 2"
@@ -78,8 +78,8 @@ case $# in
     then
       dc_backend_env+=("APP_ROUTING_ENGINE=air")
       summary="No routing config provided. The backend will start in air distance mode.\n\n\
-WARNING: Air distance mode doesn't give accurate values. \
-It's only useful for evaluation, debugging, or incremental setup purpose. \
+WARNING: Air distance mode does not give accurate values. \
+It is only useful for evaluation, debugging, or incremental setup purpose. \
 You can run ‘$script_name --help’ to see other options."
     else
       wrong_args
