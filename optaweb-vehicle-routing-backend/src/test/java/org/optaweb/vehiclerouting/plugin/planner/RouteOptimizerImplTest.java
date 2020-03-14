@@ -27,8 +27,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
@@ -53,7 +51,6 @@ import static org.optaweb.vehiclerouting.domain.VehicleFactory.createVehicle;
 import static org.optaweb.vehiclerouting.domain.VehicleFactory.testVehicle;
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.WARN)
 class RouteOptimizerImplTest {
 
     private final Location location1 = new Location(1, Coordinates.valueOf(1.0, 0.1));

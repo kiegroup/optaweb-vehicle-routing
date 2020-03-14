@@ -26,13 +26,10 @@ import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.storage.GraphHopperStorage;
 import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.BBox;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 
@@ -42,7 +39,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.WARN)
 class GraphHopperRouterTest {
 
     private final PointList pointList = new PointList();
@@ -57,33 +53,35 @@ class GraphHopperRouterTest {
     @Mock
     private GraphHopperStorage graphHopperStorage;
 
-    @BeforeEach
-    void setUp() {
+    private void whenRouteReturnResponse() {
         when(graphHopper.route(any(GHRequest.class))).thenReturn(ghResponse);
+    }
+
+    private void whenBestReturnPath() {
         when(ghResponse.getBest()).thenReturn(pathWrapper);
-        when(pathWrapper.getPoints()).thenReturn(pointList);
     }
 
     @Test
     void travel_time_should_return_graphhopper_time() {
         // arrange
-        GraphHopperRouter routing = new GraphHopperRouter(graphHopper);
+        whenRouteReturnResponse();
+        whenBestReturnPath();
         long travelTimeMillis = 135 * 60 * 60 * 1000;
         when(pathWrapper.getTime()).thenReturn(travelTimeMillis);
 
         // act & assert
-        assertThat(routing.travelTimeMillis(from, to)).isEqualTo(travelTimeMillis);
+        assertThat(new GraphHopperRouter(graphHopper).travelTimeMillis(from, to)).isEqualTo(travelTimeMillis);
     }
 
     @Test
     void getDistance_should_throw_exception_when_no_route_exists() {
         // arrange
-        GraphHopperRouter routing = new GraphHopperRouter(graphHopper);
+        whenRouteReturnResponse();
         when(ghResponse.hasErrors()).thenReturn(true);
         when(ghResponse.getErrors()).thenReturn(Collections.singletonList(new RuntimeException()));
 
         // act & assert
-        assertThatThrownBy(() -> routing.travelTimeMillis(from, to))
+        assertThatThrownBy(() -> new GraphHopperRouter(graphHopper).travelTimeMillis(from, to))
                 .isNotInstanceOf(NullPointerException.class)
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("No route");
@@ -92,7 +90,9 @@ class GraphHopperRouterTest {
     @Test
     void getRoute_should_return_graphhopper_route() {
         // arrange
-        GraphHopperRouter routing = new GraphHopperRouter(graphHopper);
+        whenRouteReturnResponse();
+        whenBestReturnPath();
+        when(pathWrapper.getPoints()).thenReturn(pointList);
 
         Coordinates coordinates1 = Coordinates.valueOf(1, 1);
         Coordinates coordinates2 = Coordinates.valueOf(Math.E, Math.PI);
@@ -103,7 +103,7 @@ class GraphHopperRouterTest {
         pointList.add(coordinates3.latitude().doubleValue(), coordinates3.longitude().doubleValue());
 
         // act & assert
-        List<Coordinates> route = routing.getPath(from, to);
+        List<Coordinates> route = new GraphHopperRouter(graphHopper).getPath(from, to);
         assertThat(route).containsExactly(
                 coordinates1,
                 coordinates2,
@@ -121,8 +121,7 @@ class GraphHopperRouterTest {
         BBox bbox = new BBox(minLon_X, maxLon_X, minLat_Y, maxLat_Y);
         when(graphHopperStorage.getBounds()).thenReturn(bbox);
 
-        GraphHopperRouter routing = new GraphHopperRouter(graphHopper);
-        BoundingBox boundingBox = routing.getBounds();
+        BoundingBox boundingBox = new GraphHopperRouter(graphHopper).getBounds();
 
         assertThat(boundingBox.getSouthWest()).isEqualTo(Coordinates.valueOf(minLat_Y, minLon_X));
         assertThat(boundingBox.getNorthEast()).isEqualTo(Coordinates.valueOf(maxLat_Y, maxLon_X));

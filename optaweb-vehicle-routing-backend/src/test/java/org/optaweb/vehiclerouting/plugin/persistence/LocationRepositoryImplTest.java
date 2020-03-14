@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -28,47 +27,47 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.WARN)
 class LocationRepositoryImplTest {
 
     @Mock
     private LocationCrudRepository crudRepository;
     @InjectMocks
     private LocationRepositoryImpl repository;
-    @Mock
-    private LocationEntity locationEntity;
     @Captor
     private ArgumentCaptor<LocationEntity> locationEntityCaptor;
-    private Location testLocation;
 
-    @BeforeEach
-    void setUp() {
+    private Location testLocation() {
         final long id = 76;
         final BigDecimal latitude = BigDecimal.valueOf(1.2);
         final BigDecimal longitude = BigDecimal.valueOf(3.4);
         final String description = "description";
-        testLocation = new Location(id, new Coordinates(latitude, longitude), description);
-        when(locationEntity.getId()).thenReturn(id);
-        when(locationEntity.getLatitude()).thenReturn(latitude);
-        when(locationEntity.getLongitude()).thenReturn(longitude);
-        when(locationEntity.getDescription()).thenReturn(description);
+        return new Location(id, new Coordinates(latitude, longitude), description);
+    }
+
+    LocationEntity mockLocationEntity(Location location) {
+        LocationEntity locationEntity = mock(LocationEntity.class);
+        when(locationEntity.getId()).thenReturn(location.id());
+        when(locationEntity.getLatitude()).thenReturn(location.coordinates().latitude());
+        when(locationEntity.getLongitude()).thenReturn(location.coordinates().longitude());
+        when(locationEntity.getDescription()).thenReturn(location.description());
+        return locationEntity;
     }
 
     @Test
     void should_create_location_and_generate_id() {
         // arrange
+        LocationEntity locationEntity = mockLocationEntity(testLocation());
         when(crudRepository.save(locationEntityCaptor.capture())).thenReturn(locationEntity);
         Coordinates savedCoordinates = Coordinates.valueOf(0.00213, 32.777);
         String savedDescription = "new location";
@@ -95,6 +94,8 @@ class LocationRepositoryImplTest {
 
     @Test
     void remove_created_location_by_id() {
+        Location testLocation = testLocation();
+        LocationEntity locationEntity = mockLocationEntity(testLocation);
         final long id = testLocation.id();
         when(crudRepository.findById(id)).thenReturn(Optional.of(locationEntity));
 
@@ -122,12 +123,16 @@ class LocationRepositoryImplTest {
 
     @Test
     void get_all_locations() {
+        Location testLocation = testLocation();
+        LocationEntity locationEntity = mockLocationEntity(testLocation);
         when(crudRepository.findAll()).thenReturn(Collections.singletonList(locationEntity));
         assertThat(repository.locations()).containsExactly(testLocation);
     }
 
     @Test
     void find_by_id() {
+        Location testLocation = testLocation();
+        LocationEntity locationEntity = mockLocationEntity(testLocation);
         when(crudRepository.findById(testLocation.id())).thenReturn(Optional.of(locationEntity));
         assertThat(repository.find(testLocation.id())).contains(testLocation);
     }
