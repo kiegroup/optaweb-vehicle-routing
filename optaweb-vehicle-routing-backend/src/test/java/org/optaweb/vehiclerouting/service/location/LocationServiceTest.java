@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -73,7 +73,7 @@ class LocationServiceTest {
     void addLocation() {
         assertThat(locationService.addLocation(location)).isTrue();
 
-        verifyZeroInteractions(repository);
+        verifyNoInteractions(repository);
         verify(distanceMatrix).addLocation(location);
         verify(optimizer).addLocation(location, distanceMatrix);
     }
@@ -103,7 +103,7 @@ class LocationServiceTest {
         doThrow(RuntimeException.class).when(distanceMatrix).addLocation(location);
 
         assertThat(locationService.createLocation(coordinates, "")).isFalse();
-        verifyZeroInteractions(optimizer);
+        verifyNoInteractions(optimizer);
         // roll back
         verify(repository).removeLocation(location.id());
     }
