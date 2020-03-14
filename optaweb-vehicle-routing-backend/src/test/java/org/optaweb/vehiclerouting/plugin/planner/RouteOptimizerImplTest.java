@@ -47,7 +47,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.optaweb.vehiclerouting.domain.VehicleFactory.createVehicle;
 import static org.optaweb.vehiclerouting.domain.VehicleFactory.testVehicle;
@@ -85,7 +85,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, distanceMatrix);
 
         // assert
-        verifyZeroInteractions(solverManager);
+        verifyNoInteractions(solverManager);
         VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
         assertThat(solution.getVehicleList())
                 .extracting(AbstractPersistable::getId)
@@ -104,7 +104,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addVehicle(vehicle);
 
         // assert 1
-        verifyZeroInteractions(solverManager);
+        verifyNoInteractions(solverManager);
         VehicleRoutingSolution solutionWithOneVehicle = verifyPublishingPreliminarySolution();
         assertThat(solutionWithOneVehicle.getVehicleList())
                 .extracting(AbstractPersistable::getId)
@@ -117,7 +117,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.removeVehicle(vehicle);
 
         // assert 2
-        verifyZeroInteractions(solverManager);
+        verifyNoInteractions(solverManager);
         VehicleRoutingSolution emptySolution = verifyPublishingPreliminarySolution();
         assertThat(emptySolution.getVehicleList()).isEmpty();
         assertThat(emptySolution.getDepotList()).isEmpty();
@@ -186,7 +186,7 @@ class RouteOptimizerImplTest {
         // arrange
         routeOptimizer.addLocation(location1, distanceMatrix);
         routeOptimizer.addLocation(location2, distanceMatrix);
-        verifyZeroInteractions(solverManager);
+        verifyNoInteractions(solverManager);
 
         // act
         routeOptimizer.addVehicle(testVehicle(9));
@@ -250,7 +250,7 @@ class RouteOptimizerImplTest {
 
         // no interactions with solver (start/stop/problem fact changes) because
         // it hasn't started (due to missing vehicles)
-        verifyZeroInteractions(solverManager);
+        verifyNoInteractions(solverManager);
         // but preliminary solution is published
         VehicleRoutingSolution solution2 = verifyPublishingPreliminarySolution();
         assertThat(solution2.getVehicleList()).isEmpty();
@@ -458,7 +458,7 @@ class RouteOptimizerImplTest {
 
         // change capacity when solver is not running
         routeOptimizer.changeCapacity(createVehicle(vehicleId, "", newCapacity));
-        verifyZeroInteractions(solverManager);
+        verifyNoInteractions(solverManager);
         VehicleRoutingSolution preliminarySolution = verifyPublishingPreliminarySolution();
         assertThat(preliminarySolution.getVehicleList().get(0).getCapacity()).isEqualTo(newCapacity);
 

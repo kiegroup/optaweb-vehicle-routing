@@ -34,7 +34,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -109,8 +109,8 @@ class DistanceMatrixImplTest {
 
         // no calculation for the first location
         distanceMatrix.addLocation(l1);
-        verifyZeroInteractions(distanceCalculator);
-        verifyZeroInteractions(distanceRepository);
+        verifyNoInteractions(distanceCalculator);
+        verifyNoInteractions(distanceRepository);
 
         distanceMatrix.addLocation(l2);
 
@@ -132,8 +132,8 @@ class DistanceMatrixImplTest {
 
         // no calculation for the first location
         distanceMatrix.addLocation(l1);
-        verifyZeroInteractions(distanceCalculator);
-        verifyZeroInteractions(distanceRepository);
+        verifyNoInteractions(distanceCalculator);
+        verifyNoInteractions(distanceRepository);
 
         distanceMatrix.addLocation(l2);
 
@@ -144,7 +144,7 @@ class DistanceMatrixImplTest {
         // nothing to persist
         verify(distanceRepository, never()).saveDistance(any(Location.class), any(Location.class), anyDouble());
         // no calculation
-        verifyZeroInteractions(distanceCalculator);
+        verifyNoInteractions(distanceCalculator);
     }
 
     private static Location location(long id, int longitude) {
