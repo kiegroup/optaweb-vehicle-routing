@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -29,8 +28,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
@@ -47,7 +44,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.WARN)
 class DemoServiceTest {
 
     @Mock
@@ -69,21 +65,20 @@ class DemoServiceTest {
     private final String problemName = "Testing problem";
     private final RoutingProblem routingProblem = new RoutingProblem(problemName, depot, visits);
 
-    @BeforeEach
-    void setUp() {
-        when(locationService.createLocation(any(Coordinates.class), anyString())).thenReturn(true);
-        when(routingProblems.all()).thenReturn(Arrays.asList(routingProblem));
-        when(routingProblems.byName(problemName)).thenReturn(routingProblem);
-    }
-
     @Test
     void demos_should_return_routing_problems() {
+        // arrange
+        when(routingProblems.all()).thenReturn(Arrays.asList(routingProblem));
+        // act
         Collection<RoutingProblem> problems = demoService.demos();
+        // assert
         assertThat(problems).containsExactly(routingProblem);
     }
 
     @Test
     void loadDemo() {
+        when(routingProblems.byName(problemName)).thenReturn(routingProblem);
+        when(locationService.createLocation(any(Coordinates.class), anyString())).thenReturn(true);
         demoService.loadDemo(problemName);
         verify(locationService, times(routingProblem.visits().size() + 1))
                 .createLocation(any(Coordinates.class), anyString());
@@ -91,6 +86,7 @@ class DemoServiceTest {
 
     @Test
     void retry_when_adding_location_fails() {
+        when(routingProblems.byName(problemName)).thenReturn(routingProblem);
         when(locationService.createLocation(any(Coordinates.class), anyString())).thenReturn(false);
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> demoService.loadDemo(problemName))

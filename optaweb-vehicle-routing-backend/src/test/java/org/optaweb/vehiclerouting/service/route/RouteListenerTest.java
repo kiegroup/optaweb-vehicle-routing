@@ -27,8 +27,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
@@ -48,7 +46,6 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.WARN)
 class RouteListenerTest {
 
     @Mock
@@ -211,7 +208,6 @@ class RouteListenerTest {
         final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
         when(vehicleRepository.find(vehicle.id())).thenReturn(Optional.empty());
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
-        when(locationRepository.find(visit.id())).thenReturn(Optional.of(visit));
 
         ShallowRoute route = new ShallowRoute(vehicle.id(), depot.id(), singletonList(visit.id()));
         RouteChangedEvent event = new RouteChangedEvent(
