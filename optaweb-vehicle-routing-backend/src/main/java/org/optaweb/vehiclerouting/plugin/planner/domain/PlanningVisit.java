@@ -20,11 +20,10 @@ import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.AnchorShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableGraphType;
-import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 import org.optaweb.vehiclerouting.plugin.planner.weight.DepotAngleCustomerDifficultyWeightFactory;
 
 @PlanningEntity(difficultyWeightFactoryClass = DepotAngleCustomerDifficultyWeightFactory.class)
-public class PlanningVisit extends AbstractPersistable implements Standstill {
+public class PlanningVisit extends AbstractPlanningObject implements Standstill {
 
     protected PlanningLocation location;
     protected int demand;

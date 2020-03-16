@@ -20,12 +20,8 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 
-/**
- * A unique location significant to the user.
- */
-public class PlanningLocation extends AbstractPersistable {
+public class PlanningLocation extends AbstractPlanningObject {
 
     private BigDecimal latitude;
     private BigDecimal longitude;

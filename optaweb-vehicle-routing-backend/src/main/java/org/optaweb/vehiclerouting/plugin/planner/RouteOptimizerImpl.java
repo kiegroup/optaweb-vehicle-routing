@@ -84,16 +84,16 @@ class RouteOptimizerImpl implements RouteOptimizer {
                         "Cannot remove " + domainLocation + " because there are no locations"
                 );
             }
-            if (!depot.getId().equals(domainLocation.id())) {
+            if (depot.getId() != domainLocation.id()) {
                 throw new IllegalArgumentException("Cannot remove " + domainLocation + " because it doesn't exist");
             }
             depot = null;
             publishSolution();
         } else {
-            if (depot.getId().equals(domainLocation.id())) {
+            if (depot.getId() == domainLocation.id()) {
                 throw new IllegalStateException("You can only remove depot if there are no visits");
             }
-            if (!visits.removeIf(item -> item.getId().equals(domainLocation.id()))) {
+            if (!visits.removeIf(item -> item.getId() == domainLocation.id())) {
                 throw new IllegalArgumentException("Cannot remove " + domainLocation + " because it doesn't exist");
             }
             if (vehicles.isEmpty()) { // solver is not running
@@ -123,7 +123,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
 
     @Override
     public void removeVehicle(Vehicle domainVehicle) {
-        if (!vehicles.removeIf(vehicle -> vehicle.getId().equals(domainVehicle.id()))) {
+        if (!vehicles.removeIf(vehicle -> vehicle.getId() == domainVehicle.id())) {
             throw new IllegalArgumentException("Cannot remove " + domainVehicle + " because it doesn't exist");
         }
         if (visits.isEmpty()) { // solver is not running
@@ -139,7 +139,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
     @Override
     public void changeCapacity(Vehicle domainVehicle) {
         PlanningVehicle vehicle = vehicles.stream()
-                .filter(item -> item.getId().equals(domainVehicle.id()))
+                .filter(item -> item.getId() == domainVehicle.id())
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Cannot change capacity of " + domainVehicle + " because it doesn't exist"
