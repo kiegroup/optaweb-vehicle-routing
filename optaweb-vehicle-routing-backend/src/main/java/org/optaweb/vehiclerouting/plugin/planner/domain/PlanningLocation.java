@@ -25,7 +25,6 @@ public class PlanningLocation extends AbstractPlanningObject {
 
     private BigDecimal latitude;
     private BigDecimal longitude;
-    private String description;
 
     public PlanningLocation() {
     }
@@ -41,7 +40,6 @@ public class PlanningLocation extends AbstractPlanningObject {
             latitude = location.coordinates().latitude();
             longitude = location.coordinates().longitude();
         }
-        description = location.description();
         id = location.id();
     }
 
@@ -62,14 +60,6 @@ public class PlanningLocation extends AbstractPlanningObject {
 
     public void setLongitude(BigDecimal longitude) {
         this.longitude = longitude;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public void setTravelDistanceMap(Map<PlanningLocation, Double> travelDistanceMap) {
@@ -107,7 +97,6 @@ public class PlanningLocation extends AbstractPlanningObject {
         return "PlanningLocation{" +
                 "latitude=" + latitude +
                 ",longitude=" + longitude +
-                ",description='" + description + '\'' +
                 ",travelDistanceMap=" + travelDistanceMap +
                 ",id=" + id +
                 '}';
