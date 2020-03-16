@@ -71,7 +71,9 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
         // TODO persist the best solution
         Location depot = event.depotId().flatMap(locationRepository::find).orElse(null);
         try {
-            // TODO do this without try-catch
+            // TODO Introduce problem revision (every modification increases revision number, event will only
+            //  be published if revision numbers match) to avoid looking for missing/extra vehicles/visits.
+            //  This will also make it possible to get rid of the try-catch approach.
             Map<Long, Vehicle> vehicleMap = event.vehicleIds().stream()
                     .collect(Collectors.toMap(vehicleId -> vehicleId, this::findVehicleById));
             Map<Long, Location> visitMap = event.visitIds().stream()
