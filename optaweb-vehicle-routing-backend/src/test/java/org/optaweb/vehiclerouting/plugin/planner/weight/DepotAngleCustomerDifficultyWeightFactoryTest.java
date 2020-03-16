@@ -22,10 +22,8 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
-import org.optaweb.vehiclerouting.plugin.planner.domain.Standstill;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -56,94 +54,13 @@ class DepotAngleCustomerDifficultyWeightFactoryTest {
 
     @Test
     void createSorterWeight_close_customer_should_have_smaller_weight() {
-        VehicleRoutingSolution solution = createSolution(location1, location2, location3);
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
+        solution.getDepotList().add(new PlanningDepot(location1));
         DepotAngleCustomerDifficultyWeightFactory weightFactory = new DepotAngleCustomerDifficultyWeightFactory();
         DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight closeCustomerWeight =
-                weightFactory.createSorterWeight(solution, solution.getVisitList().get(0));
+                weightFactory.createSorterWeight(solution, PlanningVisitFactory.visit(location2));
         DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight farCustomerWeight =
-                weightFactory.createSorterWeight(solution, solution.getVisitList().get(1));
+                weightFactory.createSorterWeight(solution, PlanningVisitFactory.visit(location3));
         assertThat(closeCustomerWeight).isLessThan(farCustomerWeight);
-    }
-
-    /**
-     * Create a solution with 1 vehicle with depot being the first location and visiting all customers specified by
-     * the rest of locations.
-     * @param locations depot and visit locations
-     * @return initialized solution
-     */
-    private static VehicleRoutingSolution createSolution(PlanningLocation... locations) {
-        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
-
-        PlanningDepot depot = addDepot(solution, locations[0]);
-        addVehicle(solution, 1);
-        moveAllVehiclesTo(solution, depot);
-
-        // create customers
-        for (int i = 1; i < locations.length; i++) {
-            addVisit(solution, locations[i]);
-        }
-        // visit all customers
-        Standstill previousStandstill = solution.getVehicleList().get(0);
-        for (PlanningVisit visit : solution.getVisitList()) {
-            visit.setPreviousStandstill(previousStandstill);
-            previousStandstill.setNextVisit(visit);
-            previousStandstill = visit;
-            visit.setVehicle(solution.getVehicleList().get(0));
-        }
-        return solution;
-    }
-
-    /**
-     * Add depot.
-     * @param solution solution
-     * @param location depot's location
-     * @return the new depot
-     */
-    private static PlanningDepot addDepot(VehicleRoutingSolution solution, PlanningLocation location) {
-        PlanningDepot depot = new PlanningDepot();
-        depot.setId(location.getId());
-        depot.setLocation(location);
-        solution.getDepotList().add(depot);
-        solution.getLocationList().add(location);
-        return depot;
-    }
-
-    /**
-     * Add customer with demand.
-     * @param solution solution
-     * @param location customer's location
-     */
-    private static void addVisit(VehicleRoutingSolution solution, PlanningLocation location) {
-        PlanningVisit visit = new PlanningVisit();
-        visit.setId(location.getId());
-        visit.setLocation(location);
-        visit.setDemand(1);
-        solution.getVisitList().add(visit);
-        solution.getLocationList().add(location);
-    }
-
-    /**
-     * Add vehicle with zero capacity.
-     * @param solution solution
-     * @param id vehicle id
-     */
-    private static void addVehicle(VehicleRoutingSolution solution, long id) {
-        addVehicle(solution, id, 0);
-    }
-
-    private static void addVehicle(VehicleRoutingSolution solution, long id, int capacity) {
-        PlanningVehicle vehicle = new PlanningVehicle();
-        vehicle.setId(id);
-        vehicle.setCapacity(capacity);
-        solution.getVehicleList().add(vehicle);
-    }
-
-    /**
-     * Move all vehicles to the specified depot.
-     * @param solution solution
-     * @param depot new vehicles' depot. May be null.
-     */
-    static void moveAllVehiclesTo(VehicleRoutingSolution solution, PlanningDepot depot) {
-        solution.getVehicleList().forEach(vehicle -> vehicle.setDepot(depot));
     }
 }
