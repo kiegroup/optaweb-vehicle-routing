@@ -19,8 +19,6 @@ package org.optaweb.vehiclerouting.plugin.planner.domain;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import org.optaweb.vehiclerouting.domain.Location;
-
 public class PlanningLocation extends AbstractPlanningObject {
 
     private BigDecimal latitude;
@@ -33,14 +31,6 @@ public class PlanningLocation extends AbstractPlanningObject {
         super(id);
         this.latitude = BigDecimal.valueOf(latitude);
         this.longitude = BigDecimal.valueOf(longitude);
-    }
-
-    public PlanningLocation(Location location) {
-        if (location.coordinates() != null) {
-            latitude = location.coordinates().latitude();
-            longitude = location.coordinates().longitude();
-        }
-        id = location.id();
     }
 
     // Prefer Map over array or List because customers might be added and removed in real-time planning.

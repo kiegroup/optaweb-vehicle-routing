@@ -23,6 +23,7 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
@@ -53,11 +54,8 @@ class RouteOptimizerImpl implements RouteOptimizer {
     }
 
     @Override
-    public void addLocation(
-            Location domainLocation,
-            DistanceMatrix distanceMatrix
-    ) {
-        PlanningLocation location = new PlanningLocation(domainLocation);
+    public void addLocation(Location domainLocation, DistanceMatrix distanceMatrix) {
+        PlanningLocation location = PlanningLocationFactory.fromDomain(domainLocation);
         DistanceMap distanceMap = new DistanceMap(location, distanceMatrix.getRow(domainLocation));
         location.setTravelDistanceMap(distanceMap);
         // Unfortunately can't start solver with an empty solution (see https://issues.redhat.com/browse/PLANNER-776)
@@ -102,7 +100,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
                 solverManager.stopSolver();
                 publishSolution();
             } else {
-                solverManager.removeLocation(new PlanningLocation(domainLocation));
+                solverManager.removeLocation(PlanningLocationFactory.fromDomain(domainLocation));
             }
         }
     }

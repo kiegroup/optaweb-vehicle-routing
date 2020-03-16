@@ -49,6 +49,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 import static org.optaweb.vehiclerouting.domain.VehicleFactory.createVehicle;
 import static org.optaweb.vehiclerouting.domain.VehicleFactory.testVehicle;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.fromDomain;
 
 @ExtendWith(MockitoExtension.class)
 class RouteOptimizerImplTest {
@@ -205,7 +206,7 @@ class RouteOptimizerImplTest {
         verify(distanceMatrix).getRow(location1);
         VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
         assertThat(solution.getDepotList()).hasSize(1);
-        assertThat(solution.getDepotList().get(0).getLocation().getDistanceTo(new PlanningLocation(location2)))
+        assertThat(solution.getDepotList().get(0).getLocation().getDistanceTo(fromDomain(location2)))
                 .isEqualTo(8);
         //FIXME should be: .isEqualTo(distance);
     }
