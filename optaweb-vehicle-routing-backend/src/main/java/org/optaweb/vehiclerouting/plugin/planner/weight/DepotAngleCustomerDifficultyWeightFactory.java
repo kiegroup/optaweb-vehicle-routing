@@ -63,5 +63,14 @@ public class DepotAngleCustomerDifficultyWeightFactory
                     .append(this.customer.getId(), other.customer.getId())
                     .toComparison();
         }
+
+        @Override
+        public String toString() {
+            return "DepotAngleCustomerDifficultyWeight{" +
+                    "customer=" + customer +
+                    ", depotAngle=" + depotAngle +
+                    ", depotRoundTripDistance=" + depotRoundTripDistance +
+                    '}';
+        }
     }
 }
