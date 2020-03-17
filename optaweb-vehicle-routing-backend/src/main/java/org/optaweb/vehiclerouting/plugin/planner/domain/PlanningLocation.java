@@ -77,8 +77,8 @@ public class PlanningLocation extends AbstractPlanningObject {
      */
     public double getAngle(PlanningLocation location) {
         // Euclidean distance (Pythagorean theorem) - not correct when the surface is a sphere
-        double latitudeDifference = latitude.subtract(latitude).longValue();
-        double longitudeDifference = longitude.subtract(longitude).longValue();
+        double latitudeDifference = location.latitude.subtract(latitude).doubleValue();
+        double longitudeDifference = location.longitude.subtract(longitude).doubleValue();
         return Math.atan2(latitudeDifference, longitudeDifference);
     }
 
