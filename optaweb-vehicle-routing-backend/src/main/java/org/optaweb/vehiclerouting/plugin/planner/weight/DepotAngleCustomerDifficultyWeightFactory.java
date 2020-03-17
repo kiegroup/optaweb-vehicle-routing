@@ -39,7 +39,7 @@ public class DepotAngleCustomerDifficultyWeightFactory
         );
     }
 
-    public static class DepotAngleCustomerDifficultyWeight implements Comparable<DepotAngleCustomerDifficultyWeight> {
+    static class DepotAngleCustomerDifficultyWeight implements Comparable<DepotAngleCustomerDifficultyWeight> {
 
         private final PlanningVisit customer;
         private final double depotAngle;
