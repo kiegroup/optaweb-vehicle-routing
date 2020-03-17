@@ -16,32 +16,31 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 public class PlanningLocation extends AbstractPlanningObject {
 
     // Only used to calculate angle.
-    private BigDecimal latitude;
-    private BigDecimal longitude;
+    private double latitude;
+    private double longitude;
 
     public PlanningLocation() {
     }
 
     public PlanningLocation(long id, double latitude, double longitude) {
         super(id);
-        this.latitude = BigDecimal.valueOf(latitude);
-        this.longitude = BigDecimal.valueOf(longitude);
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     // Prefer Map over array or List because customers might be added and removed in real-time planning.
     private Map<PlanningLocation, Double> travelDistanceMap;
 
-    BigDecimal getLatitude() {
+    double getLatitude() {
         return latitude;
     }
 
-    BigDecimal getLongitude() {
+    double getLongitude() {
         return longitude;
     }
 
@@ -70,8 +69,8 @@ public class PlanningLocation extends AbstractPlanningObject {
      */
     public double getAngle(PlanningLocation location) {
         // Euclidean distance (Pythagorean theorem) - not correct when the surface is a sphere
-        double latitudeDifference = location.latitude.subtract(latitude).doubleValue();
-        double longitudeDifference = location.longitude.subtract(longitude).doubleValue();
+        double latitudeDifference = location.latitude - latitude;
+        double longitudeDifference = location.longitude - longitude;
         return Math.atan2(latitudeDifference, longitudeDifference);
     }
 

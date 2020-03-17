@@ -16,8 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import java.math.BigDecimal;
-
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
@@ -29,9 +27,9 @@ class PlanningLocationFactoryTest {
     @Test
     void planning_location_should_have_same_properties_as_domain_location() {
         long id = 344;
-        BigDecimal latitude = BigDecimal.valueOf(-20.5);
-        BigDecimal longitude = BigDecimal.valueOf(11.7);
-        Location location = new Location(id, new Coordinates(latitude, longitude));
+        double latitude = -20.5;
+        double longitude = 11.7;
+        Location location = new Location(id, Coordinates.valueOf(latitude, longitude));
         PlanningLocation planningLocation = PlanningLocationFactory.fromDomain(location);
         assertThat(planningLocation.getId()).isEqualTo(id);
         assertThat(planningLocation.getLatitude()).isEqualTo(latitude);
