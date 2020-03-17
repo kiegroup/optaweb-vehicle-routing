@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.plugin.planner;
 
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
+import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,15 +31,17 @@ import org.springframework.core.task.SimpleAsyncTaskExecutor;
 @Configuration
 class RouteOptimizerConfig {
 
-    private final SolverFactory<VehicleRoutingSolution> solverFactory;
+    // Can be changed to SolverFactory if https://issues.redhat.com/browse/PLANNER-1907 is implemented.
+    private final SolverConfig solverConfig;
 
-    RouteOptimizerConfig(SolverFactory<VehicleRoutingSolution> solverFactory) {
-        this.solverFactory = solverFactory;
+    RouteOptimizerConfig(SolverConfig solverConfig) {
+        this.solverConfig = solverConfig;
     }
 
     @Bean
     Solver<VehicleRoutingSolution> solver() {
-        return solverFactory.buildSolver();
+        solverConfig.setDaemon(true);
+        return SolverFactory.<VehicleRoutingSolution>create(solverConfig).buildSolver();
     }
 
     @Bean
