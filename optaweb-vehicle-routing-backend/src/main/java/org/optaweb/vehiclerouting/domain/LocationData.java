@@ -28,15 +28,28 @@ public class LocationData {
     private final Coordinates coordinates;
     private final String description;
 
+    /**
+     * Create location data.
+     * @param coordinates never {@code null}
+     * @param description never {@code null}
+     */
     public LocationData(Coordinates coordinates, String description) {
         this.coordinates = Objects.requireNonNull(coordinates);
         this.description = Objects.requireNonNull(description);
     }
 
+    /**
+     * Location coordinates.
+     * @return coordinates (never {@code null})
+     */
     public Coordinates coordinates() {
         return coordinates;
     }
 
+    /**
+     * Location description.
+     * @return description (never {@code null})
+     */
     public String description() {
         return description;
     }
