@@ -28,11 +28,11 @@ public class PlanningLocationFactory {
     }
 
     public static PlanningLocation fromDomain(Location location) {
-        PlanningLocation planningLocation = new PlanningLocation();
-        planningLocation.setId(location.id());
-        planningLocation.setLatitude(location.coordinates().latitude());
-        planningLocation.setLongitude(location.coordinates().longitude());
         // TODO set distance map
-        return planningLocation;
+        return new PlanningLocation(
+                location.id(),
+                location.coordinates().latitude().doubleValue(),
+                location.coordinates().longitude().doubleValue()
+        );
     }
 }

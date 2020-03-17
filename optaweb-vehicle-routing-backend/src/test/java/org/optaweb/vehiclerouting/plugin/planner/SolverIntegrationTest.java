@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -158,11 +157,8 @@ class SolverIntegrationTest {
     }
 
     private PlanningLocation location(long id) {
-        PlanningLocation location = new PlanningLocation();
-        location.setId(id);
+        PlanningLocation location = new PlanningLocation(id, 0, 0);
         location.setTravelDistanceMap(distanceMap);
-        location.setLatitude(BigDecimal.ZERO);
-        location.setLongitude(BigDecimal.ZERO);
         return location;
     }
 

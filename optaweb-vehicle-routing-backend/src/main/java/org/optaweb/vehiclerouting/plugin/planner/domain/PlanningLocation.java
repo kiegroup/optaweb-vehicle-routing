@@ -21,6 +21,7 @@ import java.util.Map;
 
 public class PlanningLocation extends AbstractPlanningObject {
 
+    // Only used to calculate angle.
     private BigDecimal latitude;
     private BigDecimal longitude;
 
@@ -36,20 +37,12 @@ public class PlanningLocation extends AbstractPlanningObject {
     // Prefer Map over array or List because customers might be added and removed in real-time planning.
     private Map<PlanningLocation, Double> travelDistanceMap;
 
-    public BigDecimal getLatitude() {
+    BigDecimal getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
-    }
-
-    public BigDecimal getLongitude() {
+    BigDecimal getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
     }
 
     public void setTravelDistanceMap(Map<PlanningLocation, Double> travelDistanceMap) {
