@@ -26,12 +26,12 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
-import org.optaweb.vehiclerouting.plugin.planner.weight.DepotAngleCustomerDifficultyWeightFactory.DepotAngleCustomerDifficultyWeight;
+import org.optaweb.vehiclerouting.plugin.planner.weight.DepotAngleVisitDifficultyWeightFactory.DepotAngleVisitDifficultyWeight;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.visit;
 
-class DepotAngleCustomerDifficultyWeightFactoryTest {
+class DepotAngleVisitDifficultyWeightFactoryTest {
 
     private final double depotY = 3.0;
     private final double depotX = -50.0;
@@ -39,10 +39,9 @@ class DepotAngleCustomerDifficultyWeightFactoryTest {
     private final PlanningLocation depot = new PlanningLocation(0, depotY, depotX);
     private final Map<PlanningLocation, Double> depotDistanceMap = new HashMap<>();
     private final VehicleRoutingSolution solution = SolutionFactory.emptySolution();
-    private final DepotAngleCustomerDifficultyWeightFactory weightFactory
-            = new DepotAngleCustomerDifficultyWeightFactory();
+    private final DepotAngleVisitDifficultyWeightFactory weightFactory = new DepotAngleVisitDifficultyWeightFactory();
 
-    DepotAngleCustomerDifficultyWeightFactoryTest() {
+    DepotAngleVisitDifficultyWeightFactoryTest() {
         solution.getDepotList().add(new PlanningDepot(depot));
         depot.setTravelDistanceMap(depotDistanceMap);
     }
@@ -58,7 +57,7 @@ class DepotAngleCustomerDifficultyWeightFactoryTest {
         location.setTravelDistanceMap(travelMap);
     }
 
-    private DepotAngleCustomerDifficultyWeight weight(PlanningLocation location) {
+    private DepotAngleVisitDifficultyWeight weight(PlanningLocation location) {
         return weightFactory.createSorterWeight(solution, visit(location));
     }
 
