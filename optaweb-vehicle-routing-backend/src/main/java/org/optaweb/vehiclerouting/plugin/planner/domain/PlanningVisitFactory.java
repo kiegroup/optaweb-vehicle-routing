@@ -32,7 +32,7 @@ public class PlanningVisitFactory {
      * @param location visit's location
      * @return new visit with the default demand
      */
-    public static PlanningVisit visit(PlanningLocation location) {
+    public static PlanningVisit fromLocation(PlanningLocation location) {
         PlanningVisit visit = new PlanningVisit();
         visit.setId(location.getId());
         visit.setLocation(location);

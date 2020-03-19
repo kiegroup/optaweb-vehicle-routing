@@ -27,7 +27,7 @@ class PlanningVisitFactoryTest {
         long id = 4;
         PlanningLocation location = new PlanningLocation(id, 1.0, 2.0f);
 
-        PlanningVisit visit = PlanningVisitFactory.visit(location);
+        PlanningVisit visit = PlanningVisitFactory.fromLocation(location);
 
         assertThat(visit.getId()).isEqualTo(location.getId());
         assertThat(visit.getLocation()).isEqualTo(location);

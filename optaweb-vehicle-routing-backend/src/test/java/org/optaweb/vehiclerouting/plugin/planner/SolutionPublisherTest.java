@@ -37,8 +37,8 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory.vehicle;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.visit;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory.testVehicle;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromLocations;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
 
@@ -72,7 +72,7 @@ class SolutionPublisherTest {
     @Test
     void solution_with_vehicles_and_no_depot_should_have_zero_routes() {
         long vehicleId = 1;
-        PlanningVehicle vehicle = vehicle(vehicleId);
+        PlanningVehicle vehicle = testVehicle(vehicleId);
         VehicleRoutingSolution solution = solutionFromVisits(singletonList(vehicle), null, emptyList());
 
         RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
@@ -108,15 +108,15 @@ class SolutionPublisherTest {
         // arrange
         long vehicleId1 = 1001;
         long vehicleId2 = 2001;
-        PlanningVehicle vehicle1 = vehicle(vehicleId1);
-        PlanningVehicle vehicle2 = vehicle(vehicleId2);
+        PlanningVehicle vehicle1 = testVehicle(vehicleId1);
+        PlanningVehicle vehicle2 = testVehicle(vehicleId2);
 
         long depotId = 1;
         long visitId1 = 2;
         long visitId2 = 3;
         PlanningDepot depot = new PlanningDepot(new PlanningLocation(depotId, 1.0, 1.0));
-        PlanningVisit visit1 = visit(new PlanningLocation(visitId1, 2.0, 2.0));
-        PlanningVisit visit2 = visit(new PlanningLocation(visitId2, 0.2, 0.2));
+        PlanningVisit visit1 = fromLocation(new PlanningLocation(visitId1, 2.0, 2.0));
+        PlanningVisit visit2 = fromLocation(new PlanningLocation(visitId2, 0.2, 0.2));
 
         VehicleRoutingSolution solution = solutionFromVisits(
                 asList(vehicle1, vehicle2),
@@ -160,8 +160,8 @@ class SolutionPublisherTest {
 
     @Test
     void fail_fast_if_vehicles_next_visit_doesnt_exist() {
-        PlanningVehicle vehicle = vehicle(1);
-        vehicle.setNextVisit(visit(new PlanningLocation(2, 2.0, 2.0)));
+        PlanningVehicle vehicle = testVehicle(1);
+        vehicle.setNextVisit(fromLocation(new PlanningLocation(2, 2.0, 2.0)));
 
         VehicleRoutingSolution solution = solutionFromLocations(
                 singletonList(vehicle),
@@ -177,7 +177,7 @@ class SolutionPublisherTest {
     @Test
     void vehicle_without_a_depot_is_illegal_if_depot_exists() {
         PlanningDepot depot = new PlanningDepot(new PlanningLocation(1, 1.0, 1.0));
-        PlanningVehicle vehicle = vehicle(1);
+        PlanningVehicle vehicle = testVehicle(1);
         VehicleRoutingSolution solution = solutionFromVisits(singletonList(vehicle), depot, emptyList());
         vehicle.setDepot(null);
         assertThatIllegalArgumentException()

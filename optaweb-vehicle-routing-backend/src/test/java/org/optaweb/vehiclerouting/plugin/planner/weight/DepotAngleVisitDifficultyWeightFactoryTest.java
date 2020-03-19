@@ -24,12 +24,12 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.weight.DepotAngleVisitDifficultyWeightFactory.DepotAngleVisitDifficultyWeight;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.visit;
 
 class DepotAngleVisitDifficultyWeightFactoryTest {
 
@@ -58,7 +58,7 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
     }
 
     private DepotAngleVisitDifficultyWeight weight(PlanningLocation location) {
-        return weightFactory.createSorterWeight(solution, visit(location));
+        return weightFactory.createSorterWeight(solution, PlanningVisitFactory.fromLocation(location));
     }
 
     @Test
