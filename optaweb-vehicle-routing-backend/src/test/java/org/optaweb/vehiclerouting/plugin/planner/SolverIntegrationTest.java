@@ -147,7 +147,7 @@ class SolverIntegrationTest {
 
     private PlanningLocation location(long id) {
         PlanningLocation location = new PlanningLocation(id, 0, 0);
-        location.setTravelDistanceMap(anyLocation -> 1.0);
+        location.setTravelDistanceMap(anyLocation -> 1);
         return location;
     }
 

@@ -26,7 +26,7 @@ class DistanceEntityTest {
     @Test
     void constructor_params_must_not_be_null() {
         DistanceKey dKey = new DistanceKey(1, 2);
-        assertThatNullPointerException().isThrownBy(() -> new DistanceEntity(null, 10.0));
+        assertThatNullPointerException().isThrownBy(() -> new DistanceEntity(null, 100L));
         assertThatNullPointerException().isThrownBy(() -> new DistanceEntity(dKey, null));
     }
 
@@ -35,7 +35,7 @@ class DistanceEntityTest {
         final long from = 10;
         final long to = 2000;
         final DistanceKey distanceKey = new DistanceKey(from, to);
-        final double distance = 5.0001;
+        final long distance = 50001;
 
         DistanceEntity distanceEntity = new DistanceEntity(distanceKey, distance);
         assertThat(distanceEntity).isEqualTo(distanceEntity);

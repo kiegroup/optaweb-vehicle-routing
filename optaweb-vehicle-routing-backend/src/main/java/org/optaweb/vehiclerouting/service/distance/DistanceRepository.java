@@ -23,7 +23,7 @@ import org.optaweb.vehiclerouting.domain.Location;
  */
 public interface DistanceRepository {
 
-    void saveDistance(Location from, Location to, double distance);
+    void saveDistance(Location from, Location to, long distance);
 
-    double getDistance(Location from, Location to);
+    long getDistance(Location from, Location to);
 }

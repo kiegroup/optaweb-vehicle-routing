@@ -30,13 +30,13 @@ class DistanceEntity {
     @EmbeddedId
     private DistanceKey key;
 
-    private Double distance;
+    private Long distance;
 
     private DistanceEntity() {
         // for JPA
     }
 
-    DistanceEntity(DistanceKey key, Double distance) {
+    DistanceEntity(DistanceKey key, Long distance) {
         this.key = Objects.requireNonNull(key);
         this.distance = Objects.requireNonNull(distance);
     }
@@ -45,7 +45,7 @@ class DistanceEntity {
         return key;
     }
 
-    Double getDistance() {
+    Long getDistance() {
         return distance;
     }
 

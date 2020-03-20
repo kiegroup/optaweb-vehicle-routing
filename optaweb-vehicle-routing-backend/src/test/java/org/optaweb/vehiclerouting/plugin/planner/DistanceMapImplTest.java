@@ -31,8 +31,8 @@ class DistanceMapImplTest {
         PlanningLocation location1 = new PlanningLocation(1, 8.0, 0.8);
         long otherId = 2;
         PlanningLocation location2 = new PlanningLocation(otherId, 0.0, 0.0);
-        double distance = 45000;
-        HashMap<Long, Double> hashMap = new HashMap<>(1);
+        long distance = 45000;
+        HashMap<Long, Long> hashMap = new HashMap<>(1);
         hashMap.put(otherId, distance);
         DistanceMapImpl distanceMap = new DistanceMapImpl(location1, hashMap);
         assertThat(distanceMap.distanceTo(location2)).isEqualTo(distance / 1000);

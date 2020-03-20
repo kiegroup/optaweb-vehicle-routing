@@ -30,7 +30,7 @@ public interface DistanceMatrix {
     // TODO Currently, the API is encumbered by usage of OptaPlanner VRP example code that works with
     // {@code Map<Location, Double>}.
     // TODO replace with travelTimeMillis(Coordinates, Coordinates, VehicleType)
-    Map<Long, Double> getRow(Location location);
+    Map<Long, Long> getRow(Location location);
 
     void clear();
 }

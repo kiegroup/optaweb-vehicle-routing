@@ -29,9 +29,9 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 public class DistanceMapImpl implements DistanceMap {
 
     private final PlanningLocation location;
-    private final Map<Long, Double> distanceMap;
+    private final Map<Long, Long> distanceMap;
 
-    public DistanceMapImpl(PlanningLocation location, Map<Long, Double> distanceMap) {
+    public DistanceMapImpl(PlanningLocation location, Map<Long, Long> distanceMap) {
         this.location = location;
         this.distanceMap = distanceMap;
     }
@@ -40,7 +40,7 @@ public class DistanceMapImpl implements DistanceMap {
         return distanceMap.containsKey(((PlanningLocation) key).getId());
     }
 
-    private Double get(Object key) {
+    private Long get(Object key) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException(
                     "Distance from " + location
@@ -53,7 +53,7 @@ public class DistanceMapImpl implements DistanceMap {
     }
 
     @Override
-    public double distanceTo(PlanningLocation location) {
+    public long distanceTo(PlanningLocation location) {
         return get(location);
     }
 }

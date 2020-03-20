@@ -197,8 +197,8 @@ class RouteOptimizerImplTest {
 
     @Test
     void each_location_should_have_a_distance_map_after_it_is_added() {
-        Map<Long, Double> distanceMap = new HashMap<>(1);
-        double distance = 8.079;
+        Map<Long, Long> distanceMap = new HashMap<>(1);
+        long distance = 8079;
         distanceMap.put(location2.id(), distance);
         when(distanceMatrix.getRow(location1)).thenReturn(distanceMap);
         routeOptimizer.addLocation(location1, distanceMatrix);
@@ -206,9 +206,9 @@ class RouteOptimizerImplTest {
         verify(distanceMatrix).getRow(location1);
         VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
         assertThat(solution.getDepotList()).hasSize(1);
+        // FIXME rounding error (obviously)
         assertThat(solution.getDepotList().get(0).getLocation().getDistanceTo(fromDomain(location2)))
-                .isEqualTo(8);
-        //FIXME should be: .isEqualTo(distance);
+                .isEqualTo(distance);
     }
 
     @Test

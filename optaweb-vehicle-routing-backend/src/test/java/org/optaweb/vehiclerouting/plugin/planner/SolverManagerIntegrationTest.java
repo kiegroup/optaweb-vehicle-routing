@@ -46,7 +46,7 @@ class SolverManagerIntegrationTest {
     private SolverManager solverManager;
 
     private static DistanceMap mockDistanceMap() {
-        return location -> 60.0;
+        return location -> 60;
     }
 
     @Test

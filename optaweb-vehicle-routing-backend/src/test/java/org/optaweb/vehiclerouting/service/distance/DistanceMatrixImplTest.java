@@ -29,7 +29,7 @@ import org.optaweb.vehiclerouting.domain.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -47,7 +47,7 @@ class DistanceMatrixImplTest {
 
     @Test
     void should_calculate_distance_map() {
-        when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0); // empty repository
+        when(distanceRepository.getDistance(any(), any())).thenReturn(-1L); // empty repository
         DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockDistanceCalculator(), distanceRepository);
 
         Location l0 = location(100, 0);
@@ -55,32 +55,32 @@ class DistanceMatrixImplTest {
         Location l9neg = location(321, -9);
 
         distanceMatrix.addLocation(l0);
-        Map<Long, Double> mapL0 = distanceMatrix.getRow(l0);
+        Map<Long, Long> mapL0 = distanceMatrix.getRow(l0);
         assertThat(mapL0.size()).isEqualTo(1);
 
         // distance to self
-        assertThat(mapL0.get(l0.id())).isEqualTo(0.0);
+        assertThat(mapL0.get(l0.id())).isEqualTo(0L);
         // distance to not yet registered location
         assertThat(mapL0).doesNotContainKeys(l1.id());
 
         distanceMatrix.addLocation(l1);
-        Map<Long, Double> mapL1 = distanceMatrix.getRow(l1);
+        Map<Long, Long> mapL1 = distanceMatrix.getRow(l1);
         // distance to self
-        assertThat(mapL1.get(l1.id())).isEqualTo(0.0);
+        assertThat(mapL1.get(l1.id())).isEqualTo(0L);
 
         // distance 0 <-> 1
-        assertThat(mapL1.get(l0.id())).isEqualTo(-1.0);
-        assertThat(mapL0.get(l1.id())).isEqualTo(1.0);
+        assertThat(mapL1.get(l0.id())).isEqualTo(-1L);
+        assertThat(mapL0.get(l1.id())).isEqualTo(1L);
 
         distanceMatrix.addLocation(l9neg);
-        Map<Long, Double> mapL9 = distanceMatrix.getRow(l9neg);
+        Map<Long, Long> mapL9 = distanceMatrix.getRow(l9neg);
 
         // distances -9 -> {0, 1}
-        assertThat(mapL9.get(l0.id())).isEqualTo(9.0);
-        assertThat(mapL9.get(l1.id())).isEqualTo(10.0);
+        assertThat(mapL9.get(l0.id())).isEqualTo(9L);
+        assertThat(mapL9.get(l1.id())).isEqualTo(10L);
         // distances {0, 1} -> -9
-        assertThat(mapL0.get(l9neg.id())).isEqualTo(-9.0);
-        assertThat(mapL1.get(l9neg.id())).isEqualTo(-10.0);
+        assertThat(mapL0.get(l9neg.id())).isEqualTo(-9L);
+        assertThat(mapL1.get(l9neg.id())).isEqualTo(-10L);
 
         // distance map sizes
         assertThat(mapL0.size()).isEqualTo(3);
@@ -100,7 +100,7 @@ class DistanceMatrixImplTest {
         Location l2 = location(111, 20);
         long dist12 = 12;
         long dist21 = 21;
-        when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0);
+        when(distanceRepository.getDistance(any(), any())).thenReturn(-1L);
         when(distanceCalculator.travelTimeMillis(l1.coordinates(), l2.coordinates())).thenReturn(dist12);
         when(distanceCalculator.travelTimeMillis(l2.coordinates(), l1.coordinates())).thenReturn(dist21);
 
@@ -124,8 +124,8 @@ class DistanceMatrixImplTest {
     void should_not_call_router_when_repo_is_full() {
         Location l1 = location(1, 0);
         Location l2 = location(2, 0);
-        when(distanceRepository.getDistance(l1, l2)).thenReturn(0.0);
-        when(distanceRepository.getDistance(l2, l1)).thenReturn(1.0);
+        when(distanceRepository.getDistance(l1, l2)).thenReturn(0L);
+        when(distanceRepository.getDistance(l2, l1)).thenReturn(1L);
 
         // no calculation for the first location
         distanceMatrix.addLocation(l1);
@@ -139,7 +139,7 @@ class DistanceMatrixImplTest {
         verify(distanceRepository).getDistance(l1, l2);
 
         // nothing to persist
-        verify(distanceRepository, never()).saveDistance(any(Location.class), any(Location.class), anyDouble());
+        verify(distanceRepository, never()).saveDistance(any(Location.class), any(Location.class), anyLong());
         // no calculation
         verifyNoInteractions(distanceCalculator);
     }

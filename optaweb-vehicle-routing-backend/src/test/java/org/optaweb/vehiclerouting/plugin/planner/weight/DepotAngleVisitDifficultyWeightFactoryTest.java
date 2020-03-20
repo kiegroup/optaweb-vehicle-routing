@@ -39,7 +39,7 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
     private final double depotX = -50.0;
 
     private final PlanningLocation depot = new PlanningLocation(0, depotY, depotX);
-    private final Map<Long, Double> depotDistanceMap = new HashMap<>();
+    private final Map<Long, Long> depotDistanceMap = new HashMap<>();
     private final VehicleRoutingSolution solution = SolutionFactory.emptySolution();
     private final DepotAngleVisitDifficultyWeightFactory weightFactory = new DepotAngleVisitDifficultyWeightFactory();
 
@@ -48,12 +48,12 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
         depot.setTravelDistanceMap(new DistanceMapImpl(depot, depotDistanceMap));
     }
 
-    private void setDistanceToDepot(PlanningLocation location, double symmetricalDistance) {
+    private void setDistanceToDepot(PlanningLocation location, long symmetricalDistance) {
         setDistanceToDepot(location, symmetricalDistance, symmetricalDistance);
     }
 
-    private void setDistanceToDepot(PlanningLocation location, double depotToLocation, double locationToDepot) {
-        Map<Long, Double> locationDistanceMap = new HashMap<>();
+    private void setDistanceToDepot(PlanningLocation location, long depotToLocation, long locationToDepot) {
+        Map<Long, Long> locationDistanceMap = new HashMap<>();
         locationDistanceMap.put(depot.getId(), locationToDepot);
         depotDistanceMap.put(location.getId(), depotToLocation);
         location.setTravelDistanceMap(new DistanceMapImpl(location, locationDistanceMap));
