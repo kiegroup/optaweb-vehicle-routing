@@ -16,13 +16,27 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
+import java.util.HashMap;
+
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
+import org.optaweb.vehiclerouting.plugin.planner.DistanceMapImpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.offset;
 
 class PlanningLocationTest {
+
+    @Test
+    void distance_to_location_should_equal_value_in_distance_map() {
+        HashMap<Long, Long> distanceMap = new HashMap<>();
+        PlanningLocation location = new PlanningLocation(0, 0, 0);
+        long otherId = 321;
+        long distance = 777777;
+        distanceMap.put(otherId, distance);
+        location.setTravelDistanceMap(new DistanceMapImpl(location, distanceMap));
+        assertThat(location.getDistanceTo(new PlanningLocation(otherId, 0, 0))).isEqualTo(distance);
+    }
 
     @Test
     void angle_from_depot_at_zero_should_be_atan2_of_latitude_longitude() {

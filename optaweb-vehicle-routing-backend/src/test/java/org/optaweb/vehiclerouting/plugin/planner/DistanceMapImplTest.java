@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 class DistanceMapImplTest {
 
     @Test
-    void distance_map_should_convert_millis_to_secs() {
+    void distance_map_should_return_distance_associated_with_a_location() {
         PlanningLocation location1 = new PlanningLocation(1, 8.0, 0.8);
         long otherId = 2;
         PlanningLocation location2 = new PlanningLocation(otherId, 0.0, 0.0);
@@ -35,7 +35,7 @@ class DistanceMapImplTest {
         HashMap<Long, Long> hashMap = new HashMap<>(1);
         hashMap.put(otherId, distance);
         DistanceMapImpl distanceMap = new DistanceMapImpl(location1, hashMap);
-        assertThat(distanceMap.distanceTo(location2)).isEqualTo(distance / 1000);
+        assertThat(distanceMap.distanceTo(location2)).isEqualTo(distance);
     }
 
     @Test

@@ -206,7 +206,6 @@ class RouteOptimizerImplTest {
         verify(distanceMatrix).getRow(location1);
         VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
         assertThat(solution.getDepotList()).hasSize(1);
-        // FIXME rounding error (obviously)
         assertThat(solution.getDepotList().get(0).getLocation().getDistanceTo(fromDomain(location2)))
                 .isEqualTo(distance);
     }
