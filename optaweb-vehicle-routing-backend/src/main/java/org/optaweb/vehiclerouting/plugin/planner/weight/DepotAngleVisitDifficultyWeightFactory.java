@@ -16,12 +16,16 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.weight;
 
-import org.apache.commons.lang3.builder.CompareToBuilder;
+import java.util.Comparator;
+
 import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionSorterWeightFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
+
+import static java.util.Comparator.comparingDouble;
+import static java.util.Comparator.comparingLong;
 
 /**
  * On large data sets, the constructed solution looks like pizza slices.
@@ -44,6 +48,12 @@ public class DepotAngleVisitDifficultyWeightFactory
 
     static class DepotAngleVisitDifficultyWeight implements Comparable<DepotAngleVisitDifficultyWeight> {
 
+        private static final Comparator<DepotAngleVisitDifficultyWeight> COMPARATOR =
+                comparingDouble((DepotAngleVisitDifficultyWeight weight) -> weight.depotAngle)
+                        // Ascending (further from the depot are more difficult)
+                        .thenComparingLong(weight -> weight.depotRoundTripDistance)
+                        .thenComparing(weight -> weight.visit, comparingLong(PlanningVisit::getId));
+
         private final PlanningVisit visit;
         private final double depotAngle;
         private final long depotRoundTripDistance;
@@ -56,11 +66,7 @@ public class DepotAngleVisitDifficultyWeightFactory
 
         @Override
         public int compareTo(DepotAngleVisitDifficultyWeight other) {
-            return new CompareToBuilder()
-                    .append(this.depotAngle, other.depotAngle)
-                    .append(this.depotRoundTripDistance, other.depotRoundTripDistance)
-                    .append(this.visit.getId(), other.visit.getId())
-                    .toComparison();
+            return COMPARATOR.compare(this, other);
         }
 
         @Override
