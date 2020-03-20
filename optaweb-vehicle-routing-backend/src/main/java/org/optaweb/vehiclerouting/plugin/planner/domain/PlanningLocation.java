@@ -45,9 +45,9 @@ public class PlanningLocation extends AbstractPlanningObject {
     }
 
     /**
-     * Get distance to the given location
-     * @param location
-     * @return
+     * Get distance to the given location.
+     * @param location other location
+     * @return distance to the other location
      */
     public long getDistanceTo(PlanningLocation location) {
         if (this == location) {
