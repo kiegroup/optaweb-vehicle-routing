@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.plugin.planner.weight;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 import org.optaplanner.core.impl.heuristic.selector.common.decorator.SelectionSorterWeightFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
@@ -58,7 +59,7 @@ public class DepotAngleVisitDifficultyWeightFactory
         private final double depotAngle;
         private final long depotRoundTripDistance;
 
-        private DepotAngleVisitDifficultyWeight(PlanningVisit visit, double depotAngle, long depotRoundTripDistance) {
+        DepotAngleVisitDifficultyWeight(PlanningVisit visit, double depotAngle, long depotRoundTripDistance) {
             this.visit = visit;
             this.depotAngle = depotAngle;
             this.depotRoundTripDistance = depotRoundTripDistance;
@@ -67,6 +68,19 @@ public class DepotAngleVisitDifficultyWeightFactory
         @Override
         public int compareTo(DepotAngleVisitDifficultyWeight other) {
             return COMPARATOR.compare(this, other);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof DepotAngleVisitDifficultyWeight)) {
+                return false;
+            }
+            return compareTo((DepotAngleVisitDifficultyWeight) o) == 0;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(visit, depotAngle, depotRoundTripDistance);
         }
 
         @Override

@@ -24,6 +24,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
@@ -119,5 +120,26 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
 
         assertThat(weight(a)).isLessThan(weight(b));
         assertThat(weight(b)).isLessThan(weight(c));
+    }
+
+    @Test
+    void equals() {
+        long id = 3;
+        double angle = Math.PI;
+        long distance = 1000;
+        PlanningVisit visit = PlanningVisitFactory.fromLocation(new PlanningLocation(id, 0.0, 0.0));
+        DepotAngleVisitDifficultyWeight weight = new DepotAngleVisitDifficultyWeight(visit, angle, distance);
+
+        assertThat(weight).isNotEqualTo(null);
+        assertThat(weight).isNotEqualTo(this);
+        assertThat(weight).isNotEqualTo(new DepotAngleVisitDifficultyWeight(
+                PlanningVisitFactory.fromLocation(new PlanningLocation(id + 1, 0.0, 0.0)), angle, distance));
+        assertThat(weight).isNotEqualTo(new DepotAngleVisitDifficultyWeight(
+                PlanningVisitFactory.fromLocation(new PlanningLocation(id, 0.0, 0.0)), -angle, distance));
+        assertThat(weight).isNotEqualTo(new DepotAngleVisitDifficultyWeight(
+                PlanningVisitFactory.fromLocation(new PlanningLocation(id, 0.0, 0.0)), angle, distance - 1));
+
+        assertThat(weight).isEqualTo(weight);
+        assertThat(weight).isEqualTo(new DepotAngleVisitDifficultyWeight(visit, angle, distance));
     }
 }
