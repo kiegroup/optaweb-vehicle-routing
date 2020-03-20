@@ -23,6 +23,8 @@ public class PlanningLocation extends AbstractPlanningObject {
     // Only used to calculate angle.
     private double latitude;
     private double longitude;
+    // Prefer Map over array or List because customers might be added and removed in real-time planning.
+    private Map<PlanningLocation, Double> travelDistanceMap;
 
     public PlanningLocation() {
     }
@@ -32,9 +34,6 @@ public class PlanningLocation extends AbstractPlanningObject {
         this.latitude = latitude;
         this.longitude = longitude;
     }
-
-    // Prefer Map over array or List because customers might be added and removed in real-time planning.
-    private Map<PlanningLocation, Double> travelDistanceMap;
 
     double getLatitude() {
         return latitude;
