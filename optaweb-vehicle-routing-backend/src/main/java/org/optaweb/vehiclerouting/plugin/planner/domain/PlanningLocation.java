@@ -16,15 +16,12 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import java.util.Map;
-
 public class PlanningLocation extends AbstractPlanningObject {
 
     // Only used to calculate angle.
     private double latitude;
     private double longitude;
-    // Prefer Map over array or List because customers might be added and removed in real-time planning.
-    private Map<PlanningLocation, Double> travelDistanceMap;
+    private DistanceMap travelDistanceMap;
 
     public PlanningLocation() {
     }
@@ -43,7 +40,7 @@ public class PlanningLocation extends AbstractPlanningObject {
         return longitude;
     }
 
-    public void setTravelDistanceMap(Map<PlanningLocation, Double> travelDistanceMap) {
+    public void setTravelDistanceMap(DistanceMap travelDistanceMap) {
         this.travelDistanceMap = travelDistanceMap;
     }
 
@@ -56,7 +53,7 @@ public class PlanningLocation extends AbstractPlanningObject {
         if (this == location) {
             return 0L;
         }
-        double distance = travelDistanceMap.get(location);
+        double distance = travelDistanceMap.distanceTo(location);
         // Multiplied by 1000 to avoid floating point arithmetic rounding errors
         return (long) (distance * 1000.0 + 0.5);
     }

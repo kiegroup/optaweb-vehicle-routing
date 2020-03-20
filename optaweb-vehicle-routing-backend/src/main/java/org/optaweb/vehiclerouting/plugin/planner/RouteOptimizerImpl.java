@@ -56,7 +56,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
     @Override
     public void addLocation(Location domainLocation, DistanceMatrix distanceMatrix) {
         PlanningLocation location = PlanningLocationFactory.fromDomain(domainLocation);
-        DistanceMap distanceMap = new DistanceMap(location, distanceMatrix.getRow(domainLocation));
+        DistanceMapImpl distanceMap = new DistanceMapImpl(location, distanceMatrix.getRow(domainLocation));
         location.setTravelDistanceMap(distanceMap);
         // Unfortunately can't start solver with an empty solution (see https://issues.redhat.com/browse/PLANNER-776)
         if (depot == null) {

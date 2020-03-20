@@ -16,10 +16,9 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
 
+import org.optaweb.vehiclerouting.plugin.planner.domain.DistanceMap;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 
 /**
@@ -27,38 +26,21 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
  * {@link org.optaweb.vehiclerouting.domain domain objects} and later be queried using Planning domain objects.
  */
 // TODO get rid of dependency on Planning domain
-class DistanceMap implements Map<PlanningLocation, Double> {
+public class DistanceMapImpl implements DistanceMap {
 
     private final PlanningLocation location;
     private final Map<Long, Double> distanceMap;
 
-    DistanceMap(PlanningLocation location, Map<Long, Double> distanceMap) {
+    public DistanceMapImpl(PlanningLocation location, Map<Long, Double> distanceMap) {
         this.location = location;
         this.distanceMap = distanceMap;
     }
 
-    @Override
-    public int size() {
-        return distanceMap.size();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return distanceMap.isEmpty();
-    }
-
-    @Override
-    public boolean containsKey(Object key) {
+    private boolean containsKey(Object key) {
         return distanceMap.containsKey(((PlanningLocation) key).getId());
     }
 
-    @Override
-    public boolean containsValue(Object value) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Double get(Object key) {
+    private Double get(Object key) {
         if (!containsKey(key)) {
             throw new IllegalArgumentException(
                     "Distance from " + location
@@ -71,37 +53,7 @@ class DistanceMap implements Map<PlanningLocation, Double> {
     }
 
     @Override
-    public Double put(PlanningLocation key, Double value) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Double remove(Object key) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void putAll(Map<? extends PlanningLocation, ? extends Double> m) {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public void clear() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Set<PlanningLocation> keySet() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Collection<Double> values() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public Set<Entry<PlanningLocation, Double>> entrySet() {
-        throw new UnsupportedOperationException();
+    public double distanceTo(PlanningLocation location) {
+        return get(location);
     }
 }

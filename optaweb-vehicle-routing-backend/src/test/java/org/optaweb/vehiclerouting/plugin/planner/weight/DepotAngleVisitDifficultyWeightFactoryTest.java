@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
+import org.optaweb.vehiclerouting.plugin.planner.DistanceMapImpl;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
@@ -38,13 +39,13 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
     private final double depotX = -50.0;
 
     private final PlanningLocation depot = new PlanningLocation(0, depotY, depotX);
-    private final Map<PlanningLocation, Double> depotDistanceMap = new HashMap<>();
+    private final Map<Long, Double> depotDistanceMap = new HashMap<>();
     private final VehicleRoutingSolution solution = SolutionFactory.emptySolution();
     private final DepotAngleVisitDifficultyWeightFactory weightFactory = new DepotAngleVisitDifficultyWeightFactory();
 
     DepotAngleVisitDifficultyWeightFactoryTest() {
         solution.getDepotList().add(new PlanningDepot(depot));
-        depot.setTravelDistanceMap(depotDistanceMap);
+        depot.setTravelDistanceMap(new DistanceMapImpl(depot, depotDistanceMap));
     }
 
     private void setDistanceToDepot(PlanningLocation location, double symmetricalDistance) {
@@ -52,10 +53,10 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
     }
 
     private void setDistanceToDepot(PlanningLocation location, double depotToLocation, double locationToDepot) {
-        Map<PlanningLocation, Double> travelMap = new HashMap<>();
-        travelMap.put(depot, locationToDepot);
-        depotDistanceMap.put(location, depotToLocation);
-        location.setTravelDistanceMap(travelMap);
+        Map<Long, Double> locationDistanceMap = new HashMap<>();
+        locationDistanceMap.put(depot.getId(), locationToDepot);
+        depotDistanceMap.put(location.getId(), depotToLocation);
+        location.setTravelDistanceMap(new DistanceMapImpl(location, locationDistanceMap));
     }
 
     private DepotAngleVisitDifficultyWeight weight(PlanningLocation location) {

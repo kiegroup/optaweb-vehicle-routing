@@ -22,19 +22,27 @@ import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-class DistanceMapTest {
+class DistanceMapImplTest {
 
     @Test
     void distance_map_should_convert_millis_to_secs() {
-        PlanningLocation location = new PlanningLocation(1, 8.0, 0.8);
+        PlanningLocation location1 = new PlanningLocation(1, 8.0, 0.8);
         long otherId = 2;
         PlanningLocation location2 = new PlanningLocation(otherId, 0.0, 0.0);
         double distance = 45000;
-        HashMap<Long, Double> distanceMap = new HashMap<>(1);
-        distanceMap.put(otherId, distance);
-        DistanceMap distanceMapBridge = new DistanceMap(location, distanceMap);
-        assertThat(distanceMapBridge).containsKey(location2);
-        assertThat(distanceMapBridge.get(location2)).isEqualTo(distance / 1000);
+        HashMap<Long, Double> hashMap = new HashMap<>(1);
+        hashMap.put(otherId, distance);
+        DistanceMapImpl distanceMap = new DistanceMapImpl(location1, hashMap);
+        assertThat(distanceMap.distanceTo(location2)).isEqualTo(distance / 1000);
+    }
+
+    @Test
+    void should_throw_illegal_argument_exception() {
+        PlanningLocation location1 = new PlanningLocation(1, 0.0, 0.0);
+        PlanningLocation location2 = new PlanningLocation(2, 0.0, 0.0);
+        DistanceMapImpl distanceMap = new DistanceMapImpl(location1, new HashMap<>());
+        assertThatIllegalArgumentException().isThrownBy(() -> distanceMap.distanceTo(location2));
     }
 }

@@ -16,10 +16,9 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.util.HashMap;
-
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.Profiles;
+import org.optaweb.vehiclerouting.plugin.planner.domain.DistanceMap;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
@@ -46,13 +45,17 @@ class SolverManagerIntegrationTest {
     @Autowired
     private SolverManager solverManager;
 
+    private static DistanceMap mockDistanceMap() {
+        return location -> 60.0;
+    }
+
     @Test
     void solver_should_be_in_daemon_mode() throws InterruptedException {
         PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1);
         PlanningLocation depot = new PlanningLocation(1, 0, 0);
-        depot.setTravelDistanceMap(new MockDistanceMap(depot));
+        depot.setTravelDistanceMap(mockDistanceMap());
         PlanningLocation visit = new PlanningLocation(2, 0, 0);
-        visit.setTravelDistanceMap(new MockDistanceMap(visit));
+        visit.setTravelDistanceMap(mockDistanceMap());
         VehicleRoutingSolution solution = solutionFromLocations(
                 singletonList(vehicle),
                 new PlanningDepot(depot),
@@ -65,17 +68,5 @@ class SolverManagerIntegrationTest {
         // This will check that solver is still running. If daemon was set to false, solver would have terminated
         // due to 100ms time spent termination and the isAlive check would fail.
         assertThatCode(() -> solverManager.changeCapacity(vehicle)).doesNotThrowAnyException();
-    }
-
-    private static class MockDistanceMap extends DistanceMap {
-
-        MockDistanceMap(PlanningLocation location) {
-            super(location, new HashMap<>());
-        }
-
-        @Override
-        public Double get(Object key) {
-            return 60.0;
-        }
     }
 }
