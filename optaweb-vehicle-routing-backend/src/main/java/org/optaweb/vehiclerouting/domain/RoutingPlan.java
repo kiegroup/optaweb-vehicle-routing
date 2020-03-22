@@ -36,7 +36,7 @@ public class RoutingPlan {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutingPlan.class);
 
-    private final String distance;
+    private final Distance distance;
     private final List<Vehicle> vehicles;
     private final Location depot;
     private final List<Location> visits;
@@ -51,7 +51,7 @@ public class RoutingPlan {
      * @param routes routes of all vehicles
      */
     public RoutingPlan(
-            String distance,
+            Distance distance,
             List<Vehicle> vehicles,
             Location depot,
             List<Location> visits,
@@ -119,14 +119,14 @@ public class RoutingPlan {
      * @return empty routing plan
      */
     public static RoutingPlan empty() {
-        return new RoutingPlan("", emptyList(), null, emptyList(), emptyList());
+        return new RoutingPlan(Distance.ZERO, emptyList(), null, emptyList(), emptyList());
     }
 
     /**
-     * Overall travel distance.
+     * Total distance traveled (sum of distances of all routes).
      * @return travel distance
      */
-    public String distance() {
+    public Distance distance() {
         return distance;
     }
 

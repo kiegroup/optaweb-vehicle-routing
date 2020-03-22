@@ -20,8 +20,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
@@ -37,6 +38,8 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory.testVehicle;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromLocations;
@@ -53,7 +56,7 @@ class SolutionPublisherTest {
     @Test
     void should_covert_solution_to_event_and_publish_it() {
         solutionPublisher.publishSolution(SolutionFactory.emptySolution());
-        Mockito.verify(publisher).publishEvent(Mockito.any(RouteChangedEvent.class));
+        verify(publisher).publishEvent(any(RouteChangedEvent.class));
     }
 
     @Test
@@ -66,7 +69,7 @@ class SolutionPublisherTest {
         assertThat(event.depotId()).isEmpty();
         assertThat(event.visitIds()).isEmpty();
         assertThat(event.routes()).isEmpty();
-        assertThat(event.distance()).isEqualTo("0h 0m 0s");
+        assertThat(event.distance()).isEqualTo(Distance.ZERO);
     }
 
     @Test
@@ -81,7 +84,7 @@ class SolutionPublisherTest {
         assertThat(event.depotId()).isEmpty();
         assertThat(event.visitIds()).isEmpty();
         assertThat(event.routes()).isEmpty();
-        assertThat(event.distance()).isEqualTo("0h 0m 0s");
+        assertThat(event.distance()).isEqualTo(Distance.ZERO);
     }
 
     @Test
@@ -100,7 +103,7 @@ class SolutionPublisherTest {
         assertThat(event.depotId()).contains(depotId);
         assertThat(event.visitIds()).containsExactly(visitId);
         assertThat(event.routes()).isEmpty();
-        assertThat(event.distance()).isEqualTo("0h 0m 0s");
+        assertThat(event.distance()).isEqualTo(Distance.ZERO);
     }
 
     @Test
@@ -138,6 +141,9 @@ class SolutionPublisherTest {
         visit1.setNextVisit(visit2);
         visit2.setPreviousStandstill(visit1);
 
+        long softScore = -544564731;
+        solution.setScore(HardSoftLongScore.ofSoft(softScore));
+
         // act
         RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
 
@@ -155,7 +161,7 @@ class SolutionPublisherTest {
         assertThat(event.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
         assertThat(event.depotId()).contains(depotId);
         assertThat(event.visitIds()).containsExactlyInAnyOrder(visitId1, visitId2);
-        assertThat(event.distance()).isEqualTo("0h 0m 0s");
+        assertThat(event.distance()).isEqualTo(Distance.ofSeconds(-softScore));
     }
 
     @Test

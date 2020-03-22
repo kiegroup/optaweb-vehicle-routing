@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.springframework.context.ApplicationEvent;
 
 /**
@@ -29,7 +30,7 @@ import org.springframework.context.ApplicationEvent;
  */
 public class RouteChangedEvent extends ApplicationEvent {
 
-    private final String distance;
+    private final Distance distance;
     private final List<Long> vehicleIds;
     private final Long depotId;
     private final List<Long> visitIds;
@@ -46,7 +47,7 @@ public class RouteChangedEvent extends ApplicationEvent {
      */
     public RouteChangedEvent(
             Object source,
-            String distance,
+            Distance distance,
             List<Long> vehicleIds,
             Long depotId,
             List<Long> visitIds,
@@ -76,7 +77,11 @@ public class RouteChangedEvent extends ApplicationEvent {
         return routes;
     }
 
-    public String distance() {
+    /**
+     * Routing plan distance.
+     * @return distance (never {@code null})
+     */
+    public Distance distance() {
         return distance;
     }
 

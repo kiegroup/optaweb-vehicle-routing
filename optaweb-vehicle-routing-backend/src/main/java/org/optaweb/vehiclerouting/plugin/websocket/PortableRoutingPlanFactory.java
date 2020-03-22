@@ -35,6 +35,7 @@ class PortableRoutingPlanFactory {
     }
 
     static PortableRoutingPlan fromRoutingPlan(RoutingPlan routingPlan) {
+        PortableDistance distance = PortableDistance.fromDistance(routingPlan.distance());
         List<PortableVehicle> vehicles = portableVehicles(routingPlan.vehicles());
         PortableLocation depot = routingPlan.depot().map(PortableLocation::fromLocation).orElse(null);
         List<PortableLocation> visits = portableVisits(routingPlan.visits());
@@ -45,7 +46,7 @@ class PortableRoutingPlanFactory {
                         portableVisits(routeWithTrack.visits()),
                         portableTrack(routeWithTrack.track())))
                 .collect(Collectors.toList());
-        return new PortableRoutingPlan(routingPlan.distance(), vehicles, depot, visits, routes);
+        return new PortableRoutingPlan(distance, vehicles, depot, visits, routes);
     }
 
     private static List<List<PortableCoordinates>> portableTrack(List<List<Coordinates>> track) {

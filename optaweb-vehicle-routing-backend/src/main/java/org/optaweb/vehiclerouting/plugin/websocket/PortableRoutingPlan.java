@@ -25,14 +25,14 @@ import org.optaweb.vehiclerouting.domain.RoutingPlan;
  */
 class PortableRoutingPlan {
 
-    private final String distance;
+    private final PortableDistance distance;
     private final List<PortableVehicle> vehicles;
     private final PortableLocation depot;
     private final List<PortableLocation> visits;
     private final List<PortableRoute> routes;
 
     PortableRoutingPlan(
-            String distance,
+            PortableDistance distance,
             List<PortableVehicle> vehicles,
             PortableLocation depot,
             List<PortableLocation> visits,
@@ -46,7 +46,7 @@ class PortableRoutingPlan {
         this.routes = routes;
     }
 
-    public String getDistance() {
+    public PortableDistance getDistance() {
         return distance;
     }
 

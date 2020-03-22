@@ -32,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 class RoutingPlanTest {
 
+    private final Distance distance = Distance.ofSeconds(1);
     private final Vehicle vehicle = VehicleFactory.testVehicle(1);
     private final List<Vehicle> vehicles = singletonList(vehicle);
     private final Location depot = new Location(1, Coordinates.valueOf(5, 5));
@@ -45,11 +46,11 @@ class RoutingPlanTest {
         assertThatNullPointerException()
                 .isThrownBy(() -> new RoutingPlan(null, vehicles, depot, emptyList(), emptyList()));
         assertThatNullPointerException()
-                .isThrownBy(() -> new RoutingPlan("", null, depot, emptyList(), emptyList()));
+                .isThrownBy(() -> new RoutingPlan(distance, null, depot, emptyList(), emptyList()));
         assertThatNullPointerException()
-                .isThrownBy(() -> new RoutingPlan("", vehicles, depot, null, emptyList()));
+                .isThrownBy(() -> new RoutingPlan(distance, vehicles, depot, null, emptyList()));
         assertThatNullPointerException()
-                .isThrownBy(() -> new RoutingPlan("", vehicles, depot, emptyList(), null));
+                .isThrownBy(() -> new RoutingPlan(distance, vehicles, depot, emptyList(), null));
         // depot can be null
         // TODO create a factory that will prevent passing a null depot accidentally
     }
@@ -59,20 +60,20 @@ class RoutingPlanTest {
         List<List<Coordinates>> track = singletonList(singletonList(visit.coordinates()));
         RouteWithTrack routeWithTrack = new RouteWithTrack(new Route(vehicle, depot, singletonList(visit)), track);
         assertThatIllegalArgumentException().isThrownBy(() -> new RoutingPlan(
-                "", vehicles, null, singletonList(visit), singletonList(routeWithTrack))
+                distance, vehicles, null, singletonList(visit), singletonList(routeWithTrack))
         );
     }
 
     @Test
     void no_routes_without_a_depot() {
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new RoutingPlan("", vehicles, null, emptyList(), singletonList(emptyRoute)));
+                .isThrownBy(() -> new RoutingPlan(distance, vehicles, null, emptyList(), singletonList(emptyRoute)));
     }
 
     @Test
     void there_must_be_one_route_per_vehicle_when_there_is_a_depot() {
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new RoutingPlan("", vehicles, depot, emptyList(), emptyList()))
+                .isThrownBy(() -> new RoutingPlan(distance, vehicles, depot, emptyList(), emptyList()))
                 .withMessageContaining("Vehicles (1): [")
                 .withMessageContaining("Routes' vehicleIds (0): []");
     }
@@ -82,7 +83,7 @@ class RoutingPlanTest {
         List<Vehicle> unexpectedVehicles = singletonList(VehicleFactory.testVehicle(vehicle.id() + 1));
         List<RouteWithTrack> routes = singletonList(emptyRoute);
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> new RoutingPlan("", unexpectedVehicles, depot, emptyList(), routes))
+                .isThrownBy(() -> new RoutingPlan(distance, unexpectedVehicles, depot, emptyList(), routes))
                 .withMessageContaining("Vehicles (1): [")
                 .withMessageContaining("Routes' vehicleIds (1): [" + vehicle.id() + "]");
     }
@@ -98,7 +99,7 @@ class RoutingPlanTest {
         Location visit3 = new Location(103, Coordinates.valueOf(3, 3), "visit3");
 
         assertThatCode(() -> new RoutingPlan(
-                "",
+                distance,
                 emptyList(), // no vehicles
                 depot,
                 singletonList(visit1),
@@ -106,7 +107,7 @@ class RoutingPlanTest {
         )).doesNotThrowAnyException();
 
         assertThatIllegalArgumentException().isThrownBy(() -> new RoutingPlan(
-                "",
+                distance,
                 singletonList(vehicle1),
                 depot,
                 asList(visit1, visit2),
@@ -118,7 +119,7 @@ class RoutingPlanTest {
 
         Location visit4 = new Location(104, Coordinates.valueOf(4, 4), "visit4");
         assertThatIllegalArgumentException().isThrownBy(() -> new RoutingPlan(
-                "",
+                distance,
                 asList(vehicle1, vehicle2),
                 depot,
                 asList(visit1, visit2, visit3),
@@ -140,7 +141,7 @@ class RoutingPlanTest {
         visits.add(visit);
         routes.add(new RouteWithTrack(new Route(vehicle, depot, singletonList(visit)), nonEmptyTrack));
 
-        RoutingPlan routingPlan = new RoutingPlan("", vehicles, depot, visits, routes);
+        RoutingPlan routingPlan = new RoutingPlan(distance, vehicles, depot, visits, routes);
 
         assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> routingPlan.vehicles().clear());
         assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> routingPlan.visits().clear());
@@ -150,7 +151,7 @@ class RoutingPlanTest {
     @Test
     void empty_routing_plan_should_be_empty() {
         RoutingPlan empty = RoutingPlan.empty();
-        assertThat(empty.distance()).isEmpty();
+        assertThat(empty.distance()).isEqualTo(Distance.ZERO);
         assertThat(empty.vehicles()).isEmpty();
         assertThat(empty.depot()).isEmpty();
         assertThat(empty.visits()).isEmpty();
@@ -160,8 +161,9 @@ class RoutingPlanTest {
     @Test
     void isEmpty() {
         assertThat(RoutingPlan.empty().isEmpty()).isTrue();
-        assertThat(new RoutingPlan("", emptyList(), depot, emptyList(), emptyList()).isEmpty()).isFalse();
-        assertThat(new RoutingPlan("", vehicles, null, emptyList(), emptyList()).isEmpty()).isFalse();
-        assertThat(new RoutingPlan("", vehicles, depot, emptyList(), singletonList(emptyRoute)).isEmpty()).isFalse();
+        assertThat(new RoutingPlan(Distance.ZERO, emptyList(), depot, emptyList(), emptyList()).isEmpty()).isFalse();
+        assertThat(new RoutingPlan(Distance.ZERO, vehicles, null, emptyList(), emptyList()).isEmpty()).isFalse();
+        assertThat(new RoutingPlan(Distance.ZERO, vehicles, depot, emptyList(), singletonList(emptyRoute)).isEmpty())
+                .isFalse();
     }
 }

@@ -28,6 +28,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
@@ -73,7 +74,7 @@ class RouteListenerTest {
         when(vehicleRepository.find(vehicleId)).thenReturn(Optional.of(vehicle));
         RouteChangedEvent event = new RouteChangedEvent(
                 this,
-                "",
+                Distance.ZERO,
                 singletonList(vehicleId),
                 null,
                 emptyList(),
@@ -101,7 +102,7 @@ class RouteListenerTest {
 
         RouteChangedEvent event = new RouteChangedEvent(
                 this,
-                "0 km",
+                Distance.ofSeconds(5000),
                 singletonList(vehicleId),
                 depot.id(),
                 emptyList(),
@@ -138,7 +139,7 @@ class RouteListenerTest {
         final Vehicle vehicle = VehicleFactory.testVehicle(vehicleId);
         final Location depot = new Location(1, depotCoordinates);
         final Location visit = new Location(2, visitCoordinates);
-        final String distance = "xy";
+        final Distance distance = Distance.ofSeconds(11);
         when(vehicleRepository.find(vehicleId)).thenReturn(Optional.of(vehicle));
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
         when(locationRepository.find(visit.id())).thenReturn(Optional.of(visit));
@@ -182,7 +183,7 @@ class RouteListenerTest {
         ShallowRoute route = new ShallowRoute(vehicle.id(), depot.id(), singletonList(visit.id()));
         RouteChangedEvent event = new RouteChangedEvent(
                 this,
-                "",
+                Distance.ofSeconds(1),
                 singletonList(vehicle.id()),
                 depot.id(),
                 singletonList(visit.id()),
@@ -212,7 +213,7 @@ class RouteListenerTest {
         ShallowRoute route = new ShallowRoute(vehicle.id(), depot.id(), singletonList(visit.id()));
         RouteChangedEvent event = new RouteChangedEvent(
                 this,
-                "",
+                Distance.ofSeconds(1),
                 singletonList(vehicle.id()),
                 depot.id(),
                 singletonList(visit.id()),

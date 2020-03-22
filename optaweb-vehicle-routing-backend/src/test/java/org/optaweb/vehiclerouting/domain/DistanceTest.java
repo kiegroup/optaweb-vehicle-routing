@@ -19,6 +19,8 @@ package org.optaweb.vehiclerouting.domain;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 class DistanceTest {
 
@@ -31,5 +33,24 @@ class DistanceTest {
     @Test
     void string_should_end_with_unit() {
         assertThat(Distance.ofSeconds(312)).hasToString("312 s");
+    }
+
+    @Test
+    void seconds_must_be_positive_or_zero() {
+        assertThatIllegalArgumentException().isThrownBy(() -> Distance.ofSeconds(-1));
+        assertThatCode(() -> Distance.ofSeconds(0)).doesNotThrowAnyException();
+    }
+
+    @Test
+    void equals_hashCode() {
+        long seconds = 37;
+        Distance distance = Distance.ofSeconds(seconds);
+        assertThat(distance).isEqualTo(distance);
+        assertThat(distance).isEqualTo(Distance.ofSeconds(seconds));
+        assertThat(distance).isNotEqualTo(null);
+        assertThat(distance).isNotEqualTo(seconds);
+        assertThat(distance).isNotEqualTo(Distance.ofSeconds(seconds + 1));
+
+        assertThat(distance).hasSameHashCodeAs(Distance.ofSeconds(seconds));
     }
 }

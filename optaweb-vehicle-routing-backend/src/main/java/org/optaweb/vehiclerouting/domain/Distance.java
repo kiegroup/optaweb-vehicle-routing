@@ -16,23 +16,56 @@
 
 package org.optaweb.vehiclerouting.domain;
 
+import java.util.Objects;
+
 /**
  * Travel cost (distance between two {@link Location locations} or the length of a {@link Route route}).
  */
 public class Distance {
 
+    public static final Distance ZERO = Distance.ofSeconds(0);
+
     private final long seconds;
 
+    /**
+     * Create a distance of the given seconds.
+     * @param seconds must be positive or zero
+     * @return distance
+     */
     public static Distance ofSeconds(long seconds) {
         return new Distance(seconds);
     }
 
     private Distance(long seconds) {
+        if (seconds < 0) {
+            throw new IllegalArgumentException("Seconds (" + seconds + ") must be positive or zero.");
+        }
         this.seconds = seconds;
     }
 
+    /**
+     * Return distance in seconds.
+     * @return positive number or zero
+     */
     public long seconds() {
         return seconds;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Distance distance = (Distance) o;
+        return seconds == distance.seconds;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(seconds);
     }
 
     @Override
