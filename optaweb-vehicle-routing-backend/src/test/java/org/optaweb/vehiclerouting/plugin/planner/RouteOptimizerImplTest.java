@@ -27,7 +27,6 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
@@ -288,37 +287,6 @@ class RouteOptimizerImplTest {
         assertThat(solution.getVisitList()).isEmpty();
         assertThat(solution.getLocationList()).hasSize(1);
         assertThat(solution.getVehicleList()).hasSize(1);
-    }
-
-    @Test
-    void solution_update_event_should_only_have_empty_routes_when_last_visit_removed() {
-        // FIXME This test shouldn't be needed. This is a problem with bad encapsulation of the planning domain in
-        //   optaplanner-examples. Once we introduce our own planning domain with a better API, the test should be
-        //   replaced/simplified/removed.
-
-        // Prepare a solution with 1 depot, 2 vehicles, 1 visit and both vehicles visiting to that visit
-        final long vehicleId1 = 1;
-        final long vehicleId2 = 2;
-        routeOptimizer.addVehicle(testVehicle(vehicleId1));
-        routeOptimizer.addVehicle(testVehicle(vehicleId2));
-
-        // Start solver by adding two locations
-        routeOptimizer.addLocation(location1, distanceMatrix);
-        routeOptimizer.addLocation(location2, distanceMatrix);
-
-        verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
-        clearInvocations(solutionPublisher);
-
-        routeOptimizer.removeLocation(location2);
-        verify(solverManager).stopSolver();
-
-        // no visit -> all routes should be empty
-        VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
-        assertThat(solution.getDistanceString(null)).isEqualTo("0h 0m 0s 0ms"); // expect zero travel distance
-        assertThat(solution.getVehicleList())
-                .extracting(AbstractPlanningObject::getId)
-                .containsExactlyInAnyOrder(vehicleId1, vehicleId2);
-        assertThat(solution.getDepotList()).extracting(PlanningDepot::getId).containsExactly(location1.id());
     }
 
     @Test
