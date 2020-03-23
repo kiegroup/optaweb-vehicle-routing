@@ -38,23 +38,16 @@ public class DistanceMapImpl implements DistanceMap {
         this.distanceMap = distanceMap;
     }
 
-    private boolean containsKey(Object key) {
-        return distanceMap.containsKey(((PlanningLocation) key).getId());
-    }
-
-    private Long get(Object key) {
-        if (!containsKey(key)) {
+    @Override
+    public long distanceTo(PlanningLocation location) {
+        long id = location.getId();
+        if (!distanceMap.containsKey(id)) {
             throw new IllegalArgumentException(
-                    "Distance from " + location
-                            + " to " + key
+                    "Distance from " + this.location
+                            + " to " + id
                             + " hasn't been recorded.\n"
                             + "We only know distances to " + distanceMap.keySet());
         }
-        return distanceMap.get(((PlanningLocation) key).getId());
-    }
-
-    @Override
-    public long distanceTo(PlanningLocation location) {
-        return get(location);
+        return distanceMap.get(id);
     }
 }
