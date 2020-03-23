@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import java.text.NumberFormat;
 import java.util.List;
 
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
@@ -29,8 +28,6 @@ import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 @PlanningSolution
 public class VehicleRoutingSolution {
 
-    protected String name;
-    private String distanceUnitOfMeasurement;
     private List<PlanningLocation> locationList;
     private List<PlanningDepot> depotList;
     private List<PlanningVehicle> vehicleList;
@@ -38,22 +35,6 @@ public class VehicleRoutingSolution {
     private HardSoftLongScore score;
 
     public VehicleRoutingSolution() {
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDistanceUnitOfMeasurement() {
-        return this.distanceUnitOfMeasurement;
-    }
-
-    public void setDistanceUnitOfMeasurement(String distanceUnitOfMeasurement) {
-        this.distanceUnitOfMeasurement = distanceUnitOfMeasurement;
     }
 
     @ProblemFactCollectionProperty
@@ -75,9 +56,7 @@ public class VehicleRoutingSolution {
     }
 
     @PlanningEntityCollectionProperty
-    @ValueRangeProvider(
-            id = "vehicleRange"
-    )
+    @ValueRangeProvider(id = "vehicleRange")
     public List<PlanningVehicle> getVehicleList() {
         return this.vehicleList;
     }
@@ -87,9 +66,7 @@ public class VehicleRoutingSolution {
     }
 
     @PlanningEntityCollectionProperty
-    @ValueRangeProvider(
-            id = "visitRange"
-    )
+    @ValueRangeProvider(id = "visitRange")
     public List<PlanningVisit> getVisitList() {
         return this.visitList;
     }
@@ -107,41 +84,10 @@ public class VehicleRoutingSolution {
         this.score = score;
     }
 
-    // ************************************************************************
-    // Complex methods
-    // ************************************************************************
-
-    public String getDistanceString(NumberFormat numberFormat) {
-        if (score == null) {
-            return null;
-        }
-        long distance = -score.getSoftScore();
-        if (distanceUnitOfMeasurement == null) {
-            return numberFormat.format(((double) distance) / 1000.0);
-        }
-        switch (distanceUnitOfMeasurement) {
-            case "sec":  // TODO why are the values 1000 larger?
-                long hours = distance / 3600000L;
-                long minutes = distance % 3600000L / 60000L;
-                long seconds = distance % 60000L / 1000L;
-                long milliseconds = distance % 1000L;
-                return hours + "h " + minutes + "m " + seconds + "s " + milliseconds + "ms";
-            case "meter": { // TODO why are the values 1000 larger?
-                long km = distance / 1000L;
-                long meter = distance % 1000L;
-                return km + "km " + meter + "m";
-            }
-            default:
-                return numberFormat.format(((double) distance) / 1000.0) + " " + distanceUnitOfMeasurement;
-        }
-    }
-
     @Override
     public String toString() {
         return "VehicleRoutingSolution{" +
-                "name='" + name + '\'' +
-                ", distanceUnitOfMeasurement='" + distanceUnitOfMeasurement + '\'' +
-                ", locationList=" + locationList +
+                "locationList=" + locationList +
                 ", depotList=" + depotList +
                 ", vehicleList=" + vehicleList +
                 ", visitList=" + visitList +

@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import org.junit.jupiter.api.Test;
+import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -31,7 +32,7 @@ class SolutionFactoryTest {
         assertThat(solution.getVisitList()).isEmpty();
         assertThat(solution.getDepotList()).isEmpty();
         assertThat(solution.getVehicleList()).isEmpty();
-        assertThat(solution.getDistanceUnitOfMeasurement()).isEqualTo("sec");
+        assertThat(solution.getScore()).isEqualTo(HardSoftLongScore.ZERO);
     }
 
     @Test
