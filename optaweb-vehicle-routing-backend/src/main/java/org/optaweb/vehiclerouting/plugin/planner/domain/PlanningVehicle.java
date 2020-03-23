@@ -21,8 +21,8 @@ import java.util.NoSuchElementException;
 
 public class PlanningVehicle extends AbstractPlanningObject implements Standstill {
 
-    protected int capacity;
-    protected PlanningDepot depot;
+    private int capacity;
+    private PlanningDepot depot;
 
     // Shadow variables
     private PlanningVisit nextVisit;

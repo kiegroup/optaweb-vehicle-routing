@@ -25,18 +25,18 @@ import org.optaweb.vehiclerouting.plugin.planner.weight.DepotAngleVisitDifficult
 @PlanningEntity(difficultyWeightFactoryClass = DepotAngleVisitDifficultyWeightFactory.class)
 public class PlanningVisit extends AbstractPlanningObject implements Standstill {
 
-    protected PlanningLocation location;
-    protected int demand;
+    private PlanningLocation location;
+    private int demand;
 
     // Planning variables: changes during planning, between score calculations.
     @PlanningVariable(valueRangeProviderRefs = {"vehicleRange", "visitRange"},
             graphType = PlanningVariableGraphType.CHAINED)
-    protected Standstill previousStandstill;
+    private Standstill previousStandstill;
 
     // Shadow variables
-    protected PlanningVisit nextVisit;
+    private PlanningVisit nextVisit;
     @AnchorShadowVariable(sourceVariableName = "previousStandstill")
-    protected PlanningVehicle vehicle;
+    private PlanningVehicle vehicle;
 
     @Override
     public PlanningLocation getLocation() {
