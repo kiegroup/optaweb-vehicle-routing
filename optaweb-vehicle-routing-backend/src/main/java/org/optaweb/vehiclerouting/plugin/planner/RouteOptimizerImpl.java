@@ -55,9 +55,10 @@ class RouteOptimizerImpl implements RouteOptimizer {
 
     @Override
     public void addLocation(Location domainLocation, DistanceMatrix distanceMatrix) {
-        PlanningLocation location = PlanningLocationFactory.fromDomain(domainLocation);
-        DistanceMapImpl distanceMap = new DistanceMapImpl(location, distanceMatrix.getRow(domainLocation));
-        location.setTravelDistanceMap(distanceMap);
+        PlanningLocation location = PlanningLocationFactory.fromDomain(
+                domainLocation,
+                new DistanceMapImpl(domainLocation, distanceMatrix.getRow(domainLocation))
+        );
         // Unfortunately can't start solver with an empty solution (see https://issues.redhat.com/browse/PLANNER-776)
         if (depot == null) {
             depot = new PlanningDepot(location);
@@ -100,6 +101,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
                 solverManager.stopSolver();
                 publishSolution();
             } else {
+                // TODO maybe allow removing location by ID (only require the necessary information)
                 solverManager.removeLocation(PlanningLocationFactory.fromDomain(domainLocation));
             }
         }

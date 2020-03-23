@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.plugin.planner;
 
 import java.util.Map;
 
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.plugin.planner.domain.DistanceMap;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 
@@ -28,10 +29,11 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 // TODO get rid of dependency on Planning domain
 public class DistanceMapImpl implements DistanceMap {
 
-    private final PlanningLocation location;
+    // TODO maybe replace this with Long id (only require the necessary information)
+    private final Location location;
     private final Map<Long, Long> distanceMap;
 
-    public DistanceMapImpl(PlanningLocation location, Map<Long, Long> distanceMap) {
+    public DistanceMapImpl(Location location, Map<Long, Long> distanceMap) {
         this.location = location;
         this.distanceMap = distanceMap;
     }

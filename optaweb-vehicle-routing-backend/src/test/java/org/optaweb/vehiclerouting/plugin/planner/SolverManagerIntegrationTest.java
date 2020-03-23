@@ -53,10 +53,8 @@ class SolverManagerIntegrationTest {
     @Test
     void solver_should_be_in_daemon_mode() throws InterruptedException {
         PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1);
-        PlanningLocation depot = PlanningLocationFactory.testLocation(1);
-        depot.setTravelDistanceMap(mockDistanceMap());
-        PlanningLocation visit = PlanningLocationFactory.testLocation(2);
-        visit.setTravelDistanceMap(mockDistanceMap());
+        PlanningLocation depot = PlanningLocationFactory.testLocation(1, mockDistanceMap());
+        PlanningLocation visit = PlanningLocationFactory.testLocation(2, mockDistanceMap());
         VehicleRoutingSolution solution = solutionFromLocations(
                 singletonList(vehicle),
                 new PlanningDepot(depot),

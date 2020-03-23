@@ -20,6 +20,8 @@ import java.util.HashMap;
 
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
+import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.plugin.planner.DistanceMapImpl;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -30,32 +32,42 @@ class PlanningLocationTest {
     @Test
     void distance_to_location_should_equal_value_in_distance_map() {
         HashMap<Long, Long> distanceMap = new HashMap<>();
-        PlanningLocation location = PlanningLocationFactory.testLocation(0);
         long otherId = 321;
         long distance = 777777;
         distanceMap.put(otherId, distance);
-        location.setTravelDistanceMap(new DistanceMapImpl(location, distanceMap));
-        assertThat(location.getDistanceTo(PlanningLocationFactory.testLocation(otherId))).isEqualTo(distance);
+        Location domainLocation = new Location(1, Coordinates.valueOf(0, 0));
+
+        PlanningLocation planningLocation = new PlanningLocation(
+                domainLocation.id(),
+                domainLocation.coordinates().latitude().doubleValue(),
+                domainLocation.coordinates().longitude().doubleValue(),
+                new DistanceMapImpl(domainLocation, distanceMap)
+        );
+        assertThat(planningLocation.getDistanceTo(PlanningLocationFactory.testLocation(otherId))).isEqualTo(distance);
     }
 
     @Test
     void angle_from_depot_at_zero_should_be_atan2_of_latitude_longitude() {
-        PlanningLocation center = new PlanningLocation(0, 0, 0);
+        PlanningLocation center = fromCoordinates(0, 0);
 
-        assertThat(center.getAngle(new PlanningLocation(0, 0, 1))).isZero();
-        assertThat(center.getAngle(new PlanningLocation(0, 0, -1))).isEqualTo(Math.PI);
-        assertThat(center.getAngle(new PlanningLocation(0, 1, 0))).isEqualTo(Math.PI / 2);
-        assertThat(center.getAngle(new PlanningLocation(0, -1, 0))).isEqualTo(-Math.PI / 2);
-        assertThat(center.getAngle(new PlanningLocation(0, -Double.MIN_VALUE, -1))).isEqualTo(-Math.PI);
-        assertThat(center.getAngle(new PlanningLocation(0, -0, 1))).isZero();
+        assertThat(center.getAngle(fromCoordinates(0, 1))).isZero();
+        assertThat(center.getAngle(fromCoordinates(0, -1))).isEqualTo(Math.PI);
+        assertThat(center.getAngle(fromCoordinates(1, 0))).isEqualTo(Math.PI / 2);
+        assertThat(center.getAngle(fromCoordinates(-1, 0))).isEqualTo(-Math.PI / 2);
+        assertThat(center.getAngle(fromCoordinates(-Double.MIN_VALUE, -1))).isEqualTo(-Math.PI);
+        assertThat(center.getAngle(fromCoordinates(-0, 1))).isZero();
     }
 
     @Test
     void angle_from_depot_on_real_coordinates_should_be_atan2_of_latitude_longitude() {
-        PlanningLocation depot = new PlanningLocation(0, 1.77, -10.5);
+        PlanningLocation depot = fromCoordinates(1.77, -10.5);
         Offset<Double> offset = offset(0.05);
 
-        assertThat(depot.getAngle(new PlanningLocation(0, 1.76, -5))).isCloseTo(0, offset).isNegative();
-        assertThat(depot.getAngle(new PlanningLocation(0, 100000, -1))).isCloseTo(Math.PI / 2, offset);
+        assertThat(depot.getAngle(fromCoordinates(1.76, -5))).isCloseTo(0, offset).isNegative();
+        assertThat(depot.getAngle(fromCoordinates(100000, -1))).isCloseTo(Math.PI / 2, offset);
+    }
+
+    private static PlanningLocation fromCoordinates(double latitude, double longitude) {
+        return new PlanningLocation(0, latitude, longitude, location -> 0);
     }
 }

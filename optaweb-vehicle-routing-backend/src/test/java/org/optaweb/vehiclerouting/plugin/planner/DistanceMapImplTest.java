@@ -19,6 +19,8 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
+import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 
@@ -29,7 +31,7 @@ class DistanceMapImplTest {
 
     @Test
     void distance_map_should_return_distance_associated_with_a_location() {
-        PlanningLocation location1 = PlanningLocationFactory.testLocation(1);
+        Location location1 = new Location(1, Coordinates.valueOf(1, 1));
         long otherId = 2;
         PlanningLocation location2 = PlanningLocationFactory.testLocation(otherId);
         long distance = 45000;
@@ -41,7 +43,7 @@ class DistanceMapImplTest {
 
     @Test
     void should_throw_illegal_argument_exception() {
-        PlanningLocation location1 = PlanningLocationFactory.testLocation(1);
+        Location location1 = new Location(1, Coordinates.valueOf(1, 1));
         PlanningLocation location2 = PlanningLocationFactory.testLocation(2);
         DistanceMapImpl distanceMap = new DistanceMapImpl(location1, new HashMap<>());
         assertThatIllegalArgumentException().isThrownBy(() -> distanceMap.distanceTo(location2));
