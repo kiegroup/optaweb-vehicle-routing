@@ -29,10 +29,13 @@ public class PlanningVisit extends AbstractPlanningObject implements Standstill 
     protected int demand;
 
     // Planning variables: changes during planning, between score calculations.
+    @PlanningVariable(valueRangeProviderRefs = {"vehicleRange", "visitRange"},
+            graphType = PlanningVariableGraphType.CHAINED)
     protected Standstill previousStandstill;
 
     // Shadow variables
     protected PlanningVisit nextVisit;
+    @AnchorShadowVariable(sourceVariableName = "previousStandstill")
     protected PlanningVehicle vehicle;
 
     @Override
@@ -52,8 +55,6 @@ public class PlanningVisit extends AbstractPlanningObject implements Standstill 
         this.demand = demand;
     }
 
-    @PlanningVariable(valueRangeProviderRefs = {"vehicleRange", "visitRange"},
-            graphType = PlanningVariableGraphType.CHAINED)
     public Standstill getPreviousStandstill() {
         return previousStandstill;
     }
@@ -73,7 +74,6 @@ public class PlanningVisit extends AbstractPlanningObject implements Standstill 
     }
 
     @Override
-    @AnchorShadowVariable(sourceVariableName = "previousStandstill")
     public PlanningVehicle getVehicle() {
         return vehicle;
     }

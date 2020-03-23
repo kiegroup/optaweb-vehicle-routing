@@ -28,16 +28,22 @@ import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 @PlanningSolution
 public class VehicleRoutingSolution {
 
+    @ProblemFactCollectionProperty
     private List<PlanningLocation> locationList;
+    @ProblemFactCollectionProperty
     private List<PlanningDepot> depotList;
+    @PlanningEntityCollectionProperty
+    @ValueRangeProvider(id = "vehicleRange")
     private List<PlanningVehicle> vehicleList;
+    @PlanningEntityCollectionProperty
+    @ValueRangeProvider(id = "visitRange")
     private List<PlanningVisit> visitList;
+    @PlanningScore
     private HardSoftLongScore score;
 
     public VehicleRoutingSolution() {
     }
 
-    @ProblemFactCollectionProperty
     public List<PlanningLocation> getLocationList() {
         return this.locationList;
     }
@@ -46,7 +52,6 @@ public class VehicleRoutingSolution {
         this.locationList = locationList;
     }
 
-    @ProblemFactCollectionProperty
     public List<PlanningDepot> getDepotList() {
         return this.depotList;
     }
@@ -55,8 +60,6 @@ public class VehicleRoutingSolution {
         this.depotList = depotList;
     }
 
-    @PlanningEntityCollectionProperty
-    @ValueRangeProvider(id = "vehicleRange")
     public List<PlanningVehicle> getVehicleList() {
         return this.vehicleList;
     }
@@ -65,8 +68,6 @@ public class VehicleRoutingSolution {
         this.vehicleList = vehicleList;
     }
 
-    @PlanningEntityCollectionProperty
-    @ValueRangeProvider(id = "visitRange")
     public List<PlanningVisit> getVisitList() {
         return this.visitList;
     }
@@ -75,7 +76,6 @@ public class VehicleRoutingSolution {
         this.visitList = visitList;
     }
 
-    @PlanningScore
     public HardSoftLongScore getScore() {
         return this.score;
     }
