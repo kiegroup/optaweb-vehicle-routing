@@ -142,7 +142,7 @@ class RemoveVisitTest {
     private static PlanningVehicle planningVehicle(long id) {
         PlanningVehicle vehicle = new PlanningVehicle();
         vehicle.setDepot(new PlanningDepot());
-        vehicle.getDepot().setLocation(new PlanningLocation());
+        vehicle.getDepot().setLocation(new PlanningLocation(0, 0, 0));
         return vehicle;
     }
 

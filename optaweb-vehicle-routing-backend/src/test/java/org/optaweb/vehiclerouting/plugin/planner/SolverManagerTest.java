@@ -149,7 +149,7 @@ class SolverManagerTest {
         when(solverFuture.get()).thenThrow(InterruptedException.class);
 
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> solverManager.removeLocation(new PlanningLocation()));
+                .isThrownBy(() -> solverManager.removeLocation(new PlanningLocation(0, 0, 0)));
         assertThat(Thread.interrupted()).isTrue();
 
         assertThatExceptionOfType(RuntimeException.class)
