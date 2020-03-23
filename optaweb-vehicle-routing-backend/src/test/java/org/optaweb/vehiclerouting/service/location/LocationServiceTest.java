@@ -26,6 +26,7 @@ import org.optaweb.vehiclerouting.domain.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -40,6 +41,8 @@ class LocationServiceTest {
     private RouteOptimizer optimizer;
     @Mock
     private DistanceMatrix distanceMatrix;
+    @Mock
+    private DistanceMatrixRow matrixRow;
     @InjectMocks
     private LocationService locationService;
 
@@ -56,12 +59,13 @@ class LocationServiceTest {
     void createLocation() {
         String description = "new location";
         when(repository.createLocation(coordinates, description)).thenReturn(location);
+        when(distanceMatrix.addLocation(any())).thenReturn(matrixRow);
 
         assertThat(locationService.createLocation(coordinates, description)).isTrue();
 
         verify(repository).createLocation(coordinates, description);
         verify(distanceMatrix).addLocation(location);
-        verify(optimizer).addLocation(location, distanceMatrix);
+        verify(optimizer).addLocation(location, matrixRow);
     }
 
     @Test
@@ -71,11 +75,12 @@ class LocationServiceTest {
 
     @Test
     void addLocation() {
+        when(distanceMatrix.addLocation(any())).thenReturn(matrixRow);
         assertThat(locationService.addLocation(location)).isTrue();
 
         verifyNoInteractions(repository);
         verify(distanceMatrix).addLocation(location);
-        verify(optimizer).addLocation(location, distanceMatrix);
+        verify(optimizer).addLocation(location, matrixRow);
     }
 
     @Test

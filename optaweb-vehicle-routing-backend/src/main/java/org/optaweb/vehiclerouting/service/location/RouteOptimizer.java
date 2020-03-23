@@ -20,11 +20,11 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 
 /**
- * Performs route optimization based on distances provided by {@link DistanceMatrix}.
+ * Performs route optimization based on distances between locations.
  */
 public interface RouteOptimizer {
 
-    void addLocation(Location location, DistanceMatrix distanceMatrix);
+    void addLocation(Location location, DistanceMatrixRow distanceMatrixRow);
 
     void removeLocation(Location location);
 

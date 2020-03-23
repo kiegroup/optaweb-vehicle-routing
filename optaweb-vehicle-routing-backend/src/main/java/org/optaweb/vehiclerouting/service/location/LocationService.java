@@ -61,7 +61,8 @@ public class LocationService {
 
     private boolean submitToPlanner(Location location) {
         try {
-            distanceMatrix.addLocation(location);
+            DistanceMatrixRow distanceMatrixRow = distanceMatrix.addLocation(location);
+            optimizer.addLocation(location, distanceMatrixRow);
         } catch (Exception e) {
             // TODO relay the error event to the client
             logger.warn("Failed to calculate distances for {}, it will be discarded", location);
@@ -69,7 +70,6 @@ public class LocationService {
             repository.removeLocation(location.id());
             return false; // do not proceed to optimizer
         }
-        optimizer.addLocation(location, distanceMatrix);
         return true;
     }
 

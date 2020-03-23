@@ -16,11 +16,11 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.util.Map;
+import java.util.Objects;
 
-import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.plugin.planner.domain.DistanceMap;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 
 /**
  * Temporary distance map implementation that allows to compute and store distances purely from
@@ -29,25 +29,14 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 // TODO get rid of dependency on Planning domain
 public class DistanceMapImpl implements DistanceMap {
 
-    // TODO maybe replace this with Long id (only require the necessary information)
-    private final Location location;
-    private final Map<Long, Long> distanceMap;
+    private final DistanceMatrixRow distanceMatrixRow;
 
-    public DistanceMapImpl(Location location, Map<Long, Long> distanceMap) {
-        this.location = location;
-        this.distanceMap = distanceMap;
+    public DistanceMapImpl(DistanceMatrixRow distanceMatrixRow) {
+        this.distanceMatrixRow = Objects.requireNonNull(distanceMatrixRow);
     }
 
     @Override
     public long distanceTo(PlanningLocation location) {
-        long id = location.getId();
-        if (!distanceMap.containsKey(id)) {
-            throw new IllegalArgumentException(
-                    "Distance from " + this.location
-                            + " to " + id
-                            + " hasn't been recorded.\n"
-                            + "We only know distances to " + distanceMap.keySet());
-        }
-        return distanceMap.get(id);
+        return distanceMatrixRow.secondsTo(location.getId());
     }
 }

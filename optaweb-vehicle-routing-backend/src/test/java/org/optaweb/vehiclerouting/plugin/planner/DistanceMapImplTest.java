@@ -16,36 +16,27 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.util.HashMap;
-
 import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
+import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 class DistanceMapImplTest {
 
     @Test
-    void distance_map_should_return_distance_associated_with_a_location() {
-        Location location1 = new Location(1, Coordinates.valueOf(1, 1));
-        long otherId = 2;
-        PlanningLocation location2 = PlanningLocationFactory.testLocation(otherId);
-        long distance = 45000;
-        HashMap<Long, Long> hashMap = new HashMap<>(1);
-        hashMap.put(otherId, distance);
-        DistanceMapImpl distanceMap = new DistanceMapImpl(location1, hashMap);
-        assertThat(distanceMap.distanceTo(location2)).isEqualTo(distance);
+    void matrix_row_must_not_be_null() {
+        assertThatNullPointerException().isThrownBy(() -> new DistanceMapImpl(null));
     }
 
     @Test
-    void should_throw_illegal_argument_exception() {
-        Location location1 = new Location(1, Coordinates.valueOf(1, 1));
+    void distance_map_should_return_value_from_distance_matrix_row() {
         PlanningLocation location2 = PlanningLocationFactory.testLocation(2);
-        DistanceMapImpl distanceMap = new DistanceMapImpl(location1, new HashMap<>());
-        assertThatIllegalArgumentException().isThrownBy(() -> distanceMap.distanceTo(location2));
+        long distance = 45000;
+        DistanceMatrixRow matrixRow = locationId -> distance;
+        DistanceMapImpl distanceMap = new DistanceMapImpl(matrixRow);
+        assertThat(distanceMap.distanceTo(location2)).isEqualTo(distance);
     }
 }

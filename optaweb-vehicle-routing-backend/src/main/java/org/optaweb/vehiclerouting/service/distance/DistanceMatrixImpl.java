@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
+import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ class DistanceMatrixImpl implements DistanceMatrix {
     }
 
     @Override
-    public void addLocation(Location newLocation) {
+    public DistanceMatrixRow addLocation(Location newLocation) {
         // Matrix == distance rows.
         // We're adding a whole new row with distances from the new location to existing ones.
         // We're also creating a new column by "appending" a new cell to each existing row.
@@ -67,6 +68,17 @@ class DistanceMatrixImpl implements DistanceMatrix {
         });
 
         matrix.put(newLocation, distancesToOthers);
+
+        return locationId -> {
+            if (!distancesToOthers.containsKey(locationId)) {
+                throw new IllegalArgumentException(
+                        "Distance from " + newLocation
+                                + " to " + locationId
+                                + " hasn't been recorded.\n"
+                                + "We only know distances to " + distancesToOthers.keySet());
+            }
+            return distancesToOthers.get(locationId);
+        };
     }
 
     private Long calculateOrRestoreDistance(Location from, Location to) {
@@ -76,11 +88,6 @@ class DistanceMatrixImpl implements DistanceMatrix {
             distanceRepository.saveDistance(from, to, distance);
         }
         return distance;
-    }
-
-    @Override
-    public Map<Long, Long> getRow(Location location) {
-        return matrix.get(location);
     }
 
     @Override

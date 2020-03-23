@@ -41,7 +41,7 @@ class PlanningLocationTest {
                 domainLocation.id(),
                 domainLocation.coordinates().latitude().doubleValue(),
                 domainLocation.coordinates().longitude().doubleValue(),
-                new DistanceMapImpl(domainLocation, distanceMap)
+                new DistanceMapImpl(distanceMap::get)
         );
         assertThat(planningLocation.getDistanceTo(PlanningLocationFactory.testLocation(otherId))).isEqualTo(distance);
     }

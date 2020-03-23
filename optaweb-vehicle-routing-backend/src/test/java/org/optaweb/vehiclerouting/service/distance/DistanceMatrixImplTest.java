@@ -17,7 +17,6 @@
 package org.optaweb.vehiclerouting.service.distance;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,8 +25,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
@@ -54,44 +55,36 @@ class DistanceMatrixImplTest {
         Location l1 = location(111, 1);
         Location l9neg = location(321, -9);
 
-        distanceMatrix.addLocation(l0);
-        Map<Long, Long> mapL0 = distanceMatrix.getRow(l0);
-        assertThat(mapL0.size()).isEqualTo(1);
+        DistanceMatrixRow matrixRow0 = distanceMatrix.addLocation(l0);
 
         // distance to self
-        assertThat(mapL0.get(l0.id())).isEqualTo(0L);
+        assertThat(matrixRow0.secondsTo(l0.id())).isEqualTo(0L);
         // distance to not yet registered location
-        assertThat(mapL0).doesNotContainKeys(l1.id());
+        assertThatIllegalArgumentException().isThrownBy(() -> matrixRow0.secondsTo(l1.id()));
 
-        distanceMatrix.addLocation(l1);
-        Map<Long, Long> mapL1 = distanceMatrix.getRow(l1);
+        DistanceMatrixRow matrixRow1 = distanceMatrix.addLocation(l1);
         // distance to self
-        assertThat(mapL1.get(l1.id())).isEqualTo(0L);
+        assertThat(matrixRow1.secondsTo(l1.id())).isEqualTo(0L);
 
         // distance 0 <-> 1
-        assertThat(mapL1.get(l0.id())).isEqualTo(-1L);
-        assertThat(mapL0.get(l1.id())).isEqualTo(1L);
+        assertThat(matrixRow1.secondsTo(l0.id())).isEqualTo(-1L);
+        assertThat(matrixRow0.secondsTo(l1.id())).isEqualTo(1L);
 
-        distanceMatrix.addLocation(l9neg);
-        Map<Long, Long> mapL9 = distanceMatrix.getRow(l9neg);
+        DistanceMatrixRow matrixRow9 = distanceMatrix.addLocation(l9neg);
 
         // distances -9 -> {0, 1}
-        assertThat(mapL9.get(l0.id())).isEqualTo(9L);
-        assertThat(mapL9.get(l1.id())).isEqualTo(10L);
+        assertThat(matrixRow9.secondsTo(l0.id())).isEqualTo(9L);
+        assertThat(matrixRow9.secondsTo(l1.id())).isEqualTo(10L);
         // distances {0, 1} -> -9
-        assertThat(mapL0.get(l9neg.id())).isEqualTo(-9L);
-        assertThat(mapL1.get(l9neg.id())).isEqualTo(-10L);
-
-        // distance map sizes
-        assertThat(mapL0.size()).isEqualTo(3);
-        assertThat(mapL1.size()).isEqualTo(3);
-        assertThat(mapL9.size()).isEqualTo(3);
+        assertThat(matrixRow0.secondsTo(l9neg.id())).isEqualTo(-9L);
+        assertThat(matrixRow1.secondsTo(l9neg.id())).isEqualTo(-10L);
 
         // clear the map
         distanceMatrix.clear();
-        assertThat(distanceMatrix.getRow(l0)).isNull();
-        assertThat(distanceMatrix.getRow(l1)).isNull();
-        assertThat(distanceMatrix.getRow(l9neg)).isNull();
+        Location l500 = location(500, 500);
+        DistanceMatrixRow matrixRow500 = distanceMatrix.addLocation(l500);
+        assertThatIllegalArgumentException().isThrownBy(() -> matrixRow500.secondsTo(l0.id()));
+        assertThatIllegalArgumentException().isThrownBy(() -> matrixRow9.secondsTo(l500.id()));
     }
 
     @Test
