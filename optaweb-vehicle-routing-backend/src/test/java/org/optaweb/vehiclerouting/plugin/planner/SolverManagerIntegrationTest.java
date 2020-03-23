@@ -21,6 +21,7 @@ import org.optaweb.vehiclerouting.Profiles;
 import org.optaweb.vehiclerouting.plugin.planner.domain.DistanceMap;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
@@ -52,9 +53,9 @@ class SolverManagerIntegrationTest {
     @Test
     void solver_should_be_in_daemon_mode() throws InterruptedException {
         PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1);
-        PlanningLocation depot = new PlanningLocation(1, 0, 0);
+        PlanningLocation depot = PlanningLocationFactory.testLocation(1);
         depot.setTravelDistanceMap(mockDistanceMap());
-        PlanningLocation visit = new PlanningLocation(2, 0, 0);
+        PlanningLocation visit = PlanningLocationFactory.testLocation(2);
         visit.setTravelDistanceMap(mockDistanceMap());
         VehicleRoutingSolution solution = solutionFromLocations(
                 singletonList(vehicle),

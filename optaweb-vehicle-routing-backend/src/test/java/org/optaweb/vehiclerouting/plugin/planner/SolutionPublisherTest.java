@@ -24,7 +24,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
@@ -93,8 +93,8 @@ class SolutionPublisherTest {
         long visitId = 2;
         VehicleRoutingSolution solution = solutionFromLocations(
                 emptyList(),
-                new PlanningDepot(new PlanningLocation(depotId, 1.0, 1.0)),
-                singletonList(new PlanningLocation(visitId, 2.0, 2.0))
+                new PlanningDepot(PlanningLocationFactory.testLocation(depotId)),
+                singletonList(PlanningLocationFactory.testLocation(visitId))
         );
 
         RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
@@ -117,9 +117,9 @@ class SolutionPublisherTest {
         long depotId = 1;
         long visitId1 = 2;
         long visitId2 = 3;
-        PlanningDepot depot = new PlanningDepot(new PlanningLocation(depotId, 1.0, 1.0));
-        PlanningVisit visit1 = fromLocation(new PlanningLocation(visitId1, 2.0, 2.0));
-        PlanningVisit visit2 = fromLocation(new PlanningLocation(visitId2, 0.2, 0.2));
+        PlanningDepot depot = new PlanningDepot(PlanningLocationFactory.testLocation(depotId));
+        PlanningVisit visit1 = fromLocation(PlanningLocationFactory.testLocation(visitId1));
+        PlanningVisit visit2 = fromLocation(PlanningLocationFactory.testLocation(visitId2));
 
         VehicleRoutingSolution solution = solutionFromVisits(
                 asList(vehicle1, vehicle2),
@@ -167,12 +167,12 @@ class SolutionPublisherTest {
     @Test
     void fail_fast_if_vehicles_next_visit_doesnt_exist() {
         PlanningVehicle vehicle = testVehicle(1);
-        vehicle.setNextVisit(fromLocation(new PlanningLocation(2, 2.0, 2.0)));
+        vehicle.setNextVisit(fromLocation(PlanningLocationFactory.testLocation(2)));
 
         VehicleRoutingSolution solution = solutionFromLocations(
                 singletonList(vehicle),
-                new PlanningDepot(new PlanningLocation(1, 1.0, 1.0)),
-                singletonList(new PlanningLocation(3, 3.0, 3.0))
+                new PlanningDepot(PlanningLocationFactory.testLocation(1)),
+                singletonList(PlanningLocationFactory.testLocation(3))
         );
 
         assertThatIllegalArgumentException()
@@ -182,7 +182,7 @@ class SolutionPublisherTest {
 
     @Test
     void vehicle_without_a_depot_is_illegal_if_depot_exists() {
-        PlanningDepot depot = new PlanningDepot(new PlanningLocation(1, 1.0, 1.0));
+        PlanningDepot depot = new PlanningDepot(PlanningLocationFactory.testLocation(1));
         PlanningVehicle vehicle = testVehicle(1);
         VehicleRoutingSolution solution = solutionFromVisits(singletonList(vehicle), depot, emptyList());
         vehicle.setDepot(null);

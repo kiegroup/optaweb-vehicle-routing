@@ -35,4 +35,25 @@ public class PlanningLocationFactory {
                 location.coordinates().longitude().doubleValue()
         );
     }
+
+    /**
+     * Create test location without distance map and coordinates. Coordinates will be initialized to zero.
+     * @param id location ID
+     * @return planning location without distance map and coordinates
+     */
+    public static PlanningLocation testLocation(long id) {
+        return new PlanningLocation(id, 0, 0);
+    }
+
+    /**
+     * Create test location with distance map and without coordinates. Coordinates will be initialized to zero.
+     * @param id location ID
+     * @param distanceMap distance map
+     * @return planning location with distance map and without coordinates
+     */
+    public static PlanningLocation testLocation(long id, DistanceMap distanceMap) {
+        PlanningLocation planningLocation = new PlanningLocation(id, 0, 0);
+        planningLocation.setTravelDistanceMap(distanceMap);
+        return planningLocation;
+    }
 }

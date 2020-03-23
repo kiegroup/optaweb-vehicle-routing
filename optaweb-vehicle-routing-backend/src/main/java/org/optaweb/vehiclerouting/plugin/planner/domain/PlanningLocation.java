@@ -23,7 +23,7 @@ public class PlanningLocation extends AbstractPlanningObject {
     private double longitude;
     private DistanceMap travelDistanceMap;
 
-    public PlanningLocation(long id, double latitude, double longitude) {
+    PlanningLocation(long id, double latitude, double longitude) {
         super(id);
         this.latitude = latitude;
         this.longitude = longitude;

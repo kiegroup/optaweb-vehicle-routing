@@ -21,10 +21,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
@@ -82,7 +82,7 @@ class RemoveVisitTest {
         solution.getVisitList().add(removedVisit);
 
         // V -> first -> removed -> last
-        firstVisit.setPreviousStandstill(planningVehicle(1));
+        firstVisit.setPreviousStandstill(PlanningVehicleFactory.testVehicle(1));
         firstVisit.setNextVisit(removedVisit);
         removedVisit.setPreviousStandstill(firstVisit);
         removedVisit.setNextVisit(lastVisit);
@@ -139,18 +139,7 @@ class RemoveVisitTest {
                 .withMessageContaining("working copy of");
     }
 
-    private static PlanningVehicle planningVehicle(long id) {
-        PlanningVehicle vehicle = new PlanningVehicle();
-        vehicle.setDepot(new PlanningDepot());
-        vehicle.getDepot().setLocation(new PlanningLocation(0, 0, 0));
-        return vehicle;
-    }
-
     private static PlanningVisit visit(long id) {
-        PlanningLocation location = new PlanningLocation(1000000 + id, id, id);
-        PlanningVisit visit = new PlanningVisit();
-        visit.setId(id);
-        visit.setLocation(location);
-        return visit;
+        return PlanningVisitFactory.fromLocation(PlanningLocationFactory.testLocation(id));
     }
 }

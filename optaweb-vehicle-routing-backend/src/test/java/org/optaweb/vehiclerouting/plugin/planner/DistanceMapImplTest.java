@@ -20,6 +20,7 @@ import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -28,9 +29,9 @@ class DistanceMapImplTest {
 
     @Test
     void distance_map_should_return_distance_associated_with_a_location() {
-        PlanningLocation location1 = new PlanningLocation(1, 8.0, 0.8);
+        PlanningLocation location1 = PlanningLocationFactory.testLocation(1);
         long otherId = 2;
-        PlanningLocation location2 = new PlanningLocation(otherId, 0.0, 0.0);
+        PlanningLocation location2 = PlanningLocationFactory.testLocation(otherId);
         long distance = 45000;
         HashMap<Long, Long> hashMap = new HashMap<>(1);
         hashMap.put(otherId, distance);
@@ -40,8 +41,8 @@ class DistanceMapImplTest {
 
     @Test
     void should_throw_illegal_argument_exception() {
-        PlanningLocation location1 = new PlanningLocation(1, 0.0, 0.0);
-        PlanningLocation location2 = new PlanningLocation(2, 0.0, 0.0);
+        PlanningLocation location1 = PlanningLocationFactory.testLocation(1);
+        PlanningLocation location2 = PlanningLocationFactory.testLocation(2);
         DistanceMapImpl distanceMap = new DistanceMapImpl(location1, new HashMap<>());
         assertThatIllegalArgumentException().isThrownBy(() -> distanceMap.distanceTo(location2));
     }

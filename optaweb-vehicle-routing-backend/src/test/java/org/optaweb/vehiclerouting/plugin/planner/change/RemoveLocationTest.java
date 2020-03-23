@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
@@ -41,7 +42,7 @@ class RemoveLocationTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
-        PlanningLocation location = new PlanningLocation(1, 2.0, 3.0);
+        PlanningLocation location = PlanningLocationFactory.testLocation(1);
         solution.getLocationList().add(location);
 
         when(scoreDirector.lookUpWorkingObject(location)).thenReturn(location);
@@ -62,10 +63,10 @@ class RemoveLocationTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
 
         long removedId = 111L;
-        PlanningLocation removedLocation = new PlanningLocation(removedId, 0, 1);
+        PlanningLocation removedLocation = PlanningLocationFactory.testLocation(removedId);
         removedLocation.setId(removedId);
         long wrongId = 222L;
-        PlanningLocation wrongLocation = new PlanningLocation(wrongId, 1, 0);
+        PlanningLocation wrongLocation = PlanningLocationFactory.testLocation(wrongId);
         wrongLocation.setId(wrongId);
         solution.getLocationList().add(wrongLocation);
 
@@ -84,7 +85,7 @@ class RemoveLocationTest {
         when(scoreDirector.getWorkingSolution()).thenReturn(SolutionFactory.emptySolution());
 
         assertThatIllegalStateException()
-                .isThrownBy(() -> new RemoveLocation(new PlanningLocation(1, 2, 3)).doChange(scoreDirector))
+                .isThrownBy(() -> new RemoveLocation(PlanningLocationFactory.testLocation(1)).doChange(scoreDirector))
                 .withMessageContaining("working copy of");
     }
 }

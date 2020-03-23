@@ -35,4 +35,11 @@ class PlanningLocationFactoryTest {
         assertThat(planningLocation.getLatitude()).isEqualTo(latitude);
         assertThat(planningLocation.getLongitude()).isEqualTo(longitude);
     }
+
+    @Test
+    void test_locations_distance_map_should_work() {
+        long distance = 11231;
+        PlanningLocation planningLocation = PlanningLocationFactory.testLocation(0, location -> distance);
+        assertThat(planningLocation.getDistanceTo(PlanningLocationFactory.testLocation(1))).isEqualTo(distance);
+    }
 }

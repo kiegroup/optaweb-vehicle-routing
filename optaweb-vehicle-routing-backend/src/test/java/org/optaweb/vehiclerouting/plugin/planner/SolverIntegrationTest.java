@@ -38,7 +38,6 @@ import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
@@ -48,6 +47,7 @@ import org.slf4j.LoggerFactory;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.testLocation;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.emptySolution;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromLocations;
@@ -87,11 +87,12 @@ class SolverIntegrationTest {
 
     @Test
     void removing_visits_should_not_fail() {
+        long distance = 1;
         PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1);
         VehicleRoutingSolution solution = solutionFromLocations(
                 singletonList(vehicle),
-                new PlanningDepot(location(1)),
-                singletonList(location(2))
+                new PlanningDepot(testLocation(1, location -> distance)),
+                singletonList(testLocation(2, location -> distance))
         );
 
         Solver<VehicleRoutingSolution> solver
@@ -102,7 +103,7 @@ class SolverIntegrationTest {
         for (int id = 3; id < 6; id++) {
             logger.info("Add visit ({})", id);
             monitor.beforeProblemFactChange();
-            solver.addProblemFactChange(new AddVisit(fromLocation(location(id))));
+            solver.addProblemFactChange(new AddVisit(fromLocation(testLocation(id, location -> distance))));
             assertThat(monitor.awaitAllProblemFactChanges(1000)).isTrue();
         }
 
@@ -112,8 +113,8 @@ class SolverIntegrationTest {
             assertThat(solver.isEveryProblemFactChangeProcessed()).isTrue();
             monitor.beforeProblemFactChange();
             solver.addProblemFactChanges(Arrays.asList(
-                    new RemoveVisit(fromLocation(location(id))),
-                    new RemoveLocation(location(id))
+                    new RemoveVisit(fromLocation(testLocation(id))),
+                    new RemoveLocation(testLocation(id))
             ));
             assertThat(solver.isEveryProblemFactChangeProcessed()).isFalse(); // probably not 100% safe
             // Notice that it's not possible to check individual problem fact changes completion.
@@ -143,12 +144,6 @@ class SolverIntegrationTest {
             fail("Solving failed", e);
         }
         throw new AssertionError();
-    }
-
-    private PlanningLocation location(long id) {
-        PlanningLocation location = new PlanningLocation(id, 0, 0);
-        location.setTravelDistanceMap(anyLocation -> 1);
-        return location;
     }
 
     static class ProblemFactChangeProcessingMonitor implements SolverEventListener<VehicleRoutingSolution> {

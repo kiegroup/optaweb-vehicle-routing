@@ -25,7 +25,7 @@ class PlanningVisitFactoryTest {
     @Test
     void visit_should_have_same_id_as_location_and_default_demand() {
         long id = 4;
-        PlanningLocation location = new PlanningLocation(id, 1.0, 2.0f);
+        PlanningLocation location = PlanningLocationFactory.testLocation(id);
 
         PlanningVisit visit = PlanningVisitFactory.fromLocation(location);
 
