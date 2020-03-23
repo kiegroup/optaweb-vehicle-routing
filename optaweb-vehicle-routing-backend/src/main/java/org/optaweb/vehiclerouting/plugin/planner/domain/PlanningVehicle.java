@@ -43,10 +43,12 @@ public class PlanningVehicle extends AbstractPlanningObject implements Standstil
         this.depot = depot;
     }
 
+    @Override
     public PlanningVisit getNextVisit() {
         return nextVisit;
     }
 
+    @Override
     public void setNextVisit(PlanningVisit nextVisit) {
         this.nextVisit = nextVisit;
     }
