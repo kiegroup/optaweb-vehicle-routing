@@ -180,10 +180,10 @@
             <goals>
               <goal>check</goal>
             </goals>
-            <configuration combine.self="override">
+            <configuration>
               <configLocation>config/checkstyle/Checker.xml</configLocation>
               <failOnViolation>${checkstyle.failOnViolation}</failOnViolation>
-              <logViolationsToConsole>true</logViolationsToConsole>
+              <logViolationsToConsole combine.self="override">true</logViolationsToConsole>
               <includeTestSourceDirectory>true</includeTestSourceDirectory>
               <includeResources>true</includeResources>
               <includeTestResources>true</includeTestResources>
@@ -235,21 +235,21 @@
               to change it without a complete override (combine.self="override"), for example excludedClasses,
               timeoutConstant.
             -->
-            <configuration combine.self="override">
+            <configuration>
               <reportsDirectory>local/pit-reports</reportsDirectory>
-              <timestampedReports>true</timestampedReports>
+              <timestampedReports combine.self="override">true</timestampedReports>
               <!--
                 Experimental. Using more than 2 threads doesn't reduce execution time further
                 and leads to minion timeouts.
               -->
               <threads>2</threads>
-              <mutators>
+              <mutators combine.self="override">
                 <!-- See http://pitest.org/quickstart/mutators/ -->
                 <mutator>DEFAULTS</mutator>
                 <mutator>NON_VOID_METHOD_CALLS</mutator>
                 <mutator>REMOVE_CONDITIONALS</mutator>
               </mutators>
-              <avoidCallsTo>
+              <avoidCallsTo combine.self="override">
                 <!--
                   String concatenation ("a" + "b") is implemented using StringBuilder.append() in bytecode.
                   We're not interested in mutations of these calls - it's mostly toString() and exception messages.
