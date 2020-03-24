@@ -102,7 +102,7 @@ class RouteListenerTest {
 
         RouteChangedEvent event = new RouteChangedEvent(
                 this,
-                Distance.ofSeconds(5000),
+                Distance.ofMillis(5000),
                 singletonList(vehicleId),
                 depot.id(),
                 emptyList(),
@@ -139,7 +139,7 @@ class RouteListenerTest {
         final Vehicle vehicle = VehicleFactory.testVehicle(vehicleId);
         final Location depot = new Location(1, depotCoordinates);
         final Location visit = new Location(2, visitCoordinates);
-        final Distance distance = Distance.ofSeconds(11);
+        final Distance distance = Distance.ofMillis(11);
         when(vehicleRepository.find(vehicleId)).thenReturn(Optional.of(vehicle));
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
         when(locationRepository.find(visit.id())).thenReturn(Optional.of(visit));
@@ -183,7 +183,7 @@ class RouteListenerTest {
         ShallowRoute route = new ShallowRoute(vehicle.id(), depot.id(), singletonList(visit.id()));
         RouteChangedEvent event = new RouteChangedEvent(
                 this,
-                Distance.ofSeconds(1),
+                Distance.ofMillis(1),
                 singletonList(vehicle.id()),
                 depot.id(),
                 singletonList(visit.id()),
@@ -213,7 +213,7 @@ class RouteListenerTest {
         ShallowRoute route = new ShallowRoute(vehicle.id(), depot.id(), singletonList(visit.id()));
         RouteChangedEvent event = new RouteChangedEvent(
                 this,
-                Distance.ofSeconds(1),
+                Distance.ofMillis(1),
                 singletonList(vehicle.id()),
                 depot.id(),
                 singletonList(visit.id()),

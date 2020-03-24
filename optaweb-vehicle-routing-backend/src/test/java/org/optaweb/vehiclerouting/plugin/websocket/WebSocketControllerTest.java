@@ -64,7 +64,7 @@ class WebSocketControllerTest {
     @Test
     void subscribeToRouteTopic() {
         // arrange
-        Distance distance = Distance.ofSeconds(987_654_321);
+        Distance distance = Distance.ofMillis(987_654_321);
         Location depot = new Location(1, Coordinates.valueOf(3, 5));
         Vehicle vehicle = VehicleFactory.createVehicle(1, "vehicle", 77);
         Location visit = new Location(2, Coordinates.valueOf(321, 123));

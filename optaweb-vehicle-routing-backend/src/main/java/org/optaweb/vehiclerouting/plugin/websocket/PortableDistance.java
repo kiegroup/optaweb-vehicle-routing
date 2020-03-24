@@ -30,11 +30,12 @@ public class PortableDistance {
     private final String distance;
 
     static PortableDistance fromDistance(Distance distance) {
-        return new PortableDistance(Objects.requireNonNull(distance).seconds() + " s");
+        long seconds = (Objects.requireNonNull(distance).millis() + 500) / 1000;
+        return new PortableDistance(String.format("%dh %dm %ds", seconds / 3600, seconds / 60 % 60, seconds % 60));
     }
 
     private PortableDistance(String distance) {
-        this.distance = Objects.requireNonNull(distance);
+        this.distance = distance;
     }
 
     @Override

@@ -25,32 +25,34 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 class DistanceTest {
 
     @Test
-    void distance_seconds_should_be_same_as_the_give_value() {
-        long seconds = 999;
-        assertThat(Distance.ofSeconds(seconds).seconds()).isEqualTo(seconds);
+    void distance_millis_should_be_same_as_the_given_value() {
+        long millis = 123_999;
+        assertThat(Distance.ofMillis(millis).millis()).isEqualTo(millis);
     }
 
     @Test
-    void string_should_end_with_unit() {
-        assertThat(Distance.ofSeconds(312)).hasToString("312 s");
+    void toString_should_contain_units_and_be_human_readable() {
+        assertThat(Distance.ofMillis(3600_000 * 37 + 60_000 * 3 + 24_000)).hasToString("37h 3m 24s 0ms");
+        assertThat(Distance.ofMillis(3601_000)).hasToString("1h 0m 1s 0ms");
+        assertThat(Distance.ofMillis(5_123)).hasToString("0h 0m 5s 123ms");
     }
 
     @Test
-    void seconds_must_be_positive_or_zero() {
-        assertThatIllegalArgumentException().isThrownBy(() -> Distance.ofSeconds(-1));
-        assertThatCode(() -> Distance.ofSeconds(0)).doesNotThrowAnyException();
+    void time_must_be_positive_or_zero() {
+        assertThatIllegalArgumentException().isThrownBy(() -> Distance.ofMillis(-1)).withMessageContaining("(-1)");
+        assertThatCode(() -> Distance.ofMillis(0)).doesNotThrowAnyException();
     }
 
     @Test
     void equals_hashCode() {
-        long seconds = 37;
-        Distance distance = Distance.ofSeconds(seconds);
+        long millis = 37;
+        Distance distance = Distance.ofMillis(millis);
         assertThat(distance).isEqualTo(distance);
-        assertThat(distance).isEqualTo(Distance.ofSeconds(seconds));
+        assertThat(distance).isEqualTo(Distance.ofMillis(millis));
         assertThat(distance).isNotEqualTo(null);
-        assertThat(distance).isNotEqualTo(seconds);
-        assertThat(distance).isNotEqualTo(Distance.ofSeconds(seconds + 1));
+        assertThat(distance).isNotEqualTo(millis);
+        assertThat(distance).isNotEqualTo(Distance.ofMillis(millis + 1));
 
-        assertThat(distance).hasSameHashCodeAs(Distance.ofSeconds(seconds));
+        assertThat(distance).hasSameHashCodeAs(Distance.ofMillis(millis));
     }
 }

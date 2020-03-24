@@ -32,7 +32,7 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 class RoutingPlanTest {
 
-    private final Distance distance = Distance.ofSeconds(1);
+    private final Distance distance = Distance.ofMillis(1);
     private final Vehicle vehicle = VehicleFactory.testVehicle(1);
     private final List<Vehicle> vehicles = singletonList(vehicle);
     private final Location depot = new Location(1, Coordinates.valueOf(5, 5));

@@ -161,7 +161,7 @@ class SolutionPublisherTest {
         assertThat(event.vehicleIds()).containsExactlyInAnyOrder(vehicleId1, vehicleId2);
         assertThat(event.depotId()).contains(depotId);
         assertThat(event.visitIds()).containsExactlyInAnyOrder(visitId1, visitId2);
-        assertThat(event.distance()).isEqualTo(Distance.ofSeconds(-softScore));
+        assertThat(event.distance()).isEqualTo(Distance.ofMillis(-softScore));
     }
 
     @Test

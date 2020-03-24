@@ -79,8 +79,7 @@ class SolutionPublisher {
         return new RouteChangedEvent(
                 source,
                 // Turn negative soft score into a positive amount of time.
-                // FIXME score is in millis
-                Distance.ofSeconds(-solution.getScore().getSoftScore()),
+                Distance.ofMillis(-solution.getScore().getSoftScore()),
                 vehicleIds(solution),
                 depotId(solution),
                 visitIds(solution),

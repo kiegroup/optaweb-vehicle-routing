@@ -23,32 +23,32 @@ import java.util.Objects;
  */
 public class Distance {
 
-    public static final Distance ZERO = Distance.ofSeconds(0);
+    public static final Distance ZERO = Distance.ofMillis(0);
 
-    private final long seconds;
+    private final long millis;
 
     /**
-     * Create a distance of the given seconds.
-     * @param seconds must be positive or zero
+     * Create a distance of the given milliseconds.
+     * @param millis must be positive or zero
      * @return distance
      */
-    public static Distance ofSeconds(long seconds) {
-        return new Distance(seconds);
+    public static Distance ofMillis(long millis) {
+        return new Distance(millis);
     }
 
-    private Distance(long seconds) {
-        if (seconds < 0) {
-            throw new IllegalArgumentException("Seconds (" + seconds + ") must be positive or zero.");
+    private Distance(long millis) {
+        if (millis < 0) {
+            throw new IllegalArgumentException("Milliseconds (" + millis + ") must not be negative.");
         }
-        this.seconds = seconds;
+        this.millis = millis;
     }
 
     /**
-     * Return distance in seconds.
+     * Return distance in milliseconds.
      * @return positive number or zero
      */
-    public long seconds() {
-        return seconds;
+    public long millis() {
+        return millis;
     }
 
     @Override
@@ -60,16 +60,22 @@ public class Distance {
             return false;
         }
         Distance distance = (Distance) o;
-        return seconds == distance.seconds;
+        return millis == distance.millis;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(seconds);
+        return Objects.hash(millis);
     }
 
     @Override
     public String toString() {
-        return seconds + " s";
+        return String.format(
+                "%dh %dm %ds %dms",
+                millis / 3600_000,
+                millis / 60_000 % 60,
+                millis / 1000 % 60,
+                millis % 1000
+        );
     }
 }

@@ -26,6 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.AbstractPlanningObject;
@@ -195,14 +196,14 @@ class RouteOptimizerImplTest {
 
     @Test
     void each_location_should_have_a_distance_map_after_it_is_added() {
-        long distance = 8079;
-        when(matrixRow.secondsTo(location2.id())).thenReturn(distance);
+        long millis = 8079;
+        when(matrixRow.distanceTo(location2.id())).thenReturn(Distance.ofMillis(millis));
         routeOptimizer.addLocation(location1, matrixRow);
 
         VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
         assertThat(solution.getDepotList()).hasSize(1);
         assertThat(solution.getDepotList().get(0).getLocation().getDistanceTo(fromDomain(location2)))
-                .isEqualTo(distance);
+                .isEqualTo(millis);
     }
 
     @Test

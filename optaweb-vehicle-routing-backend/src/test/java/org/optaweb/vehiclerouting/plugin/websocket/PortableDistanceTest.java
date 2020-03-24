@@ -39,7 +39,8 @@ class PortableDistanceTest {
 
     @Test
     void marshal_to_json() throws IOException {
-        assertThat(json.write(PortableDistance.fromDistance(Distance.ofSeconds(10)))).isEqualToJson("\"10 s\"");
+        Distance distance = Distance.ofMillis(3_661_987);
+        assertThat(json.write(PortableDistance.fromDistance(distance)).getJson()).isEqualTo("\"1h 1m 2s\"");
     }
 
     @Test
@@ -49,8 +50,8 @@ class PortableDistanceTest {
 
     @Test
     void equals_hashCode_toString() {
-        long seconds = 173;
-        Distance distance = Distance.ofSeconds(seconds);
+        long millis = 173_000;
+        Distance distance = Distance.ofMillis(millis);
         PortableDistance portableDistance = PortableDistance.fromDistance(distance);
 
         // equals()
@@ -58,13 +59,13 @@ class PortableDistanceTest {
         assertThat(portableDistance).isEqualTo(PortableDistance.fromDistance(distance));
 
         assertThat(portableDistance).isNotEqualTo(null);
-        assertThat(portableDistance).isNotEqualTo(seconds);
-        assertThat(portableDistance).isNotEqualTo(PortableDistance.fromDistance(Distance.ofSeconds(seconds - 1)));
+        assertThat(portableDistance).isNotEqualTo(millis);
+        assertThat(portableDistance).isNotEqualTo(PortableDistance.fromDistance(Distance.ofMillis(millis - 501)));
 
         // hashCode()
         assertThat(portableDistance).hasSameHashCodeAs(PortableDistance.fromDistance(distance));
 
         // toString()
-        assertThat(portableDistance.toString()).contains(Long.toString(seconds));
+        assertThat(portableDistance.toString()).contains("0h 2m 53s");
     }
 }

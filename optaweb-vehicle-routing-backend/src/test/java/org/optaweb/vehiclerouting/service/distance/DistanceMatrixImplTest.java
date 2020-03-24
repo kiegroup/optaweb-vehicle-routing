@@ -24,6 +24,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 
@@ -58,33 +59,33 @@ class DistanceMatrixImplTest {
         DistanceMatrixRow matrixRow0 = distanceMatrix.addLocation(l0);
 
         // distance to self
-        assertThat(matrixRow0.secondsTo(l0.id())).isEqualTo(0L);
+        assertThat(matrixRow0.distanceTo(l0.id())).isEqualTo(Distance.ZERO);
         // distance to not yet registered location
-        assertThatIllegalArgumentException().isThrownBy(() -> matrixRow0.secondsTo(l1.id()));
+        assertThatIllegalArgumentException().isThrownBy(() -> matrixRow0.distanceTo(l1.id()));
 
         DistanceMatrixRow matrixRow1 = distanceMatrix.addLocation(l1);
         // distance to self
-        assertThat(matrixRow1.secondsTo(l1.id())).isEqualTo(0L);
+        assertThat(matrixRow1.distanceTo(l1.id())).isEqualTo(Distance.ZERO);
 
         // distance 0 <-> 1
-        assertThat(matrixRow1.secondsTo(l0.id())).isEqualTo(-1L);
-        assertThat(matrixRow0.secondsTo(l1.id())).isEqualTo(1L);
+        assertThat(matrixRow1.distanceTo(l0.id())).isEqualTo(Distance.ofMillis(1));
+        assertThat(matrixRow0.distanceTo(l1.id())).isEqualTo(Distance.ofMillis(1));
 
         DistanceMatrixRow matrixRow9 = distanceMatrix.addLocation(l9neg);
 
         // distances -9 -> {0, 1}
-        assertThat(matrixRow9.secondsTo(l0.id())).isEqualTo(9L);
-        assertThat(matrixRow9.secondsTo(l1.id())).isEqualTo(10L);
+        assertThat(matrixRow9.distanceTo(l0.id())).isEqualTo(Distance.ofMillis(9));
+        assertThat(matrixRow9.distanceTo(l1.id())).isEqualTo(Distance.ofMillis(10));
         // distances {0, 1} -> -9
-        assertThat(matrixRow0.secondsTo(l9neg.id())).isEqualTo(-9L);
-        assertThat(matrixRow1.secondsTo(l9neg.id())).isEqualTo(-10L);
+        assertThat(matrixRow0.distanceTo(l9neg.id())).isEqualTo(Distance.ofMillis(9));
+        assertThat(matrixRow1.distanceTo(l9neg.id())).isEqualTo(Distance.ofMillis(10));
 
         // clear the map
         distanceMatrix.clear();
         Location l500 = location(500, 500);
         DistanceMatrixRow matrixRow500 = distanceMatrix.addLocation(l500);
-        assertThatIllegalArgumentException().isThrownBy(() -> matrixRow500.secondsTo(l0.id()));
-        assertThatIllegalArgumentException().isThrownBy(() -> matrixRow9.secondsTo(l500.id()));
+        assertThatIllegalArgumentException().isThrownBy(() -> matrixRow500.distanceTo(l0.id()));
+        assertThatIllegalArgumentException().isThrownBy(() -> matrixRow9.distanceTo(l500.id()));
     }
 
     @Test
@@ -146,7 +147,7 @@ class DistanceMatrixImplTest {
         @Override
         public long travelTimeMillis(Coordinates from, Coordinates to) {
             // imagine 1D space (all locations on equator)
-            return (long) (to.longitude().doubleValue() - from.longitude().doubleValue());
+            return (long) Math.abs(to.longitude().doubleValue() - from.longitude().doubleValue());
         }
     }
 }

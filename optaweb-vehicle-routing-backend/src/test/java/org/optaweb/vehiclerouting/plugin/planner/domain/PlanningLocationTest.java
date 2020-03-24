@@ -21,6 +21,7 @@ import java.util.HashMap;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.plugin.planner.DistanceMapImpl;
 
@@ -31,10 +32,10 @@ class PlanningLocationTest {
 
     @Test
     void distance_to_location_should_equal_value_in_distance_map() {
-        HashMap<Long, Long> distanceMap = new HashMap<>();
+        HashMap<Long, Distance> distanceMap = new HashMap<>();
         long otherId = 321;
-        long distance = 777777;
-        distanceMap.put(otherId, distance);
+        long millis = 777777;
+        distanceMap.put(otherId, Distance.ofMillis(millis));
         Location domainLocation = new Location(1, Coordinates.valueOf(0, 0));
 
         PlanningLocation planningLocation = new PlanningLocation(
@@ -43,7 +44,7 @@ class PlanningLocationTest {
                 domainLocation.coordinates().longitude().doubleValue(),
                 new DistanceMapImpl(distanceMap::get)
         );
-        assertThat(planningLocation.getDistanceTo(PlanningLocationFactory.testLocation(otherId))).isEqualTo(distance);
+        assertThat(planningLocation.getDistanceTo(PlanningLocationFactory.testLocation(otherId))).isEqualTo(millis);
     }
 
     @Test

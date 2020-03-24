@@ -23,6 +23,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.plugin.planner.DistanceMapImpl;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
@@ -42,7 +43,7 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
     private final double depotY = 3.0;
     private final double depotX = -50.0;
 
-    private final Map<Long, Long> depotDistanceMap = new HashMap<>();
+    private final Map<Long, Distance> depotDistanceMap = new HashMap<>();
     private final PlanningLocation depot;
     private final VehicleRoutingSolution solution = SolutionFactory.emptySolution();
     private final DepotAngleVisitDifficultyWeightFactory weightFactory = new DepotAngleVisitDifficultyWeightFactory();
@@ -64,9 +65,9 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
             long depotToLocation,
             long locationToDepot
     ) {
-        depotDistanceMap.put(id, depotToLocation);
-        Map<Long, Long> locationDistanceMap = new HashMap<>();
-        locationDistanceMap.put(depot.getId(), locationToDepot);
+        depotDistanceMap.put(id, Distance.ofMillis(depotToLocation));
+        Map<Long, Distance> locationDistanceMap = new HashMap<>();
+        locationDistanceMap.put(depot.getId(), Distance.ofMillis(locationToDepot));
         Location domainLocation = new Location(id, Coordinates.valueOf(latitude, longitude));
         return fromDomain(domainLocation, new DistanceMapImpl(locationDistanceMap::get));
     }
@@ -89,13 +90,13 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
 
         // both north (same angle), distance will decide
         // north1 is closer to depot than north2
-        PlanningLocation north1 = location(30, depotY + 30.0, depotX, -1);
-        PlanningLocation north2 = location(40, depotY + 60.0, depotX, 0);
+        PlanningLocation north1 = location(30, depotY + 30.0, depotX, 1);
+        PlanningLocation north2 = location(40, depotY + 60.0, depotX, 2);
 
         // all different angle, distance doesn't matter
-        PlanningLocation sw1 = location(50, depotY - 100, depotX - 100, -1);
-        PlanningLocation south1 = location(60, depotY - 100, depotX, -1);
-        PlanningLocation se1 = location(70, depotY - 100, depotX + 100, -1);
+        PlanningLocation sw1 = location(50, depotY - 100, depotX - 100, 10_000);
+        PlanningLocation south1 = location(60, depotY - 100, depotX, 10_000);
+        PlanningLocation se1 = location(70, depotY - 100, depotX + 100, 10_000);
 
         // E < NE < N < NW < W < SW < S < SE < E (-π → π)
         assertThat(Stream.of(north1, north2, center1, center2, west, sw1, south1, se1, east1, east2)

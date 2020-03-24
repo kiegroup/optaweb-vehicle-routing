@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
@@ -31,7 +32,7 @@ class DistanceMatrixImpl implements DistanceMatrix {
 
     private final DistanceCalculator distanceCalculator;
     private final DistanceRepository distanceRepository;
-    private final Map<Location, Map<Long, Long>> matrix = new HashMap<>();
+    private final Map<Location, Map<Long, Distance>> matrix = new HashMap<>();
 
     @Autowired
     DistanceMatrixImpl(DistanceCalculator distanceCalculator, DistanceRepository distanceRepository) {
@@ -49,17 +50,17 @@ class DistanceMatrixImpl implements DistanceMatrix {
         // The map must be thread-safe because:
         // - we're updating it from the parallel stream below
         // - it is accessed from solver thread!
-        Map<Long, Long> distancesToOthers = new ConcurrentHashMap<>(); // the new row
+        Map<Long, Distance> distancesToOthers = new ConcurrentHashMap<>(); // the new row
 
         // distance to self is 0
-        distancesToOthers.put(newLocation.id(), 0L);
+        distancesToOthers.put(newLocation.id(), Distance.ZERO);
 
         // for all entries (rows) in the matrix:
         matrix.entrySet().stream().parallel().forEach(distanceRow -> {
             // entry key is the existing (other) location
             Location other = distanceRow.getKey();
             // entry value is the data (cells) in the row (distances from the entry key location to any other)
-            Map<Long, Long> distancesFromOther = distanceRow.getValue();
+            Map<Long, Distance> distancesFromOther = distanceRow.getValue();
             // add a new cell to the row with the distance from the entry key location to the new location
             // (results in a new column at the end of the loop)
             distancesFromOther.put(newLocation.id(), calculateOrRestoreDistance(other, newLocation));
@@ -81,13 +82,13 @@ class DistanceMatrixImpl implements DistanceMatrix {
         };
     }
 
-    private Long calculateOrRestoreDistance(Location from, Location to) {
+    private Distance calculateOrRestoreDistance(Location from, Location to) {
         long distance = distanceRepository.getDistance(from, to);
         if (distance < 0) {
             distance = distanceCalculator.travelTimeMillis(from.coordinates(), to.coordinates());
             distanceRepository.saveDistance(from, to, distance);
         }
-        return distance;
+        return Distance.ofMillis(distance);
     }
 
     @Override

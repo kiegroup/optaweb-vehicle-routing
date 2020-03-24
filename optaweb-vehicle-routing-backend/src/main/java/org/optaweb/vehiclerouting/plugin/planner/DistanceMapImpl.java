@@ -37,6 +37,6 @@ public class DistanceMapImpl implements DistanceMap {
 
     @Override
     public long distanceTo(PlanningLocation location) {
-        return distanceMatrixRow.secondsTo(location.getId());
+        return distanceMatrixRow.distanceTo(location.getId()).millis();
     }
 }
