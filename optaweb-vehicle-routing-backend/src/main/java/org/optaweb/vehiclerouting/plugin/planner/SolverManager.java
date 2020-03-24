@@ -140,13 +140,13 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
 
     void addLocation(PlanningLocation location) {
         assertSolverIsAlive();
-        solver.addProblemFactChange(new AddVisit(PlanningVisitFactory.visit(location)));
+        solver.addProblemFactChange(new AddVisit(PlanningVisitFactory.fromLocation(location)));
     }
 
     void removeLocation(PlanningLocation location) {
         assertSolverIsAlive();
         solver.addProblemFactChanges(Arrays.asList(
-                new RemoveVisit(PlanningVisitFactory.visit(location)),
+                new RemoveVisit(PlanningVisitFactory.fromLocation(location)),
                 new RemoveLocation(location)
         ));
     }

@@ -16,9 +16,7 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
-
-public class PlanningDepot extends AbstractPersistable {
+public class PlanningDepot extends AbstractPlanningObject {
 
     public PlanningDepot() {
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,27 +16,23 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
+import org.optaweb.vehiclerouting.domain.Location;
+
 /**
- * Creates {@link PlanningVisit} instances.
+ * Creates {@link PlanningLocation}s.
  */
-public class PlanningVisitFactory {
+public class PlanningLocationFactory {
 
-    static final int DEFAULT_VISIT_DEMAND = 1;
-
-    private PlanningVisitFactory() {
+    private PlanningLocationFactory() {
         throw new AssertionError("Utility class");
     }
 
-    /**
-     * Create visit with {@link #DEFAULT_VISIT_DEMAND}.
-     * @param location visit's location
-     * @return new visit with the default demand
-     */
-    public static PlanningVisit fromLocation(PlanningLocation location) {
-        PlanningVisit visit = new PlanningVisit();
-        visit.setId(location.getId());
-        visit.setLocation(location);
-        visit.setDemand(DEFAULT_VISIT_DEMAND);
-        return visit;
+    public static PlanningLocation fromDomain(Location location) {
+        // TODO set distance map
+        return new PlanningLocation(
+                location.id(),
+                location.coordinates().latitude().doubleValue(),
+                location.coordinates().longitude().doubleValue()
+        );
     }
 }

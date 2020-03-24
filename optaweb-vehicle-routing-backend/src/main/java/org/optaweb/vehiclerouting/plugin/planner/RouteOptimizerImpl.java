@@ -23,6 +23,7 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
@@ -53,11 +54,8 @@ class RouteOptimizerImpl implements RouteOptimizer {
     }
 
     @Override
-    public void addLocation(
-            Location domainLocation,
-            DistanceMatrix distanceMatrix
-    ) {
-        PlanningLocation location = new PlanningLocation(domainLocation);
+    public void addLocation(Location domainLocation, DistanceMatrix distanceMatrix) {
+        PlanningLocation location = PlanningLocationFactory.fromDomain(domainLocation);
         DistanceMap distanceMap = new DistanceMap(location, distanceMatrix.getRow(domainLocation));
         location.setTravelDistanceMap(distanceMap);
         // Unfortunately can't start solver with an empty solution (see https://issues.redhat.com/browse/PLANNER-776)
@@ -84,16 +82,16 @@ class RouteOptimizerImpl implements RouteOptimizer {
                         "Cannot remove " + domainLocation + " because there are no locations"
                 );
             }
-            if (!depot.getId().equals(domainLocation.id())) {
+            if (depot.getId() != domainLocation.id()) {
                 throw new IllegalArgumentException("Cannot remove " + domainLocation + " because it doesn't exist");
             }
             depot = null;
             publishSolution();
         } else {
-            if (depot.getId().equals(domainLocation.id())) {
+            if (depot.getId() == domainLocation.id()) {
                 throw new IllegalStateException("You can only remove depot if there are no visits");
             }
-            if (!visits.removeIf(item -> item.getId().equals(domainLocation.id()))) {
+            if (!visits.removeIf(item -> item.getId() == domainLocation.id())) {
                 throw new IllegalArgumentException("Cannot remove " + domainLocation + " because it doesn't exist");
             }
             if (vehicles.isEmpty()) { // solver is not running
@@ -102,7 +100,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
                 solverManager.stopSolver();
                 publishSolution();
             } else {
-                solverManager.removeLocation(new PlanningLocation(domainLocation));
+                solverManager.removeLocation(PlanningLocationFactory.fromDomain(domainLocation));
             }
         }
     }
@@ -123,7 +121,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
 
     @Override
     public void removeVehicle(Vehicle domainVehicle) {
-        if (!vehicles.removeIf(vehicle -> vehicle.getId().equals(domainVehicle.id()))) {
+        if (!vehicles.removeIf(vehicle -> vehicle.getId() == domainVehicle.id())) {
             throw new IllegalArgumentException("Cannot remove " + domainVehicle + " because it doesn't exist");
         }
         if (visits.isEmpty()) { // solver is not running
@@ -139,7 +137,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
     @Override
     public void changeCapacity(Vehicle domainVehicle) {
         PlanningVehicle vehicle = vehicles.stream()
-                .filter(item -> item.getId().equals(domainVehicle.id()))
+                .filter(item -> item.getId() == domainVehicle.id())
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
                         "Cannot change capacity of " + domainVehicle + " because it doesn't exist"

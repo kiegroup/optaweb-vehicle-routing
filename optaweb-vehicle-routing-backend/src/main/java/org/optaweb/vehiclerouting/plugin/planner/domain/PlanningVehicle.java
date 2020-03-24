@@ -19,9 +19,7 @@ package org.optaweb.vehiclerouting.plugin.planner.domain;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
-
-public class PlanningVehicle extends AbstractPersistable implements Standstill {
+public class PlanningVehicle extends AbstractPlanningObject implements Standstill {
 
     protected int capacity;
     protected PlanningDepot depot;

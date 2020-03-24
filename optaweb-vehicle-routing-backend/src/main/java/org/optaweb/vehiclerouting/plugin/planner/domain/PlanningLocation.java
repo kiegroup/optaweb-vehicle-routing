@@ -16,81 +16,31 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
-import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
+public class PlanningLocation extends AbstractPlanningObject {
 
-/**
- * A unique location significant to the user.
- */
-public class PlanningLocation extends AbstractPersistable {
-
-    private BigDecimal latitude;
-    private BigDecimal longitude;
-    private String description;
+    // Only used to calculate angle.
+    private double latitude;
+    private double longitude;
+    // Prefer Map over array or List because customers might be added and removed in real-time planning.
+    private Map<PlanningLocation, Double> travelDistanceMap;
 
     public PlanningLocation() {
     }
 
     public PlanningLocation(long id, double latitude, double longitude) {
         super(id);
-        this.latitude = BigDecimal.valueOf(latitude);
-        this.longitude = BigDecimal.valueOf(longitude);
-    }
-
-    public PlanningLocation(long id, BigDecimal latitude, BigDecimal longitude) {
-        super(id);
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public PlanningLocation(long id, BigDecimal latitude, BigDecimal longitude, String description) {
-        super(id);
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.description = description;
-    }
-
-    public PlanningLocation(Location location) {
-        if (location.coordinates() != null) {
-            latitude = location.coordinates().latitude();
-            longitude = location.coordinates().longitude();
-        }
-        description = location.description();
-        id = location.id();
-    }
-
-    // Prefer Map over array or List because customers might be added and removed in real-time planning.
-    private Map<PlanningLocation, Double> travelDistanceMap;
-
-    public BigDecimal getLatitude() {
+    double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(BigDecimal latitude) {
-        this.latitude = latitude;
-    }
-
-    public BigDecimal getLongitude() {
+    double getLongitude() {
         return longitude;
-    }
-
-    public void setLongitude(BigDecimal longitude) {
-        this.longitude = longitude;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Map<PlanningLocation, Double> getTravelDistanceMap() {
-        return travelDistanceMap;
     }
 
     public void setTravelDistanceMap(Map<PlanningLocation, Double> travelDistanceMap) {
@@ -118,8 +68,8 @@ public class PlanningLocation extends AbstractPersistable {
      */
     public double getAngle(PlanningLocation location) {
         // Euclidean distance (Pythagorean theorem) - not correct when the surface is a sphere
-        double latitudeDifference = latitude.subtract(latitude).longValue();
-        double longitudeDifference = longitude.subtract(longitude).longValue();
+        double latitudeDifference = location.latitude - latitude;
+        double longitudeDifference = location.longitude - longitude;
         return Math.atan2(latitudeDifference, longitudeDifference);
     }
 
@@ -128,7 +78,6 @@ public class PlanningLocation extends AbstractPersistable {
         return "PlanningLocation{" +
                 "latitude=" + latitude +
                 ",longitude=" + longitude +
-                ",description='" + description + '\'' +
                 ",travelDistanceMap=" + travelDistanceMap +
                 ",id=" + id +
                 '}';

@@ -68,7 +68,7 @@ public class SolutionFactory {
         return solution(
                 vehicles,
                 depot,
-                visitLocations.stream().map(PlanningVisitFactory::visit).collect(Collectors.toList()),
+                visitLocations.stream().map(PlanningVisitFactory::fromLocation).collect(Collectors.toList()),
                 visitLocations
         );
     }

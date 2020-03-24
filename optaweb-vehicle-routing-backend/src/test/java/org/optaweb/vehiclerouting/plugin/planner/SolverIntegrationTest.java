@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +54,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.when;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.visit;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.emptySolution;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromLocations;
 
@@ -99,7 +98,7 @@ class SolverIntegrationTest {
 
     @Test
     void removing_visits_should_not_fail() {
-        PlanningVehicle vehicle = PlanningVehicleFactory.vehicle(1);
+        PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1);
         VehicleRoutingSolution solution = solutionFromLocations(
                 singletonList(vehicle),
                 new PlanningDepot(location(1)),
@@ -114,7 +113,7 @@ class SolverIntegrationTest {
         for (int id = 3; id < 6; id++) {
             logger.info("Add visit ({})", id);
             monitor.beforeProblemFactChange();
-            solver.addProblemFactChange(new AddVisit(visit(location(id))));
+            solver.addProblemFactChange(new AddVisit(fromLocation(location(id))));
             assertThat(monitor.awaitAllProblemFactChanges(1000)).isTrue();
         }
 
@@ -124,7 +123,7 @@ class SolverIntegrationTest {
             assertThat(solver.isEveryProblemFactChangeProcessed()).isTrue();
             monitor.beforeProblemFactChange();
             solver.addProblemFactChanges(Arrays.asList(
-                    new RemoveVisit(visit(location(id))),
+                    new RemoveVisit(fromLocation(location(id))),
                     new RemoveLocation(location(id))
             ));
             assertThat(solver.isEveryProblemFactChangeProcessed()).isFalse(); // probably not 100% safe
@@ -158,11 +157,8 @@ class SolverIntegrationTest {
     }
 
     private PlanningLocation location(long id) {
-        PlanningLocation location = new PlanningLocation();
-        location.setId(id);
+        PlanningLocation location = new PlanningLocation(id, 0, 0);
         location.setTravelDistanceMap(distanceMap);
-        location.setLatitude(BigDecimal.ZERO);
-        location.setLongitude(BigDecimal.ZERO);
         return location;
     }
 

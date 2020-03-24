@@ -37,11 +37,11 @@ public class PlanningVehicleFactory {
     }
 
     /**
-     * Create vehicle with zero capacity.
+     * Create a testing vehicle with zero capacity.
      * @param id vehicle's ID
      * @return new vehicle with zero capacity
      */
-    public static PlanningVehicle vehicle(long id) {
+    public static PlanningVehicle testVehicle(long id) {
         return vehicle(id, 0);
     }
 

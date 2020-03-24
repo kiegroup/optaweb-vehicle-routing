@@ -43,7 +43,7 @@ class AddVisitTest {
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         PlanningLocation location = new PlanningLocation(1, 1.0, 2.0);
-        PlanningVisit visit = PlanningVisitFactory.visit(location);
+        PlanningVisit visit = PlanningVisitFactory.fromLocation(location);
         AddVisit addVisit = new AddVisit(visit);
         addVisit.doChange(scoreDirector);
 

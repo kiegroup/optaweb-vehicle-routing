@@ -25,10 +25,9 @@ import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.domain.solution.drools.ProblemFactCollectionProperty;
 import org.optaplanner.core.api.domain.valuerange.ValueRangeProvider;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
-import org.optaweb.vehiclerouting.plugin.planner.domain.persistable.AbstractPersistable;
 
 @PlanningSolution
-public class VehicleRoutingSolution extends AbstractPersistable {
+public class VehicleRoutingSolution {
 
     protected String name;
     private String distanceUnitOfMeasurement;
@@ -147,7 +146,6 @@ public class VehicleRoutingSolution extends AbstractPersistable {
                 ", vehicleList=" + vehicleList +
                 ", visitList=" + visitList +
                 ", score=" + score +
-                ", id=" + id +
                 '}';
     }
 }
