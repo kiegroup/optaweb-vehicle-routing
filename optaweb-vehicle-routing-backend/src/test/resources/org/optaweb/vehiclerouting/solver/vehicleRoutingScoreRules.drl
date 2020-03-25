@@ -61,10 +61,7 @@ end
 
 rule "distanceFromLastCustomerToDepot"
     when
-        $visit : PlanningVisit(previousStandstill != null)
-        not PlanningVisit(previousStandstill == $visit)
+        $visit : PlanningVisit(previousStandstill != null, nextVisit == null)
     then
-        PlanningVehicle vehicle = $visit.getVehicle();
-        scoreHolder.addSoftConstraintMatch(kcontext, - $visit.getDistanceTo(vehicle));
+        scoreHolder.addSoftConstraintMatch(kcontext, - $visit.getDistanceToDepot());
 end
-

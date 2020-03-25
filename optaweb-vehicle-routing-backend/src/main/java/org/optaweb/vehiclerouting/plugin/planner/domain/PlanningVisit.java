@@ -90,7 +90,7 @@ public class PlanningVisit extends AbstractPlanningObject implements Standstill 
      * Distance from the previous standstill to this visit. This is used to calculate the travel cost of a chain
      * beginning with a vehicle (at a depot) and ending with the last visit. The chain ends with a visit, not a depot
      * so the cost of returning from the last visit back to the depot has to be added in a separate step using
-     * {@link #getDistanceTo(Standstill)}.
+     * {@link #getDistanceToDepot()}.
      * @return distance from previous standstill to this visit
      */
     public long getDistanceFromPreviousStandstill() {
@@ -104,13 +104,11 @@ public class PlanningVisit extends AbstractPlanningObject implements Standstill 
     }
 
     /**
-     * Distance from this visit to a standstill. This is used to calculate travel cost of returning from the last
-     * visit to the depot.
-     * @param standstill the vehicle that is the anchor of this visit's chain
-     * @return distance from this visit to the vehicle's depot
+     * Distance from this visit back to the depot.
+     * @return distance from this visit back its vehicle's depot
      */
-    public long getDistanceTo(Standstill standstill) {
-        return location.getDistanceTo(standstill.getLocation());
+    public long getDistanceToDepot() {
+        return location.getDistanceTo(vehicle.getLocation());
     }
 
     @Override
