@@ -48,10 +48,6 @@ class AddVisitTest {
         AddVisit addVisit = new AddVisit(visit);
         addVisit.doChange(scoreDirector);
 
-        verify(scoreDirector).beforeProblemFactAdded(location);
-        verify(scoreDirector).afterProblemFactAdded(location);
-        assertThat(solution.getLocationList()).containsExactly(location);
-
         verify(scoreDirector).beforeEntityAdded(visit);
         verify(scoreDirector).afterEntityAdded(visit);
         assertThat(solution.getVisitList()).containsExactly(visit);

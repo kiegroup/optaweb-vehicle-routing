@@ -28,7 +28,6 @@ class SolutionFactoryTest {
     @Test
     void empty_solution_should_be_empty() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
-        assertThat(solution.getLocationList()).isEmpty();
         assertThat(solution.getVisitList()).isEmpty();
         assertThat(solution.getDepotList()).isEmpty();
         assertThat(solution.getVehicleList()).isEmpty();
@@ -55,8 +54,6 @@ class SolutionFactoryTest {
         assertThat(solutionWithDepot.getVisitList()).hasSize(1);
         assertThat(solutionWithDepot.getVisitList()).containsExactly(visit);
         assertThat(solutionWithDepot.getVisitList().get(0).getLocation()).isEqualTo(visit.getLocation());
-        assertThat(solutionWithDepot.getLocationList())
-                .containsExactlyInAnyOrder(depotLocation, visit.getLocation());
 
         VehicleRoutingSolution solutionWithNoDepot = SolutionFactory.solutionFromVisits(
                 singletonList(vehicle),

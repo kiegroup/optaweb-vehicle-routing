@@ -234,7 +234,8 @@ class RouteOptimizerImplTest {
         // but preliminary solution is published
         VehicleRoutingSolution solution1 = verifyPublishingPreliminarySolution();
         assertThat(solution1.getVehicleList()).isEmpty();
-        assertThat(solution1.getLocationList()).hasSize(2);
+        assertThat(solution1.getDepotList()).hasSize(1);
+        assertThat(solution1.getVisitList()).hasSize(1);
 
         // add a third location and remove another one
         routeOptimizer.addLocation(location3, matrixRow);
@@ -247,7 +248,8 @@ class RouteOptimizerImplTest {
         // but preliminary solution is published
         VehicleRoutingSolution solution2 = verifyPublishingPreliminarySolution();
         assertThat(solution2.getVehicleList()).isEmpty();
-        assertThat(solution2.getLocationList()).hasSize(2);
+        assertThat(solution1.getDepotList()).hasSize(1);
+        assertThat(solution1.getVisitList()).hasSize(1);
     }
 
     @Test
@@ -281,7 +283,7 @@ class RouteOptimizerImplTest {
 
         VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
         assertThat(solution.getVisitList()).isEmpty();
-        assertThat(solution.getLocationList()).hasSize(1);
+        assertThat(solution.getDepotList()).hasSize(1);
         assertThat(solution.getVehicleList()).hasSize(1);
     }
 
@@ -476,7 +478,6 @@ class RouteOptimizerImplTest {
         assertThat(solution.getVehicleList()).hasSize(1);
         assertThat(solution.getDepotList()).isEmpty();
         assertThat(solution.getVisitList()).isEmpty();
-        assertThat(solution.getLocationList()).isEmpty();
     }
 
     @Test
@@ -497,7 +498,6 @@ class RouteOptimizerImplTest {
         assertThat(solution.getVehicleList()).isEmpty();
         assertThat(solution.getDepotList()).hasSize(1);
         assertThat(solution.getVisitList()).hasSize(2);
-        assertThat(solution.getLocationList()).hasSize(3);
     }
 
     @Test

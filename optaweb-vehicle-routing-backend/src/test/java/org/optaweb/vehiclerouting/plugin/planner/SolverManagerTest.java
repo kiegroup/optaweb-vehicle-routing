@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -30,11 +29,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer1;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
-import org.optaplanner.core.impl.solver.ProblemFactChange;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
 import org.optaweb.vehiclerouting.plugin.planner.change.ChangeVehicleCapacity;
-import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
@@ -56,8 +53,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class SolverManagerTest {
 
-    @Captor
-    private ArgumentCaptor<List<ProblemFactChange<VehicleRoutingSolution>>> problemFactChangeArgumentCaptor;
     @Captor
     private ArgumentCaptor<VehicleRoutingSolution> solutionArgumentCaptor;
     @Mock
@@ -220,10 +215,6 @@ class SolverManagerTest {
         verify(solver).addProblemFactChange(any(AddVisit.class));
 
         solverManager.removeLocation(mock(PlanningLocation.class));
-        verify(solver).addProblemFactChanges(problemFactChangeArgumentCaptor.capture());
-        List<ProblemFactChange<VehicleRoutingSolution>> problemFactChanges = problemFactChangeArgumentCaptor.getValue();
-        assertThat(problemFactChanges).hasSize(2);
-        assertThat(problemFactChanges.get(0)).isInstanceOf(RemoveVisit.class);
-        assertThat(problemFactChanges.get(1)).isInstanceOf(RemoveLocation.class);
+        verify(solver).addProblemFactChange(any(RemoveVisit.class));
     }
 }

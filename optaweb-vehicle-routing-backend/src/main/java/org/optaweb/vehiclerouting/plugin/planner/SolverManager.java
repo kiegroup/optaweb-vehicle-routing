@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
-import java.util.Arrays;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -27,7 +26,6 @@ import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
 import org.optaweb.vehiclerouting.plugin.planner.change.ChangeVehicleCapacity;
-import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
@@ -145,10 +143,7 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
 
     void removeLocation(PlanningLocation location) {
         assertSolverIsAlive();
-        solver.addProblemFactChanges(Arrays.asList(
-                new RemoveVisit(PlanningVisitFactory.fromLocation(location)),
-                new RemoveLocation(location)
-        ));
+        solver.addProblemFactChange(new RemoveVisit(PlanningVisitFactory.fromLocation(location)));
     }
 
     void addVehicle(PlanningVehicle vehicle) {

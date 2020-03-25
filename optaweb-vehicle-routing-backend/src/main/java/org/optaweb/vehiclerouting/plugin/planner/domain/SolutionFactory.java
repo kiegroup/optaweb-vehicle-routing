@@ -37,7 +37,6 @@ public class SolutionFactory {
      */
     public static VehicleRoutingSolution emptySolution() {
         VehicleRoutingSolution solution = new VehicleRoutingSolution();
-        solution.setLocationList(new ArrayList<>());
         solution.setVisitList(new ArrayList<>());
         solution.setDepotList(new ArrayList<>());
         solution.setVehicleList(new ArrayList<>());
@@ -66,8 +65,7 @@ public class SolutionFactory {
         return solution(
                 vehicles,
                 depot,
-                visitLocations.stream().map(PlanningVisitFactory::fromLocation).collect(Collectors.toList()),
-                visitLocations
+                visitLocations.stream().map(PlanningVisitFactory::fromLocation).collect(Collectors.toList())
         );
     }
 
@@ -92,23 +90,19 @@ public class SolutionFactory {
         return solution(
                 vehicles,
                 depot,
-                visits,
-                visits.stream().map(PlanningVisit::getLocation).collect(Collectors.toList())
+                visits
         );
     }
 
     private static VehicleRoutingSolution solution(
             List<PlanningVehicle> vehicles,
             PlanningDepot depot,
-            List<PlanningVisit> visits,
-            List<? extends PlanningLocation> visitLocations
+            List<PlanningVisit> visits
     ) {
         VehicleRoutingSolution solution = new VehicleRoutingSolution();
         solution.setVehicleList(new ArrayList<>(vehicles));
-        solution.setLocationList(new ArrayList<>(visitLocations));
         solution.setDepotList(new ArrayList<>(1));
         if (depot != null) {
-            solution.getLocationList().add(depot.getLocation());
             solution.getDepotList().add(depot);
             moveAllVehiclesToDepot(vehicles, depot);
         }

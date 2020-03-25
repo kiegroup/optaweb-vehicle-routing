@@ -35,7 +35,6 @@ import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
-import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
@@ -112,10 +111,7 @@ class SolverIntegrationTest {
             logger.info("Remove visit ({})", id);
             assertThat(solver.isEveryProblemFactChangeProcessed()).isTrue();
             monitor.beforeProblemFactChange();
-            solver.addProblemFactChanges(Arrays.asList(
-                    new RemoveVisit(fromLocation(testLocation(id))),
-                    new RemoveLocation(testLocation(id))
-            ));
+            solver.addProblemFactChange(new RemoveVisit(fromLocation(testLocation(id))));
             assertThat(solver.isEveryProblemFactChangeProcessed()).isFalse(); // probably not 100% safe
             // Notice that it's not possible to check individual problem fact changes completion.
             // When we receive a BestSolutionChangedEvent with unprocessed PFCs,
