@@ -18,7 +18,6 @@ package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 
@@ -45,31 +44,6 @@ public class SolutionFactory {
     }
 
     /**
-     * Create a new solution from given vehicles, depot and visit locations.
-     * This will create a visit for each given visit location. All vehicles will be placed in the depot.
-     * <p>
-     * The returned solution's vehicles and locations are new collections so modifying the solution
-     * won't affect the collections given as arguments.
-     * <p>
-     * <strong><em>Elements of the argument collections are NOT cloned.</em></strong>
-     * @param vehicles vehicles
-     * @param depot depot (may be {@code null})
-     * @param visitLocations visit locations
-     * @return solution containing the given vehicles, depot, visits and their locations
-     */
-    public static VehicleRoutingSolution solutionFromLocations(
-            List<PlanningVehicle> vehicles,
-            PlanningDepot depot,
-            List<? extends PlanningLocation> visitLocations
-    ) {
-        return solution(
-                vehicles,
-                depot,
-                visitLocations.stream().map(PlanningVisitFactory::fromLocation).collect(Collectors.toList())
-        );
-    }
-
-    /**
      * Create a new solution from given vehicles, depot and visits.
      * All vehicles will be placed in the depot.
      * <p>
@@ -83,18 +57,6 @@ public class SolutionFactory {
      * @return solution containing the given vehicles, depot, visits and their locations
      */
     public static VehicleRoutingSolution solutionFromVisits(
-            List<PlanningVehicle> vehicles,
-            PlanningDepot depot,
-            List<PlanningVisit> visits
-    ) {
-        return solution(
-                vehicles,
-                depot,
-                visits
-        );
-    }
-
-    private static VehicleRoutingSolution solution(
             List<PlanningVehicle> vehicles,
             PlanningDepot depot,
             List<PlanningVisit> visits

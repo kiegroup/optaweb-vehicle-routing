@@ -34,10 +34,8 @@ import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
 import org.optaweb.vehiclerouting.plugin.planner.change.ChangeVehicleCapacity;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.springframework.core.task.AsyncTaskExecutor;
 
@@ -50,6 +48,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 
 @ExtendWith(MockitoExtension.class)
 class SolverManagerTest {
@@ -146,9 +145,7 @@ class SolverManagerTest {
         when(solverFuture.get()).thenThrow(InterruptedException.class);
 
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> solverManager.removeVisit(
-                        PlanningVisitFactory.fromLocation(PlanningLocationFactory.testLocation(0))
-                ));
+                .isThrownBy(() -> solverManager.removeVisit(testVisit(0)));
         assertThat(Thread.interrupted()).isTrue();
 
         assertThatExceptionOfType(RuntimeException.class)

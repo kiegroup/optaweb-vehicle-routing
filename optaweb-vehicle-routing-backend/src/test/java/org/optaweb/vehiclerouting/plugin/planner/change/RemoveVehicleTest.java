@@ -27,7 +27,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
@@ -36,6 +35,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 
 @ExtendWith(MockitoExtension.class)
 class RemoveVehicleTest {
@@ -62,8 +62,8 @@ class RemoveVehicleTest {
 
         when(scoreDirector.lookUpWorkingObject(removedVehicle)).thenReturn(removedVehicle);
 
-        PlanningVisit firstVisit = visit(1);
-        PlanningVisit lastVisit = visit(2);
+        PlanningVisit firstVisit = testVisit(1);
+        PlanningVisit lastVisit = testVisit(2);
         solution.getVisitList().add(firstVisit);
         solution.getVisitList().add(lastVisit);
 
@@ -126,9 +126,5 @@ class RemoveVehicleTest {
         assertThatIllegalStateException()
                 .isThrownBy(() -> new RemoveVehicle(PlanningVehicleFactory.testVehicle(1)).doChange(scoreDirector))
                 .withMessageContaining("working copy of");
-    }
-
-    private static PlanningVisit visit(long id) {
-        return PlanningVisitFactory.fromLocation(PlanningLocationFactory.testLocation(id));
     }
 }

@@ -21,10 +21,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
@@ -34,6 +32,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 
 @ExtendWith(MockitoExtension.class)
 class RemoveVisitTest {
@@ -46,13 +45,13 @@ class RemoveVisitTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
-        PlanningVisit removedVisit = visit(1);
-        PlanningVisit otherVisit = visit(2);
+        PlanningVisit removedVisit = testVisit(1);
+        PlanningVisit otherVisit = testVisit(2);
         solution.getVisitList().add(otherVisit);
         solution.getVisitList().add(removedVisit);
 
         // V -> other -> removed
-        otherVisit.setPreviousStandstill(visit(10));
+        otherVisit.setPreviousStandstill(testVisit(10));
         otherVisit.setNextVisit(removedVisit);
         removedVisit.setPreviousStandstill(otherVisit);
 
@@ -74,9 +73,9 @@ class RemoveVisitTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
-        PlanningVisit firstVisit = visit(1);
-        PlanningVisit removedVisit = visit(2);
-        PlanningVisit lastVisit = visit(3);
+        PlanningVisit firstVisit = testVisit(1);
+        PlanningVisit removedVisit = testVisit(2);
+        PlanningVisit lastVisit = testVisit(3);
         solution.getVisitList().add(firstVisit);
         solution.getVisitList().add(lastVisit);
         solution.getVisitList().add(removedVisit);
@@ -114,10 +113,10 @@ class RemoveVisitTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
 
         long removedId = 111L;
-        PlanningVisit removedVisit = visit(removedId);
+        PlanningVisit removedVisit = testVisit(removedId);
         long wrongId = 222L;
-        PlanningVisit wrongVisit = visit(wrongId);
-        wrongVisit.setPreviousStandstill(visit(10));
+        PlanningVisit wrongVisit = testVisit(wrongId);
+        wrongVisit.setPreviousStandstill(testVisit(10));
         solution.getVisitList().add(wrongVisit);
 
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
@@ -135,11 +134,7 @@ class RemoveVisitTest {
         when(scoreDirector.getWorkingSolution()).thenReturn(SolutionFactory.emptySolution());
 
         assertThatIllegalStateException()
-                .isThrownBy(() -> new RemoveVisit(visit(0)).doChange(scoreDirector))
+                .isThrownBy(() -> new RemoveVisit(testVisit(0)).doChange(scoreDirector))
                 .withMessageContaining("working copy of");
-    }
-
-    private static PlanningVisit visit(long id) {
-        return PlanningVisitFactory.fromLocation(PlanningLocationFactory.testLocation(id));
     }
 }

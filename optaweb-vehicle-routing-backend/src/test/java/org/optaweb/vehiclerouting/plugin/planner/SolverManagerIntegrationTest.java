@@ -24,6 +24,7 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,7 +33,7 @@ import org.springframework.test.context.ActiveProfiles;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.optaweb.vehiclerouting.plugin.planner.Constants.SOLVER_CONFIG;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromLocations;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
 
 @SpringBootTest(
         properties = {
@@ -55,10 +56,10 @@ class SolverManagerIntegrationTest {
         PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1);
         PlanningLocation depot = PlanningLocationFactory.testLocation(1, mockDistanceMap());
         PlanningLocation visit = PlanningLocationFactory.testLocation(2, mockDistanceMap());
-        VehicleRoutingSolution solution = solutionFromLocations(
+        VehicleRoutingSolution solution = solutionFromVisits(
                 singletonList(vehicle),
                 new PlanningDepot(depot),
-                singletonList(visit)
+                singletonList(PlanningVisitFactory.fromLocation(visit))
         );
         solverManager.startSolver(solution);
 

@@ -24,7 +24,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
@@ -40,9 +39,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.testLocation;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory.testVehicle;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromLocations;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
 
 @ExtendWith(MockitoExtension.class)
@@ -91,10 +90,10 @@ class SolutionPublisherTest {
     void nonempty_solution_without_vehicles_should_have_zero_routes_but_contain_visits() {
         long depotId = 1;
         long visitId = 2;
-        VehicleRoutingSolution solution = solutionFromLocations(
+        VehicleRoutingSolution solution = solutionFromVisits(
                 emptyList(),
-                new PlanningDepot(PlanningLocationFactory.testLocation(depotId)),
-                singletonList(PlanningLocationFactory.testLocation(visitId))
+                new PlanningDepot(testLocation(depotId)),
+                singletonList(testVisit(visitId))
         );
 
         RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
@@ -117,9 +116,9 @@ class SolutionPublisherTest {
         long depotId = 1;
         long visitId1 = 2;
         long visitId2 = 3;
-        PlanningDepot depot = new PlanningDepot(PlanningLocationFactory.testLocation(depotId));
-        PlanningVisit visit1 = fromLocation(PlanningLocationFactory.testLocation(visitId1));
-        PlanningVisit visit2 = fromLocation(PlanningLocationFactory.testLocation(visitId2));
+        PlanningDepot depot = new PlanningDepot(testLocation(depotId));
+        PlanningVisit visit1 = testVisit(visitId1);
+        PlanningVisit visit2 = testVisit(visitId2);
 
         VehicleRoutingSolution solution = solutionFromVisits(
                 asList(vehicle1, vehicle2),
@@ -167,12 +166,12 @@ class SolutionPublisherTest {
     @Test
     void fail_fast_if_vehicles_next_visit_doesnt_exist() {
         PlanningVehicle vehicle = testVehicle(1);
-        vehicle.setNextVisit(fromLocation(PlanningLocationFactory.testLocation(2)));
+        vehicle.setNextVisit(testVisit(2));
 
-        VehicleRoutingSolution solution = solutionFromLocations(
+        VehicleRoutingSolution solution = solutionFromVisits(
                 singletonList(vehicle),
-                new PlanningDepot(PlanningLocationFactory.testLocation(1)),
-                singletonList(PlanningLocationFactory.testLocation(3))
+                new PlanningDepot(testLocation(1)),
+                singletonList(testVisit(3))
         );
 
         assertThatIllegalArgumentException()
@@ -182,7 +181,7 @@ class SolutionPublisherTest {
 
     @Test
     void vehicle_without_a_depot_is_illegal_if_depot_exists() {
-        PlanningDepot depot = new PlanningDepot(PlanningLocationFactory.testLocation(1));
+        PlanningDepot depot = new PlanningDepot(testLocation(1));
         PlanningVehicle vehicle = testVehicle(1);
         VehicleRoutingSolution solution = solutionFromVisits(singletonList(vehicle), depot, emptyList());
         vehicle.setDepot(null);

@@ -41,7 +41,7 @@ class SolutionFactoryTest {
         PlanningLocation depotLocation = PlanningLocationFactory.testLocation(1);
         PlanningDepot depot = new PlanningDepot(depotLocation);
 
-        PlanningVisit visit = PlanningVisitFactory.fromLocation(PlanningLocationFactory.testLocation(2));
+        PlanningVisit visit = PlanningVisitFactory.testVisit(2);
 
         VehicleRoutingSolution solutionWithDepot = SolutionFactory.solutionFromVisits(
                 singletonList(vehicle),

@@ -39,4 +39,13 @@ public class PlanningVisitFactory {
         visit.setDemand(DEFAULT_VISIT_DEMAND);
         return visit;
     }
+
+    /**
+     * Create a test visit with the given ID.
+     * @param id ID of the visit and its location
+     * @return visit with an ID only
+     */
+    public static PlanningVisit testVisit(long id) {
+        return fromLocation(PlanningLocationFactory.testLocation(id));
+    }
 }
