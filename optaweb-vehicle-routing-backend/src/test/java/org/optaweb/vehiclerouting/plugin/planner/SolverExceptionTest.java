@@ -28,7 +28,6 @@ import org.optaplanner.core.api.solver.Solver;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.task.AsyncTaskExecutor;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -43,8 +42,6 @@ class SolverExceptionTest {
     private Solver<VehicleRoutingSolution> solver;
     @Mock
     private AsyncTaskExecutor executor;
-    @Mock
-    private ApplicationEventPublisher eventPublisher;
     @InjectMocks
     private SolverManager solverManager;
 
