@@ -49,8 +49,7 @@ class RemoveVehicleTest {
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         PlanningLocation location = PlanningLocationFactory.testLocation(1);
-        PlanningDepot depot = new PlanningDepot();
-        depot.setLocation(location);
+        PlanningDepot depot = new PlanningDepot(location);
 
         PlanningVehicle removedVehicle = new PlanningVehicle();
         removedVehicle.setId(1L);
@@ -98,8 +97,7 @@ class RemoveVehicleTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
 
         PlanningLocation location = PlanningLocationFactory.testLocation(1);
-        PlanningDepot depot = new PlanningDepot();
-        depot.setLocation(location);
+        PlanningDepot depot = new PlanningDepot(location);
 
         long removedId = 111L;
         PlanningVehicle removedVehicle = new PlanningVehicle();

@@ -40,8 +40,7 @@ class SolutionFactoryTest {
         PlanningVehicle vehicle = new PlanningVehicle();
 
         PlanningLocation depotLocation = PlanningLocationFactory.testLocation(1);
-        PlanningDepot depot = new PlanningDepot();
-        depot.setLocation(depotLocation);
+        PlanningDepot depot = new PlanningDepot(depotLocation);
 
         PlanningVisit visit = PlanningVisitFactory.fromLocation(PlanningLocationFactory.testLocation(2));
 

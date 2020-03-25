@@ -42,8 +42,7 @@ class ChangeVehicleCapacityTest {
     @Test
     void change_vehicle_capacity() {
         PlanningLocation location = PlanningLocationFactory.testLocation(1);
-        PlanningDepot depot = new PlanningDepot();
-        depot.setLocation(location);
+        PlanningDepot depot = new PlanningDepot(location);
 
         int oldCapacity = 100;
         int newCapacity = 50;
