@@ -31,8 +31,8 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.AbstractPlanningObject;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 
@@ -345,7 +345,7 @@ class RouteOptimizerImplTest {
         // act
         routeOptimizer.addLocation(location3, matrixRow);
         // assert
-        verify(solverManager).addLocation(any(PlanningLocation.class));
+        verify(solverManager).addVisit(any(PlanningVisit.class));
     }
 
     @Test
@@ -359,15 +359,15 @@ class RouteOptimizerImplTest {
 
         // add second visit to avoid stopping solver manager after removing a visit below
         routeOptimizer.addLocation(location3, matrixRow);
-        verify(solverManager).addLocation(any(PlanningLocation.class));
+        verify(solverManager).addVisit(any(PlanningVisit.class));
 
         // act
         routeOptimizer.removeLocation(location2);
 
         // assert
-        ArgumentCaptor<PlanningLocation> locationArgumentCaptor = ArgumentCaptor.forClass(PlanningLocation.class);
-        verify(solverManager).removeLocation(locationArgumentCaptor.capture());
-        assertThat(locationArgumentCaptor.getValue().getId()).isEqualTo(location2.id());
+        ArgumentCaptor<PlanningVisit> visitArgumentCaptor = ArgumentCaptor.forClass(PlanningVisit.class);
+        verify(solverManager).removeVisit(visitArgumentCaptor.capture());
+        assertThat(visitArgumentCaptor.getValue().getId()).isEqualTo(location2.id());
         // solver still running
         verify(solverManager, never()).stopSolver();
     }

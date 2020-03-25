@@ -34,9 +34,10 @@ import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
 import org.optaweb.vehiclerouting.plugin.planner.change.ChangeVehicleCapacity;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.springframework.core.task.AsyncTaskExecutor;
 
@@ -145,7 +146,9 @@ class SolverManagerTest {
         when(solverFuture.get()).thenThrow(InterruptedException.class);
 
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> solverManager.removeLocation(PlanningLocationFactory.testLocation(0)));
+                .isThrownBy(() -> solverManager.removeVisit(
+                        PlanningVisitFactory.fromLocation(PlanningLocationFactory.testLocation(0))
+                ));
         assertThat(Thread.interrupted()).isTrue();
 
         assertThatExceptionOfType(RuntimeException.class)
@@ -165,10 +168,10 @@ class SolverManagerTest {
                 .isThrownBy(() -> solverManager.changeCapacity(mock(PlanningVehicle.class)))
                 .withMessageContaining("started");
         assertThatIllegalStateException()
-                .isThrownBy(() -> solverManager.addLocation(mock(PlanningLocation.class)))
+                .isThrownBy(() -> solverManager.addVisit(mock(PlanningVisit.class)))
                 .withMessageContaining("started");
         assertThatIllegalStateException()
-                .isThrownBy(() -> solverManager.removeLocation(mock(PlanningLocation.class)))
+                .isThrownBy(() -> solverManager.removeVisit(mock(PlanningVisit.class)))
                 .withMessageContaining("started");
     }
 
@@ -189,10 +192,10 @@ class SolverManagerTest {
                 .isThrownBy(() -> solverManager.changeCapacity(mock(PlanningVehicle.class)))
                 .withMessageContaining("died");
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> solverManager.addLocation(mock(PlanningLocation.class)))
+                .isThrownBy(() -> solverManager.addVisit(mock(PlanningVisit.class)))
                 .withMessageContaining("died");
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> solverManager.removeLocation(mock(PlanningLocation.class)))
+                .isThrownBy(() -> solverManager.removeVisit(mock(PlanningVisit.class)))
                 .withMessageContaining("died");
     }
 
@@ -211,10 +214,10 @@ class SolverManagerTest {
         solverManager.changeCapacity(mock(PlanningVehicle.class));
         verify(solver).addProblemFactChange(any(ChangeVehicleCapacity.class));
 
-        solverManager.addLocation(mock(PlanningLocation.class));
+        solverManager.addVisit(mock(PlanningVisit.class));
         verify(solver).addProblemFactChange(any(AddVisit.class));
 
-        solverManager.removeLocation(mock(PlanningLocation.class));
+        solverManager.removeVisit(mock(PlanningVisit.class));
         verify(solver).addProblemFactChange(any(RemoveVisit.class));
     }
 }

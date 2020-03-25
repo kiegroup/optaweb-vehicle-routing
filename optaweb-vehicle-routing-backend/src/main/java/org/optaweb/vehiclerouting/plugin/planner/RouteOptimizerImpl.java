@@ -26,6 +26,8 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
@@ -44,7 +46,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
     private final SolutionPublisher solutionPublisher;
 
     private final List<PlanningVehicle> vehicles = new ArrayList<>();
-    private final List<PlanningLocation> visits = new ArrayList<>();
+    private final List<PlanningVisit> visits = new ArrayList<>();
     private PlanningDepot depot;
 
     @Autowired
@@ -64,13 +66,14 @@ class RouteOptimizerImpl implements RouteOptimizer {
             depot = new PlanningDepot(location);
             publishSolution();
         } else {
-            visits.add(location);
+            PlanningVisit visit = PlanningVisitFactory.fromLocation(location);
+            visits.add(visit);
             if (vehicles.isEmpty()) {
                 publishSolution();
             } else if (visits.size() == 1) {
-                solverManager.startSolver(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
+                solverManager.startSolver(SolutionFactory.solutionFromVisits(vehicles, depot, visits));
             } else {
-                solverManager.addLocation(location);
+                solverManager.addVisit(visit);
             }
         }
     }
@@ -102,7 +105,9 @@ class RouteOptimizerImpl implements RouteOptimizer {
                 publishSolution();
             } else {
                 // TODO maybe allow removing location by ID (only require the necessary information)
-                solverManager.removeLocation(PlanningLocationFactory.fromDomain(domainLocation));
+                solverManager.removeVisit(
+                        PlanningVisitFactory.fromLocation(PlanningLocationFactory.fromDomain(domainLocation))
+                );
             }
         }
     }
@@ -115,7 +120,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
         if (visits.isEmpty()) {
             publishSolution();
         } else if (vehicles.size() == 1) {
-            solverManager.startSolver(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
+            solverManager.startSolver(SolutionFactory.solutionFromVisits(vehicles, depot, visits));
         } else {
             solverManager.addVehicle(vehicle);
         }
@@ -168,6 +173,6 @@ class RouteOptimizerImpl implements RouteOptimizer {
     }
 
     private void publishSolution() {
-        solutionPublisher.publishSolution(SolutionFactory.solutionFromLocations(vehicles, depot, visits));
+        solutionPublisher.publishSolution(SolutionFactory.solutionFromVisits(vehicles, depot, visits));
     }
 }

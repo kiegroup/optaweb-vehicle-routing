@@ -28,9 +28,8 @@ import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
 import org.optaweb.vehiclerouting.plugin.planner.change.ChangeVehicleCapacity;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,14 +135,14 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
         }
     }
 
-    void addLocation(PlanningLocation location) {
+    void addVisit(PlanningVisit visit) {
         assertSolverIsAlive();
-        solver.addProblemFactChange(new AddVisit(PlanningVisitFactory.fromLocation(location)));
+        solver.addProblemFactChange(new AddVisit(visit));
     }
 
-    void removeLocation(PlanningLocation location) {
+    void removeVisit(PlanningVisit visit) {
         assertSolverIsAlive();
-        solver.addProblemFactChange(new RemoveVisit(PlanningVisitFactory.fromLocation(location)));
+        solver.addProblemFactChange(new RemoveVisit(visit));
     }
 
     void addVehicle(PlanningVehicle vehicle) {
