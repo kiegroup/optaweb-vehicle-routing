@@ -23,10 +23,8 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 
 /**
- * Temporary distance map implementation that allows to compute and store distances purely from
- * {@link org.optaweb.vehiclerouting.domain domain objects} and later be queried using Planning domain objects.
+ * Provides distances to {@link PlanningLocation}s by reading from a {@link DistanceMatrixRow}.
  */
-// TODO get rid of dependency on Planning domain
 public class DistanceMapImpl implements DistanceMap {
 
     private final DistanceMatrixRow distanceMatrixRow;
