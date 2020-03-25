@@ -87,7 +87,11 @@ public class PlanningVisit extends AbstractPlanningObject implements Standstill 
     // ************************************************************************
 
     /**
-     * @return a positive number, the distance multiplied by 1000 to avoid floating point arithmetic rounding errors
+     * Distance from the previous standstill to this visit. This is used to calculate the travel cost of a chain
+     * beginning with a vehicle (at a depot) and ending with the last visit. The chain ends with a visit, not a depot
+     * so the cost of returning from the last visit back to the depot has to be added in a separate step using
+     * {@link #getDistanceTo(Standstill)}.
+     * @return distance from previous standstill to this visit
      */
     public long getDistanceFromPreviousStandstill() {
         if (previousStandstill == null) {
@@ -96,20 +100,14 @@ public class PlanningVisit extends AbstractPlanningObject implements Standstill 
                             + previousStandstill + ") is not initialized yet."
             );
         }
-        return getDistanceFrom(previousStandstill);
+        return previousStandstill.getLocation().getDistanceTo(location);
     }
 
     /**
-     * @param standstill never null
-     * @return a positive number, the distance multiplied by 1000 to avoid floating point arithmetic rounding errors
-     */
-    public long getDistanceFrom(Standstill standstill) {
-        return standstill.getLocation().getDistanceTo(location);
-    }
-
-    /**
-     * @param standstill never null
-     * @return a positive number, the distance multiplied by 1000 to avoid floating point arithmetic rounding errors
+     * Distance from this visit to a standstill. This is used to calculate travel cost of returning from the last
+     * visit to the depot.
+     * @param standstill the vehicle that is the anchor of this visit's chain
+     * @return distance from this visit to the vehicle's depot
      */
     public long getDistanceTo(Standstill standstill) {
         return location.getDistanceTo(standstill.getLocation());
