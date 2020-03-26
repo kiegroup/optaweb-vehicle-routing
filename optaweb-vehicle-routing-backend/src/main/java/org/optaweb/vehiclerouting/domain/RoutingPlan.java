@@ -146,6 +146,10 @@ public class RoutingPlan {
         return Collections.unmodifiableList(routes);
     }
 
+    /**
+     * All visits that are part of the routing problem.
+     * @return all visits
+     */
     public List<Location> visits() {
         return Collections.unmodifiableList(visits);
     }

@@ -23,6 +23,9 @@ import java.util.Objects;
  */
 public class Distance {
 
+    /**
+     * Zero distance, for example the distance from a location to itself.
+     */
     public static final Distance ZERO = Distance.ofMillis(0);
 
     private final long millis;
@@ -44,7 +47,7 @@ public class Distance {
     }
 
     /**
-     * Return distance in milliseconds.
+     * Distance in milliseconds.
      * @return positive number or zero
      */
     public long millis() {
