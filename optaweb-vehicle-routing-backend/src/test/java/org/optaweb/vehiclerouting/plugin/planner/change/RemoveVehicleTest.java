@@ -32,7 +32,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
@@ -87,8 +86,8 @@ class RemoveVehicleTest {
         verify(scoreDirector).afterVariableChanged(firstVisit, "previousStandstill");
         verify(scoreDirector).beforeVariableChanged(lastVisit, "previousStandstill");
         verify(scoreDirector).afterVariableChanged(lastVisit, "previousStandstill");
-        verify(scoreDirector).beforeProblemFactRemoved(any(PlanningVehicle.class));
-        verify(scoreDirector).afterProblemFactRemoved(any(PlanningVehicle.class));
+        verify(scoreDirector).beforeProblemFactRemoved(removedVehicle);
+        verify(scoreDirector).afterProblemFactRemoved(removedVehicle);
         verify(scoreDirector).triggerVariableListeners();
     }
 
