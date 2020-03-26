@@ -77,7 +77,7 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
     }
 
     @Test
-    void createSorterWeight_close_customer_should_have_smaller_weight() {
+    void visit_weights_should_be_ordered_by_angle_then_by_distance_then_by_id() {
         // angle 0 (same as west) distance or ID will decide
         PlanningLocation center1 = location(1, depotY, depotX, 0);
         PlanningLocation center2 = location(2, depotY, depotX, 0);
