@@ -42,13 +42,11 @@ public class RemoveVisit implements ProblemFactChange<VehicleRoutingSolution> {
         }
 
         // Fix the next visit and set its previousStandstill to the removed visit's previousStandstill
-        for (PlanningVisit nextVisit : workingSolution.getVisitList()) {
-            if (nextVisit.getPreviousStandstill().equals(workingVisit)) {
-                scoreDirector.beforeVariableChanged(nextVisit, "previousStandstill");
-                nextVisit.setPreviousStandstill(workingVisit.getPreviousStandstill());
-                scoreDirector.afterVariableChanged(nextVisit, "previousStandstill");
-                break;
-            }
+        PlanningVisit nextVisit = workingVisit.getNextVisit();
+        if (nextVisit != null) { // otherwise it's the last visit
+            scoreDirector.beforeVariableChanged(nextVisit, "previousStandstill");
+            nextVisit.setPreviousStandstill(workingVisit.getPreviousStandstill());
+            scoreDirector.afterVariableChanged(nextVisit, "previousStandstill");
         }
 
         // No need to clone the visitList because it is a planning entity collection, so it is already planning-cloned.
