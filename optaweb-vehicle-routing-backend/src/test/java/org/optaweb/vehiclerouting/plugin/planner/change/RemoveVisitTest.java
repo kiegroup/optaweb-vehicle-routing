@@ -28,8 +28,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
@@ -61,8 +59,8 @@ class RemoveVisitTest {
         RemoveVisit removeVisit = new RemoveVisit(removedVisit);
         removeVisit.doChange(scoreDirector);
 
-        verify(scoreDirector).beforeEntityRemoved(any(PlanningVisit.class));
-        verify(scoreDirector).afterEntityRemoved(any(PlanningVisit.class));
+        verify(scoreDirector).beforeEntityRemoved(removedVisit);
+        verify(scoreDirector).afterEntityRemoved(removedVisit);
         assertThat(solution.getVisitList()).containsExactly(otherVisit);
 
         verify(scoreDirector).triggerVariableListeners();
@@ -74,30 +72,30 @@ class RemoveVisitTest {
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         PlanningVisit firstVisit = testVisit(1);
-        PlanningVisit removedVisit = testVisit(2);
+        PlanningVisit middleVisit = testVisit(2);
         PlanningVisit lastVisit = testVisit(3);
         solution.getVisitList().add(firstVisit);
         solution.getVisitList().add(lastVisit);
-        solution.getVisitList().add(removedVisit);
+        solution.getVisitList().add(middleVisit);
 
         // V -> first -> removed -> last
         firstVisit.setPreviousStandstill(PlanningVehicleFactory.testVehicle(1));
-        firstVisit.setNextVisit(removedVisit);
-        removedVisit.setPreviousStandstill(firstVisit);
-        removedVisit.setNextVisit(lastVisit);
-        lastVisit.setPreviousStandstill(removedVisit);
+        firstVisit.setNextVisit(middleVisit);
+        middleVisit.setPreviousStandstill(firstVisit);
+        middleVisit.setNextVisit(lastVisit);
+        lastVisit.setPreviousStandstill(middleVisit);
 
-        when(scoreDirector.lookUpWorkingObject(removedVisit)).thenReturn(removedVisit);
+        PlanningVisit removedVisit = testVisit(2);
+        when(scoreDirector.lookUpWorkingObject(removedVisit)).thenReturn(middleVisit);
 
         // do change
         RemoveVisit removeVisit = new RemoveVisit(removedVisit);
         removeVisit.doChange(scoreDirector);
 
-        // TODO make this more accurate once Customer overrides equals()
-        verify(scoreDirector).beforeVariableChanged(any(PlanningVisit.class), anyString());
-        verify(scoreDirector).afterVariableChanged(any(PlanningVisit.class), anyString());
-        verify(scoreDirector).beforeEntityRemoved(any(PlanningVisit.class));
-        verify(scoreDirector).afterEntityRemoved(any(PlanningVisit.class));
+        verify(scoreDirector).beforeVariableChanged(lastVisit, "previousStandstill");
+        verify(scoreDirector).afterVariableChanged(lastVisit, "previousStandstill");
+        verify(scoreDirector).beforeEntityRemoved(middleVisit);
+        verify(scoreDirector).afterEntityRemoved(middleVisit);
         assertThat(solution.getVisitList())
                 .hasSize(2)
                 .containsOnly(firstVisit, lastVisit);
