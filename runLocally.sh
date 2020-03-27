@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# Copyright 2019 Red Hat, Inc. and/or its affiliates.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+set -e
+
+readonly latest_vrp_dir_file=.VRP_DIR_LAST
+
+if [[ ! -f ${latest_vrp_dir_file} ]]
+then
+  echo >&2 "Last VRP dir unknown."
+  exit 1
+fi
+
+readonly vrp_dir=$(cat ${latest_vrp_dir_file})
+echo "VRP dir: $vrp_dir"
+
+if [[ ! -d ${vrp_dir} ]]
+then
+  echo >&2 "VRP dir ‘$vrp_dir’ does not exist."
+  exit 1
+fi
+
+readonly osm_dir=${vrp_dir}/openstreetmap
+readonly gh_dir=${vrp_dir}/graphhopper
+
+readonly standalone=optaweb-vehicle-routing-standalone
+echo "Getting project version..."
+readonly version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+echo "Project version: ${version}"
+
+readonly jar=${standalone}/target/${standalone}-${version}.jar
+
+if [[ ! -f ${jar} ]]
+then
+  echo >&2 "Jarfile ‘$jar’ does not exist."
+  exit 1
+fi
+
+java -jar "${standalone}/target/${standalone}-${version}.jar" \
+"--app.routing.osm-dir=$osm_dir" \
+"--app.routing.gh-dir=$gh_dir" \
+"--app.persistence.h2-dir=$vrp_dir/db"
