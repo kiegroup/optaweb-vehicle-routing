@@ -48,6 +48,36 @@ echo "Road network graphs imported:"
 list "${gh_dir}"
 
 echo
+declare -l answer_download # -l converts the value to lower case before it's assigned
+read -r -p "Do you want to download more? [y/N]: " "answer_download"
+[[ "$answer_download" == "y" ]] && {
+  # TODO other regions than Europe
+  readonly europe=local/europe.html
+  # TODO refresh daily
+  [[ ! -f ${europe} ]] && curl http://download.geofabrik.de/europe.html -s > ${europe}
+
+  # TODO check if xmllint is installed
+
+  readarray -t region_hrefs <<< "$(xmllint ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
+  readarray -t region_names <<< "$(xmllint ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
+  # TODO size
+  for i in "${!region_names[@]}"; do printf "%s\t%s\n" "$i" "${region_names[$i]}"; done
+
+  declare answer_region_id
+  read -r -p "Select a region: " "answer_region_id"
+
+  # TODO validate region index
+
+  readonly osm_target="${osm_dir}/${region_hrefs[answer_region_id]##*/}"
+
+  # TODO skip if already downloaded
+
+  curl "http://download.geofabrik.de/${region_hrefs[answer_region_id]}" -o "${osm_target}"
+  echo
+  echo "Created $osm_target."
+}
+
+echo
 echo "Getting project version..."
 readonly version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 echo "Project version: ${version}"
