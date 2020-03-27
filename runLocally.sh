@@ -35,11 +35,24 @@ fi
 readonly osm_dir=${vrp_dir}/openstreetmap
 readonly gh_dir=${vrp_dir}/graphhopper
 
-readonly standalone=optaweb-vehicle-routing-standalone
+function list() {
+  for i in "$1"/*; do echo "* $(basename \""${i}")"; done
+}
+
+echo
+echo "Downloaded OpenStreetMap files:"
+list "${osm_dir}"
+
+echo
+echo "Road network graphs imported:"
+list "${gh_dir}"
+
+echo
 echo "Getting project version..."
 readonly version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
 echo "Project version: ${version}"
 
+readonly standalone=optaweb-vehicle-routing-standalone
 readonly jar=${standalone}/target/${standalone}-${version}.jar
 
 if [[ ! -f ${jar} ]]
@@ -47,6 +60,13 @@ then
   echo >&2 "Jarfile ‘$jar’ does not exist."
   exit 1
 fi
+
+declare -l answer_continue # -l converts the value to lower case before it's assigned
+read -r -p "Do you want to continue? [y/N]: " "answer_continue"
+[[ "$answer_continue" == "y" ]] || {
+  echo "Aborted."
+  exit 0
+}
 
 java -jar "${standalone}/target/${standalone}-${version}.jar" \
 "--app.routing.osm-dir=$osm_dir" \
