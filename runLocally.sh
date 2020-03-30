@@ -45,6 +45,11 @@ function confirm() {
   [[ "$answer" == "y" ]]
 }
 
+function abort() {
+  echo "Aborted."
+  exit 0
+}
+
 echo
 echo "Downloaded OpenStreetMap files:"
 list "${osm_dir}"
@@ -91,14 +96,19 @@ readonly jar=${standalone}/target/${standalone}-${version}.jar
 
 if [[ ! -f ${jar} ]]
 then
-  echo >&2 "Jarfile ‘$jar’ does not exist."
-  exit 1
+  if confirm "Jarfile ‘$jar’ does not exist. Run Maven build now?"
+  then
+    if ! ./mvnw clean install -DskipTests
+    then
+      echo >&2 "Maven build failed. Aborting the script."
+      exit 1
+    fi
+  else
+    abort
+  fi
 fi
 
-confirm "Do you want to continue?" || {
-  echo "Aborted."
-  exit 0
-}
+confirm "Do you want launch OptaWeb Vehicle Routing?" || abort
 
 java -jar "${standalone}/target/${standalone}-${version}.jar" \
 "--app.routing.osm-dir=$osm_dir" \
