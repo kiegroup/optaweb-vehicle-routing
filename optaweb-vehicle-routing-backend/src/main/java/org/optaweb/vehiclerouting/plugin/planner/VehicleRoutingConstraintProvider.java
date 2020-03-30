@@ -35,7 +35,7 @@ public class VehicleRoutingConstraintProvider implements ConstraintProvider {
         };
     }
 
-    private static Constraint vehicleCapacity(ConstraintFactory constraintFactory) {
+    Constraint vehicleCapacity(ConstraintFactory constraintFactory) {
         return constraintFactory.from(PlanningVisit.class)
                 .groupBy(PlanningVisit::getVehicle, sum(PlanningVisit::getDemand))
                 .filter((vehicle, demand) -> demand > vehicle.getCapacity())

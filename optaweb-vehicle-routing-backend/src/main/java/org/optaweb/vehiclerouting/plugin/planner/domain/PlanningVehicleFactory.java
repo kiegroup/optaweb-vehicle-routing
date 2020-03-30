@@ -45,6 +45,15 @@ public class PlanningVehicleFactory {
         return vehicle(id, 0);
     }
 
+    /**
+     * Create a testing vehicle with capacity.
+     * @param id vehicle's ID
+     * @return new vehicle with the given capacity
+     */
+    public static PlanningVehicle testVehicle(long id, int capacity) {
+        return vehicle(id, capacity);
+    }
+
     private static PlanningVehicle vehicle(long id, int capacity) {
         PlanningVehicle vehicle = new PlanningVehicle();
         vehicle.setId(id);
