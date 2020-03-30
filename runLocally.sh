@@ -39,6 +39,12 @@ function list() {
   for i in "$1"/*; do echo "* $(basename \""${i}")"; done
 }
 
+function confirm() {
+  declare -l answer # -l converts the value to lower case before it's assigned
+  read -r -p "$1 [y/N]: " "answer"
+  [[ "$answer" == "y" ]]
+}
+
 echo
 echo "Downloaded OpenStreetMap files:"
 list "${osm_dir}"
@@ -48,9 +54,7 @@ echo "Road network graphs imported:"
 list "${gh_dir}"
 
 echo
-declare -l answer_download # -l converts the value to lower case before it's assigned
-read -r -p "Do you want to download more? [y/N]: " "answer_download"
-[[ "$answer_download" == "y" ]] && {
+confirm "Do you want to download more?" && {
   # TODO other regions than Europe
   readonly europe=local/europe.html
   # TODO refresh daily
@@ -91,9 +95,7 @@ then
   exit 1
 fi
 
-declare -l answer_continue # -l converts the value to lower case before it's assigned
-read -r -p "Do you want to continue? [y/N]: " "answer_continue"
-[[ "$answer_continue" == "y" ]] || {
+confirm "Do you want to continue?" || {
   echo "Aborted."
   exit 0
 }
