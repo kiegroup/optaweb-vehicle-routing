@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 # Copyright 2019 Red Hat, Inc. and/or its affiliates.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,6 +15,90 @@
 # limitations under the License.
 
 set -e
+
+function list() {
+  for i in "$1"/*
+  do
+    echo "* $(basename \""${i}")";
+  done
+}
+
+function confirm() {
+  declare -l answer # -l converts the value to lower case before it's assigned
+  read -r -p "$1 [y/N]: " "answer"
+  [[ "$answer" == "y" ]]
+}
+
+function abort() {
+  echo "Aborted."
+  exit 0
+}
+
+function interactive() {
+  echo
+  echo "Downloaded OpenStreetMap files:"
+  list "${osm_dir}"
+
+  echo
+  echo "Road network graphs imported:"
+  list "${gh_dir}"
+
+  echo
+  confirm "Do you want to download more?" && {
+    # TODO other regions than Europe
+    readonly europe=local/europe.html
+    # TODO refresh daily
+    [[ ! -f ${europe} ]] && curl http://download.geofabrik.de/europe.html -s > ${europe}
+
+    # TODO check if xmllint is installed
+
+    readarray -t region_hrefs <<< "$(xmllint ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
+    readarray -t region_names <<< "$(xmllint ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
+    # TODO size
+    for i in "${!region_names[@]}"
+    do
+      printf "%s\t%s\n" "$i" "${region_names[$i]}";
+    done
+
+    declare answer_region_id
+    read -r -p "Select a region: " "answer_region_id"
+
+    # TODO validate region index
+
+    readonly osm_target="${osm_dir}/${region_hrefs[answer_region_id]##*/}"
+
+    # TODO skip if already downloaded
+
+    curl "http://download.geofabrik.de/${region_hrefs[answer_region_id]}" -o "${osm_target}"
+    echo
+    echo "Created $osm_target."
+  }
+
+  echo
+  echo "Getting project version..."
+  readonly version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+  echo "Project version: ${version}"
+
+  readonly standalone=optaweb-vehicle-routing-standalone
+  readonly jar=${standalone}/target/${standalone}-${version}.jar
+
+  if [[ ! -f ${jar} ]]
+  then
+    if confirm "Jarfile ‘$jar’ does not exist. Run Maven build now?"
+    then
+      if ! ./mvnw clean install -DskipTests
+      then
+        echo >&2 "Maven build failed. Aborting the script."
+        exit 1
+      fi
+    else
+      abort
+    fi
+  fi
+
+  confirm "Do you want launch OptaWeb Vehicle Routing?" || abort
+
+}
 
 readonly latest_vrp_dir_file=.VRP_DIR_LAST
 
@@ -35,82 +120,13 @@ fi
 readonly osm_dir=${vrp_dir}/openstreetmap
 readonly gh_dir=${vrp_dir}/graphhopper
 
-function list() {
-  for i in "$1"/*; do echo "* $(basename \""${i}")"; done
-}
-
-function confirm() {
-  declare -l answer # -l converts the value to lower case before it's assigned
-  read -r -p "$1 [y/N]: " "answer"
-  [[ "$answer" == "y" ]]
-}
-
-function abort() {
-  echo "Aborted."
-  exit 0
-}
-
-echo
-echo "Downloaded OpenStreetMap files:"
-list "${osm_dir}"
-
-echo
-echo "Road network graphs imported:"
-list "${gh_dir}"
-
-echo
-confirm "Do you want to download more?" && {
-  # TODO other regions than Europe
-  readonly europe=local/europe.html
-  # TODO refresh daily
-  [[ ! -f ${europe} ]] && curl http://download.geofabrik.de/europe.html -s > ${europe}
-
-  # TODO check if xmllint is installed
-
-  readarray -t region_hrefs <<< "$(xmllint ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
-  readarray -t region_names <<< "$(xmllint ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
-  # TODO size
-  for i in "${!region_names[@]}"; do printf "%s\t%s\n" "$i" "${region_names[$i]}"; done
-
-  declare answer_region_id
-  read -r -p "Select a region: " "answer_region_id"
-
-  # TODO validate region index
-
-  readonly osm_target="${osm_dir}/${region_hrefs[answer_region_id]##*/}"
-
-  # TODO skip if already downloaded
-
-  curl "http://download.geofabrik.de/${region_hrefs[answer_region_id]}" -o "${osm_target}"
-  echo
-  echo "Created $osm_target."
-}
-
-echo
-echo "Getting project version..."
-readonly version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-echo "Project version: ${version}"
-
-readonly standalone=optaweb-vehicle-routing-standalone
-readonly jar=${standalone}/target/${standalone}-${version}.jar
-
-if [[ ! -f ${jar} ]]
-then
-  if confirm "Jarfile ‘$jar’ does not exist. Run Maven build now?"
-  then
-    if ! ./mvnw clean install -DskipTests
-    then
-      echo >&2 "Maven build failed. Aborting the script."
-      exit 1
-    fi
-  else
-    abort
-  fi
-fi
-
-confirm "Do you want launch OptaWeb Vehicle Routing?" || abort
+case $1 in
+  -i | --interactive)
+    interactive
+  ;;
+esac
 
 java -jar "${standalone}/target/${standalone}-${version}.jar" \
-"--app.routing.osm-dir=$osm_dir" \
-"--app.routing.gh-dir=$gh_dir" \
-"--app.persistence.h2-dir=$vrp_dir/db"
+ "--app.routing.osm-dir=$osm_dir" \
+ "--app.routing.gh-dir=$gh_dir" \
+ "--app.persistence.h2-dir=$vrp_dir/db"
