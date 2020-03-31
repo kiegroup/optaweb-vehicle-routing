@@ -64,6 +64,27 @@ function download() {
   echo "Created $2."
 }
 
+function country_code() {
+  local region=${1%.osm.pbf}
+  region=${region%-latest}
+  local cc_file=${cc_dir}/${region}
+
+  if [[ ! -f ${cc_file} ]]
+  then
+    region=${region//-/ }
+
+    local cc_tag="nv-i18n-1.27"
+    local cc_java="$cc_dir/CountryCode-$cc_tag.java"
+    [[ ! -f ${cc_java} ]] && \
+      curl https://raw.githubusercontent.com/TakahikoKawasaki/nv-i18n/${cc_tag}/src/main/java/com/neovisionaries/i18n/CountryCode.java -s > "$cc_java"
+
+    cc=$(grep -i "$region.*OFFICIALLY_ASSIGNED" "$cc_java" | sed 's/ *\(..\).*/\1/')
+
+    [[ -d ${cc_dir} ]] || mkdir "$cc_dir"
+    echo "$cc" > "$cc_file"
+  fi
+}
+
 function interactive() {
   echo
   echo "Downloaded OpenStreetMap files:"
@@ -94,12 +115,13 @@ function interactive() {
     read -r -p "Select a region: " "answer_region_id"
 
     # TODO validate region index
-
-    readonly osm_target="${osm_dir}/${region_hrefs[answer_region_id]##*/}"
+    local osm_file=${region_hrefs[answer_region_id]##*/}
+    local osm_target=${osm_dir}/${osm_file}
 
     # TODO skip if already downloaded
 
     download "${region_hrefs[answer_region_id]}" "$osm_target"
+    country_code "$osm_file"
   }
 
   standalone_jar_or_maven
@@ -155,6 +177,7 @@ echo ${vrp_dir} > ${last_vrp_dir_file}
 
 readonly osm_dir=${vrp_dir}/openstreetmap
 readonly gh_dir=${vrp_dir}/graphhopper
+readonly cc_dir=${vrp_dir}/country_codes
 
 case $1 in
   -i | --interactive)
