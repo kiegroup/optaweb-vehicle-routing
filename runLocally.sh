@@ -58,6 +58,12 @@ function standalone_jar_or_maven() {
   fi
 }
 
+function download() {
+  curl "http://download.geofabrik.de/$1" -o "$2"
+  echo
+  echo "Created $2."
+}
+
 function interactive() {
   echo
   echo "Downloaded OpenStreetMap files:"
@@ -93,15 +99,27 @@ function interactive() {
 
     # TODO skip if already downloaded
 
-    curl "http://download.geofabrik.de/${region_hrefs[answer_region_id]}" -o "${osm_target}"
-    echo
-    echo "Created $osm_target."
+    download "${region_hrefs[answer_region_id]}" "$osm_target"
   }
 
   standalone_jar_or_maven
 
   confirm "Do you want launch OptaWeb Vehicle Routing?" || abort
 
+}
+
+function quickstart() {
+  local subregion="europe"
+  local demo_osm_file="belgium-latest.osm.pbf"
+  local osm_target=${osm_dir}/${demo_osm_file}
+  if [[ ! -f ${osm_target} ]]
+  then
+    echo "OptaWeb Vehicle Routing needs an OSM file for distance calculation. \
+It contains a built-in dataset for $demo_osm_file, which does not exist in $osm_dir. \
+This script can download it for you from Geofabrik.de."
+    confirm "Download $demo_osm_file from Geofabrik.de now?" || abort
+    download "$subregion/$demo_osm_file" "$osm_target"
+  fi
 }
 
 readonly last_vrp_dir_file=.VRP_DIR_LAST
@@ -141,6 +159,9 @@ readonly gh_dir=${vrp_dir}/graphhopper
 case $1 in
   -i | --interactive)
     interactive
+  ;;
+  *)
+    quickstart
   ;;
 esac
 
