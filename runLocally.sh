@@ -34,6 +34,30 @@ function abort() {
   exit 0
 }
 
+function standalone_jar_or_maven() {
+  echo
+  echo "Getting project version..."
+  readonly version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+  echo "Project version: ${version}"
+
+  readonly standalone=optaweb-vehicle-routing-standalone
+  readonly jar=${standalone}/target/${standalone}-${version}.jar
+
+  if [[ ! -f ${jar} ]]
+  then
+    if confirm "Jarfile ‘$jar’ does not exist. Run Maven build now?"
+    then
+      if ! ./mvnw clean install -DskipTests
+      then
+        echo >&2 "Maven build failed. Aborting the script."
+        exit 1
+      fi
+    else
+      abort
+    fi
+  fi
+}
+
 function interactive() {
   echo
   echo "Downloaded OpenStreetMap files:"
@@ -74,27 +98,7 @@ function interactive() {
     echo "Created $osm_target."
   }
 
-  echo
-  echo "Getting project version..."
-  readonly version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-  echo "Project version: ${version}"
-
-  readonly standalone=optaweb-vehicle-routing-standalone
-  readonly jar=${standalone}/target/${standalone}-${version}.jar
-
-  if [[ ! -f ${jar} ]]
-  then
-    if confirm "Jarfile ‘$jar’ does not exist. Run Maven build now?"
-    then
-      if ! ./mvnw clean install -DskipTests
-      then
-        echo >&2 "Maven build failed. Aborting the script."
-        exit 1
-      fi
-    else
-      abort
-    fi
-  fi
+  standalone_jar_or_maven
 
   confirm "Do you want launch OptaWeb Vehicle Routing?" || abort
 
@@ -139,6 +143,8 @@ case $1 in
     interactive
   ;;
 esac
+
+standalone_jar_or_maven
 
 java -jar "${standalone}/target/${standalone}-${version}.jar" \
  "--app.routing.osm-dir=$osm_dir" \
