@@ -16,13 +16,6 @@
 
 set -e
 
-function list() {
-  for i in "$1"/*
-  do
-    echo "* $(basename \""${i}")";
-  done
-}
-
 function confirm() {
   declare -l answer # -l converts the value to lower case before it's assigned
   read -r -p "$1 [y/N]: " "answer"
@@ -66,15 +59,15 @@ function download() {
 
 function country_code() {
   local region=${1%.osm.pbf}
-  region=${region%-latest}
   local cc_file=${cc_dir}/${region}
 
   if [[ ! -f ${cc_file} ]]
   then
+    region=${region%-latest}
     region=${region//-/ }
 
     local cc_tag="nv-i18n-1.27"
-    local cc_java="$cc_dir/CountryCode-$cc_tag.java"
+    local cc_java="$vrp_dir/CountryCode-$cc_tag.java"
     [[ ! -f ${cc_java} ]] && \
       curl https://raw.githubusercontent.com/TakahikoKawasaki/nv-i18n/${cc_tag}/src/main/java/com/neovisionaries/i18n/CountryCode.java -s > "$cc_java"
 
@@ -86,13 +79,24 @@ function country_code() {
 }
 
 function interactive() {
-  echo
-  echo "Downloaded OpenStreetMap files:"
-  list "${osm_dir}"
+  readarray -t regions <<< "$(for r in "$osm_dir"/* "$gh_dir"/*; do basename "$r" | sed 's/.osm.pbf//'; done | sort | uniq)"
+
+  local format="%-24s %10s %10s %10s\n"
+  local width=57
 
   echo
-  echo "Road network graphs imported:"
-  list "${gh_dir}"
+  printf "$format" "REGION" "OSM" "GRAPH" "COUNTRY"
+  printf "%.s=" $(seq 1 "$width")
+  printf "\n"
+
+  for r in ${regions[*]}
+  do
+    country_code "$r"
+    printf "$format" "$r" \
+      "$(if [[ -f "$osm_dir/$r.osm.pbf" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
+      "$(if [[ -d "$gh_dir/$r" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
+      "$(cat "$cc_dir/$r")"
+  done
 
   echo
   confirm "Do you want to download more?" && {
