@@ -97,8 +97,8 @@ function list_downloads() {
 
   # TODO check if xmllint is installed
 
-  readarray -t region_hrefs <<< "$(xmllint ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
-  readarray -t region_names <<< "$(xmllint ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
+  readarray -t region_hrefs <<< "$(xmllint 2>/dev/null ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
+  readarray -t region_names <<< "$(xmllint 2>/dev/null ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
   # TODO size
   for i in "${!region_names[@]}"
   do
