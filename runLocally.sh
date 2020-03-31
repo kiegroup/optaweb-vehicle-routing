@@ -100,22 +100,36 @@ function interactive() {
 
 }
 
-readonly latest_vrp_dir_file=.VRP_DIR_LAST
+readonly last_vrp_dir_file=.VRP_DIR_LAST
 
-if [[ ! -f ${latest_vrp_dir_file} ]]
+if [[ -f ${last_vrp_dir_file} ]]
 then
-  echo >&2 "Last VRP dir unknown."
-  exit 1
+  readonly last_vrp_dir=$(cat ${last_vrp_dir_file})
+else
+  readonly last_vrp_dir=""
 fi
 
-readonly vrp_dir=$(cat ${latest_vrp_dir_file})
+if [[ -z ${last_vrp_dir} ]]
+then
+  readonly vrp_dir=$HOME/.vrp
+  echo "There is no last used VRP dir. Using the default."
+else
+  readonly vrp_dir=${last_vrp_dir}
+fi
+
 echo "VRP dir: $vrp_dir"
 
 if [[ ! -d ${vrp_dir} ]]
 then
-  echo >&2 "VRP dir ‘$vrp_dir’ does not exist."
-  exit 1
+  confirm "VRP dir ‘$vrp_dir’ does not exist. Do you want to create it now?" || abort
+  mkdir ${vrp_dir} || {
+    echo >&2 "Cannot create VRP directory ‘$vrp_dir’."
+    exit 1
+  }
 fi
+
+# Remember VRP dir
+echo ${vrp_dir} > ${last_vrp_dir_file}
 
 readonly osm_dir=${vrp_dir}/openstreetmap
 readonly gh_dir=${vrp_dir}/graphhopper
