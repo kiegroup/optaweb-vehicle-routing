@@ -51,8 +51,19 @@ function standalone_jar_or_maven() {
   fi
 }
 
+function run_optaweb() {
+  # TODO add --app.region.country-codes
+  java -jar "${standalone}/target/${standalone}-${version}.jar" \
+ "--app.persistence.h2-dir=$vrp_dir/db" \
+ "--app.routing.osm-dir=$osm_dir" \
+ "--app.routing.gh-dir=$gh_dir" \
+ "--app.routing.osm-file=$osm_file"
+}
+
 function download() {
-  curl "http://download.geofabrik.de/$1" -o "$2"
+  local osm_url="http://download.geofabrik.de/$1"
+  echo "Downloading $osm_url..."
+  curl "$osm_url" -o "$2"
   echo
   echo "Created $2."
 }
@@ -78,74 +89,108 @@ function country_code() {
   fi
 }
 
+function list_downloads() {
+  # TODO other regions than Europe
+  readonly europe=local/europe.html
+  # TODO refresh daily
+  [[ ! -f ${europe} ]] && curl http://download.geofabrik.de/europe.html -s > ${europe}
+
+  # TODO check if xmllint is installed
+
+  readarray -t region_hrefs <<< "$(xmllint ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
+  readarray -t region_names <<< "$(xmllint ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
+  # TODO size
+  for i in "${!region_names[@]}"
+  do
+    printf "%s\t%s\n" "$i" "${region_names[$i]}";
+  done
+
+  declare answer_region_id
+  read -r -p "Select a region: " "answer_region_id"
+
+  # TODO validate region index
+  osm_file=${region_hrefs[answer_region_id]##*/}
+  local osm_target=${osm_dir}/${osm_file}
+
+  # TODO skip if already downloaded
+
+  download "${region_hrefs[answer_region_id]}" "$osm_target"
+  country_code "$osm_file"
+}
+
 function interactive() {
   readarray -t regions <<< "$(for r in "$osm_dir"/* "$gh_dir"/*; do basename "$r" | sed 's/.osm.pbf//'; done | sort | uniq)"
 
-  local format="%-24s %10s %10s %10s\n"
-  local width=57
+  local format=" %2s %-24s %10s %10s %10s\n"
+  local width=62
 
   echo
-  printf "$format" "REGION" "OSM" "GRAPH" "COUNTRY"
+  printf "$format" "#" "REGION" "OSM" "GRAPH" "COUNTRY"
   printf "%.s=" $(seq 1 "$width")
   printf "\n"
 
-  for r in ${regions[*]}
+  for i in "${!regions[@]}"
   do
+    local r=${regions[$i]}
     country_code "$r"
-    printf "$format" "$r" \
+    printf "$format" \
+      "$i" \
+      "$r" \
       "$(if [[ -f "$osm_dir/$r.osm.pbf" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
       "$(if [[ -d "$gh_dir/$r" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
       "$(cat "$cc_dir/$r")"
   done
 
+  local max=$((${#regions[*]} - 1))
+
   echo
-  confirm "Do you want to download more?" && {
-    # TODO other regions than Europe
-    readonly europe=local/europe.html
-    # TODO refresh daily
-    [[ ! -f ${europe} ]] && curl http://download.geofabrik.de/europe.html -s > ${europe}
+  echo "Choose the next step:"
+  echo "d:    Download new region."
+  echo "0-$max: Select a region and run OptaWeb Vehicle Routing."
 
-    # TODO check if xmllint is installed
-
-    readarray -t region_hrefs <<< "$(xmllint ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
-    readarray -t region_names <<< "$(xmllint ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
-    # TODO size
-    for i in "${!region_names[@]}"
-    do
-      printf "%s\t%s\n" "$i" "${region_names[$i]}";
-    done
-
-    declare answer_region_id
-    read -r -p "Select a region: " "answer_region_id"
-
-    # TODO validate region index
-    local osm_file=${region_hrefs[answer_region_id]##*/}
-    local osm_target=${osm_dir}/${osm_file}
-
-    # TODO skip if already downloaded
-
-    download "${region_hrefs[answer_region_id]}" "$osm_target"
-    country_code "$osm_file"
-  }
+  echo
+  declare -l command
+  read -r -p "Your choice: " "command"
+  case "$command" in
+    d)
+      list_downloads
+      # TODO loop
+    ;;
+    [0-9] | [1-9][0-9])
+      if [[ ${command} -gt ${max} ]]
+      then
+        echo "Wrong number: $command"
+        # TODO loop
+        exit 1
+      fi
+      osm_file=${regions[$command]}.osm.pbf
+    ;;
+    *)
+      echo "Wrong command."
+      # TODO loop
+      exit 1
+    ;;
+  esac
 
   standalone_jar_or_maven
-
   confirm "Do you want launch OptaWeb Vehicle Routing?" || abort
-
+  run_optaweb
 }
 
 function quickstart() {
+  osm_file="belgium-latest.osm.pbf"
   local subregion="europe"
-  local demo_osm_file="belgium-latest.osm.pbf"
-  local osm_target=${osm_dir}/${demo_osm_file}
+  local osm_target=${osm_dir}/${osm_file}
   if [[ ! -f ${osm_target} ]]
   then
     echo "OptaWeb Vehicle Routing needs an OSM file for distance calculation. \
-It contains a built-in dataset for $demo_osm_file, which does not exist in $osm_dir. \
+It contains a built-in dataset for $osm_file, which does not exist in $osm_dir. \
 This script can download it for you from Geofabrik.de."
-    confirm "Download $demo_osm_file from Geofabrik.de now?" || abort
-    download "$subregion/$demo_osm_file" "$osm_target"
+    confirm "Download $osm_file from Geofabrik.de now?" || abort
+    download "$subregion/$osm_file" "$osm_target"
   fi
+  standalone_jar_or_maven
+  run_optaweb
 }
 
 readonly last_vrp_dir_file=.VRP_DIR_LAST
@@ -191,10 +236,3 @@ case $1 in
     quickstart
   ;;
 esac
-
-standalone_jar_or_maven
-
-java -jar "${standalone}/target/${standalone}-${version}.jar" \
- "--app.routing.osm-dir=$osm_dir" \
- "--app.routing.gh-dir=$gh_dir" \
- "--app.persistence.h2-dir=$vrp_dir/db"
