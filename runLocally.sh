@@ -69,7 +69,7 @@ function run_optaweb() {
   args+=("--app.routing.gh-dir=$gh_dir")
   args+=("--app.routing.osm-file=$osm_file")
   # Avoid empty country-codes - that would be an invalid argument.
-  [[ -n ${cc_list} ]] && args+=("--app.region.country-codes=$cc_list")
+  [[ -n ${cc_list} && ${cc_list} != "??" ]] && args+=("--app.region.country-codes=$cc_list")
   java -jar "${standalone}/target/${standalone}-${version}.jar" "${args[@]}"
 }
 
@@ -89,6 +89,9 @@ function country_code() {
 
   [[ -d ${cc_dir} ]] || mkdir "$cc_dir"
 
+  # If an error has occurred in the list_downloads loop, mark this region's code as "unknown".
+  [[ $2 == "ERROR" ]] && echo "??" > "$cc_file"
+
   if [[ (! -f ${cc_java} || -f ${cc_java}.err) && $2 != "ERROR" ]]
   then
     if curl 2>>"$cc_java.err" > "$cc_java" --silent --show-error \
@@ -96,12 +99,15 @@ https://raw.githubusercontent.com/TakahikoKawasaki/nv-i18n/${cc_tag}/src/main/ja
     then
       rm "$cc_java.err"
     else
-      touch "$cc_file"
+      # mark this region's code as "unknown"
+      [[ ! -f ${cc_file} ]] && echo "??" > "$cc_file"
+      # and report error
       return 1
     fi
   fi
 
-  if [[ ! -f ${cc_file} ]]
+  # If this loop instance doesn't have an error and cc_file doesn't exist yet or its content is "unknown".
+  if [[ $2 != ERROR && ((! -f ${cc_file}) || $(cat "$cc_file") == "??") ]]
   then
     region=${region%-latest}
     region=${region//-/ }
