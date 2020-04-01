@@ -142,16 +142,26 @@ function list_downloads() {
 
   readarray -t region_hrefs <<< "$(xmllint 2>>"$error_log" ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
   readarray -t region_names <<< "$(xmllint 2>>"$error_log" ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
-  # TODO size
+  readarray -t region_sizes <<< "$(xmllint 2>>"$error_log" ${europe} --html --xpath '//tr[@onmouseover]/td[3]/text()' | sed 's/.*(\(.*\))/\1/')"
 
   local -r max=$((${#region_names[*]} - 1))
   declare answer_region_id
 
+  local -r format=" %2s %-30s %10s\n"
+  local -r width=46
+
   while true
   do
+    echo
+    # shellcheck disable=SC2059
+    printf "$format" "#" "REGION" "SIZE"
+    printf "%.s=" $(seq 1 "$width")
+    printf "\n"
+
     for i in "${!region_names[@]}"
     do
-      printf "%s\t%s\n" "$i" "${region_names[$i]}";
+      # shellcheck disable=SC2059
+      printf "$format" "$i" "${region_names[$i]}" "${region_sizes[$i]}";
     done
 
     read -r -p "Select a region (0-$max) or Enter to go back: " answer_region_id
