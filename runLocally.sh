@@ -100,22 +100,34 @@ function list_downloads() {
   readarray -t region_hrefs <<< "$(xmllint 2>/dev/null ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
   readarray -t region_names <<< "$(xmllint 2>/dev/null ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
   # TODO size
-  for i in "${!region_names[@]}"
+
+  local max=$((${#region_names[*]} - 1))
+  declare answer_region_id
+
+  while true
   do
-    printf "%s\t%s\n" "$i" "${region_names[$i]}";
+    for i in "${!region_names[@]}"
+    do
+      printf "%s\t%s\n" "$i" "${region_names[$i]}";
+    done
+
+    read -r -p "Select a region (0-$max): " "answer_region_id"
+
+    if [[ ${answer_region_id} != [0-9] && ${answer_region_id} != [1-9][0-9] || ${answer_region_id} -gt ${max} ]]
+    then
+      echo "Wrong region ID ‘$answer_region_id’."
+      continue
+    fi
+
+    break
   done
 
-  declare answer_region_id
-  read -r -p "Select a region: " "answer_region_id"
-
-  # TODO validate region index
-  osm_file=${region_hrefs[answer_region_id]##*/}
+  local osm_file=${region_hrefs[answer_region_id]##*/}
   local osm_target=${osm_dir}/${osm_file}
 
   # TODO skip if already downloaded
 
   download "${region_hrefs[answer_region_id]}" "$osm_target"
-  country_code "$osm_file"
 }
 
 function interactive() {
@@ -155,6 +167,7 @@ function interactive() {
     d)
       list_downloads
       # TODO loop
+      exit 0
     ;;
     [0-9] | [1-9][0-9])
       if [[ ${command} -gt ${max} ]]
