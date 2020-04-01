@@ -18,8 +18,8 @@
 set -e
 
 function confirm() {
-  declare -l answer # -l converts the value to lower case before it's assigned
-  read -r -p "$1 [y/N]: " "answer"
+  declare -l answer # -l converts the value to lower-case before it's assigned
+  read -r -p "$1 [y/N]: " answer
   [[ "$answer" == "y" ]]
 }
 
@@ -31,14 +31,16 @@ function abort() {
 function standalone_jar_or_maven() {
   echo
   echo "Getting project version..."
+
+  local version
   if command -v mvn > /dev/null 2>&1
   then
     # TODO fix mvnw's stdout handling and replace mvn with mvnw
-    readonly version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+    local -r version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
   else
     echo >&2 "WARNING: Maven is not installed (mvn is not on \$PATH). \
 The script will grep pom.xml for project version, which is not as reliable as using Maven."
-    readonly version=$(grep '<parent> *$' pom.xml -A4 | grep version | sed 's;.*<version>\(.*\)</version>.*;\1;')
+    local -r version=$(grep '<parent> *$' pom.xml -A4 | grep version | sed 's;.*<version>\(.*\)</version>.*;\1;')
   fi
 
   [[ -n ${version} ]] || {
@@ -48,7 +50,7 @@ The script will grep pom.xml for project version, which is not as reliable as us
 
   echo "Project version: ${version}"
 
-  readonly standalone=optaweb-vehicle-routing-standalone
+  local -r standalone=optaweb-vehicle-routing-standalone
   readonly jar=${standalone}/target/${standalone}-${version}.jar
 
   if [[ ! -f ${jar} ]]
@@ -63,8 +65,8 @@ The script will grep pom.xml for project version, which is not as reliable as us
 }
 
 function validate() {
-  local osm_file_path=${osm_dir}/${osm_file}
-  local gh_graph_path=${gh_dir}/${osm_file%.osm.pbf}
+  local -r osm_file_path=${osm_dir}/${osm_file}
+  local -r gh_graph_path=${gh_dir}/${osm_file%.osm.pbf}
   if [[ ! -f "$osm_file_path" && ! -d "$gh_graph_path" ]]
   then
     echo >&2 "Wrong region ‘$osm_file’. One of the following must exist:"
@@ -82,11 +84,11 @@ function run_optaweb() {
   args+=("--app.routing.osm-file=$osm_file")
   # Avoid empty country-codes - that would be an invalid argument.
   [[ -n ${cc_list} && ${cc_list} != "??" ]] && args+=("--app.region.country-codes=$cc_list")
-  java -jar "${standalone}/target/${standalone}-${version}.jar" "${args[@]}"
+  java -jar "$jar" "${args[@]}"
 }
 
 function download() {
-  local osm_url="http://download.geofabrik.de/$1"
+  local -r osm_url="http://download.geofabrik.de/$1"
   echo "Downloading $osm_url..."
   curl "$osm_url" -o "$2"
   echo
@@ -94,10 +96,10 @@ function download() {
 }
 
 function country_code() {
-  local region=${1%.osm.pbf}
-  local cc_file=${cc_dir}/${region}
-  local cc_tag="nv-i18n-1.27"
-  local cc_java="$vrp_dir/CountryCode-$cc_tag.java"
+  local -r region=${1%.osm.pbf}
+  local -r cc_file=${cc_dir}/${region}
+  local -r cc_tag="nv-i18n-1.27"
+  local -r cc_java="$vrp_dir/CountryCode-$cc_tag.java"
 
   [[ -d ${cc_dir} ]] || mkdir "$cc_dir"
 
@@ -121,10 +123,10 @@ https://raw.githubusercontent.com/TakahikoKawasaki/nv-i18n/${cc_tag}/src/main/ja
   # If this loop instance doesn't have an error and cc_file doesn't exist yet or its content is "unknown".
   if [[ $2 != ERROR && ((! -f ${cc_file}) || $(cat "$cc_file") == "??") ]]
   then
-    region=${region%-latest}
-    region=${region//-/ }
+    local region_search=${region%-latest}
+    region_search=${region_search//-/ }
 
-    cc=$(grep -i "$region.*OFFICIALLY_ASSIGNED" "$cc_java" | sed 's/ *\(..\).*/\1/')
+    cc=$(grep -i "$region_search.*OFFICIALLY_ASSIGNED" "$cc_java" | sed 's/ *\(..\).*/\1/')
 
     echo "$cc" > "$cc_file"
   fi
@@ -142,7 +144,7 @@ function list_downloads() {
   readarray -t region_names <<< "$(xmllint 2>>"$error_log" ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
   # TODO size
 
-  local max=$((${#region_names[*]} - 1))
+  local -r max=$((${#region_names[*]} - 1))
   declare answer_region_id
 
   while true
@@ -152,7 +154,7 @@ function list_downloads() {
       printf "%s\t%s\n" "$i" "${region_names[$i]}";
     done
 
-    read -r -p "Select a region (0-$max) or Enter to go back: " "answer_region_id"
+    read -r -p "Select a region (0-$max) or Enter to go back: " answer_region_id
 
     [[ -z ${answer_region_id} ]] && break
 
@@ -168,8 +170,8 @@ function list_downloads() {
   [[ -z ${answer_region_id} ]] && return 0
 
   # Remove region prefix (e.g. europe/) from href to get the OSM file name.
-  local osm_file=${region_hrefs[answer_region_id]##*/}
-  local osm_target=${osm_dir}/${osm_file}
+  local -r osm_file=${region_hrefs[answer_region_id]##*/}
+  local -r osm_target=${osm_dir}/${osm_file}
 
   # TODO skip if already downloaded
 
@@ -194,16 +196,16 @@ function interactive() {
 
     for i in "${!regions[@]}"
     do
-      local r=${regions[$i]}
+      local region=${regions[$i]}
       # pass cc_error to skip repeated curl in this loop
-      country_code "$r" "$cc_status" || cc_status="ERROR"
+      country_code "$region" "$cc_status" || cc_status="ERROR"
       # shellcheck disable=SC2059
       printf "$format" \
         "$i" \
-        "$r" \
-        "$(if [[ -f "$osm_dir/$r.osm.pbf" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
-        "$(if [[ -d "$gh_dir/$r" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
-        "$(cat "$cc_dir/$r")"
+        "$region" \
+        "$(if [[ -f "$osm_dir/$region.osm.pbf" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
+        "$(if [[ -d "$gh_dir/$region" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
+        "$(cat "$cc_dir/$region")"
     done
 
     if [[ ${cc_status} == "ERROR" ]]
@@ -220,8 +222,8 @@ function interactive() {
     echo "0-$max: Select a region and run OptaWeb Vehicle Routing."
 
     echo
-    declare -l command
-    read -r -p "Your choice: " "command"
+    local -l command # -l converts to lower-case
+    read -r -p "Your choice: " command
     case "$command" in
       d)
         list_downloads
@@ -256,8 +258,8 @@ function interactive() {
 function quickstart() {
   osm_file="belgium-latest.osm.pbf"
   cc_list="BE"
-  local subregion="europe"
-  local osm_target=${osm_dir}/${osm_file}
+  local -r subregion="europe"
+  local -r osm_target=${osm_dir}/${osm_file}
   if [[ ! -f ${osm_target} ]]
   then
     echo "OptaWeb Vehicle Routing needs an OSM file for distance calculation. \
