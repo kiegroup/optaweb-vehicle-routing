@@ -30,6 +30,8 @@ function abort() {
 function standalone_jar_or_maven() {
   echo
   echo "Getting project version..."
+  # TODO fix mvnw's stdout handling
+  # TODO check if mvn is executable
   readonly version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
   echo "Project version: ${version}"
 
@@ -38,15 +40,11 @@ function standalone_jar_or_maven() {
 
   if [[ ! -f ${jar} ]]
   then
-    if confirm "Jarfile ‘$jar’ does not exist. Run Maven build now?"
+    confirm "Jarfile ‘$jar’ does not exist. Run Maven build now?" || abort
+    if ! ./mvnw clean install -DskipTests
     then
-      if ! ./mvnw clean install -DskipTests
-      then
-        echo >&2 "Maven build failed. Aborting the script."
-        exit 1
-      fi
-    else
-      abort
+      echo >&2 "Maven build failed. Aborting the script."
+      exit 1
     fi
   fi
 }
