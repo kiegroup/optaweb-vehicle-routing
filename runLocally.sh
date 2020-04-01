@@ -138,7 +138,10 @@ function list_downloads() {
   # TODO refresh daily
   [[ ! -f ${europe} ]] && curl http://download.geofabrik.de/europe.html -s > ${europe}
 
-  # TODO check if xmllint is installed
+  command -v xmllint > /dev/null 2>&1 || {
+    echo >&2 "ERROR: xmllint is not installed. Please install xmllint and retry."
+    exit 1
+  }
 
   readarray -t region_hrefs <<< "$(xmllint 2>>"$error_log" ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
   readarray -t region_names <<< "$(xmllint 2>>"$error_log" ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
