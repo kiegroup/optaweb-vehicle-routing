@@ -14,6 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Abort script if any simple command outside an if, while, &&, ||, etc. exists with a nonzero code.
 set -e
 
 function confirm() {
@@ -81,20 +82,30 @@ function download() {
 function country_code() {
   local region=${1%.osm.pbf}
   local cc_file=${cc_dir}/${region}
+  local cc_tag="nv-i18n-1.27"
+  local cc_java="$vrp_dir/CountryCode-$cc_tag.java"
+
+  [[ -d ${cc_dir} ]] || mkdir "$cc_dir"
+
+  if [[ (! -f ${cc_java} || -f ${cc_java}.err) && $2 != "ERROR" ]]
+  then
+    if curl 2>>"$cc_java.err" > "$cc_java" --silent --show-error \
+https://raw.githubusercontent.com/TakahikoKawasaki/nv-i18n/${cc_tag}/src/main/java/com/neovisionaries/i18n/CountryCode.java
+    then
+      rm "$cc_java.err"
+    else
+      touch "$cc_file"
+      return 1
+    fi
+  fi
 
   if [[ ! -f ${cc_file} ]]
   then
     region=${region%-latest}
     region=${region//-/ }
 
-    local cc_tag="nv-i18n-1.27"
-    local cc_java="$vrp_dir/CountryCode-$cc_tag.java"
-    [[ ! -f ${cc_java} ]] && \
-      curl https://raw.githubusercontent.com/TakahikoKawasaki/nv-i18n/${cc_tag}/src/main/java/com/neovisionaries/i18n/CountryCode.java -s > "$cc_java"
-
     cc=$(grep -i "$region.*OFFICIALLY_ASSIGNED" "$cc_java" | sed 's/ *\(..\).*/\1/')
 
-    [[ -d ${cc_dir} ]] || mkdir "$cc_dir"
     echo "$cc" > "$cc_file"
   fi
 }
@@ -153,10 +164,13 @@ function interactive() {
     printf "%.s=" $(seq 1 "$width")
     printf "\n"
 
+    local cc_status="OK"
+
     for i in "${!regions[@]}"
     do
       local r=${regions[$i]}
-      country_code "$r"
+      # pass cc_error to skip repeated curl in this loop
+      country_code "$r" "$cc_status" || cc_status="ERROR"
       printf "$format" \
         "$i" \
         "$r" \
@@ -164,6 +178,12 @@ function interactive() {
         "$(if [[ -d "$gh_dir/$r" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
         "$(cat "$cc_dir/$r")"
     done
+
+    if [[ ${cc_status} == "ERROR" ]]
+    then
+      echo
+      echo "ERROR: Failed to download country codes. Are you offline?"
+    fi
 
     local max=$((${#regions[*]} - 1))
 
