@@ -51,6 +51,18 @@ function standalone_jar_or_maven() {
   fi
 }
 
+function validate() {
+  local osm_file_path=${osm_dir}/${osm_file}
+  local gh_graph_path=${gh_dir}/${osm_file%.osm.pbf}
+  if [[ ! -f "$osm_file_path" && ! -d "$gh_graph_path" ]]
+  then
+    echo >&2 "Wrong region ‘$osm_file’. One of the following must exist:"
+    echo >&2 "- OSM file: $osm_file_path"
+    echo >&2 "- GraphHopper graph: $gh_graph_path"
+    exit 1
+  fi
+}
+
 function run_optaweb() {
   java -jar "${standalone}/target/${standalone}-${version}.jar" \
  "--app.persistence.h2-dir=$vrp_dir/db" \
@@ -248,11 +260,29 @@ readonly osm_dir=${vrp_dir}/openstreetmap
 readonly gh_dir=${vrp_dir}/graphhopper
 readonly cc_dir=${vrp_dir}/country_codes
 
+# Getting started (semi-interactive) - use OSM compatible with the built-in data set, download if not present.
+if [[ $# == 0 ]]
+then
+  quickstart
+  exit 0
+fi
+
 case $1 in
   -i | --interactive)
     interactive
   ;;
+  # Demo use case (non-interactive) - start with existing data.
+  [a-z]*)
+    region=${1%.osm.pbf}
+    region=${region%-latest}-latest
+    osm_file=${region}.osm.pbf
+    validate
+    cc_list=$(cat "$cc_dir/$region")
+    standalone_jar_or_maven
+    run_optaweb
+  ;;
   *)
-    quickstart
+    echo >&2 "Wrong argument."
+    # TODO display help
   ;;
 esac
