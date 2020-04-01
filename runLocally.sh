@@ -131,60 +131,61 @@ function list_downloads() {
 }
 
 function interactive() {
-  readarray -t regions <<< "$(for r in "$osm_dir"/* "$gh_dir"/*; do basename "$r" | sed 's/.osm.pbf//'; done | sort | uniq)"
-
-  local format=" %2s %-24s %10s %10s %10s\n"
-  local width=62
-
-  echo
-  printf "$format" "#" "REGION" "OSM" "GRAPH" "COUNTRY"
-  printf "%.s=" $(seq 1 "$width")
-  printf "\n"
-
-  for i in "${!regions[@]}"
+  while true
   do
-    local r=${regions[$i]}
-    country_code "$r"
-    printf "$format" \
-      "$i" \
-      "$r" \
-      "$(if [[ -f "$osm_dir/$r.osm.pbf" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
-      "$(if [[ -d "$gh_dir/$r" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
-      "$(cat "$cc_dir/$r")"
+    readarray -t regions <<< "$(for r in "$osm_dir"/* "$gh_dir"/*; do basename "$r" | sed 's/.osm.pbf//'; done | sort | uniq)"
+
+    local format=" %2s %-24s %10s %10s %10s\n"
+    local width=62
+
+    echo
+    printf "$format" "#" "REGION" "OSM" "GRAPH" "COUNTRY"
+    printf "%.s=" $(seq 1 "$width")
+    printf "\n"
+
+    for i in "${!regions[@]}"
+    do
+      local r=${regions[$i]}
+      country_code "$r"
+      printf "$format" \
+        "$i" \
+        "$r" \
+        "$(if [[ -f "$osm_dir/$r.osm.pbf" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
+        "$(if [[ -d "$gh_dir/$r" ]]; then echo "[x]"; else echo "[ ]"; fi)" \
+        "$(cat "$cc_dir/$r")"
+    done
+
+    local max=$((${#regions[*]} - 1))
+
+    echo
+    echo "Choose the next step:"
+    echo "d:    Download new region."
+    echo "0-$max: Select a region and run OptaWeb Vehicle Routing."
+
+    echo
+    declare -l command
+    read -r -p "Your choice: " "command"
+    case "$command" in
+      d)
+        list_downloads
+        continue
+      ;;
+      [0-9] | [1-9][0-9])
+        if [[ ${command} -gt ${max} ]]
+        then
+          echo "Wrong number: $command"
+          continue
+        fi
+        osm_file=${regions[$command]}.osm.pbf
+        cc_list=$(cat "$cc_dir/${regions[$command]}")
+        break
+      ;;
+      *)
+        echo "Wrong command."
+        continue
+      ;;
+    esac
   done
-
-  local max=$((${#regions[*]} - 1))
-
-  echo
-  echo "Choose the next step:"
-  echo "d:    Download new region."
-  echo "0-$max: Select a region and run OptaWeb Vehicle Routing."
-
-  echo
-  declare -l command
-  read -r -p "Your choice: " "command"
-  case "$command" in
-    d)
-      list_downloads
-      # TODO loop
-      exit 0
-    ;;
-    [0-9] | [1-9][0-9])
-      if [[ ${command} -gt ${max} ]]
-      then
-        echo "Wrong number: $command"
-        # TODO loop
-        exit 1
-      fi
-      osm_file=${regions[$command]}.osm.pbf
-      cc_list=$(cat "$cc_dir/${regions[$command]}")
-    ;;
-    *)
-      echo "Wrong command."
-      # TODO loop
-      exit 1
-    ;;
-  esac
 
   echo "Region: $osm_file"
   echo "Country code list: $cc_list"
