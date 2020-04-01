@@ -52,12 +52,12 @@ function standalone_jar_or_maven() {
 }
 
 function run_optaweb() {
-  # TODO add --app.region.country-codes
   java -jar "${standalone}/target/${standalone}-${version}.jar" \
  "--app.persistence.h2-dir=$vrp_dir/db" \
  "--app.routing.osm-dir=$osm_dir" \
  "--app.routing.gh-dir=$gh_dir" \
- "--app.routing.osm-file=$osm_file"
+ "--app.routing.osm-file=$osm_file" \
+ "--app.region.country-codes=$cc_list"
 }
 
 function download() {
@@ -164,6 +164,7 @@ function interactive() {
         exit 1
       fi
       osm_file=${regions[$command]}.osm.pbf
+      cc_list=$(cat "$cc_dir/${regions[$command]}")
     ;;
     *)
       echo "Wrong command."
@@ -172,13 +173,18 @@ function interactive() {
     ;;
   esac
 
-  standalone_jar_or_maven
+  echo "Region: $osm_file"
+  echo "Country code list: $cc_list"
+  echo
   confirm "Do you want launch OptaWeb Vehicle Routing?" || abort
+
+  standalone_jar_or_maven
   run_optaweb
 }
 
 function quickstart() {
   osm_file="belgium-latest.osm.pbf"
+  cc_list="BE"
   local subregion="europe"
   local osm_target=${osm_dir}/${osm_file}
   if [[ ! -f ${osm_target} ]]
