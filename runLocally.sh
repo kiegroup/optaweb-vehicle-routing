@@ -31,9 +31,21 @@ function abort() {
 function standalone_jar_or_maven() {
   echo
   echo "Getting project version..."
-  # TODO fix mvnw's stdout handling
-  # TODO check if mvn is executable
-  readonly version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+  if command -v mvn > /dev/null 2>&1
+  then
+    # TODO fix mvnw's stdout handling and replace mvn with mvnw
+    readonly version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+  else
+    echo >&2 "WARNING: Maven is not installed (mvn is not on \$PATH). \
+The script will grep pom.xml for project version, which is not as reliable as using Maven."
+    readonly version=$(grep '<parent> *$' pom.xml -A4 | grep version | sed 's;.*<version>\(.*\)</version>.*;\1;')
+  fi
+
+  [[ -n ${version} ]] || {
+    echo "ERROR: Invalid project version: ‘$version’."
+    exit 1
+  }
+
   echo "Project version: ${version}"
 
   readonly standalone=optaweb-vehicle-routing-standalone
