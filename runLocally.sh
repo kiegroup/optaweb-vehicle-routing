@@ -132,7 +132,7 @@ https://raw.githubusercontent.com/TakahikoKawasaki/nv-i18n/${cc_tag}/src/main/ja
 
 function list_downloads() {
   # TODO other regions than Europe
-  readonly europe=local/europe.html
+  local -r europe=local/europe.html
   # TODO refresh daily
   [[ ! -f ${europe} ]] && curl http://download.geofabrik.de/europe.html -s > ${europe}
 
@@ -152,7 +152,9 @@ function list_downloads() {
       printf "%s\t%s\n" "$i" "${region_names[$i]}";
     done
 
-    read -r -p "Select a region (0-$max): " "answer_region_id"
+    read -r -p "Select a region (0-$max) or Enter to go back: " "answer_region_id"
+
+    [[ -z ${answer_region_id} ]] && break
 
     if [[ ${answer_region_id} != [0-9] && ${answer_region_id} != [1-9][0-9] || ${answer_region_id} -gt ${max} ]]
     then
@@ -163,6 +165,9 @@ function list_downloads() {
     break
   done
 
+  [[ -z ${answer_region_id} ]] && return 0
+
+  # Remove region prefix (e.g. europe/) from href to get the OSM file name.
   local osm_file=${region_hrefs[answer_region_id]##*/}
   local osm_target=${osm_dir}/${osm_file}
 
