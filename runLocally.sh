@@ -107,8 +107,8 @@ function list_downloads() {
 
   # TODO check if xmllint is installed
 
-  readarray -t region_hrefs <<< "$(xmllint 2>/dev/null ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
-  readarray -t region_names <<< "$(xmllint 2>/dev/null ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
+  readarray -t region_hrefs <<< "$(xmllint 2>>"$error_log" ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
+  readarray -t region_names <<< "$(xmllint 2>>"$error_log" ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
   # TODO size
 
   local max=$((${#region_names[*]} - 1))
@@ -253,6 +253,9 @@ fi
 
 # Remember VRP dir
 echo ${vrp_dir} > ${last_vrp_dir_file}
+
+readonly error_log=${vrp_dir}/error.log
+rm -f ${error_log}
 
 readonly osm_dir=${vrp_dir}/openstreetmap
 readonly gh_dir=${vrp_dir}/graphhopper
