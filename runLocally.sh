@@ -63,12 +63,14 @@ function validate() {
 }
 
 function run_optaweb() {
-  java -jar "${standalone}/target/${standalone}-${version}.jar" \
- "--app.persistence.h2-dir=$vrp_dir/db" \
- "--app.routing.osm-dir=$osm_dir" \
- "--app.routing.gh-dir=$gh_dir" \
- "--app.routing.osm-file=$osm_file" \
- "--app.region.country-codes=$cc_list"
+  declare -a args
+  args+=("--app.persistence.h2-dir=$vrp_dir/db")
+  args+=("--app.routing.osm-dir=$osm_dir")
+  args+=("--app.routing.gh-dir=$gh_dir")
+  args+=("--app.routing.osm-file=$osm_file")
+  # Avoid empty country-codes - that would be an invalid argument.
+  [[ -n ${cc_list} ]] && args+=("--app.region.country-codes=$cc_list")
+  java -jar "${standalone}/target/${standalone}-${version}.jar" "${args[@]}"
 }
 
 function download() {
