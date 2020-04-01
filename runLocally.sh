@@ -186,9 +186,12 @@ function list_downloads() {
   local -r osm_file=${region_hrefs[answer_region_id]##*/}
   local -r osm_target=${osm_dir}/${osm_file}
 
-  # TODO skip if already downloaded
-
-  download "${region_hrefs[answer_region_id]}" "$osm_target"
+  if [[ -f ${osm_target} ]]
+  then
+    echo "Already downloaded."
+  else
+    download "${region_hrefs[answer_region_id]}" "$osm_target"
+  fi
 }
 
 function interactive() {
