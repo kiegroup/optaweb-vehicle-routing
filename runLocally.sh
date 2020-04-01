@@ -168,6 +168,7 @@ function interactive() {
     local width=62
 
     echo
+    # shellcheck disable=SC2059
     printf "$format" "#" "REGION" "OSM" "GRAPH" "COUNTRY"
     printf "%.s=" $(seq 1 "$width")
     printf "\n"
@@ -179,6 +180,7 @@ function interactive() {
       local r=${regions[$i]}
       # pass cc_error to skip repeated curl in this loop
       country_code "$r" "$cc_status" || cc_status="ERROR"
+      # shellcheck disable=SC2059
       printf "$format" \
         "$i" \
         "$r" \
