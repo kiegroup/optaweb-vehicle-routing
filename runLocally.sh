@@ -138,8 +138,13 @@ function download_menu() {
   local -r super_region_file="$cache_geofabrik/$url_html"
 
   # TODO refresh daily
-  # TODO handle offline mode
-  [[ ! -f ${super_region_file} ]] && curl -s "$url" > "$super_region_file"
+  if [[ ! -f ${super_region_file} || ! -s ${super_region_file} ]]
+  then
+    curl --silent --show-error 2>>"$cache_geofabrik/error.log" "$url" > "$super_region_file" || {
+      echo "ERROR: Cannot download from Geofabrik. Are you offline?"
+      exit 1
+    }
+  fi
 
   command -v xmllint > /dev/null 2>&1 || {
     echo >&2 "ERROR: xmllint is not installed. Please install xmllint and retry."
