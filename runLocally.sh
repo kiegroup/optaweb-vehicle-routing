@@ -98,7 +98,7 @@ function country_code() {
   local -r region=${1%.osm.pbf}
   local -r cc_file=${cc_dir}/${region}
   local -r cc_tag="nv-i18n-1.27"
-  local -r cc_java="$vrp_dir/CountryCode-$cc_tag.java"
+  local -r cc_java="$cache_dir/CountryCode-$cc_tag.java"
 
   [[ -d ${cc_dir} ]] || mkdir "$cc_dir"
 
@@ -135,7 +135,7 @@ function download_menu() {
   local -r url=$1
   local -r url_parent=${url%/*} # remove shortest suffix matching "/*" => http://download.geofabrik.de/north-america/us
   local -r url_html=${url##*/} # index.html, europe.html, etc.
-  local -r super_region_file="local/$url_html"
+  local -r super_region_file="$cache_geofabrik/$url_html"
 
   # TODO refresh daily
   # TODO handle offline mode
@@ -348,6 +348,10 @@ rm -f ${error_log}
 readonly osm_dir=${vrp_dir}/openstreetmap
 readonly gh_dir=${vrp_dir}/graphhopper
 readonly cc_dir=${vrp_dir}/country_codes
+readonly cache_dir=${vrp_dir}/.cache
+readonly cache_geofabrik=${cache_dir}/geofabrik
+
+[[ -d ${cache_geofabrik} ]] || mkdir -p ${cache_geofabrik}
 
 # Getting started (semi-interactive) - use OSM compatible with the built-in data set, download if not present.
 if [[ $# == 0 ]]
