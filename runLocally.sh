@@ -88,9 +88,8 @@ function run_optaweb() {
 }
 
 function download() {
-  local -r osm_url="http://download.geofabrik.de/$1"
-  echo "Downloading $osm_url..."
-  curl "$osm_url" -o "$2"
+  echo "Downloading $1..."
+  curl "$1" -o "$2"
   echo
   echo "Created $2."
 }
@@ -132,23 +131,29 @@ https://raw.githubusercontent.com/TakahikoKawasaki/nv-i18n/${cc_tag}/src/main/ja
   fi
 }
 
-function list_downloads() {
-  # TODO other regions than Europe
-  local -r europe=local/europe.html
+function download_menu() {
+  local -r url=$1
+  local -r url_parent=${url%/*} # remove shortest suffix matching "/*" => http://download.geofabrik.de/north-america/us
+  local -r url_html=${url##*/} # index.html, europe.html, etc.
+  local -r super_region_file="local/$url_html"
+
   # TODO refresh daily
-  [[ ! -f ${europe} ]] && curl http://download.geofabrik.de/europe.html -s > ${europe}
+  # TODO handle offline mode
+  [[ ! -f ${super_region_file} ]] && curl -s "$url" > "$super_region_file"
 
   command -v xmllint > /dev/null 2>&1 || {
     echo >&2 "ERROR: xmllint is not installed. Please install xmllint and retry."
     exit 1
   }
 
-  readarray -t region_hrefs <<< "$(xmllint 2>>"$error_log" ${europe} --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
-  readarray -t region_names <<< "$(xmllint 2>>"$error_log" ${europe} --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
-  readarray -t region_sizes <<< "$(xmllint 2>>"$error_log" ${europe} --html --xpath '//tr[@onmouseover]/td[3]/text()' | sed 's/.*(\(.*\))/\1/')"
+  readarray -t region_names <<< "$(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
+  readarray -t region_sub_hrefs <<< "$(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[1]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
+  readarray -t region_osm_hrefs <<< "$(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
+  readarray -t region_sizes <<< "$(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[3]/text()' | sed 's/.*(\(.*\))/\1/')"
 
   local -r max=$((${#region_names[*]} - 1))
   declare answer_region_id
+  declare answer_action
 
   local -r format=" %2s %-30s %10s\n"
   local -r width=46
@@ -177,21 +182,39 @@ function list_downloads() {
       continue
     fi
 
+    read -r -p "Download (d) or enter (e): " answer_action
+    if [[ ${answer_action} != [de] ]]
+    then
+      echo "Wrong action ‘$answer_action’."
+      continue
+    fi
+
     break
   done
 
   [[ -z ${answer_region_id} ]] && return 0
 
-  # Remove region prefix (e.g. europe/) from href to get the OSM file name.
-  local -r osm_file=${region_hrefs[answer_region_id]##*/}
-  local -r osm_target=${osm_dir}/${osm_file}
+  case ${answer_action} in
+    e)
+      download_menu "$url_parent/${region_sub_hrefs[answer_region_id]}"
+    ;;
+    d)
+      # Remove region prefix (e.g. europe/) from href to get the OSM file name.
+      local -r osm_file=${region_osm_hrefs[answer_region_id]##*/}
+      local -r osm_target=${osm_dir}/${osm_file}
 
-  if [[ -f ${osm_target} ]]
-  then
-    echo "Already downloaded."
-  else
-    download "${region_hrefs[answer_region_id]}" "$osm_target"
-  fi
+      if [[ -f ${osm_target} ]]
+      then
+        echo "Already downloaded."
+      else
+        download "$url_parent/${region_osm_hrefs[answer_region_id]}" "$osm_target"
+      fi
+    ;;
+    *)
+      echo "ERROR: Not possible (region_id=$answer_region_id,action=$answer_action)."
+      exit 1
+    ;;
+  esac
 }
 
 function interactive() {
@@ -242,7 +265,7 @@ function interactive() {
     read -r -p "Your choice: " command
     case "$command" in
       d)
-        list_downloads
+        download_menu "http://download.geofabrik.de/index.html"
         continue
       ;;
       [0-9] | [1-9][0-9])
@@ -272,9 +295,9 @@ function interactive() {
 }
 
 function quickstart() {
+  local url=http://download.geofabrik.de/europe/belgium-latest.osm.pbf
   osm_file="belgium-latest.osm.pbf"
   cc_list="BE"
-  local -r subregion="europe"
   local -r osm_target=${osm_dir}/${osm_file}
   if [[ ! -f ${osm_target} ]]
   then
@@ -282,7 +305,7 @@ function quickstart() {
 It contains a built-in dataset for $osm_file, which does not exist in $osm_dir. \
 This script can download it for you from Geofabrik.de."
     confirm "Download $osm_file from Geofabrik.de now?" || abort
-    download "$subregion/$osm_file" "$osm_target"
+    download "$url" "$osm_target"
   fi
   standalone_jar_or_maven
   run_optaweb
