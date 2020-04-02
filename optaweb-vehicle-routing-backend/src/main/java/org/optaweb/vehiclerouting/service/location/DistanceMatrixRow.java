@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +16,17 @@
 
 package org.optaweb.vehiclerouting.service.location;
 
-import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Distance;
 
 /**
- * Holds distances between every pair of locations.
+ * Contains {@link Distance distances} from the location associated with this row to other locations.
  */
-public interface DistanceMatrix {
+public interface DistanceMatrixRow {
 
-    DistanceMatrixRow addLocation(Location location);
-
-    void clear();
+    /**
+     * Distance from this row's location to the given location.
+     * @param locationId target location
+     * @return time it takes to travel to the given location
+     */
+    Distance distanceTo(Long locationId);
 }

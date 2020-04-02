@@ -23,7 +23,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,7 +41,7 @@ class ChangeVehicleCapacityTest {
 
     @Test
     void change_vehicle_capacity() {
-        PlanningLocation location = new PlanningLocation(1, 2.0, 3.0);
+        PlanningLocation location = PlanningLocationFactory.testLocation(1);
         PlanningDepot depot = new PlanningDepot();
         depot.setLocation(location);
 
@@ -70,14 +72,9 @@ class ChangeVehicleCapacityTest {
 
     @Test
     void fail_fast_if_working_object_is_null() {
-        PlanningDepot depot = new PlanningDepot();
-        depot.setLocation(new PlanningLocation(4L, 1, 2));
-        PlanningVehicle vehicle = new PlanningVehicle();
-        vehicle.setId(1L);
-        vehicle.setDepot(depot);
-
+        ChangeVehicleCapacity changeVehicleCapacity = new ChangeVehicleCapacity(PlanningVehicleFactory.testVehicle(1));
         assertThatIllegalStateException()
-                .isThrownBy(() -> new ChangeVehicleCapacity(vehicle).doChange(scoreDirector))
+                .isThrownBy(() -> changeVehicleCapacity.doChange(scoreDirector))
                 .withMessageContaining("working copy of");
     }
 }

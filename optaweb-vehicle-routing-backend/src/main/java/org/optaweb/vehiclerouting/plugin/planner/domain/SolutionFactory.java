@@ -37,13 +37,11 @@ public class SolutionFactory {
      */
     public static VehicleRoutingSolution emptySolution() {
         VehicleRoutingSolution solution = new VehicleRoutingSolution();
-        solution.setName("Empty Solution");
         solution.setLocationList(new ArrayList<>());
         solution.setVisitList(new ArrayList<>());
         solution.setDepotList(new ArrayList<>());
         solution.setVehicleList(new ArrayList<>());
         solution.setScore(HardSoftLongScore.ZERO);
-        solution.setDistanceUnitOfMeasurement("sec");
         return solution;
     }
 
@@ -116,7 +114,6 @@ public class SolutionFactory {
         }
         solution.setVisitList(new ArrayList<>(visits));
         solution.setScore(HardSoftLongScore.ZERO);
-        solution.setDistanceUnitOfMeasurement("sec");
         return solution;
     }
 

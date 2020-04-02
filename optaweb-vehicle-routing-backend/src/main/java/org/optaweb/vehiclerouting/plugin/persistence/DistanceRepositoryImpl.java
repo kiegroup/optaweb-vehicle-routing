@@ -34,13 +34,13 @@ class DistanceRepositoryImpl implements DistanceRepository {
     }
 
     @Override
-    public void saveDistance(Location from, Location to, double distance) {
+    public void saveDistance(Location from, Location to, long distance) {
         DistanceEntity distanceEntity = new DistanceEntity(new DistanceKey(from.id(), to.id()), distance);
         distanceRepository.save(distanceEntity);
     }
 
     @Override
-    public double getDistance(Location from, Location to) {
+    public long getDistance(Location from, Location to) {
         Optional<DistanceEntity> optional = distanceRepository.findById(new DistanceKey(from.id(), to.id()));
         if (optional.isPresent()) {
             return optional.get().getDistance();

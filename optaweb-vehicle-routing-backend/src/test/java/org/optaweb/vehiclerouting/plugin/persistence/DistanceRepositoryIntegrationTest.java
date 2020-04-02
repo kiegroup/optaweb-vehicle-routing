@@ -43,7 +43,7 @@ class DistanceRepositoryIntegrationTest {
     @Test
     void crudRepository() {
         DistanceKey key = new DistanceKey(1, 2);
-        DistanceEntity entity = new DistanceEntity(key, 73.0107);
+        DistanceEntity entity = new DistanceEntity(key, 730107L);
 
         DistanceEntity savedEntity = crudRepository.save(entity);
         assertThat(savedEntity).isEqualTo(entity);
@@ -60,7 +60,7 @@ class DistanceRepositoryIntegrationTest {
         Location location1 = new Location(1, Coordinates.valueOf(7, -4.0));
         Location location2 = new Location(2, Coordinates.valueOf(5, 9.0));
 
-        double distance = 95676.6417;
+        long distance = 956766417;
         repository.saveDistance(location1, location2, distance);
         assertThat(repository.getDistance(location1, location2)).isEqualTo(distance);
     }

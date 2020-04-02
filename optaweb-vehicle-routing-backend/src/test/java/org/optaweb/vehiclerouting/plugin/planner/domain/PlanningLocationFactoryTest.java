@@ -21,6 +21,7 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 class PlanningLocationFactoryTest {
 
@@ -29,10 +30,27 @@ class PlanningLocationFactoryTest {
         long id = 344;
         double latitude = -20.5;
         double longitude = 11.7;
+        long distance = 11234;
         Location location = new Location(id, Coordinates.valueOf(latitude, longitude));
-        PlanningLocation planningLocation = PlanningLocationFactory.fromDomain(location);
+        PlanningLocation planningLocation = PlanningLocationFactory.fromDomain(location, otherLocation -> distance);
         assertThat(planningLocation.getId()).isEqualTo(id);
-        assertThat(planningLocation.getLatitude()).isEqualTo(latitude);
-        assertThat(planningLocation.getLongitude()).isEqualTo(longitude);
+
+        PlanningLocation other = PlanningLocationFactory.testLocation(id + 1);
+        assertThat(planningLocation.getDistanceTo(other)).isEqualTo(distance);
+        assertThat(planningLocation.getAngle(other)).isNotZero();
+    }
+
+    @Test
+    void test_locations_distance_map_should_work() {
+        long distance = 11231;
+        PlanningLocation planningLocation = PlanningLocationFactory.testLocation(0, location -> distance);
+        assertThat(planningLocation.getDistanceTo(PlanningLocationFactory.testLocation(1))).isEqualTo(distance);
+    }
+
+    @Test
+    void test_location_without_distance_map_should_throw_exception() {
+        PlanningLocation planningLocation = PlanningLocationFactory.testLocation(0);
+        PlanningLocation otherLocation = PlanningLocationFactory.testLocation(1);
+        assertThatIllegalStateException().isThrownBy(() -> planningLocation.getDistanceTo(otherLocation));
     }
 }

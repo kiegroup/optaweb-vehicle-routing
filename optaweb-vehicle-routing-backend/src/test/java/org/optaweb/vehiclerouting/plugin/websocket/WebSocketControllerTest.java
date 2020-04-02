@@ -25,6 +25,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
@@ -63,7 +64,7 @@ class WebSocketControllerTest {
     @Test
     void subscribeToRouteTopic() {
         // arrange
-        String distance = "some distance";
+        Distance distance = Distance.ofMillis(987_654_321);
         Location depot = new Location(1, Coordinates.valueOf(3, 5));
         Vehicle vehicle = VehicleFactory.createVehicle(1, "vehicle", 77);
         Location visit = new Location(2, Coordinates.valueOf(321, 123));
@@ -83,7 +84,7 @@ class WebSocketControllerTest {
         PortableRoutingPlan portableRoutingPlan = webSocketController.subscribeToRouteTopic();
 
         // assert
-        assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);
+        assertThat(portableRoutingPlan.getDistance()).isEqualTo(PortableDistance.fromDistance(distance));
         assertThat(portableRoutingPlan.getVisits()).containsExactly(PortableLocation.fromLocation(visit));
         assertThat(portableRoutingPlan.getVehicles()).containsExactly(PortableVehicle.fromVehicle(vehicle));
         assertThat(portableRoutingPlan.getDepot()).isEqualTo(PortableLocation.fromLocation(depot));

@@ -21,8 +21,8 @@ import java.util.NoSuchElementException;
 
 public class PlanningVehicle extends AbstractPlanningObject implements Standstill {
 
-    protected int capacity;
-    protected PlanningDepot depot;
+    private int capacity;
+    private PlanningDepot depot;
 
     // Shadow variables
     private PlanningVisit nextVisit;
@@ -43,10 +43,12 @@ public class PlanningVehicle extends AbstractPlanningObject implements Standstil
         this.depot = depot;
     }
 
+    @Override
     public PlanningVisit getNextVisit() {
         return nextVisit;
     }
 
+    @Override
     public void setNextVisit(PlanningVisit nextVisit) {
         this.nextVisit = nextVisit;
     }

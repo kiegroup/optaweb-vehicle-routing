@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
@@ -74,11 +75,11 @@ class SolutionPublisher {
      * @return new event describing the solution
      */
     static RouteChangedEvent solutionToEvent(VehicleRoutingSolution solution, Object source) {
-        String distanceString = solution.getDistanceString(null).replaceFirst(" \\d+ms$", "");
         List<ShallowRoute> routes = routes(solution);
         return new RouteChangedEvent(
                 source,
-                distanceString,
+                // Turn negative soft score into a positive amount of time.
+                Distance.ofMillis(-solution.getScore().getSoftScore()),
                 vehicleIds(solution),
                 depotId(solution),
                 visitIds(solution),

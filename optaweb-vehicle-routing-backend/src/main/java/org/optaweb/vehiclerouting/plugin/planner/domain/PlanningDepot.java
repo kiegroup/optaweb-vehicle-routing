@@ -18,6 +18,8 @@ package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 public class PlanningDepot extends AbstractPlanningObject {
 
+    private PlanningLocation location;
+
     public PlanningDepot() {
     }
 
@@ -25,8 +27,6 @@ public class PlanningDepot extends AbstractPlanningObject {
         super(location.getId());
         this.location = location;
     }
-
-    protected PlanningLocation location;
 
     public PlanningLocation getLocation() {
         return location;

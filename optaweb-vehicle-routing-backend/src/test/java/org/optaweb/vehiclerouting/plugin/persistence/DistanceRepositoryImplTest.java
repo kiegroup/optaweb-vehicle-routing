@@ -50,7 +50,7 @@ class DistanceRepositoryImplTest {
 
     @Test
     void should_save_distance() {
-        double distance = 95676.6417;
+        long distance = 956766417;
         repository.saveDistance(from, to, distance);
         verify(crudRepository).save(distanceEntityArgumentCaptor.capture());
         DistanceEntity distanceEntity = distanceEntityArgumentCaptor.getValue();
@@ -63,7 +63,7 @@ class DistanceRepositoryImplTest {
     void should_return_distance_when_entity_is_found() {
         DistanceKey distanceKey = new DistanceKey(from.id(), to.id());
         when(crudRepository.findById(distanceKey)).thenReturn(Optional.of(distanceEntity));
-        final double distance = 1.0305;
+        final long distance = 10305;
         when(distanceEntity.getDistance()).thenReturn(distance);
         assertThat(repository.getDistance(from, to)).isEqualTo(distance);
     }

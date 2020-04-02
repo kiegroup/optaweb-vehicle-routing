@@ -17,7 +17,6 @@
 package org.optaweb.vehiclerouting.service.distance;
 
 import java.math.BigDecimal;
-import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,11 +24,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyDouble;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -47,51 +49,43 @@ class DistanceMatrixImplTest {
 
     @Test
     void should_calculate_distance_map() {
-        when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0); // empty repository
+        when(distanceRepository.getDistance(any(), any())).thenReturn(-1L); // empty repository
         DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockDistanceCalculator(), distanceRepository);
 
         Location l0 = location(100, 0);
         Location l1 = location(111, 1);
         Location l9neg = location(321, -9);
 
-        distanceMatrix.addLocation(l0);
-        Map<Long, Double> mapL0 = distanceMatrix.getRow(l0);
-        assertThat(mapL0.size()).isEqualTo(1);
+        DistanceMatrixRow matrixRow0 = distanceMatrix.addLocation(l0);
 
         // distance to self
-        assertThat(mapL0.get(l0.id())).isEqualTo(0.0);
+        assertThat(matrixRow0.distanceTo(l0.id())).isEqualTo(Distance.ZERO);
         // distance to not yet registered location
-        assertThat(mapL0).doesNotContainKeys(l1.id());
+        assertThatIllegalArgumentException().isThrownBy(() -> matrixRow0.distanceTo(l1.id()));
 
-        distanceMatrix.addLocation(l1);
-        Map<Long, Double> mapL1 = distanceMatrix.getRow(l1);
+        DistanceMatrixRow matrixRow1 = distanceMatrix.addLocation(l1);
         // distance to self
-        assertThat(mapL1.get(l1.id())).isEqualTo(0.0);
+        assertThat(matrixRow1.distanceTo(l1.id())).isEqualTo(Distance.ZERO);
 
         // distance 0 <-> 1
-        assertThat(mapL1.get(l0.id())).isEqualTo(-1.0);
-        assertThat(mapL0.get(l1.id())).isEqualTo(1.0);
+        assertThat(matrixRow1.distanceTo(l0.id())).isEqualTo(Distance.ofMillis(1));
+        assertThat(matrixRow0.distanceTo(l1.id())).isEqualTo(Distance.ofMillis(1));
 
-        distanceMatrix.addLocation(l9neg);
-        Map<Long, Double> mapL9 = distanceMatrix.getRow(l9neg);
+        DistanceMatrixRow matrixRow9 = distanceMatrix.addLocation(l9neg);
 
         // distances -9 -> {0, 1}
-        assertThat(mapL9.get(l0.id())).isEqualTo(9.0);
-        assertThat(mapL9.get(l1.id())).isEqualTo(10.0);
+        assertThat(matrixRow9.distanceTo(l0.id())).isEqualTo(Distance.ofMillis(9));
+        assertThat(matrixRow9.distanceTo(l1.id())).isEqualTo(Distance.ofMillis(10));
         // distances {0, 1} -> -9
-        assertThat(mapL0.get(l9neg.id())).isEqualTo(-9.0);
-        assertThat(mapL1.get(l9neg.id())).isEqualTo(-10.0);
-
-        // distance map sizes
-        assertThat(mapL0.size()).isEqualTo(3);
-        assertThat(mapL1.size()).isEqualTo(3);
-        assertThat(mapL9.size()).isEqualTo(3);
+        assertThat(matrixRow0.distanceTo(l9neg.id())).isEqualTo(Distance.ofMillis(9));
+        assertThat(matrixRow1.distanceTo(l9neg.id())).isEqualTo(Distance.ofMillis(10));
 
         // clear the map
         distanceMatrix.clear();
-        assertThat(distanceMatrix.getRow(l0)).isNull();
-        assertThat(distanceMatrix.getRow(l1)).isNull();
-        assertThat(distanceMatrix.getRow(l9neg)).isNull();
+        Location l500 = location(500, 500);
+        DistanceMatrixRow matrixRow500 = distanceMatrix.addLocation(l500);
+        assertThatIllegalArgumentException().isThrownBy(() -> matrixRow500.distanceTo(l0.id()));
+        assertThatIllegalArgumentException().isThrownBy(() -> matrixRow9.distanceTo(l500.id()));
     }
 
     @Test
@@ -100,7 +94,7 @@ class DistanceMatrixImplTest {
         Location l2 = location(111, 20);
         long dist12 = 12;
         long dist21 = 21;
-        when(distanceRepository.getDistance(any(), any())).thenReturn(-1.0);
+        when(distanceRepository.getDistance(any(), any())).thenReturn(-1L);
         when(distanceCalculator.travelTimeMillis(l1.coordinates(), l2.coordinates())).thenReturn(dist12);
         when(distanceCalculator.travelTimeMillis(l2.coordinates(), l1.coordinates())).thenReturn(dist21);
 
@@ -124,8 +118,8 @@ class DistanceMatrixImplTest {
     void should_not_call_router_when_repo_is_full() {
         Location l1 = location(1, 0);
         Location l2 = location(2, 0);
-        when(distanceRepository.getDistance(l1, l2)).thenReturn(0.0);
-        when(distanceRepository.getDistance(l2, l1)).thenReturn(1.0);
+        when(distanceRepository.getDistance(l1, l2)).thenReturn(0L);
+        when(distanceRepository.getDistance(l2, l1)).thenReturn(1L);
 
         // no calculation for the first location
         distanceMatrix.addLocation(l1);
@@ -139,7 +133,7 @@ class DistanceMatrixImplTest {
         verify(distanceRepository).getDistance(l1, l2);
 
         // nothing to persist
-        verify(distanceRepository, never()).saveDistance(any(Location.class), any(Location.class), anyDouble());
+        verify(distanceRepository, never()).saveDistance(any(Location.class), any(Location.class), anyLong());
         // no calculation
         verifyNoInteractions(distanceCalculator);
     }
@@ -153,7 +147,7 @@ class DistanceMatrixImplTest {
         @Override
         public long travelTimeMillis(Coordinates from, Coordinates to) {
             // imagine 1D space (all locations on equator)
-            return (long) (to.longitude().doubleValue() - from.longitude().doubleValue());
+            return (long) Math.abs(to.longitude().doubleValue() - from.longitude().doubleValue());
         }
     }
 }

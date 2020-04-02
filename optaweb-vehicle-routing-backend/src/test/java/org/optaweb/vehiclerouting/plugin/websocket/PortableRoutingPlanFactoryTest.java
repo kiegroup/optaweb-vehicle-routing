@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
 import org.optaweb.vehiclerouting.domain.RouteWithTrack;
@@ -36,7 +37,7 @@ class PortableRoutingPlanFactoryTest {
     @Test
     void portable_routing_plan_empty() {
         PortableRoutingPlan portablePlan = PortableRoutingPlanFactory.fromRoutingPlan(RoutingPlan.empty());
-        assertThat(portablePlan.getDistance()).isEmpty();
+        assertThat(portablePlan.getDistance()).isEqualTo(PortableDistance.fromDistance(Distance.ZERO));
         assertThat(portablePlan.getVehicles()).isEmpty();
         assertThat(portablePlan.getDepot()).isNull();
         assertThat(portablePlan.getRoutes()).isEmpty();
@@ -60,7 +61,7 @@ class PortableRoutingPlanFactoryTest {
         final Location location1 = new Location(1, coordinates1);
         final Location location2 = new Location(2, coordinates2);
         final Location location3 = new Location(3, coordinates3);
-        final String distance = "xy";
+        final Distance distance = Distance.ofMillis(5);
 
         final Vehicle vehicle1 = VehicleFactory.createVehicle(1, "Vehicle 1", 100);
         final Vehicle vehicle2 = VehicleFactory.createVehicle(2, "Vehicle 2", 200);
@@ -87,7 +88,7 @@ class PortableRoutingPlanFactoryTest {
 
         // assert
         // -- plan.distance
-        assertThat(portableRoutingPlan.getDistance()).isEqualTo(distance);
+        assertThat(portableRoutingPlan.getDistance()).isEqualTo(PortableDistance.fromDistance(distance));
         // -- plan.depot
         assertThat(portableRoutingPlan.getDepot()).isEqualTo(PortableLocation.fromLocation(location1));
         // -- plan.visits

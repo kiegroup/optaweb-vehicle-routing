@@ -23,8 +23,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
@@ -45,7 +48,7 @@ class RemoveVehicleTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
-        PlanningLocation location = new PlanningLocation(1, 2.0, 3.0);
+        PlanningLocation location = PlanningLocationFactory.testLocation(1);
         PlanningDepot depot = new PlanningDepot();
         depot.setLocation(location);
 
@@ -94,7 +97,7 @@ class RemoveVehicleTest {
     void fail_fast_if_working_solution_vehicle_list_does_not_contain_working_vehicle() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
 
-        PlanningLocation location = new PlanningLocation(1, 2.0, 3.0);
+        PlanningLocation location = PlanningLocationFactory.testLocation(1);
         PlanningDepot depot = new PlanningDepot();
         depot.setLocation(location);
 
@@ -121,22 +124,13 @@ class RemoveVehicleTest {
     @Test
     void fail_fast_if_working_object_is_null() {
         when(scoreDirector.getWorkingSolution()).thenReturn(SolutionFactory.emptySolution());
-        PlanningDepot depot = new PlanningDepot();
-        depot.setLocation(new PlanningLocation(4L, 1, 2));
-        PlanningVehicle vehicle = new PlanningVehicle();
-        vehicle.setId(1L);
-        vehicle.setDepot(depot);
 
         assertThatIllegalStateException()
-                .isThrownBy(() -> new RemoveVehicle(vehicle).doChange(scoreDirector))
+                .isThrownBy(() -> new RemoveVehicle(PlanningVehicleFactory.testVehicle(1)).doChange(scoreDirector))
                 .withMessageContaining("working copy of");
     }
 
     private static PlanningVisit visit(long id) {
-        PlanningLocation location = new PlanningLocation(1000000 + id, id, id);
-        PlanningVisit visit = new PlanningVisit();
-        visit.setId(id);
-        visit.setLocation(location);
-        return visit;
+        return PlanningVisitFactory.fromLocation(PlanningLocationFactory.testLocation(id));
     }
 }

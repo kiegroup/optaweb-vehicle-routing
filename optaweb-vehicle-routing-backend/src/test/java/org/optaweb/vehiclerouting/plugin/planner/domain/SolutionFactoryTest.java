@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import org.junit.jupiter.api.Test;
+import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -31,18 +32,18 @@ class SolutionFactoryTest {
         assertThat(solution.getVisitList()).isEmpty();
         assertThat(solution.getDepotList()).isEmpty();
         assertThat(solution.getVehicleList()).isEmpty();
-        assertThat(solution.getDistanceUnitOfMeasurement()).isEqualTo("sec");
+        assertThat(solution.getScore()).isEqualTo(HardSoftLongScore.ZERO);
     }
 
     @Test
     void solution_created_from_vehicles_depot_and_visits_should_be_consistent() {
         PlanningVehicle vehicle = new PlanningVehicle();
 
-        PlanningLocation depotLocation = new PlanningLocation(1, 1, 1);
+        PlanningLocation depotLocation = PlanningLocationFactory.testLocation(1);
         PlanningDepot depot = new PlanningDepot();
         depot.setLocation(depotLocation);
 
-        PlanningVisit visit = PlanningVisitFactory.fromLocation(new PlanningLocation(2, 2, 2));
+        PlanningVisit visit = PlanningVisitFactory.fromLocation(PlanningLocationFactory.testLocation(2));
 
         VehicleRoutingSolution solutionWithDepot = SolutionFactory.solutionFromVisits(
                 singletonList(vehicle),

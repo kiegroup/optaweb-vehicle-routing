@@ -27,7 +27,7 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
-import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
+import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -54,10 +54,11 @@ class RouteOptimizerImpl implements RouteOptimizer {
     }
 
     @Override
-    public void addLocation(Location domainLocation, DistanceMatrix distanceMatrix) {
-        PlanningLocation location = PlanningLocationFactory.fromDomain(domainLocation);
-        DistanceMap distanceMap = new DistanceMap(location, distanceMatrix.getRow(domainLocation));
-        location.setTravelDistanceMap(distanceMap);
+    public void addLocation(Location domainLocation, DistanceMatrixRow distanceMatrixRow) {
+        PlanningLocation location = PlanningLocationFactory.fromDomain(
+                domainLocation,
+                new DistanceMapImpl(distanceMatrixRow)
+        );
         // Unfortunately can't start solver with an empty solution (see https://issues.redhat.com/browse/PLANNER-776)
         if (depot == null) {
             depot = new PlanningDepot(location);
@@ -100,6 +101,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
                 solverManager.stopSolver();
                 publishSolution();
             } else {
+                // TODO maybe allow removing location by ID (only require the necessary information)
                 solverManager.removeLocation(PlanningLocationFactory.fromDomain(domainLocation));
             }
         }
