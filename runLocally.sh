@@ -210,6 +210,7 @@ function download_menu() {
       download_menu "$url_parent/${region_sub_hrefs[answer_region_id]}"
     ;;
     d)
+      local -r osm_url=${url_parent}/${region_osm_hrefs[answer_region_id]}
       # Remove region prefix (e.g. europe/) from href to get the OSM file name.
       local -r osm_file=${region_osm_hrefs[answer_region_id]##*/}
       local -r osm_target=${osm_dir}/${osm_file}
@@ -218,7 +219,12 @@ function download_menu() {
       then
         echo "Already downloaded."
       else
-        download "$url_parent/${region_osm_hrefs[answer_region_id]}" "$osm_target"
+        download "$osm_url" "$osm_target"
+        # Hack to set country code of any US state.
+        if [[ ${osm_url}/ == */north-america/us/* ]]
+        then
+          echo "US" > "$cc_dir/${osm_file%.osm.pbf}"
+        fi
       fi
     ;;
     *)
