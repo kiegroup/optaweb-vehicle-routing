@@ -19,13 +19,25 @@ package org.optaweb.vehiclerouting.plugin.planner.domain;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class PlanningVehicle extends AbstractPlanningObject implements Standstill {
+import org.optaplanner.core.api.domain.lookup.PlanningId;
 
+public class PlanningVehicle implements Standstill {
+
+    @PlanningId
+    private long id;
     private int capacity;
     private PlanningDepot depot;
 
     // Shadow variables
     private PlanningVisit nextVisit;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public int getCapacity() {
         return capacity;

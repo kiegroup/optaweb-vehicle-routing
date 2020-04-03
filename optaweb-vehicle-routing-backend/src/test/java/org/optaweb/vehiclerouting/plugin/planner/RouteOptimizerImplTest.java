@@ -29,7 +29,6 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
-import org.optaweb.vehiclerouting.plugin.planner.domain.AbstractPlanningObject;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
@@ -85,7 +84,7 @@ class RouteOptimizerImplTest {
         verifyNoInteractions(solverManager);
         VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
         assertThat(solution.getVehicleList())
-                .extracting(AbstractPlanningObject::getId)
+                .extracting(PlanningVehicle::getId)
                 .containsExactlyInAnyOrder(vehicleIds);
         assertThat(solution.getDepotList()).extracting(PlanningDepot::getId).containsExactly(location1.id());
         assertThat(solution.getVisitList()).isEmpty();
@@ -104,7 +103,7 @@ class RouteOptimizerImplTest {
         verifyNoInteractions(solverManager);
         VehicleRoutingSolution solutionWithOneVehicle = verifyPublishingPreliminarySolution();
         assertThat(solutionWithOneVehicle.getVehicleList())
-                .extracting(AbstractPlanningObject::getId)
+                .extracting(PlanningVehicle::getId)
                 .containsExactly(vehicleId);
         assertThat(solutionWithOneVehicle.getDepotList()).isEmpty();
         assertThat(solutionWithOneVehicle.getVisitList()).isEmpty();
@@ -315,7 +314,7 @@ class RouteOptimizerImplTest {
         // then all vehicles must be in the depot
         VehicleRoutingSolution solution1 = verifyPublishingPreliminarySolution();
         assertThat(solution1.getVehicleList())
-                .extracting(AbstractPlanningObject::getId)
+                .extracting(PlanningVehicle::getId)
                 .containsExactlyInAnyOrder(vehicleId1, vehicleId2);
         assertThat(solution1.getVehicleList()).allMatch(vehicle -> vehicle.getDepot().getId() == location1.id());
         assertThat(solution1.getDepotList()).extracting(PlanningDepot::getId).containsExactly(location1.id());
@@ -327,7 +326,7 @@ class RouteOptimizerImplTest {
         // then published solution's depot list is empty
         VehicleRoutingSolution solution2 = verifyPublishingPreliminarySolution();
         assertThat(solution2.getVehicleList())
-                .extracting(AbstractPlanningObject::getId)
+                .extracting(PlanningVehicle::getId)
                 .containsExactlyInAnyOrder(vehicleId1, vehicleId2);
         assertThat(solution2.getDepotList()).isEmpty();
 

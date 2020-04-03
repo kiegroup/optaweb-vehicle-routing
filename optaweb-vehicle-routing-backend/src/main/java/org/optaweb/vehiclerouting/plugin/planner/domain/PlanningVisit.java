@@ -17,14 +17,17 @@
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.AnchorShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableGraphType;
 import org.optaweb.vehiclerouting.plugin.planner.weight.DepotAngleVisitDifficultyWeightFactory;
 
 @PlanningEntity(difficultyWeightFactoryClass = DepotAngleVisitDifficultyWeightFactory.class)
-public class PlanningVisit extends AbstractPlanningObject implements Standstill {
+public class PlanningVisit implements Standstill {
 
+    @PlanningId
+    private long id;
     private PlanningLocation location;
     private int demand;
 
@@ -37,6 +40,14 @@ public class PlanningVisit extends AbstractPlanningObject implements Standstill 
     private PlanningVisit nextVisit;
     @AnchorShadowVariable(sourceVariableName = "previousStandstill")
     private PlanningVehicle vehicle;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     @Override
     public PlanningLocation getLocation() {
