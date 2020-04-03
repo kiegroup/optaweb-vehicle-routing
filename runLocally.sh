@@ -328,6 +328,11 @@ This script can download it for you from Geofabrik.de."
   run_optaweb
 }
 
+# Change dir to the project root (where the script is located).
+# This is needed to correctly resolve .VRP_DIR_LAST, path to the standalone JAR, etc.
+# in case the script was called from a different location than the project root.
+cd "$(dirname "$(readlink -f "$0")")"
+
 readonly last_vrp_dir_file=.VRP_DIR_LAST
 
 if [[ -f ${last_vrp_dir_file} ]]
