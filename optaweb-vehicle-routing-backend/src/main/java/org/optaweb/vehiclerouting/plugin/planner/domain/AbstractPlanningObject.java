@@ -34,10 +34,6 @@ public class AbstractPlanningObject {
     public AbstractPlanningObject() {
     }
 
-    public AbstractPlanningObject(long id) {
-        this.id = id;
-    }
-
     public long getId() {
         return id;
     }

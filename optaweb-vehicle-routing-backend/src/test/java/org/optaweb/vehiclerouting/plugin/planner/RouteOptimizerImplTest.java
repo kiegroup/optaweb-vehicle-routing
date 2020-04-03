@@ -318,7 +318,7 @@ class RouteOptimizerImplTest {
                 .extracting(AbstractPlanningObject::getId)
                 .containsExactlyInAnyOrder(vehicleId1, vehicleId2);
         assertThat(solution1.getVehicleList()).allMatch(vehicle -> vehicle.getDepot().getId() == location1.id());
-        assertThat(solution1.getDepotList()).extracting(AbstractPlanningObject::getId).containsExactly(location1.id());
+        assertThat(solution1.getDepotList()).extracting(PlanningDepot::getId).containsExactly(location1.id());
 
         // if we remove the depot
         clearInvocations(solutionPublisher);
