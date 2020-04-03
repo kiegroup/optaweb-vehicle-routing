@@ -28,7 +28,7 @@ public class PlanningVisit extends AbstractPlanningObject implements Standstill 
     private PlanningLocation location;
     private int demand;
 
-    // Planning variables: changes during planning, between score calculations.
+    // Planning variable: changes during planning, between score calculations.
     @PlanningVariable(valueRangeProviderRefs = {"vehicleRange", "visitRange"},
             graphType = PlanningVariableGraphType.CHAINED)
     private Standstill previousStandstill;
