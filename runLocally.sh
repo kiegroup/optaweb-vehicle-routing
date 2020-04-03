@@ -83,7 +83,13 @@ function run_optaweb() {
   args+=("--app.routing.gh-dir=$gh_dir")
   args+=("--app.routing.osm-file=$osm_file")
   # Avoid empty country-codes - that would be an invalid argument.
-  [[ -n ${cc_list} && ${cc_list} != "??" ]] && args+=("--app.region.country-codes=$cc_list")
+  if [[ -z ${cc_list} ]]
+  then
+    # This is the correct way to set a property to empty value. "--property=" is an invalid syntax in Spring Boot.
+    args+=("--app.region.country-codes")
+  else
+    [[ ${cc_list} != "??" ]] && args+=("--app.region.country-codes=$cc_list")
+  fi
   java -jar "$jar" "${args[@]}"
 }
 
