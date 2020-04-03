@@ -95,7 +95,7 @@ function run_optaweb() {
 
 function download() {
   echo "Downloading $1..."
-  curl "$1" -o "$2"
+  curl -L "$1" -o "$2"
   echo
   echo "Created $2."
 }
