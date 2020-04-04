@@ -67,13 +67,7 @@ The script will grep pom.xml for project version, which is not as reliable as us
 function validate() {
   local -r osm_file_path=${osm_dir}/${osm_file}
   local -r gh_graph_path=${gh_dir}/${osm_file%.osm.pbf}
-  if [[ ! -f "$osm_file_path" && ! -d "$gh_graph_path" ]]
-  then
-    echo >&2 "Wrong region ‘$osm_file’. One of the following must exist:"
-    echo >&2 "- OSM file: $osm_file_path"
-    echo >&2 "- GraphHopper graph: $gh_graph_path"
-    exit 1
-  fi
+  [[ -f "$osm_file_path" || -d "$gh_graph_path" ]]
 }
 
 function run_optaweb() {
@@ -389,9 +383,19 @@ case $1 in
   # Demo use case (non-interactive) - start with existing data.
   [a-z]*)
     region=${1%.osm.pbf}
-    region=${region%-latest}-latest
     osm_file=${region}.osm.pbf
-    validate
+    if ! validate
+    then
+      region=${region}-latest
+      osm_file=${region}.osm.pbf
+      validate || {
+        echo >&2 "Wrong region ‘$1’. One of the following must exist:"
+        echo >&2 "- OSM file: $osm_dir/${1%.osm.pbf}.osm.pbf"
+        echo >&2 "- GraphHopper graph: $gh_dir/${1%.osm.pbf}"
+        exit 1
+      }
+    fi
+
     cc_list=$(cat "$cc_dir/$region")
     standalone_jar_or_maven
     run_optaweb
