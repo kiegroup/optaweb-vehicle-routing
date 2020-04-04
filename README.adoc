@@ -17,7 +17,23 @@ image:https://travis-ci.com/kiegroup/optaweb-vehicle-routing.svg?branch=master[
 Web application for solving the https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html[Vehicle Routing Problem]
 using https://www.optaplanner.org/[OptaPlanner].
 
-== Starting the application
+== Run the application using a Bash script
+
+If you're on Linux, you can use `runLocally.sh` to start the application on your computer.
+
+* Use `runLocally.sh` with no arguments to run with the defaults.
+This will download an OSM file needed to work with the built-in data set.
+
+* Use `runLocally.sh -i` for the interactive mode.
+In this mode you can choose from downloaded OSM files or download more OSM files.
+
+* Use `runLocally.sh <REGION>` to run with the selected region.
+
+See the
+xref:optaweb-vehicle-routing-docs/src/main/asciidoc/run-locally.adoc[documentation]
+to learn more about the `runLocally.sh` script.
+
+== Run the application in development mode
 
 First, clone this repository and `cd` into it.
 
