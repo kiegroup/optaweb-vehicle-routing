@@ -191,13 +191,22 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <executions>
+          <!--
+            Disable execution defined in kie-parent.
+            Unfortunately, it's not possible to just override its configuration as the combine.self attribute is not
+            allowed on the configuration element.
+           -->
           <execution>
             <id>validate</id>
+            <phase>none</phase>
+          </execution>
+          <execution>
+            <id>validate-optaweb-vehicle-routing-backend</id>
             <phase>validate</phase>
             <goals>
               <goal>check</goal>
             </goals>
-            <configuration combine.self="override">
+            <configuration>
               <configLocation>config/checkstyle/Checker.xml</configLocation>
               <failOnViolation>${checkstyle.failOnViolation}</failOnViolation>
               <logViolationsToConsole>true</logViolationsToConsole>
@@ -252,7 +261,7 @@
               to change it without a complete override (combine.self="override"), for example excludedClasses,
               timeoutConstant.
             -->
-            <configuration combine.self="override">
+            <configuration>
               <reportsDirectory>local/pit-reports</reportsDirectory>
               <timestampedReports>true</timestampedReports>
               <!--
