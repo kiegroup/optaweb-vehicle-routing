@@ -234,6 +234,9 @@ function interactive() {
   do
     readarray -t regions <<< "$(for r in "$osm_dir"/* "$gh_dir"/*; do basename "$r" | sed 's/.osm.pbf//'; done | sort | uniq)"
 
+    # Make the array empty if it contains just 1 empty element.
+    [[ ${#regions[*]} == 1 && -z ${regions[0]} ]] && regions=()
+
     local format=" %2s %-24s %10s %10s %10s\n"
     local width=62
 
@@ -270,7 +273,7 @@ function interactive() {
     echo
     echo "Choose the next step:"
     echo "d:    Download new region."
-    echo "0-$max: Select a region and run OptaWeb Vehicle Routing."
+    [[ ${max} -ge 0 ]] && echo "0-$max: Select a region and run OptaWeb Vehicle Routing."
 
     echo
     local -l command # -l converts to lower-case
