@@ -16,6 +16,9 @@
 
 # Abort script if any simple command outside an if, while, &&, ||, etc. exists with a nonzero code.
 set -e
+# If dir is empty, dir/* will expand to "" instead of "dir/*". This is useful when reading regions in interactive() and
+# either openstreetmap or graphhopper dir is empty.
+shopt -s nullglob
 
 function confirm() {
   declare -l answer # -l converts the value to lower-case before it's assigned
