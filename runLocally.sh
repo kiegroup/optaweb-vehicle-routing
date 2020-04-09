@@ -100,8 +100,6 @@ function country_code() {
   local -r cc_tag="nv-i18n-1.27"
   local -r cc_java="$cache_dir/CountryCode-$cc_tag.java"
 
-  [[ -d ${cc_dir} ]] || mkdir "$cc_dir"
-
   # If an error has occurred in the list_downloads loop, mark this region's code as "unknown".
   [[ $2 == "ERROR" ]] && echo "??" > "$cc_file"
 
@@ -367,6 +365,9 @@ readonly cc_dir=${vrp_dir}/country_codes
 readonly cache_dir=${vrp_dir}/.cache
 readonly cache_geofabrik=${cache_dir}/geofabrik
 
+[[ -d ${osm_dir} ]] || mkdir "$osm_dir"
+[[ -d ${gh_dir} ]] || mkdir "$gh_dir"
+[[ -d ${cc_dir} ]] || mkdir "$cc_dir"
 [[ -d ${cache_geofabrik} ]] || mkdir -p ${cache_geofabrik}
 
 # Getting started (semi-interactive) - use OSM compatible with the built-in data set, download if not present.
