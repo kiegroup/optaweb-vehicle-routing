@@ -321,6 +321,7 @@ It contains a built-in dataset for $osm_file, which does not exist in $osm_dir. 
 This script can download it for you from Geofabrik.de."
     confirm "Download $osm_file from Geofabrik.de now?" || abort
     download "$url" "$osm_target"
+    echo "$cc_list" > "$cc_dir/${osm_file%.osm.pbf}"
   fi
   standalone_jar_or_maven
   run_optaweb
