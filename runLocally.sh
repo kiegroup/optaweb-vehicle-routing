@@ -76,9 +76,13 @@ function validate() {
 function run_optaweb() {
   declare -a args
   args+=("--app.persistence.h2-dir=$vrp_dir/db")
-  args+=("--app.routing.osm-dir=$osm_dir")
-  args+=("--app.routing.gh-dir=$gh_dir")
-  args+=("--app.routing.osm-file=$osm_file")
+  args+=("--app.routing.engine=$routing_engine")
+  if [[ ${routing_engine} == "graphhopper" ]]
+  then
+    args+=("--app.routing.osm-dir=$osm_dir")
+    args+=("--app.routing.gh-dir=$gh_dir")
+    args+=("--app.routing.osm-file=$osm_file")
+  fi
   # Avoid empty country-codes - that would be an invalid argument.
   if [[ -z ${cc_list} ]]
   then
@@ -377,10 +381,21 @@ readonly cache_geofabrik=${cache_dir}/geofabrik
 [[ -d ${cc_dir} ]] || mkdir "$cc_dir"
 [[ -d ${cache_geofabrik} ]] || mkdir -p ${cache_geofabrik}
 
+declare routing_engine="graphhopper"
+
 # Getting started (semi-interactive) - use OSM compatible with the built-in data set, download if not present.
 if [[ $# == 0 ]]
 then
   quickstart
+  exit 0
+fi
+
+# Use air mode (no OSM file, no country codes).
+if [[ $1 == "--air" ]]
+then
+  routing_engine="air"
+  standalone_jar_or_maven
+  run_optaweb
   exit 0
 fi
 
