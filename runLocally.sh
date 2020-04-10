@@ -32,6 +32,22 @@ function abort() {
 }
 
 function standalone_jar_or_maven() {
+  local -r standalone=optaweb-vehicle-routing-standalone
+
+  # BEGIN: Distribution use case
+  #
+  # We're running a copy of the script in the project root that has been moved to distribution's bin directory during
+  # distribution assembly. The only difference is that the standalone JAR is in the same directory as the script (bin)
+  # and project.version is set using resource filtering during assembly.
+
+  # shellcheck disable=SC2154
+  if [[ ! -f pom.xml && -f ${standalone}-${project.version}.jar ]]
+  then
+    readonly jar=${standalone}-${project.version}.jar
+    return 0
+  fi
+  # END: Distribution use case
+
   echo
   echo "Getting project version..."
 
@@ -53,7 +69,6 @@ The script will grep pom.xml for project version, which is not as reliable as us
 
   echo "Project version: ${version}"
 
-  local -r standalone=optaweb-vehicle-routing-standalone
   readonly jar=${standalone}/target/${standalone}-${version}.jar
 
   if [[ ! -f ${jar} ]]
