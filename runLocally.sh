@@ -277,12 +277,16 @@ function interactive() {
     echo
     echo "Choose the next step:"
     echo "d:    Download new region."
+    echo "q:    Quit."
     [[ ${max} -ge 0 ]] && echo "0-$max: Select a region and run OptaWeb Vehicle Routing."
 
     echo
     local -l command # -l converts to lower-case
     read -r -p "Your choice: " command
     case "$command" in
+      q)
+        exit 0
+      ;;
       d)
         download_menu "http://download.geofabrik.de/index.html"
         continue
