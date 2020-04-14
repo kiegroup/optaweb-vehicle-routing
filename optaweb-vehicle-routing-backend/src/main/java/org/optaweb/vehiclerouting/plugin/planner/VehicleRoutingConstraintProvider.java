@@ -22,7 +22,9 @@ import org.optaplanner.core.api.score.stream.ConstraintFactory;
 import org.optaplanner.core.api.score.stream.ConstraintProvider;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 
+import static java.util.function.Function.identity;
 import static org.optaplanner.core.api.score.stream.ConstraintCollectors.sum;
+import static org.optaplanner.core.api.score.stream.Joiners.equal;
 
 public class VehicleRoutingConstraintProvider implements ConstraintProvider {
 
@@ -46,7 +48,7 @@ public class VehicleRoutingConstraintProvider implements ConstraintProvider {
                 );
     }
 
-    private static Constraint distanceFromPreviousStandstill(ConstraintFactory constraintFactory) {
+    Constraint distanceFromPreviousStandstill(ConstraintFactory constraintFactory) {
         return constraintFactory.from(PlanningVisit.class)
                 .penalizeLong(
                         "distance from previous standstill",
@@ -55,9 +57,10 @@ public class VehicleRoutingConstraintProvider implements ConstraintProvider {
                 );
     }
 
-    private static Constraint distanceFromLastVisitToDepot(ConstraintFactory constraintFactory) {
+    Constraint distanceFromLastVisitToDepot(ConstraintFactory constraintFactory) {
         return constraintFactory.from(PlanningVisit.class)
-                .filter(visit -> visit.getNextVisit() == null)
+                // There is no visit, such that its identity is the next visit of the visit at the start of the stream.
+                .ifNotExists(PlanningVisit.class, equal(PlanningVisit::getNextVisit, identity()))
                 .penalizeLong(
                         "distance from last visit to depot",
                         HardSoftLongScore.ONE_SOFT,

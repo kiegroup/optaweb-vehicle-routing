@@ -17,6 +17,7 @@
 package org.optaweb.vehiclerouting.plugin.planner;
 
 import org.junit.jupiter.api.Test;
+import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.test.api.score.stream.ConstraintVerifier;
 import org.optaweb.vehiclerouting.plugin.planner.domain.DistanceMap;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
@@ -39,8 +40,8 @@ class VehicleRoutingConstraintProviderTest {
                     PlanningVisit.class
             );
 
-    private static DistanceMap zeroDistanceAll() {
-        return location -> 0;
+    private static DistanceMap distanceToAll(long distance) {
+        return location -> distance;
     }
 
     private static void route(PlanningVehicle vehicle, PlanningVisit... visits) {
@@ -60,9 +61,9 @@ class VehicleRoutingConstraintProviderTest {
         int capacity = 5;
 
         PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1, capacity);
-        vehicle.setDepot(new PlanningDepot(testLocation(1, zeroDistanceAll())));
+        vehicle.setDepot(new PlanningDepot(testLocation(1, distanceToAll(0))));
 
-        PlanningVisit visit = fromLocation(testLocation(2, zeroDistanceAll()), demand);
+        PlanningVisit visit = fromLocation(testLocation(2, distanceToAll(0)), demand);
 
         route(vehicle, visit);
 
@@ -79,11 +80,11 @@ class VehicleRoutingConstraintProviderTest {
         int capacity = 5;
 
         PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1, capacity);
-        vehicle.setDepot(new PlanningDepot(testLocation(0, zeroDistanceAll())));
+        vehicle.setDepot(new PlanningDepot(testLocation(0, distanceToAll(0))));
 
-        PlanningVisit visit1 = fromLocation(testLocation(1, zeroDistanceAll()), demand1);
-        PlanningVisit visit2 = fromLocation(testLocation(2, zeroDistanceAll()), demand2);
-        PlanningVisit visit3 = fromLocation(testLocation(3, zeroDistanceAll()), demand3);
+        PlanningVisit visit1 = fromLocation(testLocation(1, distanceToAll(0)), demand1);
+        PlanningVisit visit2 = fromLocation(testLocation(2, distanceToAll(0)), demand2);
+        PlanningVisit visit3 = fromLocation(testLocation(3, distanceToAll(0)), demand3);
 
         route(vehicle, visit1, visit2, visit3);
 
@@ -100,11 +101,11 @@ class VehicleRoutingConstraintProviderTest {
         int totalDemand = demand1 + demand2 + demand3;
 
         PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1, totalDemand);
-        vehicle.setDepot(new PlanningDepot(testLocation(0, zeroDistanceAll())));
+        vehicle.setDepot(new PlanningDepot(testLocation(0, distanceToAll(0))));
 
-        PlanningVisit visit1 = fromLocation(testLocation(1, zeroDistanceAll()), demand1);
-        PlanningVisit visit2 = fromLocation(testLocation(2, zeroDistanceAll()), demand2);
-        PlanningVisit visit3 = fromLocation(testLocation(3, zeroDistanceAll()), demand3);
+        PlanningVisit visit1 = fromLocation(testLocation(1, distanceToAll(0)), demand1);
+        PlanningVisit visit2 = fromLocation(testLocation(2, distanceToAll(0)), demand2);
+        PlanningVisit visit3 = fromLocation(testLocation(3, distanceToAll(0)), demand3);
 
         route(vehicle, visit1, visit2, visit3);
 
@@ -130,19 +131,19 @@ class VehicleRoutingConstraintProviderTest {
         int capacity1 = demand1a + demand1b + demand1c;
         int capacity2 = demand2a + demand2b + demand2c;
 
-        PlanningDepot depot = new PlanningDepot(testLocation(0, zeroDistanceAll()));
+        PlanningDepot depot = new PlanningDepot(testLocation(0, distanceToAll(0)));
 
         PlanningVehicle vehicle1 = PlanningVehicleFactory.testVehicle(1, capacity1);
         vehicle1.setDepot(depot);
         PlanningVehicle vehicle2 = PlanningVehicleFactory.testVehicle(2, capacity2);
         vehicle2.setDepot(depot);
 
-        PlanningVisit visit1 = fromLocation(testLocation(1, zeroDistanceAll()), demand1a);
-        PlanningVisit visit2 = fromLocation(testLocation(2, zeroDistanceAll()), demand1b);
-        PlanningVisit visit3 = fromLocation(testLocation(3, zeroDistanceAll()), demand1c);
-        PlanningVisit visit4 = fromLocation(testLocation(4, zeroDistanceAll()), demand2a);
-        PlanningVisit visit5 = fromLocation(testLocation(5, zeroDistanceAll()), demand2b);
-        PlanningVisit visit6 = fromLocation(testLocation(6, zeroDistanceAll()), demand2c);
+        PlanningVisit visit1 = fromLocation(testLocation(1, distanceToAll(0)), demand1a);
+        PlanningVisit visit2 = fromLocation(testLocation(2, distanceToAll(0)), demand1b);
+        PlanningVisit visit3 = fromLocation(testLocation(3, distanceToAll(0)), demand1c);
+        PlanningVisit visit4 = fromLocation(testLocation(4, distanceToAll(0)), demand2a);
+        PlanningVisit visit5 = fromLocation(testLocation(5, distanceToAll(0)), demand2b);
+        PlanningVisit visit6 = fromLocation(testLocation(6, distanceToAll(0)), demand2c);
 
         route(vehicle1, visit1, visit2, visit3);
         route(vehicle2, visit4, visit5, visit6);
@@ -157,5 +158,71 @@ class VehicleRoutingConstraintProviderTest {
         constraintVerifier.verifyThat(VehicleRoutingConstraintProvider::vehicleCapacity)
                 .given(visit1, visit2, visit3, visit4, visit5, visit6)
                 .penalizesBy(10);
+    }
+
+    @Test
+    void distance_2vehicles() {
+        int fromDepot1 = 1000;
+        int fromDepot2 = 2000;
+        PlanningDepot depot1 = new PlanningDepot(testLocation(0, distanceToAll(fromDepot1)));
+        PlanningDepot depot2 = new PlanningDepot(testLocation(0, distanceToAll(fromDepot2)));
+
+        PlanningVehicle vehicle1 = PlanningVehicleFactory.testVehicle(1, Integer.MAX_VALUE);
+        vehicle1.setDepot(depot1);
+        PlanningVehicle vehicle2 = PlanningVehicleFactory.testVehicle(1, Integer.MAX_VALUE);
+        vehicle2.setDepot(depot2);
+
+        int fromA = 17;
+        int fromB = 11;
+        int fromC = 37;
+        int fromD = 123;
+        int fromE = 77;
+        int fromF = 99;
+        PlanningVisit visitA = fromLocation(testLocation(1, distanceToAll(fromA)));
+        PlanningVisit visitB = fromLocation(testLocation(2, distanceToAll(fromB)));
+        PlanningVisit visitC = fromLocation(testLocation(3, distanceToAll(fromC)));
+        PlanningVisit visitD = fromLocation(testLocation(4, distanceToAll(fromD)));
+        PlanningVisit visitE = fromLocation(testLocation(5, distanceToAll(fromE)));
+        PlanningVisit visitF = fromLocation(testLocation(6, distanceToAll(fromF)));
+
+        route(vehicle1, visitA, visitB, visitC);
+        route(vehicle2, visitD, visitE, visitF);
+
+        // vehicle 1: depot→last
+        constraintVerifier.verifyThat(VehicleRoutingConstraintProvider::distanceFromPreviousStandstill)
+                .given(vehicle1, visitA, visitB, visitC)
+                .penalizesBy(fromDepot1 + fromA + fromB);
+
+        // vehicle 1: last→depot
+        constraintVerifier.verifyThat(VehicleRoutingConstraintProvider::distanceFromLastVisitToDepot)
+                .given(vehicle1, visitA, visitB, visitC)
+                .penalizesBy(fromC);
+
+        // vehicle 2: depot→last
+        constraintVerifier.verifyThat(VehicleRoutingConstraintProvider::distanceFromPreviousStandstill)
+                .given(vehicle2, visitD, visitE, visitF)
+                .penalizesBy(fromDepot2 + fromD + fromE);
+
+        // vehicle 2: last→depot
+        constraintVerifier.verifyThat(VehicleRoutingConstraintProvider::distanceFromLastVisitToDepot)
+                .given(vehicle2, visitD, visitE, visitF)
+                .penalizesBy(fromF);
+
+        // vehicles 1+2: depot→last
+        constraintVerifier.verifyThat(VehicleRoutingConstraintProvider::distanceFromPreviousStandstill)
+                .given(vehicle1, vehicle2, visitA, visitB, visitC, visitD, visitE, visitF)
+                .penalizesBy(fromDepot1 + fromDepot2 + fromA + fromB + fromD + fromE);
+
+        // vehicles 1+2: last→depot
+        constraintVerifier.verifyThat(VehicleRoutingConstraintProvider::distanceFromLastVisitToDepot)
+                .given(vehicle1, vehicle2, visitA, visitB, visitC, visitD, visitE, visitF)
+                .penalizesBy(fromC + fromF);
+
+        // score
+        constraintVerifier.verifyThat()
+                .given(vehicle1, vehicle2, visitA, visitB, visitC, visitD, visitE, visitF)
+                .scores(HardSoftLongScore.ofSoft(
+                        -(fromDepot1 + fromDepot2 + fromA + fromB + fromC + fromD + fromE + fromF)
+                ));
     }
 }
