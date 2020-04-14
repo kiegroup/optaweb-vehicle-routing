@@ -87,11 +87,6 @@ public class PlanningVehicle implements Standstill {
     }
 
     @Override
-    public PlanningVehicle getVehicle() {
-        return this;
-    }
-
-    @Override
     public PlanningLocation getLocation() {
         return depot.getLocation();
     }

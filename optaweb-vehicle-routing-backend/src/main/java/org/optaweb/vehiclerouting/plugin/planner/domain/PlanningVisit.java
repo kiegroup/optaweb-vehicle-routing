@@ -84,7 +84,6 @@ public class PlanningVisit implements Standstill {
         this.nextVisit = nextVisit;
     }
 
-    @Override
     public PlanningVehicle getVehicle() {
         return vehicle;
     }
