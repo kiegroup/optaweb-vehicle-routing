@@ -1,0 +1,70 @@
+= Run the OptaWeb Vehicle Routing using the `runLocally.sh` script
+
+Linux users can use a Bash script called `runLocally.sh` to run OptaWeb Vehicle Routing.
+The script automates some setup steps that would otherwise have to be carried out manually.
+The script will:
+
+* Create the VRP directory.
+* Download selected OSM files from Geofabrik.
+* Try to associate a country code with each downloaded OSM file automatically.
+* Build the project if the standalone JAR file does not exist.
+* Launch OptaWeb Vehicle Routing by taking a single region argument or by selecting the region interactively.
+
+== Getting started
+
+.Prerequisites
+* `optaweb-vehicle-routing` repository is cloned on your computer.
+* Internet access is available.
+* Java 8 or higher is installed.
+
+.Procedure
+. Change directory to the project root.
+. Run `./runLocally.sh`.
+. Confirm the download of the OSM file needed to work with the built-in data set.
+
+The application starts after the OSM file is downloaded.
+Open http://localhost:8080 in a web browser to work with OptaWeb Vehicle Routing.
+
+NOTE: The first start may take a few minutes because the OSM file needs to be imported by GraphHopper and stored as a road network graph.
+Subsequent runs will load the graph from the file system without importing the OSM file and will be significantly faster.
+
+== Interactive mode
+
+Using the interactive mode, you can see the list of downloaded OSM files and country codes assigned to each region.
+You can use the interactive mode to download additional OSM files from Geofabrik without visiting the website and choosing a destination for the download.
+
+=== Download a new region using the script
+
+.Procedure
+. Run `./runLocally.sh -i`.
+. Enter `d` to show the download menu.
+. Go to a region by entering its ID and then entering `e`.
+. Repeat the previous step until you see a list with the region you want to download.
+. Download a region by entering its ID and then entering `d`.
+
+=== Select a region and run OptaWeb Vehicle Routing
+
+.Procedure
+. Run `./runLocally.sh -i`.
+. Select a region from the list of downloaded regions by entering its ID.
+. Confirm the project build if it hasn't been built yet.
+. Confirm starting OptaWeb Vehicle Routing using the selected region.
+
+== Run OptaWeb Vehicle Routing with a selected region non-interactively
+
+Use the non-interactive mode to specify an existing region and start OptaWeb Vehicle Routing with a single command.
+This is useful for switching between regions quickly or when doing a demo.
+
+.Procedure
+. Run `./runLocally.sh <REGION>`.
+
+== Tweak the VRP directory
+
+* To use a different VRP directory, write its absolute path to the `.VRP_DIR_LAST` file at the project root.
+
+* To change country codes associated with a region, edit the corresponding file under `_VRP_DIR_/country_codes/`.
++
+For example, you could have downloaded an OSM file for Scotland, for which the script fails to guess the country code.
+In this case, set the content of `_VRP_DIR_/country_codes/scotland-latest` to `GB`.
+
+* To remove a region, delete the corresponding OSM file from `_VRP_DIR_/openstreetmap/` and GraphHopper directory from `_VRP_DIR_/graphhopper/`.

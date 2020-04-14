@@ -13,3 +13,5 @@ In this guide, you will create and run a sample OptaWeb Vehicle Routing applicat
 include::introduction.adoc[]
 
 include::quickstart.adoc[]
+
+include::run-locally.adoc[leveloffset=+1]
