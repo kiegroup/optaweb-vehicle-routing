@@ -35,7 +35,6 @@ import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
 import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaweb.vehiclerouting.plugin.planner.change.AddVisit;
-import org.optaweb.vehiclerouting.plugin.planner.change.RemoveLocation;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
@@ -49,8 +48,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.testLocation;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.emptySolution;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromLocations;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
 
 class SolverIntegrationTest {
 
@@ -89,10 +89,10 @@ class SolverIntegrationTest {
     void removing_visits_should_not_fail() {
         long distance = 1;
         PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1);
-        VehicleRoutingSolution solution = solutionFromLocations(
+        VehicleRoutingSolution solution = solutionFromVisits(
                 singletonList(vehicle),
                 new PlanningDepot(testLocation(1, location -> distance)),
-                singletonList(testLocation(2, location -> distance))
+                singletonList(fromLocation(testLocation(2, location -> distance)))
         );
 
         Solver<VehicleRoutingSolution> solver
@@ -112,10 +112,7 @@ class SolverIntegrationTest {
             logger.info("Remove visit ({})", id);
             assertThat(solver.isEveryProblemFactChangeProcessed()).isTrue();
             monitor.beforeProblemFactChange();
-            solver.addProblemFactChanges(Arrays.asList(
-                    new RemoveVisit(fromLocation(testLocation(id))),
-                    new RemoveLocation(testLocation(id))
-            ));
+            solver.addProblemFactChange(new RemoveVisit(testVisit(id)));
             assertThat(solver.isEveryProblemFactChangeProcessed()).isFalse(); // probably not 100% safe
             // Notice that it's not possible to check individual problem fact changes completion.
             // When we receive a BestSolutionChangedEvent with unprocessed PFCs,

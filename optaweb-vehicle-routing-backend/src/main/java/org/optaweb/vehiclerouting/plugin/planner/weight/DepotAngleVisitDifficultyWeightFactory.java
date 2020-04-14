@@ -85,7 +85,7 @@ public class DepotAngleVisitDifficultyWeightFactory
 
         @Override
         public String toString() {
-            return "DepotAngleCustomerDifficultyWeight{" +
+            return "DepotAngleVisitDifficultyWeight{" +
                     "visit=" + visit +
                     ", depotAngle=" + depotAngle +
                     ", depotRoundTripDistance=" + depotRoundTripDistance +

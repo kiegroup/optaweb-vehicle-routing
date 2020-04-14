@@ -25,10 +25,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.api.solver.Solver;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.task.AsyncTaskExecutor;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -43,8 +42,6 @@ class SolverExceptionTest {
     private Solver<VehicleRoutingSolution> solver;
     @Mock
     private AsyncTaskExecutor executor;
-    @Mock
-    private ApplicationEventPublisher eventPublisher;
     @InjectMocks
     private SolverManager solverManager;
 
@@ -61,8 +58,8 @@ class SolverExceptionTest {
         solverManager.startSolver(mock(VehicleRoutingSolution.class));
 
         // act & assert
-        assertTestExceptionThrownDuringOperation(() -> solverManager.addLocation(mock(PlanningLocation.class)));
-        assertTestExceptionThrownDuringOperation(() -> solverManager.removeLocation(mock(PlanningLocation.class)));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.addVisit(mock(PlanningVisit.class)));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.removeVisit(mock(PlanningVisit.class)));
         assertTestExceptionThrownDuringOperation(() -> solverManager.addVehicle(mock(PlanningVehicle.class)));
         assertTestExceptionThrownDuringOperation(() -> solverManager.removeVehicle(mock(PlanningVehicle.class)));
 

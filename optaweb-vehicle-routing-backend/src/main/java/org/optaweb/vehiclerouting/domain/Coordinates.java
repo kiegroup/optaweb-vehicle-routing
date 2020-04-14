@@ -32,6 +32,12 @@ public class Coordinates {
         this.longitude = Objects.requireNonNull(longitude);
     }
 
+    /**
+     * Create coordinates from the given latitude in longitude.
+     * @param latitude latitude
+     * @param longitude longitude
+     * @return coordinates with the given latitude and longitude
+     */
     public static Coordinates valueOf(double latitude, double longitude) {
         return new Coordinates(BigDecimal.valueOf(latitude), BigDecimal.valueOf(longitude));
     }

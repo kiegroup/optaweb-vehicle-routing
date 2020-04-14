@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,31 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+/**
+ * Domain model adjusted for OptaPlanner.
+ */
 package org.optaweb.vehiclerouting.plugin.planner.domain;
-
-import java.util.Objects;
-
-public class PlanningDepot {
-
-    private final PlanningLocation location;
-
-    public PlanningDepot(PlanningLocation location) {
-        this.location = Objects.requireNonNull(location);
-    }
-
-    public long getId() {
-        return location.getId();
-    }
-
-    public PlanningLocation getLocation() {
-        return location;
-    }
-
-    @Override
-    public String toString() {
-        return "PlanningDepot{" +
-                "location=" + location.getId() +
-                '}';
-    }
-}

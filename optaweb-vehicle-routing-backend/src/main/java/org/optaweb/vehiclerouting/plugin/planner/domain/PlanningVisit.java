@@ -17,18 +17,21 @@
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.lookup.PlanningId;
 import org.optaplanner.core.api.domain.variable.AnchorShadowVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import org.optaplanner.core.api.domain.variable.PlanningVariableGraphType;
 import org.optaweb.vehiclerouting.plugin.planner.weight.DepotAngleVisitDifficultyWeightFactory;
 
 @PlanningEntity(difficultyWeightFactoryClass = DepotAngleVisitDifficultyWeightFactory.class)
-public class PlanningVisit extends AbstractPlanningObject implements Standstill {
+public class PlanningVisit implements Standstill {
 
+    @PlanningId
+    private long id;
     private PlanningLocation location;
     private int demand;
 
-    // Planning variables: changes during planning, between score calculations.
+    // Planning variable: changes during planning, between score calculations.
     @PlanningVariable(valueRangeProviderRefs = {"vehicleRange", "visitRange"},
             graphType = PlanningVariableGraphType.CHAINED)
     private Standstill previousStandstill;
@@ -37,6 +40,14 @@ public class PlanningVisit extends AbstractPlanningObject implements Standstill 
     private PlanningVisit nextVisit;
     @AnchorShadowVariable(sourceVariableName = "previousStandstill")
     private PlanningVehicle vehicle;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     @Override
     public PlanningLocation getLocation() {
@@ -87,7 +98,11 @@ public class PlanningVisit extends AbstractPlanningObject implements Standstill 
     // ************************************************************************
 
     /**
-     * @return a positive number, the distance multiplied by 1000 to avoid floating point arithmetic rounding errors
+     * Distance from the previous standstill to this visit. This is used to calculate the travel cost of a chain
+     * beginning with a vehicle (at a depot) and ending with the last visit. The chain ends with a visit, not a depot
+     * so the cost of returning from the last visit back to the depot has to be added in a separate step using
+     * {@link #getDistanceToDepot()}.
+     * @return distance from previous standstill to this visit
      */
     public long getDistanceFromPreviousStandstill() {
         if (previousStandstill == null) {
@@ -96,23 +111,15 @@ public class PlanningVisit extends AbstractPlanningObject implements Standstill 
                             + previousStandstill + ") is not initialized yet."
             );
         }
-        return getDistanceFrom(previousStandstill);
+        return previousStandstill.getLocation().getDistanceTo(location);
     }
 
     /**
-     * @param standstill never null
-     * @return a positive number, the distance multiplied by 1000 to avoid floating point arithmetic rounding errors
+     * Distance from this visit back to the depot.
+     * @return distance from this visit back its vehicle's depot
      */
-    public long getDistanceFrom(Standstill standstill) {
-        return standstill.getLocation().getDistanceTo(location);
-    }
-
-    /**
-     * @param standstill never null
-     * @return a positive number, the distance multiplied by 1000 to avoid floating point arithmetic rounding errors
-     */
-    public long getDistanceTo(Standstill standstill) {
-        return location.getDistanceTo(standstill.getLocation());
+    public long getDistanceToDepot() {
+        return location.getDistanceTo(vehicle.getLocation());
     }
 
     @Override

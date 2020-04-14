@@ -29,14 +29,14 @@ import org.optaweb.vehiclerouting.plugin.planner.DistanceMapImpl;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.weight.DepotAngleVisitDifficultyWeightFactory.DepotAngleVisitDifficultyWeight;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.fromDomain;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.testLocation;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 
 class DepotAngleVisitDifficultyWeightFactoryTest {
 
@@ -73,11 +73,11 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
     }
 
     private DepotAngleVisitDifficultyWeight weight(PlanningLocation location) {
-        return weightFactory.createSorterWeight(solution, PlanningVisitFactory.fromLocation(location));
+        return weightFactory.createSorterWeight(solution, fromLocation(location));
     }
 
     @Test
-    void createSorterWeight_close_customer_should_have_smaller_weight() {
+    void visit_weights_should_be_ordered_by_angle_then_by_distance_then_by_id() {
         // angle 0 (same as west) distance or ID will decide
         PlanningLocation center1 = location(1, depotY, depotX, 0);
         PlanningLocation center2 = location(2, depotY, depotX, 0);
@@ -131,17 +131,14 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
         long id = 3;
         double angle = Math.PI;
         long distance = 1000;
-        PlanningVisit visit = PlanningVisitFactory.fromLocation(testLocation(id));
+        PlanningVisit visit = testVisit(id);
         DepotAngleVisitDifficultyWeight weight = new DepotAngleVisitDifficultyWeight(visit, angle, distance);
 
         assertThat(weight).isNotEqualTo(null);
         assertThat(weight).isNotEqualTo(this);
-        assertThat(weight).isNotEqualTo(new DepotAngleVisitDifficultyWeight(
-                PlanningVisitFactory.fromLocation(testLocation(id + 1)), angle, distance));
-        assertThat(weight).isNotEqualTo(new DepotAngleVisitDifficultyWeight(
-                PlanningVisitFactory.fromLocation(testLocation(id)), -angle, distance));
-        assertThat(weight).isNotEqualTo(new DepotAngleVisitDifficultyWeight(
-                PlanningVisitFactory.fromLocation(testLocation(id)), angle, distance - 1));
+        assertThat(weight).isNotEqualTo(new DepotAngleVisitDifficultyWeight(testVisit(id + 1), angle, distance));
+        assertThat(weight).isNotEqualTo(new DepotAngleVisitDifficultyWeight(testVisit(id), -angle, distance));
+        assertThat(weight).isNotEqualTo(new DepotAngleVisitDifficultyWeight(testVisit(id), angle, distance - 1));
 
         assertThat(weight).isEqualTo(weight);
         assertThat(weight).isEqualTo(new DepotAngleVisitDifficultyWeight(visit, angle, distance));

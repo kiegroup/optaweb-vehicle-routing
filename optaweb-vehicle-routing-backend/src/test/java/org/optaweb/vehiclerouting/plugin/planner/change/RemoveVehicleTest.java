@@ -27,15 +27,14 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 
 @ExtendWith(MockitoExtension.class)
 class RemoveVehicleTest {
@@ -49,8 +48,7 @@ class RemoveVehicleTest {
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         PlanningLocation location = PlanningLocationFactory.testLocation(1);
-        PlanningDepot depot = new PlanningDepot();
-        depot.setLocation(location);
+        PlanningDepot depot = new PlanningDepot(location);
 
         PlanningVehicle removedVehicle = new PlanningVehicle();
         removedVehicle.setId(1L);
@@ -63,8 +61,8 @@ class RemoveVehicleTest {
 
         when(scoreDirector.lookUpWorkingObject(removedVehicle)).thenReturn(removedVehicle);
 
-        PlanningVisit firstVisit = visit(1);
-        PlanningVisit lastVisit = visit(2);
+        PlanningVisit firstVisit = testVisit(1);
+        PlanningVisit lastVisit = testVisit(2);
         solution.getVisitList().add(firstVisit);
         solution.getVisitList().add(lastVisit);
 
@@ -88,8 +86,8 @@ class RemoveVehicleTest {
         verify(scoreDirector).afterVariableChanged(firstVisit, "previousStandstill");
         verify(scoreDirector).beforeVariableChanged(lastVisit, "previousStandstill");
         verify(scoreDirector).afterVariableChanged(lastVisit, "previousStandstill");
-        verify(scoreDirector).beforeProblemFactRemoved(any(PlanningVehicle.class));
-        verify(scoreDirector).afterProblemFactRemoved(any(PlanningVehicle.class));
+        verify(scoreDirector).beforeProblemFactRemoved(removedVehicle);
+        verify(scoreDirector).afterProblemFactRemoved(removedVehicle);
         verify(scoreDirector).triggerVariableListeners();
     }
 
@@ -98,8 +96,7 @@ class RemoveVehicleTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
 
         PlanningLocation location = PlanningLocationFactory.testLocation(1);
-        PlanningDepot depot = new PlanningDepot();
-        depot.setLocation(location);
+        PlanningDepot depot = new PlanningDepot(location);
 
         long removedId = 111L;
         PlanningVehicle removedVehicle = new PlanningVehicle();
@@ -128,9 +125,5 @@ class RemoveVehicleTest {
         assertThatIllegalStateException()
                 .isThrownBy(() -> new RemoveVehicle(PlanningVehicleFactory.testVehicle(1)).doChange(scoreDirector))
                 .withMessageContaining("working copy of");
-    }
-
-    private static PlanningVisit visit(long id) {
-        return PlanningVisitFactory.fromLocation(PlanningLocationFactory.testLocation(id));
     }
 }

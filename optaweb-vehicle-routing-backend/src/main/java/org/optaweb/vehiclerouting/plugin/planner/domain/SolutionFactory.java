@@ -18,7 +18,6 @@ package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 
@@ -37,38 +36,11 @@ public class SolutionFactory {
      */
     public static VehicleRoutingSolution emptySolution() {
         VehicleRoutingSolution solution = new VehicleRoutingSolution();
-        solution.setLocationList(new ArrayList<>());
         solution.setVisitList(new ArrayList<>());
         solution.setDepotList(new ArrayList<>());
         solution.setVehicleList(new ArrayList<>());
         solution.setScore(HardSoftLongScore.ZERO);
         return solution;
-    }
-
-    /**
-     * Create a new solution from given vehicles, depot and visit locations.
-     * This will create a visit for each given visit location. All vehicles will be placed in the depot.
-     * <p>
-     * The returned solution's vehicles and locations are new collections so modifying the solution
-     * won't affect the collections given as arguments.
-     * <p>
-     * <strong><em>Elements of the argument collections are NOT cloned.</em></strong>
-     * @param vehicles vehicles
-     * @param depot depot (may be {@code null})
-     * @param visitLocations visit locations
-     * @return solution containing the given vehicles, depot, visits and their locations
-     */
-    public static VehicleRoutingSolution solutionFromLocations(
-            List<PlanningVehicle> vehicles,
-            PlanningDepot depot,
-            List<? extends PlanningLocation> visitLocations
-    ) {
-        return solution(
-                vehicles,
-                depot,
-                visitLocations.stream().map(PlanningVisitFactory::fromLocation).collect(Collectors.toList()),
-                visitLocations
-        );
     }
 
     /**
@@ -89,26 +61,10 @@ public class SolutionFactory {
             PlanningDepot depot,
             List<PlanningVisit> visits
     ) {
-        return solution(
-                vehicles,
-                depot,
-                visits,
-                visits.stream().map(PlanningVisit::getLocation).collect(Collectors.toList())
-        );
-    }
-
-    private static VehicleRoutingSolution solution(
-            List<PlanningVehicle> vehicles,
-            PlanningDepot depot,
-            List<PlanningVisit> visits,
-            List<? extends PlanningLocation> visitLocations
-    ) {
         VehicleRoutingSolution solution = new VehicleRoutingSolution();
         solution.setVehicleList(new ArrayList<>(vehicles));
-        solution.setLocationList(new ArrayList<>(visitLocations));
         solution.setDepotList(new ArrayList<>(1));
         if (depot != null) {
-            solution.getLocationList().add(depot.getLocation());
             solution.getDepotList().add(depot);
             moveAllVehiclesToDepot(vehicles, depot);
         }

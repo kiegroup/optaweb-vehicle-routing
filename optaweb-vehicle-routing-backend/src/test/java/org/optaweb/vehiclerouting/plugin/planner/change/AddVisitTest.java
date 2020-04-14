@@ -21,8 +21,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
@@ -43,14 +41,9 @@ class AddVisitTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
-        PlanningLocation location = PlanningLocationFactory.testLocation(1);
-        PlanningVisit visit = PlanningVisitFactory.fromLocation(location);
+        PlanningVisit visit = PlanningVisitFactory.testVisit(1);
         AddVisit addVisit = new AddVisit(visit);
         addVisit.doChange(scoreDirector);
-
-        verify(scoreDirector).beforeProblemFactAdded(location);
-        verify(scoreDirector).afterProblemFactAdded(location);
-        assertThat(solution.getLocationList()).containsExactly(location);
 
         verify(scoreDirector).beforeEntityAdded(visit);
         verify(scoreDirector).afterEntityAdded(visit);

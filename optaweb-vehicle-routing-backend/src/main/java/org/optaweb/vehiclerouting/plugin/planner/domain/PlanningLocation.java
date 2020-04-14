@@ -18,18 +18,27 @@ package org.optaweb.vehiclerouting.plugin.planner.domain;
 
 import java.util.Objects;
 
-public class PlanningLocation extends AbstractPlanningObject {
+public class PlanningLocation {
 
+    private final long id;
     // Only used to calculate angle.
     private final double latitude;
     private final double longitude;
     private final DistanceMap travelDistanceMap;
 
     PlanningLocation(long id, double latitude, double longitude, DistanceMap travelDistanceMap) {
-        super(id);
+        this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.travelDistanceMap = Objects.requireNonNull(travelDistanceMap);
+    }
+
+    /**
+     * ID of the corresponding domain location.
+     * @return domain location ID
+     */
+    public long getId() {
+        return id;
     }
 
     /**
