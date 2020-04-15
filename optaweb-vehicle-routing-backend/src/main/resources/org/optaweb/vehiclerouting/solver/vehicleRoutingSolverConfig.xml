@@ -24,7 +24,7 @@
   <entityClass>org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit</entityClass>
 
   <scoreDirectorFactory>
-    <scoreDrl>org/optaweb/vehiclerouting/solver/vehicleRoutingScoreRules.drl</scoreDrl>
+    <constraintProviderClass>org.optaweb.vehiclerouting.plugin.planner.VehicleRoutingConstraintProvider</constraintProviderClass>
     <initializingScoreTrend>ONLY_DOWN</initializingScoreTrend>
   </scoreDirectorFactory>
 

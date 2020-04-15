@@ -33,10 +33,20 @@ public class PlanningVisitFactory {
      * @return new visit with the default demand
      */
     public static PlanningVisit fromLocation(PlanningLocation location) {
+        return fromLocation(location, DEFAULT_VISIT_DEMAND);
+    }
+
+    /**
+     * Create visit of a location with the given demand.
+     * @param location visit's location
+     * @param demand visit's demand
+     * @return visit with demand at the given location
+     */
+    public static PlanningVisit fromLocation(PlanningLocation location, int demand) {
         PlanningVisit visit = new PlanningVisit();
         visit.setId(location.getId());
         visit.setLocation(location);
-        visit.setDemand(DEFAULT_VISIT_DEMAND);
+        visit.setDemand(demand);
         return visit;
     }
 
