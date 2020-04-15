@@ -156,6 +156,7 @@ function download_menu() {
   local -r url_parent=${url%/*} # remove shortest suffix matching "/*" => http://download.geofabrik.de/north-america/us
   local -r url_html=${url##*/} # index.html, europe.html, etc.
   local -r super_region_file="$cache_geofabrik/$url_html"
+  local -r sub_region_osm_url=$2
 
   # TODO refresh daily
   if [[ ! -f ${super_region_file} || ! -s ${super_region_file} ]]
@@ -176,7 +177,21 @@ function download_menu() {
   readarray -t region_osm_hrefs <<< "$(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
   readarray -t region_sizes <<< "$(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[3]/text()' | sed 's/.*(\(.*\))/\1/')"
 
+
+  # Make the array empty if it contains just 1 empty element.
+  [[ ${#region_names[*]} == 1 && -z ${region_names[0]} ]] && region_names=()
+
   local -r max=$((${#region_names[*]} - 1))
+
+  if [[ ${max} -lt 0 ]]
+  then
+    echo
+    echo "This region has no sub-regions to choose from."
+    echo
+    confirm "Do you want to download $sub_region_osm_url?" && download "$sub_region_osm_url" "$osm_dir/${sub_region_osm_url##*/}"
+    return 0
+  fi
+
   declare answer_region_id
   declare answer_action
 
@@ -219,14 +234,18 @@ function download_menu() {
 
   [[ -z ${answer_region_id} ]] && return 0
 
+  # osm_url is used either to download an OSM in the d) case or to pass it to next download_menu level
+  # to make it possible to download it if there are no sub-regions to choose from in the next step.
+  local -r osm_url=${url_parent}/${region_osm_hrefs[answer_region_id]}
+  local -r sub_region_html_url=${url_parent}/${region_sub_hrefs[answer_region_id]}
+
   case ${answer_action} in
     e)
-      download_menu "$url_parent/${region_sub_hrefs[answer_region_id]}"
+      download_menu "$sub_region_html_url" "$osm_url"
     ;;
     d)
-      local -r osm_url=${url_parent}/${region_osm_hrefs[answer_region_id]}
       # Remove region prefix (e.g. europe/) from href to get the OSM file name.
-      local -r osm_file=${region_osm_hrefs[answer_region_id]##*/}
+      local -r osm_file=${osm_url##*/}
       local -r osm_target=${osm_dir}/${osm_file}
 
       if [[ -f ${osm_target} ]]
