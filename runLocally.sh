@@ -355,7 +355,7 @@ This script can download it for you from Geofabrik.de."
 # in case the script was called from a different location than the project root.
 cd "$(dirname "$(readlink -f "$0")")"
 
-readonly last_vrp_dir_file=.VRP_DIR_LAST
+readonly last_vrp_dir_file=.DATA_DIR_LAST
 
 if [[ -f ${last_vrp_dir_file} ]]
 then
@@ -366,7 +366,7 @@ fi
 
 if [[ -z ${last_vrp_dir} ]]
 then
-  readonly vrp_dir=$HOME/.vrp
+  readonly vrp_dir=$HOME/.optaweb-vehicle-routing
   echo "There is no last used VRP dir. Using the default."
 else
   readonly vrp_dir=${last_vrp_dir}

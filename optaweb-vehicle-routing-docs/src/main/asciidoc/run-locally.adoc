@@ -5,7 +5,7 @@ Linux and macOS users can use a Bash script called `runLocally.sh` to run OptaWe
 The script automates some setup steps that would otherwise have to be carried out manually.
 The script will:
 
-* Create the VRP directory.
+* Create the data directory.
 * Download selected OSM files from Geofabrik.
 * Try to associate a country code with each downloaded OSM file automatically.
 * Build the project if the standalone JAR file does not exist.
@@ -73,13 +73,13 @@ Run the `runLocally.sh` script with `--air` argument to start OptaWeb Vehicle Ro
 ./bin/run.sh --air
 ----
 
-== Tweak the VRP directory
+== Tweak the data directory
 
-* To use a different VRP directory, write its absolute path to the `.VRP_DIR_LAST` file at the project root.
+* To use a different data directory, write its absolute path to the `.DATA_DIR_LAST` file at the project root.
 
-* To change country codes associated with a region, edit the corresponding file under `_VRP_DIR_/country_codes/`.
+* To change country codes associated with a region, edit the corresponding file under `_DATA_DIR_/country_codes/`.
 +
 For example, you could have downloaded an OSM file for Scotland, for which the script fails to guess the country code.
-In this case, set the content of `_VRP_DIR_/country_codes/scotland-latest` to `GB`.
+In this case, set the content of `_DATA_DIR_/country_codes/scotland-latest` to `GB`.
 
-* To remove a region, delete the corresponding OSM file from `_VRP_DIR_/openstreetmap/` and GraphHopper directory from `_VRP_DIR_/graphhopper/`.
+* To remove a region, delete the corresponding OSM file from `_DATA_DIR_/openstreetmap/` and GraphHopper directory from `_DATA_DIR_/graphhopper/`.

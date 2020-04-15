@@ -1,6 +1,8 @@
 [#run-noscript]
 = Run OptaWeb Vehicle Routing without the script
 
+include::attributes.adoc[]
+
 Use this section if you cannot use <<run-locally-sh,runLocally.sh>> to run OptaWeb Vehicle Routing because Bash is not available on your system.
 
 == Download routing data
@@ -25,9 +27,9 @@ Create a new directory dedicated to storing all of these data to make it easier 
 .Procedure
 . Create the `openstreetmap` directory in your user account `home` directory, for example:
 +
-[source]
+[source,subs="attributes+"]
 ----
-$HOME/.vrp
+$HOME/{data-dir-name}
 └── openstreetmap
 ----
 
@@ -37,9 +39,9 @@ The rest of the directory structure will be created by the OptaWeb Vehicle Routi
 After that, your directory structure will look similar to the following example:
 
 // TODO maybe replace this with a screenshot, doesn't look good in PDF.
-[source]
+[source,subs="attributes+"]
 ----
-$HOME/.vrp
+$HOME/{data-dir-name}
 ├── db
 │   └── vrp.mv.db
 ├── graphhopper
@@ -54,7 +56,7 @@ $HOME/.vrp
 * Internet access is available.
 When OptaWeb Vehicle Routing runs it uses third-party public services such as link:https://www.openstreetmap.org/about[OpenStreetMap] to display map tiles and provide search results.
 * Java 8 or higher is installed.
-* The VRP directory is created at `$HOME/.vrp`.
+* The data directory is created at `$HOME/{data-dir-name}`.
 * A subdirectory called `openstreetmap` with at least one OSM file exists.
 * A country code to use in search queries is identified.
 
@@ -62,12 +64,12 @@ When OptaWeb Vehicle Routing runs it uses third-party public services such as li
 
 Enter the following command.
 
-[source]
+[source,subs="attributes+"]
 ----
 java -jar optaweb-vehicle-routing-standalone-{revnumber}.jar \
---app.persistence.h2-dir=$HOME/.vrp/db \
---app.routing.gh-dir=$HOME/.vrp/graphhopper
---app.routing.osm-dir=$HOME/.vrp/openstreetmap \
+--app.persistence.h2-dir=$HOME/{data-dir-name}/db \
+--app.routing.gh-dir=$HOME/{data-dir-name}/graphhopper
+--app.routing.osm-dir=$HOME/{data-dir-name}/openstreetmap \
 --app.routing.osm-file=belgium-latest.osm.pbf \
 --app.region.country-codes=BE
 ----
