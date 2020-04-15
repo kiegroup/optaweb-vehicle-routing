@@ -97,4 +97,30 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <!-- Turn off PDF generation for faster Maven builds. Useful when testing work in progress. -->
+    <profile>
+      <id>htmlOnly</id>
+      <properties>
+        <!-- Skip assembly to avoid failure due to the missing PDF file. -->
+        <assembly.skipAssembly>true</assembly.skipAssembly>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.asciidoctor</groupId>
+            <artifactId>asciidoctor-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <!-- Do not generate PDF output. -->
+                <id>generate-pdf</id>
+                <phase>none</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
