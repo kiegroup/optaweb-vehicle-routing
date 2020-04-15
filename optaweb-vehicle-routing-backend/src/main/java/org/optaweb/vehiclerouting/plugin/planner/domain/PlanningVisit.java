@@ -99,9 +99,9 @@ public class PlanningVisit implements Standstill {
 
     /**
      * Distance from the previous standstill to this visit. This is used to calculate the travel cost of a chain
-     * beginning with a vehicle (at a depot) and ending with the last visit. The chain ends with a visit, not a depot
-     * so the cost of returning from the last visit back to the depot has to be added in a separate step using
-     * {@link #getDistanceToDepot()}.
+     * beginning with a vehicle (at a depot) and ending with the {@link #isLast() last} visit.
+     * The chain ends with a visit, not a depot so the cost of returning from the last visit back to the depot
+     * has to be added in a separate step using {@link #getDistanceToDepot()}.
      * @return distance from previous standstill to this visit
      */
     public long getDistanceFromPreviousStandstill() {
@@ -132,5 +132,13 @@ public class PlanningVisit implements Standstill {
                 (vehicle == null ? "" : ",vehicle=" + vehicle.getId()) +
                 ",id=" + id +
                 '}';
+    }
+
+    /**
+     * Whether this visit is the last in a chain.
+     * @return true, if this visit has no {@link #getNextVisit() next} visit
+     */
+    public boolean isLast() {
+        return nextVisit == null;
     }
 }
