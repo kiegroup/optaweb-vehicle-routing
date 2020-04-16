@@ -23,7 +23,6 @@ install: >
 before_script:
   # Fail the the build if the Red Hat package registry is referenced from package-lock.json.
   - '! grep "\"resolved\".*\.redhat\.com" optaweb-vehicle-routing-frontend/package-lock.json'
-# do not install to avoid dirtying the cache
 script:
   - mvn clean install -Prun-code-coverage,integration-tests --show-version
   - mvn sonar:sonar -Psonarcloud-analysis -Dsonar.skip=$SONAR_SKIP
