@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.optaweb.vehiclerouting</groupId>
     <artifactId>optaweb-vehicle-routing</artifactId>
-    <version>7.36.0.Final</version>
+    <version>7.36.1.Final</version>
   </parent>
 
   <artifactId>optaweb-vehicle-routing-frontend</artifactId>
