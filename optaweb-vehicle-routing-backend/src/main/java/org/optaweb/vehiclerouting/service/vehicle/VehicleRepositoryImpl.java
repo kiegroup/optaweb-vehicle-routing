@@ -60,7 +60,7 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     }
 
     @Override
-    public Optional<Vehicle> find(Long vehicleId) {
+    public Optional<Vehicle> find(long vehicleId) {
         return Optional.ofNullable(vehicles.get(vehicleId));
     }
 

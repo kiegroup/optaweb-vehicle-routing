@@ -108,13 +108,13 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
         }
     }
 
-    private Vehicle findVehicleById(Long id) {
+    private Vehicle findVehicleById(long id) {
         return vehicleRepository.find(id).orElseThrow(() -> new IllegalStateException(
                 "Vehicle {id=" + id + "} not found in the repository")
         );
     }
 
-    private Location findLocationById(Long id) {
+    private Location findLocationById(long id) {
         return locationRepository.find(id).orElseThrow(() -> new IllegalStateException(
                 "Location {id=" + id + "} not found in the repository")
         );

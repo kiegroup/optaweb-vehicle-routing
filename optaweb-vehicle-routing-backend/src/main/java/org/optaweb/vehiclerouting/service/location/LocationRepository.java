@@ -53,5 +53,5 @@ public interface LocationRepository {
      */
     void removeAll();
 
-    Optional<Location> find(Long locationId);
+    Optional<Location> find(long locationId);
 }

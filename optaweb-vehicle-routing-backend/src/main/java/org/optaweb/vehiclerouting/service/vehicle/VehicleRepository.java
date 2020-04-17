@@ -52,7 +52,7 @@ public interface VehicleRepository {
      */
     void removeAll();
 
-    Optional<Vehicle> find(Long vehicleId);
+    Optional<Vehicle> find(long vehicleId);
 
     /**
      * Temporary hack needed for vehicle name auto-generation.

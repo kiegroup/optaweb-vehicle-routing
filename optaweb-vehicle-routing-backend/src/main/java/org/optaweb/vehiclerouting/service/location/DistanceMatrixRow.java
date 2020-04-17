@@ -28,5 +28,5 @@ public interface DistanceMatrixRow {
      * @param locationId target location
      * @return time it takes to travel to the given location
      */
-    Distance distanceTo(Long locationId);
+    Distance distanceTo(long locationId);
 }
