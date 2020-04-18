@@ -16,13 +16,15 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.change;
 
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
@@ -44,27 +46,22 @@ class RemoveVehicleTest {
 
     @Test
     void remove_vehicle() {
-        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
-        when(scoreDirector.getWorkingSolution()).thenReturn(solution);
+        PlanningVehicle removedVehicle = PlanningVehicleFactory.testVehicle(1);
+        PlanningVehicle otherVehicle = PlanningVehicleFactory.testVehicle(2);
 
-        PlanningLocation location = PlanningLocationFactory.testLocation(1);
-        PlanningDepot depot = new PlanningDepot(location);
-
-        PlanningVehicle removedVehicle = new PlanningVehicle();
-        removedVehicle.setId(1L);
-        removedVehicle.setDepot(depot);
-        PlanningVehicle otherVehicle = new PlanningVehicle();
-        otherVehicle.setId(2L);
-        otherVehicle.setDepot(depot);
-        solution.getVehicleList().add(removedVehicle);
-        solution.getVehicleList().add(otherVehicle);
-
-        when(scoreDirector.lookUpWorkingObject(removedVehicle)).thenReturn(removedVehicle);
+        PlanningDepot depot = new PlanningDepot(PlanningLocationFactory.testLocation(1));
 
         PlanningVisit firstVisit = testVisit(1);
         PlanningVisit lastVisit = testVisit(2);
-        solution.getVisitList().add(firstVisit);
-        solution.getVisitList().add(lastVisit);
+
+        VehicleRoutingSolution solution = SolutionFactory.solutionFromVisits(
+                Arrays.asList(removedVehicle, otherVehicle),
+                depot,
+                Arrays.asList(firstVisit, lastVisit)
+        );
+
+        when(scoreDirector.getWorkingSolution()).thenReturn(solution);
+        when(scoreDirector.lookUpWorkingObject(removedVehicle)).thenReturn(removedVehicle);
 
         // V -> first -> last
         removedVehicle.setNextVisit(firstVisit);
@@ -93,20 +90,18 @@ class RemoveVehicleTest {
 
     @Test
     void fail_fast_if_working_solution_vehicle_list_does_not_contain_working_vehicle() {
-        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
-
-        PlanningLocation location = PlanningLocationFactory.testLocation(1);
-        PlanningDepot depot = new PlanningDepot(location);
-
         long removedId = 111L;
-        PlanningVehicle removedVehicle = new PlanningVehicle();
-        removedVehicle.setId(removedId);
-        removedVehicle.setDepot(depot);
         long wrongId = 222L;
-        PlanningVehicle wrongVehicle = new PlanningVehicle();
-        wrongVehicle.setId(wrongId);
-        wrongVehicle.setDepot(depot);
-        solution.getVehicleList().add(wrongVehicle);
+        PlanningVehicle removedVehicle = PlanningVehicleFactory.testVehicle(removedId);
+        PlanningVehicle wrongVehicle = PlanningVehicleFactory.testVehicle(wrongId);
+
+        PlanningDepot depot = new PlanningDepot(PlanningLocationFactory.testLocation(1));
+
+        VehicleRoutingSolution solution = SolutionFactory.solutionFromVisits(
+                Arrays.asList(wrongVehicle),
+                depot,
+                Collections.emptyList()
+        );
 
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
         when(scoreDirector.lookUpWorkingObject(removedVehicle)).thenReturn(removedVehicle);

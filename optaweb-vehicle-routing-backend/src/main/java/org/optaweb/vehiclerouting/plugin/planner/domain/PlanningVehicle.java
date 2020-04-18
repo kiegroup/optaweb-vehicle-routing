@@ -31,6 +31,10 @@ public class PlanningVehicle implements Standstill {
     // Shadow variables
     private PlanningVisit nextVisit;
 
+    PlanningVehicle() {
+        // Hide public constructor in favor of the factory.
+    }
+
     public long getId() {
         return id;
     }

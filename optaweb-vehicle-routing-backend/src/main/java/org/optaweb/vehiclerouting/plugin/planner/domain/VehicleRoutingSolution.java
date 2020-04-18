@@ -39,7 +39,8 @@ public class VehicleRoutingSolution {
     @PlanningScore
     private HardSoftLongScore score;
 
-    public VehicleRoutingSolution() {
+    VehicleRoutingSolution() {
+        // Hide public constructor in favor of the factory.
     }
 
     public List<PlanningDepot> getDepotList() {

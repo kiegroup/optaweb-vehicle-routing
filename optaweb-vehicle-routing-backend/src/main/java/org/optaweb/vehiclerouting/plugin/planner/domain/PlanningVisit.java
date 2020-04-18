@@ -41,6 +41,10 @@ public class PlanningVisit implements Standstill {
     @AnchorShadowVariable(sourceVariableName = "previousStandstill")
     private PlanningVehicle vehicle;
 
+    PlanningVisit() {
+        // Hide public constructor in favor of the factory.
+    }
+
     public long getId() {
         return id;
     }

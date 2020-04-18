@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
@@ -40,7 +41,7 @@ class AddVehicleTest {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
-        PlanningVehicle vehicle = new PlanningVehicle();
+        PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1);
         AddVehicle addVehicle = new AddVehicle(vehicle);
         addVehicle.doChange(scoreDirector);
 

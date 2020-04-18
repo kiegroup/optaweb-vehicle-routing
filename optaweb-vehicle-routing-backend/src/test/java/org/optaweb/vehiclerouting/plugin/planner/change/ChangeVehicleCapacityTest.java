@@ -21,9 +21,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
-import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
@@ -41,20 +38,11 @@ class ChangeVehicleCapacityTest {
 
     @Test
     void change_vehicle_capacity() {
-        PlanningLocation location = PlanningLocationFactory.testLocation(1);
-        PlanningDepot depot = new PlanningDepot(location);
-
         int oldCapacity = 100;
         int newCapacity = 50;
 
-        PlanningVehicle workingVehicle = new PlanningVehicle();
-        workingVehicle.setId(1L);
-        workingVehicle.setDepot(depot);
-        workingVehicle.setCapacity(oldCapacity);
-        PlanningVehicle changeVehicle = new PlanningVehicle();
-        changeVehicle.setId(1L);
-        changeVehicle.setDepot(depot);
-        changeVehicle.setCapacity(newCapacity);
+        PlanningVehicle workingVehicle = PlanningVehicleFactory.testVehicle(1, oldCapacity);
+        PlanningVehicle changeVehicle = PlanningVehicleFactory.testVehicle(2, newCapacity);
 
         when(scoreDirector.lookUpWorkingObject(changeVehicle)).thenReturn(workingVehicle);
 
