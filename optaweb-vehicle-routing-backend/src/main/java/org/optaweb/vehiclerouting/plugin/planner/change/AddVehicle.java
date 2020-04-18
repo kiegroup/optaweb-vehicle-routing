@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.change;
 
-import java.util.ArrayList;
 import java.util.Objects;
 
 import org.optaplanner.core.impl.score.director.ScoreDirector;
@@ -34,11 +33,8 @@ public class AddVehicle implements ProblemFactChange<VehicleRoutingSolution> {
 
     @Override
     public void doChange(ScoreDirector<VehicleRoutingSolution> scoreDirector) {
-        VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
-        workingSolution.setVehicleList(new ArrayList<>(workingSolution.getVehicleList()));
-
         scoreDirector.beforeProblemFactAdded(vehicle);
-        workingSolution.getVehicleList().add(vehicle);
+        scoreDirector.getWorkingSolution().getVehicleList().add(vehicle);
         scoreDirector.afterProblemFactAdded(vehicle);
 
         scoreDirector.triggerVariableListeners();
