@@ -51,7 +51,7 @@ public class VehicleRoutingConstraintProvider implements ConstraintProvider {
                 .penalizeLong(
                         "distance from previous standstill",
                         HardSoftLongScore.ONE_SOFT,
-                        PlanningVisit::getDistanceFromPreviousStandstill
+                        PlanningVisit::distanceFromPreviousStandstill
                 );
     }
 
@@ -61,7 +61,7 @@ public class VehicleRoutingConstraintProvider implements ConstraintProvider {
                 .penalizeLong(
                         "distance from last visit to depot",
                         HardSoftLongScore.ONE_SOFT,
-                        PlanningVisit::getDistanceToDepot
+                        PlanningVisit::distanceToDepot
                 );
     }
 }

@@ -30,7 +30,7 @@ import static java.util.Comparator.comparingLong;
 
 /**
  * On large data sets, the constructed solution looks like pizza slices.
- * The order of the slices depends on the {@link PlanningLocation#getAngle} implementation.
+ * The order of the slices depends on the {@link PlanningLocation#angleTo} implementation.
  */
 public class DepotAngleVisitDifficultyWeightFactory
         implements SelectionSorterWeightFactory<VehicleRoutingSolution, PlanningVisit> {
@@ -41,9 +41,9 @@ public class DepotAngleVisitDifficultyWeightFactory
         return new DepotAngleVisitDifficultyWeight(
                 visit,
                 // angle of the line from visit to depot relative to visit→east
-                visit.getLocation().getAngle(depot.getLocation()),
-                visit.getLocation().getDistanceTo(depot.getLocation())
-                        + depot.getLocation().getDistanceTo(visit.getLocation())
+                visit.getLocation().angleTo(depot.getLocation()),
+                visit.getLocation().distanceTo(depot.getLocation())
+                        + depot.getLocation().distanceTo(visit.getLocation())
         );
     }
 
