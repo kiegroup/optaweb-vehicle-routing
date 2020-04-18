@@ -125,6 +125,14 @@ public class PlanningVisit implements Standstill {
         return location.distanceTo(vehicle.getLocation());
     }
 
+    /**
+     * Whether this visit is the last in a chain.
+     * @return true, if this visit has no {@link #getNextVisit() next} visit
+     */
+    public boolean isLast() {
+        return nextVisit == null;
+    }
+
     @Override
     public String toString() {
         return "PlanningVisit{" +
@@ -135,13 +143,5 @@ public class PlanningVisit implements Standstill {
                 (vehicle == null ? "" : ",vehicle=" + vehicle.getId()) +
                 ",id=" + id +
                 '}';
-    }
-
-    /**
-     * Whether this visit is the last in a chain.
-     * @return true, if this visit has no {@link #getNextVisit() next} visit
-     */
-    public boolean isLast() {
-        return nextVisit == null;
     }
 }
