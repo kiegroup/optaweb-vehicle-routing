@@ -31,7 +31,9 @@ import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -47,7 +49,7 @@ class VehicleServiceTest {
     private VehicleService vehicleService;
 
     @Test
-    void addVehicle() {
+    void createVehicle() {
         final long vehicleId = 63;
         final String name = "Veh5";
         final int capacity = VehicleService.DEFAULT_VEHICLE_CAPACITY * 2 + 29;
@@ -55,7 +57,7 @@ class VehicleServiceTest {
         // verify that new vehicle is created with correct initial name and capacity
         when(vehicleRepository.createVehicle(VehicleService.DEFAULT_VEHICLE_CAPACITY)).thenReturn(vehicle);
 
-        vehicleService.addVehicle();
+        vehicleService.createVehicle();
 
         // verify that vehicle provided by repository is passed to optimizer
         verify(optimizer).addVehicle(vehicleArgumentCaptor.capture());
@@ -63,6 +65,21 @@ class VehicleServiceTest {
         assertThat(newVehicle.id()).isEqualTo(vehicleId);
         assertThat(newVehicle.name()).isEqualTo(name);
         assertThat(newVehicle.capacity()).isEqualTo(capacity);
+    }
+
+    @Test
+    void addVehicle_should_validate_arguments() {
+        assertThatNullPointerException().isThrownBy(() -> vehicleService.addVehicle(null));
+    }
+
+    @Test
+    void addVehicle() {
+        final Vehicle vehicle = VehicleFactory.testVehicle(1);
+
+        vehicleService.addVehicle(vehicle);
+
+        verifyNoInteractions(vehicleRepository);
+        verify(optimizer).addVehicle(vehicle);
     }
 
     @Test

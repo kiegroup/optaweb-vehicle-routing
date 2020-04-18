@@ -129,7 +129,7 @@ class WebSocketController {
 
     @MessageMapping({"vehicle"})
     void addVehicle() {
-        vehicleService.addVehicle();
+        vehicleService.createVehicle();
     }
 
     /**

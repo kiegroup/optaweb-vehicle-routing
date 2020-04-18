@@ -16,6 +16,7 @@
 
 package org.optaweb.vehiclerouting.service.vehicle;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Vehicle;
@@ -38,9 +39,12 @@ public class VehicleService {
         this.vehicleRepository = vehicleRepository;
     }
 
-    public void addVehicle() {
-        Vehicle vehicle = vehicleRepository.createVehicle(DEFAULT_VEHICLE_CAPACITY);
-        optimizer.addVehicle(vehicle);
+    public void createVehicle() {
+        addVehicle(vehicleRepository.createVehicle(DEFAULT_VEHICLE_CAPACITY));
+    }
+
+    public void addVehicle(Vehicle vehicle) {
+        optimizer.addVehicle(Objects.requireNonNull(vehicle));
     }
 
     public void removeVehicle(long vehicleId) {

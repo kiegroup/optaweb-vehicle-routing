@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.service.reload;
 
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.location.LocationService;
+import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
@@ -27,16 +28,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class ReloadService {
 
+    private final VehicleRepository vehicleRepository;
     private final VehicleService vehicleService;
     private final LocationRepository locationRepository;
     private final LocationService locationService;
 
     @Autowired
     ReloadService(
+            VehicleRepository vehicleRepository,
             VehicleService vehicleService,
             LocationRepository locationRepository,
             LocationService locationService
     ) {
+        this.vehicleRepository = vehicleRepository;
         this.vehicleService = vehicleService;
         this.locationRepository = locationRepository;
         this.locationService = locationService;
@@ -44,9 +48,7 @@ public class ReloadService {
 
     @EventListener
     public synchronized void reload(ApplicationStartedEvent event) {
-        for (int i = 0; i < 6; i++) {
-            vehicleService.addVehicle();
-        }
+        vehicleRepository.vehicles().forEach(vehicleService::addVehicle);
         locationRepository.locations().forEach(locationService::addLocation);
     }
 }

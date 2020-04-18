@@ -142,7 +142,7 @@ class WebSocketControllerTest {
     @Test
     void addVehicle() {
         webSocketController.addVehicle();
-        verify(vehicleService).addVehicle();
+        verify(vehicleService).createVehicle();
     }
 
     @Test
