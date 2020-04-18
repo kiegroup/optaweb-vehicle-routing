@@ -49,14 +49,11 @@ class VehicleServiceTest {
     @Test
     void addVehicle() {
         final long vehicleId = 63;
-        when(vehicleRepository.nextId()).thenReturn(vehicleId);
-
         final String name = "Veh5";
         final int capacity = VehicleService.DEFAULT_VEHICLE_CAPACITY * 2 + 29;
         final Vehicle vehicle = VehicleFactory.createVehicle(vehicleId, name, capacity);
         // verify that new vehicle is created with correct initial name and capacity
-        when(vehicleRepository.createVehicle("Vehicle " + vehicleId, VehicleService.DEFAULT_VEHICLE_CAPACITY))
-                .thenReturn(vehicle);
+        when(vehicleRepository.createVehicle(VehicleService.DEFAULT_VEHICLE_CAPACITY)).thenReturn(vehicle);
 
         vehicleService.addVehicle();
 

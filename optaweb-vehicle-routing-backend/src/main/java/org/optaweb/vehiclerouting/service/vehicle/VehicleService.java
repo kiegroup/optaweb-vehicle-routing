@@ -39,8 +39,7 @@ public class VehicleService {
     }
 
     public void addVehicle() {
-        long id = vehicleRepository.nextId();
-        Vehicle vehicle = vehicleRepository.createVehicle("Vehicle " + id, DEFAULT_VEHICLE_CAPACITY);
+        Vehicle vehicle = vehicleRepository.createVehicle(DEFAULT_VEHICLE_CAPACITY);
         optimizer.addVehicle(vehicle);
     }
 

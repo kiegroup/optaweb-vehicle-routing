@@ -28,11 +28,10 @@ public interface VehicleRepository {
 
     /**
      * Create a vehicle with a unique ID.
-     * @param name vehicle name
      * @param capacity vehicle's capacity
      * @return a new vehicle
      */
-    Vehicle createVehicle(String name, int capacity);
+    Vehicle createVehicle(int capacity);
 
     /**
      * Get all vehicles.
@@ -53,12 +52,6 @@ public interface VehicleRepository {
     void removeAll();
 
     Optional<Vehicle> find(long vehicleId);
-
-    /**
-     * Temporary hack needed for vehicle name auto-generation.
-     * @return unique ID that will be used for the next new vehicle.
-     */
-    long nextId();
 
     void update(Vehicle vehicle);
 }
