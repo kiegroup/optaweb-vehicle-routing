@@ -104,8 +104,9 @@ class WebSocketControllerTest {
 
         Location depot = new Location(1, Coordinates.valueOf(1.0, 7), "Depot");
         List<Location> visits = Arrays.asList(new Location(2, Coordinates.valueOf(2.0, 9), "Visit"));
+        List<Vehicle> vehicles = Arrays.asList(VehicleFactory.testVehicle(1));
         String demoName = "Testing problem";
-        RoutingProblem routingProblem = new RoutingProblem(demoName, depot, visits);
+        RoutingProblem routingProblem = new RoutingProblem(demoName, vehicles, depot, visits);
         when(demoService.demos()).thenReturn(Arrays.asList(routingProblem));
 
         // act

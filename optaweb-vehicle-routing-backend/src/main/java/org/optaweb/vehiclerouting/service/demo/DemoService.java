@@ -23,9 +23,11 @@ import java.util.List;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
+import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.location.LocationService;
+import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -38,22 +40,25 @@ public class DemoService {
 
     static final int MAX_TRIES = 10;
 
-    private final LocationService locationService;
-    private final DataSetMarshaller dataSetMarshaller;
-    private final LocationRepository locationRepository;
     private final RoutingProblemList routingProblems;
+    private final LocationService locationService;
+    private final LocationRepository locationRepository;
+    private final VehicleRepository vehicleRepository;
+    private final DataSetMarshaller dataSetMarshaller;
 
     @Autowired
-    DemoService(
+    public DemoService(
+            RoutingProblemList routingProblems,
             LocationService locationService,
-            DataSetMarshaller dataSetMarshaller,
             LocationRepository locationRepository,
-            RoutingProblemList routingProblems
+            VehicleRepository vehicleRepository,
+            DataSetMarshaller dataSetMarshaller
     ) {
-        this.locationService = locationService;
-        this.dataSetMarshaller = dataSetMarshaller;
-        this.locationRepository = locationRepository;
         this.routingProblems = routingProblems;
+        this.locationService = locationService;
+        this.locationRepository = locationRepository;
+        this.vehicleRepository = vehicleRepository;
+        this.dataSetMarshaller = dataSetMarshaller;
     }
 
     public Collection<RoutingProblem> demos() {
@@ -86,6 +91,9 @@ public class DemoService {
         // FIXME still relying on the fact that the first location in the repository is the depot
         List<Location> visits = new ArrayList<>(locationRepository.locations());
         Location depot = visits.isEmpty() ? null : visits.remove(0);
-        return dataSetMarshaller.marshal(new RoutingProblem("Custom Vehicle Routing instance", depot, visits));
+        List<Vehicle> vehicles = vehicleRepository.vehicles();
+        return dataSetMarshaller.marshal(new RoutingProblem(
+                "Custom Vehicle Routing instance", vehicles, depot, visits
+        ));
     }
 }

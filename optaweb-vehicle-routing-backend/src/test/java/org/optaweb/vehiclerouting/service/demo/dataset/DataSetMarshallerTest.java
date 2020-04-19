@@ -30,9 +30,12 @@ import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.LocationData;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
+import org.optaweb.vehiclerouting.domain.VehicleData;
+import org.optaweb.vehiclerouting.domain.VehicleFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
@@ -60,6 +63,13 @@ class DataSetMarshallerTest {
         assertThat(dataSet.getVisits())
                 .extracting("label")
                 .containsExactlyInAnyOrder("Aalst", "Châtelet", "La Louvière", "Sint-Niklaas", "Ypres");
+        assertThat(dataSet.getVehicles())
+                .extracting(dataSetVehicle -> dataSetVehicle.name, dataSetVehicle -> dataSetVehicle.capacity)
+                .containsExactlyInAnyOrder(
+                        tuple("vehicle 1", 10),
+                        tuple("vehicle 2", 12),
+                        tuple("vehicle 3", 1_000_000)
+                );
     }
 
     @Test
@@ -72,10 +82,22 @@ class DataSetMarshallerTest {
         DataSetLocation location2 = new DataSetLocation("Location 2", 2.0, 0.2);
         dataSet.setDepot(depot);
         dataSet.setVisits(Arrays.asList(location1, location2));
+        DataSetVehicle vehicle1 = new DataSetVehicle("Vehicle 1", 123);
+        DataSetVehicle vehicle2 = new DataSetVehicle("Vehicle 2", 222);
+        dataSet.setVehicles(Arrays.asList(vehicle1, vehicle2));
+
         String yaml = new DataSetMarshaller().marshal(dataSet);
         assertThat(yaml)
                 .contains("name: \"" + name)
-                .contains(depot.getLabel(), location1.getLabel(), location2.getLabel());
+                .contains(
+                        depot.getLabel(),
+                        location1.getLabel(),
+                        location2.getLabel(),
+                        vehicle1.name,
+                        vehicle2.name,
+                        String.valueOf(vehicle1.capacity),
+                        String.valueOf(vehicle2.capacity)
+                );
     }
 
     @Test
@@ -111,14 +133,18 @@ class DataSetMarshallerTest {
 
     @Test
     void routing_problem_conversion() {
+        VehicleData vehicle = VehicleFactory.vehicleData("vehicle", 10);
+        List<VehicleData> vehicles = Arrays.asList(vehicle);
         LocationData depot = new LocationData(Coordinates.valueOf(60.1, 5.78), "Depot");
         LocationData visit = new LocationData(Coordinates.valueOf(1.06, 8.75), "Visit");
         List<LocationData> visits = Arrays.asList(visit);
         String name = "some data set";
 
         // domain -> data set
-        DataSet dataSet = toDataSet(new RoutingProblem(name, depot, visits));
+        DataSet dataSet = toDataSet(new RoutingProblem(name, vehicles, depot, visits));
         assertThat(dataSet.getName()).isEqualTo(name);
+        assertThat(dataSet.getVehicles()).hasSameSizeAs(vehicles);
+        assertThat(toDomain(dataSet.getVehicles().get(0))).isEqualTo(vehicle);
         assertThat(toDomain(dataSet.getDepot())).isEqualTo(depot);
         assertThat(dataSet.getVisits()).hasSameSizeAs(visits);
         assertThat(toDomain(dataSet.getVisits().get(0))).isEqualTo(visit);
@@ -126,6 +152,7 @@ class DataSetMarshallerTest {
         // data set -> domain
         RoutingProblem routingProblem = toDomain(dataSet);
         assertThat(routingProblem.name()).isEqualTo(name);
+        assertThat(routingProblem.vehicles()).containsExactly(vehicle);
         assertThat(routingProblem.depot()).contains(depot);
         assertThat(routingProblem.visits()).containsExactly(visit);
     }

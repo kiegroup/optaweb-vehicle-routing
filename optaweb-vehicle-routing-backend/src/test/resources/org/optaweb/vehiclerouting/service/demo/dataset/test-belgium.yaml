@@ -21,3 +21,10 @@ visits:
   - lng: 2.883333
     lat: 50.85
     label: "Ypres"
+vehicles:
+  - name: "vehicle 1"
+    capacity: 10
+  - name: "vehicle 2"
+    capacity: 12
+  - name: "vehicle 3"
+    capacity: 1000000

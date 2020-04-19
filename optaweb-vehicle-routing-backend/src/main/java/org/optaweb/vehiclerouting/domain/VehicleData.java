@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,23 +19,32 @@ package org.optaweb.vehiclerouting.domain;
 import java.util.Objects;
 
 /**
- * Vehicle that can be used to deliver cargo to visits.
+ * Data about a vehicle.
  */
-public class Vehicle extends VehicleData {
+public class VehicleData {
 
-    private final long id;
+    private final String name;
+    private final int capacity;
 
-    Vehicle(long id, String name, int capacity) {
-        super(name, capacity);
-        this.id = id;
+    VehicleData(String name, int capacity) {
+        this.name = Objects.requireNonNull(name);
+        this.capacity = capacity;
     }
 
     /**
-     * Vehicle's ID.
-     * @return unique ID
+     * Vehicle's name (unique description).
+     * @return vehicle's name
      */
-    public long id() {
-        return id;
+    public String name() {
+        return name;
+    }
+
+    /**
+     * Vehicle's capacity.
+     * @return vehicle's capacity
+     */
+    public int capacity() {
+        return capacity;
     }
 
     @Override
@@ -46,19 +55,21 @@ public class Vehicle extends VehicleData {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Vehicle vehicle = (Vehicle) o;
-        return id == vehicle.id;
+        VehicleData that = (VehicleData) o;
+        return capacity == that.capacity &&
+                name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(name, capacity);
     }
 
     @Override
     public String toString() {
-        return "Vehicle["
-                + id
-                + "]: '" + name() + "'";
+        return "VehicleData{" +
+                "name='" + name + '\'' +
+                ", capacity=" + capacity +
+                '}';
     }
 }

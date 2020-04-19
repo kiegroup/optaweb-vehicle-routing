@@ -26,6 +26,8 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.LocationData;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
+import org.optaweb.vehiclerouting.domain.VehicleData;
+import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -91,10 +93,13 @@ public class DataSetMarshaller {
         DataSet dataSet = new DataSet();
         dataSet.setName(routingProblem.name());
         dataSet.setDepot(routingProblem.depot().map(DataSetMarshaller::toDataSet).orElse(null));
-        dataSet.setVisits(
-                routingProblem.visits().stream()
-                        .map(DataSetMarshaller::toDataSet)
-                        .collect(Collectors.toList())
+        dataSet.setVehicles(routingProblem.vehicles().stream()
+                .map(DataSetMarshaller::toDataSet)
+                .collect(Collectors.toList())
+        );
+        dataSet.setVisits(routingProblem.visits().stream()
+                .map(DataSetMarshaller::toDataSet)
+                .collect(Collectors.toList())
         );
         return dataSet;
     }
@@ -107,9 +112,14 @@ public class DataSetMarshaller {
         );
     }
 
+    static DataSetVehicle toDataSet(VehicleData vehicleData) {
+        return new DataSetVehicle(vehicleData.name(), vehicleData.capacity());
+    }
+
     static RoutingProblem toDomain(DataSet dataSet) {
         return new RoutingProblem(
                 dataSet.getName(),
+                dataSet.getVehicles().stream().map(DataSetMarshaller::toDomain).collect(Collectors.toList()),
                 toDomain(dataSet.getDepot()),
                 dataSet.getVisits().stream().map(DataSetMarshaller::toDomain).collect(Collectors.toList())
         );
@@ -120,5 +130,9 @@ public class DataSetMarshaller {
                 Coordinates.valueOf(dataSetLocation.getLatitude(), dataSetLocation.getLongitude()),
                 dataSetLocation.getLabel()
         );
+    }
+
+    static VehicleData toDomain(DataSetVehicle dataSetVehicle) {
+        return VehicleFactory.vehicleData(dataSetVehicle.name, dataSetVehicle.capacity);
     }
 }

@@ -34,4 +34,14 @@ class VehicleFactoryTest {
         assertThat(vehicle.name()).isEqualTo(name);
         assertThat(vehicle.capacity()).isEqualTo(capacity);
     }
+
+    @Test
+    void vehicleData() {
+        String name = "vehicle name";
+        int capacity = 1000;
+
+        VehicleData vehicleData = VehicleFactory.vehicleData(name, capacity);
+        assertThat(vehicleData.name()).isEqualTo(name);
+        assertThat(vehicleData.capacity()).isEqualTo(capacity);
+    }
 }
