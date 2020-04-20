@@ -28,6 +28,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleData;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -86,6 +87,31 @@ class VehicleRepositoryImplTest {
         // This may be confusing but that's the contract of Spring Repository API.
         // The entity instance that is being saved is meant to be discarded. The returned instance should be used
         // for further operations as the save() operation may update it (for example generate the ID).
+        assertThat(createdVehicle.id()).isEqualTo(savedEntity.getId());
+        assertThat(createdVehicle.name()).isEqualTo(savedEntity.getName());
+        assertThat(createdVehicle.capacity()).isEqualTo(savedEntity.getCapacity());
+    }
+
+    @Test
+    void create_vehicle_from_given_data() {
+        // arrange
+        VehicleEntity savedEntity = mockVehicleEntity(testVehicle());
+        when(crudRepository.save(vehicleEntityCaptor.capture())).thenReturn(savedEntity);
+        int savedCapacity = 1;
+
+        VehicleData vehicleData = VehicleFactory.vehicleData("x", 1);
+
+        // act
+        Vehicle createdVehicle = repository.createVehicle(vehicleData);
+
+        // assert
+        // -- the correct values were used to save the entity
+        VehicleEntity savedVehicle = vehicleEntityCaptor.getValue();
+
+        assertThat(savedVehicle.getName()).isEqualTo(vehicleData.name());
+        assertThat(savedVehicle.getCapacity()).isEqualTo(vehicleData.capacity());
+
+        // -- created domain vehicle is equal to the entity returned by repository.save()
         assertThat(createdVehicle.id()).isEqualTo(savedEntity.getId());
         assertThat(createdVehicle.name()).isEqualTo(savedEntity.getName());
         assertThat(createdVehicle.capacity()).isEqualTo(savedEntity.getCapacity());

@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleData;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.slf4j.Logger;
@@ -42,6 +43,12 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     public Vehicle createVehicle(int capacity) {
         long id = repository.save(new VehicleEntity(0, null, capacity)).getId();
         VehicleEntity vehicleEntity = repository.save(new VehicleEntity(id, "Vehicle " + id, capacity));
+        return toDomain(vehicleEntity);
+    }
+
+    @Override
+    public Vehicle createVehicle(VehicleData vehicleData) {
+        VehicleEntity vehicleEntity = repository.save(new VehicleEntity(0, vehicleData.name(), vehicleData.capacity()));
         return toDomain(vehicleEntity);
     }
 

@@ -26,6 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleData;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 
@@ -49,7 +50,7 @@ class VehicleServiceTest {
     private VehicleService vehicleService;
 
     @Test
-    void createVehicle() {
+    void create_default_vehicle() {
         final long vehicleId = 63;
         final String name = "Veh5";
         final int capacity = VehicleService.DEFAULT_VEHICLE_CAPACITY * 2 + 29;
@@ -65,6 +66,21 @@ class VehicleServiceTest {
         assertThat(newVehicle.id()).isEqualTo(vehicleId);
         assertThat(newVehicle.name()).isEqualTo(name);
         assertThat(newVehicle.capacity()).isEqualTo(capacity);
+    }
+
+    @Test
+    void createVehicle() {
+        final long vehicleId = 63;
+        final String name = "Veh5";
+        final int capacity = 101;
+        VehicleData vehicleData = VehicleFactory.vehicleData(name, capacity);
+        final Vehicle vehicle = VehicleFactory.createVehicle(vehicleId, name, capacity);
+        when(vehicleRepository.createVehicle(vehicleData)).thenReturn(vehicle);
+
+        vehicleService.createVehicle(vehicleData);
+
+        // verify that vehicle provided by repository is passed to optimizer
+        verify(optimizer).addVehicle(vehicle);
     }
 
     @Test

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleData;
 
 /**
  * Defines repository operations on vehicles.
@@ -27,11 +28,18 @@ import org.optaweb.vehiclerouting.domain.Vehicle;
 public interface VehicleRepository {
 
     /**
-     * Create a vehicle with a unique ID.
+     * Create vehicle with a unique ID.
      * @param capacity vehicle's capacity
      * @return a new vehicle
      */
     Vehicle createVehicle(int capacity);
+
+    /**
+     * Create vehicle from the given data.
+     * @param vehicleData vehicle data
+     * @return a new vehicle
+     */
+    Vehicle createVehicle(VehicleData vehicleData);
 
     /**
      * Get all vehicles.

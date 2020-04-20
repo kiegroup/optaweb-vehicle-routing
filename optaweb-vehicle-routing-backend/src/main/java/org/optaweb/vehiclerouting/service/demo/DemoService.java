@@ -28,6 +28,7 @@ import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
+import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,7 @@ public class DemoService {
     private final RoutingProblemList routingProblems;
     private final LocationService locationService;
     private final LocationRepository locationRepository;
+    private final VehicleService vehicleService;
     private final VehicleRepository vehicleRepository;
     private final DataSetMarshaller dataSetMarshaller;
 
@@ -51,12 +53,14 @@ public class DemoService {
             RoutingProblemList routingProblems,
             LocationService locationService,
             LocationRepository locationRepository,
+            VehicleService vehicleService,
             VehicleRepository vehicleRepository,
             DataSetMarshaller dataSetMarshaller
     ) {
         this.routingProblems = routingProblems;
         this.locationService = locationService;
         this.locationRepository = locationRepository;
+        this.vehicleService = vehicleService;
         this.vehicleRepository = vehicleRepository;
         this.dataSetMarshaller = dataSetMarshaller;
     }
@@ -73,6 +77,7 @@ public class DemoService {
 
         // TODO start randomizing only after using all available cities (=> reproducibility for small demos)
         routingProblem.visits().forEach(visit -> addWithRetry(visit.coordinates(), visit.description()));
+        routingProblem.vehicles().forEach(vehicleService::createVehicle);
     }
 
     private void addWithRetry(Coordinates coordinates, String description) {

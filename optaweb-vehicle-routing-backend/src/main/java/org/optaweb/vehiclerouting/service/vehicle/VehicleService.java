@@ -20,6 +20,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleData;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +41,13 @@ public class VehicleService {
     }
 
     public void createVehicle() {
-        addVehicle(vehicleRepository.createVehicle(DEFAULT_VEHICLE_CAPACITY));
+        Vehicle vehicle = vehicleRepository.createVehicle(DEFAULT_VEHICLE_CAPACITY);
+        addVehicle(vehicle);
+    }
+
+    public void createVehicle(VehicleData vehicleData) {
+        Vehicle vehicle = vehicleRepository.createVehicle(vehicleData);
+        addVehicle(vehicle);
     }
 
     public void addVehicle(Vehicle vehicle) {

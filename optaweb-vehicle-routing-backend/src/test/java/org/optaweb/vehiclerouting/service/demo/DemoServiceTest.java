@@ -98,9 +98,8 @@ class DemoServiceTest {
         // assert
         verify(locationService, times(routingProblem.visits().size() + 1))
                 .createLocation(any(Coordinates.class), anyString());
-        // FIXME load vehicles from the data set
-//        verify(vehicleService, times(routingProblem.vehicles().size()))
-//                .createVehicle(anyString(), anyInt());
+        verify(vehicleService, times(routingProblem.vehicles().size()))
+                .createVehicle(any(VehicleData.class));
     }
 
     @Test
