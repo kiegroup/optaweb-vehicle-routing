@@ -45,10 +45,10 @@ NOTE: If you want to modify OptaWeb Vehicle Routing and build it yourself or con
 .Procedure
 . Go to https://www.optaplanner.org/download/download.html
 and click the *OptaWeb Vehicle Routing* tab.
-. Click *Download OptaWeb Vehicle Routing <version>*.
+. Click *Download OptaWeb Vehicle Routing {revnumber}*.
 +
 .OptaPlanner download page
-image::download.png[OptaPlanner download page at www.optaplanner.org,salign="center"]
+image::download.png[OptaPlanner download page at www.optaplanner.org,align="center"]
 +
 . Extract the downloaded distribution ZIP file. The archive contains source files and a binary build of OptaWeb Vehicle Routing as well as the OptaWeb Vehicle Routing documentation.
 +
