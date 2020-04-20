@@ -12,13 +12,12 @@ You will use a Bash script to run the binary without having to build the project
 //When the application runs it uses third party, public services such as link:https://www.openstreetmap.org/about[OpenStreetMap]
 //to display map tiles and provide search results.
 
-== Verify the Java version
+== Install Java 8 or higher
 
-// TODO Java 11
-Java SE 8 or higher must be installed on your system before you can use OptaWeb Vehicle Routing.
-It is recommended that you install JDK.
+*Java SE 8 or higher* must be installed on your system before you can use OptaWeb Vehicle Routing.
+
+NOTE: It is recommended that you install Java SE Development Kit (JDK) because it is necessary in order to build OptaWeb Vehicle Routing from the source.
 However, if you have a binary distribution of OptaWeb Vehicle Routing, you only need the Java SE Runtime Environment (JRE).
-But if you want to build OptaWeb Vehicle Routing from source, your system must have the Java SE Development Kit (JDK).
 
 .Procedure
 . To verify the current Java installation, enter the following command:
