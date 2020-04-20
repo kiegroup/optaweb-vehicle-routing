@@ -156,4 +156,14 @@ class DataSetMarshallerTest {
         assertThat(routingProblem.depot()).contains(depot);
         assertThat(routingProblem.visits()).containsExactly(visit);
     }
+
+    @Test
+    void should_convert_empty_data_set_correctly() {
+        DataSet emptyDataSet = new DataSet();
+        RoutingProblem routingProblem = toDomain(emptyDataSet);
+        assertThat(routingProblem.name()).isEmpty();
+        assertThat(routingProblem.depot()).isEmpty();
+        assertThat(routingProblem.vehicles()).isEmpty();
+        assertThat(routingProblem.visits()).isEmpty();
+    }
 }

@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.service.demo.dataset;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -118,9 +119,9 @@ public class DataSetMarshaller {
 
     static RoutingProblem toDomain(DataSet dataSet) {
         return new RoutingProblem(
-                dataSet.getName(),
+                Optional.ofNullable(dataSet.getName()).orElse(""),
                 dataSet.getVehicles().stream().map(DataSetMarshaller::toDomain).collect(Collectors.toList()),
-                toDomain(dataSet.getDepot()),
+                Optional.ofNullable(dataSet.getDepot()).map(DataSetMarshaller::toDomain).orElse(null),
                 dataSet.getVisits().stream().map(DataSetMarshaller::toDomain).collect(Collectors.toList())
         );
     }
