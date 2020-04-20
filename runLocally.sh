@@ -32,6 +32,22 @@ function abort() {
 }
 
 function standalone_jar_or_maven() {
+  local -r standalone=optaweb-vehicle-routing-standalone
+
+  # BEGIN: Distribution use case
+  #
+  # We're running a copy of the script in the project root that has been moved to distribution's bin directory during
+  # distribution assembly. The only difference is that the standalone JAR is in the same directory as the script (bin)
+  # and project.version is set using resource filtering during assembly.
+
+  # shellcheck disable=SC2154
+  if [[ ! -f pom.xml && -f ${standalone}-${project.version}.jar ]]
+  then
+    readonly jar=${standalone}-${project.version}.jar
+    return 0
+  fi
+  # END: Distribution use case
+
   echo
   echo "Getting project version..."
 
@@ -53,7 +69,6 @@ The script will grep pom.xml for project version, which is not as reliable as us
 
   echo "Project version: ${version}"
 
-  local -r standalone=optaweb-vehicle-routing-standalone
   readonly jar=${standalone}/target/${standalone}-${version}.jar
 
   if [[ ! -f ${jar} ]]
@@ -76,9 +91,13 @@ function validate() {
 function run_optaweb() {
   declare -a args
   args+=("--app.persistence.h2-dir=$vrp_dir/db")
-  args+=("--app.routing.osm-dir=$osm_dir")
-  args+=("--app.routing.gh-dir=$gh_dir")
-  args+=("--app.routing.osm-file=$osm_file")
+  args+=("--app.routing.engine=$routing_engine")
+  if [[ ${routing_engine} == "graphhopper" ]]
+  then
+    args+=("--app.routing.osm-dir=$osm_dir")
+    args+=("--app.routing.gh-dir=$gh_dir")
+    args+=("--app.routing.osm-file=$osm_file")
+  fi
   # Avoid empty country-codes - that would be an invalid argument.
   if [[ -z ${cc_list} ]]
   then
@@ -137,6 +156,7 @@ function download_menu() {
   local -r url_parent=${url%/*} # remove shortest suffix matching "/*" => http://download.geofabrik.de/north-america/us
   local -r url_html=${url##*/} # index.html, europe.html, etc.
   local -r super_region_file="$cache_geofabrik/$url_html"
+  local -r sub_region_osm_url=$2
 
   # TODO refresh daily
   if [[ ! -f ${super_region_file} || ! -s ${super_region_file} ]]
@@ -157,7 +177,21 @@ function download_menu() {
   readarray -t region_osm_hrefs <<< "$(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
   readarray -t region_sizes <<< "$(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[3]/text()' | sed 's/.*(\(.*\))/\1/')"
 
+
+  # Make the array empty if it contains just 1 empty element.
+  [[ ${#region_names[*]} == 1 && -z ${region_names[0]} ]] && region_names=()
+
   local -r max=$((${#region_names[*]} - 1))
+
+  if [[ ${max} -lt 0 ]]
+  then
+    echo
+    echo "This region has no sub-regions to choose from."
+    echo
+    confirm "Do you want to download $sub_region_osm_url?" && download "$sub_region_osm_url" "$osm_dir/${sub_region_osm_url##*/}"
+    return 0
+  fi
+
   declare answer_region_id
   declare answer_action
 
@@ -200,14 +234,18 @@ function download_menu() {
 
   [[ -z ${answer_region_id} ]] && return 0
 
+  # osm_url is used either to download an OSM in the d) case or to pass it to next download_menu level
+  # to make it possible to download it if there are no sub-regions to choose from in the next step.
+  local -r osm_url=${url_parent}/${region_osm_hrefs[answer_region_id]}
+  local -r sub_region_html_url=${url_parent}/${region_sub_hrefs[answer_region_id]}
+
   case ${answer_action} in
     e)
-      download_menu "$url_parent/${region_sub_hrefs[answer_region_id]}"
+      download_menu "$sub_region_html_url" "$osm_url"
     ;;
     d)
-      local -r osm_url=${url_parent}/${region_osm_hrefs[answer_region_id]}
       # Remove region prefix (e.g. europe/) from href to get the OSM file name.
-      local -r osm_file=${region_osm_hrefs[answer_region_id]##*/}
+      local -r osm_file=${osm_url##*/}
       local -r osm_target=${osm_dir}/${osm_file}
 
       if [[ -f ${osm_target} ]]
@@ -273,12 +311,16 @@ function interactive() {
     echo
     echo "Choose the next step:"
     echo "d:    Download new region."
+    echo "q:    Quit."
     [[ ${max} -ge 0 ]] && echo "0-$max: Select a region and run OptaWeb Vehicle Routing."
 
     echo
     local -l command # -l converts to lower-case
     read -r -p "Your choice: " command
     case "$command" in
+      q)
+        exit 0
+      ;;
       d)
         download_menu "http://download.geofabrik.de/index.html"
         continue
@@ -332,7 +374,7 @@ This script can download it for you from Geofabrik.de."
 # in case the script was called from a different location than the project root.
 cd "$(dirname "$(readlink -f "$0")")"
 
-readonly last_vrp_dir_file=.VRP_DIR_LAST
+readonly last_vrp_dir_file=.DATA_DIR_LAST
 
 if [[ -f ${last_vrp_dir_file} ]]
 then
@@ -343,7 +385,7 @@ fi
 
 if [[ -z ${last_vrp_dir} ]]
 then
-  readonly vrp_dir=$HOME/.vrp
+  readonly vrp_dir=$HOME/.optaweb-vehicle-routing
   echo "There is no last used VRP dir. Using the default."
 else
   readonly vrp_dir=${last_vrp_dir}
@@ -377,10 +419,21 @@ readonly cache_geofabrik=${cache_dir}/geofabrik
 [[ -d ${cc_dir} ]] || mkdir "$cc_dir"
 [[ -d ${cache_geofabrik} ]] || mkdir -p ${cache_geofabrik}
 
+declare routing_engine="graphhopper"
+
 # Getting started (semi-interactive) - use OSM compatible with the built-in data set, download if not present.
 if [[ $# == 0 ]]
 then
   quickstart
+  exit 0
+fi
+
+# Use air mode (no OSM file, no country codes).
+if [[ $1 == "--air" ]]
+then
+  routing_engine="air"
+  standalone_jar_or_maven
+  run_optaweb
   exit 0
 fi
 

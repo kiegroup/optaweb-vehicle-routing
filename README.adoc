@@ -23,7 +23,7 @@ using https://www.optaplanner.org/[OptaPlanner].
 
 == Run the application using a Bash script
 
-If you're on Linux, you can use `runLocally.sh` to start the application on your computer.
+If you're on Linux or macOS, you can use `runLocally.sh` to start the application on your computer.
 
 * Use `runLocally.sh` with no arguments to run with the defaults.
 This will download an OSM file needed to work with the built-in data set.

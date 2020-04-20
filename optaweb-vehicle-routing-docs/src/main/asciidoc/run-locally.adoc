@@ -1,10 +1,11 @@
+[#run-locally-sh]
 = Run the OptaWeb Vehicle Routing using the `runLocally.sh` script
 
-Linux users can use a Bash script called `runLocally.sh` to run OptaWeb Vehicle Routing.
+Linux and macOS users can use a Bash script called `runLocally.sh` to run OptaWeb Vehicle Routing.
 The script automates some setup steps that would otherwise have to be carried out manually.
 The script will:
 
-* Create the VRP directory.
+* Create the data directory.
 * Download selected OSM files from Geofabrik.
 * Try to associate a country code with each downloaded OSM file automatically.
 * Build the project if the standalone JAR file does not exist.
@@ -56,15 +57,29 @@ Use the non-interactive mode to specify an existing region and start OptaWeb Veh
 This is useful for switching between regions quickly or when doing a demo.
 
 .Procedure
-. Run `./runLocally.sh <REGION>`.
+Run `./runLocally.sh <REGION>`.
 
-== Tweak the VRP directory
+== Run OptaWeb Vehicle Routing in air distance mode
 
-* To use a different VRP directory, write its absolute path to the `.VRP_DIR_LAST` file at the project root.
+OptaWeb Vehicle Routing can work in air distance mode that calculates travel times based on the distance between two coordinates.
+Use this mode in situations where you need to get OptaWeb Vehicle Routing up and running as quickly as possible and do not want to use an OSM (OpenStreetMap) file.
+Air distance mode is only useful if you need to smoke-test OptaWeb Vehicle Routing and you do not need accurate travel times.
 
-* To change country codes associated with a region, edit the corresponding file under `_VRP_DIR_/country_codes/`.
+.Procedure
+Run the `runLocally.sh` script with `--air` argument to start OptaWeb Vehicle Routing in air distance mode:
+
+[source,bash]
+----
+./bin/run.sh --air
+----
+
+== Tweak the data directory
+
+* To use a different data directory, write its absolute path to the `.DATA_DIR_LAST` file at the project root.
+
+* To change country codes associated with a region, edit the corresponding file under `_DATA_DIR_/country_codes/`.
 +
 For example, you could have downloaded an OSM file for Scotland, for which the script fails to guess the country code.
-In this case, set the content of `_VRP_DIR_/country_codes/scotland-latest` to `GB`.
+In this case, set the content of `_DATA_DIR_/country_codes/scotland-latest` to `GB`.
 
-* To remove a region, delete the corresponding OSM file from `_VRP_DIR_/openstreetmap/` and GraphHopper directory from `_VRP_DIR_/graphhopper/`.
+* To remove a region, delete the corresponding OSM file from `_DATA_DIR_/openstreetmap/` and GraphHopper directory from `_DATA_DIR_/graphhopper/`.

@@ -1,0 +1,75 @@
+[#run-noscript]
+= Run OptaWeb Vehicle Routing without the script
+
+include::attributes.adoc[]
+
+Use this section if you cannot use <<run-locally-sh,runLocally.sh>> to run OptaWeb Vehicle Routing because Bash is not available on your system.
+
+== Download routing data
+
+The routing engine requires geographical data to calculate the time it takes vehicles to travel between locations.
+You must download and store OSM (OpenStreetMap) data files on the local file system before you run OptaWeb Vehicle Routing.
+
+NOTE: The OSM data files are typically between 100 MB to 1 GB and take time to download so it is a good idea to download the files before building or starting the OptaWeb Vehicle Routing application.
+
+.Procedure
+. Open http://download.geofabrik.de/ in a web browser.
+. Click a region in the *Sub Region* list, for example *Europe*.
+The sub region's page opens.
+. In the *Sub Regions* table, download the OSM file (`.osm.pbf`) for a country, for example Belgium.
+
+== Create the OptaWeb Vehicle Routing data directory structure
+
+OptaWeb Vehicle Routing reads and writes several types of data on the file system.
+It reads OSM (OpenStreetMap) files from the `openstreetmap` directory, writes a road network graph to the `graphhopper` directory, and persists user data in a directory called `db`.
+Create a new directory dedicated to storing all of these data to make it easier to upgrade to a newer version of OptaWeb Vehicle Routing in the future and continue working with the data you created previously.
+
+.Procedure
+. Create the `openstreetmap` directory in your user account `home` directory, for example:
++
+[source,subs="attributes+"]
+----
+$HOME/{data-dir-name}
+└── openstreetmap
+----
+
+. Move all of your downloaded OSM files (files with the extension `.osm.pbf`) to the `openstreetmap` directory.
+
+The rest of the directory structure will be created by the OptaWeb Vehicle Routing application when it runs for the first time.
+After that, your directory structure will look similar to the following example:
+
+// TODO maybe replace this with a screenshot, doesn't look good in PDF.
+[source,subs="attributes+"]
+----
+$HOME/{data-dir-name}
+├── db
+│   └── vrp.mv.db
+├── graphhopper
+│   └── belgium-latest
+└── openstreetmap
+    └── belgium-latest.osm.pbf
+----
+
+== Run OptaWeb Vehicle Routing using the `java` command
+
+.Prerequisites
+* Internet access is available.
+When OptaWeb Vehicle Routing runs it uses third-party public services such as link:https://www.openstreetmap.org/about[OpenStreetMap] to display map tiles and provide search results.
+* Java 8 or higher is installed.
+* The data directory is created at `$HOME/{data-dir-name}`.
+* A subdirectory called `openstreetmap` with at least one OSM file exists.
+* A country code to use in search queries is identified.
+
+.Procedure
+
+Enter the following command.
+
+[source,subs="attributes+"]
+----
+java -jar optaweb-vehicle-routing-standalone-{revnumber}.jar \
+--app.persistence.h2-dir=$HOME/{data-dir-name}/db \
+--app.routing.gh-dir=$HOME/{data-dir-name}/graphhopper
+--app.routing.osm-dir=$HOME/{data-dir-name}/openstreetmap \
+--app.routing.osm-file=belgium-latest.osm.pbf \
+--app.region.country-codes=BE
+----
