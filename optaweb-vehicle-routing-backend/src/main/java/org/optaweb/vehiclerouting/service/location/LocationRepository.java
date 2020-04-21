@@ -43,7 +43,7 @@ public interface LocationRepository {
 
     /**
      * Remove location.
-     * @param id location's id
+     * @param id location ID
      * @return the removed location
      */
     Location removeLocation(long id);
@@ -53,5 +53,10 @@ public interface LocationRepository {
      */
     void removeAll();
 
+    /**
+     * Find location by its ID.
+     * @param locationId location ID
+     * @return an Optional containing location with the given ID or empty Optional if there is no location with such ID
+     */
     Optional<Location> find(long locationId);
 }

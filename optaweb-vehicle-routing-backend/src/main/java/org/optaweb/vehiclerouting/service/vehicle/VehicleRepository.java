@@ -49,7 +49,7 @@ public interface VehicleRepository {
 
     /**
      * Remove vehicle.
-     * @param id vehicle's id
+     * @param id vehicle ID
      * @return the removed vehicle
      */
     Vehicle removeVehicle(long id);
@@ -59,6 +59,11 @@ public interface VehicleRepository {
      */
     void removeAll();
 
+    /**
+     * Find vehicle by its ID.
+     * @param vehicleId vehicle ID
+     * @return an Optional containing vehicle with the given ID or empty Optional if there is no vehicle with such ID
+     */
     Optional<Vehicle> find(long vehicleId);
 
     void update(Vehicle vehicle);

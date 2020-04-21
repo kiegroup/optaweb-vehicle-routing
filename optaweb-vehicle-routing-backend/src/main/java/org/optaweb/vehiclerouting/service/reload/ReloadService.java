@@ -25,6 +25,9 @@ import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+/**
+ * Reloads data from repositories when the application starts.
+ */
 @Service
 public class ReloadService {
 
