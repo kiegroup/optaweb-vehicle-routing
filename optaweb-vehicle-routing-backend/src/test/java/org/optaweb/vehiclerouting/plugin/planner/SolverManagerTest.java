@@ -36,6 +36,7 @@ import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.springframework.core.task.AsyncTaskExecutor;
 
@@ -100,7 +101,7 @@ class SolverManagerTest {
 
     @Test
     void publish_new_best_solution_if_all_fact_changes_processed() {
-        VehicleRoutingSolution solution = new VehicleRoutingSolution();
+        VehicleRoutingSolution solution = SolutionFactory.emptySolution();
         when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
 

@@ -42,11 +42,11 @@ public class PlanningLocation {
     }
 
     /**
-     * Get distance to the given location.
+     * Distance to the given location.
      * @param location other location
      * @return distance to the other location
      */
-    public long getDistanceTo(PlanningLocation location) {
+    public long distanceTo(PlanningLocation location) {
         if (this == location) {
             return 0L;
         }
@@ -54,11 +54,11 @@ public class PlanningLocation {
     }
 
     /**
-     * The angle relative to the direction EAST.
-     * @param location never null
-     * @return in Cartesian coordinates
+     * Angle between the given location and the direction EAST with {@code this} location being the vertex.
+     * @param location location that forms one side of the angle (not null)
+     * @return angle in radians in the range of -π to π
      */
-    public double getAngle(PlanningLocation location) {
+    public double angleTo(PlanningLocation location) {
         // Euclidean distance (Pythagorean theorem) - not correct when the surface is a sphere
         double latitudeDifference = location.latitude - latitude;
         double longitudeDifference = location.longitude - longitude;

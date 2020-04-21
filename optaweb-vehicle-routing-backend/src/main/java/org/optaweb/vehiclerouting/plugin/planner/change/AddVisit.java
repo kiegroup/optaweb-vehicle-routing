@@ -33,10 +33,8 @@ public class AddVisit implements ProblemFactChange<VehicleRoutingSolution> {
 
     @Override
     public void doChange(ScoreDirector<VehicleRoutingSolution> scoreDirector) {
-        VehicleRoutingSolution workingSolution = scoreDirector.getWorkingSolution();
-
         scoreDirector.beforeEntityAdded(visit);
-        workingSolution.getVisitList().add(visit);
+        scoreDirector.getWorkingSolution().getVisitList().add(visit);
         scoreDirector.afterEntityAdded(visit);
 
         scoreDirector.triggerVariableListeners();

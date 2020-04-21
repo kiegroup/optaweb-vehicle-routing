@@ -201,8 +201,7 @@ class RouteOptimizerImplTest {
 
         VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
         assertThat(solution.getDepotList()).hasSize(1);
-        assertThat(solution.getDepotList().get(0).getLocation().getDistanceTo(fromDomain(location2)))
-                .isEqualTo(millis);
+        assertThat(solution.getDepotList().get(0).getLocation().distanceTo(fromDomain(location2))).isEqualTo(millis);
     }
 
     @Test
