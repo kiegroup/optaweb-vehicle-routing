@@ -33,7 +33,7 @@ public class VehicleEntity {
     private String name;
     private int capacity;
 
-    public VehicleEntity() {
+    protected VehicleEntity() {
         // for JPA
     }
 

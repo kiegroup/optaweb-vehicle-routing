@@ -43,7 +43,7 @@ class LocationEntity {
 
     private String description;
 
-    private LocationEntity() {
+    protected LocationEntity() {
         // for JPA
     }
 

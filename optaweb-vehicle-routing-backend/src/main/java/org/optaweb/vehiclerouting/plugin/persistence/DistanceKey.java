@@ -31,7 +31,7 @@ class DistanceKey implements Serializable {
     private Long fromId;
     private Long toId;
 
-    private DistanceKey() {
+    protected DistanceKey() {
         // for JPA
     }
 
@@ -44,8 +44,16 @@ class DistanceKey implements Serializable {
         return fromId;
     }
 
+    void setFromId(Long fromId) {
+        this.fromId = fromId;
+    }
+
     Long getToId() {
         return toId;
+    }
+
+    void setToId(Long toId) {
+        this.toId = toId;
     }
 
     @Override
