@@ -25,6 +25,7 @@ import java.util.List;
 class DataSet {
 
     private String name;
+    private List<DataSetVehicle> vehicles = new ArrayList<>();
     private DataSetLocation depot;
     private List<DataSetLocation> visits = new ArrayList<>();
 
@@ -34,6 +35,18 @@ class DataSet {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * Vehicles.
+     * @return vehicles
+     */
+    public List<DataSetVehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public void setVehicles(List<DataSetVehicle> vehicles) {
+        this.vehicles = vehicles;
     }
 
     public void setName(String name) {

@@ -14,19 +14,13 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.location;
+package org.optaweb.vehiclerouting.plugin.persistence;
 
-import org.optaweb.vehiclerouting.domain.Distance;
+import org.springframework.data.repository.CrudRepository;
 
 /**
- * Contains {@link Distance distances} from the location associated with this row to other locations.
+ * Vehicle repository.
  */
-public interface DistanceMatrixRow {
+public interface VehicleCrudRepository extends CrudRepository<VehicleEntity, Long> {
 
-    /**
-     * Distance from this row's location to the given location.
-     * @param locationId target location
-     * @return time it takes to travel to the given location
-     */
-    Distance distanceTo(long locationId);
 }

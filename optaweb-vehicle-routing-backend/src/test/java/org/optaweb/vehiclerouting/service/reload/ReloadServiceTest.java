@@ -26,12 +26,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.location.LocationService;
+import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 import org.springframework.boot.context.event.ApplicationStartedEvent;
 
-import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -39,6 +41,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ReloadServiceTest {
 
+    @Mock
+    private VehicleRepository vehicleRepository;
     @Mock
     private VehicleService vehicleService;
     @Mock
@@ -51,17 +55,21 @@ class ReloadServiceTest {
     @Mock
     ApplicationStartedEvent event;
 
+    private final Vehicle vehicle = VehicleFactory.createVehicle(193, "Vehicle 193", 100);
+    private final List<Vehicle> persistedVehicles = Arrays.asList(vehicle, vehicle);
     private final Coordinates coordinates = Coordinates.valueOf(0.0, 1.0);
     private final Location location = new Location(1, coordinates);
     private final List<Location> persistedLocations = Arrays.asList(location, location, location);
 
     @Test
     void should_reload_on_startup() {
+        when(vehicleRepository.vehicles()).thenReturn(persistedVehicles);
         when(locationRepository.locations()).thenReturn(persistedLocations);
 
         reloadService.reload(event);
 
-        verify(vehicleService, atLeastOnce()).addVehicle();
+        verify(vehicleRepository).vehicles();
+        verify(vehicleService, times(persistedVehicles.size())).addVehicle(vehicle);
         verify(locationRepository).locations();
         verify(locationService, times(persistedLocations.size())).addLocation(location);
     }

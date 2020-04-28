@@ -37,27 +37,27 @@ import java.util.stream.Stream;
 public class ShallowRoute {
 
     /**
-     * Vehicle ID (never {@code null}).
+     * Vehicle ID.
      */
-    public final Long vehicleId;
+    public final long vehicleId;
     /**
-     * Depot ID (never {@code null}).
+     * Depot ID.
      */
-    public final Long depotId;
+    public final long depotId;
     /**
-     * Visit IDs (immutable).
+     * Visit IDs (immutable, never {@code null}).
      */
     public final List<Long> visitIds;
 
     /**
      * Create shallow route.
-     * @param vehicleId vehicle ID (never {@code null})
-     * @param depotId depot ID (never {@code null})
+     * @param vehicleId vehicle ID
+     * @param depotId depot ID
      * @param visitIds visit IDs
      */
-    public ShallowRoute(Long vehicleId, Long depotId, List<Long> visitIds) {
-        this.vehicleId = Objects.requireNonNull(vehicleId);
-        this.depotId = Objects.requireNonNull(depotId);
+    public ShallowRoute(long vehicleId, long depotId, List<Long> visitIds) {
+        this.vehicleId = vehicleId;
+        this.depotId = depotId;
         this.visitIds = Collections.unmodifiableList(new ArrayList<>(Objects.requireNonNull(visitIds)));
     }
 

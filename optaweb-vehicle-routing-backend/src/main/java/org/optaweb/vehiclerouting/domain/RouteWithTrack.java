@@ -32,7 +32,7 @@ public class RouteWithTrack extends Route {
     /**
      * Create a route with track. When route is empty (no visits), track must be empty too and vice-versa
      * (non-empty route must have a non-empty track).
-     * @param route vehicle route (not null)
+     * @param route vehicle's route (not null)
      * @param track track going through all visits (not null)
      */
     public RouteWithTrack(Route route, List<List<Coordinates>> track) {
@@ -45,7 +45,7 @@ public class RouteWithTrack extends Route {
 
     /**
      * Vehicle's track that goes from vehicle's depot through all visits and returns to the depot.
-     * @return vehicles track (not null)
+     * @return vehicle's track (not null)
      */
     public List<List<Coordinates>> track() {
         return Collections.unmodifiableList(track);

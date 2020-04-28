@@ -16,9 +16,11 @@
 
 package org.optaweb.vehiclerouting.service.vehicle;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleData;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +40,18 @@ public class VehicleService {
         this.vehicleRepository = vehicleRepository;
     }
 
-    public void addVehicle() {
-        long id = vehicleRepository.nextId();
-        Vehicle vehicle = vehicleRepository.createVehicle("Vehicle " + id, DEFAULT_VEHICLE_CAPACITY);
-        optimizer.addVehicle(vehicle);
+    public void createVehicle() {
+        Vehicle vehicle = vehicleRepository.createVehicle(DEFAULT_VEHICLE_CAPACITY);
+        addVehicle(vehicle);
+    }
+
+    public void createVehicle(VehicleData vehicleData) {
+        Vehicle vehicle = vehicleRepository.createVehicle(vehicleData);
+        addVehicle(vehicle);
+    }
+
+    public void addVehicle(Vehicle vehicle) {
+        optimizer.addVehicle(Objects.requireNonNull(vehicle));
     }
 
     public void removeVehicle(long vehicleId) {
@@ -62,7 +72,7 @@ public class VehicleService {
         vehicleRepository.removeAll();
     }
 
-    public void changeCapacity(Long vehicleId, int capacity) {
+    public void changeCapacity(long vehicleId, int capacity) {
         Vehicle vehicle = vehicleRepository.find(vehicleId).orElseThrow(() -> new IllegalArgumentException(
                 "Can't remove Vehicle{id=" + vehicleId + "} because it doesn't exist"
         ));

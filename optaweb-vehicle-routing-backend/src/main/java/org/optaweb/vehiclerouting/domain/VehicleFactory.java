@@ -26,7 +26,17 @@ public class VehicleFactory {
     }
 
     /**
-     * Create a new vehicle with give id, name and capacity.
+     * Create vehicle data.
+     * @param name vehicle's name
+     * @param capacity vehicle's capacity
+     * @return vehicle data
+     */
+    public static VehicleData vehicleData(String name, int capacity) {
+        return new VehicleData(name, capacity);
+    }
+
+    /**
+     * Create a new vehicle with the given ID, name and capacity.
      * @param id vehicle's ID
      * @param name vehicle's name
      * @param capacity vehicle's capacity

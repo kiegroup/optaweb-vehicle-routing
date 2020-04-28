@@ -32,7 +32,7 @@ class DistanceEntity {
 
     private Long distance;
 
-    private DistanceEntity() {
+    protected DistanceEntity() {
         // for JPA
     }
 

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Vehicle;
+import org.optaweb.vehiclerouting.domain.VehicleData;
 
 /**
  * Defines repository operations on vehicles.
@@ -28,11 +29,17 @@ public interface VehicleRepository {
 
     /**
      * Create a vehicle with a unique ID.
-     * @param name vehicle name
      * @param capacity vehicle's capacity
      * @return a new vehicle
      */
-    Vehicle createVehicle(String name, int capacity);
+    Vehicle createVehicle(int capacity);
+
+    /**
+     * Create a vehicle from the given data.
+     * @param vehicleData vehicle data
+     * @return a new vehicle
+     */
+    Vehicle createVehicle(VehicleData vehicleData);
 
     /**
      * Get all vehicles.
@@ -41,8 +48,8 @@ public interface VehicleRepository {
     List<Vehicle> vehicles();
 
     /**
-     * Remove vehicle.
-     * @param id vehicle's id
+     * Remove a vehicle with the given ID.
+     * @param id vehicle's ID
      * @return the removed vehicle
      */
     Vehicle removeVehicle(long id);
@@ -52,13 +59,12 @@ public interface VehicleRepository {
      */
     void removeAll();
 
-    Optional<Vehicle> find(Long vehicleId);
-
     /**
-     * Temporary hack needed for vehicle name auto-generation.
-     * @return unique ID that will be used for the next new vehicle.
+     * Find a vehicle by its ID.
+     * @param vehicleId vehicle's ID
+     * @return an Optional containing vehicle with the given ID or empty Optional if there is no vehicle with such ID
      */
-    long nextId();
+    Optional<Vehicle> find(long vehicleId);
 
     void update(Vehicle vehicle);
 }

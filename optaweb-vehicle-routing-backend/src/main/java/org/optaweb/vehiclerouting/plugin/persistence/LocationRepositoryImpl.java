@@ -75,7 +75,7 @@ class LocationRepositoryImpl implements LocationRepository {
     }
 
     @Override
-    public Optional<Location> find(Long locationId) {
+    public Optional<Location> find(long locationId) {
         return repository.findById(locationId).map(LocationRepositoryImpl::toDomain);
     }
 

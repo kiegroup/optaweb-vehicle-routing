@@ -27,17 +27,25 @@ import java.util.Optional;
 public class RoutingProblem {
 
     private final String name;
+    private final List<VehicleData> vehicles;
     private final LocationData depot;
     private final List<LocationData> visits;
 
     /**
      * Create routing problem instance.
      * @param name the instance name
+     * @param vehicles list of vehicles (not null)
      * @param depot the depot (may be {@code null} if there is no depot)
-     * @param visits the visits (must not be {@code null})
+     * @param visits list of visits (not null)
      */
-    public RoutingProblem(String name, LocationData depot, List<? extends LocationData> visits) {
+    public RoutingProblem(
+            String name,
+            List<? extends VehicleData> vehicles,
+            LocationData depot,
+            List<? extends LocationData> visits
+    ) {
         this.name = Objects.requireNonNull(name);
+        this.vehicles = new ArrayList<>(Objects.requireNonNull(vehicles));
         this.depot = depot;
         this.visits = new ArrayList<>(Objects.requireNonNull(visits));
     }
@@ -64,5 +72,13 @@ public class RoutingProblem {
      */
     public List<LocationData> visits() {
         return visits;
+    }
+
+    /**
+     * Vehicles that are part of the problem definition.
+     * @return vehicles
+     */
+    public List<VehicleData> vehicles() {
+        return vehicles;
     }
 }

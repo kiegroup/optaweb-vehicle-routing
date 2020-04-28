@@ -14,19 +14,24 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.location;
+package org.optaweb.vehiclerouting.service.demo.dataset;
 
-import org.optaweb.vehiclerouting.domain.Distance;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Contains {@link Distance distances} from the location associated with this row to other locations.
+ * Data set vehicle.
  */
-public interface DistanceMatrixRow {
+public class DataSetVehicle {
 
-    /**
-     * Distance from this row's location to the given location.
-     * @param locationId target location
-     * @return time it takes to travel to the given location
-     */
-    Distance distanceTo(long locationId);
+    @JsonProperty
+    final String name;
+    @JsonProperty
+    final int capacity;
+
+    @JsonCreator
+    public DataSetVehicle(@JsonProperty("name") String name, @JsonProperty("capacity") int capacity) {
+        this.name = name;
+        this.capacity = capacity;
+    }
 }

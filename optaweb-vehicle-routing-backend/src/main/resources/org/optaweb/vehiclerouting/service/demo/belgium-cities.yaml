@@ -1,5 +1,18 @@
 ---
 name: "Belgium cities"
+vehicles:
+  - name: "Vehicle 1"
+    capacity: 10
+  - name: "Vehicle 2"
+    capacity: 10
+  - name: "Vehicle 3"
+    capacity: 10
+  - name: "Vehicle 4"
+    capacity: 10
+  - name: "Vehicle 5"
+    capacity: 10
+  - name: "Vehicle 6"
+    capacity: 10
 depot:
   label: "Brussels"
   lat: 50.85

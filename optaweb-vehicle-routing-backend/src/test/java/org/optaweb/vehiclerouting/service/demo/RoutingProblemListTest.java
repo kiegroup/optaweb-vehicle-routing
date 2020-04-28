@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
+import org.optaweb.vehiclerouting.domain.VehicleData;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -38,13 +39,14 @@ class RoutingProblemListTest {
 
     @Test
     void all_by_name_should_return_expected_problems() {
+        List<VehicleData> vehicles = Collections.emptyList();
         Location depot = new Location(0, Coordinates.valueOf(10, -20));
         List<Location> visits = Collections.emptyList();
         String name1 = "Problem A";
         String name2 = "Problem B";
         RoutingProblemList routingProblemList = new RoutingProblemList(Arrays.asList(
-                new RoutingProblem(name1, depot, visits),
-                new RoutingProblem(name2, depot, visits)
+                new RoutingProblem(name1, vehicles, depot, visits),
+                new RoutingProblem(name2, vehicles, depot, visits)
         ));
 
         assertThat(routingProblemList.all()).extracting("name").containsExactlyInAnyOrder(name1, name2);
