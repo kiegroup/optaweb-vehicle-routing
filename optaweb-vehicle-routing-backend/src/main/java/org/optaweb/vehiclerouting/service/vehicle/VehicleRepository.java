@@ -28,14 +28,14 @@ import org.optaweb.vehiclerouting.domain.VehicleData;
 public interface VehicleRepository {
 
     /**
-     * Create vehicle with a unique ID.
+     * Create a vehicle with a unique ID.
      * @param capacity vehicle's capacity
      * @return a new vehicle
      */
     Vehicle createVehicle(int capacity);
 
     /**
-     * Create vehicle from the given data.
+     * Create a vehicle from the given data.
      * @param vehicleData vehicle data
      * @return a new vehicle
      */
@@ -48,8 +48,8 @@ public interface VehicleRepository {
     List<Vehicle> vehicles();
 
     /**
-     * Remove vehicle.
-     * @param id vehicle ID
+     * Remove a vehicle with the given ID.
+     * @param id vehicle's ID
      * @return the removed vehicle
      */
     Vehicle removeVehicle(long id);
@@ -60,8 +60,8 @@ public interface VehicleRepository {
     void removeAll();
 
     /**
-     * Find vehicle by its ID.
-     * @param vehicleId vehicle ID
+     * Find a vehicle by its ID.
+     * @param vehicleId vehicle's ID
      * @return an Optional containing vehicle with the given ID or empty Optional if there is no vehicle with such ID
      */
     Optional<Vehicle> find(long vehicleId);
