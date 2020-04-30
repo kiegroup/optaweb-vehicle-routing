@@ -44,7 +44,6 @@ import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
 import static org.optaweb.vehiclerouting.domain.VehicleFactory.createVehicle;
 import static org.optaweb.vehiclerouting.domain.VehicleFactory.testVehicle;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.fromDomain;
@@ -52,6 +51,7 @@ import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationF
 @ExtendWith(MockitoExtension.class)
 class RouteOptimizerImplTest {
 
+    private final DistanceMatrixRow matrixRow = locationId -> Distance.ZERO;
     private final Location location1 = new Location(1, Coordinates.valueOf(1.0, 0.1));
     private final Location location2 = new Location(2, Coordinates.valueOf(0.2, 2.2));
     private final Location location3 = new Location(3, Coordinates.valueOf(3.4, 5.6));
@@ -60,8 +60,6 @@ class RouteOptimizerImplTest {
     private ArgumentCaptor<VehicleRoutingSolution> solutionArgumentCaptor;
     @Captor
     private ArgumentCaptor<PlanningVehicle> vehicleArgumentCaptor;
-    @Mock
-    private DistanceMatrixRow matrixRow;
 
     @Mock
     private SolverManager solverManager;
@@ -196,8 +194,7 @@ class RouteOptimizerImplTest {
     @Test
     void each_location_should_have_a_distance_map_after_it_is_added() {
         long millis = 8079;
-        when(matrixRow.distanceTo(location2.id())).thenReturn(Distance.ofMillis(millis));
-        routeOptimizer.addLocation(location1, matrixRow);
+        routeOptimizer.addLocation(location1, locationId -> Distance.ofMillis(millis));
 
         VehicleRoutingSolution solution = verifyPublishingPreliminarySolution();
         assertThat(solution.getDepotList()).hasSize(1);
