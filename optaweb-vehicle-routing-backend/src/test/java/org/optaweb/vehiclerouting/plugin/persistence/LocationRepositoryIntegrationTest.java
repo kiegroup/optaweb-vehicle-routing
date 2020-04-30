@@ -52,10 +52,10 @@ class LocationRepositoryIntegrationTest {
         final BigDecimal minLongitude = maxLongitude.negate();
         final String description = "...";
 
-        LocationEntity minLocation = new LocationEntity(minLatitude, minLongitude, description);
-        LocationEntity maxLocation = new LocationEntity(maxLatitude, maxLongitude, description);
-        crudRepository.save(minLocation);
-        crudRepository.save(maxLocation);
+        LocationEntity minLocation = new LocationEntity(0, minLatitude, minLongitude, description);
+        LocationEntity maxLocation = new LocationEntity(0, maxLatitude, maxLongitude, description);
+        assertThat(crudRepository.save(minLocation).getId()).isNotZero();
+        assertThat(crudRepository.save(maxLocation).getId()).isNotZero();
 
         assertThat(crudRepository.findById(minLocation.getId())).get().isEqualTo(minLocation);
         assertThat(crudRepository.findById(maxLocation.getId())).get().isEqualTo(maxLocation);

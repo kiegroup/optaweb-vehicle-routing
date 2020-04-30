@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -33,7 +32,6 @@ import org.optaweb.vehiclerouting.domain.Location;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -47,33 +45,27 @@ class LocationRepositoryImplTest {
     @Captor
     private ArgumentCaptor<LocationEntity> locationEntityCaptor;
 
-    private Location testLocation() {
-        final long id = 76;
-        final BigDecimal latitude = BigDecimal.valueOf(1.2);
-        final BigDecimal longitude = BigDecimal.valueOf(3.4);
-        final String description = "description";
-        return new Location(id, new Coordinates(latitude, longitude), description);
-    }
+    private final Location testLocation = new Location(76, Coordinates.valueOf(1.2, 3.4), "description");
 
-    LocationEntity mockLocationEntity(Location location) {
-        LocationEntity locationEntity = mock(LocationEntity.class);
-        when(locationEntity.getId()).thenReturn(location.id());
-        when(locationEntity.getLatitude()).thenReturn(location.coordinates().latitude());
-        when(locationEntity.getLongitude()).thenReturn(location.coordinates().longitude());
-        when(locationEntity.getDescription()).thenReturn(location.description());
-        return locationEntity;
+    private static LocationEntity locationEntity(Location location) {
+        return new LocationEntity(
+                location.id(),
+                location.coordinates().latitude(),
+                location.coordinates().longitude(),
+                location.description()
+        );
     }
 
     @Test
     void should_create_location_and_generate_id() {
         // arrange
-        LocationEntity locationEntity = mockLocationEntity(testLocation());
-        when(crudRepository.save(locationEntityCaptor.capture())).thenReturn(locationEntity);
+        LocationEntity newEntity = locationEntity(testLocation);
+        when(crudRepository.save(locationEntityCaptor.capture())).thenReturn(newEntity);
         Coordinates savedCoordinates = Coordinates.valueOf(0.00213, 32.777);
         String savedDescription = "new location";
 
         // act
-        Location createdLocation = repository.createLocation(savedCoordinates, savedDescription);
+        Location newLocation = repository.createLocation(savedCoordinates, savedDescription);
 
         // assert
         // -- the correct values were used to save the entity
@@ -86,16 +78,15 @@ class LocationRepositoryImplTest {
         // This may be confusing but that's the contract of Spring Repository API.
         // The entity instance that is being saved is meant to be discarded. The returned instance should be used
         // for further operations as the save() operation may update it (for example generate the ID).
-        assertThat(createdLocation.id()).isEqualTo(locationEntity.getId());
-        assertThat(createdLocation.coordinates())
-                .isEqualTo(new Coordinates(locationEntity.getLatitude(), locationEntity.getLongitude()));
-        assertThat(createdLocation.description()).isEqualTo(locationEntity.getDescription());
+        assertThat(newLocation.id()).isEqualTo(newEntity.getId());
+        assertThat(newLocation.coordinates())
+                .isEqualTo(new Coordinates(newEntity.getLatitude(), newEntity.getLongitude()));
+        assertThat(newLocation.description()).isEqualTo(newEntity.getDescription());
     }
 
     @Test
     void remove_created_location_by_id() {
-        Location testLocation = testLocation();
-        LocationEntity locationEntity = mockLocationEntity(testLocation);
+        LocationEntity locationEntity = locationEntity(testLocation);
         final long id = testLocation.id();
         when(crudRepository.findById(id)).thenReturn(Optional.of(locationEntity));
 
@@ -123,16 +114,14 @@ class LocationRepositoryImplTest {
 
     @Test
     void get_all_locations() {
-        Location testLocation = testLocation();
-        LocationEntity locationEntity = mockLocationEntity(testLocation);
+        LocationEntity locationEntity = locationEntity(testLocation);
         when(crudRepository.findAll()).thenReturn(Collections.singletonList(locationEntity));
         assertThat(repository.locations()).containsExactly(testLocation);
     }
 
     @Test
     void find_by_id() {
-        Location testLocation = testLocation();
-        LocationEntity locationEntity = mockLocationEntity(testLocation);
+        LocationEntity locationEntity = locationEntity(testLocation);
         when(crudRepository.findById(testLocation.id())).thenReturn(Optional.of(locationEntity));
         assertThat(repository.find(testLocation.id())).contains(testLocation);
     }

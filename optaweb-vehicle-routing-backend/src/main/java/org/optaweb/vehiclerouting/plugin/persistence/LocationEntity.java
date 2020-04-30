@@ -47,7 +47,8 @@ class LocationEntity {
         // for JPA
     }
 
-    LocationEntity(BigDecimal latitude, BigDecimal longitude, String description) {
+    LocationEntity(long id, BigDecimal latitude, BigDecimal longitude, String description) {
+        this.id = id;
         this.latitude = Objects.requireNonNull(latitude);
         this.longitude = Objects.requireNonNull(longitude);
         this.description = Objects.requireNonNull(description);

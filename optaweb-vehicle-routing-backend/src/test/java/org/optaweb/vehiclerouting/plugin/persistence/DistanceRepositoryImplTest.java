@@ -42,8 +42,6 @@ class DistanceRepositoryImplTest {
     private DistanceRepositoryImpl repository;
     @Captor
     private ArgumentCaptor<DistanceEntity> distanceEntityArgumentCaptor;
-    @Mock
-    private DistanceEntity distanceEntity;
 
     private final Location from = new Location(1, Coordinates.valueOf(7, -4.0));
     private final Location to = new Location(2, Coordinates.valueOf(5, 9.0));
@@ -62,9 +60,9 @@ class DistanceRepositoryImplTest {
     @Test
     void should_return_distance_when_entity_is_found() {
         DistanceKey distanceKey = new DistanceKey(from.id(), to.id());
+        long distance = 10305;
+        DistanceEntity distanceEntity = new DistanceEntity(distanceKey, distance);
         when(crudRepository.findById(distanceKey)).thenReturn(Optional.of(distanceEntity));
-        final long distance = 10305;
-        when(distanceEntity.getDistance()).thenReturn(distance);
         assertThat(repository.getDistance(from, to)).isEqualTo(distance);
     }
 
