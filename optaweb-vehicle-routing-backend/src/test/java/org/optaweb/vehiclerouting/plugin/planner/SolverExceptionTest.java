@@ -26,13 +26,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
+import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
+import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.springframework.core.task.AsyncTaskExecutor;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,13 +57,16 @@ class SolverExceptionTest {
         when(executor.submit(any(SolverManager.SolvingTask.class))).thenReturn(task);
         // Run it synchronously (otherwise the test would be unreliable!)
         task.run();
-        solverManager.startSolver(mock(VehicleRoutingSolution.class));
+        solverManager.startSolver(SolutionFactory.emptySolution());
+
+        PlanningVisit planningVisit = PlanningVisitFactory.testVisit(1);
+        PlanningVehicle planningVehicle = PlanningVehicleFactory.testVehicle(1);
 
         // act & assert
-        assertTestExceptionThrownDuringOperation(() -> solverManager.addVisit(mock(PlanningVisit.class)));
-        assertTestExceptionThrownDuringOperation(() -> solverManager.removeVisit(mock(PlanningVisit.class)));
-        assertTestExceptionThrownDuringOperation(() -> solverManager.addVehicle(mock(PlanningVehicle.class)));
-        assertTestExceptionThrownDuringOperation(() -> solverManager.removeVehicle(mock(PlanningVehicle.class)));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.addVisit(planningVisit));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.removeVisit(planningVisit));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.addVehicle(planningVehicle));
+        assertTestExceptionThrownDuringOperation(() -> solverManager.removeVehicle(planningVehicle));
 
         assertTestExceptionThrownWhenStoppingSolver(solverManager);
     }
