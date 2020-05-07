@@ -39,7 +39,7 @@ export const DemoDropdown: React.FC<Props> = ({ demos, onSelect }) => {
       dropdownItems={dropdownItems(demos)}
       onSelect={(e) => {
         setOpen(false);
-        onSelect(e.currentTarget.innerText);
+        onSelect((e && e.currentTarget && e.currentTarget.innerText) || '');
       }}
       toggle={(
         <DropdownToggle
