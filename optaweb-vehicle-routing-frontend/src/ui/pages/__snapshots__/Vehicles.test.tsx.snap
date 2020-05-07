@@ -3,8 +3,6 @@
 exports[`Vehicles page should render correctly 1`] = `
 <Fragment>
   <Split
-    className=""
-    component="div"
     gutter="md"
     style={
       Object {
@@ -13,7 +11,6 @@ exports[`Vehicles page should render correctly 1`] = `
     }
   >
     <SplitItem
-      className=""
       isFilled={true}
     >
       <TextContent>
@@ -25,10 +22,9 @@ exports[`Vehicles page should render correctly 1`] = `
       </TextContent>
     </SplitItem>
     <SplitItem
-      className=""
       isFilled={false}
     >
-      <Button
+      <Component
         onClick={[MockFunction]}
         style={
           Object {
@@ -38,7 +34,7 @@ exports[`Vehicles page should render correctly 1`] = `
         }
       >
         Add
-      </Button>
+      </Component>
     </SplitItem>
   </Split>
   <div
@@ -50,7 +46,6 @@ exports[`Vehicles page should render correctly 1`] = `
   >
     <DataList
       aria-label="List of vehicles"
-      className=""
     >
       <Vehicle
         capacity={5}

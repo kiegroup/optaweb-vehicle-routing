@@ -2,61 +2,32 @@
 
 exports[`Toolbar component should match snapshot 1`] = `
 <Toolbar
-  className={null}
   style={
     Object {
       "display": "none",
     }
   }
 >
-  <ToolbarGroup
-    className={null}
-  >
-    <ToolbarItem
-      className={null}
-    >
+  <ToolbarGroup>
+    <ToolbarItem>
       <Dropdown
-        className=""
-        direction="down"
         dropdownItems={
           Array [
-            <Item
-              className=""
-              component="a"
-              href="#"
-              isDisabled={false}
-              isHovered={false}
-            >
+            <DropdownItem>
               ACMEE Corp
-            </Item>,
-            <Item
-              className=""
-              component="a"
-              href="#"
-              isDisabled={false}
-              isHovered={false}
-            >
+            </DropdownItem>,
+            <DropdownItem>
               Wayne Ent.
-            </Item>,
+            </DropdownItem>,
           ]
         }
-        isGrouped={false}
         isOpen={false}
         isPlain={true}
         onSelect={[Function]}
         position="right"
         toggle={
           <DropdownToggle
-            className=""
-            iconComponent={[Function]}
-            id=""
-            isActive={false}
-            isFocused={false}
-            isHovered={false}
-            isOpen={false}
-            isPlain={false}
             onToggle={[Function]}
-            parentRef={null}
           >
             Tenant Name
           </DropdownToggle>
@@ -64,13 +35,9 @@ exports[`Toolbar component should match snapshot 1`] = `
       />
     </ToolbarItem>
   </ToolbarGroup>
-  <ToolbarGroup
-    className={null}
-  >
-    <ToolbarItem
-      className={null}
-    >
-      <Button
+  <ToolbarGroup>
+    <ToolbarItem>
+      <Component
         aria-label="Notifications actions"
         id="horizontal-example-uid-01"
         variant="plain"
@@ -80,12 +47,10 @@ exports[`Toolbar component should match snapshot 1`] = `
           size="sm"
           title={null}
         />
-      </Button>
+      </Component>
     </ToolbarItem>
-    <ToolbarItem
-      className={null}
-    >
-      <Button
+    <ToolbarItem>
+      <Component
         aria-label="Settings actions"
         id="horizontal-example-uid-02"
         variant="plain"
@@ -95,7 +60,7 @@ exports[`Toolbar component should match snapshot 1`] = `
           size="sm"
           title={null}
         />
-      </Button>
+      </Component>
     </ToolbarItem>
   </ToolbarGroup>
 </Toolbar>

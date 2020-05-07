@@ -2,12 +2,8 @@
 
 exports[`Demo dropdown button should be disabled with empty demos 1`] = `
 <Dropdown
-  className=""
-  direction="down"
   dropdownItems={Array []}
-  isGrouped={false}
   isOpen={false}
-  isPlain={false}
   onSelect={[Function]}
   position="right"
   style={
@@ -18,17 +14,8 @@ exports[`Demo dropdown button should be disabled with empty demos 1`] = `
   }
   toggle={
     <DropdownToggle
-      className=""
       disabled={true}
-      iconComponent={[Function]}
-      id=""
-      isActive={false}
-      isFocused={false}
-      isHovered={false}
-      isOpen={false}
-      isPlain={false}
       onToggle={[Function]}
-      parentRef={null}
     >
       Load demo...
     </DropdownToggle>
@@ -38,33 +25,17 @@ exports[`Demo dropdown button should be disabled with empty demos 1`] = `
 
 exports[`Demo dropdown button should render correctly with a couple of demos 1`] = `
 <Dropdown
-  className=""
-  direction="down"
   dropdownItems={
     Array [
-      <Item
-        className=""
-        component="a"
-        href="#"
-        isDisabled={false}
-        isHovered={false}
-      >
+      <DropdownItem>
         demo 1
-      </Item>,
-      <Item
-        className=""
-        component="a"
-        href="#"
-        isDisabled={false}
-        isHovered={false}
-      >
+      </DropdownItem>,
+      <DropdownItem>
         demo 2
-      </Item>,
+      </DropdownItem>,
     ]
   }
-  isGrouped={false}
   isOpen={false}
-  isPlain={false}
   onSelect={[Function]}
   position="right"
   style={
@@ -75,17 +46,8 @@ exports[`Demo dropdown button should render correctly with a couple of demos 1`]
   }
   toggle={
     <DropdownToggle
-      className=""
       disabled={false}
-      iconComponent={[Function]}
-      id=""
-      isActive={false}
-      isFocused={false}
-      isHovered={false}
-      isOpen={false}
-      isPlain={false}
       onToggle={[Function]}
-      parentRef={null}
     >
       Load demo...
     </DropdownToggle>

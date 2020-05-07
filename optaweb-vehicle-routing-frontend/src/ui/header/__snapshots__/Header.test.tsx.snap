@@ -2,19 +2,12 @@
 
 exports[`Header component should match snapshot 1`] = `
 <PageHeader
-  aria-label="Global navigation"
-  avatar={null}
-  className=""
-  isNavOpen={true}
   logo={
     <Brand
       alt="OptaPlanner Logo"
       src="./assets/images/optaPlannerLogo200px.png"
     />
   }
-  logoProps={null}
-  onNavToggle={[Function]}
-  showNavToggle={false}
   toolbar={<ToolbarComponent />}
   topNav={<withRouter(Navigation) />}
 />

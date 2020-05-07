@@ -3,13 +3,16 @@
 exports[`Connection Error Component should render correctly 1`] = `
 <Modal
   actions={Array []}
+  appendTo={<body />}
   ariaDescribedById=""
   className=""
   hideTitle={false}
+  isFooterLeftAligned={false}
   isLarge={false}
   isOpen={true}
   isSmall={true}
   onClose={[Function]}
+  showClose={true}
   title="title"
 >
   <TextContent>
