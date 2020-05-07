@@ -58,10 +58,9 @@ class DataSetDownloadControllerTest {
         assertThat(headers.getContentType().toString()).isEqualToIgnoringWhitespace("text/x-yaml;charset=UTF-8");
         assertThat(headers.getContentDisposition()).isNotNull();
         String contentDisposition = headers.getContentDisposition().toString();
-        assertThat(contentDisposition).startsWith("attachment;");
-        assertThat(contentDisposition).containsPattern("; *filename=\".*\\.yaml\";");
-        assertThat(contentDisposition).contains("size=" + msg.length());
-        assertThat(contentDisposition).contains("creation-date=");
+        assertThat(contentDisposition)
+                .startsWith("attachment;")
+                .containsPattern("; *filename=\".*\\.yaml\"");
     }
 
     @Test
