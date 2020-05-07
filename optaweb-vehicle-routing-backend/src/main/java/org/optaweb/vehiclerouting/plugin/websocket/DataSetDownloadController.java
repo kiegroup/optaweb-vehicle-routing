@@ -20,7 +20,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.time.ZonedDateTime;
 
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.springframework.core.io.InputStreamResource;
@@ -54,8 +53,6 @@ class DataSetDownloadController {
             HttpHeaders headers = new HttpHeaders();
             ContentDisposition attachment = ContentDisposition.builder("attachment")
                     .filename("vrp_data_set.yaml")
-                    .creationDate(ZonedDateTime.now())
-                    .size((long) dataSetBytes.length)
                     .build();
             headers.setContentDisposition(attachment);
             return ResponseEntity.ok()
