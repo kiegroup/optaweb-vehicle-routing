@@ -3,30 +3,42 @@
 exports[`Location Component should render correctly 1`] = `
 <DataListItem
   aria-labelledby="location-10"
-  className=""
   isExpanded={false}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
-  <DataListItemRow
-    className=""
-  >
+  <DataListItemRow>
     <DataListCell
-      alignRight={false}
-      className=""
       isFilled={true}
-      isIcon={false}
-      width={1}
     >
       <Tooltip
         appendTo={[Function]}
-        className={null}
+        aria="describedby"
+        boundary="window"
+        className=""
         content="x"
+        distance={15}
         enableFlip={true}
         entryDelay={500}
         exitDelay={500}
+        flipBehavior={
+          Array [
+            "top",
+            "right",
+            "bottom",
+            "left",
+            "top",
+            "right",
+            "bottom",
+          ]
+        }
+        id=""
+        isAppLauncher={false}
+        isContentLeftAligned={false}
+        isVisible={false}
         maxWidth="18.75rem"
         position="top"
+        tippyProps={Object {}}
         trigger="mouseenter focus"
         zIndex={9999}
       >
@@ -38,13 +50,9 @@ exports[`Location Component should render correctly 1`] = `
       </Tooltip>
     </DataListCell>
     <DataListCell
-      alignRight={false}
-      className=""
       isFilled={false}
-      isIcon={false}
-      width={1}
     >
-      <Button
+      <Component
         isDisabled={false}
         onClick={[Function]}
         type="button"
@@ -55,7 +63,7 @@ exports[`Location Component should render correctly 1`] = `
           size="sm"
           title={null}
         />
-      </Button>
+      </Component>
     </DataListCell>
   </DataListItemRow>
 </DataListItem>
@@ -64,20 +72,13 @@ exports[`Location Component should render correctly 1`] = `
 exports[`Location Component should render correctly when description is missing 1`] = `
 <DataListItem
   aria-labelledby="location-11"
-  className=""
   isExpanded={false}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
 >
-  <DataListItemRow
-    className=""
-  >
+  <DataListItemRow>
     <DataListCell
-      alignRight={false}
-      className=""
       isFilled={true}
-      isIcon={false}
-      width={1}
     >
       <span
         id="location-11"
@@ -86,13 +87,9 @@ exports[`Location Component should render correctly when description is missing 
       </span>
     </DataListCell>
     <DataListCell
-      alignRight={false}
-      className=""
       isFilled={false}
-      isIcon={false}
-      width={1}
     >
-      <Button
+      <Component
         isDisabled={false}
         onClick={[Function]}
         type="button"
@@ -103,7 +100,7 @@ exports[`Location Component should render correctly when description is missing 
           size="sm"
           title={null}
         />
-      </Button>
+      </Component>
     </DataListCell>
   </DataListItemRow>
 </DataListItem>

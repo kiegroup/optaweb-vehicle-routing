@@ -2,14 +2,9 @@
 
 exports[`Search box should hide results when query is empty 1`] = `
 <Fragment>
-  <TextInput
+  <ForwardRef
     aria-label="geosearch text input"
-    className=""
     data-cy="geosearch-text-input"
-    isDisabled={false}
-    isReadOnly={false}
-    isRequired={false}
-    isValid={true}
     onChange={[Function]}
     placeholder="Search to add a location..."
     style={
@@ -25,14 +20,9 @@ exports[`Search box should hide results when query is empty 1`] = `
 
 exports[`Search box should invoke add handler with the selected result and clear results 1`] = `
 <Fragment>
-  <TextInput
+  <ForwardRef
     aria-label="geosearch text input"
-    className=""
     data-cy="geosearch-text-input"
-    isDisabled={false}
-    isReadOnly={false}
-    isRequired={false}
-    isValid={true}
     onChange={[Function]}
     placeholder="Search to add a location..."
     style={
@@ -60,7 +50,7 @@ exports[`Search box should invoke add handler with the selected result and clear
         <div
           className="pf-c-options-menu__menu-item"
         >
-          <Button
+          <Component
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-0"
             onClick={[Function]}
@@ -72,7 +62,7 @@ exports[`Search box should invoke add handler with the selected result and clear
               size="sm"
               title={null}
             />
-          </Button>
+          </Component>
         </div>
       </li>
       <li
@@ -81,7 +71,7 @@ exports[`Search box should invoke add handler with the selected result and clear
         <div
           className="pf-c-options-menu__menu-item"
         >
-          <Button
+          <Component
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-1"
             onClick={[Function]}
@@ -93,7 +83,7 @@ exports[`Search box should invoke add handler with the selected result and clear
               size="sm"
               title={null}
             />
-          </Button>
+          </Component>
         </div>
       </li>
       <li
@@ -102,7 +92,7 @@ exports[`Search box should invoke add handler with the selected result and clear
         <div
           className="pf-c-options-menu__menu-item"
         >
-          <Button
+          <Component
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-2"
             onClick={[Function]}
@@ -114,7 +104,7 @@ exports[`Search box should invoke add handler with the selected result and clear
               size="sm"
               title={null}
             />
-          </Button>
+          </Component>
         </div>
       </li>
       <li
@@ -123,7 +113,7 @@ exports[`Search box should invoke add handler with the selected result and clear
         <div
           className="pf-c-options-menu__menu-item"
         >
-          <Button
+          <Component
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-3"
             onClick={[Function]}
@@ -135,7 +125,7 @@ exports[`Search box should invoke add handler with the selected result and clear
               size="sm"
               title={null}
             />
-          </Button>
+          </Component>
         </div>
       </li>
       <li
@@ -173,14 +163,9 @@ exports[`Search box should invoke add handler with the selected result and clear
 
 exports[`Search box should render text input initially 1`] = `
 <Fragment>
-  <TextInput
+  <ForwardRef
     aria-label="geosearch text input"
-    className=""
     data-cy="geosearch-text-input"
-    isDisabled={false}
-    isReadOnly={false}
-    isRequired={false}
-    isValid={true}
     onChange={[Function]}
     placeholder="Search to add a location..."
     style={
@@ -196,14 +181,9 @@ exports[`Search box should render text input initially 1`] = `
 
 exports[`Search box should show results when query is entered 1`] = `
 <Fragment>
-  <TextInput
+  <ForwardRef
     aria-label="geosearch text input"
-    className=""
     data-cy="geosearch-text-input"
-    isDisabled={false}
-    isReadOnly={false}
-    isRequired={false}
-    isValid={true}
     onChange={[Function]}
     placeholder="Search to add a location..."
     style={
@@ -232,7 +212,7 @@ exports[`Search box should show results when query is entered 1`] = `
           className="pf-c-options-menu__menu-item"
         >
           London, ON, Canada
-          <Button
+          <Component
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-0"
             onClick={[Function]}
@@ -244,7 +224,7 @@ exports[`Search box should show results when query is entered 1`] = `
               size="sm"
               title={null}
             />
-          </Button>
+          </Component>
         </div>
       </li>
       <li
@@ -254,7 +234,7 @@ exports[`Search box should show results when query is entered 1`] = `
           className="pf-c-options-menu__menu-item"
         >
           London, OH, USA
-          <Button
+          <Component
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-1"
             onClick={[Function]}
@@ -266,7 +246,7 @@ exports[`Search box should show results when query is entered 1`] = `
               size="sm"
               title={null}
             />
-          </Button>
+          </Component>
         </div>
       </li>
       <li
@@ -276,7 +256,7 @@ exports[`Search box should show results when query is entered 1`] = `
           className="pf-c-options-menu__menu-item"
         >
           London, KY, USA
-          <Button
+          <Component
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-2"
             onClick={[Function]}
@@ -288,7 +268,7 @@ exports[`Search box should show results when query is entered 1`] = `
               size="sm"
               title={null}
             />
-          </Button>
+          </Component>
         </div>
       </li>
       <li
@@ -298,7 +278,7 @@ exports[`Search box should show results when query is entered 1`] = `
           className="pf-c-options-menu__menu-item"
         >
           London, UK
-          <Button
+          <Component
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-3"
             onClick={[Function]}
@@ -310,7 +290,7 @@ exports[`Search box should show results when query is entered 1`] = `
               size="sm"
               title={null}
             />
-          </Button>
+          </Component>
         </div>
       </li>
       <li

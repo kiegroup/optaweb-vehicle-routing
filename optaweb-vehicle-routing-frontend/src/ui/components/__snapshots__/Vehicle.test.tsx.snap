@@ -3,18 +3,11 @@
 exports[`Vehicle Component should render correctly 1`] = `
 <DataListItem
   aria-labelledby="vehicle-10"
-  className=""
   isExpanded={false}
 >
-  <DataListItemRow
-    className=""
-  >
+  <DataListItemRow>
     <DataListCell
-      alignRight={false}
-      className=""
       isFilled={true}
-      isIcon={false}
-      width={1}
     >
       <span
         id="vehicle-10"
@@ -23,16 +16,10 @@ exports[`Vehicle Component should render correctly 1`] = `
       </span>
     </DataListCell>
     <DataListCell
-      alignRight={false}
-      className=""
       isFilled={true}
-      isIcon={false}
-      width={1}
     >
-      <InputGroup
-        className=""
-      >
-        <Button
+      <InputGroup>
+        <Component
           data-test-key="capacity-decrease-10"
           isDisabled={false}
           onClick={[Function]}
@@ -43,15 +30,13 @@ exports[`Vehicle Component should render correctly 1`] = `
             size="sm"
             title={null}
           />
-        </Button>
+        </Component>
         <InputGroupText
-          className=""
-          component="span"
           readOnly={true}
         >
           7
         </InputGroupText>
-        <Button
+        <Component
           data-test-key="capacity-increase-10"
           onClick={[Function]}
           variant="primary"
@@ -61,17 +46,13 @@ exports[`Vehicle Component should render correctly 1`] = `
             size="sm"
             title={null}
           />
-        </Button>
+        </Component>
       </InputGroup>
     </DataListCell>
     <DataListCell
-      alignRight={false}
-      className=""
       isFilled={false}
-      isIcon={false}
-      width={1}
     >
-      <Button
+      <Component
         data-test-key="remove-10"
         isDisabled={false}
         onClick={[Function]}
@@ -83,7 +64,7 @@ exports[`Vehicle Component should render correctly 1`] = `
           size="sm"
           title={null}
         />
-      </Button>
+      </Component>
     </DataListCell>
   </DataListItemRow>
 </DataListItem>

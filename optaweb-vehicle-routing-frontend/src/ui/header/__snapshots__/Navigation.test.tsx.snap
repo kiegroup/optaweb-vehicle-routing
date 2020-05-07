@@ -1,25 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Navigation should activate a navigation link matching the current path 1`] = `
-<Nav
+<Component
   aria-label="Nav"
-  className=""
-  onSelect={[Function]}
-  onToggle={[Function]}
 >
   <NavList
+    ariaLeftScroll="Scroll left"
+    ariaRightScroll="Scroll right"
     className=""
     variant="horizontal"
   >
     <NavItem
-      className=""
-      groupId={null}
       isActive={false}
       itemId="vehicles"
       key="vehicles"
-      onClick={null}
-      preventDefault={false}
-      to=""
     >
       <Link
         to="/vehicles"
@@ -28,14 +22,9 @@ exports[`Navigation should activate a navigation link matching the current path 
       </Link>
     </NavItem>
     <NavItem
-      className=""
-      groupId={null}
       isActive={true}
       itemId="visits"
       key="visits"
-      onClick={null}
-      preventDefault={false}
-      to=""
     >
       <Link
         to="/visits"
@@ -44,14 +33,9 @@ exports[`Navigation should activate a navigation link matching the current path 
       </Link>
     </NavItem>
     <NavItem
-      className=""
-      groupId={null}
       isActive={false}
       itemId="route"
       key="route"
-      onClick={null}
-      preventDefault={false}
-      to=""
     >
       <Link
         to="/route"
@@ -60,14 +44,9 @@ exports[`Navigation should activate a navigation link matching the current path 
       </Link>
     </NavItem>
     <NavItem
-      className=""
-      groupId={null}
       isActive={false}
       itemId="demo"
       key="demo"
-      onClick={null}
-      preventDefault={false}
-      to=""
     >
       <Link
         to="/demo"
@@ -76,5 +55,5 @@ exports[`Navigation should activate a navigation link matching the current path 
       </Link>
     </NavItem>
   </NavList>
-</Nav>
+</Component>
 `;

@@ -2,8 +2,6 @@
 
 exports[`Demo page clear and export buttons should be disabled when demo is loading 1`] = `
 <Split
-  className=""
-  component="div"
   gutter="md"
   style={
     Object {
@@ -12,7 +10,6 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
   }
 >
   <SplitItem
-    className=""
     isFilled={false}
     style={
       Object {
@@ -65,7 +62,6 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
     />
   </SplitItem>
   <SplitItem
-    className=""
     isFilled={true}
     style={
       Object {
@@ -75,43 +71,16 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
     }
   >
     <Split
-      className=""
-      component="div"
       gutter="md"
     >
       <SplitItem
-        className=""
         isFilled={true}
       >
-        <Grid
-          className=""
-          gutter={null}
-          lg={null}
-          md={null}
-          sm={null}
-          span={null}
-          xl={null}
-        >
+        <Grid>
           <GridItem
-            className=""
-            lg={null}
-            lgOffset={null}
-            lgRowSpan={null}
-            md={null}
-            mdOffset={null}
-            mdRowSpan={null}
-            offset={null}
-            rowSpan={null}
-            sm={null}
-            smOffset={null}
-            smRowSpan={null}
             span={8}
-            xl={null}
-            xlOffset={null}
-            xlRowSpan={null}
           >
             <Level
-              className=""
               gutter="sm"
             >
               <LevelItem
@@ -122,14 +91,11 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
                 }
               >
                 <Level
-                  className=""
                   gutter="sm"
                 >
                   <LevelItem>
-                    <InputGroup
-                      className=""
-                    >
-                      <Button
+                    <InputGroup>
+                      <Component
                         isDisabled={false}
                         onClick={[Function]}
                         variant="primary"
@@ -139,15 +105,13 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
                           size="sm"
                           title={null}
                         />
-                      </Button>
+                      </Component>
                       <InputGroupText
-                        className=""
-                        component="span"
                         readOnly={true}
                       >
                         8
                       </InputGroupText>
-                      <Button
+                      <Component
                         data-cy="demo-add-vehicle"
                         onClick={[Function]}
                         variant="primary"
@@ -157,7 +121,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
                           size="sm"
                           title={null}
                         />
-                      </Button>
+                      </Component>
                     </InputGroup>
                   </LevelItem>
                   <LevelItem>
@@ -174,30 +138,14 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
             </Level>
           </GridItem>
           <GridItem
-            className=""
-            lg={null}
-            lgOffset={null}
-            lgRowSpan={null}
-            md={null}
-            mdOffset={null}
-            mdRowSpan={null}
-            offset={null}
-            rowSpan={null}
-            sm={null}
-            smOffset={null}
-            smRowSpan={null}
             span={4}
-            xl={null}
-            xlOffset={null}
-            xlRowSpan={null}
           />
         </Grid>
       </SplitItem>
       <SplitItem
-        className=""
         isFilled={false}
       >
-        <Button
+        <Component
           id="export-button"
           isDisabled={true}
           onClick={[Function]}
@@ -209,8 +157,8 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
           }
         >
           Export
-        </Button>
-        <Button
+        </Component>
+        <Component
           data-cy="demo-clear-button"
           id="clear-button"
           isDisabled={true}
@@ -223,7 +171,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
           }
         >
           Clear
-        </Button>
+        </Component>
       </SplitItem>
     </Split>
     <RouteMap
@@ -299,8 +247,6 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
 
 exports[`Demo page clear button should replace demo dropdown as soon as there is a depot 1`] = `
 <Split
-  className=""
-  component="div"
   gutter="md"
   style={
     Object {
@@ -309,7 +255,6 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
   }
 >
   <SplitItem
-    className=""
     isFilled={false}
     style={
       Object {
@@ -346,7 +291,6 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
     />
   </SplitItem>
   <SplitItem
-    className=""
     isFilled={true}
     style={
       Object {
@@ -356,43 +300,16 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
     }
   >
     <Split
-      className=""
-      component="div"
       gutter="md"
     >
       <SplitItem
-        className=""
         isFilled={true}
       >
-        <Grid
-          className=""
-          gutter={null}
-          lg={null}
-          md={null}
-          sm={null}
-          span={null}
-          xl={null}
-        >
+        <Grid>
           <GridItem
-            className=""
-            lg={null}
-            lgOffset={null}
-            lgRowSpan={null}
-            md={null}
-            mdOffset={null}
-            mdRowSpan={null}
-            offset={null}
-            rowSpan={null}
-            sm={null}
-            smOffset={null}
-            smRowSpan={null}
             span={8}
-            xl={null}
-            xlOffset={null}
-            xlRowSpan={null}
           >
             <Level
-              className=""
               gutter="sm"
             >
               <LevelItem
@@ -403,14 +320,11 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
                 }
               >
                 <Level
-                  className=""
                   gutter="sm"
                 >
                   <LevelItem>
-                    <InputGroup
-                      className=""
-                    >
-                      <Button
+                    <InputGroup>
+                      <Component
                         isDisabled={true}
                         onClick={[Function]}
                         variant="primary"
@@ -420,15 +334,13 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
                           size="sm"
                           title={null}
                         />
-                      </Button>
+                      </Component>
                       <InputGroupText
-                        className=""
-                        component="span"
                         readOnly={true}
                       >
                         0
                       </InputGroupText>
-                      <Button
+                      <Component
                         data-cy="demo-add-vehicle"
                         onClick={[Function]}
                         variant="primary"
@@ -438,7 +350,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
                           size="sm"
                           title={null}
                         />
-                      </Button>
+                      </Component>
                     </InputGroup>
                   </LevelItem>
                   <LevelItem>
@@ -455,30 +367,14 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
             </Level>
           </GridItem>
           <GridItem
-            className=""
-            lg={null}
-            lgOffset={null}
-            lgRowSpan={null}
-            md={null}
-            mdOffset={null}
-            mdRowSpan={null}
-            offset={null}
-            rowSpan={null}
-            sm={null}
-            smOffset={null}
-            smRowSpan={null}
             span={4}
-            xl={null}
-            xlOffset={null}
-            xlRowSpan={null}
           />
         </Grid>
       </SplitItem>
       <SplitItem
-        className=""
         isFilled={false}
       >
-        <Button
+        <Component
           id="export-button"
           isDisabled={false}
           onClick={[Function]}
@@ -490,8 +386,8 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
           }
         >
           Export
-        </Button>
-        <Button
+        </Component>
+        <Component
           data-cy="demo-clear-button"
           id="clear-button"
           isDisabled={false}
@@ -504,7 +400,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
           }
         >
           Clear
-        </Button>
+        </Component>
       </SplitItem>
     </Split>
     <RouteMap
@@ -540,8 +436,6 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
 
 exports[`Demo page should render correctly with a few routes 1`] = `
 <Split
-  className=""
-  component="div"
   gutter="md"
   style={
     Object {
@@ -550,7 +444,6 @@ exports[`Demo page should render correctly with a few routes 1`] = `
   }
 >
   <SplitItem
-    className=""
     isFilled={false}
     style={
       Object {
@@ -603,7 +496,6 @@ exports[`Demo page should render correctly with a few routes 1`] = `
     />
   </SplitItem>
   <SplitItem
-    className=""
     isFilled={true}
     style={
       Object {
@@ -613,43 +505,16 @@ exports[`Demo page should render correctly with a few routes 1`] = `
     }
   >
     <Split
-      className=""
-      component="div"
       gutter="md"
     >
       <SplitItem
-        className=""
         isFilled={true}
       >
-        <Grid
-          className=""
-          gutter={null}
-          lg={null}
-          md={null}
-          sm={null}
-          span={null}
-          xl={null}
-        >
+        <Grid>
           <GridItem
-            className=""
-            lg={null}
-            lgOffset={null}
-            lgRowSpan={null}
-            md={null}
-            mdOffset={null}
-            mdRowSpan={null}
-            offset={null}
-            rowSpan={null}
-            sm={null}
-            smOffset={null}
-            smRowSpan={null}
             span={8}
-            xl={null}
-            xlOffset={null}
-            xlRowSpan={null}
           >
             <Level
-              className=""
               gutter="sm"
             >
               <LevelItem
@@ -660,14 +525,11 @@ exports[`Demo page should render correctly with a few routes 1`] = `
                 }
               >
                 <Level
-                  className=""
                   gutter="sm"
                 >
                   <LevelItem>
-                    <InputGroup
-                      className=""
-                    >
-                      <Button
+                    <InputGroup>
+                      <Component
                         isDisabled={false}
                         onClick={[Function]}
                         variant="primary"
@@ -677,15 +539,13 @@ exports[`Demo page should render correctly with a few routes 1`] = `
                           size="sm"
                           title={null}
                         />
-                      </Button>
+                      </Component>
                       <InputGroupText
-                        className=""
-                        component="span"
                         readOnly={true}
                       >
                         8
                       </InputGroupText>
-                      <Button
+                      <Component
                         data-cy="demo-add-vehicle"
                         onClick={[Function]}
                         variant="primary"
@@ -695,7 +555,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
                           size="sm"
                           title={null}
                         />
-                      </Button>
+                      </Component>
                     </InputGroup>
                   </LevelItem>
                   <LevelItem>
@@ -712,30 +572,14 @@ exports[`Demo page should render correctly with a few routes 1`] = `
             </Level>
           </GridItem>
           <GridItem
-            className=""
-            lg={null}
-            lgOffset={null}
-            lgRowSpan={null}
-            md={null}
-            mdOffset={null}
-            mdRowSpan={null}
-            offset={null}
-            rowSpan={null}
-            sm={null}
-            smOffset={null}
-            smRowSpan={null}
             span={4}
-            xl={null}
-            xlOffset={null}
-            xlRowSpan={null}
           />
         </Grid>
       </SplitItem>
       <SplitItem
-        className=""
         isFilled={false}
       >
-        <Button
+        <Component
           id="export-button"
           isDisabled={false}
           onClick={[Function]}
@@ -747,8 +591,8 @@ exports[`Demo page should render correctly with a few routes 1`] = `
           }
         >
           Export
-        </Button>
-        <Button
+        </Component>
+        <Component
           data-cy="demo-clear-button"
           id="clear-button"
           isDisabled={false}
@@ -761,7 +605,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
           }
         >
           Clear
-        </Button>
+        </Component>
       </SplitItem>
     </Split>
     <RouteMap
@@ -837,8 +681,6 @@ exports[`Demo page should render correctly with a few routes 1`] = `
 
 exports[`Demo page should render correctly with no routes 1`] = `
 <Split
-  className=""
-  component="div"
   gutter="md"
   style={
     Object {
@@ -847,7 +689,6 @@ exports[`Demo page should render correctly with no routes 1`] = `
   }
 >
   <SplitItem
-    className=""
     isFilled={false}
     style={
       Object {
@@ -877,7 +718,6 @@ exports[`Demo page should render correctly with no routes 1`] = `
     />
   </SplitItem>
   <SplitItem
-    className=""
     isFilled={true}
     style={
       Object {
@@ -887,43 +727,16 @@ exports[`Demo page should render correctly with no routes 1`] = `
     }
   >
     <Split
-      className=""
-      component="div"
       gutter="md"
     >
       <SplitItem
-        className=""
         isFilled={true}
       >
-        <Grid
-          className=""
-          gutter={null}
-          lg={null}
-          md={null}
-          sm={null}
-          span={null}
-          xl={null}
-        >
+        <Grid>
           <GridItem
-            className=""
-            lg={null}
-            lgOffset={null}
-            lgRowSpan={null}
-            md={null}
-            mdOffset={null}
-            mdRowSpan={null}
-            offset={null}
-            rowSpan={null}
-            sm={null}
-            smOffset={null}
-            smRowSpan={null}
             span={8}
-            xl={null}
-            xlOffset={null}
-            xlRowSpan={null}
           >
             <Level
-              className=""
               gutter="sm"
             >
               <LevelItem
@@ -934,14 +747,11 @@ exports[`Demo page should render correctly with no routes 1`] = `
                 }
               >
                 <Level
-                  className=""
                   gutter="sm"
                 >
                   <LevelItem>
-                    <InputGroup
-                      className=""
-                    >
-                      <Button
+                    <InputGroup>
+                      <Component
                         isDisabled={true}
                         onClick={[Function]}
                         variant="primary"
@@ -951,15 +761,13 @@ exports[`Demo page should render correctly with no routes 1`] = `
                           size="sm"
                           title={null}
                         />
-                      </Button>
+                      </Component>
                       <InputGroupText
-                        className=""
-                        component="span"
                         readOnly={true}
                       >
                         0
                       </InputGroupText>
-                      <Button
+                      <Component
                         data-cy="demo-add-vehicle"
                         onClick={[Function]}
                         variant="primary"
@@ -969,7 +777,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
                           size="sm"
                           title={null}
                         />
-                      </Button>
+                      </Component>
                     </InputGroup>
                   </LevelItem>
                   <LevelItem>
@@ -986,30 +794,14 @@ exports[`Demo page should render correctly with no routes 1`] = `
             </Level>
           </GridItem>
           <GridItem
-            className=""
-            lg={null}
-            lgOffset={null}
-            lgRowSpan={null}
-            md={null}
-            mdOffset={null}
-            mdRowSpan={null}
-            offset={null}
-            rowSpan={null}
-            sm={null}
-            smOffset={null}
-            smRowSpan={null}
             span={4}
-            xl={null}
-            xlOffset={null}
-            xlRowSpan={null}
           />
         </Grid>
       </SplitItem>
       <SplitItem
-        className=""
         isFilled={false}
       >
-        <Button
+        <Component
           id="export-button"
           isDisabled={true}
           onClick={[Function]}
@@ -1021,7 +813,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
           }
         >
           Export
-        </Button>
+        </Component>
         <DemoDropdown
           demos={
             Array [
