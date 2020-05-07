@@ -59,6 +59,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           >
             <PlusSquareIcon
               color="currentColor"
+              noVerticalAlign={false}
               size="sm"
               title={null}
             />
@@ -80,6 +81,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           >
             <PlusSquareIcon
               color="currentColor"
+              noVerticalAlign={false}
               size="sm"
               title={null}
             />
@@ -101,6 +103,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           >
             <PlusSquareIcon
               color="currentColor"
+              noVerticalAlign={false}
               size="sm"
               title={null}
             />
@@ -122,6 +125,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           >
             <PlusSquareIcon
               color="currentColor"
+              noVerticalAlign={false}
               size="sm"
               title={null}
             />
@@ -221,6 +225,7 @@ exports[`Search box should show results when query is entered 1`] = `
           >
             <PlusSquareIcon
               color="currentColor"
+              noVerticalAlign={false}
               size="sm"
               title={null}
             />
@@ -243,6 +248,7 @@ exports[`Search box should show results when query is entered 1`] = `
           >
             <PlusSquareIcon
               color="currentColor"
+              noVerticalAlign={false}
               size="sm"
               title={null}
             />
@@ -265,6 +271,7 @@ exports[`Search box should show results when query is entered 1`] = `
           >
             <PlusSquareIcon
               color="currentColor"
+              noVerticalAlign={false}
               size="sm"
               title={null}
             />
@@ -287,6 +294,7 @@ exports[`Search box should show results when query is entered 1`] = `
           >
             <PlusSquareIcon
               color="currentColor"
+              noVerticalAlign={false}
               size="sm"
               title={null}
             />

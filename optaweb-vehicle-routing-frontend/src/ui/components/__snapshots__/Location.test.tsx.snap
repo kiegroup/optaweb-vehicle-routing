@@ -60,6 +60,7 @@ exports[`Location Component should render correctly 1`] = `
       >
         <TimesIcon
           color="currentColor"
+          noVerticalAlign={false}
           size="sm"
           title={null}
         />
@@ -97,6 +98,7 @@ exports[`Location Component should render correctly when description is missing 
       >
         <TimesIcon
           color="currentColor"
+          noVerticalAlign={false}
           size="sm"
           title={null}
         />
