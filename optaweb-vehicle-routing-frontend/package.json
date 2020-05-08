@@ -47,8 +47,8 @@
     "ancestorSeparator": "."
   },
   "devDependencies": {
-    "@types/enzyme": "^3.9.3",
-    "@types/enzyme-adapter-react-16": "^1.0.5",
+    "@types/enzyme": "^3.10.5",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^25.2.1",
     "@types/leaflet": "^1.5.1",
     "@types/node": "^12.0.3",
@@ -63,9 +63,9 @@
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@typescript-eslint/parser": "^1.9.0",
     "cypress": "^3.4.1",
-    "enzyme": "^3.9.0",
-    "enzyme-adapter-react-16": "^1.13.2",
-    "enzyme-to-json": "^3.3.5",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.4",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-cypress": "^2.6.1",
