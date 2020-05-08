@@ -25,7 +25,6 @@ jest.mock('webstomp-client');
 beforeEach(() => {
   jest.resetAllMocks();
 
-  // @ts-ignore
   (over as unknown as jest.MockInstance<Client, [string, Options?]>).mockReturnValue(mockClient);
 });
 
@@ -33,7 +32,7 @@ const mockClient = {
   connected: false,
   isBinary: false,
   partialData: '',
-  subscriptions: null,
+  subscriptions: {},
   ws: null,
   connect: jest.fn(),
   disconnect: jest.fn(),
