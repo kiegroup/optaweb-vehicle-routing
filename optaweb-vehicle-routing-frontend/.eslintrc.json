@@ -76,6 +76,7 @@
     "max-len": ["error", {"code": 120}],
     "no-console": "warn",
     "no-use-before-define": "off",
+    "no-useless-constructor": "off",
     "object-curly-newline": [
       "error", {
         "ImportDeclaration": {"multiline": true},
