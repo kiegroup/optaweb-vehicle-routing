@@ -83,7 +83,7 @@ const RouteMap: React.FC<Props> = ({
           removeHandler={removeHandler}
         />
       )}
-      {visits.map(location => (
+      {visits.map((location) => (
         <LocationMarker
           key={location.id}
           location={location}

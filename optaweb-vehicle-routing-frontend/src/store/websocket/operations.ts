@@ -49,7 +49,7 @@ export const connectClient: ThunkCommandFactory<void, ConnectClientThunkAction> 
           if (getState().demo.isLoading) {
             // TODO handle the case when serverInfo doesn't contain demo with the given name
             //      (that could only be possible due to a bug in the code)
-            const demo = getState().serverInfo.demos.filter(value => value.name === getState().demo.demoName)[0];
+            const demo = getState().serverInfo.demos.filter((value) => value.name === getState().demo.demoName)[0];
             if (plan.visits.length === demo.visits) {
               dispatch(demoOperations.finishLoading());
             }

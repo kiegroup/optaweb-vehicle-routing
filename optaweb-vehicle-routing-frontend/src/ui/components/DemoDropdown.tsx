@@ -23,7 +23,7 @@ export interface Props {
   onSelect: (name: string) => void;
 }
 
-const dropdownItems = (demos: string[]): React.ReactNode[] => demos.map(value => (
+const dropdownItems = (demos: string[]): React.ReactNode[] => demos.map((value) => (
   <DropdownItem key={value}>
     {value}
   </DropdownItem>

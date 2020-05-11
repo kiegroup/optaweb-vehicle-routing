@@ -29,13 +29,13 @@ import {
 export const { updateRoute } = actions;
 
 export const addLocation: ThunkCommandFactory<LatLngWithDescription, AddLocationAction> = (
-  location => (dispatch, getState, client) => {
+  (location) => (dispatch, getState, client) => {
     dispatch(actions.addLocation(location));
     client.addLocation(location);
   });
 
 export const deleteLocation: ThunkCommandFactory<number, DeleteLocationAction> = (
-  locationId => (dispatch, getState, client) => {
+  (locationId) => (dispatch, getState, client) => {
     dispatch(actions.deleteLocation(locationId));
     client.deleteLocation(locationId);
   });
@@ -47,7 +47,7 @@ export const addVehicle: ThunkCommandFactory<void, AddVehicleAction> = (
   });
 
 export const deleteVehicle: ThunkCommandFactory<number, DeleteVehicleAction> = (
-  vehicleId => (dispatch, getState, client) => {
+  (vehicleId) => (dispatch, getState, client) => {
     dispatch(actions.deleteVehicle(vehicleId));
     client.deleteVehicle(vehicleId);
   });
