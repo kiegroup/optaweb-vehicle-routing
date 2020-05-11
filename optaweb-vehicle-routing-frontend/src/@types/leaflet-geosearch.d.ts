@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+// eslint-disable-next-line max-classes-per-file
 declare module 'leaflet-geosearch' {
 
   class Provider<ProviderOptions> {
