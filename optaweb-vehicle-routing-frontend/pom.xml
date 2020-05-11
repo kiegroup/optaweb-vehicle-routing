@@ -63,7 +63,7 @@
           </execution>
           <execution>
             <id>lock-treatment-tool execution</id>
-            <phase>compile</phase>
+            <phase>initialize</phase>
             <goals>
               <goal>npm</goal>
             </goals>
@@ -73,11 +73,7 @@
           </execution>
           <execution>
             <id>npm install</id>
-            <!--
-              Using compile phase so that `npm install` doesn't run during sonar analysis,
-              which is bound to generate-resources in kie-parent.
-            -->
-            <phase>compile</phase>
+            <phase>initialize</phase>
             <goals>
               <goal>npm</goal>
             </goals>
