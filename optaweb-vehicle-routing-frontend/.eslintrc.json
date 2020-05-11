@@ -36,7 +36,6 @@
     "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-object-literal-type-assertion": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "header/header": [
       "error", "block", [
@@ -71,11 +70,9 @@
         ]
       }
     ],
-    "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
     "max-len": ["error", {"code": 120}],
     "no-console": "warn",
-    "no-use-before-define": "off",
     "object-curly-newline": [
       "error", {
         "ImportDeclaration": {"multiline": true},
