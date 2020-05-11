@@ -48,6 +48,10 @@ const searchParams = (props: Props) => ({
 });
 
 class SearchBox extends React.Component<Props, State> {
+  // eslint-disable-next-line max-len
+  // https://github.com/airbnb/javascript/blob/eslint-config-airbnb-v18.1.0/packages/eslint-config-airbnb/rules/react.js#L489
+  // TODO remove this suppression once the TODO above is resolved:
+  // eslint-disable-next-line react/static-property-placement
   static defaultProps: Pick<Props, 'searchDelay'> = {
     searchDelay: 500,
   };
