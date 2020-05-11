@@ -28,7 +28,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "react-app",
-    "airbnb"
+    "airbnb-typescript"
   ],
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "off",
