@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,6 @@
  * limitations under the License.
  */
 
-import { Brand, PageHeader } from '@patternfly/react-core';
-import * as React from 'react';
-import NavigationWithRouter from './Navigation';
-import Toolbar from './Toolbar';
+import ConnectedConnectionManager from './ConnectionManager';
 
-const Header: React.FC = () => (
-  <PageHeader
-    logo={<Brand src="./assets/images/optaPlannerLogo200px.png" alt="OptaPlanner Logo" />}
-    toolbar={<Toolbar />}
-    topNav={<NavigationWithRouter />}
-  />
-);
-
-export default Header;
+export { ConnectedConnectionManager as ConnectionManager };
