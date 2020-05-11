@@ -1,2 +1,3 @@
 /cypress/support
 /cypress/plugins
+registerServiceWorker.ts
