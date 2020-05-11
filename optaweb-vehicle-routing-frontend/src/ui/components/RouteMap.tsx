@@ -21,7 +21,7 @@ import { UserViewport } from 'store/client/types';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 import LocationMarker from './LocationMarker';
 
-type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export interface Props {
   selectedId: number;
