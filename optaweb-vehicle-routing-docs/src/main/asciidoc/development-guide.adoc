@@ -16,3 +16,37 @@ The distribution module represents the final assembly step.
 It takes the standalone application and the documentation and wraps them into a distributable archive.
 The distribution archive is made available on https://www.optaplanner.org/[OptaPlanner website]
 with each https://www.kiegroup.org/[KIE] release.
+
+=== Backend
+
+=== Frontend
+
+=== Standalone
+
+=== Documentation
+
+=== Distribution
+
+== Building the project
+
+Run `./mvnw install` or `mvn install`.
+
+== Developing backend
+
+////
+- OptaPlanner, GraphHopper
+- Spring Boot
+- Configuration (`application.properties`, `application-*.properties`)
+- Package structure
+- DevTools
+- Docker
+////
+
+== Developing frontend
+
+////
+- PatternFly, Leaflet
+- Npm, React, Redux, TypeScript, ESLint, Cypress, `ncu`
+- Chrome, plugins
+- Docker
+////
