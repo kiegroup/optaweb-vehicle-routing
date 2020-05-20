@@ -3,7 +3,7 @@
 
 include::attributes.adoc[]
 
-Follow this section if you cannot use <<run-locally-sh,runLocally.sh>> to run OptaWeb Vehicle Routing because Bash is not available on your system.
+Follow this section if you cannot use <<run-locally#run-locally-sh,runLocally.sh>> to run OptaWeb Vehicle Routing because Bash is not available on your system.
 
 == Download routing data
 

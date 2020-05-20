@@ -62,7 +62,7 @@ NOTE: If the standalone JAR is not part of the distribution, build the project f
 You can use the `sources` directory inside the distribution as if you have cloned the source repository from GitHub.
 // TODO build instructions
 
-NOTE: If Bash is not available on your system, continue to <<run-noscript>>.
+NOTE: If Bash is not available on your system, continue to <<run-noscript#run-noscript>>.
 
 .Prerequisites
 * Internet access is available.
@@ -80,4 +80,4 @@ Enter the following command.
 
 The script will download an OSM file that is needed to work with the sample data set that is included with the application.
 The script also has an interactive mode you can use to download additional regions.
-See <<run-locally-sh>> to learn more about the script.
+See <<run-locally#run-locally-sh>> to learn more about the script.
