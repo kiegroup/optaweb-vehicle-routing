@@ -49,6 +49,19 @@ You can use other tabs of the user interface to view and set additional details.
 * In the *Visits* tab, you can view and remove locations.
 * In the *Route* tab, you can select every vehicle and view the route for this vehicle.
 
+== Creating custom data sets
+
+There is a built-in demo data set consisting of a several large Belgian cities.
+If you want to have more demos offered by the *Load demo* dropdown, you can prepare your own data sets.
+To do that, follow these steps:
+
+. Add a depot and a number of visits by clicking on the map or using geosearch.
+. Click *Export* and save the file in `optaweb-vehicle-routing-backend/local/data` directory.
+. Edit the YAML file and choose a unique name for the data set.
+. Restart the backend.
+
+After you restart the backend, files in the `data` directory will be made available in the *Load demo* dropdown.
+
 == Troubleshooting
 
 If the application behaves unexpectedly, review the backend terminal output log.
