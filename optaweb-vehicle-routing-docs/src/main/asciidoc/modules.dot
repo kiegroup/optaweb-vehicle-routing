@@ -1,0 +1,8 @@
+digraph {
+  graph [bgcolor="transparent"]
+  node [fontname="sans-serif", fontsize=18, style=filled, fillcolor="#f8f8f8"];
+  "distribution" -> "docs";
+  "distribution" -> "standalone";
+  "standalone" -> "backend";
+  "standalone" -> "frontend";
+}

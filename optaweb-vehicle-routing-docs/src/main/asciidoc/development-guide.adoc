@@ -1,0 +1,18 @@
+= Development guide
+
+== Project structure
+
+The project is a multi-module Maven project.
+
+.Module dependency tree diagram
+image::modules.dot.svg[align="center"]
+
+At the bottom of the module tree there are the backend and frontend modules,
+which contain the application source code.
+
+The standalone module is an assembly module that combines backend and frontend into a single executable JAR file.
+
+The distribution module represents the final assembly step.
+It takes the standalone application and the documentation and wraps them into a distributable archive.
+The distribution archive is made available on https://www.optaplanner.org/[OptaPlanner website]
+with each https://www.kiegroup.org/[KIE] release.

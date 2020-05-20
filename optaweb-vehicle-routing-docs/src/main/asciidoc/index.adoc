@@ -23,3 +23,5 @@ include::run-noscript.adoc[leveloffset=+1]
 include::run-openshift.adoc[leveloffset=+1]
 
 include::user-guide.adoc[leveloffset=+1]
+
+include::development-guide.adoc[leveloffset=+1]
