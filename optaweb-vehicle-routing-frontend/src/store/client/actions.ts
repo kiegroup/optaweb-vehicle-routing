@@ -18,7 +18,7 @@ import { Viewport } from 'react-leaflet';
 import { ActionFactory } from '../types';
 import { ActionType, ResetViewportAction, UpdateViewportAction } from './types';
 
-export const updateViewport: ActionFactory<Viewport, UpdateViewportAction> = viewport => ({
+export const updateViewport: ActionFactory<Viewport, UpdateViewportAction> = (viewport) => ({
   type: ActionType.UPDATE_VIEWPORT,
   value: viewport,
 });

@@ -25,7 +25,7 @@ export const wsConnectionSuccess: ActionFactory<void, WsConnectionSuccessAction>
   type: ActionType.WS_CONNECT_SUCCESS,
 });
 
-export const wsConnectionFailure: ActionFactory<string, WsConnectionFailureAction> = error => ({
+export const wsConnectionFailure: ActionFactory<string, WsConnectionFailureAction> = (error) => ({
   type: ActionType.WS_CONNECT_FAILURE,
   error,
 });

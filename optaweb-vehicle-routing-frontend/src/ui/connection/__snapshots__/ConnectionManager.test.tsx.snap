@@ -6,6 +6,7 @@ exports[`Connection Manager should connect the WebSocket client when mounted 1`]
   icon={
     <UnpluggedIcon
       color="currentColor"
+      noVerticalAlign={false}
       size="sm"
       title={null}
     />
@@ -22,6 +23,7 @@ exports[`Connection Manager should display error when connection fails 1`] = `
   icon={
     <UnpluggedIcon
       color="currentColor"
+      noVerticalAlign={false}
       size="sm"
       title={null}
     />
@@ -38,6 +40,7 @@ exports[`Connection Manager should not display error when connection is open 1`]
   icon={
     <UnpluggedIcon
       color="currentColor"
+      noVerticalAlign={false}
       size="sm"
       title={null}
     />

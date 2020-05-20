@@ -19,7 +19,7 @@ import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import Background from './components/Background';
-import ConnectionManager from './connection/ConnectionManager';
+import { ConnectionManager } from './connection';
 import Header from './header/Header';
 import { Demo, Route as RoutePage, Vehicles, Visits } from './pages';
 

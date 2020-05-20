@@ -57,7 +57,7 @@ describe('Locations can be added and route is computed', () => {
     cy.get('[data-cy=demo-add-vehicle]').click();
     cy.get('a[href="/route"]').click();
     cy.get('[data-cy=location-list]').find('li').should((list) => {
-      cities.forEach(city => expect(list).to.contain(city));
+      cities.forEach((city) => expect(list).to.contain(city));
     });
   });
 });

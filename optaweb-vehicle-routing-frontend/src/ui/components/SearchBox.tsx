@@ -48,6 +48,10 @@ const searchParams = (props: Props) => ({
 });
 
 class SearchBox extends React.Component<Props, State> {
+  // eslint-disable-next-line max-len
+  // https://github.com/airbnb/javascript/blob/eslint-config-airbnb-v18.1.0/packages/eslint-config-airbnb/rules/react.js#L489
+  // TODO remove this suppression once the TODO above is resolved:
+  // eslint-disable-next-line react/static-property-placement
   static defaultProps: Pick<Props, 'searchDelay'> = {
     searchDelay: 500,
   };
@@ -72,8 +76,8 @@ class SearchBox extends React.Component<Props, State> {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentWillUpdate(nextProps: Readonly<Props>): void {
-    this.searchProvider = new OpenStreetMapProvider({ params: searchParams(nextProps) });
+  componentDidUpdate() {
+    this.searchProvider = new OpenStreetMapProvider({ params: searchParams(this.props) });
   }
 
   componentWillUnmount() {
@@ -95,12 +99,12 @@ class SearchBox extends React.Component<Props, State> {
           }
           this.setState({
             results: searchResults
-              .map(result => ({
+              .map((result) => ({
                 address: result.label,
                 latLng: { lat: result.y, lng: result.x },
               })),
             attributions: searchResults
-              .map(result => result.raw.licence)
+              .map((result) => result.raw.licence)
               // filter out duplicate elements
               .filter((value, index, array) => array.indexOf(value) === index),
           });
@@ -158,7 +162,7 @@ class SearchBox extends React.Component<Props, State> {
 
               <li className="pf-c-options-menu__separator" role="separator" />
 
-              {attributions.map(attribution => (
+              {attributions.map((attribution) => (
                 <li
                   key={`attrib: ${attribution}`}
                   className="pf-c-options-menu__menu-item pf-m-disabled"

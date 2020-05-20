@@ -57,7 +57,7 @@ const renderLocationList: React.FC<LocationListProps> = ({
         .slice(0) // clone the array because
         // sort is done in place (that would affect the route)
         .sort((a, b) => a.id - b.id)
-        .map(visit => (
+        .map((visit) => (
           <LocationItem
             key={visit.id}
             id={visit.id}
@@ -71,7 +71,7 @@ const renderLocationList: React.FC<LocationListProps> = ({
   </div>
 );
 
-const LocationList: React.FC<LocationListProps> = props => (
+const LocationList: React.FC<LocationListProps> = (props) => (
   props.visits.length === 0 && props.depot === null
     ? renderEmptyLocationList(props)
     : renderLocationList(props)

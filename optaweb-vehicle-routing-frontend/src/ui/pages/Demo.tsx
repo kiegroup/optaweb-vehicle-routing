@@ -82,7 +82,7 @@ const mapStateToProps = ({ plan, demo, serverInfo, userViewport }: AppState): St
   countryCodeSearchFilter: serverInfo.countryCodes,
   // TODO use selector
   // TODO sort demos alphabetically?
-  demoNames: (serverInfo.demos && serverInfo.demos.map(value => value.name)) || [],
+  demoNames: (serverInfo.demos && serverInfo.demos.map((value) => value.name)) || [],
 });
 
 const mapDispatchToProps: DispatchProps = {

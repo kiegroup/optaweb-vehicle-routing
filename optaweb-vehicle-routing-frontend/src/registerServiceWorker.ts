@@ -1,9 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable header/header */
-/* eslint-disable operator-linebreak */
-/* eslint-disable no-console */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-use-before-define */
 // In production, we register a service worker to serve assets from local cache.
 
 // This lets the app load faster on subsequent visits in production, and gives

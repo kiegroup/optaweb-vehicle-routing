@@ -102,6 +102,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
                       >
                         <MinusIcon
                           color="currentColor"
+                          noVerticalAlign={false}
                           size="sm"
                           title={null}
                         />
@@ -118,6 +119,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
                       >
                         <PlusIcon
                           color="currentColor"
+                          noVerticalAlign={false}
                           size="sm"
                           title={null}
                         />
@@ -331,6 +333,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
                       >
                         <MinusIcon
                           color="currentColor"
+                          noVerticalAlign={false}
                           size="sm"
                           title={null}
                         />
@@ -347,6 +350,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
                       >
                         <PlusIcon
                           color="currentColor"
+                          noVerticalAlign={false}
                           size="sm"
                           title={null}
                         />
@@ -536,6 +540,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
                       >
                         <MinusIcon
                           color="currentColor"
+                          noVerticalAlign={false}
                           size="sm"
                           title={null}
                         />
@@ -552,6 +557,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
                       >
                         <PlusIcon
                           color="currentColor"
+                          noVerticalAlign={false}
                           size="sm"
                           title={null}
                         />
@@ -758,6 +764,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
                       >
                         <MinusIcon
                           color="currentColor"
+                          noVerticalAlign={false}
                           size="sm"
                           title={null}
                         />
@@ -774,6 +781,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
                       >
                         <PlusIcon
                           color="currentColor"
+                          noVerticalAlign={false}
                           size="sm"
                           title={null}
                         />

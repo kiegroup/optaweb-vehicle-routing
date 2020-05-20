@@ -44,6 +44,7 @@ exports[`Toolbar component should match snapshot 1`] = `
       >
         <BellIcon
           color="currentColor"
+          noVerticalAlign={false}
           size="sm"
           title={null}
         />
@@ -57,6 +58,7 @@ exports[`Toolbar component should match snapshot 1`] = `
       >
         <CogIcon
           color="currentColor"
+          noVerticalAlign={false}
           size="sm"
           title={null}
         />

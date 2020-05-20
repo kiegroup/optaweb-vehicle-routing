@@ -21,7 +21,7 @@ import { UserViewport } from 'store/client/types';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 import LocationMarker from './LocationMarker';
 
-type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export interface Props {
   selectedId: number;
@@ -56,6 +56,8 @@ const RouteMap: React.FC<Props> = ({
   const bounds = boundingBox ? new L.LatLngBounds(boundingBox[0], boundingBox[1]) : undefined;
   // do not use bounds if user's viewport is dirty
   const mapBounds = userViewport.isDirty ? undefined : bounds;
+  // TODO make TileLayer URL configurable
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   const tileLayerUrl = window.Cypress ? 'test-mode-empty-url' : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   return (
@@ -81,7 +83,7 @@ const RouteMap: React.FC<Props> = ({
           removeHandler={removeHandler}
         />
       )}
-      {visits.map(location => (
+      {visits.map((location) => (
         <LocationMarker
           key={location.id}
           location={location}

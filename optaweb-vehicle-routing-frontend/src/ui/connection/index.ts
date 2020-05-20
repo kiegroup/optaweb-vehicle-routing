@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,14 +14,6 @@
  * limitations under the License.
  */
 
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import * as React from 'react';
-import { UnderConstruction } from './UnderConstruction';
+import ConnectedConnectionManager from './ConnectionManager';
 
-describe('Under Construction', () => {
-  it('should render correctly', () => {
-    const underConstruction = shallow(<UnderConstruction />);
-    expect(toJson(underConstruction)).toMatchSnapshot();
-  });
-});
+export { ConnectedConnectionManager as ConnectionManager };

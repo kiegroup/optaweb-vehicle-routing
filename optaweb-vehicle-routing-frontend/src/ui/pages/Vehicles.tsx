@@ -80,7 +80,7 @@ export const Vehicles: React.FC<Props> = ({
           .slice(0) // clone the array because
           // sort is done in place (that would affect the route)
           .sort((a, b) => a.id - b.id)
-          .map(vehicle => (
+          .map((vehicle) => (
             <VehicleItem
               key={vehicle.id}
               id={vehicle.id}

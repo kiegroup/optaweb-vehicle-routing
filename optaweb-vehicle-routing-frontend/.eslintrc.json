@@ -28,16 +28,14 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "react-app",
-    "airbnb"
+    "airbnb-typescript"
   ],
   "rules": {
-    "@typescript-eslint/camelcase": "off", // duplicates "camelcase" from airbnb
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-member-accessibility": ["error", {"accessibility": "no-public"}],
     "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-object-literal-type-assertion": "off",
     "@typescript-eslint/no-use-before-define": "off",
     "header/header": [
       "error", "block", [
@@ -72,11 +70,9 @@
         ]
       }
     ],
-    "import/no-unresolved": "off",
     "import/prefer-default-export": "off",
     "max-len": ["error", {"code": 120}],
     "no-console": "warn",
-    "no-use-before-define": "off",
     "object-curly-newline": [
       "error", {
         "ImportDeclaration": {"multiline": true},
@@ -84,7 +80,7 @@
       }
     ],
     "react/destructuring-assignment": "off",
-    "react/jsx-filename-extension": ["error", {"extensions": [".tsx"]}],
+    "react/jsx-props-no-spreading": "off",
     "react/prop-types": "off",
     "react/sort-comp": "off"
   }

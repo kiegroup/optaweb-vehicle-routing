@@ -23,7 +23,7 @@ export interface Props {
   onSelect: (name: string) => void;
 }
 
-const dropdownItems = (demos: string[]): React.ReactNode[] => demos.map(value => (
+const dropdownItems = (demos: string[]): React.ReactNode[] => demos.map((value) => (
   <DropdownItem key={value}>
     {value}
   </DropdownItem>
@@ -39,7 +39,9 @@ export const DemoDropdown: React.FC<Props> = ({ demos, onSelect }) => {
       dropdownItems={dropdownItems(demos)}
       onSelect={(e) => {
         setOpen(false);
-        onSelect((e && e.currentTarget && e.currentTarget.innerText) || '');
+        if (e && e.currentTarget) {
+          onSelect(e.currentTarget.innerText);
+        }
       }}
       toggle={(
         <DropdownToggle

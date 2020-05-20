@@ -113,7 +113,7 @@ describe('Search box', () => {
     expect(toJson(searchBox)).toMatchSnapshot();
 
     const resultItems = searchBox.findWhere(
-      node => node.key() !== null && node.key().startsWith('result'),
+      (node) => node.key() !== null && node.key().startsWith('result'),
     );
     expect(resultItems).toHaveLength(results.length);
 
