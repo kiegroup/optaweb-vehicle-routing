@@ -35,7 +35,7 @@ sudo dnf install java-1.8.0-openjdk-devel
 ----
 * To install OpenJDK on other platforms, follow instructions at https://openjdk.java.net/install/.
 
-== Download OptaWeb Vehicle Routing
+== Download distribution archive
 
 Download the OptaWeb Vehicle Routing distribution archive, available from the OptaPlanner website, to quickly evaluate OptaWeb Vehicle Routing without having to set up build tools.
 

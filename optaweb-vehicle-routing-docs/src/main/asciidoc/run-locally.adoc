@@ -1,5 +1,5 @@
 [#run-locally-sh]
-= Run the OptaWeb Vehicle Routing using the `runLocally.sh` script
+= Run locally using the script
 
 Linux and macOS users can use a Bash script called `runLocally.sh` to run OptaWeb Vehicle Routing.
 The script automates some setup steps that would otherwise have to be carried out manually.
@@ -51,7 +51,7 @@ You can use the interactive mode to download additional OSM files from Geofabrik
 . Confirm the project build if it hasn't been built yet.
 . Confirm starting OptaWeb Vehicle Routing using the selected region.
 
-== Run OptaWeb Vehicle Routing with a selected region non-interactively
+== Non-interactive mode
 
 Use the non-interactive mode to specify an existing region and start OptaWeb Vehicle Routing with a single command.
 This is useful for switching between regions quickly or when doing a demo.
@@ -59,7 +59,7 @@ This is useful for switching between regions quickly or when doing a demo.
 .Procedure
 Run `./runLocally.sh <REGION>`.
 
-== Run OptaWeb Vehicle Routing in air distance mode
+== Air distance mode
 
 OptaWeb Vehicle Routing can work in air distance mode that calculates travel times based on the distance between two coordinates.
 Use this mode in situations where you need to get OptaWeb Vehicle Routing up and running as quickly as possible and do not want to use an OSM (OpenStreetMap) file.

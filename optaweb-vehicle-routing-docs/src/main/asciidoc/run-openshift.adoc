@@ -1,5 +1,5 @@
 [#run-openshift]
-= Run the OptaWeb Vehicle Routing using the `runOnOpenShift.sh` script
+= Run on OpenShift
 
 Linux and macOS users can use a Bash script called `runOnOpenShift.sh` to install OptaWeb Vehicle Routing on OpenShift.
 

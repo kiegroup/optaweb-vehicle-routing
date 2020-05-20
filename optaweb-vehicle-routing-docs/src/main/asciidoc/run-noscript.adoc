@@ -1,5 +1,5 @@
 [#run-noscript]
-= Run OptaWeb Vehicle Routing without the script
+= Run locally without the script
 
 include::attributes.adoc[]
 
@@ -18,7 +18,7 @@ NOTE: The OSM data files are typically between 100 MB to 1 GB and take time to d
 The sub region's page opens.
 . In the *Sub Regions* table, download the OSM file (`.osm.pbf`) for a country, for example Belgium.
 
-== Create the OptaWeb Vehicle Routing data directory structure
+== Create data directory structure
 
 OptaWeb Vehicle Routing reads and writes several types of data on the file system.
 It reads OSM (OpenStreetMap) files from the `openstreetmap` directory, writes a road network graph to the `graphhopper` directory, and persists user data in a directory called `db`.
@@ -50,7 +50,7 @@ $HOME/{data-dir-name}
     └── belgium-latest.osm.pbf
 ----
 
-== Run OptaWeb Vehicle Routing using the `java` command
+== Run using the `java` command
 
 .Prerequisites
 * Internet access is available.
