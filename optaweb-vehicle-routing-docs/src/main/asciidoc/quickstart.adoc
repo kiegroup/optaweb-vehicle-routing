@@ -39,8 +39,7 @@ sudo dnf install java-1.8.0-openjdk-devel
 
 Download the OptaWeb Vehicle Routing distribution archive, available from the OptaPlanner website, to quickly evaluate OptaWeb Vehicle Routing without having to set up build tools.
 
-// TODO cross-reference
-NOTE: If you want to modify OptaWeb Vehicle Routing and build it yourself or contribute to upstream, see the Development chapter.
+NOTE: If you want to modify OptaWeb Vehicle Routing and build it yourself or contribute to upstream, see <<development-guide#_development_guide>>.
 
 .Procedure
 . Go to https://www.optaplanner.org/download/download.html
