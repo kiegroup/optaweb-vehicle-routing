@@ -136,7 +136,7 @@ common application properties] available in Spring Boot.
 Our logging backend is Logback.
 Spring Environment allows to configure most logging aspects
 including levels, patterns and log files
-in the same way as any other xref:#configuration[Configuration]
+in the same way as any other xref:#_configuration[Configuration]
 (most often using `application.properties` or arguments `--property=value`).
 See Spring Boot
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-logging.html#boot-features-custom-log-levels[
