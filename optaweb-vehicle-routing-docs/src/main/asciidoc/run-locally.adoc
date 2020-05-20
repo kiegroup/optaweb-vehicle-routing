@@ -11,7 +11,11 @@ The script will:
 * Build the project if the standalone JAR file does not exist.
 * Launch OptaWeb Vehicle Routing by taking a single region argument or by selecting the region interactively.
 
-== Getting started
+== Quickstart mode
+
+In the quickstart mode, the script will take care of downloading the region that is needed to work with the built-in data set.
+This is the easiest way to get started.
+To use the quickstart mode, run the script with no arguments.
 
 .Prerequisites
 * `optaweb-vehicle-routing` repository is cloned on your computer.
