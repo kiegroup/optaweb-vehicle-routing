@@ -2,6 +2,7 @@
 The OptaPlanner Team <https://www.optaplanner.org/community/team.html>
 :doctype: book
 :experimental:
+:icons: font
 :sectanchors:
 :sectlinks:
 :sectnums:

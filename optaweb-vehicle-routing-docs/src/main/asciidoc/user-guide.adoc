@@ -21,9 +21,9 @@ You must view the terminal output of the backend to see detailed error messages.
 To create an optimal route, use the *Demo* tab of the user interface.
 
 . Click *Demo* to open the *Demo* tab.
-. Use the blue *+* and *-* buttons above the map to set the number of vehicles.
+. Use the blue icon:minus-square[role="blue"] and icon:plus-square[role="blue"] buttons above the map to set the number of vehicles.
 Each vehicle has a default capacity of 10.
-. Use the *+* button on the map to zoom in as necessary.
+. Use the icon:plus-square-o[] button on the map to zoom in as necessary.
 +
 [NOTE]
 ====
@@ -36,7 +36,7 @@ A double click also creates a location.
 . If you want to delete a location:
 .. Hover the mouse cursor over the location to see the location name.
 .. Find the location name in the list in the left part of the screen.
-.. Click the *x* icon next to the name.
+.. Click the icon:times[role="blue"] icon next to the name.
 
 Every time you add or remove a location or change the number of vehicles, the application creates and displays a new optimal route.
 If the solution uses several vehicles, the application shows the route for every vehicle in a different color.
