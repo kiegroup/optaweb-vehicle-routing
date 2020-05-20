@@ -20,6 +20,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * This configuration class effectively enables
+ * <a href="https://create-react-app.dev/docs/deployment#serving-apps-with-client-side-routing">client-side routing</a>
+ * by turning off server-side routing.
+ */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
