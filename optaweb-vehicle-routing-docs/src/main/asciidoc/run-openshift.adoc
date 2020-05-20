@@ -12,7 +12,7 @@ to easily set up a single-node OpenShift 4 cluster on your local computer.
 You have successfully built the project with Maven.
 
 .Procedure
-1. To install CRC, follow the https://code-ready.github.io/crc/[Getting Started Guide].
+1. To install CRC, follow the link:https://code-ready.github.io/crc/[Red Hat CodeReady Containers Getting Started Guide].
 
 2. When the cluster has started,
 
