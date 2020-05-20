@@ -1,4 +1,4 @@
-= Using the application
+= Using OptaWeb Vehicle Routing
 
 In the OptaWeb Vehicle Routing application, you can mark a number of locations on the map.
 The first location is assumed to be the warehouse.
