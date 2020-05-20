@@ -19,6 +19,22 @@ with each https://www.kiegroup.org/[KIE] release.
 
 === Backend
 
+Backend module contains a server-side application that uses OptaPlanner to *optimize vehicle routes*.
+It is a CPU-intensive computation, that must avoid any I/O operations in order to perform to its full potential.
+Because one of the chief objectives is to minimize the travel cost, be it time or distance,
+we need to keep the travel cost information in RAM memory.
+While solving, OptaPlanner needs to know the travel cost between every pair of locations that the user has entered.
+This information is stored in a structure called the _distance matrix_.
+
+When a new location is entered, we calculate the travel cost between the new location and every other location that has been entered so far, and store it in the distance matrix.
+The travel cost calculation is performed by a routing engine called https://github.com/graphhopper/graphhopper[GraphHopper].
+
+Finally, the backend module implements additional functionality like
+
+- persistence,
+- WebSocket connection for the frontend,
+- data set loading, export and import.
+
 === Frontend
 
 === Standalone
