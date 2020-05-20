@@ -17,3 +17,7 @@ include::quickstart.adoc[leveloffset=+1]
 include::run-locally.adoc[leveloffset=+1]
 
 include::run-noscript.adoc[leveloffset=+1]
+
+include::run-openshift.adoc[leveloffset=+1]
+
+include::user-guide.adoc[leveloffset=+1]
