@@ -68,5 +68,5 @@ If the application behaves unexpectedly, review the backend terminal output log.
 
 To resolve issues, remove the backend database:
 
-. Stop the backend by pressing Ctrl+C in the backend terminal window.
+. Stop the backend by pressing kbd:[Ctrl+C] in the backend terminal window.
 . Remove the directory `optaweb-vehicle-routing/optaweb-vehicle-routing-backend/local/db`.

@@ -1,6 +1,7 @@
 = Using OptaWeb Vehicle Routing
 The OptaPlanner Team <https://www.optaplanner.org/community/team.html>
 :doctype: book
+:experimental:
 :sectanchors:
 :sectlinks:
 :sectnums:
