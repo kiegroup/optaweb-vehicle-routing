@@ -5,13 +5,13 @@
 :david-link: {david-project}?{david-path}
 
 [[optaweb-vehicle-routing-frontend]]
-= OptaWeb Vehicle Routing Frontend
+= OptaWeb Vehicle Routing frontend
 
 image:{david-deps}["dependencies Status", link="{david-link}"]
 image:{david-devDeps}["devDependencies Status", link="{david-link}&type=dev"]
 
 [[available-scripts]]
-== Available Scripts
+== Available scripts
 
 In the project directory, you can run:
 
@@ -75,7 +75,7 @@ for small and middle deployments, and you shouldn’t feel obligated to
 use this feature. However we understand that this tool wouldn’t be
 useful if you couldn’t customize it when you are ready for it.
 
-== Change Backend Location
+== Change backend location
 Use an environment variable called `REACT_APP_BACKEND_URL` to change backend URL
 when running `npm start` or `npm run build`. For example:
 
@@ -92,7 +92,7 @@ https://facebook.github.io/create-react-app/docs/adding-custom-environment-varia
 Adding Custom Environment Variables].
 
 [[browserslist-support]]
-== Browserslist Support
+== Browserslist support
 
 Developers set versions list in queries like `last 2 version` to be free
 from updating versions manually. Browserslist will use
@@ -117,7 +117,7 @@ Example:
 ----
 
 [[learn-more]]
-== Learn More
+== Learn more
 
 You can learn more in the
 https://github.com/Microsoft/TypeScript-React-Starter[TypeScript React
