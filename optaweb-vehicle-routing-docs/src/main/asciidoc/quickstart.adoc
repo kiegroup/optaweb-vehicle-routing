@@ -26,6 +26,7 @@ However, if you have a binary distribution of OptaWeb Vehicle Routing, you only 
 ----
 java -version
 ----
+
 . If necessary, install OpenJDK 8.
 * To install OpenJDK 8 on Fedora, enter the following command:
 +
@@ -33,6 +34,7 @@ java -version
 ----
 sudo dnf install java-1.8.0-openjdk-devel
 ----
+
 * To install OpenJDK on other platforms, follow instructions at https://openjdk.java.net/install/.
 
 == Download distribution archive
@@ -49,7 +51,8 @@ and click the *OptaWeb Vehicle Routing* tab.
 .OptaPlanner download page
 image::download.png[OptaPlanner download page at www.optaplanner.org,align="center"]
 +
-. Extract the downloaded distribution ZIP file. The archive contains source files and a binary build of OptaWeb Vehicle Routing as well as the OptaWeb Vehicle Routing documentation.
+. Extract the downloaded distribution ZIP file.
+The archive contains source files and a binary build of OptaWeb Vehicle Routing as well as the OptaWeb Vehicle Routing documentation.
 +
 .Content of the OptaWeb Vehicle Routing distribution archive
 image::distribution.png[Content of the OptaWeb Vehicle Routing distribution archive,align="center"]
