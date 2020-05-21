@@ -40,7 +40,8 @@ We put domain model at the center of the architecture and surround it by the app
 Functions such as route optimization, distance calculation, persistence, and network communication are considered implementation details
 and are placed at the outermost layer of the architecture.
 
-// TODO picture
+.Diagram of application layers
+image::backend-layers.svg[align="center"]
 
 ==== Project structure
 
