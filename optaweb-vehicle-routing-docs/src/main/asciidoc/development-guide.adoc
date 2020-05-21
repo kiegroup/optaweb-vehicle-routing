@@ -13,9 +13,7 @@ which contain the application source code.
 The standalone module is an assembly module that combines backend and frontend into a single executable JAR file.
 
 The distribution module represents the final assembly step.
-It takes the standalone application and the documentation and wraps them into a distributable archive.
-The distribution archive is made available on https://www.optaplanner.org/[OptaPlanner website]
-with each https://www.kiegroup.org/[KIE] release.
+It takes the standalone application and the documentation and wraps them in an archive that is easy to distribute.
 
 === Backend
 
