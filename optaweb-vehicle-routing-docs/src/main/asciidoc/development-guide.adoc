@@ -18,22 +18,22 @@ It takes the standalone application and the documentation and wraps them in an a
 == Backend
 
 Backend module contains a server-side application that uses OptaPlanner to *optimize vehicle routes*.
-It is a CPU-intensive computation, that must avoid any I/O operations in order to perform to its full potential.
+Optimization is a CPU-intensive computation, that must avoid any I/O operations in order to perform to its full potential.
 Because one of the chief objectives is to minimize the travel cost, be it time or distance,
 we need to keep the travel cost information in RAM memory.
-While solving, OptaPlanner needs to know the travel cost between every pair of locations that the user has entered.
+While solving, OptaPlanner needs to know the travel cost between every pair of locations entered by the user.
 This information is stored in a structure called the _distance matrix_.
 
-When a new location is entered, we calculate the travel cost between the new location and every other location that has been entered so far, and store it in the distance matrix.
+When a new location is entered, we calculate the travel cost between the new location and every other location that has been entered so far, and store the travel cost in the distance matrix.
 The travel cost calculation is performed by a routing engine called https://github.com/graphhopper/graphhopper[GraphHopper].
 
-Finally, the backend module implements additional functionality like
+Finally, the backend module implements additional, supporting functionality like
 
 - persistence,
 - WebSocket connection for the frontend,
 - data set loading, export and import.
 
-=== Design and source code organization
+=== Backend architecture
 
 Domain model and use cases are essential for the application.
 We put domain model at the center of the architecture and surround it by the application layer, that embeds use cases.
@@ -43,59 +43,41 @@ and are placed at the outermost layer of the architecture.
 .Diagram of application layers
 image::backend-layers.svg[align="center"]
 
-==== Project structure
+==== Code organization
+
+The backend code is organized in three layers outlined above.
 
 [literal]
 ....
 org.optaweb.vehiclerouting
 ├── domain
-├── plugin
+├── plugin          # Infrastructure layer
 │   ├── persistence
 │   ├── planner
 │   ├── routing
 │   └── websocket
-└── service
+└── service         # Application layer
     ├── demo
     ├── distance
     ├── location
-    └── route
+    ├── region
+    ├── reload
+    ├── route
+    └── vehicle
 ....
 
-===== Root package
+The `service` package contains the application layer, implementing use cases.
+The `plugin` package contains the infrastructure layer.
 
-The root package name is identical to the Maven Group ID of the project
-(`org.optaweb.vehiclerouting`).
-It contains a class annotated with `@SpringBootApplication`,
-which enables Spring auto-configuration and component scanning in sub-packages.
-
-===== Domain package
-
-Contains "business objects" that model the domain of this project,
-for example Visit, Depot, Location, Vehicle.
-These objects are strictly business-oriented and must not be influenced
-by any tools and frameworks (e.g. ORM, marshalling formats etc.).
-
-===== Services package
-
-Contains classes that implement "use cases".
-A use case is for example adding new location, changing vehicle capacity
-or finding coordinates for an address.
-The business rules that govern use cases are expressed using the domain objects.
-
-Use cases often need to interact with outer layers, such as persistence, web and
-optimization.
-To keep the code loosely coupled, the interaction with the outer layers
-is expressed in terms of interfaces.
-Their implementations are provided by Spring IoC container at runtime.
-
-===== Plugins package
-
-Contains outer layers such as optimization, persistence, routing and web.
+Code in each layer is further organized by function.
+That means each service or plugin has its own package.
 
 ==== Dependency rules
 
-Compile-time dependencies are only allowed in the direction from outer layers towards the center.
-This means plugins -> services -> domain.
+Compile-time dependencies are only allowed to point from outer layers towards the center.
+Following this rule helps to keep domain model independent of underlying frameworks and other implementation details,
+and model the behavior of business entities more precisely.
+With presentation and persistence being pushed out to the periphery, it is easier to test the behavior of business entities and use cases.
 
 The domain has no dependencies.
 
@@ -107,6 +89,27 @@ Plugins depend on services in two ways.
 Firstly, they invoke services based on events such as a user input or a route update coming from the optimization engine.
 Services are injected into plugins, which moves the burden of their construction and dependency resolution to the IoC container.
 Secondly, plugins implement services' output boundary interfaces to handle use case results, e.g. persisting changes to database, sending response to web UI.
+
+==== Domain package
+
+The `domain` package contains "business objects" that model the domain of this project,
+for example Visit, Depot, Location, Vehicle.
+These objects are strictly business-oriented and must not be influenced
+by any tools and frameworks (e.g. ORM, marshalling formats etc.).
+
+==== Services package
+
+The `service` package contains classes that implement "use cases".
+A use case is for example adding new location, changing vehicle capacity or finding coordinates for an address.
+The business rules that govern use cases are expressed using the domain objects.
+
+Use cases often need to interact with outer layers, such as persistence, web and optimization.
+To keep the code loosely coupled, the interaction with the outer layers is expressed in terms of interfaces.
+Their implementations are provided by Spring IoC container at runtime.
+
+==== Plugins package
+
+The `plugin` package contains infrastructure functions such as optimization, persistence, routing and network.
 
 == Frontend
 
