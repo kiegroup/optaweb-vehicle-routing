@@ -15,7 +15,7 @@ The standalone module is an assembly module that combines backend and frontend i
 The distribution module represents the final assembly step.
 It takes the standalone application and the documentation and wraps them in an archive that is easy to distribute.
 
-=== Backend
+== Backend
 
 Backend module contains a server-side application that uses OptaPlanner to *optimize vehicle routes*.
 It is a CPU-intensive computation, that must avoid any I/O operations in order to perform to its full potential.
@@ -33,7 +33,7 @@ Finally, the backend module implements additional functionality like
 - WebSocket connection for the frontend,
 - data set loading, export and import.
 
-==== Design and source code organization
+=== Design and source code organization
 
 Domain model and use cases are essential for the application.
 We put domain model at the center of the architecture and surround it by the application layer, that embeds use cases.
@@ -42,7 +42,7 @@ and are placed at the outermost layer of the architecture.
 
 // TODO picture
 
-===== Project structure
+==== Project structure
 
 [literal]
 ....
@@ -60,21 +60,21 @@ org.optaweb.vehiclerouting
     └── route
 ....
 
-====== Root package
+===== Root package
 
 The root package name is identical to the Maven Group ID of the project
 (`org.optaweb.vehiclerouting`).
 It contains a class annotated with `@SpringBootApplication`,
 which enables Spring auto-configuration and component scanning in sub-packages.
 
-====== Domain package
+===== Domain package
 
 Contains "business objects" that model the domain of this project,
 for example Visit, Depot, Location, Vehicle.
 These objects are strictly business-oriented and must not be influenced
 by any tools and frameworks (e.g. ORM, marshalling formats etc.).
 
-====== Services package
+===== Services package
 
 Contains classes that implement "use cases".
 A use case is for example adding new location, changing vehicle capacity
@@ -87,11 +87,11 @@ To keep the code loosely coupled, the interaction with the outer layers
 is expressed in terms of interfaces.
 Their implementations are provided by Spring IoC container at runtime.
 
-====== Plugins package
+===== Plugins package
 
 Contains outer layers such as optimization, persistence, routing and web.
 
-===== Dependency rules
+==== Dependency rules
 
 Compile-time dependencies are only allowed in the direction from outer layers towards the center.
 This means plugins -> services -> domain.
@@ -107,13 +107,13 @@ Firstly, they invoke services based on events such as a user input or a route up
 Services are injected into plugins, which moves the burden of their construction and dependency resolution to the IoC container.
 Secondly, plugins implement services' output boundary interfaces to handle use case results, e.g. persisting changes to database, sending response to web UI.
 
-=== Frontend
+== Frontend
 
-=== Standalone
+== Standalone
 
-=== Documentation
+== Documentation
 
-=== Distribution
+== Distribution
 
 == Building the project
 
