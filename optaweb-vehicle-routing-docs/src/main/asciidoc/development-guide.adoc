@@ -233,7 +233,7 @@ See https://www.jetbrains.com/help/idea/compilation-types.html[Compilation Types
 This will create a Run Configuration that you will edit in the next step.
 A failure on the first run is expected due to wrong working directory.
 
-2. Select `Run > Edit Configurations...` and then select `Spring Boot > OptaWebVehicleRoutingApplication`.
+2. Select menu:Run[Edit Configurations...] and then select menu:Spring Boot[OptaWebVehicleRoutingApplication].
 
 3. Change *Working directory* to the backend module (`optaweb-vehicle-routing-backend`).
 
