@@ -225,7 +225,7 @@ No IDE configuration is needed.
 If your IDE has a compile-on-save feature (Eclipse, NetBeans), you just need to save the files that have changed since last compilation.
 
 IntelliJ IDEA saves changes automatically and you need to use either Recompile action, which recompiles the file in active tab, or Build Project action which recompiles all changes.
-See https://www.jetbrains.com/help/idea/compilation-types.html[Compilation Types].
+See https://www.jetbrains.com/help/idea/compiling-applications.html[Compile and build applications with IntelliJ IDEA].
 
 === Running backend from IntelliJ IDEA
 
