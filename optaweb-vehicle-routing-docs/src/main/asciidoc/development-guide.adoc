@@ -129,8 +129,8 @@ It's not possible to set properties simply via `-D` when running the application
 Any system properties that should be set by the plugin to the forked Java process in which the application runs need to be specified using `systemPropertiesVariables`
 https://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-system-properties.html[plugin configuration].
 
-You can learn more about Spring Boot Externalized Configuration in
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Guide].
+You can learn more about configuring a Spring Boot application
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Externalized Configuration].
 
 [TIP]
 Use `src/main/resources/application-local.properties` to store your personal configuration without affecting Git working tree.
