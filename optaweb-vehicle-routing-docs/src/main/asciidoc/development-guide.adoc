@@ -117,28 +117,23 @@ There are multiple ways how to set configuration properties.
 When running locally, you'll probably want to use one of these:
 
 * Set it using `application.properties` (you'll find it under `/src/main/resources/`).
-* A command line argument when running the packaged application
-(e.g. `java -jar optaweb-vehicle-routing-backend.jar --app.my-property=value1`).
+* A command line argument when running the packaged application (e.g. `java -jar optaweb-vehicle-routing-backend.jar --app.my-property=value1`).
 * An environment variable when running the application with `spring-boot:run`.
 +
-For example: `app_my_property=value1 ./mvnw spring-boot:run`
-if the property name is `app.my-property` (this requires
+For example: `app_my_property=value1 ./mvnw spring-boot:run` if the property name is `app.my-property` (this requires
 https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config-relaxed-binding[relaxed binding]
 which only works if the property is defined using `@ConfigurationProperties`).
 
 [NOTE]
-It's not possible to set properties simply via `-D` when running
-the application using Spring Boot Maven plugin (`./mvnw spring-boot:run -Dmy-property`).
-Any system properties that should be set by the plugin to the forked Java process
-in which the application runs need to be specified using `systemPropertiesVariables`
+It's not possible to set properties simply via `-D` when running the application using Spring Boot Maven plugin (`./mvnw spring-boot:run -Dmy-property`).
+Any system properties that should be set by the plugin to the forked Java process in which the application runs need to be specified using `systemPropertiesVariables`
 https://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-system-properties.html[plugin configuration].
 
 You can learn more about Spring Boot Externalized Configuration in
 https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Guide].
 
 [TIP]
-Use `src/main/resources/application-local.properties` to store your personal configuration
-without affecting Git working tree.
+Use `src/main/resources/application-local.properties` to store your personal configuration without affecting Git working tree.
 
 See also the complete list of
 https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[
@@ -208,49 +203,37 @@ The file must be placed under `app.routing.osm-dir`.
 
 === Logging
 
-Our logging backend is Logback.
-Spring Environment allows to configure most logging aspects
-including levels, patterns and log files
-in the same way as any other <<_configuration>>
-(most often using `application.properties` or arguments `--property=value`).
+OptaWeb uses SLF4J API and Logback as the logging framework.
+Spring Environment allows to configure most logging aspects including levels, patterns and log files in the same way as any other <<_configuration>> (most often using `application.properties` or arguments `--property=value`).
 See
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-logging.html#boot-features-custom-log-levels[
 Spring Boot Logging] documentation for more information.
 
 For example, you may use:
 
-- `logging.level.org.optaweb.vehiclerouting=debug`
-to enable debug level for the backend code,
-- `logging.level.org.optaplanner.core=warn`
-to reduce OptaPlanner logging,
-- `logging.level.org.springframework.web.socket=trace`
-to access more details when investigating problems with WebSocket connection.
+- `logging.level.org.optaweb.vehiclerouting=debug` to enable debug level for the backend code,
+- `logging.level.org.optaplanner.core=warn` to reduce OptaPlanner logging,
+- `logging.level.org.springframework.web.socket=trace` to access more details when investigating problems with WebSocket connection.
 
 === Automatic restart
 
 https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-devtools-restart[Automatic restart]
 is provided by Spring Boot DevTools.
-It scans files on the classpath, so you only need to recompile your changes
-to trigger application restart.
+It scans files on the classpath, so you only need to recompile your changes to trigger application restart.
 No IDE configuration is needed.
 
-If your IDE has a compile-on-save feature (Eclipse, NetBeans),
-you just need to save the files that have changed since last compilation.
+If your IDE has a compile-on-save feature (Eclipse, NetBeans), you just need to save the files that have changed since last compilation.
 
-IntelliJ IDEA saves changes automatically and you need to use either
-Recompile action, which recompiles the file in active tab, or
-Build Project action which recompiles all changes.
+IntelliJ IDEA saves changes automatically and you need to use either Recompile action, which recompiles the file in active tab, or Build Project action which recompiles all changes.
 See https://www.jetbrains.com/help/idea/compilation-types.html[Compilation Types].
 
 === Running backend from IntelliJ IDEA
 
-1. Run `org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication`
-from Project window.
+1. Run `org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication` from Project window.
 This will create a Run Configuration that you will edit in the next step.
 A failure on the first run is expected due to wrong working directory.
 
-2. Select `Run > Edit Configurations...` and then select
-`Spring Boot > OptaWebVehicleRoutingApplication`.
+2. Select `Run > Edit Configurations...` and then select `Spring Boot > OptaWebVehicleRoutingApplication`.
 
 3. Change *Working directory* to the backend module (`optaweb-vehicle-routing-backend`).
 
