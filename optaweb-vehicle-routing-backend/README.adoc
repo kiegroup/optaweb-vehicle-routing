@@ -1,8 +1,4 @@
 = OptaWeb Vehicle Routing backend
 
-- Maintains and persists user data created through the UI (e.g. visit locations).
-- Uses 3rd party services to obtain travel distances between locations based on
-  real-world geographical data.
-- Uses OptaPlanner to optimize the route between locations.
-- Provides network endpoints for interaction with the web UI.
-
+See the <<../optaweb-vehicle-routing-docs/src/main/asciidoc/development-guide#backend,Backend development chapter>>
+in the documentation.

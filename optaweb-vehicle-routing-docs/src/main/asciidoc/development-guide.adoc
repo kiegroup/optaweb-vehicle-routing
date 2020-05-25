@@ -23,6 +23,7 @@ Both projects have tools that provide a modern developer experience with fast tu
 
 In the next sections you will learn how to run both backend and frontend projects in development mode.
 
+[[backend]]
 == Backend
 
 ////
