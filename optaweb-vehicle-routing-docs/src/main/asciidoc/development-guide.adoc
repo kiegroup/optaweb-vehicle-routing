@@ -15,6 +15,14 @@ The standalone module is an assembly module that combines backend and frontend i
 The distribution module represents the final assembly step.
 It takes the standalone application and the documentation and wraps them in an archive that is easy to distribute.
 
+== Developing OptaWeb Vehicle Routing
+
+Backend and frontend are separate projects that can be built and deployed separately.
+In fact, they are written in completely different languages and built with different tools.
+Both projects have tools that provide a modern developer experience with fast turn-around between code changes and the running application.
+
+In the next sections you will learn how to run both backend and frontend projects in development mode.
+
 == Backend
 
 Backend module contains a server-side application that uses OptaPlanner to *optimize vehicle routes*.
