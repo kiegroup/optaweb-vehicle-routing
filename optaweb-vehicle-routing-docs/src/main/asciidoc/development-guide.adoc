@@ -33,50 +33,6 @@ Finally, the backend module implements additional, supporting functionality like
 - WebSocket connection for the frontend,
 - data set loading, export and import.
 
-=== Configuration
-
-There are multiple ways how to set configuration properties.
-When running locally, you'll probably want to use one of these:
-
-* Set it using `application.properties` (you'll find it under `/src/main/resources/`).
-* A command line argument when running the packaged application (e.g. `java -jar optaweb-vehicle-routing-backend.jar --app.my-property=value1`).
-* An environment variable when running the application with `spring-boot:run`.
-+
-For example: `app_my_property=value1 ./mvnw spring-boot:run` if the property name is `app.my-property` (this requires
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config-relaxed-binding[relaxed binding]
-which only works if the property is defined using `@ConfigurationProperties`).
-
-[NOTE]
-It's not possible to set properties simply via `-D` when running the application using Spring Boot Maven plugin (`./mvnw spring-boot:run -Dmy-property`).
-Any system properties that should be set by the plugin to the forked Java process in which the application runs need to be specified using `systemPropertiesVariables`
-https://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-system-properties.html[plugin configuration].
-
-You can learn more about configuring a Spring Boot application
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Externalized Configuration].
-
-[TIP]
-Use `src/main/resources/application-local.properties` to store your personal configuration without affecting Git working tree.
-
-See the complete list of <<appendix-backend-config#_backend_configuration_properties>>.
-
-See also the complete list of
-https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[
-common application properties] available in Spring Boot.
-
-=== Logging
-
-OptaWeb uses SLF4J API and Logback as the logging framework.
-Spring Environment allows to configure most logging aspects including levels, patterns and log files in the same way as any other <<_configuration>> (most often using `application.properties` or arguments `--property=value`).
-See
-https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-logging.html#boot-features-custom-log-levels[
-Spring Boot Logging] documentation for more information.
-
-For example, you may use:
-
-- `logging.level.org.optaweb.vehiclerouting=debug` to enable debug level for the backend code,
-- `logging.level.org.optaplanner.core=warn` to reduce OptaPlanner logging,
-- `logging.level.org.springframework.web.socket=trace` to access more details when investigating problems with WebSocket connection.
-
 === Running backend from the command line
 
 .Prerequisites
@@ -124,6 +80,50 @@ If your IDE has a compile-on-save feature (Eclipse, NetBeans), you just need to 
 
 IntelliJ IDEA saves changes automatically and you need to use either Recompile action, which recompiles the file in active tab, or Build Project action which recompiles all changes.
 See https://www.jetbrains.com/help/idea/compiling-applications.html[Compile and build applications with IntelliJ IDEA].
+
+=== Configuration
+
+There are multiple ways how to set configuration properties.
+When running locally, you'll probably want to use one of these:
+
+* Set it using `application.properties` (you'll find it under `/src/main/resources/`).
+* A command line argument when running the packaged application (e.g. `java -jar optaweb-vehicle-routing-backend.jar --app.my-property=value1`).
+* An environment variable when running the application with `spring-boot:run`.
++
+For example: `app_my_property=value1 ./mvnw spring-boot:run` if the property name is `app.my-property` (this requires
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config-relaxed-binding[relaxed binding]
+which only works if the property is defined using `@ConfigurationProperties`).
+
+[NOTE]
+It's not possible to set properties simply via `-D` when running the application using Spring Boot Maven plugin (`./mvnw spring-boot:run -Dmy-property`).
+Any system properties that should be set by the plugin to the forked Java process in which the application runs need to be specified using `systemPropertiesVariables`
+https://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-system-properties.html[plugin configuration].
+
+You can learn more about configuring a Spring Boot application
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Externalized Configuration].
+
+[TIP]
+Use `src/main/resources/application-local.properties` to store your personal configuration without affecting Git working tree.
+
+See the complete list of <<appendix-backend-config#_backend_configuration_properties>>.
+
+See also the complete list of
+https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[
+common application properties] available in Spring Boot.
+
+=== Logging
+
+OptaWeb uses SLF4J API and Logback as the logging framework.
+Spring Environment allows to configure most logging aspects including levels, patterns and log files in the same way as any other <<_configuration>> (most often using `application.properties` or arguments `--property=value`).
+See
+https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-logging.html#boot-features-custom-log-levels[
+Spring Boot Logging] documentation for more information.
+
+For example, you may use:
+
+- `logging.level.org.optaweb.vehiclerouting=debug` to enable debug level for the backend code,
+- `logging.level.org.optaplanner.core=warn` to reduce OptaPlanner logging,
+- `logging.level.org.springframework.web.socket=trace` to access more details when investigating problems with WebSocket connection.
 
 == Frontend
 
