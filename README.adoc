@@ -45,35 +45,6 @@ Frontend and backend are built and run independently. Open two terminal windows.
 
 === Running the backend
 
-JDK 8 is the only system prerequisite for the backend. To install OpenJDK 8 on Fedora, run:
-
-[source,shell]
-----
-sudo dnf install java-1.8.0-openjdk-devel
-----
-
-. Download OpenStreetMap data for a region. For demonstration purposes, we use data for Belgium from Geofabrik:
-.. Open http://download.geofabrik.de/europe/belgium.html.
-.. Download the OSM file http://download.geofabrik.de/europe/belgium-latest.osm.pbf[belgium-latest.osm.pbf].
-.. Save it to `optaweb-vehicle-routing/optaweb-vehicle-routing-backend/local/openstreetmap/belgium-latest.osm.pbf`.
-
-. Build backend:
-+
-[source,shell]
-----
-cd optaweb-vehicle-routing-backend
-./mvnw install
-----
-
-. Run backend:
-+
-[source,shell]
-----
-java -jar target/optaweb-vehicle-routing-backend-*.jar
-----
-
-When you start the backend for the first time, it will need several minutes to process the geographical information. Monitoring the terminal output, wait until the processing is complete, then start the frontend.
-
 See
 xref:optaweb-vehicle-routing-backend/README.adoc#_development_guide[Backend Development Guide]
 to learn how to run backend during development.
@@ -86,8 +57,7 @@ and select it with `app.routing.osm-file` property when starting the backend.
 
 Don't forget to use `app.region.country-codes` property to override geosearch results constraint.
 
-There is currently only one out-of-the-box data set for Belgium
-so the *Load demo* button won't work with other regions.
+There is currently only one out-of-the-box data set for Belgium so the *Load demo* button won't work with other regions.
 
 [source,shell]
 ----

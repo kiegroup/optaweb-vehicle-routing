@@ -221,6 +221,23 @@ For example, you may use:
 - `logging.level.org.optaplanner.core=warn` to reduce OptaPlanner logging,
 - `logging.level.org.springframework.web.socket=trace` to access more details when investigating problems with WebSocket connection.
 
+=== Running backend from the command line
+
+.Prerequisites
+. Java 8 or higher is <<quickstart#_install_java_8_or_higher,installed>>.
+. Data directory is set up.
+. An OSM file is downloaded.
+
+You can accomplish prerequisites 2 and 3 either by using the <<run-locally#run-locally-sh,run script>> or by performing them <<run-noscript#run-noscript,manually>>.
+
+.Procedure
+To run backend in development mode, enter:
+
+[source,shell]
+----
+mvn spring-boot:run
+----
+
 === Running backend from IntelliJ IDEA
 
 1. Run `org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication` from Project window.
