@@ -25,6 +25,15 @@ In the next sections you will learn how to run both backend and frontend project
 
 == Backend
 
+////
+- OptaPlanner, GraphHopper
+- Spring Boot
+- Configuration (`application.properties`, `application-*.properties`)
+- Package structure
+- DevTools
+- Docker
+////
+
 Backend module contains a server-side application that uses OptaPlanner to *optimize vehicle routes*.
 Optimization is a CPU-intensive computation, that must avoid any I/O operations in order to perform to its full potential.
 Because one of the chief objectives is to minimize the travel cost, be it time or distance,
@@ -139,32 +148,13 @@ For example, you may use:
 
 == Frontend
 
-== Standalone
-
-== Documentation
-
-== Distribution
-
-== Building the project
-
-Run `./mvnw install` or `mvn install`.
-
-== Developing backend
-
-////
-- OptaPlanner, GraphHopper
-- Spring Boot
-- Configuration (`application.properties`, `application-*.properties`)
-- Package structure
-- DevTools
-- Docker
-////
-
-== Developing frontend
-
 ////
 - PatternFly, Leaflet
 - Npm, React, Redux, TypeScript, ESLint, Cypress, `ncu`
 - Chrome, plugins
 - Docker
 ////
+
+== Building the project
+
+Run `./mvnw install` or `mvn install`.
