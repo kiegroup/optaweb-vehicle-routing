@@ -41,6 +41,9 @@ Finally, the backend module implements additional, supporting functionality like
 - WebSocket connection for the frontend,
 - data set loading, export and import.
 
+In the next sections you will learn how to configure and run backend in development mode.
+To learn more about the backend code architecture, see <<appendix-backend-architecture#_backend_architecture>>.
+
 === Running backend using Spring Boot Maven plugin
 
 .Prerequisites
