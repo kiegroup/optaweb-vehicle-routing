@@ -33,7 +33,7 @@ Finally, the backend module implements additional, supporting functionality like
 - WebSocket connection for the frontend,
 - data set loading, export and import.
 
-=== Running backend from the command line
+=== Running backend using Spring Boot Maven plugin
 
 .Prerequisites
 . Java 8 or higher is <<quickstart#_install_java_8_or_higher,installed>>.
@@ -49,6 +49,18 @@ To run backend in development mode, enter:
 ----
 mvn spring-boot:run
 ----
+
+=== Automatic restart
+
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-devtools-restart[Automatic restart]
+is provided by Spring Boot DevTools and only works when the backend is running using <<_running_backend_using_spring_boot_maven_plugin, Spring Boot Maven Plugin>>.
+It scans files on the classpath, so you only need to recompile your changes to trigger application restart.
+No IDE configuration is needed.
+
+If your IDE has a compile-on-save feature (Eclipse, NetBeans), you just need to save the files that have changed since last compilation.
+
+IntelliJ IDEA saves changes automatically and you need to use either Recompile action, which recompiles the file in active tab, or Build Project action which recompiles all changes.
+See https://www.jetbrains.com/help/idea/compiling-applications.html[Compile and build applications with IntelliJ IDEA].
 
 === Running backend from IntelliJ IDEA
 
@@ -68,18 +80,6 @@ This will allow you to use the Update action to quickly restart the application.
 +
 See https://blog.jetbrains.com/idea/2018/04/spring-and-spring-boot-in-intellij-idea-2018-1/[Spring and Spring Boot in IntelliJ IDEA 2018.1]
 for more details.
-
-=== Automatic restart
-
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-devtools-restart[Automatic restart]
-is provided by Spring Boot DevTools.
-It scans files on the classpath, so you only need to recompile your changes to trigger application restart.
-No IDE configuration is needed.
-
-If your IDE has a compile-on-save feature (Eclipse, NetBeans), you just need to save the files that have changed since last compilation.
-
-IntelliJ IDEA saves changes automatically and you need to use either Recompile action, which recompiles the file in active tab, or Build Project action which recompiles all changes.
-See https://www.jetbrains.com/help/idea/compiling-applications.html[Compile and build applications with IntelliJ IDEA].
 
 === Configuration
 
