@@ -50,6 +50,7 @@ To learn more about the backend code architecture, see <<appendix-backend-archit
 . Java 8 or higher is <<quickstart#_install_java_8_or_higher,installed>>.
 . Data directory is set up.
 . An OSM file is downloaded.
+// TODO application-local.properties
 
 You can accomplish prerequisites 2 and 3 either by using the <<run-locally#run-locally-sh,run script>> or by performing them <<run-noscript#run-noscript,manually>>.
 
