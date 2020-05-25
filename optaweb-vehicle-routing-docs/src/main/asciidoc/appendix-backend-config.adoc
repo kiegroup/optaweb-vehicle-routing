@@ -1,4 +1,5 @@
 [appendix]
+[[backend-configuration-properties]]
 = Backend configuration properties
 
 [cols="m,d,a,d",options="header"]
@@ -12,7 +13,7 @@
 |app.demo.data-set-dir
 |Relative or absolute path
 |/home/user/{data-dir-name}/dataset
-|Custom <<user-guide#_creating_custom_data_sets,data sets>> are loaded from this directory.
+|Custom <<user-guide#creating-custom-data-sets,data sets>> are loaded from this directory.
 Defaults to `local/dataset`.
 
 |app.persistence.h2-dir

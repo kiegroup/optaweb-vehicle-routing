@@ -1,3 +1,4 @@
+[[development-guide]]
 = Development guide
 
 == Project structure
@@ -52,12 +53,13 @@ Finally, the backend module implements additional, supporting functionality like
 - data set loading, export and import.
 
 In the next sections you will learn how to configure and run backend in development mode.
-To learn more about the backend code architecture, see <<appendix-backend-architecture#_backend_architecture>>.
+To learn more about the backend code architecture, see <<appendix-backend-architecture#backend-architecture>>.
 
+[[run-spring-boot-maven-plugin]]
 === Running backend using Spring Boot Maven plugin
 
 .Prerequisites
-. Java 8 or higher is <<quickstart#_install_java_8_or_higher,installed>>.
+. Java 8 or higher is <<quickstart#install-java,installed>>.
 . Data directory is set up.
 . An OSM file is downloaded.
 // TODO application-local.properties
@@ -75,7 +77,7 @@ mvn spring-boot:run
 === Automatic restart
 
 https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-devtools-restart[Automatic restart]
-is provided by Spring Boot DevTools and only works when the backend is running using <<_running_backend_using_spring_boot_maven_plugin, Spring Boot Maven Plugin>>.
+is provided by Spring Boot DevTools and only works when the backend is running using <<run-spring-boot-maven-plugin, Spring Boot Maven Plugin>>.
 It scans files on the classpath, so you only need to recompile your changes to trigger application restart.
 No IDE configuration is needed.
 
@@ -103,6 +105,7 @@ This will allow you to use the Update action to quickly restart the application.
 See https://blog.jetbrains.com/idea/2018/04/spring-and-spring-boot-in-intellij-idea-2018-1/[Spring and Spring Boot in IntelliJ IDEA 2018.1]
 for more details.
 
+[[backend-configuration]]
 === Configuration
 
 There are multiple ways how to set configuration properties.
@@ -127,7 +130,7 @@ https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-featu
 [TIP]
 Use `src/main/resources/application-local.properties` to store your personal configuration without affecting Git working tree.
 
-See the complete list of <<appendix-backend-config#_backend_configuration_properties>>.
+See the complete list of <<appendix-backend-config#backend-configuration-properties>>.
 
 See also the complete list of
 https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[
@@ -136,7 +139,7 @@ common application properties] available in Spring Boot.
 === Logging
 
 OptaWeb uses SLF4J API and Logback as the logging framework.
-Spring Environment allows to configure most logging aspects including levels, patterns and log files in the same way as any other <<_configuration>> (most often using `application.properties` or arguments `--property=value`).
+Spring Environment allows to configure most logging aspects including levels, patterns and log files in the same way as any other <<backend-configuration>> (most often using `application.properties` or arguments `--property=value`).
 See
 https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-logging.html#boot-features-custom-log-levels[
 Spring Boot Logging] documentation for more information.

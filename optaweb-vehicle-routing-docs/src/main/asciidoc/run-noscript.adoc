@@ -1,4 +1,4 @@
-[#run-noscript]
+[[run-noscript]]
 = Run locally without the script
 
 include::attributes.adoc[]

@@ -1,4 +1,4 @@
-[#run-locally-sh]
+[[run-locally-sh]]
 = Run locally using the script
 
 Linux and macOS users can use a Bash script called `runLocally.sh` to run OptaWeb Vehicle Routing.

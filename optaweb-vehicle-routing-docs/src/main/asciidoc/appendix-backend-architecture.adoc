@@ -1,4 +1,5 @@
 [appendix]
+[[backend-architecture]]
 = Backend architecture
 
 Domain model and use cases are essential for the application.
