@@ -96,15 +96,18 @@ mvn spring-boot:run
 
 === Running backend from IntelliJ IDEA
 
-1. Run `org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication` from Project window.
+. Run `org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication` from Project window.
 This will create a Run Configuration that you will edit in the next step.
 A failure on the first run is expected due to wrong working directory.
 
-2. Select menu:Run[Edit Configurations...] and then select menu:Spring Boot[OptaWebVehicleRoutingApplication].
+. Select menu:Run[Edit Configurations...] and then select menu:Spring Boot[OptaWebVehicleRoutingApplication].
 
-3. Change *Working directory* to the backend module (`optaweb-vehicle-routing-backend`).
+. Set *Program arguments* to `--spring.profiles.active=local` to activate the Spring profile called `local`.
+This will make the application use configuration from `application-local.properties`.
 
-4. Optionally, set *On Update action* to *Hot swap classes and update trigger file if failed*.
+. Change *Working directory* to the backend module (`optaweb-vehicle-routing-backend`).
+
+. Optionally, set *On Update action* to *Hot swap classes and update trigger file if failed*.
 This will allow you to use the Update action to quickly restart the application.
 +
 See https://blog.jetbrains.com/idea/2018/04/spring-and-spring-boot-in-intellij-idea-2018-1/[Spring and Spring Boot in IntelliJ IDEA 2018.1]
