@@ -27,4 +27,6 @@ include::user-guide.adoc[leveloffset=+1]
 
 include::development-guide.adoc[leveloffset=+1]
 
+include::appendix-backend-architecture.adoc[leveloffset=+1]
+
 include::appendix-backend-config.adoc[leveloffset=+1]
