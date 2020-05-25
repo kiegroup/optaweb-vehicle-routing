@@ -122,7 +122,7 @@ which only works if the property is defined using `@ConfigurationProperties`).
 [NOTE]
 It's not possible to set properties simply via `-D` when running the application using Spring Boot Maven plugin (`./mvnw spring-boot:run -Dmy-property`).
 Any system properties that should be set by the plugin to the forked Java process in which the application runs need to be specified using `systemPropertiesVariables`
-https://docs.spring.io/spring-boot/docs/current/maven-plugin/examples/run-system-properties.html[plugin configuration].
+https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/html/#run-example-system-properties[plugin configuration].
 
 You can learn more about configuring a Spring Boot application
 https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Externalized Configuration].
@@ -133,16 +133,16 @@ Use `src/main/resources/application-local.properties` to store your personal con
 See the complete list of <<appendix-backend-config#backend-configuration-properties>>.
 
 See also the complete list of
-https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html[
-common application properties] available in Spring Boot.
+https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html[common application properties]
+available in Spring Boot.
 
 === Logging
 
 OptaWeb uses SLF4J API and Logback as the logging framework.
 Spring Environment allows to configure most logging aspects including levels, patterns and log files in the same way as any other <<backend-configuration>> (most often using `application.properties` or arguments `--property=value`).
 See
-https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-logging.html#boot-features-custom-log-levels[
-Spring Boot Logging] documentation for more information.
+https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-custom-log-levels[Spring Boot Logging]
+documentation for more information.
 
 For example, you may use:
 
