@@ -13,7 +13,7 @@ The OptaPlanner Team <https://www.optaplanner.org/community/team.html>
 As a developer, you can use OptaWeb Vehicle Routing to optimize your vehicle fleet deliveries.
 In this guide, you will create and run a sample OptaWeb Vehicle Routing application.
 
-include::introduction.adoc[]
+include::introduction.adoc[leveloffset=+1]
 
 include::quickstart.adoc[leveloffset=+1]
 

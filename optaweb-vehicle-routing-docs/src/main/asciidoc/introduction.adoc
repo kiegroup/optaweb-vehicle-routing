@@ -1,6 +1,6 @@
-== Introduction
+= Introduction
 
-=== What is OptaWeb Vehicle Routing?
+== What is OptaWeb Vehicle Routing?
 
 The main purpose of many types of businesses is to transport various types of cargo.
 The goal of these businesses is to deliver a piece of cargo from the loading point to a destination and use its vehicle fleet in the most efficient way.
