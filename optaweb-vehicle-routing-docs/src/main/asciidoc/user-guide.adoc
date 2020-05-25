@@ -56,11 +56,20 @@ If you want to have more demos offered by the *Load demo* dropdown, you can prep
 To do that, follow these steps:
 
 . Add a depot and a number of visits by clicking on the map or using geosearch.
-. Click *Export* and save the file in `optaweb-vehicle-routing-backend/local/data` directory.
+. Click *Export* and save the file in the _data set_ directory.
++
+[NOTE]
+====
+Data set directory is where the `app.demo.data-set-dir` property points to.
+
+If the application is running through the <<run-locally#run-locally-sh,run script>>, it will be set to `$HOME/{data-dir-name}/dataset`.
+
+Otherwise the property will be taken from `application.properties` and defaults to `optaweb-vehicle-routing-backend/local/dataset`.
+====
 . Edit the YAML file and choose a unique name for the data set.
 . Restart the backend.
 
-After you restart the backend, files in the `data` directory will be made available in the *Load demo* dropdown.
+After you restart the backend, files in the _data set_ directory will be made available in the *Load demo* dropdown.
 
 == Troubleshooting
 

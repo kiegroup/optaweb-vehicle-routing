@@ -147,6 +147,12 @@ common application properties] available in Spring Boot.
 |Example
 |Description
 
+|app.demo.data-set-dir
+|Relative or absolute path
+|/home/user/{data-dir-name}/dataset
+|Custom <<user-guide#_creating_custom_data_sets,data sets>> are loaded from this directory.
+Defaults to `local/dataset`.
+
 |app.persistence.h2-dir
 |Relative or absolute path
 |/home/user/{data-dir-name}/db
