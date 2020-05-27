@@ -5,11 +5,11 @@
 = OptaWeb Vehicle Routing
 
 image:https://travis-ci.com/kiegroup/optaweb-vehicle-routing.svg?branch=master[
-"Build Status", link="https://travis-ci.com/kiegroup/optaweb-vehicle-routing"]
+"Build Status",link="https://travis-ci.com/kiegroup/optaweb-vehicle-routing"]
 image:https://img.shields.io/badge/stackoverflow-ask_question-orange.svg?logo=stackoverflow[
-"Ask question on Stack Overflow", link="https://stackoverflow.com/questions/tagged/optaplanner"]
+"Ask question on Stack Overflow",link="https://stackoverflow.com/questions/tagged/optaplanner"]
 image:https://img.shields.io/badge/zulip-join_chat-brightgreen.svg?logo=zulip[
-"Join Zulip Chat", link="https://kie.zulipchat.com/#narrow/stream/232679-optaplanner"]
+"Join Zulip Chat",link="https://kie.zulipchat.com/#narrow/stream/232679-optaplanner"]
 
 {sonarBadge}&metric=alert_status["Quality Gate Status", {sonarLink}]
 {sonarBadge}&metric=reliability_rating["Reliability Rating", {sonarLink}]
@@ -37,31 +37,6 @@ See the
 xref:optaweb-vehicle-routing-docs/src/main/asciidoc/run-locally.adoc[documentation]
 to learn more about the `runLocally.sh` script.
 
-== Run the application in development mode
+== Development
 
-First, clone this repository and `cd` into it.
-
-Frontend and backend are built and run independently. Open two terminal windows. Start the backend first, and then, when the backend is ready, start the frontend.
-
-=== Running the backend
-
-See
-xref:optaweb-vehicle-routing-backend/README.adoc#_development_guide[Backend Development Guide]
-to learn how to run backend during development.
-
-==== Configuring the working region
-
-If you want to try a different region than Belgium, download an OSM file from
-http://download.geofabrik.de/[Geofabrik]
-and select it with `app.routing.osm-file` property when starting the backend.
-
-Don't forget to use `app.region.country-codes` property to override geosearch results constraint.
-
-There is currently only one out-of-the-box data set for Belgium so the *Load demo* button won't work with other regions.
-
-[source,shell]
-----
-java -jar target/optaweb-vehicle-routing-backend-*.jar \
---app.routing.osm-file=massachusetts-latest.osm.pbf \
---app.region.country-codes=US
-----
+Read <<optaweb-vehicle-routing-docs/src/main/asciidoc/development-guide#development-guide,Development>> chapter in the documentation.
