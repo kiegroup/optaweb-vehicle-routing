@@ -234,6 +234,20 @@ The development server process running in the terminal will pick up the changes 
 .Procedure
 . Run `npm test`.
 
+=== Changing backend location
+
+Use an environment variable called `REACT_APP_BACKEND_URL` to change backend URL when running `npm start` or `npm run build`.
+For example:
+
+[literal]
+....
+REACT_APP_BACKEND_URL=http://10.0.0.123:8081
+....
+
+Note that environment variables will be "baked" inside the JavaScript bundle during npm build, so you'll need to know backend location before building and deploying frontend.
+
+Learn more about React environment variables in https://create-react-app.dev/docs/adding-custom-environment-variables/[Adding Custom Environment Variables].
+
 == Building the project
 
 Run `./mvnw install` or `mvn install`.

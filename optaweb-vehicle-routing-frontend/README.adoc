@@ -45,22 +45,6 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 See the section about https://create-react-app.dev/docs/deployment/[deployment] for more information.
 
-== Change backend location
-
-Use an environment variable called `REACT_APP_BACKEND_URL` to change backend URL when running `npm start` or `npm run build`.
-For example:
-
-[literal]
-....
-REACT_APP_BACKEND_URL=http://10.0.0.123:8081
-....
-
-Note that environment variables will be "baked" inside the JavaScript bundle during npm build, so you'll need to know backend location before building and deploying frontend.
-
-Learn more about React environment variables in
-https://create-react-app.dev/docs/adding-custom-environment-variables/[
-Adding Custom Environment Variables].
-
 [[browserslist-support]]
 == Browserslist support
 
