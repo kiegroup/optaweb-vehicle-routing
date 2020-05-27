@@ -47,6 +47,14 @@ You can use the interactive mode to download additional OSM files from Geofabrik
 . Repeat the previous step until you see a list with the region you want to download.
 . Download a region by entering its ID and then entering `d`.
 
+[WARNING]
+.Using large OSM files
+====
+For best user experience, use smaller regions like individual European or US states.
+Using OSM files larger than 1 GB will require significant RAM size
+and take a lot of time (up to several hours) for the initial processing.
+====
+
 === Select a region and run OptaWeb Vehicle Routing
 
 .Procedure
