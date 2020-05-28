@@ -91,6 +91,7 @@ function validate() {
 function run_optaweb() {
   declare -a args
   args+=("--app.persistence.h2-dir=$vrp_dir/db")
+  args+=("--app.persistence.h2-filename=${osm_file%.osm.pbf}")
   args+=("--app.routing.engine=$routing_engine")
   if [[ ${routing_engine} == "graphhopper" ]]
   then
