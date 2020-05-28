@@ -43,6 +43,7 @@ import { DemoDropdown } from 'ui/components/DemoDropdown';
 import LocationList from 'ui/components/LocationList';
 import RouteMap from 'ui/components/RouteMap';
 import SearchBox, { Result } from 'ui/components/SearchBox';
+import { sideBarStyle } from 'ui/pages/common';
 
 export const ID_CLEAR_BUTTON = 'clear-button';
 export const ID_EXPORT_BUTTON = 'export-button';
@@ -159,7 +160,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
       <Split gutter={GutterSize.md} style={{ overflowY: 'auto' }}>
         <SplitItem
           isFilled={false}
-          style={{ display: 'flex', flexDirection: 'column' }}
+          style={sideBarStyle}
         >
           <TextContent>
             <Text component={TextVariants.h1}>Demo</Text>
