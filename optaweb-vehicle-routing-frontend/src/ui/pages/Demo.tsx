@@ -30,7 +30,14 @@ import {
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
-import { MinusIcon, PlusIcon } from '@patternfly/react-icons';
+import {
+  ClockIcon,
+  IconSize,
+  MessagesIcon,
+  MinusIcon,
+  PlusIcon,
+  TruckIcon,
+} from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { clientOperations } from 'store/client';
@@ -210,11 +217,20 @@ export class Demo extends React.Component<DemoProps, DemoState> {
                             </Button>
                           </InputGroup>
                         </LevelItem>
-                        <LevelItem>vehicles</LevelItem>
+                        <LevelItem>
+                          <TruckIcon size={IconSize.md} />
+                          vehicles
+                        </LevelItem>
                       </Level>
                     </LevelItem>
-                    <LevelItem>{`${visits.length} visits`}</LevelItem>
-                    <LevelItem>{`Total travel time: ${distance}`}</LevelItem>
+                    <LevelItem>
+                      <MessagesIcon size={IconSize.md} />
+                      {`${visits.length} visits`}
+                    </LevelItem>
+                    <LevelItem>
+                      <ClockIcon size={IconSize.md} />
+                      {`Total travel time: ${distance}`}
+                    </LevelItem>
                   </Level>
                 </GridItem>
                 <GridItem span={4} />
