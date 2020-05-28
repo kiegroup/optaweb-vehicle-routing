@@ -37,6 +37,7 @@ exports[`App should render correctly 1`] = `
             }
           }
           exact={true}
+          key="/vehicles"
           path="/vehicles"
         />
         <Route
@@ -50,6 +51,7 @@ exports[`App should render correctly 1`] = `
             }
           }
           exact={true}
+          key="/visits"
           path="/visits"
         />
         <Route
@@ -63,6 +65,7 @@ exports[`App should render correctly 1`] = `
             }
           }
           exact={true}
+          key="/route"
           path="/route"
         />
         <Route
@@ -76,6 +79,7 @@ exports[`App should render correctly 1`] = `
             }
           }
           exact={true}
+          key="/demo"
           path="/demo"
         />
       </Switch>

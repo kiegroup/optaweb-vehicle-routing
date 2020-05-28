@@ -23,6 +23,13 @@ import { ConnectionManager } from './connection';
 import Header from './header/Header';
 import { Demo, Route as RoutePage, Vehicles, Visits } from './pages';
 
+export const pagesByPath = [
+  { path: '/vehicles', page: Vehicles, label: 'Vehicles' },
+  { path: '/visits', page: Visits, label: 'Visits' },
+  { path: '/route', page: RoutePage, label: 'Route' },
+  { path: '/demo', page: Demo, label: 'Demo' },
+];
+
 const App: React.FC = () => (
   <>
     <ConnectionManager />
@@ -37,26 +44,14 @@ const App: React.FC = () => (
         }}
       >
         <Switch>
-          <Route
-            path="/vehicles"
-            exact
-            component={Vehicles}
-          />
-          <Route
-            path="/visits"
-            exact
-            component={Visits}
-          />
-          <Route
-            path="/route"
-            exact
-            component={RoutePage}
-          />
-          <Route
-            path="/demo"
-            exact
-            component={Demo}
-          />
+          {pagesByPath.map(({ path, page }) => (
+            <Route
+              key={path}
+              path={path}
+              exact
+              component={page}
+            />
+          ))}
         </Switch>
       </PageSection>
     </Page>
