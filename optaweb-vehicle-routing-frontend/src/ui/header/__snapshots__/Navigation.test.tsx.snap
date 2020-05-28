@@ -34,13 +34,13 @@ exports[`Navigation should activate a navigation link matching the current path 
     </NavItem>
     <NavItem
       isActive={false}
-      itemId="/route"
-      key="/route"
+      itemId="/routes"
+      key="/routes"
     >
       <Link
-        to="/route"
+        to="/routes"
       >
-        Route
+        Routes
       </Link>
     </NavItem>
     <NavItem

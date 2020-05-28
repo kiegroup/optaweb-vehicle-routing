@@ -26,7 +26,7 @@ import { Demo, Route as RoutePage, Vehicles, Visits } from './pages';
 export const pagesByPath = [
   { path: '/vehicles', page: Vehicles, label: 'Vehicles' },
   { path: '/visits', page: Visits, label: 'Visits' },
-  { path: '/route', page: RoutePage, label: 'Route' },
+  { path: '/routes', page: RoutePage, label: 'Routes' },
   { path: '/demo', page: Demo, label: 'Demo' },
 ];
 

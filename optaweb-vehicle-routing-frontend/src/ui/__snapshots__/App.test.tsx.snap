@@ -65,8 +65,8 @@ exports[`App should render correctly 1`] = `
             }
           }
           exact={true}
-          key="/route"
-          path="/route"
+          key="/routes"
+          path="/routes"
         />
         <Route
           component={
