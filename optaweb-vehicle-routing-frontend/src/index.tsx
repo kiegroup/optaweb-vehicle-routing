@@ -15,6 +15,7 @@
  */
 
 import '@patternfly/react-core/dist/styles/base.css';
+import { backendUrl } from 'common';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
@@ -25,7 +26,7 @@ import { configureStore } from './store';
 import App from './ui/App';
 
 const store = configureStore({
-  socketUrl: `${process.env.REACT_APP_BACKEND_URL}/vrp-websocket`,
+  socketUrl: `${backendUrl}/vrp-websocket`,
 });
 
 ReactDOM.render(
