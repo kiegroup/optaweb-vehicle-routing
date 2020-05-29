@@ -14,32 +14,37 @@
  * limitations under the License.
  */
 
-import { Flex, FlexItem, FlexModifiers } from '@patternfly/react-core';
+import { Flex, FlexItem, FlexModifiers, Tooltip } from '@patternfly/react-core';
 import { ClockIcon, IconSize, MessagesIcon, TruckIcon } from '@patternfly/react-icons';
 import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
 import * as React from 'react';
 
 interface InfoBlockProps {
   icon: IconType;
-  content: string;
+  data?: string | number;
+  tooltip: string;
 }
 
-export const InfoBlock = ({ icon, content }: InfoBlockProps) => {
+export const InfoBlock = ({ icon, data, tooltip }: InfoBlockProps) => {
   const Icon = icon;
   return (
-    <Flex breakpointMods={[{ modifier: FlexModifiers['space-items-sm'] }]}>
-      <FlexItem>
-        <Icon size={IconSize.md} />
-      </FlexItem>
-      <FlexItem>
-        {content}
-      </FlexItem>
-    </Flex>
+    <Tooltip content={tooltip} position="bottom">
+      <Flex breakpointMods={[{ modifier: FlexModifiers['space-items-sm'] }]}>
+        <FlexItem>
+          <Icon size={IconSize.md} />
+        </FlexItem>
+        {data && (
+          <FlexItem>
+            {data}
+          </FlexItem>
+        )}
+      </Flex>
+    </Tooltip>
   );
 };
 
 export const VehiclesInfo = () => (
-  <InfoBlock icon={TruckIcon} content="vehicles" />
+  <InfoBlock icon={TruckIcon} tooltip="Vehicles" />
 );
 
 interface VisitInfoProps {
@@ -47,7 +52,7 @@ interface VisitInfoProps {
 }
 
 export const VisitsInfo = ({ visitCount }: VisitInfoProps) => (
-  <InfoBlock icon={MessagesIcon} content={`${visitCount} visits`} />
+  <InfoBlock icon={MessagesIcon} data={visitCount} tooltip="Number of visits" />
 );
 
 interface DistanceInfoProps {
@@ -55,5 +60,5 @@ interface DistanceInfoProps {
 }
 
 export const DistanceInfo = ({ distance }: DistanceInfoProps) => (
-  <InfoBlock icon={ClockIcon} content={`Total travel time: ${distance}`} />
+  <InfoBlock icon={ClockIcon} data={distance} tooltip="Total travel time" />
 );

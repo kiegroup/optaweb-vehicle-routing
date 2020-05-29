@@ -22,7 +22,7 @@ import { DistanceInfo, InfoBlock, VehiclesInfo, VisitsInfo } from 'ui/pages/Info
 
 describe('Info block snapshots:', () => {
   it('generic', () => {
-    const infoBlock = shallow(<InfoBlock icon={PlusIcon} content="test content" />);
+    const infoBlock = shallow(<InfoBlock icon={PlusIcon} data="test content" tooltip="test tooltip" />);
     expect(toJson(infoBlock)).toMatchSnapshot();
   });
   it('vehicles', () => {
