@@ -8,15 +8,27 @@ exports[`Info block snapshots: distance 1`] = `
 `;
 
 exports[`Info block snapshots: generic 1`] = `
-<Fragment>
-  <PlusIcon
-    color="currentColor"
-    noVerticalAlign={false}
-    size="md"
-    title={null}
-  />
-  test content
-</Fragment>
+<Flex
+  breakpointMods={
+    Array [
+      Object {
+        "modifier": "space-items-sm",
+      },
+    ]
+  }
+>
+  <FlexItem>
+    <PlusIcon
+      color="currentColor"
+      noVerticalAlign={false}
+      size="md"
+      title={null}
+    />
+  </FlexItem>
+  <FlexItem>
+    test content
+  </FlexItem>
+</Flex>
 `;
 
 exports[`Info block snapshots: vehicles 1`] = `

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { Flex, FlexItem, FlexModifiers } from '@patternfly/react-core';
 import { ClockIcon, IconSize, MessagesIcon, TruckIcon } from '@patternfly/react-icons';
 import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
 import * as React from 'react';
@@ -26,10 +27,14 @@ interface InfoBlockProps {
 export const InfoBlock = ({ icon, content }: InfoBlockProps) => {
   const Icon = icon;
   return (
-    <>
-      <Icon size={IconSize.md} />
-      {content}
-    </>
+    <Flex breakpointMods={[{ modifier: FlexModifiers['space-items-sm'] }]}>
+      <FlexItem>
+        <Icon size={IconSize.md} />
+      </FlexItem>
+      <FlexItem>
+        {content}
+      </FlexItem>
+    </Flex>
   );
 };
 
