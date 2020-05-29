@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Info block snapshots: distance 1`] = `
+<InfoBlock
+  content="Total travel time: 3h 56m 11s"
+  icon={[Function]}
+/>
+`;
+
+exports[`Info block snapshots: generic 1`] = `
+<Fragment>
+  <PlusIcon
+    color="currentColor"
+    noVerticalAlign={false}
+    size="md"
+    title={null}
+  />
+  test content
+</Fragment>
+`;
+
+exports[`Info block snapshots: vehicles 1`] = `
+<InfoBlock
+  content="vehicles"
+  icon={[Function]}
+/>
+`;
+
+exports[`Info block snapshots: visits 1`] = `
+<InfoBlock
+  content="300 visits"
+  icon={[Function]}
+/>
+`;

@@ -30,14 +30,7 @@ import {
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
-import {
-  ClockIcon,
-  IconSize,
-  MessagesIcon,
-  MinusIcon,
-  PlusIcon,
-  TruckIcon,
-} from '@patternfly/react-icons';
+import { MinusIcon, PlusIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { clientOperations } from 'store/client';
@@ -51,6 +44,7 @@ import LocationList from 'ui/components/LocationList';
 import RouteMap from 'ui/components/RouteMap';
 import SearchBox, { Result } from 'ui/components/SearchBox';
 import { sideBarStyle } from 'ui/pages/common';
+import { DistanceInfo, VehiclesInfo, VisitsInfo } from 'ui/pages/InfoBlock';
 
 export const ID_CLEAR_BUTTON = 'clear-button';
 export const ID_EXPORT_BUTTON = 'export-button';
@@ -218,18 +212,15 @@ export class Demo extends React.Component<DemoProps, DemoState> {
                           </InputGroup>
                         </LevelItem>
                         <LevelItem>
-                          <TruckIcon size={IconSize.md} />
-                          vehicles
+                          <VehiclesInfo />
                         </LevelItem>
                       </Level>
                     </LevelItem>
                     <LevelItem>
-                      <MessagesIcon size={IconSize.md} />
-                      {`${visits.length} visits`}
+                      <VisitsInfo visitCount={visits.length} />
                     </LevelItem>
                     <LevelItem>
-                      <ClockIcon size={IconSize.md} />
-                      {`Total travel time: ${distance}`}
+                      <DistanceInfo distance={distance} />
                     </LevelItem>
                   </Level>
                 </GridItem>
