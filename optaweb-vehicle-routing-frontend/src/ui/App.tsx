@@ -52,6 +52,11 @@ const App: React.FC = () => (
               component={page}
             />
           ))}
+          <Route
+            path="/"
+            exact
+            component={Demo}
+          />
         </Switch>
       </PageSection>
     </Page>
