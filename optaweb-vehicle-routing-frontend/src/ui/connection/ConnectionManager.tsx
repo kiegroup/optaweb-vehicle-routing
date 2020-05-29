@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { AppState } from 'store/types';
@@ -47,13 +46,7 @@ export class ConnectionManager extends React.Component<Props> {
 
   render() {
     return (
-      <ConnectionError
-        isOpen={this.props.connectionStatus === WebSocketConnectionStatus.ERROR}
-        message="Please check your network connection."
-        title="Oops... Connection error!"
-        icon={<UnpluggedIcon />}
-        help="When connection is available the application will be functional again."
-      />
+      <ConnectionError isOpen={this.props.connectionStatus === WebSocketConnectionStatus.ERROR} />
     );
   }
 }

@@ -22,10 +22,6 @@ import ConnectionError, { ConnectionErrorProps } from './ConnectionError';
 describe('Connection Error Component', () => {
   it('should render correctly', () => {
     const props: ConnectionErrorProps = {
-      title: 'title',
-      message: 'message',
-      icon: <i>Icon</i>,
-      help: 'help',
       isOpen: true,
     };
 

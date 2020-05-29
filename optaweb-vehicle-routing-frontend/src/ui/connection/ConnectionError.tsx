@@ -15,31 +15,22 @@
  */
 
 import { Modal, Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { UnpluggedIcon } from '@patternfly/react-icons';
 import * as React from 'react';
 
 export interface ConnectionErrorProps {
-  title: string;
-  message: string;
-  icon?: React.ReactNode;
-  help?: string;
   isOpen: boolean;
 }
 
-const renderHelpBlock = (help?: string) => (help ? <Text component={TextVariants.small}>{help}</Text> : '');
-
-const ConnectionError: React.FC<ConnectionErrorProps> = ({
-  title,
-  message,
-  icon,
-  help,
-  isOpen,
-}) => (
-  <Modal title={title} isOpen={isOpen} isSmall>
+const ConnectionError: React.FC<ConnectionErrorProps> = ({ isOpen }) => (
+  <Modal title="Oops... Connection error!" isOpen={isOpen} isSmall>
     <TextContent>
       <Text component={TextVariants.h3}>
-        {icon}
-        {message}
-        {renderHelpBlock(help)}
+        <UnpluggedIcon />
+        Please check your network connection.
+        <Text component={TextVariants.small}>
+          When connection is available the application will be functional again.
+        </Text>
       </Text>
     </TextContent>
   </Modal>
