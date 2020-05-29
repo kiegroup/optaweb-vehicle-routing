@@ -17,13 +17,12 @@
 import {
   Button,
   ButtonVariant,
-  Grid,
-  GridItem,
+  Flex,
+  FlexItem,
+  FlexModifiers,
   GutterSize,
   InputGroup,
   InputGroupText,
-  Level,
-  LevelItem,
   Split,
   SplitItem,
   Text,
@@ -183,51 +182,42 @@ export class Demo extends React.Component<DemoProps, DemoState> {
           isFilled
           style={{ display: 'flex', flexDirection: 'column' }}
         >
-          <Split gutter={GutterSize.md}>
-            <SplitItem isFilled>
-              <Grid>
-                <GridItem span={8}>
-                  <Level gutter="sm">
-                    <LevelItem style={{ display: 'flex' }}>
-                      <Level gutter="sm">
-                        <LevelItem>
-                          <InputGroup>
-                            <Button
-                              variant={ButtonVariant.primary}
-                              isDisabled={vehicleCount === 0}
-                              onClick={removeVehicleHandler}
-                            >
-                              <MinusIcon />
-                            </Button>
-                            <InputGroupText readOnly>
-                              {vehicleCount}
-                            </InputGroupText>
-                            <Button
-                              variant={ButtonVariant.primary}
-                              onClick={addVehicleHandler}
-                              data-cy="demo-add-vehicle"
-                            >
-                              <PlusIcon />
-                            </Button>
-                          </InputGroup>
-                        </LevelItem>
-                        <LevelItem>
-                          <VehiclesInfo />
-                        </LevelItem>
-                      </Level>
-                    </LevelItem>
-                    <LevelItem>
-                      <VisitsInfo visitCount={visits.length} />
-                    </LevelItem>
-                    <LevelItem>
-                      <DistanceInfo distance={distance} />
-                    </LevelItem>
-                  </Level>
-                </GridItem>
-                <GridItem span={4} />
-              </Grid>
-            </SplitItem>
-            <SplitItem isFilled={false}>
+          <Flex breakpointMods={[{ modifier: FlexModifiers['justify-content-space-between'] }]}>
+            <FlexItem>
+              <Flex>
+                <FlexItem>
+                  <InputGroup>
+                    <Button
+                      variant={ButtonVariant.primary}
+                      isDisabled={vehicleCount === 0}
+                      onClick={removeVehicleHandler}
+                    >
+                      <MinusIcon />
+                    </Button>
+                    <InputGroupText readOnly>
+                      {vehicleCount}
+                    </InputGroupText>
+                    <Button
+                      variant={ButtonVariant.primary}
+                      onClick={addVehicleHandler}
+                      data-cy="demo-add-vehicle"
+                    >
+                      <PlusIcon />
+                    </Button>
+                  </InputGroup>
+                </FlexItem>
+                <FlexItem>
+                  <VehiclesInfo />
+                </FlexItem>
+              </Flex>
+            </FlexItem>
+            <FlexItem>
+              <VisitsInfo visitCount={visits.length} />
+            </FlexItem>
+            <FlexItem>
+              <DistanceInfo distance={distance} />
+            </FlexItem>
+            <FlexItem>
               <Button
                 id={ID_EXPORT_BUTTON}
                 isDisabled={!depot || isDemoLoading}
@@ -252,8 +242,8 @@ export class Demo extends React.Component<DemoProps, DemoState> {
                   Clear
                 </Button>
               )}
-            </SplitItem>
-          </Split>
+            </FlexItem>
+          </Flex>
           <RouteMap
             boundingBox={boundingBox}
             userViewport={userViewport}
