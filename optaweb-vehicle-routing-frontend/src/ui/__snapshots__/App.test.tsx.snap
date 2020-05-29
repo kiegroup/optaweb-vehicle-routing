@@ -32,6 +32,20 @@ exports[`App should render correctly 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(Demo)",
+              "type": [Function],
+            }
+          }
+          exact={true}
+          key="/demo"
+          path="/demo"
+        />
+        <Route
+          component={
+            Object {
+              "$$typeof": Symbol(react.memo),
+              "WrappedComponent": [Function],
+              "compare": null,
               "displayName": "Connect(Vehicles)",
               "type": [Function],
             }
@@ -67,20 +81,6 @@ exports[`App should render correctly 1`] = `
           exact={true}
           key="/routes"
           path="/routes"
-        />
-        <Route
-          component={
-            Object {
-              "$$typeof": Symbol(react.memo),
-              "WrappedComponent": [Function],
-              "compare": null,
-              "displayName": "Connect(Demo)",
-              "type": [Function],
-            }
-          }
-          exact={true}
-          key="/demo"
-          path="/demo"
         />
       </Switch>
     </PageSection>

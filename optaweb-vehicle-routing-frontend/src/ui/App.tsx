@@ -24,10 +24,10 @@ import Header from './header/Header';
 import { Demo, Route as RoutePage, Vehicles, Visits } from './pages';
 
 export const pagesByPath = [
+  { path: '/demo', page: Demo, label: 'Demo' },
   { path: '/vehicles', page: Vehicles, label: 'Vehicles' },
   { path: '/visits', page: Visits, label: 'Visits' },
   { path: '/routes', page: RoutePage, label: 'Routes' },
-  { path: '/demo', page: Demo, label: 'Demo' },
 ];
 
 const App: React.FC = () => (
