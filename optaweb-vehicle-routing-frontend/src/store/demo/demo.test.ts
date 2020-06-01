@@ -83,6 +83,7 @@ const visit3 = {
 
 const state: AppState = {
   connectionStatus: WebSocketConnectionStatus.CLOSED,
+  messages: [],
   serverInfo: {
     boundingBox: null,
     countryCodes: [],

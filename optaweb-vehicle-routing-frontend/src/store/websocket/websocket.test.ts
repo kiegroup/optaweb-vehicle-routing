@@ -43,6 +43,7 @@ describe('WebSocket client operations', () => {
   it('should fail connection and reconnect when client crashes', () => {
     const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
+      messages: [],
       serverInfo: {
         boundingBox: null,
         countryCodes: [],
@@ -108,6 +109,7 @@ describe('WebSocket client operations', () => {
   it('should finish demo loading when all locations are loaded', () => {
     const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
+      messages: [],
       serverInfo: {
         boundingBox: null,
         countryCodes: [],
@@ -164,6 +166,7 @@ describe('WebSocket client operations', () => {
   it('should dispatch server info and reset viewport', () => {
     const state: AppState = {
       connectionStatus: WebSocketConnectionStatus.CLOSED,
+      messages: [],
       serverInfo: {
         boundingBox: null,
         countryCodes: [],
