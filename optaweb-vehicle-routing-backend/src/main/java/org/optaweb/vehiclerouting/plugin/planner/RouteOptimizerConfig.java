@@ -21,7 +21,7 @@ import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.core.task.SimpleAsyncTaskExecutor;
 
 /**
@@ -42,7 +42,7 @@ class RouteOptimizerConfig {
     }
 
     @Bean
-    AsyncTaskExecutor executor() {
+    AsyncListenableTaskExecutor executor() {
         SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor();
         executor.setConcurrencyLimit(1);
         return executor;

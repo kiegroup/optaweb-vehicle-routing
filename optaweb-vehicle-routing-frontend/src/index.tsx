@@ -19,7 +19,6 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { messageActions } from 'store/message';
 import './index.css';
 import { unregister } from './registerServiceWorker';
 import { configureStore } from './store';
@@ -28,9 +27,6 @@ import App from './ui/App';
 const store = configureStore({
   socketUrl: `${process.env.REACT_APP_BACKEND_URL}/vrp-websocket`,
 });
-
-store.dispatch(messageActions.receiveMessage({ id: '0', text: 'Test message #0' }));
-store.dispatch(messageActions.receiveMessage({ id: '1', text: 'Test message #1' }));
 
 ReactDOM.render(
   <Provider store={store}>

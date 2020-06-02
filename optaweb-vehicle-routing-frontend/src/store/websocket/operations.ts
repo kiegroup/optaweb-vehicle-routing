@@ -16,6 +16,8 @@
 
 import { demoOperations } from '../demo';
 import { FinishLoadingAction } from '../demo/types';
+import { messageActions } from '../message';
+import { MessageAction } from '../message/types';
 import { routeOperations } from '../route';
 import { UpdateRouteAction } from '../route/types';
 import { serverOperations } from '../server';
@@ -26,6 +28,7 @@ import { WebSocketAction } from './types';
 
 type ConnectClientThunkAction =
   | WebSocketAction
+  | MessageAction
   | UpdateRouteAction
   | FinishLoadingAction
   | ServerInfoAction;
@@ -43,6 +46,10 @@ export const connectClient: ThunkCommandFactory<void, ConnectClientThunkAction> 
         dispatch(actions.wsConnectionSuccess());
         client.subscribeToServerInfo((serverInfo) => {
           dispatch(serverOperations.serverInfo(serverInfo));
+        });
+        client.subscribeToErrorTopic((message) => {
+          // TODO sync with backend model
+          dispatch(messageActions.receiveMessage({ id: message, text: message }));
         });
         client.subscribeToRoute((plan) => {
           dispatch(routeOperations.updateRoute(plan));

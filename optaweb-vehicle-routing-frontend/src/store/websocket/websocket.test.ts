@@ -17,6 +17,7 @@
 import { resetViewport } from '../client/actions';
 import { UserViewport } from '../client/types';
 import { demoOperations } from '../demo';
+import { receiveMessage } from '../message/actions';
 import { mockStore } from '../mockStore';
 import { routeOperations } from '../route';
 import { RoutingPlan, Vehicle } from '../route/types';
@@ -213,6 +214,54 @@ describe('WebSocket client operations', () => {
     expect(store.getActions()).toEqual([
       resetViewport(),
       serverInfo(info),
+    ]);
+  });
+
+  it('should dispatch errors', () => {
+    const state: AppState = {
+      connectionStatus: WebSocketConnectionStatus.CLOSED,
+      messages: [],
+      serverInfo: {
+        boundingBox: null,
+        countryCodes: [],
+        demos: [],
+      },
+      demo: {
+        demoName: null,
+        isLoading: false,
+      },
+      plan: emptyPlan,
+      userViewport,
+    };
+
+    const { store, client } = mockStore(state);
+
+    let successCallbackCapture: () => void = uninitializedCallbackCapture;
+    client.connect = jest.fn().mockImplementation((successCallback) => {
+      successCallbackCapture = successCallback;
+    });
+
+    let errorTopicSubscriptionCallback: (message: string) => void = uninitializedCallbackCapture;
+    client.subscribeToErrorTopic = jest.fn().mockImplementation((callback) => {
+      errorTopicSubscriptionCallback = callback;
+    });
+
+    // successfully connect the client
+    store.dispatch(websocketOperations.connectClient());
+    successCallbackCapture();
+
+    // should be subscribed error topic
+    expect(client.subscribeToErrorTopic).toHaveBeenCalledTimes(1);
+
+    store.clearActions();
+
+    // when error message arrives
+    const message = 'error';
+    errorTopicSubscriptionCallback(message);
+
+    // action should be dispatched
+    expect(store.getActions()).toEqual([
+      receiveMessage({ id: message, text: message }),
     ]);
   });
 });

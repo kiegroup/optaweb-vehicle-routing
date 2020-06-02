@@ -113,4 +113,12 @@ export default class WebSocketClient {
       });
     }
   }
+
+  subscribeToErrorTopic(subscriptionCallback: (message: string) => any): void {
+    if (this.stompClient) {
+      this.stompClient.subscribe('/topic/error', (message) => {
+        subscriptionCallback(message.body);
+      });
+    }
+  }
 }
