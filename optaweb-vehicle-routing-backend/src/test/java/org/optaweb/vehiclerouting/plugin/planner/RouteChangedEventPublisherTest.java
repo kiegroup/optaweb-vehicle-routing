@@ -45,16 +45,16 @@ import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFact
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
 
 @ExtendWith(MockitoExtension.class)
-class SolutionPublisherTest {
+class RouteChangedEventPublisherTest {
 
     @Mock
     private ApplicationEventPublisher publisher;
     @InjectMocks
-    private SolutionPublisher solutionPublisher;
+    private RouteChangedEventPublisher routeChangedEventPublisher;
 
     @Test
     void should_covert_solution_to_event_and_publish_it() {
-        solutionPublisher.publishSolution(SolutionFactory.emptySolution());
+        routeChangedEventPublisher.publishSolution(SolutionFactory.emptySolution());
         verify(publisher).publishEvent(any(RouteChangedEvent.class));
     }
 
@@ -62,7 +62,7 @@ class SolutionPublisherTest {
     void empty_solution_should_have_zero_routes_vehicles_etc() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
 
-        RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
+        RouteChangedEvent event = RouteChangedEventPublisher.solutionToEvent(solution, this);
 
         assertThat(event.vehicleIds()).isEmpty();
         assertThat(event.depotId()).isEmpty();
@@ -77,7 +77,7 @@ class SolutionPublisherTest {
         PlanningVehicle vehicle = testVehicle(vehicleId);
         VehicleRoutingSolution solution = solutionFromVisits(singletonList(vehicle), null, emptyList());
 
-        RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
+        RouteChangedEvent event = RouteChangedEventPublisher.solutionToEvent(solution, this);
 
         assertThat(event.vehicleIds()).containsExactly(vehicleId);
         assertThat(event.depotId()).isEmpty();
@@ -96,7 +96,7 @@ class SolutionPublisherTest {
                 singletonList(testVisit(visitId))
         );
 
-        RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
+        RouteChangedEvent event = RouteChangedEventPublisher.solutionToEvent(solution, this);
 
         assertThat(event.vehicleIds()).isEmpty();
         assertThat(event.depotId()).contains(depotId);
@@ -144,7 +144,7 @@ class SolutionPublisherTest {
         solution.setScore(HardSoftLongScore.ofSoft(softScore));
 
         // act
-        RouteChangedEvent event = SolutionPublisher.solutionToEvent(solution, this);
+        RouteChangedEvent event = RouteChangedEventPublisher.solutionToEvent(solution, this);
 
         // assert
         assertThat(event.routes()).hasSameSizeAs(solution.getVehicleList());
@@ -175,7 +175,7 @@ class SolutionPublisherTest {
         );
 
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> SolutionPublisher.solutionToEvent(solution, this))
+                .isThrownBy(() -> RouteChangedEventPublisher.solutionToEvent(solution, this))
                 .withMessageContaining("Visit");
     }
 
@@ -186,7 +186,7 @@ class SolutionPublisherTest {
         VehicleRoutingSolution solution = solutionFromVisits(singletonList(vehicle), depot, emptyList());
         vehicle.setDepot(null);
         assertThatIllegalArgumentException()
-                .isThrownBy(() -> SolutionPublisher.solutionToEvent(solution, this))
+                .isThrownBy(() -> RouteChangedEventPublisher.solutionToEvent(solution, this))
                 .withMessageContaining("Vehicle");
     }
 }

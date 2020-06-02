@@ -49,7 +49,7 @@ import org.springframework.util.concurrent.ListenableFuture;
  * <li>Adds problem fact changes to the solver.</li>
  * <li>Propagates any exception that happens in {@code Solver.solver()} (in a different thread) to the thread that
  * interacts with {@code SolverManager}.</li>
- * <li>Listens for best solution changes and publishes new best solutions via {@link SolutionPublisher}.</li>
+ * <li>Listens for best solution changes and publishes new best solutions via {@link RouteChangedEventPublisher}.</li>
  * </ul>
  */
 @Component("optaweb-solver-manager")
@@ -59,7 +59,7 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
 
     private final Solver<VehicleRoutingSolution> solver;
     private final AsyncListenableTaskExecutor executor;
-    private final SolutionPublisher solutionPublisher; // TODO rename to *EventPublisher
+    private final RouteChangedEventPublisher routeChangedEventPublisher;
     private final ApplicationEventPublisher eventPublisher;
 
     private ListenableFuture<VehicleRoutingSolution> solverFuture;
@@ -68,12 +68,12 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
     SolverManager(
             Solver<VehicleRoutingSolution> solver,
             AsyncListenableTaskExecutor executor,
-            SolutionPublisher solutionPublisher,
+            RouteChangedEventPublisher routeChangedEventPublisher,
             ApplicationEventPublisher eventPublisher
     ) {
         this.solver = solver;
         this.executor = executor;
-        this.solutionPublisher = solutionPublisher;
+        this.routeChangedEventPublisher = routeChangedEventPublisher;
         this.eventPublisher = eventPublisher;
         this.solver.addEventListener(this);
     }
@@ -90,7 +90,7 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
         // TODO Race condition, if a servlet thread deletes that location in the middle of this method happening
         //      on the solver thread. Make sure that location is still in the repository.
         //      Maybe repair the solution OR ignore if it's inconsistent (log a WARNING).
-        solutionPublisher.publishSolution(bestSolutionChangedEvent.getNewBestSolution()); // TODO @Async
+        routeChangedEventPublisher.publishSolution(bestSolutionChangedEvent.getNewBestSolution()); // TODO @Async
     }
 
     void startSolver(VehicleRoutingSolution solution) {
