@@ -25,11 +25,11 @@ export const Navigation = ({ location }: RouteComponentProps) => (
     <NavList variant={NavVariants.horizontal}>
       {pagesByPath.map(({ path, label }) => (
         <NavItem
-          key={path}
-          itemId={path}
-          isActive={location.pathname === path}
+          key={path.canonical}
+          itemId={path.canonical}
+          isActive={[...path.aliases, path.canonical].includes(location.pathname)}
         >
-          <Link to={path}>{label}</Link>
+          <Link to={path.canonical}>{label}</Link>
         </NavItem>
       ))}
     </NavList>

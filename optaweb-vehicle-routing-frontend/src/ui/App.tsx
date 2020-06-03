@@ -24,10 +24,10 @@ import Header from './header/Header';
 import { Demo, Route as RoutePage, Vehicles, Visits } from './pages';
 
 export const pagesByPath = [
-  { path: '/demo', page: Demo, label: 'Demo' },
-  { path: '/vehicles', page: Vehicles, label: 'Vehicles' },
-  { path: '/visits', page: Visits, label: 'Visits' },
-  { path: '/routes', page: RoutePage, label: 'Routes' },
+  { path: { canonical: '/demo', aliases: ['/'] }, page: Demo, label: 'Demo' },
+  { path: { canonical: '/vehicles', aliases: [] }, page: Vehicles, label: 'Vehicles' },
+  { path: { canonical: '/visits', aliases: [] }, page: Visits, label: 'Visits' },
+  { path: { canonical: '/routes', aliases: [] }, page: RoutePage, label: 'Routes' },
 ];
 
 const App: React.FC = () => (
@@ -44,19 +44,14 @@ const App: React.FC = () => (
         }}
       >
         <Switch>
-          {pagesByPath.map(({ path, page }) => (
+          {pagesByPath.map(({ path, page }) => ([path.canonical, ...path.aliases].map((p) => (
             <Route
-              key={path}
-              path={path}
+              key={p}
+              path={p}
               exact
               component={page}
             />
-          ))}
-          <Route
-            path="/"
-            exact
-            component={Demo}
-          />
+          ))))}
         </Switch>
       </PageSection>
     </Page>
