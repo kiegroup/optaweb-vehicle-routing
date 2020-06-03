@@ -33,15 +33,16 @@ class ErrorListenerTest {
     private ArgumentCaptor<ErrorMessage> argumentCaptor;
 
     @Test
-    void should_publish_error_event(@Mock ErrorPublisher errorPublisher) {
+    void should_pass_error_message_to_consumer(@Mock ErrorMessageConsumer errorMessageConsumer) {
         // arrange
         String text = "error";
-        ErrorListener errorListener = new ErrorListener(errorPublisher);
+        ErrorListener errorListener = new ErrorListener(errorMessageConsumer);
         // act
         errorListener.onApplicationEvent(new ErrorEvent(this, text));
         // assert
-        verify(errorPublisher).publishError(argumentCaptor.capture());
-        ErrorMessage publishedMessage = argumentCaptor.getValue();
-        assertThat(publishedMessage.text).isEqualTo(text);
+        verify(errorMessageConsumer).consumeMessage(argumentCaptor.capture());
+        ErrorMessage capturedMessage = argumentCaptor.getValue();
+        assertThat(capturedMessage.text).isEqualTo(text);
+        assertThat(capturedMessage.id).isNotNull();
     }
 }

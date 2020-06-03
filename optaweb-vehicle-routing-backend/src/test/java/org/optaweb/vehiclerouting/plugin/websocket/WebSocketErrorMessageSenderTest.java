@@ -16,29 +16,25 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.service.error.ErrorMessage;
-import org.optaweb.vehiclerouting.service.error.ErrorPublisher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Component;
 
-/**
- * Broadcasts application errors to interested clients over WebSocket.
- */
-@Component
-class WebSocketErrorPublisher implements ErrorPublisher {
+import static org.mockito.Mockito.verify;
 
-    static final String TOPIC_ERROR = "/topic/error";
+@ExtendWith(MockitoExtension.class)
+class WebSocketErrorMessageSenderTest {
 
-    private final SimpMessagingTemplate webSocket;
-
-    @Autowired
-    WebSocketErrorPublisher(SimpMessagingTemplate webSocket) {
-        this.webSocket = webSocket;
-    }
-
-    @Override
-    public void publishError(ErrorMessage message) {
-        webSocket.convertAndSend(TOPIC_ERROR, PortableErrorMessage.fromMessage(message));
+    @Test
+    void should_send_consumed_message_over_websocket(@Mock SimpMessagingTemplate webSocket) {
+        ErrorMessage message = ErrorMessage.of("id", "error");
+        new WebSocketErrorMessageSender(webSocket).consumeMessage(message);
+        verify(webSocket).convertAndSend(
+                WebSocketErrorMessageSender.TOPIC_ERROR,
+                PortableErrorMessage.fromMessage(message)
+        );
     }
 }

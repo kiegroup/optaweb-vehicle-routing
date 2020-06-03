@@ -17,13 +17,13 @@
 package org.optaweb.vehiclerouting.service.error;
 
 /**
- * Publishes errors to clients.
+ * Consumes error messages.
  */
-public interface ErrorPublisher {
+public interface ErrorMessageConsumer {
 
     /**
-     * Publish an error.
+     * Consume an error message.
      * @param message error message
      */
-    void publishError(ErrorMessage message);
+    void consumeMessage(ErrorMessage message);
 }

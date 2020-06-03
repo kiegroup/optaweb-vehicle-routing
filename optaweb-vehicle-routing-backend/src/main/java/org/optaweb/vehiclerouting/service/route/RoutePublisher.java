@@ -21,7 +21,7 @@ import org.optaweb.vehiclerouting.domain.RoutingPlan;
 /**
  * Publishes routing plan to clients.
  */
-public interface RoutePublisher {
+public interface RoutePublisher { // TODO rename to RouteConsumer
 
     /**
      * Publish the routing plan.

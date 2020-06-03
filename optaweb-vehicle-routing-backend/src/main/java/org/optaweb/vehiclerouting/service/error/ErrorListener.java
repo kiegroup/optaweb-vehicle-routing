@@ -22,19 +22,19 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Service;
 
 /**
- * Handles error events.
+ * Creates messages from error events and passes them to consumers.
  */
 @Service
 public class ErrorListener implements ApplicationListener<ErrorEvent> {
 
-    private final ErrorPublisher errorPublisher;
+    private final ErrorMessageConsumer errorMessageConsumer;
 
-    public ErrorListener(ErrorPublisher errorPublisher) {
-        this.errorPublisher = errorPublisher;
+    public ErrorListener(ErrorMessageConsumer errorMessageConsumer) {
+        this.errorMessageConsumer = errorMessageConsumer;
     }
 
     @Override
     public void onApplicationEvent(ErrorEvent event) {
-        errorPublisher.publishError(ErrorMessage.of(UUID.randomUUID().toString(), event.message));
+        errorMessageConsumer.consumeMessage(ErrorMessage.of(UUID.randomUUID().toString(), event.message));
     }
 }
