@@ -19,7 +19,7 @@ import { ActionType, MessagePayload, ReadMessageAction, ReceiveMessageAction } f
 
 export const receiveMessage: ActionFactory<MessagePayload, ReceiveMessageAction> = (payload) => ({
   type: ActionType.RECEIVE_MESSAGE,
-  ...payload,
+  payload,
 });
 
 export const readMessage: ActionFactory<string, ReadMessageAction> = (id) => ({

@@ -19,7 +19,7 @@ import { ActionType, Message, MessageAction } from './types';
 const messageReducer = (state: Message[] = [], action: MessageAction): Message[] => {
   switch (action.type) {
     case ActionType.RECEIVE_MESSAGE: {
-      return [...state, { id: action.id, text: action.text, status: 'new' }];
+      return [...state, { ...action.payload, status: 'new' }];
     }
     case ActionType.READ_MESSAGE: {
       return state.map((message) => (

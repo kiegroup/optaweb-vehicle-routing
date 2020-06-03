@@ -22,8 +22,7 @@ export enum ActionType {
 }
 
 export interface ReceiveMessageAction extends Action<ActionType.RECEIVE_MESSAGE> {
-  readonly id: string;
-  readonly text: string;
+  readonly payload: MessagePayload;
 }
 
 export interface ReadMessageAction extends Action<ActionType.READ_MESSAGE> {
