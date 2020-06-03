@@ -47,9 +47,8 @@ export const connectClient: ThunkCommandFactory<void, ConnectClientThunkAction> 
         client.subscribeToServerInfo((serverInfo) => {
           dispatch(serverOperations.serverInfo(serverInfo));
         });
-        client.subscribeToErrorTopic((message) => {
-          // TODO sync with backend model
-          dispatch(messageActions.receiveMessage({ id: message, text: message }));
+        client.subscribeToErrorTopic((errorMessage) => {
+          dispatch(messageActions.receiveMessage(errorMessage));
         });
         client.subscribeToRoute((plan) => {
           dispatch(routeOperations.updateRoute(plan));

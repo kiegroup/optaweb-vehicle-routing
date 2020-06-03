@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { MessagePayload } from 'store/message/types';
 import { resetViewport } from '../client/actions';
 import { UserViewport } from '../client/types';
 import { demoOperations } from '../demo';
@@ -190,7 +191,7 @@ describe('WebSocket client operations', () => {
       successCallbackCapture = successCallback;
     });
 
-    let errorTopicSubscriptionCallback: (message: string) => void = uninitializedCallbackCapture;
+    let errorTopicSubscriptionCallback: (message: MessagePayload) => void = uninitializedCallbackCapture;
     client.subscribeToErrorTopic = jest.fn().mockImplementation((callback) => {
       errorTopicSubscriptionCallback = callback;
     });
@@ -205,12 +206,12 @@ describe('WebSocket client operations', () => {
     store.clearActions();
 
     // when error message arrives
-    const message = 'error';
+    const message: MessagePayload = { id: '1', text: '2' };
     errorTopicSubscriptionCallback(message);
 
     // action should be dispatched
     expect(store.getActions()).toEqual([
-      receiveMessage({ id: message, text: message }),
+      receiveMessage(message),
     ]);
   });
 });

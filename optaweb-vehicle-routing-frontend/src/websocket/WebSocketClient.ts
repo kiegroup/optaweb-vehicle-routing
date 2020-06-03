@@ -15,6 +15,7 @@
  */
 
 import SockJS from 'sockjs-client';
+import { MessagePayload } from 'store/message/types';
 import { LatLngWithDescription, RoutingPlan } from 'store/route/types';
 import { ServerInfo } from 'store/server/types';
 import { Client, Frame, over } from 'webstomp-client';
@@ -114,10 +115,10 @@ export default class WebSocketClient {
     }
   }
 
-  subscribeToErrorTopic(subscriptionCallback: (message: string) => any): void {
+  subscribeToErrorTopic(subscriptionCallback: (errorMessage: MessagePayload) => any): void {
     if (this.stompClient) {
       this.stompClient.subscribe('/topic/error', (message) => {
-        subscriptionCallback(message.body);
+        subscriptionCallback(JSON.parse(message.body));
       });
     }
   }
