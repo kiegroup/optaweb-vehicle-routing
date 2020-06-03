@@ -25,5 +25,5 @@ public interface ErrorPublisher {
      * Publish an error.
      * @param message error message
      */
-    void publishError(String message);
+    void publishError(ErrorMessage message);
 }

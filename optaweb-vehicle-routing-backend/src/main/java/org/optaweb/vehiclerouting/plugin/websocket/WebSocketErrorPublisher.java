@@ -16,6 +16,7 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import org.optaweb.vehiclerouting.service.error.ErrorMessage;
 import org.optaweb.vehiclerouting.service.error.ErrorPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -27,6 +28,8 @@ import org.springframework.stereotype.Component;
 @Component
 class WebSocketErrorPublisher implements ErrorPublisher {
 
+    static final String TOPIC_ERROR = "/topic/error";
+
     private final SimpMessagingTemplate webSocket;
 
     @Autowired
@@ -35,7 +38,7 @@ class WebSocketErrorPublisher implements ErrorPublisher {
     }
 
     @Override
-    public void publishError(String message) {
-        webSocket.convertAndSend("/topic/error", message);
+    public void publishError(ErrorMessage message) {
+        webSocket.convertAndSend(TOPIC_ERROR, PortableErrorMessage.fromMessage(message));
     }
 }

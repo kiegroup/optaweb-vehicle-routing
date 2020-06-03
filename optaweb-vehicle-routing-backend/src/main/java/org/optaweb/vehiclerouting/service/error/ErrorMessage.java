@@ -16,25 +16,25 @@
 
 package org.optaweb.vehiclerouting.service.error;
 
-import java.util.UUID;
+import java.util.Objects;
 
-import org.springframework.context.ApplicationListener;
-import org.springframework.stereotype.Service;
+public class ErrorMessage {
 
-/**
- * Handles error events.
- */
-@Service
-public class ErrorListener implements ApplicationListener<ErrorEvent> {
+    /**
+     * Message ID (never {@code null}).
+     */
+    public final String id;
+    /**
+     * Message text (never {@code null}).
+     */
+    public final String text;
 
-    private final ErrorPublisher errorPublisher;
-
-    public ErrorListener(ErrorPublisher errorPublisher) {
-        this.errorPublisher = errorPublisher;
+    public static ErrorMessage of(String id, String text) {
+        return new ErrorMessage(id, text);
     }
 
-    @Override
-    public void onApplicationEvent(ErrorEvent event) {
-        errorPublisher.publishError(ErrorMessage.of(UUID.randomUUID().toString(), event.message));
+    private ErrorMessage(String id, String text) {
+        this.id = Objects.requireNonNull(id);
+        this.text = Objects.requireNonNull(text);
     }
 }

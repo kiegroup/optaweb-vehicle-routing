@@ -20,9 +20,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.optaweb.vehiclerouting.service.error.ErrorMessage;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,7 +30,11 @@ class WebSocketErrorPublisherTest {
 
     @Test
     void publish(@Mock SimpMessagingTemplate webSocket) {
-        new WebSocketErrorPublisher(webSocket).publishError("");
-        verify(webSocket).convertAndSend(anyString(), anyString());
+        ErrorMessage message = ErrorMessage.of("id", "error");
+        new WebSocketErrorPublisher(webSocket).publishError(message);
+        verify(webSocket).convertAndSend(
+                WebSocketErrorPublisher.TOPIC_ERROR,
+                PortableErrorMessage.fromMessage(message)
+        );
     }
 }

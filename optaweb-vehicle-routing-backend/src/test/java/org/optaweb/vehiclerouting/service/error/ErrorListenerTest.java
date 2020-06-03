@@ -18,22 +18,30 @@ package org.optaweb.vehiclerouting.service.error;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith({MockitoExtension.class})
 class ErrorListenerTest {
 
+    @Captor
+    private ArgumentCaptor<ErrorMessage> argumentCaptor;
+
     @Test
     void should_publish_error_event(@Mock ErrorPublisher errorPublisher) {
         // arrange
-        String error = "error";
+        String text = "error";
         ErrorListener errorListener = new ErrorListener(errorPublisher);
         // act
-        errorListener.onApplicationEvent(new ErrorEvent(this, error));
+        errorListener.onApplicationEvent(new ErrorEvent(this, text));
         // assert
-        verify(errorPublisher).publishError(error);
+        verify(errorPublisher).publishError(argumentCaptor.capture());
+        ErrorMessage publishedMessage = argumentCaptor.getValue();
+        assertThat(publishedMessage.text).isEqualTo(text);
     }
 }
