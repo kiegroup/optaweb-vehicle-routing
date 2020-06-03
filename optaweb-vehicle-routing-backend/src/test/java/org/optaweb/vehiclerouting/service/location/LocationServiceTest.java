@@ -23,6 +23,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.service.error.ErrorEvent;
+import org.springframework.context.ApplicationEventPublisher;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -42,7 +44,7 @@ class LocationServiceTest {
     @Mock
     private DistanceMatrix distanceMatrix;
     @Mock
-    private DistanceMatrixRow matrixRow;
+    private ApplicationEventPublisher eventPublisher;
     @InjectMocks
     private LocationService locationService;
 
@@ -56,7 +58,7 @@ class LocationServiceTest {
     }
 
     @Test
-    void createLocation() {
+    void createLocation(@Mock DistanceMatrixRow matrixRow) {
         String description = "new location";
         when(repository.createLocation(coordinates, description)).thenReturn(location);
         when(distanceMatrix.addLocation(any())).thenReturn(matrixRow);
@@ -74,7 +76,7 @@ class LocationServiceTest {
     }
 
     @Test
-    void addLocation() {
+    void addLocation(@Mock DistanceMatrixRow matrixRow) {
         when(distanceMatrix.addLocation(any())).thenReturn(matrixRow);
         assertThat(locationService.addLocation(location)).isTrue();
 
@@ -109,6 +111,8 @@ class LocationServiceTest {
 
         assertThat(locationService.createLocation(coordinates, "")).isFalse();
         verifyNoInteractions(optimizer);
+        // publish error event
+        verify(eventPublisher).publishEvent(any(ErrorEvent.class));
         // roll back
         verify(repository).removeLocation(location.id());
     }

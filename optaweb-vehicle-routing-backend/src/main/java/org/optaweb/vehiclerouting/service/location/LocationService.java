@@ -20,9 +20,11 @@ import java.util.Objects;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.service.error.ErrorEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 /**
@@ -36,16 +38,19 @@ public class LocationService {
     private final LocationRepository repository;
     private final RouteOptimizer optimizer; // TODO move to RoutingPlanService (SRP)
     private final DistanceMatrix distanceMatrix;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
     LocationService(
             LocationRepository repository,
             RouteOptimizer optimizer,
-            DistanceMatrix distanceMatrix
+            DistanceMatrix distanceMatrix,
+            ApplicationEventPublisher eventPublisher
     ) {
         this.repository = repository;
         this.optimizer = optimizer;
         this.distanceMatrix = distanceMatrix;
+        this.eventPublisher = eventPublisher;
     }
 
     public synchronized boolean createLocation(Coordinates coordinates, String description) {
@@ -64,9 +69,11 @@ public class LocationService {
             DistanceMatrixRow distanceMatrixRow = distanceMatrix.addLocation(location);
             optimizer.addLocation(location, distanceMatrixRow);
         } catch (Exception e) {
-            // TODO relay the error event to the client
-            logger.warn("Failed to calculate distances for {}, it will be discarded", location);
-            logger.debug("Details:", e);
+            logger.error("Failed to calculate distances for {}, it will be discarded", location, e);
+            eventPublisher.publishEvent(new ErrorEvent(
+                    this,
+                    "Failed to calculate distances for " + location + ", it will be discarded.\n" + e.toString()
+            ));
             repository.removeLocation(location.id());
             return false; // do not proceed to optimizer
         }
