@@ -4,9 +4,9 @@ language: java
 jobs:
   include:
     - jdk: openjdk8
-    - jdk: openjdk11
       env:
         - SONAR_SKIP=true
+    - jdk: openjdk11
 cache:
   directories:
     - "$HOME/.m2/repository"
