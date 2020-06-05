@@ -12,8 +12,19 @@ exports[`Navigation should activate a navigation link matching the current path 
   >
     <NavItem
       isActive={false}
-      itemId="vehicles"
-      key="vehicles"
+      itemId="/demo"
+      key="/demo"
+    >
+      <Link
+        to="/demo"
+      >
+        Demo
+      </Link>
+    </NavItem>
+    <NavItem
+      isActive={false}
+      itemId="/vehicles"
+      key="/vehicles"
     >
       <Link
         to="/vehicles"
@@ -23,8 +34,8 @@ exports[`Navigation should activate a navigation link matching the current path 
     </NavItem>
     <NavItem
       isActive={true}
-      itemId="visits"
-      key="visits"
+      itemId="/visits"
+      key="/visits"
     >
       <Link
         to="/visits"
@@ -34,24 +45,13 @@ exports[`Navigation should activate a navigation link matching the current path 
     </NavItem>
     <NavItem
       isActive={false}
-      itemId="route"
-      key="route"
+      itemId="/routes"
+      key="/routes"
     >
       <Link
-        to="/route"
+        to="/routes"
       >
-        Route
-      </Link>
-    </NavItem>
-    <NavItem
-      isActive={false}
-      itemId="demo"
-      key="demo"
-    >
-      <Link
-        to="/demo"
-      >
-        Demo
+        Routes
       </Link>
     </NavItem>
   </NavList>

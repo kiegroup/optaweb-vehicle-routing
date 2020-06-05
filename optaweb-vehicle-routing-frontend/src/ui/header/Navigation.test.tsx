@@ -30,16 +30,18 @@ describe('Navigation', () => {
       } as Location<unknown>,
     } as RouteComponentProps;
 
+    const visitsId = '/visits';
+
     const navigation = shallow(<Navigation {...props} />);
     expect(toJson(navigation)).toMatchSnapshot();
 
     // NavItem matching the path should be active
-    const navItems = navigation.find(NavItem).filterWhere((navItem) => navItem.props().itemId === 'visits');
+    const navItems = navigation.find(NavItem).filterWhere((navItem) => navItem.props().itemId === visitsId);
     expect(navItems).toHaveLength(1);
     expect(navItems.at(0).props().isActive).toEqual(true);
 
     // Other NavItems should be inactive
-    navigation.find(NavItem).filterWhere((navItem) => navItem.props().itemId !== 'visits').forEach(
+    navigation.find(NavItem).filterWhere((navItem) => navItem.props().itemId !== visitsId).forEach(
       (navItem) => expect(navItem.props().isActive).toEqual(false),
     );
   });

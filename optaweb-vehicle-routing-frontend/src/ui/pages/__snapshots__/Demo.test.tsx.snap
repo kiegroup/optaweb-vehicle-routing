@@ -15,6 +15,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
       Object {
         "display": "flex",
         "flexDirection": "column",
+        "width": "320px",
       }
     }
   >
@@ -70,83 +71,66 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
       }
     }
   >
-    <Split
-      gutter="md"
+    <Flex
+      breakpointMods={
+        Array [
+          Object {
+            "modifier": "justify-content-space-between",
+          },
+        ]
+      }
     >
-      <SplitItem
-        isFilled={true}
-      >
-        <Grid>
-          <GridItem
-            span={8}
-          >
-            <Level
-              gutter="sm"
-            >
-              <LevelItem
-                style={
-                  Object {
-                    "display": "flex",
-                  }
-                }
+      <FlexItem>
+        <Flex>
+          <FlexItem>
+            <InputGroup>
+              <Component
+                isDisabled={false}
+                onClick={[Function]}
+                variant="primary"
               >
-                <Level
-                  gutter="sm"
-                >
-                  <LevelItem>
-                    <InputGroup>
-                      <Component
-                        isDisabled={false}
-                        onClick={[Function]}
-                        variant="primary"
-                      >
-                        <MinusIcon
-                          color="currentColor"
-                          noVerticalAlign={false}
-                          size="sm"
-                          title={null}
-                        />
-                      </Component>
-                      <InputGroupText
-                        readOnly={true}
-                      >
-                        8
-                      </InputGroupText>
-                      <Component
-                        data-cy="demo-add-vehicle"
-                        onClick={[Function]}
-                        variant="primary"
-                      >
-                        <PlusIcon
-                          color="currentColor"
-                          noVerticalAlign={false}
-                          size="sm"
-                          title={null}
-                        />
-                      </Component>
-                    </InputGroup>
-                  </LevelItem>
-                  <LevelItem>
-                    vehicles
-                  </LevelItem>
-                </Level>
-              </LevelItem>
-              <LevelItem>
-                2 visits
-              </LevelItem>
-              <LevelItem>
-                Total travel time: 10
-              </LevelItem>
-            </Level>
-          </GridItem>
-          <GridItem
-            span={4}
-          />
-        </Grid>
-      </SplitItem>
-      <SplitItem
-        isFilled={false}
-      >
+                <MinusIcon
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                  title={null}
+                />
+              </Component>
+              <InputGroupText
+                readOnly={true}
+              >
+                8
+              </InputGroupText>
+              <Component
+                data-cy="demo-add-vehicle"
+                onClick={[Function]}
+                variant="primary"
+              >
+                <PlusIcon
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                  title={null}
+                />
+              </Component>
+            </InputGroup>
+          </FlexItem>
+          <FlexItem>
+            <VehiclesInfo />
+          </FlexItem>
+        </Flex>
+      </FlexItem>
+      <FlexItem>
+        <VisitsInfo
+          visitCount={2}
+        />
+      </FlexItem>
+      <FlexItem>
+        <DistanceInfo
+          distance="10"
+        />
+      </FlexItem>
+      <FlexItem>
         <Component
           id="export-button"
           isDisabled={true}
@@ -174,8 +158,8 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
         >
           Clear
         </Component>
-      </SplitItem>
-    </Split>
+      </FlexItem>
+    </Flex>
     <RouteMap
       boundingBox={null}
       clickHandler={[Function]}
@@ -262,6 +246,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
       Object {
         "display": "flex",
         "flexDirection": "column",
+        "width": "320px",
       }
     }
   >
@@ -301,83 +286,66 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
       }
     }
   >
-    <Split
-      gutter="md"
+    <Flex
+      breakpointMods={
+        Array [
+          Object {
+            "modifier": "justify-content-space-between",
+          },
+        ]
+      }
     >
-      <SplitItem
-        isFilled={true}
-      >
-        <Grid>
-          <GridItem
-            span={8}
-          >
-            <Level
-              gutter="sm"
-            >
-              <LevelItem
-                style={
-                  Object {
-                    "display": "flex",
-                  }
-                }
+      <FlexItem>
+        <Flex>
+          <FlexItem>
+            <InputGroup>
+              <Component
+                isDisabled={true}
+                onClick={[Function]}
+                variant="primary"
               >
-                <Level
-                  gutter="sm"
-                >
-                  <LevelItem>
-                    <InputGroup>
-                      <Component
-                        isDisabled={true}
-                        onClick={[Function]}
-                        variant="primary"
-                      >
-                        <MinusIcon
-                          color="currentColor"
-                          noVerticalAlign={false}
-                          size="sm"
-                          title={null}
-                        />
-                      </Component>
-                      <InputGroupText
-                        readOnly={true}
-                      >
-                        0
-                      </InputGroupText>
-                      <Component
-                        data-cy="demo-add-vehicle"
-                        onClick={[Function]}
-                        variant="primary"
-                      >
-                        <PlusIcon
-                          color="currentColor"
-                          noVerticalAlign={false}
-                          size="sm"
-                          title={null}
-                        />
-                      </Component>
-                    </InputGroup>
-                  </LevelItem>
-                  <LevelItem>
-                    vehicles
-                  </LevelItem>
-                </Level>
-              </LevelItem>
-              <LevelItem>
-                0 visits
-              </LevelItem>
-              <LevelItem>
-                Total travel time: 0
-              </LevelItem>
-            </Level>
-          </GridItem>
-          <GridItem
-            span={4}
-          />
-        </Grid>
-      </SplitItem>
-      <SplitItem
-        isFilled={false}
-      >
+                <MinusIcon
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                  title={null}
+                />
+              </Component>
+              <InputGroupText
+                readOnly={true}
+              >
+                0
+              </InputGroupText>
+              <Component
+                data-cy="demo-add-vehicle"
+                onClick={[Function]}
+                variant="primary"
+              >
+                <PlusIcon
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                  title={null}
+                />
+              </Component>
+            </InputGroup>
+          </FlexItem>
+          <FlexItem>
+            <VehiclesInfo />
+          </FlexItem>
+        </Flex>
+      </FlexItem>
+      <FlexItem>
+        <VisitsInfo
+          visitCount={0}
+        />
+      </FlexItem>
+      <FlexItem>
+        <DistanceInfo
+          distance="0"
+        />
+      </FlexItem>
+      <FlexItem>
         <Component
           id="export-button"
           isDisabled={false}
@@ -405,8 +373,8 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
         >
           Clear
         </Component>
-      </SplitItem>
-    </Split>
+      </FlexItem>
+    </Flex>
     <RouteMap
       boundingBox={null}
       clickHandler={[Function]}
@@ -453,6 +421,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
       Object {
         "display": "flex",
         "flexDirection": "column",
+        "width": "320px",
       }
     }
   >
@@ -508,83 +477,66 @@ exports[`Demo page should render correctly with a few routes 1`] = `
       }
     }
   >
-    <Split
-      gutter="md"
+    <Flex
+      breakpointMods={
+        Array [
+          Object {
+            "modifier": "justify-content-space-between",
+          },
+        ]
+      }
     >
-      <SplitItem
-        isFilled={true}
-      >
-        <Grid>
-          <GridItem
-            span={8}
-          >
-            <Level
-              gutter="sm"
-            >
-              <LevelItem
-                style={
-                  Object {
-                    "display": "flex",
-                  }
-                }
+      <FlexItem>
+        <Flex>
+          <FlexItem>
+            <InputGroup>
+              <Component
+                isDisabled={false}
+                onClick={[Function]}
+                variant="primary"
               >
-                <Level
-                  gutter="sm"
-                >
-                  <LevelItem>
-                    <InputGroup>
-                      <Component
-                        isDisabled={false}
-                        onClick={[Function]}
-                        variant="primary"
-                      >
-                        <MinusIcon
-                          color="currentColor"
-                          noVerticalAlign={false}
-                          size="sm"
-                          title={null}
-                        />
-                      </Component>
-                      <InputGroupText
-                        readOnly={true}
-                      >
-                        8
-                      </InputGroupText>
-                      <Component
-                        data-cy="demo-add-vehicle"
-                        onClick={[Function]}
-                        variant="primary"
-                      >
-                        <PlusIcon
-                          color="currentColor"
-                          noVerticalAlign={false}
-                          size="sm"
-                          title={null}
-                        />
-                      </Component>
-                    </InputGroup>
-                  </LevelItem>
-                  <LevelItem>
-                    vehicles
-                  </LevelItem>
-                </Level>
-              </LevelItem>
-              <LevelItem>
-                2 visits
-              </LevelItem>
-              <LevelItem>
-                Total travel time: 10
-              </LevelItem>
-            </Level>
-          </GridItem>
-          <GridItem
-            span={4}
-          />
-        </Grid>
-      </SplitItem>
-      <SplitItem
-        isFilled={false}
-      >
+                <MinusIcon
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                  title={null}
+                />
+              </Component>
+              <InputGroupText
+                readOnly={true}
+              >
+                8
+              </InputGroupText>
+              <Component
+                data-cy="demo-add-vehicle"
+                onClick={[Function]}
+                variant="primary"
+              >
+                <PlusIcon
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                  title={null}
+                />
+              </Component>
+            </InputGroup>
+          </FlexItem>
+          <FlexItem>
+            <VehiclesInfo />
+          </FlexItem>
+        </Flex>
+      </FlexItem>
+      <FlexItem>
+        <VisitsInfo
+          visitCount={2}
+        />
+      </FlexItem>
+      <FlexItem>
+        <DistanceInfo
+          distance="10"
+        />
+      </FlexItem>
+      <FlexItem>
         <Component
           id="export-button"
           isDisabled={false}
@@ -612,8 +564,8 @@ exports[`Demo page should render correctly with a few routes 1`] = `
         >
           Clear
         </Component>
-      </SplitItem>
-    </Split>
+      </FlexItem>
+    </Flex>
     <RouteMap
       boundingBox={null}
       clickHandler={[Function]}
@@ -700,6 +652,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
       Object {
         "display": "flex",
         "flexDirection": "column",
+        "width": "320px",
       }
     }
   >
@@ -732,83 +685,66 @@ exports[`Demo page should render correctly with no routes 1`] = `
       }
     }
   >
-    <Split
-      gutter="md"
+    <Flex
+      breakpointMods={
+        Array [
+          Object {
+            "modifier": "justify-content-space-between",
+          },
+        ]
+      }
     >
-      <SplitItem
-        isFilled={true}
-      >
-        <Grid>
-          <GridItem
-            span={8}
-          >
-            <Level
-              gutter="sm"
-            >
-              <LevelItem
-                style={
-                  Object {
-                    "display": "flex",
-                  }
-                }
+      <FlexItem>
+        <Flex>
+          <FlexItem>
+            <InputGroup>
+              <Component
+                isDisabled={true}
+                onClick={[Function]}
+                variant="primary"
               >
-                <Level
-                  gutter="sm"
-                >
-                  <LevelItem>
-                    <InputGroup>
-                      <Component
-                        isDisabled={true}
-                        onClick={[Function]}
-                        variant="primary"
-                      >
-                        <MinusIcon
-                          color="currentColor"
-                          noVerticalAlign={false}
-                          size="sm"
-                          title={null}
-                        />
-                      </Component>
-                      <InputGroupText
-                        readOnly={true}
-                      >
-                        0
-                      </InputGroupText>
-                      <Component
-                        data-cy="demo-add-vehicle"
-                        onClick={[Function]}
-                        variant="primary"
-                      >
-                        <PlusIcon
-                          color="currentColor"
-                          noVerticalAlign={false}
-                          size="sm"
-                          title={null}
-                        />
-                      </Component>
-                    </InputGroup>
-                  </LevelItem>
-                  <LevelItem>
-                    vehicles
-                  </LevelItem>
-                </Level>
-              </LevelItem>
-              <LevelItem>
-                0 visits
-              </LevelItem>
-              <LevelItem>
-                Total travel time: 0
-              </LevelItem>
-            </Level>
-          </GridItem>
-          <GridItem
-            span={4}
-          />
-        </Grid>
-      </SplitItem>
-      <SplitItem
-        isFilled={false}
-      >
+                <MinusIcon
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                  title={null}
+                />
+              </Component>
+              <InputGroupText
+                readOnly={true}
+              >
+                0
+              </InputGroupText>
+              <Component
+                data-cy="demo-add-vehicle"
+                onClick={[Function]}
+                variant="primary"
+              >
+                <PlusIcon
+                  color="currentColor"
+                  noVerticalAlign={false}
+                  size="sm"
+                  title={null}
+                />
+              </Component>
+            </InputGroup>
+          </FlexItem>
+          <FlexItem>
+            <VehiclesInfo />
+          </FlexItem>
+        </Flex>
+      </FlexItem>
+      <FlexItem>
+        <VisitsInfo
+          visitCount={0}
+        />
+      </FlexItem>
+      <FlexItem>
+        <DistanceInfo
+          distance="0"
+        />
+      </FlexItem>
+      <FlexItem>
         <Component
           id="export-button"
           isDisabled={true}
@@ -830,8 +766,8 @@ exports[`Demo page should render correctly with no routes 1`] = `
           }
           onSelect={[Function]}
         />
-      </SplitItem>
-    </Split>
+      </FlexItem>
+    </Flex>
     <RouteMap
       boundingBox={null}
       clickHandler={[Function]}

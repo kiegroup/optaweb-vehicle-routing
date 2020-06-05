@@ -34,6 +34,7 @@ import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
 import RouteMap from 'ui/components/RouteMap';
+import { sideBarStyle } from 'ui/pages/common';
 
 export interface StateProps {
   depot: Location | null;
@@ -115,7 +116,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
         <Split gutter={GutterSize.md}>
           <SplitItem
             isFilled={false}
-            style={{ display: 'flex', flexDirection: 'column' }}
+            style={sideBarStyle}
           >
             <Form>
               <FormSelect

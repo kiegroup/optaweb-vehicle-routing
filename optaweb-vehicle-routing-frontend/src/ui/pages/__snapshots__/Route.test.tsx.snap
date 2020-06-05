@@ -18,6 +18,7 @@ exports[`Route page should render correctly with a few routes 1`] = `
         Object {
           "display": "flex",
           "flexDirection": "column",
+          "width": "320px",
         }
       }
     >
@@ -192,6 +193,7 @@ exports[`Route page should render correctly with no routes 1`] = `
         Object {
           "display": "flex",
           "flexDirection": "column",
+          "width": "320px",
         }
       }
     >

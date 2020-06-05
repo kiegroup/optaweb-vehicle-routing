@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Info block snapshots: distance 1`] = `
+<InfoBlock
+  data="3h 56m 11s"
+  icon={[Function]}
+  tooltip="Total travel time"
+/>
+`;
+
+exports[`Info block snapshots: generic 1`] = `
+<Tooltip
+  appendTo={[Function]}
+  aria="describedby"
+  boundary="window"
+  className=""
+  content="test tooltip"
+  distance={15}
+  enableFlip={true}
+  entryDelay={500}
+  exitDelay={500}
+  flipBehavior={
+    Array [
+      "top",
+      "right",
+      "bottom",
+      "left",
+      "top",
+      "right",
+      "bottom",
+    ]
+  }
+  id=""
+  isAppLauncher={false}
+  isContentLeftAligned={false}
+  isVisible={false}
+  maxWidth="18.75rem"
+  position="bottom"
+  tippyProps={Object {}}
+  trigger="mouseenter focus"
+  zIndex={9999}
+>
+  <Flex
+    breakpointMods={
+      Array [
+        Object {
+          "modifier": "space-items-sm",
+        },
+      ]
+    }
+  >
+    <FlexItem>
+      <PlusIcon
+        color="currentColor"
+        noVerticalAlign={false}
+        size="md"
+        title={null}
+      />
+    </FlexItem>
+    <FlexItem>
+      test content
+    </FlexItem>
+  </Flex>
+</Tooltip>
+`;
+
+exports[`Info block snapshots: vehicles 1`] = `
+<InfoBlock
+  icon={[Function]}
+  tooltip="Vehicles"
+/>
+`;
+
+exports[`Info block snapshots: visits 1`] = `
+<InfoBlock
+  data={300}
+  icon={[Function]}
+  tooltip="Number of visits"
+/>
+`;
