@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,4 @@
  * limitations under the License.
  */
 
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import * as React from 'react';
-import ConnectionError, { ConnectionErrorProps } from './ConnectionError';
-
-describe('Connection Error Component', () => {
-  it('should render correctly', () => {
-    const props: ConnectionErrorProps = {
-      isOpen: true,
-    };
-
-    const connectionError = shallow(<ConnectionError {...props} />);
-    expect(toJson(connectionError)).toMatchSnapshot();
-  });
-});
+export const backendUrl = process.env.REACT_APP_BACKEND_URL;

@@ -6,6 +6,26 @@ exports[`Connection Error Component should render correctly 1`] = `
   appendTo={<body />}
   ariaDescribedById=""
   className=""
+  header={
+    <Flex>
+      <FlexItem>
+        <UnpluggedIcon
+          color="currentColor"
+          noVerticalAlign={false}
+          size="md"
+          title={null}
+        />
+      </FlexItem>
+      <FlexItem>
+        <Title
+          headingLevel="h1"
+          size="2xl"
+        >
+          Connection error
+        </Title>
+      </FlexItem>
+    </Flex>
+  }
   hideTitle={false}
   isFooterLeftAligned={false}
   isLarge={false}
@@ -13,22 +33,57 @@ exports[`Connection Error Component should render correctly 1`] = `
   isSmall={true}
   onClose={[Function]}
   showClose={true}
-  title="title"
+  title="Connection error"
 >
   <TextContent>
     <Text
-      component="h3"
+      component="p"
     >
-      <i>
-        Icon
-      </i>
-      message
-      <Text
-        component="small"
-      >
-        help
-      </Text>
+      Cannot connect to server.
     </Text>
+    <Expandable
+      className=""
+      isActive={false}
+      isFocused={false}
+      isHovered={false}
+      onToggle={[Function]}
+      toggleText="Show more"
+      toggleTextCollapsed=""
+      toggleTextExpanded=""
+    >
+      <Text
+        component="p"
+      >
+        The server is expected to be running at
+         
+        <a
+          href=""
+          rel="noopener noreferrer"
+          target="_blank"
+        />
+         
+        but the connection failed.
+      </Text>
+      <Text
+        component="p"
+      >
+        Please check the following possible reasons and try to resolve them:
+      </Text>
+      <List>
+        <ListItem>
+          You are offline. Check your network connection.
+        </ListItem>
+        <ListItem>
+          The server is running on a different URL. Check if the URL is incorrect.
+        </ListItem>
+        <ListItem>
+          The server is down. Restart the server.
+        </ListItem>
+      </List>
+      <Text>
+        The application will reconnect as soon as the server is available again.
+      </Text>
+    </Expandable>
   </TextContent>
 </Modal>
 `;

@@ -30,6 +30,7 @@ import {
   TextVariants,
 } from '@patternfly/react-core';
 import { MinusIcon, PlusIcon } from '@patternfly/react-icons';
+import { backendUrl } from 'common';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { clientOperations } from 'store/client';
@@ -152,7 +153,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
     } = this.props;
 
     const exportDataSet = () => {
-      window.open(`${process.env.REACT_APP_BACKEND_URL}/dataset/export`);
+      window.open(`${backendUrl}/dataset/export`);
     };
 
     return (
