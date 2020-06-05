@@ -16,6 +16,10 @@
 
 package org.optaweb.vehiclerouting.service.location;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,7 +33,9 @@ import org.springframework.context.ApplicationEventPublisher;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -86,14 +92,55 @@ class LocationServiceTest {
     }
 
     @Test
-    void removeLocation() {
-        when(repository.removeLocation(location.id())).thenReturn(location);
+    void removing_depot_should_be_successful_when_it_is_the_last_location() {
+        when(repository.locations()).thenReturn(Collections.singletonList(location));
+        when(repository.find(location.id())).thenReturn(Optional.of(location));
 
         locationService.removeLocation(location.id());
 
         verify(repository).removeLocation(location.id());
         verify(optimizer).removeLocation(location);
+        verifyNoInteractions(eventPublisher);
         // TODO remove location from distance matrix
+    }
+
+    @Test
+    void removing_nonexistent_location_should_publish_error() {
+        when(repository.find(location.id())).thenReturn(Optional.empty());
+
+        locationService.removeLocation(location.id());
+
+        verifyNoInteractions(optimizer);
+        verify(repository, never()).removeLocation(anyLong());
+        verify(eventPublisher).publishEvent(any(ErrorEvent.class));
+    }
+
+    @Test
+    void removing_depot_when_there_are_other_locations_should_publish_error() {
+        Location depot = new Location(1, coordinates);
+        Location visit = new Location(2, coordinates);
+        when(repository.locations()).thenReturn(Arrays.asList(depot, visit));
+        when(repository.find(depot.id())).thenReturn(Optional.of(depot));
+
+        locationService.removeLocation(depot.id());
+
+        verifyNoInteractions(optimizer);
+        verify(repository, never()).removeLocation(anyLong());
+        verify(eventPublisher).publishEvent(any(ErrorEvent.class));
+    }
+
+    @Test
+    void removing_visit_should_be_successful() {
+        Location depot = new Location(1, coordinates);
+        Location visit = new Location(2, coordinates);
+        when(repository.locations()).thenReturn(Arrays.asList(depot, visit));
+        when(repository.find(visit.id())).thenReturn(Optional.of(visit));
+
+        locationService.removeLocation(visit.id());
+
+        verify(repository).removeLocation(visit.id());
+        verify(optimizer).removeLocation(visit);
+        verifyNoInteractions(eventPublisher);
     }
 
     @Test
