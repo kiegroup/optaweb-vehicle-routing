@@ -75,7 +75,7 @@ When OptaWeb Vehicle Routing runs it uses third-party public services such as li
 * OptaWeb Vehicle Routing distribution archive is downloaded and extracted.
 
 .Procedure
-Enter the following command.
+Enter the following command:
 
 [source,bash]
 ----

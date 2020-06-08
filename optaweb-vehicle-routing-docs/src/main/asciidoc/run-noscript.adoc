@@ -64,7 +64,7 @@ When OptaWeb Vehicle Routing runs it uses third-party public services such as li
 
 .Procedure
 
-Enter the following command.
+Enter the following command:
 
 [source,subs="attributes+"]
 ----

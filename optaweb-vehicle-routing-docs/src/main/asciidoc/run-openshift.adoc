@@ -23,14 +23,14 @@ You have successfully built the project with Maven.
 eval $(crc oc-env)
 ----
 
-.. log in as "developer".
+.. Log in as "developer":
 +
 [source,shell]
 ----
 oc login -u developer -p developer https://api.crc.testing:6443
 ----
 
-.. Create a new project
+.. Create a new project:
 +
 [source,subs="quotes"]
 ----
