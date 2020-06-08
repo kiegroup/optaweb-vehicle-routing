@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.route;
-
-import org.optaweb.vehiclerouting.domain.RoutingPlan;
+package org.optaweb.vehiclerouting.service.error;
 
 /**
- * Publishes routing plan to clients.
+ * Consumes error messages.
  */
-public interface RoutePublisher { // TODO rename to RouteConsumer
+public interface ErrorMessageConsumer {
 
     /**
-     * Publish the routing plan.
-     * @param routingPlan routing plan to be published
+     * Consume an error message.
+     * @param message error message
      */
-    void publish(RoutingPlan routingPlan);
+    void consumeMessage(ErrorMessage message);
 }

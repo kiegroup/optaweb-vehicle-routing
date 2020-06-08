@@ -16,14 +16,20 @@
 
 package org.optaweb.vehiclerouting.service.location;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.service.error.ErrorEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+
+import static java.util.Comparator.comparingLong;
 
 /**
  * Performs location-related use cases.
@@ -36,16 +42,19 @@ public class LocationService {
     private final LocationRepository repository;
     private final RouteOptimizer optimizer; // TODO move to RoutingPlanService (SRP)
     private final DistanceMatrix distanceMatrix;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
     LocationService(
             LocationRepository repository,
             RouteOptimizer optimizer,
-            DistanceMatrix distanceMatrix
+            DistanceMatrix distanceMatrix,
+            ApplicationEventPublisher eventPublisher
     ) {
         this.repository = repository;
         this.optimizer = optimizer;
         this.distanceMatrix = distanceMatrix;
+        this.eventPublisher = eventPublisher;
     }
 
     public synchronized boolean createLocation(Coordinates coordinates, String description) {
@@ -64,9 +73,11 @@ public class LocationService {
             DistanceMatrixRow distanceMatrixRow = distanceMatrix.addLocation(location);
             optimizer.addLocation(location, distanceMatrixRow);
         } catch (Exception e) {
-            // TODO relay the error event to the client
-            logger.warn("Failed to calculate distances for {}, it will be discarded", location);
-            logger.debug("Details:", e);
+            logger.error("Failed to calculate distances for {}, it will be discarded", location, e);
+            eventPublisher.publishEvent(new ErrorEvent(
+                    this,
+                    "Failed to calculate distances for " + location + ", it will be discarded.\n" + e.toString()
+            ));
             repository.removeLocation(location.id());
             return false; // do not proceed to optimizer
         }
@@ -74,13 +85,31 @@ public class LocationService {
     }
 
     public synchronized void removeLocation(long id) {
-        // TODO missing validation (id might be out of date or completely invalid)
-        // A) Take Location as an argument => it's valid but still might be out of date. Decide how to handle that
-        // case.
-        // B) removeLocation() returns Optional instead of throwing IllArgException. Still need to decide how to handle
-        //    the case when location with given ID doesn't exist.
-        Location location = repository.removeLocation(id);
-        optimizer.removeLocation(location);
+        Optional<Location> optionalLocation = repository.find(id);
+        if (!optionalLocation.isPresent()) {
+            eventPublisher.publishEvent(
+                    new ErrorEvent(this, "Location [" + id + "] cannot be removed because it doesn't exist.")
+            );
+            return;
+        }
+        Location removedLocation = optionalLocation.get();
+        List<Location> locations = repository.locations();
+        if (locations.size() > 1) {
+            Location depot = locations.stream()
+                    .min(comparingLong(Location::id))
+                    .orElseThrow(() -> new IllegalStateException(
+                            "Impossible. Locations have size (" + locations.size() + ") but the stream is empty."
+                    ));
+            if (removedLocation.equals(depot)) {
+                eventPublisher.publishEvent(
+                        new ErrorEvent(this, "You can only remove depot if there are no visits.")
+                );
+                return;
+            }
+        }
+
+        optimizer.removeLocation(removedLocation);
+        repository.removeLocation(id);
     }
 
     public synchronized void removeAll() {

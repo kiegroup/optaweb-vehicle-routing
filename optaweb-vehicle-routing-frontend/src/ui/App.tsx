@@ -18,6 +18,7 @@ import { Page, PageSection } from '@patternfly/react-core';
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
+import Alerts from 'ui/components/Alerts';
 import Background from './components/Background';
 import { ConnectionManager } from './connection';
 import Header from './header/Header';
@@ -33,6 +34,7 @@ export const pagesByPath = [
 const App: React.FC = () => (
   <>
     <ConnectionManager />
+    <Alerts />
     <Page header={<Header />}>
       <Background />
       <PageSection

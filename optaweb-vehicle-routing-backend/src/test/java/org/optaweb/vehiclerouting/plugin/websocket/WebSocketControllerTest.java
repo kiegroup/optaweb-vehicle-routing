@@ -34,14 +34,17 @@ import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
+import org.optaweb.vehiclerouting.service.error.ErrorEvent;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
+import org.springframework.context.ApplicationEventPublisher;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -53,13 +56,21 @@ class WebSocketControllerTest {
     @Mock
     private RegionService regionService;
     @Mock
-    private VehicleService vehicleService;
-    @Mock
     private LocationService locationService;
     @Mock
+    private VehicleService vehicleService;
+    @Mock
     private DemoService demoService;
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
     @InjectMocks
     private WebSocketController webSocketController;
+
+    @Test
+    void exception_handler_should_publish_error_event() {
+        webSocketController.handleException(new Exception());
+        verify(eventPublisher).publishEvent(any(ErrorEvent.class));
+    }
 
     @Test
     void subscribeToRouteTopic() {

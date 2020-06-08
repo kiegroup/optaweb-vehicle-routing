@@ -43,16 +43,16 @@ import org.springframework.stereotype.Component;
 class RouteOptimizerImpl implements RouteOptimizer {
 
     private final SolverManager solverManager;
-    private final SolutionPublisher solutionPublisher;
+    private final RouteChangedEventPublisher routeChangedEventPublisher;
 
     private final List<PlanningVehicle> vehicles = new ArrayList<>();
     private final List<PlanningVisit> visits = new ArrayList<>();
     private PlanningDepot depot;
 
     @Autowired
-    RouteOptimizerImpl(SolverManager solverManager, SolutionPublisher solutionPublisher) {
+    RouteOptimizerImpl(SolverManager solverManager, RouteChangedEventPublisher routeChangedEventPublisher) {
         this.solverManager = solverManager;
-        this.solutionPublisher = solutionPublisher;
+        this.routeChangedEventPublisher = routeChangedEventPublisher;
     }
 
     @Override
@@ -173,6 +173,6 @@ class RouteOptimizerImpl implements RouteOptimizer {
     }
 
     private void publishSolution() {
-        solutionPublisher.publishSolution(SolutionFactory.solutionFromVisits(vehicles, depot, visits));
+        routeChangedEventPublisher.publishSolution(SolutionFactory.solutionFromVisits(vehicles, depot, visits));
     }
 }

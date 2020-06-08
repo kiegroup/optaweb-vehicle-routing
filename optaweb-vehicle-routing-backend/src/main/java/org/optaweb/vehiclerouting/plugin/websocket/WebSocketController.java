@@ -23,13 +23,18 @@ import java.util.stream.Collectors;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
+import org.optaweb.vehiclerouting.service.error.ErrorEvent;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
@@ -41,11 +46,14 @@ import org.springframework.stereotype.Controller;
 @Controller
 class WebSocketController {
 
+    private static final Logger logger = LoggerFactory.getLogger(WebSocketController.class);
+
     private final RouteListener routeListener;
     private final RegionService regionService;
     private final LocationService locationService;
     private final VehicleService vehicleService;
     private final DemoService demoService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
     WebSocketController(
@@ -53,13 +61,21 @@ class WebSocketController {
             RegionService regionService,
             LocationService locationService,
             VehicleService vehicleService,
-            DemoService demoService
+            DemoService demoService,
+            ApplicationEventPublisher eventPublisher
     ) {
         this.routeListener = routeListener;
         this.regionService = regionService;
         this.locationService = locationService;
         this.vehicleService = vehicleService;
         this.demoService = demoService;
+        this.eventPublisher = eventPublisher;
+    }
+
+    @MessageExceptionHandler
+    void handleException(Exception exception) {
+        logger.error("Uncaught exception", exception);
+        eventPublisher.publishEvent(new ErrorEvent(this, exception.toString()));
     }
 
     /**

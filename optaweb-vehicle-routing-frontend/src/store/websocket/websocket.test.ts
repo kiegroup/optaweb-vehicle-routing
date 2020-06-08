@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
+import { MessagePayload } from 'store/message/types';
 import { resetViewport } from '../client/actions';
 import { UserViewport } from '../client/types';
 import { demoOperations } from '../demo';
+import { receiveMessage } from '../message/actions';
 import { mockStore } from '../mockStore';
 import { routeOperations } from '../route';
 import { RoutingPlan, Vehicle } from '../route/types';
@@ -41,21 +43,6 @@ const userViewport: UserViewport = {
 
 describe('WebSocket client operations', () => {
   it('should fail connection and reconnect when client crashes', () => {
-    const state: AppState = {
-      connectionStatus: WebSocketConnectionStatus.CLOSED,
-      serverInfo: {
-        boundingBox: null,
-        countryCodes: [],
-        demos: [],
-      },
-      demo: {
-        demoName: null,
-        isLoading: false,
-      },
-      plan: emptyPlan,
-      userViewport,
-    };
-
     let errorCallbackCapture: (err: any) => void = uninitializedCallbackCapture;
     let successCallbackCapture: () => void = uninitializedCallbackCapture;
     let subscribeCallbackCapture: (plan: RoutingPlan) => void = uninitializedCallbackCapture;
@@ -106,8 +93,8 @@ describe('WebSocket client operations', () => {
   });
 
   it('should finish demo loading when all locations are loaded', () => {
-    const state: AppState = {
-      connectionStatus: WebSocketConnectionStatus.CLOSED,
+    const stateWithDemo: AppState = {
+      ...state,
       serverInfo: {
         boundingBox: null,
         countryCodes: [],
@@ -120,11 +107,9 @@ describe('WebSocket client operations', () => {
         demoName: 'demo',
         isLoading: true,
       },
-      plan: emptyPlan,
-      userViewport,
     };
 
-    const { store, client } = mockStore(state);
+    const { store, client } = mockStore(stateWithDemo);
 
     let successCallbackCapture: () => void = uninitializedCallbackCapture;
     client.connect = jest.fn().mockImplementation((successCallback) => {
@@ -162,21 +147,6 @@ describe('WebSocket client operations', () => {
   });
 
   it('should dispatch server info and reset viewport', () => {
-    const state: AppState = {
-      connectionStatus: WebSocketConnectionStatus.CLOSED,
-      serverInfo: {
-        boundingBox: null,
-        countryCodes: [],
-        demos: [],
-      },
-      demo: {
-        demoName: null,
-        isLoading: false,
-      },
-      plan: emptyPlan,
-      userViewport,
-    };
-
     const { store, client } = mockStore(state);
 
     let successCallbackCapture: () => void = uninitializedCallbackCapture;
@@ -210,6 +180,38 @@ describe('WebSocket client operations', () => {
     expect(store.getActions()).toEqual([
       resetViewport(),
       serverInfo(info),
+    ]);
+  });
+
+  it('should dispatch errors', () => {
+    const { store, client } = mockStore(state);
+
+    let successCallbackCapture: () => void = uninitializedCallbackCapture;
+    client.connect = jest.fn().mockImplementation((successCallback) => {
+      successCallbackCapture = successCallback;
+    });
+
+    let errorTopicSubscriptionCallback: (message: MessagePayload) => void = uninitializedCallbackCapture;
+    client.subscribeToErrorTopic = jest.fn().mockImplementation((callback) => {
+      errorTopicSubscriptionCallback = callback;
+    });
+
+    // successfully connect the client
+    store.dispatch(websocketOperations.connectClient());
+    successCallbackCapture();
+
+    // should be subscribed error topic
+    expect(client.subscribeToErrorTopic).toHaveBeenCalledTimes(1);
+
+    store.clearActions();
+
+    // when error message arrives
+    const message: MessagePayload = { id: '1', text: '2' };
+    errorTopicSubscriptionCallback(message);
+
+    // action should be dispatched
+    expect(store.getActions()).toEqual([
+      receiveMessage(message),
     ]);
   });
 });
@@ -277,4 +279,20 @@ const nonEmptyPlan: RoutingPlan = {
   depot: visit1,
   visits: [visit2, visit3, visit4, visit5, visit6],
   routes: [], // not important for the test
+};
+
+const state: AppState = {
+  connectionStatus: WebSocketConnectionStatus.CLOSED,
+  messages: [],
+  serverInfo: {
+    boundingBox: null,
+    countryCodes: [],
+    demos: [],
+  },
+  demo: {
+    demoName: null,
+    isLoading: false,
+  },
+  plan: emptyPlan,
+  userViewport,
 };

@@ -18,7 +18,6 @@ package org.optaweb.vehiclerouting.plugin.planner;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
@@ -31,11 +30,14 @@ import org.optaweb.vehiclerouting.plugin.planner.change.RemoveVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.service.error.ErrorEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.core.task.AsyncListenableTaskExecutor;
 import org.springframework.stereotype.Component;
+import org.springframework.util.concurrent.ListenableFuture;
 
 /**
  * Manages a solver running in a different thread.
@@ -47,7 +49,7 @@ import org.springframework.stereotype.Component;
  * <li>Adds problem fact changes to the solver.</li>
  * <li>Propagates any exception that happens in {@code Solver.solver()} (in a different thread) to the thread that
  * interacts with {@code SolverManager}.</li>
- * <li>Listens for best solution changes and publishes new best solutions via {@link SolutionPublisher}.</li>
+ * <li>Listens for best solution changes and publishes new best solutions via {@link RouteChangedEventPublisher}.</li>
  * </ul>
  */
 @Component("optaweb-solver-manager")
@@ -56,20 +58,23 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
     private static final Logger logger = LoggerFactory.getLogger(SolverManager.class);
 
     private final Solver<VehicleRoutingSolution> solver;
-    private final AsyncTaskExecutor executor;
-    private final SolutionPublisher solutionPublisher;
+    private final AsyncListenableTaskExecutor executor;
+    private final RouteChangedEventPublisher routeChangedEventPublisher;
+    private final ApplicationEventPublisher eventPublisher;
 
-    private Future<VehicleRoutingSolution> solverFuture;
+    private ListenableFuture<VehicleRoutingSolution> solverFuture;
 
     @Autowired
     SolverManager(
             Solver<VehicleRoutingSolution> solver,
-            AsyncTaskExecutor executor,
-            SolutionPublisher solutionPublisher
+            AsyncListenableTaskExecutor executor,
+            RouteChangedEventPublisher routeChangedEventPublisher,
+            ApplicationEventPublisher eventPublisher
     ) {
         this.solver = solver;
         this.executor = executor;
-        this.solutionPublisher = solutionPublisher;
+        this.routeChangedEventPublisher = routeChangedEventPublisher;
+        this.eventPublisher = eventPublisher;
         this.solver.addEventListener(this);
     }
 
@@ -85,7 +90,7 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
         // TODO Race condition, if a servlet thread deletes that location in the middle of this method happening
         //      on the solver thread. Make sure that location is still in the repository.
         //      Maybe repair the solution OR ignore if it's inconsistent (log a WARNING).
-        solutionPublisher.publishSolution(bestSolutionChangedEvent.getNewBestSolution()); // TODO @Async
+        routeChangedEventPublisher.publishSolution(bestSolutionChangedEvent.getNewBestSolution()); // TODO @Async
     }
 
     void startSolver(VehicleRoutingSolution solution) {
@@ -93,8 +98,23 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
             throw new IllegalStateException("Solver start has already been requested");
         }
         // TODO move this to @Async method?
-        // TODO use ListenableFuture to react to solve() exceptions immediately?
-        solverFuture = executor.submit((SolvingTask) () -> solver.solve(solution));
+        solverFuture = executor.submitListenable((SolvingTask) () -> solver.solve(solution));
+        solverFuture.addCallback(
+                // IMPORTANT: This is happening on the solver thread.
+                // TODO in both cases restart or somehow recover?
+                result -> {
+                    if (!solver.isTerminateEarly()) {
+                        // This is impossible. Solver in daemon mode can't return from solve() unless it has been
+                        // terminated (see #stopSolver()) or throws an exception.
+                        logger.error("Solver stopped solving but that shouldn't happen in daemon mode.");
+                        eventPublisher.publishEvent(new ErrorEvent(this, "Solver stopped solving unexpectedly."));
+                    }
+                },
+                exception -> {
+                    logger.error("Solver failed", exception);
+                    eventPublisher.publishEvent(new ErrorEvent(this, exception.toString()));
+                }
+        );
     }
 
     void stopSolver() {

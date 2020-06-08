@@ -39,14 +39,14 @@ import org.springframework.stereotype.Component;
  * components that listen for this type of event.
  */
 @Component
-class SolutionPublisher {
+class RouteChangedEventPublisher {
 
-    private static final Logger logger = LoggerFactory.getLogger(SolutionPublisher.class);
+    private static final Logger logger = LoggerFactory.getLogger(RouteChangedEventPublisher.class);
 
     private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
-    SolutionPublisher(ApplicationEventPublisher eventPublisher) {
+    RouteChangedEventPublisher(ApplicationEventPublisher eventPublisher) {
         this.eventPublisher = eventPublisher;
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.route;
+import { ActionFactory } from '../types';
+import { ActionType, MessagePayload, ReadMessageAction, ReceiveMessageAction } from './types';
 
-import org.optaweb.vehiclerouting.domain.RoutingPlan;
+export const receiveMessage: ActionFactory<MessagePayload, ReceiveMessageAction> = (payload) => ({
+  type: ActionType.RECEIVE_MESSAGE,
+  payload,
+});
 
-/**
- * Publishes routing plan to clients.
- */
-public interface RoutePublisher { // TODO rename to RouteConsumer
-
-    /**
-     * Publish the routing plan.
-     * @param routingPlan routing plan to be published
-     */
-    void publish(RoutingPlan routingPlan);
-}
+export const readMessage: ActionFactory<string, ReadMessageAction> = (id) => ({
+  type: ActionType.READ_MESSAGE,
+  id,
+});

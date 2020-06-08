@@ -164,4 +164,18 @@ describe('WebSocketClient', () => {
     mockClient.subscribe.mock.calls[0][1]({ body: JSON.stringify(payload) });
     expect(callback).toHaveBeenCalledWith(payload);
   });
+
+  it('subscribeToErrorTopic() should subscribe with callback', () => {
+    const callback = jest.fn();
+    const payload = { value: 'test' };
+
+    client.connect(onSuccess, onError);
+    client.subscribeToErrorTopic(callback);
+
+    expect(mockClient.subscribe.mock.calls[0][0]).toBe('/topic/error');
+    expect(typeof mockClient.subscribe.mock.calls[0][1]).toBe('function');
+
+    mockClient.subscribe.mock.calls[0][1]({ body: JSON.stringify(payload) });
+    expect(callback).toHaveBeenCalledWith(payload);
+  });
 });

@@ -3,6 +3,7 @@
 exports[`App should render correctly 1`] = `
 <Fragment>
   <Connect(ConnectionManager) />
+  <Connect(Alerts) />
   <Page
     breadcrumb={null}
     className=""

@@ -16,6 +16,7 @@
 
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import { Message } from 'store/message/types';
 import WebSocketClient from 'websocket/WebSocketClient';
 import { UserViewport } from './client/types';
 import { Demo } from './demo/types';
@@ -55,6 +56,7 @@ export type ThunkCommandFactory<V, A extends Action> = V extends void ?
 
 export interface AppState {
   readonly serverInfo: ServerInfo;
+  readonly messages: Message[];
   readonly plan: RoutingPlan;
   readonly connectionStatus: WebSocketConnectionStatus;
   readonly demo: Demo;

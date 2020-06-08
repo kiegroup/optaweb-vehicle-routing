@@ -64,7 +64,7 @@ class RouteOptimizerImplTest {
     @Mock
     private SolverManager solverManager;
     @Mock
-    private SolutionPublisher solutionPublisher;
+    private RouteChangedEventPublisher routeChangedEventPublisher;
     @InjectMocks
     private RouteOptimizerImpl routeOptimizer;
 
@@ -73,7 +73,7 @@ class RouteOptimizerImplTest {
         // arrange
         Long[] vehicleIds = {2L, 3L, 5L, 7L, 11L};
         Arrays.stream(vehicleIds).forEach(vehicleId -> routeOptimizer.addVehicle(testVehicle(vehicleId)));
-        clearInvocations(solutionPublisher);
+        clearInvocations(routeChangedEventPublisher);
 
         // act
         routeOptimizer.addLocation(location1, matrixRow);
@@ -107,7 +107,7 @@ class RouteOptimizerImplTest {
         assertThat(solutionWithOneVehicle.getVisitList()).isEmpty();
 
         // act 2
-        clearInvocations(solutionPublisher);
+        clearInvocations(routeChangedEventPublisher);
         routeOptimizer.removeVehicle(vehicle);
 
         // assert 2
@@ -221,7 +221,7 @@ class RouteOptimizerImplTest {
     void solver_should_not_start_nor_stop_when_modifying_location_and_there_are_no_vehicles() {
         // add 2 locations
         routeOptimizer.addLocation(location1, matrixRow);
-        clearInvocations(solutionPublisher);
+        clearInvocations(routeChangedEventPublisher);
         routeOptimizer.addLocation(location2, matrixRow);
 
         // solving did not start due to missing vehicles
@@ -234,7 +234,7 @@ class RouteOptimizerImplTest {
 
         // add a third location and remove another one
         routeOptimizer.addLocation(location3, matrixRow);
-        clearInvocations(solutionPublisher);
+        clearInvocations(routeChangedEventPublisher);
         routeOptimizer.removeLocation(location2);
 
         // no interactions with solver (start/stop/problem fact changes) because
@@ -254,7 +254,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, matrixRow);
         routeOptimizer.addLocation(location2, matrixRow);
         verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
-        clearInvocations(solutionPublisher);
+        clearInvocations(routeChangedEventPublisher);
 
         routeOptimizer.removeVehicle(vehicle);
         verify(solverManager).stopSolver();
@@ -269,7 +269,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location1, matrixRow);
         routeOptimizer.addLocation(location2, matrixRow);
         verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
-        clearInvocations(solutionPublisher);
+        clearInvocations(routeChangedEventPublisher);
 
         // remove 1 location from running solver
         routeOptimizer.removeLocation(location2);
@@ -302,7 +302,7 @@ class RouteOptimizerImplTest {
         long vehicleId2 = 113;
         routeOptimizer.addVehicle(testVehicle(vehicleId1));
         routeOptimizer.addVehicle(testVehicle(vehicleId2));
-        clearInvocations(solutionPublisher);
+        clearInvocations(routeChangedEventPublisher);
 
         // when a depot is added
         routeOptimizer.addLocation(location1, matrixRow);
@@ -316,7 +316,7 @@ class RouteOptimizerImplTest {
         assertThat(solution1.getDepotList()).extracting(PlanningDepot::getId).containsExactly(location1.id());
 
         // if we remove the depot
-        clearInvocations(solutionPublisher);
+        clearInvocations(routeChangedEventPublisher);
         routeOptimizer.removeLocation(location1);
 
         // then published solution's depot list is empty
@@ -413,7 +413,7 @@ class RouteOptimizerImplTest {
         Vehicle vehicle = createVehicle(vehicleId, "", oldCapacity);
         routeOptimizer.addVehicle(vehicle);
         routeOptimizer.addLocation(location1, matrixRow);
-        clearInvocations(solutionPublisher);
+        clearInvocations(routeChangedEventPublisher);
 
         // change capacity when solver is not running
         routeOptimizer.changeCapacity(createVehicle(vehicleId, "", newCapacity));
@@ -463,7 +463,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location2, matrixRow);
         verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
         routeOptimizer.addLocation(location3, matrixRow);
-        clearInvocations(solutionPublisher);
+        clearInvocations(routeChangedEventPublisher);
 
         routeOptimizer.removeAllLocations();
 
@@ -483,7 +483,7 @@ class RouteOptimizerImplTest {
         routeOptimizer.addLocation(location2, matrixRow);
         verify(solverManager).startSolver(any(VehicleRoutingSolution.class));
         routeOptimizer.addLocation(location3, matrixRow);
-        clearInvocations(solutionPublisher);
+        clearInvocations(routeChangedEventPublisher);
 
         routeOptimizer.removeAllVehicles();
 
@@ -506,7 +506,7 @@ class RouteOptimizerImplTest {
     }
 
     private VehicleRoutingSolution verifyPublishingPreliminarySolution() {
-        verify(solutionPublisher).publishSolution(solutionArgumentCaptor.capture());
+        verify(routeChangedEventPublisher).publishSolution(solutionArgumentCaptor.capture());
         return solutionArgumentCaptor.getValue();
     }
 

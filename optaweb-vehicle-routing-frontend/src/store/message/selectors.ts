@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,6 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.route;
+import { Message } from 'store/message/types';
 
-import org.optaweb.vehiclerouting.domain.RoutingPlan;
-
-/**
- * Publishes routing plan to clients.
- */
-public interface RoutePublisher { // TODO rename to RouteConsumer
-
-    /**
-     * Publish the routing plan.
-     * @param routingPlan routing plan to be published
-     */
-    void publish(RoutingPlan routingPlan);
-}
+export const getNewMessages = (messages: Message[]) => messages.filter((message) => message.status === 'new');

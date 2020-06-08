@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.route;
-
-import org.optaweb.vehiclerouting.domain.RoutingPlan;
-
 /**
- * Publishes routing plan to clients.
+ * Handles error events. For example an uncaught exception can be turned into an error event that is sent to the client.
  */
-public interface RoutePublisher { // TODO rename to RouteConsumer
-
-    /**
-     * Publish the routing plan.
-     * @param routingPlan routing plan to be published
-     */
-    void publish(RoutingPlan routingPlan);
-}
+package org.optaweb.vehiclerouting.service.error;

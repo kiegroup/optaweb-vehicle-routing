@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Alerts should call readMessage() when alert is closed 1`] = `
+<AlertGroup
+  isToast={true}
+>
+  <Component
+    action={
+      <AlertActionCloseButton
+        onClose={[Function]}
+        title="Close alert"
+      />
+    }
+    isLiveRegion={true}
+    key="1"
+    title="Error"
+    variant="danger"
+  >
+    msg 1
+  </Component>
+  <Component
+    action={
+      <AlertActionCloseButton
+        onClose={[Function]}
+        title="Close alert"
+      />
+    }
+    isLiveRegion={true}
+    key="2"
+    title="Error"
+    variant="danger"
+  >
+    msg 2
+  </Component>
+</AlertGroup>
+`;
+
+exports[`Alerts should not render if there are no messages 1`] = `""`;

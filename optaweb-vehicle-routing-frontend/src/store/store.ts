@@ -23,6 +23,7 @@ import thunk from 'redux-thunk';
 import WebSocketClient from 'websocket/WebSocketClient';
 import clientReducer from './client';
 import demoReducer from './demo';
+import messageReducer from './message';
 import routeReducer from './route';
 import serverInfoReducer from './server';
 import { AppState } from './types';
@@ -47,6 +48,7 @@ export function configureStore(
   // map reducers to state slices
   const rootReducer = combineReducers<AppState>({
     connectionStatus: connectionReducer,
+    messages: messageReducer,
     serverInfo: serverInfoReducer,
     demo: demoReducer,
     plan: routeReducer,

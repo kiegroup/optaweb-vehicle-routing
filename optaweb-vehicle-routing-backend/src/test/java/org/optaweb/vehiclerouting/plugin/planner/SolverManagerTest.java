@@ -40,7 +40,8 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
-import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.core.task.AsyncListenableTaskExecutor;
+import org.springframework.util.concurrent.ListenableFuture;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -64,21 +65,21 @@ class SolverManagerTest {
     @Mock
     private BestSolutionChangedEvent<VehicleRoutingSolution> bestSolutionChangedEvent;
     @Mock
-    private Future<VehicleRoutingSolution> solverFuture;
+    private ListenableFuture<VehicleRoutingSolution> solverFuture;
 
     @Mock
     private Solver<VehicleRoutingSolution> solver;
     @Mock
-    private AsyncTaskExecutor executor;
+    private AsyncListenableTaskExecutor executor;
     @Mock
-    private SolutionPublisher solutionPublisher;
+    private RouteChangedEventPublisher routeChangedEventPublisher;
     @InjectMocks
     private SolverManager solverManager;
 
     private void returnSolverFutureWhenSolverIsStarted() {
         // always run the runnable submitted to executor (that's what every executor does)
         // we can then verify that solver.solve() has been called
-        when(executor.submit(any(SolverManager.SolvingTask.class))).thenAnswer(
+        when(executor.submitListenable(any(SolverManager.SolvingTask.class))).thenAnswer(
                 answer((Answer1<Future<VehicleRoutingSolution>, SolverManager.SolvingTask>) callable -> {
                     callable.call();
                     return solverFuture;
@@ -101,7 +102,7 @@ class SolverManagerTest {
 
         // assert
         verify(bestSolutionChangedEvent, never()).getNewBestSolution();
-        verify(solutionPublisher, never()).publishSolution(any());
+        verify(routeChangedEventPublisher, never()).publishSolution(any());
     }
 
     @Test
@@ -112,7 +113,7 @@ class SolverManagerTest {
 
         solverManager.bestSolutionChanged(bestSolutionChangedEvent);
 
-        verify(solutionPublisher).publishSolution(solutionArgumentCaptor.capture());
+        verify(routeChangedEventPublisher).publishSolution(solutionArgumentCaptor.capture());
         VehicleRoutingSolution event = solutionArgumentCaptor.getValue();
         assertThat(event).isSameAs(solution);
     }
