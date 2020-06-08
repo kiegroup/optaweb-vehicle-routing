@@ -23,11 +23,11 @@ function print_help() {
   echo "  $script_name --air"
   echo "  $script_name --help"
   echo
-  echo "First form configures backend to use GraphHopper routing mode and downloads an OSM data file during startup. \
+  echo "First form configures the back end to use GraphHopper routing mode and downloads an OSM data file during startup. \
 Note that download and processing of the OSM file can take some time depending on its size. \
-During this period, the application informs about backend service being unreachable."
+During this period, the application informs about back end service being unreachable."
   echo
-  echo "Second form configures backend to use air routing mode. This is useful for development, debugging and \
+  echo "Second form configures back end to use air routing mode. This is useful for development, debugging and \
 hacking. Air distance routing is only an approximation. It is not useful for real vehicle routing."
   echo
   echo
@@ -39,7 +39,7 @@ hacking. Air distance routing is only an approximation. It is not useful for rea
   echo
   echo "OSM_FILE_DOWNLOAD_URL"
   echo "  Should point to an OSM data file in PBF format accessible from OpenShift. The file will be downloaded \
-during backend startup and saved as /deployments/local/OSM_FILE_NAME."
+during back end startup and saved as /deployments/local/OSM_FILE_NAME."
   echo
   echo
   echo "Example 1"
@@ -77,7 +77,7 @@ case $# in
     if [[ $1 == --air ]]
     then
       dc_backend_env+=("APP_ROUTING_ENGINE=air")
-      summary="No routing config provided. The backend will start in air distance mode.\n\n\
+      summary="No routing config provided. The back end will start in air distance mode.\n\n\
 WARNING: Air distance mode does not give accurate values. \
 It is only useful for evaluation, debugging, or incremental setup purpose. \
 You can run ‘$script_name --help’ to see other options."
@@ -89,15 +89,15 @@ You can run ‘$script_name --help’ to see other options."
     dc_backend_env+=("APP_ROUTING_ENGINE=air")
     dc_backend_env+=("APP_ROUTING_OSM_FILE=$1")
     dc_backend_env+=("APP_REGION_COUNTRY_CODES=$2")
-    summary="The backend will start in air mode. Use the backend pod to upload a graph directory or an OSM file. \
-Then change routing mode to graphopper. Run ‘$script_name --help’ for more info."
+    summary="The back end will start in air mode. Use the back end pod to upload a graph directory or an OSM file. \
+Then change routing mode to graphhopper. Run ‘$script_name --help’ for more info."
     ;;
   3)
     dc_backend_env+=("APP_ROUTING_ENGINE=graphhopper")
     dc_backend_env+=("APP_ROUTING_OSM_FILE=$1")
     dc_backend_env+=("APP_REGION_COUNTRY_CODES=$2")
     dc_backend_env+=("APP_ROUTING_OSM_DOWNLOAD_URL=$3")
-    summary="The backend will download an OSM file on startup. \
+    summary="The back end will download an OSM file on startup. \
 It may take several minutes to download and process the file before the application is fully available!"
     download=1
     ;;
@@ -115,12 +115,12 @@ readonly dir_frontend=optaweb-vehicle-routing-frontend
 # Fail fast if the project hasn't been built
 if ! stat -t ${dir_backend}/target/*.jar > /dev/null 2>&1
 then
-  echo >&2 "ERROR: Backend not built! Build the project before running this script."
+  echo >&2 "ERROR: The back end module is not built! Build the project before running this script."
   exit 1
 fi
 if [[ ! -d ${dir_frontend}/docker/build ]]
 then
-  echo >&2 "ERROR: Frontend not built! Build the project before running this script."
+  echo >&2 "ERROR: The front end module is not built! Build the project before running this script."
   exit 1
 fi
 
@@ -174,7 +174,7 @@ read -r -p "Do you want to continue? [y/N]: " "answer_continue"
 # Set up PostgreSQL
 oc new-app --name postgresql postgresql-persistent
 
-# Backend
+# Back end
 # -- binary build (upload local artifacts + Dockerfile)
 oc new-build --name backend --strategy=docker --binary
 oc start-build backend --from-dir=${dir_backend} --follow
@@ -194,7 +194,7 @@ oc set volumes dc/backend --add \
     --name data-local \
     --mount-path /deployments/local
 
-# Frontend
+# Front end
 # -- binary build
 oc new-build --name frontend --strategy=docker --binary
 oc start-build frontend --from-dir=${dir_frontend}/docker --follow
@@ -213,5 +213,5 @@ then
   echo
   echo "The OSM file download and its processing can take some time depending on its size. \
 For large files (hundreds of MB) this can be several minutes. \
-During this period, the application informs about backend service being unreachable."
+During this period, the application informs about the back end service being unreachable."
 fi
