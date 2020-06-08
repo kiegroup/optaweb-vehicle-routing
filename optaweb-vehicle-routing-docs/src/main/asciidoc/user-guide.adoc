@@ -1,8 +1,8 @@
 = Using OptaWeb Vehicle Routing
 
 In the OptaWeb Vehicle Routing application, you can mark a number of locations on the map.
-The first location is assumed to be the warehouse.
-Vehicles must deliver goods from this warehouse to every other location that you marked.
+The first location is assumed to be the depot.
+Vehicles must deliver goods from this depot to every other location that you marked.
 
 You can set the number of vehicles and the carrying capacity of every vehicle.
 However, the route is not guaranteed to use all vehicles.
@@ -11,7 +11,7 @@ The application uses as many vehicles as required for an optimal route.
 The current version has certain limitations:
 
 * Every delivery to a location is supposed to take 1 point of vehicle capacity.
-For example, a vehicle with a capacity of 10 can visit up to 10 locations before returning to the warehouse.
+For example, a vehicle with a capacity of 10 can visit up to 10 locations before returning to the depot.
 * Setting custom names of vehicles and locations is not supported.
 * Error information is not supported in the user interface.
 You must view the terminal output of the back end to see detailed error messages.
@@ -31,7 +31,7 @@ Do not double-click to zoom in.
 A double click also creates a location.
 ====
 +
-. Click a location for the warehouse.
+. Click a location for the depot.
 . Click other locations on the map for delivery points.
 . If you want to delete a location:
 .. Hover the mouse cursor over the location to see the location name.
