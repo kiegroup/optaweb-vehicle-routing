@@ -65,7 +65,7 @@ Data set directory is where the `app.demo.data-set-dir` property points to.
 
 If the application is running through the <<run-locally#run-locally-sh,run script>>, it will be set to `$HOME/{data-dir-name}/dataset`.
 
-Otherwise the property will be taken from `application.properties` and defaults to `optaweb-vehicle-routing-backend/local/dataset`.
+Otherwise, the property will be taken from `application.properties` and defaults to `optaweb-vehicle-routing-backend/local/dataset`.
 ====
 . Edit the YAML file and choose a unique name for the data set.
 . Restart the back end.
