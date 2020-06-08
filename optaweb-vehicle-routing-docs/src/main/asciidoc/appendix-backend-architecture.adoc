@@ -67,9 +67,11 @@ The `service` package contains classes that implement _use cases_.
 A use case describes something that you want to do, for example adding new location, changing vehicle capacity, or finding coordinates for an address.
 The business rules that govern use cases are expressed using the domain objects.
 
-Use cases often need to interact with outer layers, such as persistence, web, and optimization.
-To keep the code loosely coupled, the interaction with the outer layers is expressed in terms of interfaces.
-Their implementations are provided by Spring IoC container at runtime.
+Services often need to interact with plugins in the outer layer, such as persistence, web, and optimization.
+To satisfy the dependency rules between layers, the interaction between services and plugins is expressed in terms of interfaces that define the dependencies of a service.
+A plugin can satisfy a dependency of a service by providing a bean that implements the service's boundary interface.
+The Spring IoC container creates an instance of the plugin bean and injects it to the service at runtime.
+This is an example of the inversion of control principle.
 
 == The `plugin` package
 
