@@ -49,7 +49,7 @@ The domain has no dependencies.
 
 Services only depend on the domain.
 If a service needs to send a result (for example to the database or to the client), it uses an output boundary interface.
-Its implementation is injected by the IoC container.
+Its implementation is injected by the https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans[Inversion of Control] (IoC) container.
 
 Plugins depend on services in two ways.
 Firstly, they invoke services based on events such as a user input or a route update coming from the optimization engine.
