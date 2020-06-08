@@ -39,4 +39,4 @@ to learn more about the `runLocally.sh` script.
 
 == Development
 
-Read <<optaweb-vehicle-routing-docs/src/main/asciidoc/development-guide#development-guide,Development>> chapter in the documentation.
+Read the <<optaweb-vehicle-routing-docs/src/main/asciidoc/development-guide#development-guide,Development>> chapter in the documentation.

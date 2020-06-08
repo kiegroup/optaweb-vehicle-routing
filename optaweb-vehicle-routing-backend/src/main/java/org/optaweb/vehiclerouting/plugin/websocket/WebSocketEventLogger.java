@@ -25,7 +25,7 @@ import org.springframework.web.socket.messaging.SessionConnectEvent;
 import org.springframework.web.socket.messaging.SessionSubscribeEvent;
 
 /**
- * Logs WebSocket events like {@link SessionConnectEvent} and {@link SessionSubscribeEvent} on DEBUG level.
+ * Logs WebSocket events, such as {@link SessionConnectEvent} and {@link SessionSubscribeEvent}, on DEBUG level.
  */
 @Component
 class WebSocketEventLogger implements ApplicationListener<AbstractSubProtocolEvent> {

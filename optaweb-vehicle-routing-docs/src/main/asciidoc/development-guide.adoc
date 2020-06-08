@@ -8,17 +8,16 @@ The project is a multi-module Maven project.
 .Module dependency tree diagram
 image::modules.dot.svg[align="center"]
 
-At the bottom of the module tree there are the backend and frontend modules,
-which contain the application source code.
+At the bottom of the module tree there are the backend and frontend modules, which contain the application source code.
 
-The standalone module is an assembly module that combines backend and frontend into a single executable JAR file.
+The standalone module is an assembly module that combines the backend and frontend into a single executable JAR file.
 
 The distribution module represents the final assembly step.
 It takes the standalone application and the documentation and wraps them in an archive that is easy to distribute.
 
 == Developing OptaWeb Vehicle Routing
 
-Backend and frontend are separate projects that can be built and deployed separately.
+The backend and frontend are separate projects that can be built and deployed separately.
 In fact, they are written in completely different languages and built with different tools.
 Both projects have tools that provide a modern developer experience with fast turn-around between code changes and the running application.
 
@@ -36,38 +35,37 @@ In the next sections you will learn how to run both backend and frontend project
 - Docker
 ////
 
-Backend module contains a server-side application that uses OptaPlanner to *optimize vehicle routes*.
-Optimization is a CPU-intensive computation, that must avoid any I/O operations in order to perform to its full potential.
-Because one of the chief objectives is to minimize the travel cost, be it time or distance,
-we need to keep the travel cost information in RAM memory.
+The backend module contains a server-side application that uses OptaPlanner to *optimize vehicle routes*.
+Optimization is a CPU-intensive computation that must avoid any I/O operations in order to perform to its full potential.
+Because one of the chief objectives is to minimize the travel cost, either time or distance, we need to keep the travel cost information in RAM memory.
 While solving, OptaPlanner needs to know the travel cost between every pair of locations entered by the user.
 This information is stored in a structure called the _distance matrix_.
 
 When a new location is entered, we calculate the travel cost between the new location and every other location that has been entered so far, and store the travel cost in the distance matrix.
 The travel cost calculation is performed by a routing engine called https://github.com/graphhopper/graphhopper[GraphHopper].
 
-Finally, the backend module implements additional, supporting functionality like
+Finally, the backend module implements additional supporting functionality, such as:
 
 - persistence,
 - WebSocket connection for the frontend,
-- data set loading, export and import.
+- data set loading, export, and import.
 
-In the next sections you will learn how to configure and run backend in development mode.
+In the next sections you will learn how to configure and run the backend in development mode.
 To learn more about the backend code architecture, see <<appendix-backend-architecture#backend-architecture>>.
 
 [[run-spring-boot-maven-plugin]]
-=== Running backend using Spring Boot Maven plugin
+=== Running the backend using Spring Boot Maven plugin
 
 .Prerequisites
-. Java 8 or higher is <<quickstart#install-java,installed>>.
-. Data directory is set up.
-. An OSM file is downloaded.
+- Java 8 or higher is <<quickstart#install-java,installed>>.
+- The data directory is set up.
+- An OSM file is downloaded.
 // TODO application-local.properties
 
-You can accomplish prerequisites 2 and 3 either by using the <<run-locally#run-locally-sh,run script>> or by performing them <<run-noscript#run-noscript,manually>>.
+You can manually <<run-noscript#data-dir-setup,set up the data directory>> and <<run-noscript#download-osm,download the OSM file>> or you can use the <<run-locally#run-locally-sh,run script>> to complete these tasks.
 
 .Procedure
-To run backend in development mode, enter:
+To run the backend in development mode, enter the following command:
 
 [source,shell]
 ----
@@ -81,16 +79,23 @@ is provided by Spring Boot DevTools and only works when the backend is running u
 It scans files on the classpath, so you only need to recompile your changes to trigger application restart.
 No IDE configuration is needed.
 
-If your IDE has a compile-on-save feature (Eclipse, NetBeans), you just need to save the files that have changed since last compilation.
+If your IDE has a compile-on-save feature (for example Eclipse or NetBeans), you just need to save the files that have changed since the last compilation.
 
-IntelliJ IDEA saves changes automatically and you need to use either Recompile action, which recompiles the file in active tab, or Build Project action which recompiles all changes.
+IntelliJ IDEA saves changes automatically and you need to select either menu:Build[Recompile], which recompiles the file in the active tab, or menu:Build[Build Project] which recompiles all changes.
 See https://www.jetbrains.com/help/idea/compiling-applications.html[Compile and build applications with IntelliJ IDEA].
 
-=== Running backend from IntelliJ IDEA
+=== Running the backend from IntelliJ IDEA
 
-. Run `org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication` from Project window.
-This will create a Run Configuration that you will edit in the next step.
-A failure on the first run is expected due to wrong working directory.
+. Run `org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication`.
+This will create a run configuration that you will edit in the next step.
+.. Open the `OptaWebVehicleRoutingApplication` class in the _Editor_ window.
+.. Click the green symbol in the editor window gutter and select *Run 'OptaWebVehicleRoutingApplication'*.
++
+// TODO remove this or change it to "if the run fails, set working directory to...", when the instructions to fill in application-local.properties are added.
+NOTE: The run fails because the working directory is set to the root of the project, whereas the backend module directory is expected.
+You are going to change the working directory in the next step.
++
+NOTE: See https://www.jetbrains.com/help/idea/running-applications.html[Run applications] to learn more about running applications in IntelliJ IDEA.
 
 . Select menu:Run[Edit Configurations...] and then select menu:Spring Boot[OptaWebVehicleRoutingApplication].
 
@@ -100,7 +105,7 @@ This will make the application use configuration from `application-local.propert
 . Change *Working directory* to the backend module (`optaweb-vehicle-routing-backend`).
 
 . Optionally, set *On Update action* to *Hot swap classes and update trigger file if failed*.
-This will allow you to use the Update action to quickly restart the application.
+This will allow you to use the *Update* action to quickly restart the application.
 +
 See https://blog.jetbrains.com/idea/2018/04/spring-and-spring-boot-in-intellij-idea-2018-1/[Spring and Spring Boot in IntelliJ IDEA 2018.1]
 for more details.
@@ -108,27 +113,27 @@ for more details.
 [[backend-configuration]]
 === Configuration
 
-There are multiple ways how to set configuration properties.
-When running locally, you'll probably want to use one of these:
+There are many ways that you can set configuration properties.
+If you are running locally, you will probably want to use one of these:
 
-* Set it using `application.properties` (you'll find it under `/src/main/resources/`).
-* A command line argument when running the packaged application (e.g. `java -jar optaweb-vehicle-routing-backend.jar --app.my-property=value1`).
-* An environment variable when running the application with `spring-boot:run`.
+* Set configuration properties in the `application.properties` file, under `/src/main/resources/`.
+* Use a command line argument when running the packaged application (for example `java -jar optaweb-vehicle-routing-backend.jar --app.my-property=value1`).
+* Use an environment variable when running the application with `spring-boot:run`.
 +
 For example: `app_my_property=value1 ./mvnw spring-boot:run` if the property name is `app.my-property` (this requires
 https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config-relaxed-binding[relaxed binding]
 which only works if the property is defined using `@ConfigurationProperties`).
 
 [NOTE]
-It's not possible to set properties simply via `-D` when running the application using Spring Boot Maven plugin (`./mvnw spring-boot:run -Dmy-property`).
+It is not possible to set properties by specifying `-D` when running the application using the Spring Boot Maven plugin (`./mvnw spring-boot:run -Dmy-property`).
 Any system properties that should be set by the plugin to the forked Java process in which the application runs need to be specified using `systemPropertiesVariables`
 https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/html/#run-example-system-properties[plugin configuration].
 
-You can learn more about configuring a Spring Boot application
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Externalized Configuration].
+You can learn more about configuring a Spring Boot application on the
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Externalized Configuration] page.
 
 [TIP]
-Use `src/main/resources/application-local.properties` to store your personal configuration without affecting Git working tree.
+Use `src/main/resources/application-local.properties` to store your personal configuration without affecting the Git working tree.
 
 See the complete list of <<appendix-backend-config#backend-configuration-properties>>.
 
@@ -138,9 +143,9 @@ available in Spring Boot.
 
 === Logging
 
-OptaWeb uses SLF4J API and Logback as the logging framework.
-Spring Environment allows to configure most logging aspects including levels, patterns and log files in the same way as any other <<backend-configuration>> (most often using `application.properties` or arguments `--property=value`).
-See
+OptaWeb uses the SLF4J API and Logback as the logging framework.
+The Spring environment enables you to configure most logging aspects including levels, patterns, and log files in the same way as any other <<backend-configuration>> (most often using `application.properties` or arguments `--property=value`).
+See the
 https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-custom-log-levels[Spring Boot Logging]
 documentation for more information.
 
@@ -163,10 +168,10 @@ For example, you may use:
 The frontend project was bootstrapped with https://create-react-app.dev/[Create React App].
 Create React App provides a number of scripts and dependencies that help with development and with building the application for production.
 
-=== Setting up development environment
+=== Setting up the development environment
 
 .Procedure
-. On Fedora, install npm by running:
+. On Fedora, run the following command to install npm:
 +
 [source,shell]
 ----
@@ -181,7 +186,7 @@ Unlike Maven, the npm package manager installs dependencies in `node_modules` un
 Whenever the dependencies listed in `package.json` change (for example when you pull changes to the master branch) you must run `npm install` before you run the development server.
 
 .Procedure
-. Change directory to the frontend module
+. Change directory to the frontend module:
 +
 [source,shell]
 ----
@@ -195,14 +200,14 @@ cd optaweb-vehicle-routing-frontend
 npm install
 ----
 
-=== Running development server
+=== Running the development server
 
 .Prerequisites
 - npm is installed.
 - npm dependencies are installed.
 
 .Procedure
-. Run development server:
+. Run the development server:
 +
 [source,shell]
 ----
@@ -218,7 +223,7 @@ By default, the `npm start` command attempts to open this URL in your default br
 If you don't want `npm start` to open a new browser tab each time you run it, export an environment variable `BROWSER=none`.
 
 You can use `.env.local` file to make this preference permanent.
-To do that, run:
+To do that, enter the following command:
 
 [source,shell]
 ----
@@ -226,17 +231,17 @@ echo BROWSER=none >> .env.local
 ----
 ====
 
-The browser will refresh the page make changes in the frontend source code.
-The development server process running in the terminal will pick up the changes as well and will print compilation and lint errors to the console.
+The browser refreshes the page whenever you make changes in the frontend source code.
+The development server process running in the terminal picks up the changes as well and prints compilation and lint errors to the console.
 
 === Running tests
 
 .Procedure
 . Run `npm test`.
 
-=== Changing backend location
+=== Changing the backend location
 
-Use an environment variable called `REACT_APP_BACKEND_URL` to change backend URL when running `npm start` or `npm run build`.
+Use an environment variable called `REACT_APP_BACKEND_URL` to change the backend URL when running `npm start` or `npm run build`.
 For example:
 
 [literal]
@@ -244,9 +249,9 @@ For example:
 REACT_APP_BACKEND_URL=http://10.0.0.123:8081
 ....
 
-Note that environment variables will be "baked" inside the JavaScript bundle during npm build, so you'll need to know backend location before building and deploying frontend.
+Note that environment variables will be "baked" inside the JavaScript bundle during the npm build, so you need to know the backend location before you build and deploy the frontend.
 
-Learn more about React environment variables in https://create-react-app.dev/docs/adding-custom-environment-variables/[Adding Custom Environment Variables].
+Learn more about the React environment variables in https://create-react-app.dev/docs/adding-custom-environment-variables/[Adding Custom Environment Variables].
 
 == Building the project
 

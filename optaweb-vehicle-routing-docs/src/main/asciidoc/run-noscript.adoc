@@ -5,6 +5,7 @@ include::attributes.adoc[]
 
 Follow this section if you cannot use <<run-locally#run-locally-sh,runLocally.sh>> to run OptaWeb Vehicle Routing because Bash is not available on your system.
 
+[[download-osm]]
 == Download routing data
 
 The routing engine requires geographical data to calculate the time it takes vehicles to travel between locations.
@@ -18,6 +19,7 @@ NOTE: The OSM data files are typically between 100 MB to 1 GB and take time to d
 The sub region's page opens.
 . In the *Sub Regions* table, download the OSM file (`.osm.pbf`) for a country, for example Belgium.
 
+[[data-dir-setup]]
 == Create data directory structure
 
 OptaWeb Vehicle Routing reads and writes several types of data on the file system.

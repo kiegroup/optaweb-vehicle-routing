@@ -13,7 +13,7 @@ The script will:
 
 == Quickstart mode
 
-In the quickstart mode, the script will take care of downloading the region that is needed to work with the built-in data set.
+In quickstart mode, the script downloads the region that is required to work with the built-in data set.
 This is the easiest way to get started.
 To use the quickstart mode, run the script with no arguments.
 
@@ -50,9 +50,8 @@ You can use the interactive mode to download additional OSM files from Geofabrik
 [WARNING]
 .Using large OSM files
 ====
-For best user experience, use smaller regions like individual European or US states.
-Using OSM files larger than 1 GB will require significant RAM size
-and take a lot of time (up to several hours) for the initial processing.
+For the best user experience, use smaller regions such as individual European or US states.
+Using OSM files larger than 1 GB will require significant RAM size and take a lot of time (up to several hours) for the initial processing.
 ====
 
 === Select a region and run OptaWeb Vehicle Routing
