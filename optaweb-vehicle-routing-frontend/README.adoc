@@ -5,7 +5,7 @@
 :david-link: {david-project}?{david-path}
 
 [[optaweb-vehicle-routing-frontend]]
-= OptaWeb Vehicle Routing frontend
+= OptaWeb Vehicle Routing front end
 
 image:{david-deps}["dependencies Status",link="{david-link}"]
 image:{david-devDeps}["devDependencies Status",link="{david-link}&type=dev"]

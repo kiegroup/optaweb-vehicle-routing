@@ -1,4 +1,4 @@
-= OptaWeb Vehicle Routing backend
+= OptaWeb Vehicle Routing back end
 
-See the <<../optaweb-vehicle-routing-docs/src/main/asciidoc/development-guide#backend,Backend development chapter>>
+See the <<../optaweb-vehicle-routing-docs/src/main/asciidoc/development-guide#backend,back end development chapter>>
 in the documentation.

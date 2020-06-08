@@ -53,9 +53,9 @@ oc new-project _project_name_
 
 === Updating the deployed application with local changes
 
-==== Backend
+==== Back end
 
-. Change the source code and build the backend module with Maven.
+. Change the source code and build the back end module with Maven.
 . Start OpenShift build:
 
 [source,shell]
@@ -64,9 +64,9 @@ cd optaweb-vehicle-routing-backend
 oc start-build backend --from-dir=. --follow
 ----
 
-==== Frontend
+==== Front end
 
-. Change the source code and build the frontend module with npm.
+. Change the source code and build the front end module with npm.
 . Start OpenShift build:
 
 [source,shell]

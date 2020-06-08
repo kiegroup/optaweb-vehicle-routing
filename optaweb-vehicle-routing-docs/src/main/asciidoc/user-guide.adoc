@@ -14,7 +14,7 @@ The current version has certain limitations:
 For example, a vehicle with a capacity of 10 can visit up to 10 locations before returning to the warehouse.
 * Setting custom names of vehicles and locations is not supported.
 * Error information is not supported in the user interface.
-You must view the terminal output of the backend to see detailed error messages.
+You must view the terminal output of the back end to see detailed error messages.
 
 == Creating a route
 
@@ -68,15 +68,15 @@ If the application is running through the <<run-locally#run-locally-sh,run scrip
 Otherwise the property will be taken from `application.properties` and defaults to `optaweb-vehicle-routing-backend/local/dataset`.
 ====
 . Edit the YAML file and choose a unique name for the data set.
-. Restart the backend.
+. Restart the back end.
 
-After you restart the backend, files in the _data set_ directory will be made available in the *Load demo* dropdown.
+After you restart the back end, files in the _data set_ directory will be made available in the *Load demo* dropdown.
 
 == Troubleshooting
 
-If the application behaves unexpectedly, review the backend terminal output log.
+If the application behaves unexpectedly, review the back end terminal output log.
 
-To resolve issues, remove the backend database:
+To resolve issues, remove the back end database:
 
-. Stop the backend by pressing kbd:[Ctrl+C] in the backend terminal window.
+. Stop the back end by pressing kbd:[Ctrl+C] in the back end terminal window.
 . Remove the directory `optaweb-vehicle-routing/optaweb-vehicle-routing-backend/local/db`.

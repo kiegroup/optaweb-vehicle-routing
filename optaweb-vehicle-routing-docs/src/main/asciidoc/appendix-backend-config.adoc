@@ -1,6 +1,6 @@
 [appendix]
 [[backend-configuration-properties]]
-= Backend configuration properties
+= Back end configuration properties
 
 [cols="m,d,a,d",options="header"]
 |===

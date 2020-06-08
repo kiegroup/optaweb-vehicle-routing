@@ -1,6 +1,6 @@
 [appendix]
 [[backend-architecture]]
-= Backend architecture
+= Back end architecture
 
 Domain model and use cases are essential for the application.
 We put domain model at the center of the architecture and surround it by the application layer that embeds use cases.
@@ -12,7 +12,7 @@ image::backend-layers.svg[align="center"]
 
 == Code organization
 
-The backend code is organized in three layers outlined above.
+The back end code is organized in three layers outlined above.
 
 [literal]
 ....
