@@ -19,13 +19,13 @@ package org.optaweb.vehiclerouting.service.route;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 
 /**
- * Publishes routing plan to clients.
+ * Consumes routing plans.
  */
-public interface RoutePublisher { // TODO rename to RouteConsumer
+public interface RoutingPlanConsumer {
 
     /**
-     * Publish the routing plan.
-     * @param routingPlan routing plan to be published
+     * Consume a routing plan.
+     * @param routingPlan routing plan
      */
-    void publish(RoutingPlan routingPlan);
+    void consumePlan(RoutingPlan routingPlan);
 }

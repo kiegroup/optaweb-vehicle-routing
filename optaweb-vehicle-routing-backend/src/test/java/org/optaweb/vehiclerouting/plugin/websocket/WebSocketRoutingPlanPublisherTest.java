@@ -38,7 +38,7 @@ class WebSocketRoutingPlanPublisherTest {
 
     @Test
     void publish() {
-        routePublisher.publish(RoutingPlan.empty());
+        routePublisher.consumePlan(RoutingPlan.empty());
         verify(webSocket).convertAndSend(
                 eq(WebSocketRoutingPlanPublisher.TOPIC_ROUTE),
                 any(PortableRoutingPlan.class)
