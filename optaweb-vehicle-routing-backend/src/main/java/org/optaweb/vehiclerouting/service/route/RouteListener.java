@@ -49,7 +49,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     private static final Logger logger = LoggerFactory.getLogger(RouteListener.class);
 
     private final Router router;
-    private final RoutePublisher publisher;
+    private final RoutingPlanConsumer routingPlanConsumer;
     private final VehicleRepository vehicleRepository;
     private final LocationRepository locationRepository;
 
@@ -59,12 +59,12 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     @Autowired
     RouteListener(
             Router router,
-            RoutePublisher publisher,
+            RoutingPlanConsumer routingPlanConsumer,
             VehicleRepository vehicleRepository,
             LocationRepository locationRepository
     ) {
         this.router = router;
-        this.publisher = publisher;
+        this.routingPlanConsumer = routingPlanConsumer;
         this.vehicleRepository = vehicleRepository;
         this.locationRepository = locationRepository;
         bestRoutingPlan = RoutingPlan.empty();
@@ -102,7 +102,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
                     new ArrayList<>(visitMap.values()),
                     routes
             );
-            publisher.publish(bestRoutingPlan);
+            routingPlanConsumer.consumePlan(bestRoutingPlan);
         } catch (IllegalStateException e) {
             logger.warn("Discarding an outdated routing plan: {}", e.toString());
         }

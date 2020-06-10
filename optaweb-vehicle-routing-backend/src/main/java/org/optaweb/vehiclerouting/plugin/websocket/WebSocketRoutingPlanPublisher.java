@@ -17,7 +17,7 @@
 package org.optaweb.vehiclerouting.plugin.websocket;
 
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
-import org.optaweb.vehiclerouting.service.route.RoutePublisher;
+import org.optaweb.vehiclerouting.service.route.RoutingPlanConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ import org.springframework.stereotype.Component;
  * Broadcasts updated route to interested clients over WebSocket.
  */
 @Component
-class WebSocketRoutingPlanPublisher implements RoutePublisher {
+class WebSocketRoutingPlanPublisher implements RoutingPlanConsumer {
 
     static final String TOPIC_ROUTE = "/topic/route";
 
@@ -38,7 +38,7 @@ class WebSocketRoutingPlanPublisher implements RoutePublisher {
     }
 
     @Override
-    public void publish(RoutingPlan routingPlan) {
+    public void consumePlan(RoutingPlan routingPlan) {
         webSocket.convertAndSend(TOPIC_ROUTE, PortableRoutingPlanFactory.fromRoutingPlan(routingPlan));
     }
 }
