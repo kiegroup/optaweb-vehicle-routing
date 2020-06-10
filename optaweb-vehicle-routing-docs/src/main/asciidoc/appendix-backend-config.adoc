@@ -1,0 +1,71 @@
+[appendix]
+[[backend-configuration-properties]]
+= Back end configuration properties
+
+[cols="m,d,a,d",options="header"]
+|===
+
+|Property
+|Type
+|Example
+|Description
+
+|app.demo.data-set-dir
+|Relative or absolute path
+|/home/user/{data-dir-name}/dataset
+|Custom <<user-guide#creating-custom-data-sets,data sets>> are loaded from this directory.
+Defaults to `local/dataset`.
+
+|app.persistence.h2-dir
+|Relative or absolute path
+|/home/user/{data-dir-name}/db
+|The directory used by H2 to store the database file.
+Defaults to `local/db`.
+
+|app.region.country-codes
+|List of https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2[ISO 3166-1 alpha-2] country codes
+|`US`, `GB,IE`, `DE,AT,CH`, may be empty
+|Restricts geosearch results.
+
+|app.routing.engine
+|Enumeration
+|`air`, `graphhopper`
+|Routing engine implementation.
+Defaults to `graphhopper`.
+
+|app.routing.gh-dir
+|Relative or absolute path
+|/home/user/{data-dir-name}/graphhopper
+|The directory used by GraphHopper to store road network graphs.
+Defaults to `local/graphhopper`.
+
+|app.routing.osm-dir
+|Relative or absolute path
+|/home/user/{data-dir-name}/openstreetmap
+|The directory that contains OSM files.
+Defaults to `local/openstreetmap`.
+
+|app.routing.osm-file
+|File name
+|belgium-latest.osm.pbf
+|Name of the OSM file that should be loaded by GraphHopper.
+The file must be placed under `app.routing.osm-dir`.
+
+|optaplanner.solver.termination.spent-limit
+|java.time.Duration
+|* 1m
+* 150s
+* P2dT21h (PnDTnHnMn.nS)
+|How long the solver should run after a location change occurs.
+
+|server.address
+|IP address or hostname
+|10.0.0.123, my-vrp.geo-1.openshiftapps.com
+|Network address to which the server should bind.
+
+|server.port
+|Port number
+|4000, 8081
+|Server HTTP port.
+
+|===

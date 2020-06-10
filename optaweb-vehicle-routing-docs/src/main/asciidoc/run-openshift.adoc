@@ -1,0 +1,76 @@
+[[run-openshift]]
+= Run on OpenShift
+
+Linux and macOS users can use the `runOnOpenShift.sh` Bash script to install OptaWeb Vehicle Routing on OpenShift.
+
+== Running on a local OpenShift cluster
+
+Use https://developers.redhat.com/products/codeready-containers[Red Hat CodeReady Containers]
+to easily set up a single-node OpenShift 4 cluster on your local computer.
+
+.Prerequisites
+You have successfully built the project with Maven.
+
+.Procedure
+. To install CRC, follow the link:https://code-ready.github.io/crc/[Red Hat CodeReady Containers Getting Started Guide].
+
+. When the cluster starts, perform the following steps:
+
+.. Add the OpenShift command-line interface (`oc`) to your `$PATH`:
++
+[source,shell]
+----
+eval $(crc oc-env)
+----
+
+.. Log in as "developer":
++
+[source,shell]
+----
+oc login -u developer -p developer https://api.crc.testing:6443
+----
+
+.. Create a new project:
++
+[source,subs="quotes"]
+----
+oc new-project _project_name_
+----
+
+.. Run the script:
++
+[source,subs="quotes"]
+----
+./runOnOpenShift.sh _osm_file_name_ _country_code_list_ _osm_file_download_url_
+----
+
+.. Enter the following command for information about how to use the script:
++
+[source,shell]
+----
+./runOnOpenShift.sh --help
+----
+
+=== Updating the deployed application with local changes
+
+==== Back end
+
+. Change the source code and build the back end module with Maven.
+. Start OpenShift build:
+
+[source,shell]
+----
+cd optaweb-vehicle-routing-backend
+oc start-build backend --from-dir=. --follow
+----
+
+==== Front end
+
+. Change the source code and build the front end module with npm.
+. Start OpenShift build:
+
+[source,shell]
+----
+cd optaweb-vehicle-routing-frontend
+oc start-build frontend --from-dir=docker --follow
+----

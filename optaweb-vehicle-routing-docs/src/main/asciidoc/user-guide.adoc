@@ -1,0 +1,82 @@
+= Using OptaWeb Vehicle Routing
+
+In the OptaWeb Vehicle Routing application, you can mark a number of locations on the map.
+The first location is assumed to be the depot.
+Vehicles must deliver goods from this depot to every other location that you marked.
+
+You can set the number of vehicles and the carrying capacity of every vehicle.
+However, the route is not guaranteed to use all vehicles.
+The application uses as many vehicles as required for an optimal route.
+
+The current version has certain limitations:
+
+* Every delivery to a location is supposed to take 1 point of vehicle capacity.
+For example, a vehicle with a capacity of 10 can visit up to 10 locations before returning to the depot.
+* Setting custom names of vehicles and locations is not supported.
+* Error information is not supported in the user interface.
+You must view the terminal output of the back end to see detailed error messages.
+
+== Creating a route
+
+To create an optimal route, use the *Demo* tab of the user interface.
+
+. Click *Demo* to open the *Demo* tab.
+. Use the blue icon:minus-square[role="blue"] and icon:plus-square[role="blue"] buttons above the map to set the number of vehicles.
+Each vehicle has a default capacity of 10.
+. Use the icon:plus-square-o[] button on the map to zoom in as necessary.
++
+[NOTE]
+====
+Do not double-click to zoom in.
+A double click also creates a location.
+====
++
+. Click a location for the depot.
+. Click other locations on the map for delivery points.
+. If you want to delete a location:
+.. Hover the mouse cursor over the location to see the location name.
+.. Find the location name in the list in the left part of the screen.
+.. Click the icon:times[role="blue"] icon next to the name.
+
+Every time you add or remove a location or change the number of vehicles, the application creates and displays a new optimal route.
+If the solution uses several vehicles, the application shows the route for every vehicle in a different color.
+
+== Viewing and setting other details
+
+You can use other tabs of the user interface to view and set additional details.
+
+* In the *Vehicles* tab, you can view, add, and remove vehicles, and also set the capacity for every vehicle.
+* In the *Visits* tab, you can view and remove locations.
+* In the *Route* tab, you can select every vehicle and view the route for this vehicle.
+
+[[creating-custom-data-sets]]
+== Creating custom data sets
+
+There is a built-in demo data set consisting of a several large Belgian cities.
+If you want to have more demos offered by the *Load demo* dropdown, you can prepare your own data sets.
+To do that, follow these steps:
+
+. Add a depot and a number of visits by clicking on the map or using geosearch.
+. Click *Export* and save the file in the _data set_ directory.
++
+[NOTE]
+====
+Data set directory is where the `app.demo.data-set-dir` property points to.
+
+If the application is running through the <<run-locally#run-locally-sh,run script>>, it will be set to `$HOME/{data-dir-name}/dataset`.
+
+Otherwise, the property will be taken from `application.properties` and defaults to `optaweb-vehicle-routing-backend/local/dataset`.
+====
+. Edit the YAML file and choose a unique name for the data set.
+. Restart the back end.
+
+After you restart the back end, files in the _data set_ directory will be made available in the *Load demo* dropdown.
+
+== Troubleshooting
+
+If the application behaves unexpectedly, review the back end terminal output log.
+
+To resolve issues, remove the back end database:
+
+. Stop the back end by pressing kbd:[Ctrl+C] in the back end terminal window.
+. Remove the directory `optaweb-vehicle-routing/optaweb-vehicle-routing-backend/local/db`.

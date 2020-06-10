@@ -12,6 +12,7 @@ You will use a Bash script to run the binary without having to build the project
 //When the application runs it uses third party, public services such as link:https://www.openstreetmap.org/about[OpenStreetMap]
 //to display map tiles and provide search results.
 
+[[install-java]]
 == Install Java 8 or higher
 
 *Java SE 8 or higher* must be installed on your system before you can use OptaWeb Vehicle Routing.
@@ -26,6 +27,7 @@ However, if you have a binary distribution of OptaWeb Vehicle Routing, you only 
 ----
 java -version
 ----
+
 . If necessary, install OpenJDK 8.
 * To install OpenJDK 8 on Fedora, enter the following command:
 +
@@ -33,14 +35,14 @@ java -version
 ----
 sudo dnf install java-1.8.0-openjdk-devel
 ----
+
 * To install OpenJDK on other platforms, follow instructions at https://openjdk.java.net/install/.
 
-== Download OptaWeb Vehicle Routing
+== Download distribution archive
 
 Download the OptaWeb Vehicle Routing distribution archive, available from the OptaPlanner website, to quickly evaluate OptaWeb Vehicle Routing without having to set up build tools.
 
-// TODO cross-reference
-NOTE: If you want to modify OptaWeb Vehicle Routing and build it yourself or contribute to upstream, see the Development chapter.
+NOTE: If you want to modify OptaWeb Vehicle Routing and build it yourself or contribute to upstream, see <<development-guide#development-guide>>.
 
 .Procedure
 . Go to https://www.optaplanner.org/download/download.html
@@ -50,7 +52,8 @@ and click the *OptaWeb Vehicle Routing* tab.
 .OptaPlanner download page
 image::download.png[OptaPlanner download page at www.optaplanner.org,align="center"]
 +
-. Extract the downloaded distribution ZIP file. The archive contains source files and a binary build of OptaWeb Vehicle Routing as well as the OptaWeb Vehicle Routing documentation.
+. Extract the downloaded distribution ZIP file.
+The archive contains source files and a binary build of OptaWeb Vehicle Routing as well as the OptaWeb Vehicle Routing documentation.
 +
 .Content of the OptaWeb Vehicle Routing distribution archive
 image::distribution.png[Content of the OptaWeb Vehicle Routing distribution archive,align="center"]
@@ -63,7 +66,7 @@ NOTE: If the standalone JAR is not part of the distribution, build the project f
 You can use the `sources` directory inside the distribution as if you have cloned the source repository from GitHub.
 // TODO build instructions
 
-NOTE: If Bash is not available on your system, continue to <<run-noscript>>.
+NOTE: If Bash is not available on your system, continue to <<run-noscript#run-noscript>>.
 
 .Prerequisites
 * Internet access is available.
@@ -72,7 +75,7 @@ When OptaWeb Vehicle Routing runs it uses third-party public services such as li
 * OptaWeb Vehicle Routing distribution archive is downloaded and extracted.
 
 .Procedure
-Enter the following command.
+Enter the following command:
 
 [source,bash]
 ----
@@ -81,4 +84,4 @@ Enter the following command.
 
 The script will download an OSM file that is needed to work with the sample data set that is included with the application.
 The script also has an interactive mode you can use to download additional regions.
-See <<run-locally-sh>> to learn more about the script.
+See <<run-locally#run-locally-sh>> to learn more about the script.

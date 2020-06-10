@@ -45,10 +45,12 @@ import org.springframework.context.annotation.Configuration;
 class RoutingProblemConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutingProblemConfig.class);
+    private final DemoProperties demoProperties;
     private final DataSetMarshaller dataSetMarshaller;
 
     @Autowired
-    RoutingProblemConfig(DataSetMarshaller dataSetMarshaller) {
+    RoutingProblemConfig(DemoProperties demoProperties, DataSetMarshaller dataSetMarshaller) {
+        this.demoProperties = demoProperties;
         this.dataSetMarshaller = dataSetMarshaller;
     }
 
@@ -74,9 +76,9 @@ class RoutingProblemConfig {
 
     private List<RoutingProblem> localDataSets() {
         // TODO watch the dir (and make this a service that has local/data resource as a dependency -> is testable)
-        Path dataSetDirPath = Paths.get("local/data");
+        Path dataSetDirPath = Paths.get(demoProperties.getDataSetDir());
         if (!isReadableDir(dataSetDirPath)) {
-            logger.info(
+            logger.warn(
                     "Data set directory '{}' doesn't exist or cannot be read. No external data sets will be loaded",
                     dataSetDirPath.toAbsolutePath()
             );
