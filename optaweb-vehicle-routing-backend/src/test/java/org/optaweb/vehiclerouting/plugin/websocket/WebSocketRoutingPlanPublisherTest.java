@@ -25,7 +25,7 @@ import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,6 +39,9 @@ class WebSocketRoutingPlanPublisherTest {
     @Test
     void publish() {
         routePublisher.publish(RoutingPlan.empty());
-        verify(webSocket).convertAndSend(anyString(), any(PortableRoutingPlan.class));
+        verify(webSocket).convertAndSend(
+                eq(WebSocketRoutingPlanPublisher.TOPIC_ROUTE),
+                any(PortableRoutingPlan.class)
+        );
     }
 }
