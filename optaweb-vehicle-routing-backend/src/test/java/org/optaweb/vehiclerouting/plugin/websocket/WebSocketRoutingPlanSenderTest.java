@@ -29,18 +29,18 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class WebSocketRoutingPlanPublisherTest {
+class WebSocketRoutingPlanSenderTest {
 
     @Mock
     private SimpMessagingTemplate webSocket;
     @InjectMocks
-    private WebSocketRoutingPlanPublisher routePublisher;
+    private WebSocketRoutingPlanSender routingPlanSender;
 
     @Test
-    void publish() {
-        routePublisher.consumePlan(RoutingPlan.empty());
+    void should_send_consumed_routing_plan_over_websocket() {
+        routingPlanSender.consumePlan(RoutingPlan.empty());
         verify(webSocket).convertAndSend(
-                eq(WebSocketRoutingPlanPublisher.TOPIC_ROUTE),
+                eq(WebSocketRoutingPlanSender.TOPIC_ROUTE),
                 any(PortableRoutingPlan.class)
         );
     }

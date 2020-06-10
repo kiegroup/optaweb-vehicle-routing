@@ -26,14 +26,14 @@ import org.springframework.stereotype.Component;
  * Broadcasts updated route to interested clients over WebSocket.
  */
 @Component
-class WebSocketRoutingPlanPublisher implements RoutingPlanConsumer {
+class WebSocketRoutingPlanSender implements RoutingPlanConsumer {
 
     static final String TOPIC_ROUTE = "/topic/route";
 
     private final SimpMessagingTemplate webSocket;
 
     @Autowired
-    WebSocketRoutingPlanPublisher(SimpMessagingTemplate webSocket) {
+    WebSocketRoutingPlanSender(SimpMessagingTemplate webSocket) {
         this.webSocket = webSocket;
     }
 
