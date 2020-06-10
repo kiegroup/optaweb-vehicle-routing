@@ -31,6 +31,7 @@ class CountryCodeValidatorTest {
     @Test
     void should_fail_on_invalid_country_codes() {
         assertThatNullPointerException().isThrownBy(() -> validate(null));
+        assertThatNullPointerException().isThrownBy(() -> validate(Arrays.asList("US", null, "CA")));
         assertThatIllegalArgumentException().isThrownBy(() -> validate(Arrays.asList("XX")));
         assertThatIllegalArgumentException().isThrownBy(() -> validate(Arrays.asList("CZE")));
         assertThatIllegalArgumentException().isThrownBy(() -> validate(Arrays.asList("D")));
