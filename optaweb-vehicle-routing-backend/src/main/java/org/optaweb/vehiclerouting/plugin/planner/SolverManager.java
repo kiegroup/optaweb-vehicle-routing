@@ -180,6 +180,9 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
         solver.addProblemFactChange(new ChangeVehicleCapacity(vehicle));
     }
 
+    /**
+     * An alias interface that fixates the Callable's type parameter. This avoids unchecked warnings in tests.
+     */
     interface SolvingTask extends Callable<VehicleRoutingSolution> {
 
     }
