@@ -28,6 +28,8 @@ import org.springframework.stereotype.Component;
 @Component
 class WebSocketRoutingPlanPublisher implements RoutePublisher {
 
+    static final String TOPIC_ROUTE = "/topic/route";
+
     private final SimpMessagingTemplate webSocket;
 
     @Autowired
@@ -37,6 +39,6 @@ class WebSocketRoutingPlanPublisher implements RoutePublisher {
 
     @Override
     public void publish(RoutingPlan routingPlan) {
-        webSocket.convertAndSend("/topic/route", PortableRoutingPlanFactory.fromRoutingPlan(routingPlan));
+        webSocket.convertAndSend(TOPIC_ROUTE, PortableRoutingPlanFactory.fromRoutingPlan(routingPlan));
     }
 }
