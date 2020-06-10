@@ -97,7 +97,6 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
         if (solverFuture != null) {
             throw new IllegalStateException("Solver start has already been requested");
         }
-        // TODO move this to @Async method?
         solverFuture = executor.submitListenable((SolvingTask) () -> solver.solve(solution));
         solverFuture.addCallback(
                 // IMPORTANT: This is happening on the solver thread.
