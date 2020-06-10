@@ -24,6 +24,8 @@ import com.graphhopper.routing.util.FlagEncoderFactory;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import static org.assertj.core.api.Assertions.assertThatCode;
+
 class GraphHopperIntegrationTest {
 
     private static final String OSM_PBF = "planet_12.032,53.0171_12.1024,53.0491.osm.pbf";
@@ -35,6 +37,6 @@ class GraphHopperIntegrationTest {
         graphHopper.setGraphHopperLocation(graphhopperDir.toString());
         graphHopper.setOSMFile(GraphHopperIntegrationTest.class.getResource(OSM_PBF).getFile());
         graphHopper.setEncodingManager(EncodingManager.create(FlagEncoderFactory.CAR));
-        graphHopper.importOrLoad();
+        assertThatCode(graphHopper::importOrLoad).doesNotThrowAnyException();
     }
 }
