@@ -149,11 +149,11 @@ See the
 https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-custom-log-levels[Spring Boot Logging]
 documentation for more information.
 
-For example, you may use:
+Following are examples of properties you can use to control logging level of some parts of the application:
 
-- `logging.level.org.optaweb.vehiclerouting=debug` to enable debug level for the back end code,
-- `logging.level.org.optaplanner.core=warn` to reduce OptaPlanner logging,
-- `logging.level.org.springframework.web.socket=trace` to access more details when investigating problems with WebSocket connection.
+- Use `logging.level.org.optaweb.vehiclerouting=debug` to enable debug level for the back end code.
+- Use `logging.level.org.optaplanner.core=warn` to reduce OptaPlanner logging.
+- Use `logging.level.org.springframework.web.socket=trace` to access more details when investigating problems with WebSocket connection.
 
 [[frontend]]
 == Front end
