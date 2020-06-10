@@ -55,7 +55,7 @@ public class PlanningLocation {
 
     /**
      * Angle between the given location and the direction EAST with {@code this} location being the vertex.
-     * @param location location that forms one side of the angle (not null)
+     * @param location location that forms one side of the angle (not {@code null})
      * @return angle in radians in the range of -π to π
      */
     public double angleTo(PlanningLocation location) {

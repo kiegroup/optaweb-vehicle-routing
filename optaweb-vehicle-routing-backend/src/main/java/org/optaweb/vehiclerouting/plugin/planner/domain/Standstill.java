@@ -23,12 +23,14 @@ import org.optaplanner.core.api.domain.variable.InverseRelationShadowVariable;
 public interface Standstill {
 
     /**
-     * @return never null
+     * The standstill's location.
+     * @return never {@code null}
      */
     PlanningLocation getLocation();
 
     /**
-     * @return sometimes null
+     * The next visit after this standstill.
+     * @return sometimes {@code null}
      */
     @InverseRelationShadowVariable(sourceVariableName = "previousStandstill")
     PlanningVisit getNextVisit();

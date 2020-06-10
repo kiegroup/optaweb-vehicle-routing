@@ -39,8 +39,8 @@ public class CountryCodeValidator {
      * Validates the list of country codes and returns a normalized copy.
      * @param countryCodes input list
      * @return normalized copy of the input list converted to upper case and without duplicates
-     * @throws NullPointerException if the list is null or if any of
-     * @throws IllegalArgumentException any of the items is not an ISO 3166-1 alpha-2 country code
+     * @throws NullPointerException if the list is {@code null} or if any of its elements is {@code null}
+     * @throws IllegalArgumentException if any of the elements is not an ISO 3166-1 alpha-2 country code
      */
     public static List<String> validate(List<String> countryCodes) {
         List<String> upperCaseCountries = Objects.requireNonNull(countryCodes).stream()

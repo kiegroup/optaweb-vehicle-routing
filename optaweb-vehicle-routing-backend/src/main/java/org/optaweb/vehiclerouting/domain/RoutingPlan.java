@@ -46,7 +46,7 @@ public class RoutingPlan {
      * Create a routing plan.
      * @param distance the overall travel distance
      * @param vehicles all available vehicles
-     * @param depot the depot (may be null)
+     * @param depot the depot (may be {@code null})
      * @param visits all visits
      * @param routes routes of all vehicles
      */

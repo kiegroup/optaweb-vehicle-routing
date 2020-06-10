@@ -38,7 +38,7 @@ public class RegionService {
 
     /**
      * Country codes matching the working region.
-     * @return country codes (never null)
+     * @return country codes (never {@code null})
      */
     public List<String> countryCodes() {
         return regionProperties.getCountryCodes();

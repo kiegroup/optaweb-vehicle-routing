@@ -39,9 +39,9 @@ public class Route {
 
     /**
      * Create a vehicle route.
-     * @param vehicle the vehicle assigned to this route (not null)
-     * @param depot vehicle's depot (not null)
-     * @param visits list of visits (not null)
+     * @param vehicle the vehicle assigned to this route (not {@code null})
+     * @param depot vehicle's depot (not {@code null})
+     * @param visits list of visits (not {@code null})
      */
     public Route(Vehicle vehicle, Location depot, List<Location> visits) {
         this.vehicle = Objects.requireNonNull(vehicle);
@@ -62,7 +62,7 @@ public class Route {
 
     /**
      * The vehicle assigned to this route.
-     * @return route's vehicle (never null)
+     * @return route's vehicle (never {@code null})
      */
     public Vehicle vehicle() {
         return vehicle;
@@ -70,7 +70,7 @@ public class Route {
 
     /**
      * Depot in which the route starts and ends.
-     * @return route's depot (never null)
+     * @return route's depot (never {@code null})
      */
     public Location depot() {
         return depot;

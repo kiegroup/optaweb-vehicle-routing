@@ -41,7 +41,7 @@ public class RouteChangedEvent extends ApplicationEvent {
      * @param source the object on which the event initially occurred (never {@code null})
      * @param distance total distance of all vehicle routes
      * @param vehicleIds vehicle IDs
-     * @param depotId depot ID. May be null if there are no locations.
+     * @param depotId depot ID (may be {@code null} if there are no locations)
      * @param visitIds IDs of visits
      * @param routes vehicle routes
      */

@@ -34,9 +34,9 @@ public class RoutingProblem {
     /**
      * Create routing problem instance.
      * @param name the instance name
-     * @param vehicles list of vehicles (not null)
+     * @param vehicles list of vehicles (not {@code null})
      * @param depot the depot (may be {@code null} if there is no depot)
-     * @param visits list of visits (not null)
+     * @param visits list of visits (not {@code null})
      */
     public RoutingProblem(
             String name,
