@@ -26,6 +26,8 @@ import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static java.util.Comparator.comparingLong;
+
 @Service
 public class VehicleService {
 
@@ -60,7 +62,7 @@ public class VehicleService {
     }
 
     public synchronized void removeAnyVehicle() {
-        Optional<Vehicle> first = vehicleRepository.vehicles().stream().min((o1, o2) -> (int) (o1.id() - o2.id()));
+        Optional<Vehicle> first = vehicleRepository.vehicles().stream().min(comparingLong(Vehicle::id));
         first.ifPresent(vehicle -> {
             Vehicle removed = vehicleRepository.removeVehicle(vehicle.id());
             optimizer.removeVehicle(removed);
