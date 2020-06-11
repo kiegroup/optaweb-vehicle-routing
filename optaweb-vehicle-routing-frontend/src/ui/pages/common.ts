@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import React from 'react';
+
 export const sideBarStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'column',
