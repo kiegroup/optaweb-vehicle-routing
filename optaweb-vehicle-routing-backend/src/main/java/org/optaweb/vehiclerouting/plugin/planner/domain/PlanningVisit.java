@@ -110,8 +110,7 @@ public class PlanningVisit implements Standstill {
     public long distanceFromPreviousStandstill() {
         if (previousStandstill == null) {
             throw new IllegalStateException(
-                    "This method must not be called when the previousStandstill ("
-                            + previousStandstill + ") is not initialized yet."
+                    "This method must not be called when the previousStandstill (null) is not initialized yet."
             );
         }
         return previousStandstill.getLocation().distanceTo(location);
