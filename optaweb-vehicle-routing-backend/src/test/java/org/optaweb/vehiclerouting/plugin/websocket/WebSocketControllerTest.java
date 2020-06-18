@@ -68,7 +68,7 @@ class WebSocketControllerTest {
 
     @Test
     void exception_handler_should_publish_error_event() {
-        webSocketController.handleException(new Exception());
+        webSocketController.handleException(new Exception("test exception"));
         verify(eventPublisher).publishEvent(any(ErrorEvent.class));
     }
 

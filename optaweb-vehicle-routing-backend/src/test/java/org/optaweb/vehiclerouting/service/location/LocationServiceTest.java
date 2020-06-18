@@ -154,7 +154,7 @@ class LocationServiceTest {
     @Test
     void should_not_optimize_and_roll_back_if_distance_calculation_fails() {
         when(repository.createLocation(coordinates, "")).thenReturn(location);
-        doThrow(RuntimeException.class).when(distanceMatrix).addLocation(location);
+        doThrow(new RuntimeException("test exception")).when(distanceMatrix).addLocation(location);
 
         assertThat(locationService.createLocation(coordinates, "")).isFalse();
         verifyNoInteractions(optimizer);
