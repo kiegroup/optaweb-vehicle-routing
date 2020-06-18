@@ -21,7 +21,7 @@ const initialState: Demo = {
   demoName: null,
 };
 
-const demoReducer = (state = initialState, action: DemoAction): Demo => {
+export const demoReducer = (state = initialState, action: DemoAction): Demo => {
   switch (action.type) {
     case ActionType.REQUEST_DEMO: {
       return { ...initialState, isLoading: true, demoName: action.name };
@@ -33,5 +33,3 @@ const demoReducer = (state = initialState, action: DemoAction): Demo => {
       return state;
   }
 };
-
-export default demoReducer;

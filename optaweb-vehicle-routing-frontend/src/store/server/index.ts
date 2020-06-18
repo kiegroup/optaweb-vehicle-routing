@@ -15,8 +15,8 @@
  */
 
 import * as serverOperations from './operations';
-import reducer from './reducers';
+import { routeReducer } from './reducers';
 
 export { serverOperations };
 
-export default reducer;
+export default routeReducer;

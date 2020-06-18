@@ -15,8 +15,8 @@
  */
 
 import * as clientOperations from './operations';
-import reducer from './reducers';
+import { clientReducer } from './reducers';
 
 export { clientOperations };
 
-export default reducer;
+export default clientReducer;

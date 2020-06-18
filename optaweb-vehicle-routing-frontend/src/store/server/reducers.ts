@@ -22,7 +22,7 @@ export const initialServerState: ServerInfo = {
   demos: [],
 };
 
-const routeReducer = (state = initialServerState, action: ServerInfoAction): ServerInfo => {
+export const routeReducer = (state = initialServerState, action: ServerInfoAction): ServerInfo => {
   switch (action.type) {
     case ActionType.SERVER_INFO: {
       return action.value;
@@ -31,5 +31,3 @@ const routeReducer = (state = initialServerState, action: ServerInfoAction): Ser
       return state;
   }
 };
-
-export default routeReducer;
