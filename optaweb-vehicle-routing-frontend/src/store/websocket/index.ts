@@ -15,8 +15,8 @@
  */
 
 import * as websocketOperations from './operations';
-import reducer from './reducers';
+import { wsReducer } from './reducers';
 
 export { websocketOperations };
 
-export default reducer;
+export default wsReducer;

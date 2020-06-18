@@ -15,9 +15,9 @@
  */
 
 import * as messageActions from './actions';
-import reducer from './reducers';
+import { messageReducer } from './reducers';
 import * as messageSelectors from './selectors';
 
 export { messageActions, messageSelectors };
 
-export default reducer;
+export default messageReducer;

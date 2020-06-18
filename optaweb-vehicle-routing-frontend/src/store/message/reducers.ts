@@ -16,7 +16,7 @@
 
 import { ActionType, Message, MessageAction } from './types';
 
-const messageReducer = (state: Message[] = [], action: MessageAction): Message[] => {
+export const messageReducer = (state: Message[] = [], action: MessageAction): Message[] => {
   switch (action.type) {
     case ActionType.RECEIVE_MESSAGE: {
       return [...state, { ...action.payload, status: 'new' }];
@@ -30,5 +30,3 @@ const messageReducer = (state: Message[] = [], action: MessageAction): Message[]
       return state;
   }
 };
-
-export default messageReducer;
