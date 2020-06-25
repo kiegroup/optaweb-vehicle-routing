@@ -142,10 +142,13 @@ class RoutingPlanTest {
         routes.add(new RouteWithTrack(new Route(vehicle, depot, singletonList(visit)), nonEmptyTrack));
 
         RoutingPlan routingPlan = new RoutingPlan(distance, vehicles, depot, visits, routes);
+        List<Vehicle> planVehicles = routingPlan.vehicles();
+        List<Location> planVisits = routingPlan.visits();
+        List<RouteWithTrack> planRoutes = routingPlan.routes();
 
-        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> routingPlan.vehicles().clear());
-        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> routingPlan.visits().clear());
-        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> routingPlan.routes().clear());
+        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(planVehicles::clear);
+        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(planVisits::clear);
+        assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(planRoutes::clear);
     }
 
     @Test

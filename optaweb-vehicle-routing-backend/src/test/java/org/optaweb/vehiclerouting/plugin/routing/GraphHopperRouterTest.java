@@ -79,9 +79,10 @@ class GraphHopperRouterTest {
         whenRouteReturnResponse();
         when(ghResponse.hasErrors()).thenReturn(true);
         when(ghResponse.getErrors()).thenReturn(Collections.singletonList(new RuntimeException()));
+        GraphHopperRouter graphHopperRouter = new GraphHopperRouter(graphHopper);
 
         // act & assert
-        assertThatThrownBy(() -> new GraphHopperRouter(graphHopper).travelTimeMillis(from, to))
+        assertThatThrownBy(() -> graphHopperRouter.travelTimeMillis(from, to))
                 .isNotInstanceOf(NullPointerException.class)
                 .isInstanceOf(RuntimeException.class)
                 .hasMessageContaining("No route");

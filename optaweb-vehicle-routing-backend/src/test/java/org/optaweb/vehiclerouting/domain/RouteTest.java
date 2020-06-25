@@ -19,6 +19,7 @@ package org.optaweb.vehiclerouting.domain;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -61,9 +62,9 @@ class RouteTest {
     void cannot_modify_visits_externally() {
         ArrayList<Location> visits = new ArrayList<>();
         visits.add(visit1);
-        Route route = new Route(vehicle, depot, visits);
+        List<Location> routeVisits = new Route(vehicle, depot, visits).visits();
 
         assertThatExceptionOfType(UnsupportedOperationException.class)
-                .isThrownBy(() -> route.visits().clear());
+                .isThrownBy(routeVisits::clear);
     }
 }
