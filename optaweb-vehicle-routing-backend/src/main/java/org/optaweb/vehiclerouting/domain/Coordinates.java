@@ -73,7 +73,7 @@ public class Coordinates {
 
     @Override
     public int hashCode() {
-        return Objects.hash(latitude, longitude);
+        return Objects.hash(latitude.doubleValue(), longitude.doubleValue());
     }
 
     @Override

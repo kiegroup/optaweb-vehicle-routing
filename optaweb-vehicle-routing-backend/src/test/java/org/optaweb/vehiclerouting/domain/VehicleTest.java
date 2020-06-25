@@ -51,4 +51,11 @@ class VehicleTest {
                 // same ID, different capacity -> OK
                 .isEqualTo(new Vehicle(id, description, capacity + 1));
     }
+
+    @Test
+    void equal_vehicles_must_have_same_hashcode() {
+        long id = 1;
+        assertThat(new Vehicle(id, "description 1", 1))
+                .hasSameHashCodeAs(new Vehicle(id, "description 2", 2));
+    }
 }

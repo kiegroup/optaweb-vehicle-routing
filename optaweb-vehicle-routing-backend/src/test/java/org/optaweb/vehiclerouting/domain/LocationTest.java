@@ -58,6 +58,13 @@ class LocationTest {
     }
 
     @Test
+    void equal_locations_must_have_same_hashcode() {
+        long id = 1;
+        assertThat(new Location(id, Coordinates.valueOf(1, 1), "description 1"))
+                .hasSameHashCodeAs(new Location(id, Coordinates.valueOf(2, 2), "description 2"));
+    }
+
+    @Test
     void constructor_without_description_should_create_empty_description() {
         assertThat(new Location(7, Coordinates.valueOf(3.14, 4.13)).description()).isEmpty();
     }

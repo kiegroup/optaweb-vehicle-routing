@@ -36,6 +36,7 @@ class LocationDataTest {
         Coordinates coordinates0 = new Coordinates(BigDecimal.ZERO, BigDecimal.ZERO);
         Coordinates coordinates1 = new Coordinates(BigDecimal.ONE, BigDecimal.ONE);
         String description = "test description";
+        LocationData equalLocationData = new LocationData(coordinates0, description);
 
         final LocationData locationData = new LocationData(coordinates0, description);
 
@@ -51,6 +52,8 @@ class LocationDataTest {
                 // same object -> OK
                 .isEqualTo(locationData)
                 // same properties -> OK
-                .isEqualTo(new LocationData(coordinates0, description));
+                .isEqualTo(equalLocationData)
+                // equal objects => same hashCode
+                .hasSameHashCodeAs(equalLocationData);
     }
 }
