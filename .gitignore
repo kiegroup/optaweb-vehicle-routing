@@ -3,6 +3,9 @@
 /target
 /local
 
+# Maven Profiler reports
+.profiler
+
 # IntelliJ
 .idea
 *.ipr
