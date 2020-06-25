@@ -47,9 +47,9 @@ class RouteWithTrackTest {
         ArrayList<List<Coordinates>> track = new ArrayList<>();
         track.add(Arrays.asList(Coordinates.valueOf(1.0, 2.0)));
 
-        RouteWithTrack routeWithTrack = new RouteWithTrack(route, track);
+        List<List<Coordinates>> routeTrack = new RouteWithTrack(route, track).track();
         assertThatExceptionOfType(UnsupportedOperationException.class)
-                .isThrownBy(() -> routeWithTrack.track().clear());
+                .isThrownBy(routeTrack::clear);
     }
 
     @Test

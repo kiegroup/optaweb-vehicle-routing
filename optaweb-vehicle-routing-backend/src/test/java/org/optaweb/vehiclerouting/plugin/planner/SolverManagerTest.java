@@ -151,8 +151,9 @@ class SolverManagerTest {
         when(solverFuture.isDone()).thenReturn(true);
         when(solverFuture.get()).thenThrow(InterruptedException.class);
 
+        PlanningVisit visit = testVisit(0);
         assertThatExceptionOfType(RuntimeException.class)
-                .isThrownBy(() -> solverManager.removeVisit(testVisit(0)));
+                .isThrownBy(() -> solverManager.removeVisit(visit));
         assertThat(Thread.interrupted()).isTrue();
 
         assertThatExceptionOfType(RuntimeException.class)
