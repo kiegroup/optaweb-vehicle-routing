@@ -16,8 +16,6 @@
 
 package org.optaweb.vehiclerouting.domain;
 
-import java.util.Objects;
-
 /**
  * Vehicle that can be used to deliver cargo to visits.
  */
@@ -52,7 +50,7 @@ public class Vehicle extends VehicleData {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Long.hashCode(id);
     }
 
     @Override

@@ -54,18 +54,16 @@ class PortableDistanceTest {
         Distance distance = Distance.ofMillis(millis);
         PortableDistance portableDistance = PortableDistance.fromDistance(distance);
 
-        // equals()
-        assertThat(portableDistance).isEqualTo(portableDistance);
-        assertThat(portableDistance).isEqualTo(PortableDistance.fromDistance(distance));
-
-        assertThat(portableDistance).isNotEqualTo(null);
-        assertThat(portableDistance).isNotEqualTo(millis);
-        assertThat(portableDistance).isNotEqualTo(PortableDistance.fromDistance(Distance.ofMillis(millis - 501)));
-
-        // hashCode()
-        assertThat(portableDistance).hasSameHashCodeAs(PortableDistance.fromDistance(distance));
-
-        // toString()
-        assertThat(portableDistance.toString()).contains("0h 2m 53s");
+        assertThat(portableDistance)
+                // equals()
+                .isEqualTo(portableDistance)
+                .isEqualTo(PortableDistance.fromDistance(distance))
+                .isNotEqualTo(null)
+                .isNotEqualTo(millis)
+                .isNotEqualTo(PortableDistance.fromDistance(Distance.ofMillis(millis - 501)))
+                // hashCode()
+                .hasSameHashCodeAs(PortableDistance.fromDistance(distance))
+                // toString()
+                .asString().contains("0h 2m 53s");
     }
 }

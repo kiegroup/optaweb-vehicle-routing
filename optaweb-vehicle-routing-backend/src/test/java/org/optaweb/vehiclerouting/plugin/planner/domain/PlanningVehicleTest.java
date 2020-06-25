@@ -22,7 +22,7 @@ import java.util.NoSuchElementException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class PlanningVehicleTest {
 
@@ -40,19 +40,16 @@ class PlanningVehicleTest {
 
         Iterable<PlanningVisit> futureVisits = vehicle.getFutureVisits();
 
-        assertThat(futureVisits).size().isEqualTo(3);
-        assertThat(futureVisits).element(0).isSameAs(visit1);
-        assertThat(futureVisits).element(1).isSameAs(visit2);
-        assertThat(futureVisits).element(2).isSameAs(visit3);
+        assertThat(futureVisits).containsExactly(visit1, visit2, visit3);
     }
 
     @Test
-    void get_future_visits_should_throw_an_no_such_element_exception_when_there_are_no_more_visits() {
+    void get_future_visits_should_throw_a_NoSuchElementException_when_there_are_no_more_visits() {
         PlanningVehicle vehicle = new PlanningVehicle();
 
         Iterator<PlanningVisit> futureVisits = vehicle.getFutureVisits().iterator();
 
-        assertThatThrownBy(futureVisits::next).isInstanceOf(NoSuchElementException.class);
+        assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(futureVisits::next);
 
         PlanningVisit visit1 = new PlanningVisit();
         PlanningVisit visit2 = new PlanningVisit();
@@ -64,6 +61,6 @@ class PlanningVehicleTest {
         futureVisits.next();
         futureVisits.next();
 
-        assertThatThrownBy(futureVisits::next).isInstanceOf(NoSuchElementException.class);
+        assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(futureVisits::next);
     }
 }

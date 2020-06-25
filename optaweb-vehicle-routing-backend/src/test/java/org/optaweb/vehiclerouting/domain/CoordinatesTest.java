@@ -54,10 +54,11 @@ class CoordinatesTest {
     @Test
     void should_not_equal() {
         Coordinates coordinates = new Coordinates(BigDecimal.ONE, BigDecimal.TEN);
-        assertThat(coordinates).isNotEqualTo(null);
-        assertThat(coordinates).isNotEqualTo(BigDecimal.valueOf(11));
-        assertThat(coordinates).isNotEqualTo(new Coordinates(BigDecimal.ONE, BigDecimal.ONE));
-        assertThat(coordinates).isNotEqualTo(new Coordinates(BigDecimal.TEN, BigDecimal.TEN));
+        assertThat(coordinates)
+                .isNotEqualTo(null)
+                .isNotEqualTo(BigDecimal.valueOf(11))
+                .isNotEqualTo(new Coordinates(BigDecimal.ONE, BigDecimal.ONE))
+                .isNotEqualTo(new Coordinates(BigDecimal.TEN, BigDecimal.TEN));
     }
 
     @Test

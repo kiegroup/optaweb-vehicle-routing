@@ -134,13 +134,13 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
         PlanningVisit visit = testVisit(id);
         DepotAngleVisitDifficultyWeight weight = new DepotAngleVisitDifficultyWeight(visit, angle, distance);
 
-        assertThat(weight).isNotEqualTo(null);
-        assertThat(weight).isNotEqualTo(this);
-        assertThat(weight).isNotEqualTo(new DepotAngleVisitDifficultyWeight(testVisit(id + 1), angle, distance));
-        assertThat(weight).isNotEqualTo(new DepotAngleVisitDifficultyWeight(testVisit(id), -angle, distance));
-        assertThat(weight).isNotEqualTo(new DepotAngleVisitDifficultyWeight(testVisit(id), angle, distance - 1));
-
-        assertThat(weight).isEqualTo(weight);
-        assertThat(weight).isEqualTo(new DepotAngleVisitDifficultyWeight(visit, angle, distance));
+        assertThat(weight)
+                .isNotEqualTo(null)
+                .isNotEqualTo(this)
+                .isNotEqualTo(new DepotAngleVisitDifficultyWeight(testVisit(id + 1), angle, distance))
+                .isNotEqualTo(new DepotAngleVisitDifficultyWeight(testVisit(id), -angle, distance))
+                .isNotEqualTo(new DepotAngleVisitDifficultyWeight(testVisit(id), angle, distance - 1))
+                .isEqualTo(weight)
+                .isEqualTo(new DepotAngleVisitDifficultyWeight(visit, angle, distance));
     }
 }

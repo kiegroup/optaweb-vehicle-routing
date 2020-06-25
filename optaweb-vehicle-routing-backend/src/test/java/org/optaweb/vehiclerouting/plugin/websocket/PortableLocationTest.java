@@ -89,25 +89,25 @@ class PortableLocationTest {
         BigDecimal lon2 = BigDecimal.valueOf(-7.8);
         PortableLocation portableLocation = new PortableLocation(id, lat1, lon1, description);
 
-        // equals()
-        assertThat(portableLocation).isNotEqualTo(null);
-        assertThat(portableLocation).isNotEqualTo(new Location(id, new Coordinates(lat1, lon1)));
-        assertThat(portableLocation).isNotEqualTo(new PortableLocation(id + 1, lat1, lon1, description));
-        assertThat(portableLocation).isNotEqualTo(new PortableLocation(id, lat1, lon2, description));
-        assertThat(portableLocation).isNotEqualTo(new PortableLocation(id, lat2, lon1, description));
-        assertThat(portableLocation).isNotEqualTo(new PortableLocation(id, lat1, lon1, "y x"));
-        assertThat(portableLocation).isEqualTo(portableLocation);
-        assertThat(portableLocation).isEqualTo(new PortableLocation(id, lat1, lon1, description));
-
-        // hasCode()
-        assertThat(portableLocation).hasSameHashCodeAs(new PortableLocation(id, lat1, lon1, description));
-
-        // toString()
-        assertThat(portableLocation.toString()).contains(
-                String.valueOf(id),
-                lat1.toPlainString(),
-                lon1.toPlainString(),
-                description
-        );
+        assertThat(portableLocation)
+                // equals()
+                .isNotEqualTo(null)
+                .isNotEqualTo(new Location(id, new Coordinates(lat1, lon1)))
+                .isNotEqualTo(new PortableLocation(id + 1, lat1, lon1, description))
+                .isNotEqualTo(new PortableLocation(id, lat1, lon2, description))
+                .isNotEqualTo(new PortableLocation(id, lat2, lon1, description))
+                .isNotEqualTo(new PortableLocation(id, lat1, lon1, "y x"))
+                .isEqualTo(portableLocation)
+                .isEqualTo(new PortableLocation(id, lat1, lon1, description))
+                // hasCode()
+                .hasSameHashCodeAs(new PortableLocation(id, lat1, lon1, description))
+                // toString()
+                .asString()
+                .contains(
+                        String.valueOf(id),
+                        lat1.toPlainString(),
+                        lon1.toPlainString(),
+                        description
+                );
     }
 }

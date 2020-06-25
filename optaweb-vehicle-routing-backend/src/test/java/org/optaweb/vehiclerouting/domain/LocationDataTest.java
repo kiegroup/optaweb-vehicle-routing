@@ -39,17 +39,18 @@ class LocationDataTest {
 
         final LocationData locationData = new LocationData(coordinates0, description);
 
-        // different coordinates
-        assertThat(locationData).isNotEqualTo(new LocationData(coordinates1, description));
-        // different description
-        assertThat(locationData).isNotEqualTo(new LocationData(coordinates0, "xyz"));
-        // null
-        assertThat(locationData).isNotEqualTo(null);
-        // different type with equal properties
-        assertThat(locationData).isNotEqualTo(new Location(0, coordinates0, description));
-        // same object -> OK
-        assertThat(locationData).isEqualTo(locationData);
-        // same properties -> OK
-        assertThat(locationData).isEqualTo(new LocationData(coordinates0, description));
+        assertThat(locationData)
+                // different coordinates
+                .isNotEqualTo(new LocationData(coordinates1, description))
+                // different description
+                .isNotEqualTo(new LocationData(coordinates0, "xyz"))
+                // null
+                .isNotEqualTo(null)
+                // different type with equal properties
+                .isNotEqualTo(new Location(0, coordinates0, description))
+                // same object -> OK
+                .isEqualTo(locationData)
+                // same properties -> OK
+                .isEqualTo(new LocationData(coordinates0, description));
     }
 }

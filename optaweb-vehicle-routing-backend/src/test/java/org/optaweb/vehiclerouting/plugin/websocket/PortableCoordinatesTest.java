@@ -79,20 +79,17 @@ class PortableCoordinatesTest {
         BigDecimal lon2 = BigDecimal.valueOf(-7.8);
         PortableCoordinates portableCoordinates = new PortableCoordinates(lat1, lon1);
 
-        // equals()
-        assertThat(portableCoordinates).isNotEqualTo(null);
-        assertThat(portableCoordinates).isNotEqualTo(new Coordinates(lat1, lon1));
-        assertThat(portableCoordinates).isNotEqualTo(new PortableCoordinates(lat1, lon2));
-        assertThat(portableCoordinates).isNotEqualTo(new PortableCoordinates(lat2, lon1));
-        assertThat(portableCoordinates).isEqualTo(portableCoordinates);
-        assertThat(portableCoordinates).isEqualTo(new PortableCoordinates(lat1, lon1));
-
-        // hasCode()
-        assertThat(portableCoordinates).hasSameHashCodeAs(new PortableCoordinates(lat1, lon1));
-
-        // toString()
-        assertThat(portableCoordinates.toString()).contains(
-                lat1.toPlainString(),
-                lon1.toPlainString());
+        assertThat(portableCoordinates)
+                // equals()
+                .isNotEqualTo(null)
+                .isNotEqualTo(new Coordinates(lat1, lon1))
+                .isNotEqualTo(new PortableCoordinates(lat1, lon2))
+                .isNotEqualTo(new PortableCoordinates(lat2, lon1))
+                .isEqualTo(portableCoordinates)
+                .isEqualTo(new PortableCoordinates(lat1, lon1))
+                // hasCode()
+                .hasSameHashCodeAs(new PortableCoordinates(lat1, lon1))
+                // toString()
+                .asString().contains(lat1.toPlainString(), lon1.toPlainString());
     }
 }

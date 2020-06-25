@@ -35,19 +35,20 @@ class VehicleTest {
         final int capacity = 1;
         final Vehicle vehicle = new Vehicle(id, description, capacity);
 
-        // different ID
-        assertThat(vehicle).isNotEqualTo(new Vehicle(id + 1, description, capacity));
-        // null
-        assertThat(vehicle).isNotEqualTo(null);
-        // different class
-        assertThat(vehicle).isNotEqualTo(id);
-        // same object -> OK
-        assertThat(vehicle).isEqualTo(vehicle);
-        // same properties -> OK
-        assertThat(vehicle).isEqualTo(new Vehicle(id, description, capacity));
-        // same ID, different description -> OK
-        assertThat(vehicle).isEqualTo(new Vehicle(id, description + "x", capacity));
-        // same ID, different capacity -> OK
-        assertThat(vehicle).isEqualTo(new Vehicle(id, description, capacity + 1));
+        assertThat(vehicle)
+                // different ID
+                .isNotEqualTo(new Vehicle(id + 1, description, capacity))
+                // null
+                .isNotEqualTo(null)
+                // different class
+                .isNotEqualTo(id)
+                // same object -> OK
+                .isEqualTo(vehicle)
+                // same properties -> OK
+                .isEqualTo(new Vehicle(id, description, capacity))
+                // same ID, different description -> OK
+                .isEqualTo(new Vehicle(id, description + "x", capacity))
+                // same ID, different capacity -> OK
+                .isEqualTo(new Vehicle(id, description, capacity + 1));
     }
 }
