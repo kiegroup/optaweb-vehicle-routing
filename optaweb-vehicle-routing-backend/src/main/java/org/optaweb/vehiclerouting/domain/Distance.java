@@ -16,8 +16,6 @@
 
 package org.optaweb.vehiclerouting.domain;
 
-import java.util.Objects;
-
 /**
  * Travel cost (distance between two {@link Location locations} or the length of a {@link Route route}).
  */
@@ -68,7 +66,7 @@ public class Distance {
 
     @Override
     public int hashCode() {
-        return Objects.hash(millis);
+        return Long.hashCode(millis);
     }
 
     @Override

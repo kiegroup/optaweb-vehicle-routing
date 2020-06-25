@@ -47,12 +47,12 @@ class DistanceTest {
     void equals_hashCode() {
         long millis = 37;
         Distance distance = Distance.ofMillis(millis);
-        assertThat(distance).isEqualTo(distance);
-        assertThat(distance).isEqualTo(Distance.ofMillis(millis));
-        assertThat(distance).isNotEqualTo(null);
-        assertThat(distance).isNotEqualTo(millis);
-        assertThat(distance).isNotEqualTo(Distance.ofMillis(millis + 1));
-
-        assertThat(distance).hasSameHashCodeAs(Distance.ofMillis(millis));
+        assertThat(distance)
+                .isEqualTo(distance)
+                .isEqualTo(Distance.ofMillis(millis))
+                .isNotEqualTo(null)
+                .isNotEqualTo(millis)
+                .isNotEqualTo(Distance.ofMillis(millis + 1))
+                .hasSameHashCodeAs(Distance.ofMillis(millis));
     }
 }

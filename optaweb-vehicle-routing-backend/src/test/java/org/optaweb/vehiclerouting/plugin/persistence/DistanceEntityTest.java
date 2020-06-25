@@ -38,12 +38,12 @@ class DistanceEntityTest {
         final long distance = 50001;
 
         DistanceEntity distanceEntity = new DistanceEntity(distanceKey, distance);
-        assertThat(distanceEntity).isEqualTo(distanceEntity);
-        assertThat(distanceEntity).isEqualTo(new DistanceEntity(new DistanceKey(from, to), distance));
-
-        assertThat(distanceEntity).isNotEqualTo(null);
-        assertThat(distanceEntity).isNotEqualTo(distanceKey);
-        assertThat(distanceEntity).isNotEqualTo(new DistanceEntity(distanceKey, distance + 1));
-        assertThat(distanceEntity).isNotEqualTo(new DistanceEntity(new DistanceKey(to, from), distance));
+        assertThat(distanceEntity)
+                .isEqualTo(distanceEntity)
+                .isEqualTo(new DistanceEntity(new DistanceKey(from, to), distance))
+                .isNotEqualTo(null)
+                .isNotEqualTo(distanceKey)
+                .isNotEqualTo(new DistanceEntity(distanceKey, distance + 1))
+                .isNotEqualTo(new DistanceEntity(new DistanceKey(to, from), distance));
     }
 }

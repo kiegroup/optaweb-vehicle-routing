@@ -60,18 +60,16 @@ class PortableErrorMessageTest {
         ErrorMessage message = ErrorMessage.of(id, text);
         PortableErrorMessage portableErrorMessage = PortableErrorMessage.fromMessage(message);
 
-        // equals()
-        assertThat(portableErrorMessage).isNotEqualTo(null);
-        assertThat(portableErrorMessage).isNotEqualTo(new PortableErrorMessage("", text));
-        assertThat(portableErrorMessage).isNotEqualTo(new PortableErrorMessage(id, ""));
-        assertThat(portableErrorMessage).isNotEqualTo(message);
-        assertThat(portableErrorMessage).isEqualTo(portableErrorMessage);
-        assertThat(portableErrorMessage).isEqualTo(new PortableErrorMessage(id, text));
-
-        // hasCode()
-        assertThat(portableErrorMessage).hasSameHashCodeAs(new PortableErrorMessage(id, text));
-
-        // toString()
-        assertThat(portableErrorMessage.toString()).contains(id, text);
+        assertThat(portableErrorMessage).isNotEqualTo(null)
+                // equals()
+                .isNotEqualTo(new PortableErrorMessage("", text))
+                .isNotEqualTo(new PortableErrorMessage(id, ""))
+                .isNotEqualTo(message)
+                .isEqualTo(portableErrorMessage)
+                .isEqualTo(new PortableErrorMessage(id, text))
+                // hasCode()
+                .hasSameHashCodeAs(new PortableErrorMessage(id, text))
+                // toString()
+                .asString().contains(id, text);
     }
 }
