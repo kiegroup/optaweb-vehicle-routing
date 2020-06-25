@@ -39,22 +39,20 @@ class CoordinatesTest {
         BigDecimal ONE_POINT_ZERO = new BigDecimal("1.0");
         BigDecimal MINUS_ZERO = BigDecimal.ZERO.negate();
 
-        assertThat(
-                new Coordinates(MINUS_ZERO, ONE_POINT_ZERO)
-        ).isEqualTo(
-                new Coordinates(BigDecimal.ZERO, BigDecimal.ONE));
+        Coordinates coordinates01 = new Coordinates(BigDecimal.ZERO, BigDecimal.ONE);
+        assertThat(new Coordinates(MINUS_ZERO, ONE_POINT_ZERO))
+                .isEqualTo(coordinates01)
+                .hasSameHashCodeAs(coordinates01);
 
-        assertThat(
-                new Coordinates(ONE_POINT_ZERO, MINUS_ZERO)
-        ).isEqualTo(
-                new Coordinates(BigDecimal.ONE, BigDecimal.ZERO)
-        );
+        Coordinates coordinates10 = new Coordinates(BigDecimal.ONE, BigDecimal.ZERO);
+        assertThat(new Coordinates(ONE_POINT_ZERO, MINUS_ZERO))
+                .isEqualTo(coordinates10)
+                .hasSameHashCodeAs(coordinates10);
     }
 
     @Test
     void should_not_equal() {
-        Coordinates coordinates = new Coordinates(BigDecimal.ONE, BigDecimal.TEN);
-        assertThat(coordinates)
+        assertThat(new Coordinates(BigDecimal.ONE, BigDecimal.TEN))
                 .isNotEqualTo(null)
                 .isNotEqualTo(BigDecimal.valueOf(11))
                 .isNotEqualTo(new Coordinates(BigDecimal.ONE, BigDecimal.ONE))
@@ -62,7 +60,7 @@ class CoordinatesTest {
     }
 
     @Test
-    void value_of_and_getters() {
+    void valueOf_and_getters() {
         double latitude = Math.E;
         double longitude = Math.PI;
         Coordinates coordinates = Coordinates.valueOf(latitude, longitude);
