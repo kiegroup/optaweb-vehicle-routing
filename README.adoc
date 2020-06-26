@@ -1,3 +1,4 @@
+test
 :projectKey: org.optaweb.vehiclerouting:optaweb-vehicle-routing
 :sonarBadge: image:https://sonarcloud.io/api/project_badges/measure?project={projectKey}
 :sonarLink: link="https://sonarcloud.io/dashboard?id={projectKey}"
