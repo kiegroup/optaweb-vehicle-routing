@@ -5,7 +5,7 @@ exports[`Header component should match snapshot 1`] = `
   logo={
     <Brand
       alt="OptaPlanner Logo"
-      src="./assets/images/optaPlannerLogo200px.png"
+      src="./assets/images/optaPlannerLogoDarkBackground200px.png"
     />
   }
   topNav={<withRouter(Navigation) />}
