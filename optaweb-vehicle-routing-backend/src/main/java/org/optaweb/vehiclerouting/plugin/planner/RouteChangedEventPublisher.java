@@ -19,7 +19,6 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
@@ -33,6 +32,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Converts planning solution to a {@link RouteChangedEvent} and publishes it so that it can be processed by other
@@ -90,7 +91,7 @@ class RouteChangedEventPublisher {
     private static List<Long> visitIds(VehicleRoutingSolution solution) {
         return solution.getVisitList().stream()
                 .map(visit -> visit.getLocation().getId())
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     /**
@@ -131,7 +132,7 @@ class RouteChangedEventPublisher {
     private static List<Long> vehicleIds(VehicleRoutingSolution solution) {
         return solution.getVehicleList().stream()
                 .map(PlanningVehicle::getId)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     /**

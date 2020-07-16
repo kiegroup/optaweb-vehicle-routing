@@ -22,12 +22,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Route plan for the whole vehicle fleet.
@@ -78,7 +78,7 @@ public class RoutingPlan {
             List<Location> visited = routes.stream()
                     .map(Route::visits)
                     .flatMap(Collection::stream)
-                    .collect(Collectors.toList());
+                    .collect(toList());
             ArrayList<Location> unvisited = new ArrayList<>(visits);
             unvisited.removeAll(visited);
             if (!unvisited.isEmpty()) {
@@ -108,7 +108,7 @@ public class RoutingPlan {
     ) {
         List<Long> vehicleIdsFromRoutes = routes.stream()
                 .map(route -> route.vehicle().id())
-                .collect(Collectors.toList());
+                .collect(toList());
         return cause
                 + ":\n- Vehicles (" + vehicles.size() + "): " + vehicles
                 + "\n- Routes' vehicleIds (" + routes.size() + "): " + vehicleIdsFromRoutes;

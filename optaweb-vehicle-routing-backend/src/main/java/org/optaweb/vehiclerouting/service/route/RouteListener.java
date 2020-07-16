@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
@@ -37,6 +36,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static org.optaweb.vehiclerouting.Profiles.NOT_TEST;
 
 /**
@@ -79,9 +80,9 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
             //  be published if revision numbers match) to avoid looking for missing/extra vehicles/visits.
             //  This will also make it possible to get rid of the try-catch approach.
             Map<Long, Vehicle> vehicleMap = event.vehicleIds().stream()
-                    .collect(Collectors.toMap(vehicleId -> vehicleId, this::findVehicleById));
+                    .collect(toMap(vehicleId -> vehicleId, this::findVehicleById));
             Map<Long, Location> visitMap = event.visitIds().stream()
-                    .collect(Collectors.toMap(visitId -> visitId, this::findLocationById));
+                    .collect(toMap(visitId -> visitId, this::findLocationById));
 
             List<RouteWithTrack> routes = event.routes().stream()
                     // list of deep locations
@@ -90,11 +91,11 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
                             findLocationById(shallowRoute.depotId),
                             shallowRoute.visitIds.stream()
                                     .map(visitMap::get)
-                                    .collect(Collectors.toList())
+                                    .collect(toList())
                     ))
                     // add tracks
                     .map(route -> new RouteWithTrack(route, track(route.depot(), route.visits())))
-                    .collect(Collectors.toList());
+                    .collect(toList());
             bestRoutingPlan = new RoutingPlan(
                     event.distance(),
                     new ArrayList<>(vehicleMap.values()),

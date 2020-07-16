@@ -17,7 +17,6 @@
 package org.optaweb.vehiclerouting.plugin.routing;
 
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import com.graphhopper.GHRequest;
@@ -33,6 +32,8 @@ import org.optaweb.vehiclerouting.service.route.Router;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Provides geographical information needed for route optimization.
@@ -58,7 +59,7 @@ class GraphHopperRouter implements Router, DistanceCalculator, Region {
         PointList points = graphHopper.route(ghRequest).getBest().getPoints();
         return StreamSupport.stream(points.spliterator(), false)
                 .map(ghPoint3D -> Coordinates.valueOf(ghPoint3D.lat, ghPoint3D.lon))
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @Override

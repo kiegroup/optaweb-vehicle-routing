@@ -18,11 +18,12 @@ package org.optaweb.vehiclerouting.domain;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import com.neovisionaries.i18n.CountryCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Validates ISO 3166-1 alpha-2 country codes.
@@ -45,16 +46,16 @@ public class CountryCodeValidator {
     public static List<String> validate(List<String> countryCodes) {
         List<String> upperCaseCountries = Objects.requireNonNull(countryCodes).stream()
                 .map(String::toUpperCase)
-                .collect(Collectors.toList());
+                .collect(toList());
         List<String> invalidCodes = upperCaseCountries.stream()
                 .filter(s -> CountryCode.getByAlpha2Code(s) == null)
-                .collect(Collectors.toList());
+                .collect(toList());
         if (!invalidCodes.isEmpty()) {
             throw new IllegalArgumentException(
                     "Following elements (" + invalidCodes + ") are not valid ISO 3166-1 alpha-2 country codes"
             );
         }
-        List<String> uniqueCountries = upperCaseCountries.stream().distinct().collect(Collectors.toList());
+        List<String> uniqueCountries = upperCaseCountries.stream().distinct().collect(toList());
         if (uniqueCountries.size() < countryCodes.size()) {
             logger.warn("Duplicate items were removed from {}", countryCodes);
         }

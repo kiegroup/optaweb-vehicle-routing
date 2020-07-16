@@ -20,7 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Vehicle's itinerary (sequence of visits) and its depot. This entity cannot exist without the vehicle and the depot
@@ -89,7 +90,7 @@ public class Route {
         return "Route{" +
                 "vehicle=" + vehicle +
                 ", depot=" + depot.id() +
-                ", visits=" + visits.stream().map(Location::id).collect(Collectors.toList()) +
+                ", visits=" + visits.stream().map(Location::id).collect(toList()) +
                 '}';
     }
 }

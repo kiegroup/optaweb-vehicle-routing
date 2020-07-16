@@ -18,7 +18,6 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
@@ -38,6 +37,8 @@ import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Handles WebSocket subscriptions and STOMP messages.
@@ -92,7 +93,7 @@ class WebSocketController {
                 .map(routingProblem -> new RoutingProblemInfo(
                         routingProblem.name(),
                         routingProblem.visits().size()))
-                .collect(Collectors.toList());
+                .collect(toList());
         return new ServerInfo(portableBoundingBox, regionService.countryCodes(), demos);
     }
 

@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
@@ -40,6 +39,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import static java.util.stream.Collectors.toList;
 
 @Configuration
 class RoutingProblemConfig {
@@ -100,7 +101,7 @@ class RoutingProblemConfig {
                     .filter(Objects::nonNull)
                     // TODO make unmarshalling exception checked, catch it and ignore broken files
                     .map(dataSetMarshaller::unmarshal)
-                    .collect(Collectors.toList());
+                    .collect(toList());
         } catch (IOException e) {
             throw new IllegalStateException("Cannot list directory " + dataSetDirPath, e);
         }
