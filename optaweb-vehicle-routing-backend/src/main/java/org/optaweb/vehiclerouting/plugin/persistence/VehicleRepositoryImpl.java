@@ -18,7 +18,6 @@ package org.optaweb.vehiclerouting.plugin.persistence;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.optaweb.vehiclerouting.domain.Vehicle;
@@ -28,6 +27,8 @@ import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 public class VehicleRepositoryImpl implements VehicleRepository {
@@ -56,7 +57,7 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     public List<Vehicle> vehicles() {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
                 .map(VehicleRepositoryImpl::toDomain)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @Override

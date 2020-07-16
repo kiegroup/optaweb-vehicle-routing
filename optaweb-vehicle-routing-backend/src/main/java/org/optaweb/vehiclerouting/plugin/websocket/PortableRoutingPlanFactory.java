@@ -18,12 +18,13 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.Vehicle;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Creates instances of {@link PortableRoutingPlan}.
@@ -45,7 +46,7 @@ class PortableRoutingPlanFactory {
                         depot,
                         portableVisits(routeWithTrack.visits()),
                         portableTrack(routeWithTrack.track())))
-                .collect(Collectors.toList());
+                .collect(toList());
         return new PortableRoutingPlan(distance, vehicles, depot, visits, routes);
     }
 
@@ -54,7 +55,7 @@ class PortableRoutingPlanFactory {
         for (List<Coordinates> segment : track) {
             List<PortableCoordinates> portableSegment = segment.stream()
                     .map(PortableCoordinates::fromCoordinates)
-                    .collect(Collectors.toList());
+                    .collect(toList());
             portableTrack.add(portableSegment);
         }
         return portableTrack;
@@ -63,12 +64,12 @@ class PortableRoutingPlanFactory {
     private static List<PortableLocation> portableVisits(List<Location> visits) {
         return visits.stream()
                 .map(PortableLocation::fromLocation)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     private static List<PortableVehicle> portableVehicles(List<Vehicle> vehicles) {
         return vehicles.stream()
                 .map(PortableVehicle::fromVehicle)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 }

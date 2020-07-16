@@ -19,7 +19,6 @@ package org.optaweb.vehiclerouting.service.demo.dataset;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,6 +29,8 @@ import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.domain.VehicleData;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.springframework.stereotype.Component;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * Data set marshaller using the YAML format.
@@ -96,11 +97,11 @@ public class DataSetMarshaller {
         dataSet.setDepot(routingProblem.depot().map(DataSetMarshaller::toDataSet).orElse(null));
         dataSet.setVehicles(routingProblem.vehicles().stream()
                 .map(DataSetMarshaller::toDataSet)
-                .collect(Collectors.toList())
+                .collect(toList())
         );
         dataSet.setVisits(routingProblem.visits().stream()
                 .map(DataSetMarshaller::toDataSet)
-                .collect(Collectors.toList())
+                .collect(toList())
         );
         return dataSet;
     }
@@ -120,9 +121,9 @@ public class DataSetMarshaller {
     static RoutingProblem toDomain(DataSet dataSet) {
         return new RoutingProblem(
                 Optional.ofNullable(dataSet.getName()).orElse(""),
-                dataSet.getVehicles().stream().map(DataSetMarshaller::toDomain).collect(Collectors.toList()),
+                dataSet.getVehicles().stream().map(DataSetMarshaller::toDomain).collect(toList()),
                 Optional.ofNullable(dataSet.getDepot()).map(DataSetMarshaller::toDomain).orElse(null),
-                dataSet.getVisits().stream().map(DataSetMarshaller::toDomain).collect(Collectors.toList())
+                dataSet.getVisits().stream().map(DataSetMarshaller::toDomain).collect(toList())
         );
     }
 

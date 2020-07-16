@@ -18,7 +18,6 @@ package org.optaweb.vehiclerouting.plugin.planner.weight;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -33,6 +32,7 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.weight.DepotAngleVisitDifficultyWeightFactory.DepotAngleVisitDifficultyWeight;
 
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.fromDomain;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
@@ -101,7 +101,7 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
         // E < NE < N < NW < W < SW < S < SE < E (-π → π)
         assertThat(Stream.of(north1, north2, center1, center2, west, sw1, south1, se1, east1, east2)
                 .map(this::weight)
-                .collect(Collectors.toList())
+                .collect(toList())
         ).isSorted();
 
         assertThat(weight(north1)).isLessThan(weight(north2));

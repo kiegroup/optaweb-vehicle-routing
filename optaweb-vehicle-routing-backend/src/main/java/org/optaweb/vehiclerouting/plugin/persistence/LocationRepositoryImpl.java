@@ -18,7 +18,6 @@ package org.optaweb.vehiclerouting.plugin.persistence;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
@@ -28,6 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import static java.util.stream.Collectors.toList;
 
 @Component
 class LocationRepositoryImpl implements LocationRepository {
@@ -54,7 +55,7 @@ class LocationRepositoryImpl implements LocationRepository {
     public List<Location> locations() {
         return StreamSupport.stream(repository.findAll().spliterator(), false)
                 .map(LocationRepositoryImpl::toDomain)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
 
     @Override

@@ -20,8 +20,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.joining;
 
 // TODO maybe remove this once we fork planning domain from optaplanner-examples
 // because then we can hold a reference to the original location
@@ -65,7 +66,7 @@ public class ShallowRoute {
     public String toString() {
         String route = Stream.concat(Stream.of(depotId), visitIds.stream())
                 .map(Object::toString)
-                .collect(Collectors.joining("->", "[", "]"));
+                .collect(joining("->", "[", "]"));
         return vehicleId + ": " + route;
     }
 }

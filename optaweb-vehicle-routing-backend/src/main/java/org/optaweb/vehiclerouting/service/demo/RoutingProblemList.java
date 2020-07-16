@@ -20,10 +20,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
+
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
 
 /**
  * Utility class that holds a map of routing problem instances and allows to look them up by name.
@@ -35,7 +36,7 @@ class RoutingProblemList {
     RoutingProblemList(List<RoutingProblem> routingProblems) {
         this.routingProblems = Objects.requireNonNull(routingProblems).stream()
                 // TODO use file name as the key (that's more likely to be unique than data set name)
-                .collect(Collectors.toMap(RoutingProblem::name, Function.identity()));
+                .collect(toMap(RoutingProblem::name, identity()));
     }
 
     Collection<RoutingProblem> all() {
