@@ -181,13 +181,13 @@ oc start-build backend --from-dir=${dir_backend} --follow
 # -- new app
 oc new-app backend
 # -- use PostgreSQL secret
-oc set env dc/backend --from=secret/postgresql
+oc set env deployment/backend --from=secret/postgresql
 # -- set the rest of the configuration
-oc set env dc/backend "${dc_backend_env[@]}"
+oc set env deployment/backend "${dc_backend_env[@]}"
 # Remove the default emptyDir volume
-oc set volumes dc/backend --remove --name backend-volume-1
+oc set volumes deployment/backend --remove --name backend-volume-1
 # Replace it with a PVC
-oc set volumes dc/backend --add \
+oc set volumes deployment/backend --add \
     --type pvc \
     --claim-size 1Gi \
     --claim-mode ReadWriteOnce \
