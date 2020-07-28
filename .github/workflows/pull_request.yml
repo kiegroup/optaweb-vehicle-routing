@@ -1,4 +1,4 @@
-on: []
+on: [ workflow_dispatch ]
 
 jobs:
   build-chain:
