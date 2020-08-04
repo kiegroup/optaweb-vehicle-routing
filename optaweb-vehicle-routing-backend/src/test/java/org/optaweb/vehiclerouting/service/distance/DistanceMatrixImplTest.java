@@ -85,6 +85,7 @@ class DistanceMatrixImplTest {
         assertThat(distanceMatrix.dimension()).isEqualTo(3);
         distanceMatrix.clear();
         assertThat(distanceMatrix.dimension()).isZero();
+        verify(distanceRepository).deleteAll();
         Location l500 = location(500, 500);
         DistanceMatrixRow matrixRow500 = distanceMatrix.addLocation(l500);
         assertThatIllegalArgumentException().isThrownBy(() -> matrixRow500.distanceTo(l0.id()));
@@ -142,7 +143,7 @@ class DistanceMatrixImplTest {
     }
 
     @Test
-    void should_remove_distance_row_from_matrix_when_location_removed() {
+    void should_remove_distance_row_from_matrix_and_repository_when_location_removed() {
         // arrange
         Location l1 = location(1, 1);
         Location l2 = location(2, 2);
@@ -157,6 +158,7 @@ class DistanceMatrixImplTest {
         // act & assert
         distanceMatrix.removeLocation(l1);
         assertThat(distanceMatrix.dimension()).isZero();
+        verify(distanceRepository).deleteDistances(l1);
 
         distanceMatrix.addLocation(l2);
         assertThat(distanceMatrix.dimension()).isEqualTo(1);

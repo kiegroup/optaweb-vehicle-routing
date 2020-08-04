@@ -26,4 +26,8 @@ public interface DistanceRepository {
     void saveDistance(Location from, Location to, long distance);
 
     long getDistance(Location from, Location to);
+
+    void deleteDistances(Location location);
+
+    void deleteAll();
 }

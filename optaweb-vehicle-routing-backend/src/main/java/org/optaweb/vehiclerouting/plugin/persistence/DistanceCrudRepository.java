@@ -16,11 +16,18 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Distance repository.
  */
 interface DistanceCrudRepository extends CrudRepository<DistanceEntity, DistanceKey> {
 
+    @Modifying
+    @Transactional
+    @Query("delete from DistanceEntity where from_id = ?1 or to_id = ?1")
+    void deleteByFromIdOrToId(long locationId);
 }

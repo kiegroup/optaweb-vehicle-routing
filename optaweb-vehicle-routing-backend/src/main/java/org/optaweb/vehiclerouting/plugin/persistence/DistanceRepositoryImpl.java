@@ -47,4 +47,14 @@ class DistanceRepositoryImpl implements DistanceRepository {
         }
         return -1;
     }
+
+    @Override
+    public void deleteDistances(Location location) {
+        distanceRepository.deleteByFromIdOrToId(location.id());
+    }
+
+    @Override
+    public void deleteAll() {
+        distanceRepository.deleteAll();
+    }
 }

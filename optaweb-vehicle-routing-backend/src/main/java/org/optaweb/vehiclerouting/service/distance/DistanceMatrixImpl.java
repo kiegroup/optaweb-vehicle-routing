@@ -93,12 +93,19 @@ class DistanceMatrixImpl implements DistanceMatrix {
 
     @Override
     public void removeLocation(Location location) {
+        // Remove the distance matrix row (distances from the removed location to others).
         matrix.remove(location);
+        // TODO also remove the "column" of the matrix (distances from others to the removed location) to avoid memory
+        //  leak.
+        //  But this probably requires making DistanceMatrixRow immutable (otherwise there's a risk of NPEs in solver)
+        //  and update PlanningLocations' distance maps through problem fact changes.
+        distanceRepository.deleteDistances(location);
     }
 
     @Override
     public void clear() {
         matrix.clear();
+        distanceRepository.deleteAll();
     }
 
     /**
