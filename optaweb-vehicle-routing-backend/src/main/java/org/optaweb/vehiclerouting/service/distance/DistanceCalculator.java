@@ -28,6 +28,7 @@ public interface DistanceCalculator {
      * @param from origin
      * @param to destination
      * @return travel time in milliseconds
+     * @throws DistanceCalculationException when the distance between given coordinates cannot be calculated
      */
     long travelTimeMillis(Coordinates from, Coordinates to);
 }

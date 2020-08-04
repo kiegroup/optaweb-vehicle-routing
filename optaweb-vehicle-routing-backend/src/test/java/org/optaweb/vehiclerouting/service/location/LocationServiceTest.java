@@ -125,6 +125,7 @@ class LocationServiceTest {
         locationService.removeLocation(depot.id());
 
         verifyNoInteractions(optimizer);
+        verifyNoInteractions(distanceMatrix);
         verify(repository, never()).removeLocation(anyLong());
         verify(eventPublisher).publishEvent(any(ErrorEvent.class));
     }
@@ -138,8 +139,9 @@ class LocationServiceTest {
 
         locationService.removeLocation(visit.id());
 
-        verify(repository).removeLocation(visit.id());
         verify(optimizer).removeLocation(visit);
+        verify(distanceMatrix).removeLocation(visit);
+        verify(repository).removeLocation(visit.id());
         verifyNoInteractions(eventPublisher);
     }
 
@@ -147,8 +149,8 @@ class LocationServiceTest {
     void clear() {
         locationService.removeAll();
         verify(optimizer).removeAllLocations();
-        verify(distanceMatrix).clear();
         verify(repository).removeAll();
+        verify(distanceMatrix).clear();
     }
 
     @Test

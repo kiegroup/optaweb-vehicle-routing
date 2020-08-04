@@ -25,6 +25,7 @@ import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.BBox;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.service.distance.DistanceCalculationException;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.Region;
@@ -72,7 +73,7 @@ class GraphHopperRouter implements Router, DistanceCalculator, Region {
         GHResponse ghResponse = graphHopper.route(ghRequest);
         // TODO return wrapper that can hold both the result and error explanation instead of throwing exception
         if (ghResponse.hasErrors()) {
-            throw new RuntimeException("No route", ghResponse.getErrors().get(0));
+            throw new DistanceCalculationException("No route", ghResponse.getErrors().get(0));
         }
         return ghResponse.getBest().getTime();
     }
