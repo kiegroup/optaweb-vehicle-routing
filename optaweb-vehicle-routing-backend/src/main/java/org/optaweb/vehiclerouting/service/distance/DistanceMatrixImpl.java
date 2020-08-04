@@ -92,7 +92,20 @@ class DistanceMatrixImpl implements DistanceMatrix {
     }
 
     @Override
+    public void removeLocation(Location location) {
+        matrix.remove(location);
+    }
+
+    @Override
     public void clear() {
         matrix.clear();
+    }
+
+    /**
+     * Number of rows in the matrix.
+     * @return number of rows
+     */
+    public int dimension() {
+        return matrix.size();
     }
 }

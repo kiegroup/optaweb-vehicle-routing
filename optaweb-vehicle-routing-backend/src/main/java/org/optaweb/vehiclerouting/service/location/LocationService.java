@@ -110,6 +110,7 @@ public class LocationService {
 
         optimizer.removeLocation(removedLocation);
         repository.removeLocation(id);
+        distanceMatrix.removeLocation(removedLocation);
     }
 
     public synchronized void removeAll() {

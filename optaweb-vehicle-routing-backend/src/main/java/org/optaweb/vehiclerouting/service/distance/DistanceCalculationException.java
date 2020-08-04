@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2020 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.location;
+package org.optaweb.vehiclerouting.service.distance;
 
-import org.optaweb.vehiclerouting.domain.Location;
+public class DistanceCalculationException extends RuntimeException {
 
-/**
- * Holds distances between every pair of locations.
- */
-public interface DistanceMatrix {
+    public DistanceCalculationException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-    DistanceMatrixRow addLocation(Location location);
-
-    void removeLocation(Location location);
-
-    void clear();
+    public DistanceCalculationException(String message) {
+        super(message);
+    }
 }
