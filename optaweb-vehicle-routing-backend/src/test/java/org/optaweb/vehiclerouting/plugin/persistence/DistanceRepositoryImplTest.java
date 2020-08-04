@@ -75,4 +75,16 @@ class DistanceRepositoryImplTest {
                 // which turns -1 into -0, so this test wouldn't kill that mutation without the following:
                 .isNotZero();
     }
+
+    @Test
+    void should_delete_distance_by_location_id() {
+        repository.deleteDistances(from);
+        verify(crudRepository).deleteByFromIdOrToId(from.id());
+    }
+
+    @Test
+    void should_delete_all_distances() {
+        repository.deleteAll();
+        verify(crudRepository).deleteAll();
+    }
 }

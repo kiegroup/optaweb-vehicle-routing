@@ -55,6 +55,28 @@ class DistanceRepositoryIntegrationTest {
         assertThat(crudRepository.count()).isZero();
     }
 
+    static DistanceEntity distance(long fromId, long toId) {
+        return new DistanceEntity(new DistanceKey(fromId, toId), 1L);
+    }
+
+    @Test
+    void delete_by_fromId_or_toId() {
+        DistanceEntity distance23 = distance(2, 3);
+        DistanceEntity distance32 = distance(3, 2);
+
+        crudRepository.save(distance(1, 2));
+        crudRepository.save(distance(2, 1));
+        crudRepository.save(distance23);
+        crudRepository.save(distance32);
+        crudRepository.save(distance(3, 1));
+        crudRepository.save(distance(1, 3));
+
+        assertThat(crudRepository.count()).isEqualTo(6);
+        crudRepository.deleteByFromIdOrToId(1L);
+        assertThat(crudRepository.count()).isEqualTo(2);
+        assertThat(crudRepository.findAll()).containsExactly(distance23, distance32);
+    }
+
     @Test
     void should_return_saved_distance() {
         Location location1 = new Location(1, Coordinates.valueOf(7, -4.0));
