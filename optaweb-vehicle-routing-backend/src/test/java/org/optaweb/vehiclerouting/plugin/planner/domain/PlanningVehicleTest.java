@@ -16,13 +16,13 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class PlanningVehicleTest {
 

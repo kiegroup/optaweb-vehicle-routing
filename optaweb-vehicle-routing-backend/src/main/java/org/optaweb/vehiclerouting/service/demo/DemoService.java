@@ -55,8 +55,7 @@ public class DemoService {
             LocationRepository locationRepository,
             VehicleService vehicleService,
             VehicleRepository vehicleRepository,
-            DataSetMarshaller dataSetMarshaller
-    ) {
+            DataSetMarshaller dataSetMarshaller) {
         this.routingProblems = routingProblems;
         this.locationService = locationService;
         this.locationRepository = locationRepository;
@@ -87,8 +86,7 @@ public class DemoService {
         }
         if (tries == MAX_TRIES) {
             throw new RuntimeException(
-                    "Impossible to create a new location near " + coordinates + " after " + tries + " attempts"
-            );
+                    "Impossible to create a new location near " + coordinates + " after " + tries + " attempts");
         }
     }
 
@@ -98,7 +96,6 @@ public class DemoService {
         Location depot = visits.isEmpty() ? null : visits.remove(0);
         List<Vehicle> vehicles = vehicleRepository.vehicles();
         return dataSetMarshaller.marshal(new RoutingProblem(
-                "Custom Vehicle Routing instance", vehicles, depot, visits
-        ));
+                "Custom Vehicle Routing instance", vehicles, depot, visits));
     }
 }

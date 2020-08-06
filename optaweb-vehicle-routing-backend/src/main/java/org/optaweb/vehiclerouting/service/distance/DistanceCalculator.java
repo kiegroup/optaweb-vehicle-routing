@@ -25,6 +25,7 @@ public interface DistanceCalculator {
 
     /**
      * Calculate travel time in milliseconds.
+     * 
      * @param from origin
      * @param to destination
      * @return travel time in milliseconds

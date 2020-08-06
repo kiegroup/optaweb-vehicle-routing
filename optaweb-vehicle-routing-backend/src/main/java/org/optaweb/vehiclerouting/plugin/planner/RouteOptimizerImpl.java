@@ -59,8 +59,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
     public void addLocation(Location domainLocation, DistanceMatrixRow distanceMatrixRow) {
         PlanningLocation location = PlanningLocationFactory.fromDomain(
                 domainLocation,
-                new DistanceMapImpl(distanceMatrixRow)
-        );
+                new DistanceMapImpl(distanceMatrixRow));
         // Unfortunately can't start solver with an empty solution (see https://issues.redhat.com/browse/PLANNER-776)
         if (depot == null) {
             depot = new PlanningDepot(location);
@@ -83,8 +82,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
         if (visits.isEmpty()) {
             if (depot == null) {
                 throw new IllegalArgumentException(
-                        "Cannot remove " + domainLocation + " because there are no locations"
-                );
+                        "Cannot remove " + domainLocation + " because there are no locations");
             }
             if (depot.getId() != domainLocation.id()) {
                 throw new IllegalArgumentException("Cannot remove " + domainLocation + " because it doesn't exist");
@@ -106,8 +104,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
             } else {
                 // TODO maybe allow removing location by ID (only require the necessary information)
                 solverManager.removeVisit(
-                        PlanningVisitFactory.fromLocation(PlanningLocationFactory.fromDomain(domainLocation))
-                );
+                        PlanningVisitFactory.fromLocation(PlanningLocationFactory.fromDomain(domainLocation)));
             }
         }
     }
@@ -147,8 +144,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
                 .filter(item -> item.getId() == domainVehicle.id())
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "Cannot change capacity of " + domainVehicle + " because it doesn't exist"
-                ));
+                        "Cannot change capacity of " + domainVehicle + " because it doesn't exist"));
         vehicle.setCapacity(domainVehicle.capacity());
         if (!visits.isEmpty()) {
             solverManager.changeCapacity(vehicle);

@@ -16,10 +16,10 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+
+import org.junit.jupiter.api.Test;
 
 class DistanceEntityTest {
 

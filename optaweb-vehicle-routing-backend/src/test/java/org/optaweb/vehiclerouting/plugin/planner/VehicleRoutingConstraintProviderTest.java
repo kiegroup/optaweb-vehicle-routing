@@ -16,6 +16,9 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.testLocation;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
+
 import org.junit.jupiter.api.Test;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.test.api.score.stream.ConstraintVerifier;
@@ -27,9 +30,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.Standstill;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.testLocation;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
-
 class VehicleRoutingConstraintProviderTest {
 
     private final ConstraintVerifier<VehicleRoutingConstraintProvider, VehicleRoutingSolution> constraintVerifier =
@@ -37,8 +37,7 @@ class VehicleRoutingConstraintProviderTest {
                     new VehicleRoutingConstraintProvider(),
                     VehicleRoutingSolution.class,
                     Standstill.class,
-                    PlanningVisit.class
-            );
+                    PlanningVisit.class);
 
     private static DistanceMap distanceToAll(long distance) {
         return location -> distance;
@@ -222,7 +221,6 @@ class VehicleRoutingConstraintProviderTest {
         constraintVerifier.verifyThat()
                 .given(vehicle1, vehicle2, visitA, visitB, visitC, visitD, visitE, visitF)
                 .scores(HardSoftLongScore.ofSoft(
-                        -(fromDepot1 + fromDepot2 + fromA + fromB + fromC + fromD + fromE + fromF)
-                ));
+                        -(fromDepot1 + fromDepot2 + fromA + fromB + fromC + fromD + fromE + fromF)));
     }
 }

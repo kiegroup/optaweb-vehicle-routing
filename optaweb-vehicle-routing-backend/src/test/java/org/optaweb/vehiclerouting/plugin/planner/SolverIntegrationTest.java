@@ -16,6 +16,15 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.testLocation;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.emptySolution;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -42,15 +51,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static java.util.Collections.singletonList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.fail;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.testLocation;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.emptySolution;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
 
 class SolverIntegrationTest {
 
@@ -79,7 +79,7 @@ class SolverIntegrationTest {
     @Test
     void solver_in_daemon_mode_should_not_fail_on_empty_solution() {
         Solver<VehicleRoutingSolution> solver =
-                SolverFactory.<VehicleRoutingSolution>create(solverConfig).buildSolver();
+                SolverFactory.<VehicleRoutingSolution> create(solverConfig).buildSolver();
         assertThat(solver.solve(emptySolution())).isNotNull();
     }
 
@@ -92,11 +92,10 @@ class SolverIntegrationTest {
         VehicleRoutingSolution solution = solutionFromVisits(
                 singletonList(vehicle),
                 new PlanningDepot(testLocation(1, location -> distance)),
-                singletonList(fromLocation(testLocation(2, location -> distance)))
-        );
+                singletonList(fromLocation(testLocation(2, location -> distance))));
 
         Solver<VehicleRoutingSolution> solver =
-                SolverFactory.<VehicleRoutingSolution>create(solverConfig).buildSolver();
+                SolverFactory.<VehicleRoutingSolution> create(solverConfig).buildSolver();
         solver.addEventListener(monitor);
         startSolver(solver, solution);
 

@@ -16,16 +16,17 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+
 import java.io.IOException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.springframework.boot.test.json.JacksonTester;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class PortableVehicleTest {
 
@@ -44,8 +45,7 @@ class PortableVehicleTest {
         PortableVehicle portableVehicle = new PortableVehicle(id, name, capacity);
         String jsonTemplate = "{\"id\":%d,\"name\":\"%s\",\"capacity\":%d}";
         assertThat(json.write(portableVehicle)).isEqualToJson(
-                String.format(jsonTemplate, id, name.replaceAll("\"", "\\\\\""), capacity)
-        );
+                String.format(jsonTemplate, id, name.replaceAll("\"", "\\\\\""), capacity));
     }
 
     @Test
@@ -91,7 +91,6 @@ class PortableVehicleTest {
                 .contains(
                         String.valueOf(id),
                         name,
-                        String.valueOf(capacity)
-                );
+                        String.valueOf(capacity));
     }
 }

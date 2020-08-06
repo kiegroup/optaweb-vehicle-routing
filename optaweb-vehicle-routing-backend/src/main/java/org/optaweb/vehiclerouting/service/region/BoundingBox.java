@@ -30,6 +30,7 @@ public class BoundingBox {
 
     /**
      * Create bounding box. The box must have non-zero dimensions and the corners must be south-west and north-east.
+     * 
      * @param southWest south-west corner (minimal latitude and longitude)
      * @param northEast north-east corner (maximal latitude and longitude)
      */
@@ -56,6 +57,7 @@ public class BoundingBox {
 
     /**
      * South-west corner of the bounding box.
+     * 
      * @return south-west corner (minimal latitude and longitude)
      */
     public Coordinates getSouthWest() {
@@ -64,6 +66,7 @@ public class BoundingBox {
 
     /**
      * North-east corner of the bounding box.
+     * 
      * @return north-east corner (maximal latitude and longitude)
      */
     public Coordinates getNorthEast() {

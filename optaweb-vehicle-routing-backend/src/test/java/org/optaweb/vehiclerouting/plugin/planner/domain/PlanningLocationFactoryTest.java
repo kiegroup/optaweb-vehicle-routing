@@ -16,12 +16,12 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 
 class PlanningLocationFactoryTest {
 

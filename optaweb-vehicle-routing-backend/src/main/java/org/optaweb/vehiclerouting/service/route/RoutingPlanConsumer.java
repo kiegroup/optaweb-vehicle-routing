@@ -25,6 +25,7 @@ public interface RoutingPlanConsumer {
 
     /**
      * Consume a routing plan.
+     * 
      * @param routingPlan routing plan
      */
     void consumePlan(RoutingPlan routingPlan);

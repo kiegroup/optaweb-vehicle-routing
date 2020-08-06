@@ -16,6 +16,19 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.clearInvocations;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.optaweb.vehiclerouting.domain.VehicleFactory.createVehicle;
+import static org.optaweb.vehiclerouting.domain.VehicleFactory.testVehicle;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.fromDomain;
+
 import java.util.Arrays;
 
 import org.junit.jupiter.api.Test;
@@ -34,19 +47,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.clearInvocations;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.optaweb.vehiclerouting.domain.VehicleFactory.createVehicle;
-import static org.optaweb.vehiclerouting.domain.VehicleFactory.testVehicle;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.fromDomain;
 
 @ExtendWith(MockitoExtension.class)
 class RouteOptimizerImplTest {
@@ -71,7 +71,7 @@ class RouteOptimizerImplTest {
     @Test
     void solution_with_depot_and_no_visits_should_be_published() {
         // arrange
-        Long[] vehicleIds = {2L, 3L, 5L, 7L, 11L};
+        Long[] vehicleIds = { 2L, 3L, 5L, 7L, 11L };
         Arrays.stream(vehicleIds).forEach(vehicleId -> routeOptimizer.addVehicle(testVehicle(vehicleId)));
         clearInvocations(routeChangedEventPublisher);
 

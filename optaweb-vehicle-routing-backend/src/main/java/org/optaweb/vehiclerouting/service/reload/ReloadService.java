@@ -41,8 +41,7 @@ public class ReloadService {
             VehicleRepository vehicleRepository,
             VehicleService vehicleService,
             LocationRepository locationRepository,
-            LocationService locationService
-    ) {
+            LocationService locationService) {
         this.vehicleRepository = vehicleRepository;
         this.vehicleService = vehicleService;
         this.locationRepository = locationRepository;

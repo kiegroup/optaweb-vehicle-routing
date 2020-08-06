@@ -16,15 +16,16 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.IOException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.service.error.ErrorMessage;
 import org.springframework.boot.test.json.JacksonTester;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class PortableErrorMessageTest {
 

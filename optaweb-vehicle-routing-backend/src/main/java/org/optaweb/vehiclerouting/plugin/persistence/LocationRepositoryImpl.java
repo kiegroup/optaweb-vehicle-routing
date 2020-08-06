@@ -16,6 +16,8 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -27,8 +29,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import static java.util.stream.Collectors.toList;
 
 @Component
 class LocationRepositoryImpl implements LocationRepository {
@@ -44,8 +44,7 @@ class LocationRepositoryImpl implements LocationRepository {
     @Override
     public Location createLocation(Coordinates coordinates, String description) {
         LocationEntity locationEntity = repository.save(
-                new LocationEntity(0, coordinates.latitude(), coordinates.longitude(), description)
-        );
+                new LocationEntity(0, coordinates.latitude(), coordinates.longitude(), description));
         Location location = toDomain(locationEntity);
         logger.info("Created {}", location);
         return location;
@@ -63,8 +62,7 @@ class LocationRepositoryImpl implements LocationRepository {
         Optional<LocationEntity> maybeLocation = repository.findById(id);
         maybeLocation.ifPresent(locationEntity -> repository.deleteById(id));
         LocationEntity locationEntity = maybeLocation.orElseThrow(
-                () -> new IllegalArgumentException("Location{id=" + id + "} doesn't exist")
-        );
+                () -> new IllegalArgumentException("Location{id=" + id + "} doesn't exist"));
         Location location = toDomain(locationEntity);
         logger.info("Deleted {}", location);
         return location;
@@ -84,7 +82,6 @@ class LocationRepositoryImpl implements LocationRepository {
         return new Location(
                 locationEntity.getId(),
                 new Coordinates(locationEntity.getLatitude(), locationEntity.getLongitude()),
-                locationEntity.getDescription()
-        );
+                locationEntity.getDescription());
     }
 }

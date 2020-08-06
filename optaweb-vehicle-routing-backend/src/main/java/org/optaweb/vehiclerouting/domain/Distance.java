@@ -30,6 +30,7 @@ public class Distance {
 
     /**
      * Create a distance of the given milliseconds.
+     * 
      * @param millis must be positive or zero
      * @return distance
      */
@@ -46,6 +47,7 @@ public class Distance {
 
     /**
      * Distance in milliseconds.
+     * 
      * @return positive number or zero
      */
     public long millis() {
@@ -76,7 +78,6 @@ public class Distance {
                 millis / 3600_000,
                 millis / 60_000 % 60,
                 millis / 1000 % 60,
-                millis % 1000
-        );
+                millis % 1000);
     }
 }

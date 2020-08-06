@@ -16,14 +16,14 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import static org.mockito.Mockito.verify;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.service.error.ErrorMessage;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class WebSocketErrorMessageSenderTest {
@@ -34,7 +34,6 @@ class WebSocketErrorMessageSenderTest {
         new WebSocketErrorMessageSender(webSocket).consumeMessage(message);
         verify(webSocket).convertAndSend(
                 WebSocketErrorMessageSender.TOPIC_ERROR,
-                PortableErrorMessage.fromMessage(message)
-        );
+                PortableErrorMessage.fromMessage(message));
     }
 }

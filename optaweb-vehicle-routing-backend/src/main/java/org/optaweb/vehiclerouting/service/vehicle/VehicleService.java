@@ -16,6 +16,8 @@
 
 package org.optaweb.vehiclerouting.service.vehicle;
 
+import static java.util.Comparator.comparingLong;
+
 import java.util.Objects;
 import java.util.Optional;
 
@@ -25,8 +27,6 @@ import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import static java.util.Comparator.comparingLong;
 
 @Service
 public class VehicleService {
@@ -76,8 +76,7 @@ public class VehicleService {
 
     public void changeCapacity(long vehicleId, int capacity) {
         Vehicle vehicle = vehicleRepository.find(vehicleId).orElseThrow(() -> new IllegalArgumentException(
-                "Can't remove Vehicle{id=" + vehicleId + "} because it doesn't exist"
-        ));
+                "Can't remove Vehicle{id=" + vehicleId + "} because it doesn't exist"));
         Vehicle updatedVehicle = VehicleFactory.createVehicle(vehicle.id(), vehicle.name(), capacity);
         vehicleRepository.update(updatedVehicle);
         optimizer.changeCapacity(updatedVehicle);

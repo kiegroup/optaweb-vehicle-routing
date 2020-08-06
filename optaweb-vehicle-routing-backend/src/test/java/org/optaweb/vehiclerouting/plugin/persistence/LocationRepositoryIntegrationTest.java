@@ -16,6 +16,9 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -26,9 +29,6 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 @DataJpaTest
 @ExtendWith(SpringExtension.class)
@@ -97,8 +97,7 @@ class LocationRepositoryIntegrationTest {
                 .orElseThrow(IllegalStateException::new);
         Location testLocation = new Location(
                 testEntity.getId(),
-                new Coordinates(testEntity.getLatitude(), testEntity.getLongitude())
-        );
+                new Coordinates(testEntity.getLatitude(), testEntity.getLongitude()));
 
         assertThat(repository.locations())
                 .hasSize(locationCount)

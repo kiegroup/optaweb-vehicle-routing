@@ -18,8 +18,9 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import org.optaweb.vehiclerouting.domain.Distance;
+
+import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Portable representation of a {@link Distance distance}.

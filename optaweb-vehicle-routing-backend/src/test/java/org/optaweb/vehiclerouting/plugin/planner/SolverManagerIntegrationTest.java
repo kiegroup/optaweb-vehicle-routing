@@ -16,6 +16,11 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.optaweb.vehiclerouting.plugin.planner.Constants.SOLVER_CONFIG;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
+
 import java.util.concurrent.Semaphore;
 
 import org.junit.jupiter.api.Test;
@@ -38,11 +43,6 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
-
-import static java.util.Collections.singletonList;
-import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.optaweb.vehiclerouting.plugin.planner.Constants.SOLVER_CONFIG;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
 
 @SpringBootTest(
         properties = {
@@ -71,8 +71,7 @@ class SolverManagerIntegrationTest {
         VehicleRoutingSolution solution = solutionFromVisits(
                 singletonList(vehicle),
                 new PlanningDepot(depot),
-                singletonList(PlanningVisitFactory.fromLocation(visit))
-        );
+                singletonList(PlanningVisitFactory.fromLocation(visit)));
         solverManager.startSolver(solution);
 
         // Waits until the solution is initialized. There is only 1 possible step => no more than 1 RouteChangedEvent.
@@ -104,8 +103,7 @@ class SolverManagerIntegrationTest {
             int remainingPermits = semaphore.availablePermits();
             if (remainingPermits > 0) {
                 throw new IllegalStateException(
-                        "Only 1 RouteChangedEvent was expected but there were at least " + (remainingPermits + 1)
-                );
+                        "Only 1 RouteChangedEvent was expected but there were at least " + (remainingPermits + 1));
             }
         }
     }

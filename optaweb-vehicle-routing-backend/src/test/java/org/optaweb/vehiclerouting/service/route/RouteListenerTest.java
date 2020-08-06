@@ -16,6 +16,15 @@
 
 package org.optaweb.vehiclerouting.service.route;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -36,15 +45,6 @@ import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
-
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class RouteListenerTest {
@@ -78,8 +78,7 @@ class RouteListenerTest {
                 singletonList(vehicleId),
                 null,
                 emptyList(),
-                emptyList()
-        );
+                emptyList());
         routeListener.onApplicationEvent(event);
         verifyNoInteractions(router);
 
@@ -106,8 +105,7 @@ class RouteListenerTest {
                 singletonList(vehicleId),
                 depot.id(),
                 emptyList(),
-                singletonList(route)
-        );
+                singletonList(route));
         routeListener.onApplicationEvent(event);
 
         verifyNoInteractions(router);
@@ -151,8 +149,7 @@ class RouteListenerTest {
                 singletonList(vehicleId),
                 depot.id(),
                 singletonList(visit.id()),
-                singletonList(route)
-        );
+                singletonList(route));
 
         routeListener.onApplicationEvent(event);
 
@@ -187,8 +184,7 @@ class RouteListenerTest {
                 singletonList(vehicle.id()),
                 depot.id(),
                 singletonList(visit.id()),
-                singletonList(route)
-        );
+                singletonList(route));
 
         // precondition
         assertThat(routeListener.getBestRoutingPlan().isEmpty()).isTrue();
@@ -217,8 +213,7 @@ class RouteListenerTest {
                 singletonList(vehicle.id()),
                 depot.id(),
                 singletonList(visit.id()),
-                singletonList(route)
-        );
+                singletonList(route));
 
         // precondition
         assertThat(routeListener.getBestRoutingPlan().isEmpty()).isTrue();

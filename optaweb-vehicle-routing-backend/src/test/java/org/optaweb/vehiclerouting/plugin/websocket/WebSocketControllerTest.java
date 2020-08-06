@@ -16,6 +16,12 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -41,12 +47,6 @@ import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 import org.springframework.context.ApplicationEventPublisher;
-
-import static java.util.Collections.singletonList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class WebSocketControllerTest {
@@ -87,8 +87,7 @@ class WebSocketControllerTest {
                 singletonList(vehicle),
                 depot,
                 singletonList(visit),
-                singletonList(routeWithTrack)
-        );
+                singletonList(routeWithTrack));
         when(routeListener.getBestRoutingPlan()).thenReturn(plan);
 
         // act
@@ -127,8 +126,7 @@ class WebSocketControllerTest {
         assertThat(serverInfo.getCountryCodes()).isEqualTo(countryCodes);
         assertThat(serverInfo.getBoundingBox()).containsExactly(
                 PortableCoordinates.fromCoordinates(southWest),
-                PortableCoordinates.fromCoordinates(northEast)
-        );
+                PortableCoordinates.fromCoordinates(northEast));
         List<RoutingProblemInfo> demos = serverInfo.getDemos();
         assertThat(demos).hasSize(1);
         RoutingProblemInfo demo = demos.get(0);

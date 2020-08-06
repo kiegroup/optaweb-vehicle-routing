@@ -29,6 +29,7 @@ public class PlanningVehicleFactory {
 
     /**
      * Create planning vehicle from domain vehicle.
+     * 
      * @param domainVehicle domain vehicle
      * @return planning vehicle
      */
@@ -38,6 +39,7 @@ public class PlanningVehicleFactory {
 
     /**
      * Create a testing vehicle with zero capacity.
+     * 
      * @param id vehicle's ID
      * @return new vehicle with zero capacity
      */
@@ -47,6 +49,7 @@ public class PlanningVehicleFactory {
 
     /**
      * Create a testing vehicle with capacity.
+     * 
      * @param id vehicle's ID
      * @return new vehicle with the given capacity
      */

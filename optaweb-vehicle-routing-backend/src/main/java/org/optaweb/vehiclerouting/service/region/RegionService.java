@@ -38,6 +38,7 @@ public class RegionService {
 
     /**
      * Country codes matching the working region.
+     * 
      * @return country codes (never {@code null})
      */
     public List<String> countryCodes() {
@@ -46,6 +47,7 @@ public class RegionService {
 
     /**
      * Bounding box of the working region.
+     * 
      * @return bounding box of the working region.
      */
     public BoundingBox boundingBox() {

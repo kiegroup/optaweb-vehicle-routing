@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting;
 
-import com.graphhopper.reader.osm.GraphHopperOSM;
 import org.mockito.Mockito;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,12 +23,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.graphhopper.reader.osm.GraphHopperOSM;
+
 @Configuration
 @Profile(Profiles.TEST)
 public class TestConfig {
 
     /**
      * Creates a GraphHopper mock that may be used when running a {@link SpringBootTest @SpringBootTest}.
+     * 
      * @return mock GraphHopper
      */
     @Bean
@@ -39,6 +41,7 @@ public class TestConfig {
 
     /**
      * Creates a mock route listener to avoid things like touching database and WebSocket.
+     * 
      * @return mock RouteListener
      */
     @Bean

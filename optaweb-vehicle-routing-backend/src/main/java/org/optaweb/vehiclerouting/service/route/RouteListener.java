@@ -16,6 +16,10 @@
 
 package org.optaweb.vehiclerouting.service.route;
 
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static org.optaweb.vehiclerouting.Profiles.NOT_TEST;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -35,10 +39,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
-import static org.optaweb.vehiclerouting.Profiles.NOT_TEST;
 
 /**
  * Handles route updates emitted by optimization plugin.
@@ -62,8 +62,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
             Router router,
             RoutingPlanConsumer routingPlanConsumer,
             VehicleRepository vehicleRepository,
-            LocationRepository locationRepository
-    ) {
+            LocationRepository locationRepository) {
         this.router = router;
         this.routingPlanConsumer = routingPlanConsumer;
         this.vehicleRepository = vehicleRepository;
@@ -91,8 +90,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
                             findLocationById(shallowRoute.depotId),
                             shallowRoute.visitIds.stream()
                                     .map(visitMap::get)
-                                    .collect(toList())
-                    ))
+                                    .collect(toList())))
                     // add tracks
                     .map(route -> new RouteWithTrack(route, track(route.depot(), route.visits())))
                     .collect(toList());
@@ -101,8 +99,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
                     new ArrayList<>(vehicleMap.values()),
                     depot,
                     new ArrayList<>(visitMap.values()),
-                    routes
-            );
+                    routes);
             routingPlanConsumer.consumePlan(bestRoutingPlan);
         } catch (IllegalStateException e) {
             logger.warn("Discarding an outdated routing plan: {}", e.toString());
@@ -111,14 +108,12 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
 
     private Vehicle findVehicleById(long id) {
         return vehicleRepository.find(id).orElseThrow(() -> new IllegalStateException(
-                "Vehicle {id=" + id + "} not found in the repository")
-        );
+                "Vehicle {id=" + id + "} not found in the repository"));
     }
 
     private Location findLocationById(long id) {
         return locationRepository.find(id).orElseThrow(() -> new IllegalStateException(
-                "Location {id=" + id + "} not found in the repository")
-        );
+                "Location {id=" + id + "} not found in the repository"));
     }
 
     private List<List<Coordinates>> track(Location depot, List<Location> route) {

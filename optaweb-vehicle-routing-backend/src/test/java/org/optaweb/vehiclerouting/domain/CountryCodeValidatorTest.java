@@ -16,15 +16,15 @@
 
 package org.optaweb.vehiclerouting.domain;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.optaweb.vehiclerouting.domain.CountryCodeValidator.validate;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.junit.jupiter.api.Test;
 
 class CountryCodeValidatorTest {
 

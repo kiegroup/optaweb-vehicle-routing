@@ -16,6 +16,9 @@
 
 package org.optaweb.vehiclerouting.domain;
 
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,9 +28,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
 
 /**
  * Route plan for the whole vehicle fleet.
@@ -44,6 +44,7 @@ public class RoutingPlan {
 
     /**
      * Create a routing plan.
+     * 
      * @param distance the overall travel distance
      * @param vehicles all available vehicles
      * @param depot the depot (may be {@code null})
@@ -55,8 +56,7 @@ public class RoutingPlan {
             List<Vehicle> vehicles,
             Location depot,
             List<Location> visits,
-            List<RouteWithTrack> routes
-    ) {
+            List<RouteWithTrack> routes) {
         this.distance = Objects.requireNonNull(distance);
         this.vehicles = new ArrayList<>(Objects.requireNonNull(vehicles));
         this.depot = depot;
@@ -68,12 +68,10 @@ public class RoutingPlan {
             }
         } else if (routes.size() != vehicles.size()) {
             throw new IllegalArgumentException(describeVehiclesRoutesInconsistency(
-                    "There must be exactly one route per vehicle", vehicles, routes
-            ));
+                    "There must be exactly one route per vehicle", vehicles, routes));
         } else if (haveDifferentVehicles(vehicles, routes)) {
             throw new IllegalArgumentException(describeVehiclesRoutesInconsistency(
-                    "Some routes are assigned to non-existent vehicles", vehicles, routes
-            ));
+                    "Some routes are assigned to non-existent vehicles", vehicles, routes));
         } else if (!routes.isEmpty()) {
             List<Location> visited = routes.stream()
                     .map(Route::visits)
@@ -89,8 +87,7 @@ public class RoutingPlan {
             visited.removeAll(visits);
             if (!visited.isEmpty()) {
                 throw new IllegalArgumentException(
-                        "Some routes are going through visits that haven't been defined: " + visited
-                );
+                        "Some routes are going through visits that haven't been defined: " + visited);
             }
         }
     }
@@ -104,8 +101,7 @@ public class RoutingPlan {
     private static String describeVehiclesRoutesInconsistency(
             String cause,
             List<Vehicle> vehicles,
-            List<? extends Route> routes
-    ) {
+            List<? extends Route> routes) {
         List<Long> vehicleIdsFromRoutes = routes.stream()
                 .map(route -> route.vehicle().id())
                 .collect(toList());
@@ -116,6 +112,7 @@ public class RoutingPlan {
 
     /**
      * Create an empty routing plan.
+     * 
      * @return empty routing plan
      */
     public static RoutingPlan empty() {
@@ -124,6 +121,7 @@ public class RoutingPlan {
 
     /**
      * Total distance traveled (sum of distances of all routes).
+     * 
      * @return travel distance
      */
     public Distance distance() {
@@ -132,6 +130,7 @@ public class RoutingPlan {
 
     /**
      * All available vehicles.
+     * 
      * @return all vehicles
      */
     public List<Vehicle> vehicles() {
@@ -140,6 +139,7 @@ public class RoutingPlan {
 
     /**
      * Routes of all vehicles in the depot. Includes empty routes of vehicles that stay in the depot.
+     * 
      * @return all routes (may be empty when there is no depot or no vehicles)
      */
     public List<RouteWithTrack> routes() {
@@ -148,6 +148,7 @@ public class RoutingPlan {
 
     /**
      * All visits that are part of the routing problem.
+     * 
      * @return all visits
      */
     public List<Location> visits() {
@@ -156,6 +157,7 @@ public class RoutingPlan {
 
     /**
      * The depot.
+     * 
      * @return depot (may be missing)
      */
     public Optional<Location> depot() {
@@ -164,6 +166,7 @@ public class RoutingPlan {
 
     /**
      * Routing plan is empty when there is no depot, no vehicles and no routes.
+     * 
      * @return {@code true} if the plan is empty
      */
     public boolean isEmpty() {

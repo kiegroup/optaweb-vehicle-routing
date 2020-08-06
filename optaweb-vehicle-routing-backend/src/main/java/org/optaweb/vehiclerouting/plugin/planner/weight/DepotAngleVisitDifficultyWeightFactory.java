@@ -16,6 +16,9 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.weight;
 
+import static java.util.Comparator.comparingDouble;
+import static java.util.Comparator.comparingLong;
+
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -24,9 +27,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
-
-import static java.util.Comparator.comparingDouble;
-import static java.util.Comparator.comparingLong;
 
 /**
  * On large data sets, the constructed solution looks like pizza slices.
@@ -43,8 +43,7 @@ public class DepotAngleVisitDifficultyWeightFactory
                 // angle of the line from visit to depot relative to visit→east
                 visit.getLocation().angleTo(depot.getLocation()),
                 visit.getLocation().distanceTo(depot.getLocation())
-                        + depot.getLocation().distanceTo(visit.getLocation())
-        );
+                        + depot.getLocation().distanceTo(visit.getLocation()));
     }
 
     static class DepotAngleVisitDifficultyWeight implements Comparable<DepotAngleVisitDifficultyWeight> {

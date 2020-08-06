@@ -69,8 +69,7 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
             Solver<VehicleRoutingSolution> solver,
             AsyncListenableTaskExecutor executor,
             RouteChangedEventPublisher routeChangedEventPublisher,
-            ApplicationEventPublisher eventPublisher
-    ) {
+            ApplicationEventPublisher eventPublisher) {
         this.solver = solver;
         this.executor = executor;
         this.routeChangedEventPublisher = routeChangedEventPublisher;
@@ -112,8 +111,7 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
                 exception -> {
                     logger.error("Solver failed", exception);
                     eventPublisher.publishEvent(new ErrorEvent(this, exception.toString()));
-                }
-        );
+                });
     }
 
     void stopSolver() {

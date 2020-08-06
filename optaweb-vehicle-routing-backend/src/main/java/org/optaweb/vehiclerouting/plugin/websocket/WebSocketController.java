@@ -16,6 +16,8 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,10 +40,9 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
-import static java.util.stream.Collectors.toList;
-
 /**
  * Handles WebSocket subscriptions and STOMP messages.
+ * 
  * @see WebSocketConfig
  */
 @Controller
@@ -63,8 +64,7 @@ class WebSocketController {
             LocationService locationService,
             VehicleService vehicleService,
             DemoService demoService,
-            ApplicationEventPublisher eventPublisher
-    ) {
+            ApplicationEventPublisher eventPublisher) {
         this.routeListener = routeListener;
         this.regionService = regionService;
         this.locationService = locationService;
@@ -81,6 +81,7 @@ class WebSocketController {
 
     /**
      * Subscribe to server info topic.
+     * 
      * @return server info
      */
     @SubscribeMapping("/serverInfo")
@@ -99,6 +100,7 @@ class WebSocketController {
 
     /**
      * Subscribe for updates of the VRP route.
+     * 
      * @return route message
      */
     @SubscribeMapping("/route")
@@ -109,27 +111,29 @@ class WebSocketController {
 
     /**
      * Create new location.
+     * 
      * @param request new location description
      */
     @MessageMapping("/location")
     void addLocation(PortableLocation request) {
         locationService.createLocation(
                 new Coordinates(request.getLatitude(), request.getLongitude()),
-                request.getDescription()
-        );
+                request.getDescription());
     }
 
     /**
      * Delete location.
+     * 
      * @param id ID of the location to be deleted
      */
-    @MessageMapping({"/location/{id}/delete"})
+    @MessageMapping({ "/location/{id}/delete" })
     void removeLocation(@DestinationVariable long id) {
         locationService.removeLocation(id);
     }
 
     /**
      * Load a demo data set.
+     * 
      * @param name data set name
      */
     @MessageMapping("/demo/{name}")
@@ -144,26 +148,27 @@ class WebSocketController {
         vehicleService.removeAll();
     }
 
-    @MessageMapping({"vehicle"})
+    @MessageMapping({ "vehicle" })
     void addVehicle() {
         vehicleService.createVehicle();
     }
 
     /**
      * Delete vehicle.
+     * 
      * @param id ID of the vehicle to be deleted
      */
-    @MessageMapping({"/vehicle/{id}/delete"})
+    @MessageMapping({ "/vehicle/{id}/delete" })
     void removeVehicle(@DestinationVariable long id) {
         vehicleService.removeVehicle(id);
     }
 
-    @MessageMapping({"/vehicle/deleteAny"})
+    @MessageMapping({ "/vehicle/deleteAny" })
     void removeAnyVehicle() {
         vehicleService.removeAnyVehicle();
     }
 
-    @MessageMapping({"/vehicle/{id}/capacity"})
+    @MessageMapping({ "/vehicle/{id}/capacity" })
     void changeCapacity(@DestinationVariable long id, int capacity) {
         vehicleService.changeCapacity(id, capacity);
     }

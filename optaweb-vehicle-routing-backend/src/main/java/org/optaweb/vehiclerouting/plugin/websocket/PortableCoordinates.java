@@ -20,8 +20,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * {@link Coordinates} representation optimized for network transport.
@@ -43,8 +44,7 @@ class PortableCoordinates {
         Objects.requireNonNull(coordinates, "coordinates must not be null");
         return new PortableCoordinates(
                 coordinates.latitude(),
-                coordinates.longitude()
-        );
+                coordinates.longitude());
     }
 
     private static BigDecimal scale(BigDecimal number) {

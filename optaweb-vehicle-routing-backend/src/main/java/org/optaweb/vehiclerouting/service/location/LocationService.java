@@ -16,6 +16,8 @@
 
 package org.optaweb.vehiclerouting.service.location;
 
+import static java.util.Comparator.comparingLong;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -28,8 +30,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-
-import static java.util.Comparator.comparingLong;
 
 /**
  * Performs location-related use cases.
@@ -49,8 +49,7 @@ public class LocationService {
             LocationRepository repository,
             RouteOptimizer optimizer,
             DistanceMatrix distanceMatrix,
-            ApplicationEventPublisher eventPublisher
-    ) {
+            ApplicationEventPublisher eventPublisher) {
         this.repository = repository;
         this.optimizer = optimizer;
         this.distanceMatrix = distanceMatrix;
@@ -76,8 +75,7 @@ public class LocationService {
             logger.error("Failed to calculate distances for {}, it will be discarded", location, e);
             eventPublisher.publishEvent(new ErrorEvent(
                     this,
-                    "Failed to calculate distances for " + location + ", it will be discarded.\n" + e.toString()
-            ));
+                    "Failed to calculate distances for " + location + ", it will be discarded.\n" + e.toString()));
             repository.removeLocation(location.id());
             return false; // do not proceed to optimizer
         }
@@ -88,8 +86,7 @@ public class LocationService {
         Optional<Location> optionalLocation = repository.find(id);
         if (!optionalLocation.isPresent()) {
             eventPublisher.publishEvent(
-                    new ErrorEvent(this, "Location [" + id + "] cannot be removed because it doesn't exist.")
-            );
+                    new ErrorEvent(this, "Location [" + id + "] cannot be removed because it doesn't exist."));
             return;
         }
         Location removedLocation = optionalLocation.get();
@@ -98,12 +95,10 @@ public class LocationService {
             Location depot = locations.stream()
                     .min(comparingLong(Location::id))
                     .orElseThrow(() -> new IllegalStateException(
-                            "Impossible. Locations have size (" + locations.size() + ") but the stream is empty."
-                    ));
+                            "Impossible. Locations have size (" + locations.size() + ") but the stream is empty."));
             if (removedLocation.equals(depot)) {
                 eventPublisher.publishEvent(
-                        new ErrorEvent(this, "You can only remove depot if there are no visits.")
-                );
+                        new ErrorEvent(this, "You can only remove depot if there are no visits."));
                 return;
             }
         }

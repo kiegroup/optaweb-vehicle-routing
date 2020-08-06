@@ -16,6 +16,8 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -27,8 +29,6 @@ import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
-import static java.util.stream.Collectors.toList;
 
 @Component
 public class VehicleRepositoryImpl implements VehicleRepository {
@@ -64,8 +64,7 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     public Vehicle removeVehicle(long id) {
         Optional<VehicleEntity> optionalVehicleEntity = repository.findById(id);
         VehicleEntity vehicleEntity = optionalVehicleEntity.orElseThrow(
-                () -> new IllegalArgumentException("Vehicle{id=" + id + "} doesn't exist")
-        );
+                () -> new IllegalArgumentException("Vehicle{id=" + id + "} doesn't exist"));
         repository.deleteById(id);
         Vehicle vehicle = toDomain(vehicleEntity);
         logger.info("Deleted {}", vehicle);
@@ -91,7 +90,6 @@ public class VehicleRepositoryImpl implements VehicleRepository {
         return VehicleFactory.createVehicle(
                 vehicleEntity.getId(),
                 vehicleEntity.getName(),
-                vehicleEntity.getCapacity()
-        );
+                vehicleEntity.getCapacity());
     }
 }

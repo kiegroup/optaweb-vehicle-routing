@@ -46,6 +46,11 @@
     <jacoco.agent.argLine/>
     <version.com.h2database>1.4.199</version.com.h2database>
     <version.org.mockito>3.1.0</version.org.mockito>
+    <format.directory>${project.basedir}/../ide-configuration</format.directory>
+    <formatter.skip>false</formatter.skip>
+    <formatter.goal>format</formatter.goal>
+    <!-- TODO name impsort should indicate it's related to formatting -->
+    <impsort.goal>sort</impsort.goal>
   </properties>
 
   <dependencyManagement>
@@ -126,6 +131,42 @@
             </execution>
           </executions>
         </plugin>
+        <plugin>
+          <groupId>net.revelc.code.formatter</groupId>
+          <artifactId>formatter-maven-plugin</artifactId>
+          <version>2.11.0</version>
+          <configuration>
+            <configFile>${format.directory}/eclipse-format.xml</configFile>
+            <lineEnding>LF</lineEnding>
+            <skip>${formatter.skip}</skip>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>${formatter.goal}</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>net.revelc.code</groupId>
+          <artifactId>impsort-maven-plugin</artifactId>
+          <version>1.4.1</version>
+          <configuration>
+            <groups>java.,javax.,org.,com.</groups>
+            <staticGroups>*</staticGroups>
+            <!-- keep in sync with the formatter-maven-plugin -->
+            <skip>${formatter.skip}</skip>
+            <removeUnused>true</removeUnused>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>${impsort.goal}</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
       </plugins>
     </pluginManagement>
   </build>
@@ -184,6 +225,19 @@
       <properties>
         <!--suppress UnresolvedMavenProperty -->
         <sonar.branch.name>${env.TRAVIS_BRANCH}</sonar.branch.name>
+      </properties>
+    </profile>
+    <profile>
+      <!-- Fail the build in CI if code does not follow the standards. -->
+      <id>validate-formatting-ci</id>
+      <activation>
+        <property>
+          <name>env.CI</name>
+        </property>
+      </activation>
+      <properties>
+        <formatter.goal>validate</formatter.goal>
+        <impsort.goal>check</impsort.goal>
       </properties>
     </profile>
   </profiles>

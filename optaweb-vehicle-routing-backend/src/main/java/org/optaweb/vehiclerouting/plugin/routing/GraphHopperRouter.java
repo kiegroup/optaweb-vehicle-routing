@@ -16,14 +16,11 @@
 
 package org.optaweb.vehiclerouting.plugin.routing;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.List;
 import java.util.stream.StreamSupport;
 
-import com.graphhopper.GHRequest;
-import com.graphhopper.GHResponse;
-import com.graphhopper.reader.osm.GraphHopperOSM;
-import com.graphhopper.util.PointList;
-import com.graphhopper.util.shapes.BBox;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculationException;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
@@ -34,7 +31,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import static java.util.stream.Collectors.toList;
+import com.graphhopper.GHRequest;
+import com.graphhopper.GHResponse;
+import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.util.PointList;
+import com.graphhopper.util.shapes.BBox;
 
 /**
  * Provides geographical information needed for route optimization.
@@ -83,7 +84,6 @@ class GraphHopperRouter implements Router, DistanceCalculator, Region {
         BBox bounds = graphHopper.getGraphHopperStorage().getBounds();
         return new BoundingBox(
                 Coordinates.valueOf(bounds.minLat, bounds.minLon),
-                Coordinates.valueOf(bounds.maxLat, bounds.maxLon)
-        );
+                Coordinates.valueOf(bounds.maxLat, bounds.maxLon));
     }
 }

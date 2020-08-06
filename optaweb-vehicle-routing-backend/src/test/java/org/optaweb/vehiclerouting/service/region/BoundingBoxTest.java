@@ -16,12 +16,12 @@
 
 package org.optaweb.vehiclerouting.service.region;
 
-import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.domain.Coordinates;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+
+import org.junit.jupiter.api.Test;
+import org.optaweb.vehiclerouting.domain.Coordinates;
 
 class BoundingBoxTest {
 
@@ -32,21 +32,21 @@ class BoundingBoxTest {
         // └───2
         assertThatIllegalArgumentException().isThrownBy(() -> new BoundingBox(
                 Coordinates.valueOf(9.9, -1.0), // NW
-                Coordinates.valueOf(1.0, 1.01)  // SE
+                Coordinates.valueOf(1.0, 1.01) // SE
         )).withMessageMatching(".*\\(9\\.9N.*\\(1\\.0N.*");
         // 2───┐
         // │ ↖ │
         // └───1
         assertThatIllegalArgumentException().isThrownBy(() -> new BoundingBox(
                 Coordinates.valueOf(-1.0, 9.9), // SE
-                Coordinates.valueOf(1.01, 1.0)  // NW
+                Coordinates.valueOf(1.01, 1.0) // NW
         )).withMessageMatching(".*\\(9\\.9E.*\\(1\\.0E.*");
         // ┌───1
         // │ ↙ │
         // 2───┘
         assertThatIllegalArgumentException().isThrownBy(() -> new BoundingBox(
                 Coordinates.valueOf(9.9, 9.9), // NE
-                Coordinates.valueOf(1.0, 1.0)  // SW
+                Coordinates.valueOf(1.0, 1.0) // SW
         )).withMessageMatching(".*\\(9\\.9N.*\\(1\\.0N.*");
     }
 
@@ -57,15 +57,13 @@ class BoundingBoxTest {
         //
         assertThatIllegalArgumentException().isThrownBy(() -> new BoundingBox(
                 Coordinates.valueOf(0.0, 1.0),
-                Coordinates.valueOf(0.0, 2.0)
-        )).withMessageMatching(".*\\(0\\.0N.*\\(0\\.0N.*");
+                Coordinates.valueOf(0.0, 2.0))).withMessageMatching(".*\\(0\\.0N.*\\(0\\.0N.*");
         //   ╷
         //   │
         //   ╵
         assertThatIllegalArgumentException().isThrownBy(() -> new BoundingBox(
                 Coordinates.valueOf(0.0, 10.0),
-                Coordinates.valueOf(1.0, 10.0)
-        )).withMessageMatching(".*\\(10\\.0E.*\\(10\\.0E.*");
+                Coordinates.valueOf(1.0, 10.0))).withMessageMatching(".*\\(10\\.0E.*\\(10\\.0E.*");
     }
 
     @Test
