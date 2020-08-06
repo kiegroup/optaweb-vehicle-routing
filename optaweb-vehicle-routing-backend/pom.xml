@@ -32,11 +32,6 @@
   <name>OptaWeb Vehicle Routing Backend</name>
 
   <properties>
-    <!--
-      Do not fail on Checkstyle errors when building locally to interrupt development as little as possible.
-      To enforce code style, build will fail on Checkstyle errors when running in CI environment (see profile below).
-    -->
-    <checkstyle.failOnViolation>false</checkstyle.failOnViolation>
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -184,36 +179,6 @@
         <artifactId>impsort-maven-plugin</artifactId>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <executions>
-          <!--
-            Disable execution defined in kie-parent.
-            Unfortunately, it's not possible to just override its configuration as the combine.self attribute is not
-            allowed on the configuration element.
-           -->
-          <execution>
-            <id>validate</id>
-            <phase>none</phase>
-          </execution>
-          <execution>
-            <id>validate-optaweb-vehicle-routing-backend</id>
-            <phase>validate</phase>
-            <goals>
-              <goal>check</goal>
-            </goals>
-            <configuration>
-              <configLocation>config/checkstyle/Checker.xml</configLocation>
-              <failOnViolation>${checkstyle.failOnViolation}</failOnViolation>
-              <logViolationsToConsole>true</logViolationsToConsole>
-              <includeTestSourceDirectory>true</includeTestSourceDirectory>
-              <includeResources>true</includeResources>
-              <includeTestResources>true</includeTestResources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
         <configuration>
@@ -302,19 +267,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-
-    <!-- Fail the build if there are Checkstyle errors only when running in CI environment. -->
-    <profile>
-      <id>checkstyleCI</id>
-      <activation>
-        <property>
-          <name>env.CI</name>
-        </property>
-      </activation>
-      <properties>
-        <checkstyle.failOnViolation>true</checkstyle.failOnViolation>
-      </properties>
     </profile>
 
     <!--
