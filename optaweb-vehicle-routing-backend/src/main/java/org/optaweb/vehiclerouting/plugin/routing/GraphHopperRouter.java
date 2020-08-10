@@ -42,12 +42,12 @@ import com.graphhopper.util.shapes.BBox;
  */
 @Component
 @ConditionalOnProperty(prefix = "app.routing", name = "engine", havingValue = "graphhopper", matchIfMissing = true)
-class GraphHopperRouter implements Router, DistanceCalculator, Region {
+public class GraphHopperRouter implements Router, DistanceCalculator, Region {
 
     private final GraphHopperOSM graphHopper;
 
     @Autowired
-    GraphHopperRouter(GraphHopperOSM graphHopper) {
+    public GraphHopperRouter(GraphHopperOSM graphHopper) {
         this.graphHopper = graphHopper;
     }
 

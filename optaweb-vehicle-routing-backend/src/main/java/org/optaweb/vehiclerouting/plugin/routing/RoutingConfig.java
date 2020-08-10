@@ -43,7 +43,7 @@ import com.graphhopper.routing.util.FlagEncoderFactory;
  * through environment.
  */
 @Configuration
-class RoutingConfig {
+public class RoutingConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutingConfig.class);
 
@@ -54,7 +54,7 @@ class RoutingConfig {
     private final Path graphDir;
 
     @Autowired
-    RoutingConfig(RoutingProperties routingProperties) {
+    public RoutingConfig(RoutingProperties routingProperties) {
         osmDir = Paths.get(routingProperties.getOsmDir()).toAbsolutePath();
         osmFile = osmDir.resolve(routingProperties.getOsmFile()).toAbsolutePath();
         osmDownloadUrl = routingProperties.getOsmDownloadUrl();
@@ -71,7 +71,7 @@ class RoutingConfig {
     @Profile(Profiles.NOT_TEST)
     @Bean
     @ConditionalOnProperty(prefix = "app.routing", name = "engine", havingValue = "graphhopper", matchIfMissing = true)
-    GraphHopperOSM graphHopper() {
+    public GraphHopperOSM graphHopper() {
         GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
         graphHopper.setGraphHopperLocation(graphDir.toString());
 

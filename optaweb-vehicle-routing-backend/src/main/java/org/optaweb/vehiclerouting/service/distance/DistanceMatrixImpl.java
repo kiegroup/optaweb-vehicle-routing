@@ -28,14 +28,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-class DistanceMatrixImpl implements DistanceMatrix {
+public class DistanceMatrixImpl implements DistanceMatrix {
 
     private final DistanceCalculator distanceCalculator;
     private final DistanceRepository distanceRepository;
     private final Map<Location, Map<Long, Distance>> matrix = new HashMap<>();
 
     @Autowired
-    DistanceMatrixImpl(DistanceCalculator distanceCalculator, DistanceRepository distanceRepository) {
+    public DistanceMatrixImpl(DistanceCalculator distanceCalculator, DistanceRepository distanceRepository) {
         this.distanceCalculator = distanceCalculator;
         this.distanceRepository = distanceRepository;
     }
