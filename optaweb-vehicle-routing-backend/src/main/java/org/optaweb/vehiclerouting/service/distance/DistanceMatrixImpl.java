@@ -60,10 +60,10 @@ class DistanceMatrixImpl implements DistanceMatrix {
             // Entry key is the existing (other) location.
             Location other = distanceRow.getKey();
             // Entry value is the data (cells) in the row (distances from the entry key location to any other).
-            Map<Long, Distance> distancesFromOthers = distanceRow.getValue();
+            Map<Long, Distance> distancesFromOther = distanceRow.getValue();
             // Add a new cell to the row with the distance from the entry key location to the new location
             // (results in a new column at the end of the loop).
-            distancesFromOthers.put(newLocation.id(), calculateOrRestoreDistance(other, newLocation));
+            distancesFromOther.put(newLocation.id(), calculateOrRestoreDistance(other, newLocation));
             // Add a cell to the new distance's row.
             distancesToOthers.put(other.id(), calculateOrRestoreDistance(newLocation, other));
         });
