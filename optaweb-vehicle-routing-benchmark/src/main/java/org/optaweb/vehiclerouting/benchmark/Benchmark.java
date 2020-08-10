@@ -16,21 +16,40 @@
 
 package org.optaweb.vehiclerouting.benchmark;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.domain.LocationData;
+import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.plugin.routing.GraphHopperRouter;
 import org.optaweb.vehiclerouting.plugin.routing.RoutingConfig;
 import org.optaweb.vehiclerouting.plugin.routing.RoutingProperties;
+import org.optaweb.vehiclerouting.service.demo.RoutingProblemConfig;
+import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
+import org.optaweb.vehiclerouting.service.distance.DistanceCalculationException;
 import org.optaweb.vehiclerouting.service.distance.DistanceMatrixImpl;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
-import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Benchmark {
 
     private static final Logger logger = LoggerFactory.getLogger(Benchmark.class);
+    private static final int MAX_TRIES = 3;
+    private static final int LOCATION_COUNT = 50;
     private final DistanceMatrix distanceMatrix;
+    private final RoutingProblem dataset;
+
+    static Coordinates randomize(Coordinates coords) {
+        return Coordinates.valueOf(
+                coords.latitude().doubleValue() + Math.random() * 0.08 - 0.04,
+                coords.longitude().doubleValue() + Math.random() * 0.08 - 0.04);
+    }
+
+    static Location randomizedLocation(long id, LocationData locationData) {
+        return new Location(id, randomize(locationData.coordinates()), locationData.description());
+    }
 
     public static void main(String[] args) {
         RoutingProperties routingProperties = new RoutingProperties();
@@ -42,19 +61,43 @@ public class Benchmark {
         GraphHopperRouter router = new GraphHopperRouter(routingConfig.graphHopper());
 
         DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(router, new NoopDistanceRepository());
-
-        new Benchmark(distanceMatrix).run();
+        RoutingProblem dataset = new DataSetMarshaller().unmarshal(RoutingProblemConfig.belgiumReader());
+        new Benchmark(distanceMatrix, dataset).run();
     }
 
-    public Benchmark(DistanceMatrix distanceMatrix) {
+    public Benchmark(DistanceMatrix distanceMatrix, RoutingProblem dataset) {
         this.distanceMatrix = distanceMatrix;
+        this.dataset = dataset;
+    }
+
+    LocationData nextDatSetItem(int i) {
+        return dataset.visits().get(i % dataset.visits().size());
+    }
+
+    boolean addToMatrix(Location location) {
+        try {
+            distanceMatrix.addLocation(location);
+            logger.info("Added {}", location);
+            return true;
+        } catch (DistanceCalculationException ex) {
+            return false;
+        }
     }
 
     private void run() {
-        DistanceMatrixRow row1 = distanceMatrix.addLocation(new Location(1, Coordinates.valueOf(50.583333, 5.5), "Seraing"));
-        DistanceMatrixRow row2 = distanceMatrix.addLocation(new Location(2, Coordinates.valueOf(50.966667, 5.5), "Genk"));
+        AtomicLong idSequence = new AtomicLong();
 
-        logger.info("1->2: {}", row1.distanceTo(2));
-        logger.info("2->1: {}", row2.distanceTo(1));
+        for (int i = 0; i < LOCATION_COUNT; i++) {
+            LocationData locationData = nextDatSetItem(i);
+            long id = idSequence.incrementAndGet();
+            int tries = 0;
+            while (tries < MAX_TRIES && !addToMatrix(randomizedLocation(id, locationData))) {
+                tries++;
+            }
+            if (tries == MAX_TRIES) {
+                throw new RuntimeException("Impossible to create a new location near " + locationData
+                        + " after " + tries + " attempts");
+            }
+        }
     }
 }

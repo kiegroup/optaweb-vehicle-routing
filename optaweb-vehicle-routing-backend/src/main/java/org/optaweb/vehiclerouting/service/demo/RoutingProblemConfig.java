@@ -43,7 +43,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-class RoutingProblemConfig {
+public class RoutingProblemConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutingProblemConfig.class);
     private final DemoProperties demoProperties;
@@ -63,7 +63,7 @@ class RoutingProblemConfig {
         return new RoutingProblemList(problems);
     }
 
-    private static Reader belgiumReader() {
+    public static Reader belgiumReader() {
         return new InputStreamReader(
                 DemoService.class.getResourceAsStream("belgium-cities.yaml"),
                 StandardCharsets.UTF_8);
