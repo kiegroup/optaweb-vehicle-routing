@@ -37,9 +37,9 @@ public class Benchmark {
 
     private static final Logger logger = LoggerFactory.getLogger(Benchmark.class);
     private static final int MAX_TRIES = 3;
-    private static final int LOCATION_COUNT = 50;
     private final DistanceMatrix distanceMatrix;
     private final RoutingProblem dataset;
+    private final int locationCount;
 
     static Coordinates randomize(Coordinates coords) {
         return Coordinates.valueOf(
@@ -52,6 +52,8 @@ public class Benchmark {
     }
 
     public static void main(String[] args) {
+        int locationCount = args.length > 0 ? Integer.parseInt(args[0]) : 50;
+
         RoutingProperties routingProperties = new RoutingProperties();
         routingProperties.setGhDir("local/graphhopper");
         routingProperties.setOsmDir("local/openstreetmap");
@@ -62,12 +64,13 @@ public class Benchmark {
 
         DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(router, new NoopDistanceRepository());
         RoutingProblem dataset = new DataSetMarshaller().unmarshal(RoutingProblemConfig.belgiumReader());
-        new Benchmark(distanceMatrix, dataset).run();
+        new Benchmark(distanceMatrix, dataset, locationCount).run();
     }
 
-    public Benchmark(DistanceMatrix distanceMatrix, RoutingProblem dataset) {
+    public Benchmark(DistanceMatrix distanceMatrix, RoutingProblem dataset, int locationCount) {
         this.distanceMatrix = distanceMatrix;
         this.dataset = dataset;
+        this.locationCount = locationCount;
     }
 
     LocationData nextDatSetItem(int i) {
@@ -89,7 +92,7 @@ public class Benchmark {
 
         StopWatch stopWatch = StopWatch.start();
 
-        for (int i = 0; i < LOCATION_COUNT; i++) {
+        for (int i = 0; i < locationCount; i++) {
             LocationData locationData = nextDatSetItem(i);
             long id = idSequence.incrementAndGet();
             int tries = 0;
