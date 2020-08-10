@@ -16,18 +16,15 @@
 
 package org.optaweb.vehiclerouting.benchmark;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.List;
 
-import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.domain.LocationData;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.plugin.routing.GraphHopperRouter;
 import org.optaweb.vehiclerouting.plugin.routing.RoutingConfig;
 import org.optaweb.vehiclerouting.plugin.routing.RoutingProperties;
 import org.optaweb.vehiclerouting.service.demo.RoutingProblemConfig;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
-import org.optaweb.vehiclerouting.service.distance.DistanceCalculationException;
 import org.optaweb.vehiclerouting.service.distance.DistanceMatrixImpl;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.slf4j.Logger;
@@ -36,20 +33,8 @@ import org.slf4j.LoggerFactory;
 public class Benchmark {
 
     private static final Logger logger = LoggerFactory.getLogger(Benchmark.class);
-    private static final int MAX_TRIES = 3;
     private final DistanceMatrix distanceMatrix;
-    private final RoutingProblem dataset;
-    private final int locationCount;
-
-    static Coordinates randomize(Coordinates coords) {
-        return Coordinates.valueOf(
-                coords.latitude().doubleValue() + Math.random() * 0.08 - 0.04,
-                coords.longitude().doubleValue() + Math.random() * 0.08 - 0.04);
-    }
-
-    static Location randomizedLocation(long id, LocationData locationData) {
-        return new Location(id, randomize(locationData.coordinates()), locationData.description());
-    }
+    private final List<Location> dataset;
 
     public static void main(String[] args) {
         int locationCount = args.length > 0 ? Integer.parseInt(args[0]) : 50;
@@ -63,48 +48,27 @@ public class Benchmark {
         GraphHopperRouter router = new GraphHopperRouter(routingConfig.graphHopper());
 
         DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(router, new NoopDistanceRepository());
-        RoutingProblem dataset = new DataSetMarshaller().unmarshal(RoutingProblemConfig.belgiumReader());
-        new Benchmark(distanceMatrix, dataset, locationCount).run();
+        RoutingProblem problem = new DataSetMarshaller().unmarshal(RoutingProblemConfig.belgiumReader());
+        DataSetGenerator dataSetGenerator = new DataSetGenerator(router, problem);
+        List<Location> dataset = dataSetGenerator.generate(locationCount);
+
+        new Benchmark(distanceMatrix, dataset).run();
     }
 
-    public Benchmark(DistanceMatrix distanceMatrix, RoutingProblem dataset, int locationCount) {
+    public Benchmark(DistanceMatrix distanceMatrix, List<Location> dataset) {
         this.distanceMatrix = distanceMatrix;
         this.dataset = dataset;
-        this.locationCount = locationCount;
-    }
-
-    LocationData nextDatSetItem(int i) {
-        return dataset.visits().get(i % dataset.visits().size());
-    }
-
-    boolean addToMatrix(Location location) {
-        try {
-            distanceMatrix.addLocation(location);
-            logger.info("Added {}", location);
-            return true;
-        } catch (DistanceCalculationException ex) {
-            return false;
-        }
     }
 
     private void run() {
-        AtomicLong idSequence = new AtomicLong();
-
         StopWatch stopWatch = StopWatch.start();
 
-        for (int i = 0; i < locationCount; i++) {
-            LocationData locationData = nextDatSetItem(i);
-            long id = idSequence.incrementAndGet();
-            int tries = 0;
-            while (tries < MAX_TRIES && !addToMatrix(randomizedLocation(id, locationData))) {
-                tries++;
-            }
-            if (tries == MAX_TRIES) {
-                throw new RuntimeException("Impossible to create a new location near " + locationData
-                        + " after " + tries + " attempts");
-            }
+        dataset.forEach(location -> {
+            distanceMatrix.addLocation(location);
+            logger.info("Added {}", location);
             stopWatch.lap();
-        }
+        });
+
         stopWatch.print();
     }
 }
