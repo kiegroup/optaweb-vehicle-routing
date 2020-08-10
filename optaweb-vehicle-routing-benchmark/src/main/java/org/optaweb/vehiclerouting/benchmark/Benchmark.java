@@ -87,6 +87,8 @@ public class Benchmark {
     private void run() {
         AtomicLong idSequence = new AtomicLong();
 
+        StopWatch stopWatch = StopWatch.start();
+
         for (int i = 0; i < LOCATION_COUNT; i++) {
             LocationData locationData = nextDatSetItem(i);
             long id = idSequence.incrementAndGet();
@@ -98,6 +100,8 @@ public class Benchmark {
                 throw new RuntimeException("Impossible to create a new location near " + locationData
                         + " after " + tries + " attempts");
             }
+            stopWatch.lap();
         }
+        stopWatch.print();
     }
 }
