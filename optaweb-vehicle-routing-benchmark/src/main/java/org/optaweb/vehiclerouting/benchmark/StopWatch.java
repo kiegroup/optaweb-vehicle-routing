@@ -16,6 +16,9 @@
 
 package org.optaweb.vehiclerouting.benchmark;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +49,17 @@ class StopWatch {
         laps.stream()
                 .map(lap -> String.format("%4d%10d ms%10d s", lap.lapNumber, lap.lapTime, lap.totalTime / 1000))
                 .forEach(System.out::println);
+    }
+
+    void csv(String fileName) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("location number;nth calculation;total time\n");
+        for (Lap lap : laps) {
+            sb.append(lap.lapNumber).append(";");
+            sb.append(lap.lapTime).append(";");
+            sb.append(lap.totalTime).append("\n");
+        }
+        Files.write(Paths.get(fileName), sb.toString().getBytes());
     }
 
     static class Lap {

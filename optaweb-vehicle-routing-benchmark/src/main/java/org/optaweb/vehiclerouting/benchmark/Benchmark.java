@@ -16,6 +16,7 @@
 
 package org.optaweb.vehiclerouting.benchmark;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.optaweb.vehiclerouting.domain.Location;
@@ -36,7 +37,7 @@ public class Benchmark {
     private final DistanceMatrix distanceMatrix;
     private final List<Location> dataset;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         int locationCount = args.length > 0 ? Integer.parseInt(args[0]) : 50;
 
         RoutingProperties routingProperties = new RoutingProperties();
@@ -60,7 +61,7 @@ public class Benchmark {
         this.dataset = dataset;
     }
 
-    private void run() {
+    private void run() throws IOException {
         StopWatch stopWatch = StopWatch.start();
 
         dataset.forEach(location -> {
@@ -70,5 +71,6 @@ public class Benchmark {
         });
 
         stopWatch.print();
+        stopWatch.csv("local/out.csv");
     }
 }
