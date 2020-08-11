@@ -46,7 +46,7 @@ class LocationRepositoryImpl implements LocationRepository {
         LocationEntity locationEntity = repository.save(
                 new LocationEntity(0, coordinates.latitude(), coordinates.longitude(), description));
         Location location = toDomain(locationEntity);
-        logger.info("Created {}", location);
+        logger.info("Created {}", location.fullDescription());
         return location;
     }
 
@@ -64,7 +64,7 @@ class LocationRepositoryImpl implements LocationRepository {
         LocationEntity locationEntity = maybeLocation.orElseThrow(
                 () -> new IllegalArgumentException("Location{id=" + id + "} doesn't exist"));
         Location location = toDomain(locationEntity);
-        logger.info("Deleted {}", location);
+        logger.info("Deleted {}", location.fullDescription());
         return location;
     }
 

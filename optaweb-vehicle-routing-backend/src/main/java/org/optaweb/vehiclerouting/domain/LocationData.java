@@ -77,9 +77,6 @@ public class LocationData {
 
     @Override
     public String toString() {
-        return "LocationData{" +
-                "coordinates=" + coordinates +
-                ", description='" + description + '\'' +
-                '}';
+        return (description.isEmpty() ? "<noname>" : "'" + description + "'") + " " + coordinates;
     }
 }
