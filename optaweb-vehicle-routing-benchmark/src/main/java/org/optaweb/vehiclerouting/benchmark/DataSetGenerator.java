@@ -75,7 +75,7 @@ class DataSetGenerator {
                 int tries = 0;
                 while (tries < MAX_TRIES && !isReachable(from, to)) {
                     tries++;
-                    logger.warn("Randomized {} is unreachable.", to);
+                    logger.warn("Randomized location {} is unreachable.", to.fullDescription());
                     to = randomizedLocation(id, locationData);
                 }
                 if (tries == MAX_TRIES) {
@@ -83,10 +83,13 @@ class DataSetGenerator {
                             + " after " + tries + " attempts");
                 }
             }
-            String padding = IntStream.range(to.description().length(), maxDescriptionLength)
+            String leftPadding = IntStream.range(Long.toString(to.id()).length(), Integer.toString(locationCount).length())
                     .mapToObj(operand -> " ")
-                    .collect(joining(""));
-            logger.info("Generated randomized {}{} {}.", to, padding, to.coordinates());
+                    .collect(joining());
+            String rightPadding = IntStream.range(to.description().length(), maxDescriptionLength)
+                    .mapToObj(operand -> " ")
+                    .collect(joining());
+            logger.info("Generated randomized location {}{}{} {}.", leftPadding, to, rightPadding, to.coordinates());
             locations.add(to);
         }
         return locations;
