@@ -72,10 +72,13 @@ public class LocationService {
             DistanceMatrixRow distanceMatrixRow = distanceMatrix.addLocation(location);
             optimizer.addLocation(location, distanceMatrixRow);
         } catch (Exception e) {
-            logger.error("Failed to calculate distances for {}, it will be discarded", location, e);
+            logger.error(
+                    "Failed to calculate distances for location {}, it will be discarded",
+                    location.fullDescription(), e);
             eventPublisher.publishEvent(new ErrorEvent(
                     this,
-                    "Failed to calculate distances for " + location + ", it will be discarded.\n" + e.toString()));
+                    "Failed to calculate distances for location " + location.fullDescription()
+                            + ", it will be discarded.\n" + e.toString()));
             repository.removeLocation(location.id());
             return false; // do not proceed to optimizer
         }

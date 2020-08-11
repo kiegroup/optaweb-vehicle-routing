@@ -42,6 +42,15 @@ public class Location extends LocationData {
         return id;
     }
 
+    /**
+     * Full description of the location including its ID, description and coordinates.
+     *
+     * @return full description
+     */
+    public String fullDescription() {
+        return "[" + id + "]: " + super.toString();
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -61,8 +70,6 @@ public class Location extends LocationData {
 
     @Override
     public String toString() {
-        return "Location ["
-                + id +
-                "]: '" + description() + "'";
+        return description().isEmpty() ? Long.toString(id) : (id + ": '" + description() + "'");
     }
 }
