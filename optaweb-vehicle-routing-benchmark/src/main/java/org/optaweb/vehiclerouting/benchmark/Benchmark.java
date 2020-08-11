@@ -36,9 +36,11 @@ public class Benchmark {
     private static final Logger logger = LoggerFactory.getLogger(Benchmark.class);
     private final DistanceMatrix distanceMatrix;
     private final List<Location> dataset;
+    private final String outFileName;
 
     public static void main(String[] args) throws IOException {
         int locationCount = args.length > 0 ? Integer.parseInt(args[0]) : 50;
+        String outFileName = args.length > 1 ? args[1] : "out.csv";
 
         RoutingProperties routingProperties = new RoutingProperties();
         routingProperties.setGhDir("local/graphhopper");
@@ -53,12 +55,13 @@ public class Benchmark {
         DataSetGenerator dataSetGenerator = new DataSetGenerator(router, problem);
         List<Location> dataset = dataSetGenerator.generate(locationCount);
 
-        new Benchmark(distanceMatrix, dataset).run();
+        new Benchmark(distanceMatrix, dataset, outFileName).run();
     }
 
-    public Benchmark(DistanceMatrix distanceMatrix, List<Location> dataset) {
+    public Benchmark(DistanceMatrix distanceMatrix, List<Location> dataset, String outFileName) {
         this.distanceMatrix = distanceMatrix;
         this.dataset = dataset;
+        this.outFileName = outFileName;
     }
 
     private void run() throws IOException {
@@ -71,6 +74,6 @@ public class Benchmark {
         });
 
         stopWatch.print();
-        stopWatch.csv("local/out.csv");
+        stopWatch.csv("local/" + outFileName);
     }
 }

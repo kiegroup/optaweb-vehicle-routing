@@ -1,0 +1,23 @@
+= OptaWeb Vehicle Routing Benchmark
+
+Measures distance matrix calculation for N locations using GraphHopper.
+
+.Prerequisites
+* The Belgium OSM file must exist in `local/openstreetmap/belgium-latest.osm.pbf` relative to the working directory.
+
+== Usage
+
+[source]
+----
+java -jar target/optaweb-vehicle-routing-benchmark-VERSION-exec.jar [LOCATION_COUNT] [OUTPUT_FILE_NAME]
+----
+
+LOCATION_COUNT::
+Optional argument specifying the number of locations to add to the matrix.
+Any positive integer is allowed.
+* Recommended values: 10 - 1000.
+* Defaults to 50.
+
+OUTPUT_FILE_NAME::
+Optional argument specifying the file name for the CSV output.
+* Defaults to `out.csv`.
