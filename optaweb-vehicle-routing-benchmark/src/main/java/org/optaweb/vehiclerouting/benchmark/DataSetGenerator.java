@@ -68,29 +68,29 @@ class DataSetGenerator {
         for (int i = 0; i < locationCount; i++) {
             LocationData locationData = nextDatSetItem(problem, i);
             long id = idSequence.incrementAndGet();
-            Location to = randomizedLocation(id, locationData);
+            Location next = randomizedLocation(id, locationData);
 
             if (!locations.isEmpty()) {
-                Location from = locations.get(locations.size() - 1);
+                Location previous = locations.get(locations.size() - 1);
                 int tries = 0;
-                while (tries < MAX_TRIES && !isReachable(from, to)) {
+                while (tries < MAX_TRIES && !(isReachable(previous, next) && isReachable(next, previous))) {
                     tries++;
-                    logger.warn("Randomized location {} is unreachable.", to.fullDescription());
-                    to = randomizedLocation(id, locationData);
+                    logger.warn("Randomized location {} is unreachable.", next.fullDescription());
+                    next = randomizedLocation(id, locationData);
                 }
                 if (tries == MAX_TRIES) {
                     throw new RuntimeException("Impossible to create a new location near " + locationData
                             + " after " + tries + " attempts");
                 }
             }
-            String leftPadding = IntStream.range(Long.toString(to.id()).length(), Integer.toString(locationCount).length())
+            String leftPadding = IntStream.range(Long.toString(next.id()).length(), Integer.toString(locationCount).length())
                     .mapToObj(operand -> " ")
                     .collect(joining());
-            String rightPadding = IntStream.range(to.description().length(), maxDescriptionLength)
+            String rightPadding = IntStream.range(next.description().length(), maxDescriptionLength)
                     .mapToObj(operand -> " ")
                     .collect(joining());
-            logger.info("Generated randomized location {}{}{} {}.", leftPadding, to, rightPadding, to.coordinates());
-            locations.add(to);
+            logger.info("Generated randomized location {}{}{} {}.", leftPadding, next, rightPadding, next.coordinates());
+            locations.add(next);
         }
         return locations;
     }
