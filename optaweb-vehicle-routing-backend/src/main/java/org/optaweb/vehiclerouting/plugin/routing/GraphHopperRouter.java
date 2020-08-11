@@ -74,7 +74,7 @@ class GraphHopperRouter implements Router, DistanceCalculator, Region {
         GHResponse ghResponse = graphHopper.route(ghRequest);
         // TODO return wrapper that can hold both the result and error explanation instead of throwing exception
         if (ghResponse.hasErrors()) {
-            throw new DistanceCalculationException("No route", ghResponse.getErrors().get(0));
+            throw new DistanceCalculationException("No route from " + from + " to " + to, ghResponse.getErrors().get(0));
         }
         return ghResponse.getBest().getTime();
     }
