@@ -68,7 +68,7 @@ class PortableCoordinatesTest {
         assertThat(portableCoordinates.getLatitude()).isEqualTo(scaledDown.latitude());
         assertThat(portableCoordinates.getLongitude()).isEqualByComparingTo(scaledDown.longitude());
         // This would surprisingly fail because actual is -89 and expected is -89.0
-        //        assertThat(portableCoordinates.getLongitude()).isEqualTo(scaledDown.longitude());
+        // assertThat(portableCoordinates.getLongitude()).isEqualTo(scaledDown.longitude());
     }
 
     @Test
