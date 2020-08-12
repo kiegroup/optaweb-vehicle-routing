@@ -126,7 +126,7 @@ class WebSocketController {
      * 
      * @param id ID of the location to be deleted
      */
-    @MessageMapping({ "/location/{id}/delete" })
+    @MessageMapping("/location/{id}/delete")
     void removeLocation(@DestinationVariable long id) {
         locationService.removeLocation(id);
     }
@@ -148,7 +148,7 @@ class WebSocketController {
         vehicleService.removeAll();
     }
 
-    @MessageMapping({ "vehicle" })
+    @MessageMapping("vehicle")
     void addVehicle() {
         vehicleService.createVehicle();
     }
@@ -158,17 +158,17 @@ class WebSocketController {
      * 
      * @param id ID of the vehicle to be deleted
      */
-    @MessageMapping({ "/vehicle/{id}/delete" })
+    @MessageMapping("/vehicle/{id}/delete")
     void removeVehicle(@DestinationVariable long id) {
         vehicleService.removeVehicle(id);
     }
 
-    @MessageMapping({ "/vehicle/deleteAny" })
+    @MessageMapping("/vehicle/deleteAny")
     void removeAnyVehicle() {
         vehicleService.removeAnyVehicle();
     }
 
-    @MessageMapping({ "/vehicle/{id}/capacity" })
+    @MessageMapping("/vehicle/{id}/capacity")
     void changeCapacity(@DestinationVariable long id, int capacity) {
         vehicleService.changeCapacity(id, capacity);
     }
