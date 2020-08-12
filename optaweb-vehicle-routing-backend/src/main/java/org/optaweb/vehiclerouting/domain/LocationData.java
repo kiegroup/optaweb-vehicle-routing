@@ -30,6 +30,7 @@ public class LocationData {
 
     /**
      * Create location data.
+     * 
      * @param coordinates never {@code null}
      * @param description never {@code null}
      */
@@ -40,6 +41,7 @@ public class LocationData {
 
     /**
      * Location coordinates.
+     * 
      * @return coordinates (never {@code null})
      */
     public Coordinates coordinates() {
@@ -48,6 +50,7 @@ public class LocationData {
 
     /**
      * Location description.
+     * 
      * @return description (never {@code null})
      */
     public String description() {

@@ -110,6 +110,7 @@ class DistanceMatrixImpl implements DistanceMatrix {
 
     /**
      * Number of rows in the matrix.
+     * 
      * @return number of rows
      */
     public int dimension() {

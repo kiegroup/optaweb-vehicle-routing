@@ -16,6 +16,12 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.change;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
+
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -31,12 +37,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 
 @ExtendWith(MockitoExtension.class)
 class RemoveVehicleTest {
@@ -57,8 +57,7 @@ class RemoveVehicleTest {
         VehicleRoutingSolution solution = SolutionFactory.solutionFromVisits(
                 Arrays.asList(removedVehicle, otherVehicle),
                 depot,
-                Arrays.asList(firstVisit, lastVisit)
-        );
+                Arrays.asList(firstVisit, lastVisit));
 
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
         when(scoreDirector.lookUpWorkingObject(removedVehicle)).thenReturn(removedVehicle);
@@ -100,8 +99,7 @@ class RemoveVehicleTest {
         VehicleRoutingSolution solution = SolutionFactory.solutionFromVisits(
                 Arrays.asList(wrongVehicle),
                 depot,
-                Collections.emptyList()
-        );
+                Collections.emptyList());
 
         when(scoreDirector.getWorkingSolution()).thenReturn(solution);
         when(scoreDirector.lookUpWorkingObject(removedVehicle)).thenReturn(removedVehicle);

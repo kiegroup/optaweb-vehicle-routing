@@ -16,6 +16,10 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -25,10 +29,6 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.domain.VehicleData;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 class RoutingProblemListTest {
 
@@ -46,8 +46,7 @@ class RoutingProblemListTest {
         String name2 = "Problem B";
         RoutingProblemList routingProblemList = new RoutingProblemList(Arrays.asList(
                 new RoutingProblem(name1, vehicles, depot, visits),
-                new RoutingProblem(name2, vehicles, depot, visits)
-        ));
+                new RoutingProblem(name2, vehicles, depot, visits)));
 
         assertThat(routingProblemList.all()).extracting("name").containsExactlyInAnyOrder(name1, name2);
 

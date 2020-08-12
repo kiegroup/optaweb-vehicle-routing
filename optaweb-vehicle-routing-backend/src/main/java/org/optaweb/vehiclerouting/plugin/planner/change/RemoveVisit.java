@@ -61,8 +61,7 @@ public class RemoveVisit implements ProblemFactChange<VehicleRoutingSolution> {
                             + workingSolution.getVisitList()
                             + " doesn't contain the workingVisit ("
                             + workingVisit
-                            + "). This is a bug!"
-            );
+                            + "). This is a bug!");
         }
         scoreDirector.afterEntityRemoved(workingVisit);
 

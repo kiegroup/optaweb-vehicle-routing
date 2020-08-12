@@ -16,18 +16,19 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.boot.test.json.JacksonTester;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class PortableLocationTest {
 
@@ -35,8 +36,7 @@ class PortableLocationTest {
             987,
             BigDecimal.ONE,
             BigDecimal.TEN,
-            "Some Location"
-    );
+            "Some Location");
     private JacksonTester<PortableLocation> json;
 
     @BeforeEach
@@ -107,7 +107,6 @@ class PortableLocationTest {
                         String.valueOf(id),
                         lat1.toPlainString(),
                         lon1.toPlainString(),
-                        description
-                );
+                        description);
     }
 }

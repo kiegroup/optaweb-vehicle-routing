@@ -36,8 +36,7 @@ class PortableRoutingPlan {
             List<PortableVehicle> vehicles,
             PortableLocation depot,
             List<PortableLocation> visits,
-            List<PortableRoute> routes
-    ) {
+            List<PortableRoute> routes) {
         // TODO require non-null
         this.distance = distance;
         this.vehicles = vehicles;

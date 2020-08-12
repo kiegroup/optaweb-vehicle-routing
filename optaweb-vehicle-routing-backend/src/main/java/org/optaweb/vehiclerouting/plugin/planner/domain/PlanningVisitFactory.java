@@ -29,6 +29,7 @@ public class PlanningVisitFactory {
 
     /**
      * Create visit with {@link #DEFAULT_VISIT_DEMAND}.
+     * 
      * @param location visit's location
      * @return new visit with the default demand
      */
@@ -38,6 +39,7 @@ public class PlanningVisitFactory {
 
     /**
      * Create visit of a location with the given demand.
+     * 
      * @param location visit's location
      * @param demand visit's demand
      * @return visit with demand at the given location
@@ -52,6 +54,7 @@ public class PlanningVisitFactory {
 
     /**
      * Create a test visit with the given ID.
+     * 
      * @param id ID of the visit and its location
      * @return visit with an ID only
      */

@@ -16,11 +16,6 @@
 
 package org.optaweb.vehiclerouting.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
-
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
@@ -29,6 +24,11 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
 
 class RoutingPlanTest {
 
@@ -60,8 +60,7 @@ class RoutingPlanTest {
         List<List<Coordinates>> track = singletonList(singletonList(visit.coordinates()));
         RouteWithTrack routeWithTrack = new RouteWithTrack(new Route(vehicle, depot, singletonList(visit)), track);
         assertThatIllegalArgumentException().isThrownBy(() -> new RoutingPlan(
-                distance, vehicles, null, singletonList(visit), singletonList(routeWithTrack))
-        );
+                distance, vehicles, null, singletonList(visit), singletonList(routeWithTrack)));
     }
 
     @Test
@@ -113,9 +112,8 @@ class RoutingPlanTest {
                 asList(visit1, visit2),
                 singletonList(
                         // visit3 extra
-                        new RouteWithTrack(new Route(vehicle1, depot, asList(visit1, visit2, visit3)), nonEmptyTrack)
-                )
-        )).withMessageContaining(visit3.toString());
+                        new RouteWithTrack(new Route(vehicle1, depot, asList(visit1, visit2, visit3)), nonEmptyTrack))))
+                .withMessageContaining(visit3.toString());
 
         Location visit4 = new Location(104, Coordinates.valueOf(4, 4), "visit4");
         assertThatIllegalArgumentException().isThrownBy(() -> new RoutingPlan(
@@ -126,9 +124,8 @@ class RoutingPlanTest {
                 // visit3 missing, visit4 extra
                 asList(
                         new RouteWithTrack(new Route(vehicle1, depot, asList(visit1, visit4)), nonEmptyTrack),
-                        new RouteWithTrack(new Route(vehicle2, depot, singletonList(visit2)), nonEmptyTrack)
-                )
-        )).withMessageContaining(visit4.toString());
+                        new RouteWithTrack(new Route(vehicle2, depot, singletonList(visit2)), nonEmptyTrack))))
+                .withMessageContaining(visit4.toString());
     }
 
     @Test

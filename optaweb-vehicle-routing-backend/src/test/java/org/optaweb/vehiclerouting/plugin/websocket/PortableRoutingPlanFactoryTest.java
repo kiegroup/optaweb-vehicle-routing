@@ -16,6 +16,10 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -27,10 +31,6 @@ import org.optaweb.vehiclerouting.domain.RouteWithTrack;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
-import static org.assertj.core.api.Assertions.assertThat;
 
 class PortableRoutingPlanFactoryTest {
 
@@ -68,20 +68,17 @@ class PortableRoutingPlanFactoryTest {
 
         RouteWithTrack route1 = new RouteWithTrack(
                 new Route(vehicle1, location1, singletonList(location2)),
-                asList(segment12, segment21)
-        );
+                asList(segment12, segment21));
         RouteWithTrack route2 = new RouteWithTrack(
                 new Route(vehicle2, location1, singletonList(location3)),
-                asList(segment13, segment31)
-        );
+                asList(segment13, segment31));
 
         RoutingPlan routingPlan = new RoutingPlan(
                 distance,
                 asList(vehicle1, vehicle2),
                 location1,
                 asList(location2, location3),
-                asList(route1, route2)
-        );
+                asList(route1, route2));
 
         // act
         PortableRoutingPlan portableRoutingPlan = PortableRoutingPlanFactory.fromRoutingPlan(routingPlan);
@@ -94,15 +91,13 @@ class PortableRoutingPlanFactoryTest {
         // -- plan.visits
         assertThat(portableRoutingPlan.getVisits()).containsExactlyInAnyOrder(
                 PortableLocation.fromLocation(location2),
-                PortableLocation.fromLocation(location3)
-        );
+                PortableLocation.fromLocation(location3));
         // -- plan.routes
         assertThat(portableRoutingPlan.getRoutes()).hasSize(2);
         // -- plan.vehicles
         assertThat(portableRoutingPlan.getVehicles()).containsExactlyInAnyOrder(
                 PortableVehicle.fromVehicle(vehicle1),
-                PortableVehicle.fromVehicle(vehicle2)
-        );
+                PortableVehicle.fromVehicle(vehicle2));
 
         // -- plan.routes[1]
         PortableRoute portableRoute1 = portableRoutingPlan.getRoutes().get(0);
@@ -110,19 +105,16 @@ class PortableRoutingPlanFactoryTest {
         assertThat(portableRoute1.getVehicle()).isEqualTo(PortableVehicle.fromVehicle(vehicle1));
         assertThat(portableRoute1.getDepot()).isEqualTo(PortableLocation.fromLocation(location1));
         assertThat(portableRoute1.getVisits()).containsExactly(
-                PortableLocation.fromLocation(location2)
-        );
+                PortableLocation.fromLocation(location2));
         assertThat(portableRoute1.getTrack()).hasSize(2);
         assertThat(portableRoute1.getTrack().get(0)).containsExactly(
                 PortableCoordinates.fromCoordinates(location1.coordinates()),
                 PortableCoordinates.fromCoordinates(checkpoint12),
-                PortableCoordinates.fromCoordinates(location2.coordinates())
-        );
+                PortableCoordinates.fromCoordinates(location2.coordinates()));
         assertThat(portableRoute1.getTrack().get(1)).containsExactly(
                 PortableCoordinates.fromCoordinates(location2.coordinates()),
                 PortableCoordinates.fromCoordinates(checkpoint21),
-                PortableCoordinates.fromCoordinates(location1.coordinates())
-        );
+                PortableCoordinates.fromCoordinates(location1.coordinates()));
 
         // -- plan.routes[2]
         PortableRoute portableRoute2 = portableRoutingPlan.getRoutes().get(1);
@@ -130,18 +122,15 @@ class PortableRoutingPlanFactoryTest {
         assertThat(portableRoute2.getVehicle()).isEqualTo(PortableVehicle.fromVehicle(vehicle2));
         assertThat(portableRoute2.getDepot()).isEqualTo(PortableLocation.fromLocation(location1));
         assertThat(portableRoute2.getVisits()).containsExactly(
-                PortableLocation.fromLocation(location3)
-        );
+                PortableLocation.fromLocation(location3));
         assertThat(portableRoute2.getTrack()).hasSize(2);
         assertThat(portableRoute2.getTrack().get(0)).containsExactly(
                 PortableCoordinates.fromCoordinates(location1.coordinates()),
                 PortableCoordinates.fromCoordinates(checkpoint13),
-                PortableCoordinates.fromCoordinates(location3.coordinates())
-        );
+                PortableCoordinates.fromCoordinates(location3.coordinates()));
         assertThat(portableRoute2.getTrack().get(1)).containsExactly(
                 PortableCoordinates.fromCoordinates(location3.coordinates()),
                 PortableCoordinates.fromCoordinates(checkpoint31),
-                PortableCoordinates.fromCoordinates(location1.coordinates())
-        );
+                PortableCoordinates.fromCoordinates(location1.coordinates()));
     }
 }

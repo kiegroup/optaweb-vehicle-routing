@@ -16,6 +16,8 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +25,6 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.domain.Vehicle;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * Creates instances of {@link PortableRoutingPlan}.

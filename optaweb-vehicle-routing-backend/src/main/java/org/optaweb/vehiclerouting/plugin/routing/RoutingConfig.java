@@ -25,9 +25,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import com.graphhopper.reader.osm.GraphHopperOSM;
-import com.graphhopper.routing.util.EncodingManager;
-import com.graphhopper.routing.util.FlagEncoderFactory;
 import org.optaweb.vehiclerouting.Profiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +33,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+
+import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.routing.util.EncodingManager;
+import com.graphhopper.routing.util.FlagEncoderFactory;
 
 /**
  * Spring Bean producer that creates a GraphHopper instance and allows to configure the path to OSM file
@@ -64,6 +65,7 @@ class RoutingConfig {
 
     /**
      * Avoids creating real GraphHopper instance when running a @SpringBootTest.
+     * 
      * @return real GraphHopper
      */
     @Profile(Profiles.NOT_TEST)
@@ -85,8 +87,7 @@ class RoutingConfig {
                                     + " and no download URL was provided.\n"
                                     + "Download the OSM file from http://download.geofabrik.de/ first"
                                     + " or provide an OSM file URL"
-                                    + " using the app.routing.osm-download-url property."
-                    );
+                                    + " using the app.routing.osm-download-url property.");
                 }
                 downloadOsmFile(osmDownloadUrl, osmFile);
             }

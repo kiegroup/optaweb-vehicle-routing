@@ -16,12 +16,12 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
-import org.junit.jupiter.api.Test;
-import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
-
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
+import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 
 class SolutionFactoryTest {
 
@@ -46,8 +46,7 @@ class SolutionFactoryTest {
         VehicleRoutingSolution solutionWithDepot = SolutionFactory.solutionFromVisits(
                 singletonList(vehicle),
                 depot,
-                singletonList(visit)
-        );
+                singletonList(visit));
         assertThat(solutionWithDepot.getVehicleList()).containsExactly(vehicle);
         assertThat(vehicle.getDepot()).isEqualTo(depot);
         assertThat(solutionWithDepot.getDepotList()).containsExactly(depot);
@@ -58,8 +57,7 @@ class SolutionFactoryTest {
         VehicleRoutingSolution solutionWithNoDepot = SolutionFactory.solutionFromVisits(
                 singletonList(vehicle),
                 null,
-                emptyList()
-        );
+                emptyList());
         assertThat(solutionWithNoDepot.getDepotList()).isEmpty();
     }
 }

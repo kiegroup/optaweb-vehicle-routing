@@ -34,6 +34,7 @@ class RegionProperties {
 
     /**
      * Get country codes matching the loaded OSM file (working region).
+     * 
      * @return list of country codes (never {@code null})
      */
     public List<String> getCountryCodes() {

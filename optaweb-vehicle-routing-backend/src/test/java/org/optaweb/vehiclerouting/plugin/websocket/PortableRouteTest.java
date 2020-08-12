@@ -16,19 +16,20 @@
 
 package org.optaweb.vehiclerouting.plugin.websocket;
 
+import static java.util.Arrays.asList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.optaweb.vehiclerouting.plugin.websocket.PortableCoordinates.fromCoordinates;
+import static org.optaweb.vehiclerouting.plugin.websocket.PortableLocation.fromLocation;
+
 import java.io.IOException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.springframework.boot.test.json.JacksonTester;
 
-import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.optaweb.vehiclerouting.plugin.websocket.PortableCoordinates.fromCoordinates;
-import static org.optaweb.vehiclerouting.plugin.websocket.PortableLocation.fromLocation;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 class PortableRouteTest {
 
@@ -54,14 +55,10 @@ class PortableRouteTest {
                 asList(
                         asList(
                                 coordinates(42.65005, -71.88522),
-                                coordinates(42.64997, -71.88527)
-                        ),
+                                coordinates(42.64997, -71.88527)),
                         asList(
                                 coordinates(42.64994, -71.88537),
-                                coordinates(42.64994, -71.88542)
-                        )
-                )
-        );
+                                coordinates(42.64994, -71.88542))));
         assertThat(json.write(portableRoute)).isStrictlyEqualToJson("portable-route.json");
     }
 

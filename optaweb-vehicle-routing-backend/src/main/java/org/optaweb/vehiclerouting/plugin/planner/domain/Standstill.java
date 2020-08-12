@@ -24,12 +24,14 @@ public interface Standstill {
 
     /**
      * The standstill's location.
+     * 
      * @return never {@code null}
      */
     PlanningLocation getLocation();
 
     /**
      * The next visit after this standstill.
+     * 
      * @return sometimes {@code null}
      */
     @InverseRelationShadowVariable(sourceVariableName = "previousStandstill")

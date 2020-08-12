@@ -16,12 +16,12 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory.fromDomain;
+
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory.fromDomain;
 
 class PlanningVehicleFactoryTest {
 

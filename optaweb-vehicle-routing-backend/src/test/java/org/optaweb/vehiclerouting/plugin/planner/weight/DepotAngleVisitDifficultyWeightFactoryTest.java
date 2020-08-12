@@ -16,6 +16,12 @@
 
 package org.optaweb.vehiclerouting.plugin.planner.weight;
 
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.fromDomain;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -31,12 +37,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.plugin.planner.weight.DepotAngleVisitDifficultyWeightFactory.DepotAngleVisitDifficultyWeight;
-
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.fromDomain;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.fromLocation;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 
 class DepotAngleVisitDifficultyWeightFactoryTest {
 
@@ -63,8 +63,7 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
             double latitude,
             double longitude,
             long depotToLocation,
-            long locationToDepot
-    ) {
+            long locationToDepot) {
         depotDistanceMap.put(id, Distance.ofMillis(depotToLocation));
         Map<Long, Distance> locationDistanceMap = new HashMap<>();
         locationDistanceMap.put(depot.getId(), Distance.ofMillis(locationToDepot));
@@ -101,8 +100,7 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
         // E < NE < N < NW < W < SW < S < SE < E (-π → π)
         assertThat(Stream.of(north1, north2, center1, center2, west, sw1, south1, se1, east1, east2)
                 .map(this::weight)
-                .collect(toList())
-        ).isSorted();
+                .collect(toList())).isSorted();
 
         assertThat(weight(north1)).isLessThan(weight(north2));
         assertThat(weight(north2)).isGreaterThan(weight(north1));

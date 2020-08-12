@@ -19,8 +19,9 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.optaweb.vehiclerouting.domain.Route;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * Vehicle {@link Route route} representation convenient for marshalling.
@@ -37,8 +38,7 @@ class PortableRoute {
             PortableVehicle vehicle,
             PortableLocation depot,
             List<PortableLocation> visits,
-            List<List<PortableCoordinates>> track
-    ) {
+            List<List<PortableCoordinates>> track) {
         this.vehicle = Objects.requireNonNull(vehicle);
         this.depot = Objects.requireNonNull(depot);
         this.visits = Objects.requireNonNull(visits);

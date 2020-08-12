@@ -62,8 +62,7 @@ public class RemoveVehicle implements ProblemFactChange<VehicleRoutingSolution> 
                             + workingSolution.getVehicleList()
                             + " doesn't contain the workingVehicle ("
                             + workingVehicle
-                            + "). This is a bug!"
-            );
+                            + "). This is a bug!");
         }
         scoreDirector.afterProblemFactRemoved(workingVehicle);
 

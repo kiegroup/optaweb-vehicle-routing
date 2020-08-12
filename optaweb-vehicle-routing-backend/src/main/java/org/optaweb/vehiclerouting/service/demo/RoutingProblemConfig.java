@@ -16,6 +16,8 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
+import static java.util.stream.Collectors.toList;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -39,8 +41,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import static java.util.stream.Collectors.toList;
 
 @Configuration
 class RoutingProblemConfig {
@@ -66,8 +66,7 @@ class RoutingProblemConfig {
     private static Reader belgiumReader() {
         return new InputStreamReader(
                 DemoService.class.getResourceAsStream("belgium-cities.yaml"),
-                StandardCharsets.UTF_8
-        );
+                StandardCharsets.UTF_8);
     }
 
     private static boolean isReadableDir(Path path) {
@@ -81,8 +80,7 @@ class RoutingProblemConfig {
         if (!isReadableDir(dataSetDirPath)) {
             logger.warn(
                     "Data set directory '{}' doesn't exist or cannot be read. No external data sets will be loaded",
-                    dataSetDirPath.toAbsolutePath()
-            );
+                    dataSetDirPath.toAbsolutePath());
             return Collections.emptyList();
         }
 

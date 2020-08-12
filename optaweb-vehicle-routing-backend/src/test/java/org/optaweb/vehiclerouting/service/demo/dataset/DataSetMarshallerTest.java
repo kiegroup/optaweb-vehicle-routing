@@ -16,23 +16,6 @@
 
 package org.optaweb.vehiclerouting.service.demo.dataset;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.LocationData;
-import org.optaweb.vehiclerouting.domain.RoutingProblem;
-import org.optaweb.vehiclerouting.domain.VehicleData;
-import org.optaweb.vehiclerouting.domain.VehicleFactory;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.tuple;
@@ -43,6 +26,24 @@ import static org.mockito.Mockito.when;
 import static org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller.toDataSet;
 import static org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller.toDomain;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.LocationData;
+import org.optaweb.vehiclerouting.domain.RoutingProblem;
+import org.optaweb.vehiclerouting.domain.VehicleData;
+import org.optaweb.vehiclerouting.domain.VehicleFactory;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 class DataSetMarshallerTest {
 
     @Test
@@ -50,8 +51,7 @@ class DataSetMarshallerTest {
         DataSet dataSet;
         try (InputStream inputStream = DataSetMarshallerTest.class.getResourceAsStream("test-belgium.yaml")) {
             dataSet = new DataSetMarshaller().unmarshalToDataSet(
-                    new InputStreamReader(inputStream, StandardCharsets.UTF_8)
-            );
+                    new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         }
         assertThat(dataSet).isNotNull();
 
@@ -68,8 +68,7 @@ class DataSetMarshallerTest {
                 .containsExactlyInAnyOrder(
                         tuple("vehicle 1", 10),
                         tuple("vehicle 2", 12),
-                        tuple("vehicle 3", 1_000_000)
-                );
+                        tuple("vehicle 3", 1_000_000));
     }
 
     @Test
@@ -96,8 +95,7 @@ class DataSetMarshallerTest {
                         vehicle1.name,
                         vehicle2.name,
                         String.valueOf(vehicle1.capacity),
-                        String.valueOf(vehicle2.capacity)
-                );
+                        String.valueOf(vehicle2.capacity));
     }
 
     @Test

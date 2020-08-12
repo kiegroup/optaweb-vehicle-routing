@@ -16,15 +16,15 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
-
-import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toMap;
 
 /**
  * Utility class that holds a map of routing problem instances and allows to look them up by name.

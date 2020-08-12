@@ -16,6 +16,18 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.testLocation;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory.testVehicle;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
+import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,18 +43,6 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.springframework.context.ApplicationEventPublisher;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory.testLocation;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory.testVehicle;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
-import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
 
 @ExtendWith(MockitoExtension.class)
 class RouteChangedEventPublisherTest {
@@ -93,8 +93,7 @@ class RouteChangedEventPublisherTest {
         VehicleRoutingSolution solution = solutionFromVisits(
                 emptyList(),
                 new PlanningDepot(testLocation(depotId)),
-                singletonList(testVisit(visitId))
-        );
+                singletonList(testVisit(visitId)));
 
         RouteChangedEvent event = RouteChangedEventPublisher.solutionToEvent(solution, this);
 
@@ -123,14 +122,14 @@ class RouteChangedEventPublisherTest {
         VehicleRoutingSolution solution = solutionFromVisits(
                 asList(vehicle1, vehicle2),
                 depot,
-                asList(visit1, visit2)
-        );
+                asList(visit1, visit2));
 
-        /* Send both vehicles to both visits
+        /*
+         * Send both vehicles to both visits
          * V1
-         *   \
-         *    |---> visit1 ---> visit2
-         *   /
+         * \
+         * |---> visit1 ---> visit2
+         * /
          * V2
          */
         for (PlanningVehicle vehicle : solution.getVehicleList()) {
@@ -171,8 +170,7 @@ class RouteChangedEventPublisherTest {
         VehicleRoutingSolution solution = solutionFromVisits(
                 singletonList(vehicle),
                 new PlanningDepot(testLocation(1)),
-                singletonList(testVisit(3))
-        );
+                singletonList(testVisit(3)));
 
         assertThatIllegalArgumentException()
                 .isThrownBy(() -> RouteChangedEventPublisher.solutionToEvent(solution, this))

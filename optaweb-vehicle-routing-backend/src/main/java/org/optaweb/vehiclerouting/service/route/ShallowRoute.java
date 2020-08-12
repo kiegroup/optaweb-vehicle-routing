@@ -16,13 +16,13 @@
 
 package org.optaweb.vehiclerouting.service.route;
 
+import static java.util.stream.Collectors.joining;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.joining;
 
 // TODO maybe remove this once we fork planning domain from optaplanner-examples
 // because then we can hold a reference to the original location
@@ -52,6 +52,7 @@ public class ShallowRoute {
 
     /**
      * Create shallow route.
+     * 
      * @param vehicleId vehicle ID
      * @param depotId depot ID
      * @param visitIds visit IDs

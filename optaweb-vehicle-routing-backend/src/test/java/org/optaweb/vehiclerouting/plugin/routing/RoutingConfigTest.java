@@ -16,12 +16,12 @@
 
 package org.optaweb.vehiclerouting.plugin.routing;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+
 import java.nio.file.Path;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 class RoutingConfigTest {
 

@@ -16,11 +16,11 @@
 
 package org.optaweb.vehiclerouting.plugin.routing;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 class AirDistanceRouterTest {
 
