@@ -33,7 +33,7 @@
 
   <properties>
     <application.port>8180</application.port>
-    <!-- Override to run with Podman -->
+    <!-- Override to run with Podman. -->
     <container.runtime>docker</container.runtime>
     <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
     <test.osm.file>planet_12.032,53.0171_12.1024,53.0491.osm.pbf</test.osm.file>
@@ -51,7 +51,7 @@
       <artifactId>optaweb-vehicle-routing-frontend</artifactId>
       <type>war</type>
     </dependency>
-    <!-- Used by WebConfig -->
+    <!-- Used by WebConfig. -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
@@ -153,7 +153,7 @@
               </execution>
             </executions>
           </plugin>
-          <plugin> <!-- Start standalone JAR as a separate process -->
+          <plugin> <!-- Start standalone JAR as a separate process. -->
             <groupId>com.bazaarvoice.maven.plugins</groupId>
             <artifactId>process-exec-maven-plugin</artifactId>
             <version>0.9</version>
@@ -183,7 +183,7 @@
                   </arguments>
                 </configuration>
               </execution>
-              <!-- Kill all running processes -->
+              <!-- Kill all running processes. -->
               <execution>
                 <id>stop-running-processes</id>
                 <phase>post-integration-test</phase>
@@ -212,7 +212,7 @@
                   <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
                   <arguments>
                     <argument>run</argument>
-                    <argument>--network=host</argument> <!-- Cypress accesses UI running on the host -->
+                    <argument>--network=host</argument> <!-- Cypress accesses UI running on the host. -->
                     <argument>--volume</argument>
                     <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
                     <argument>--workdir</argument>
@@ -220,7 +220,7 @@
                     <argument>--entrypoint</argument>
                     <argument>cypress</argument>
                     <argument>cypress/included:${version.cypress.docker}</argument>
-                    <argument>run</argument> <!-- Executing cypress:run -->
+                    <argument>run</argument> <!-- Executing cypress:run. -->
                     <argument>--project</argument>
                     <argument>.</argument>
                     <argument>--config</argument>
