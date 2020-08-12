@@ -124,14 +124,12 @@ class RouteChangedEventPublisherTest {
                 depot,
                 asList(visit1, visit2));
 
-        /*
-         * Send both vehicles to both visits
-         * V1
-         * \
-         * |---> visit1 ---> visit2
-         * /
-         * V2
-         */
+        // Send both vehicles to both visits
+        // V1
+        //   \
+        //    |---> visit1 ---> visit2
+        //   /
+        // V2
         for (PlanningVehicle vehicle : solution.getVehicleList()) {
             vehicle.setNextVisit(visit1);
             visit1.setPreviousStandstill(vehicle);
