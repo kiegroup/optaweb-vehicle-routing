@@ -65,7 +65,7 @@
             </goals>
             <configuration>
               <backend>pdf</backend>
-              <sourceHighlighter>coderay</sourceHighlighter><!-- highlightjs does not work in PDF -->
+              <sourceHighlighter>coderay</sourceHighlighter><!-- highlightjs does not work in PDF. -->
               <outputDirectory>${project.build.directory}/generated-docs/pdf</outputDirectory>
               <outputFile>${project.artifactId}.pdf</outputFile>
             </configuration>
