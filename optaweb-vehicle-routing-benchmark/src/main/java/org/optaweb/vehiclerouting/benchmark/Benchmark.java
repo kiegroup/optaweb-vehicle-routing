@@ -65,7 +65,7 @@ public class Benchmark {
     }
 
     private void run() throws IOException {
-        StopWatch stopWatch = StopWatch.start();
+        StopWatch stopWatch = StopWatch.startWithFixedCapacity(dataset.size());
 
         dataset.forEach(location -> {
             distanceMatrix.addLocation(location);

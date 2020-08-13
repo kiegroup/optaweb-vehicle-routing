@@ -25,22 +25,30 @@ import java.util.List;
 class StopWatch {
 
     private final long startTime;
+    private final int maxLapCount;
     private long lastLap;
     private int lapCount = 0;
-    private final List<Lap> laps = new ArrayList<>(1010);
+    private final List<Lap> laps;
 
-    private StopWatch(long startTime) {
+    private StopWatch(long startTime, int maxLapCount) {
         this.startTime = startTime;
+        this.maxLapCount = maxLapCount;
         lastLap = startTime;
+        // Initialize the list to the expected lap count so that it can accommodate all of them without resizing the
+        // internal array.
+        laps = new ArrayList<>(maxLapCount);
     }
 
-    static StopWatch start() {
-        return new StopWatch(System.currentTimeMillis());
+    static StopWatch startWithFixedCapacity(int maxLapCount) {
+        return new StopWatch(System.currentTimeMillis(), maxLapCount);
     }
 
     void lap() {
         long now = System.currentTimeMillis();
         Lap lap = new Lap(++lapCount, now - lastLap, now - startTime);
+        if (lapCount > maxLapCount) {
+            throw new IllegalStateException("Stop watch capacity exceeded.");
+        }
         laps.add(lap);
         lastLap = now;
     }
