@@ -1,6 +1,6 @@
 = IDE Setup Instructions
 
-Before you start contributing, please follow the instructions below to setup a code style for an IDE of your choice.
+Before you start contributing, please follow the instructions below to set up a code style for an IDE of your choice.
 
 == Eclipse Setup
 
