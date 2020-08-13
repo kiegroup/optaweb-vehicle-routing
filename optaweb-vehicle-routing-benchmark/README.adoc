@@ -9,8 +9,17 @@ Measures distance matrix calculation for N locations using GraphHopper.
 
 [source]
 ----
-java -jar target/optaweb-vehicle-routing-benchmark-VERSION-exec.jar [LOCATION_COUNT] [OUTPUT_FILE_NAME]
+java [-Djava.util.concurrent.ForkJoinPool.common.parallelism=THREAD_COUNT] \
+-jar target/optaweb-vehicle-routing-benchmark-VERSION-exec.jar [LOCATION_COUNT] [OUTPUT_FILE_NAME]
 ----
+
+THREAD_COUNT::
+Optional argument specifying the number of threads to be used for parallel matrix calculation.
+It is specified as a system property `-Djava.util.concurrent.ForkJoinPool.common.parallelism=N`, where `N` is the number of threads.
+See https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html[java.util.concurrent.ForkJoinPool] for more details.
+* Recommended values: 1 - number of CPU cores on the testing machine.
+* Example: `-Djava.util.concurrent.ForkJoinPool.common.parallelism=16`
+* Defaults to the number of CPU cores if not specified.
 
 LOCATION_COUNT::
 Optional argument specifying the number of locations to add to the matrix.
