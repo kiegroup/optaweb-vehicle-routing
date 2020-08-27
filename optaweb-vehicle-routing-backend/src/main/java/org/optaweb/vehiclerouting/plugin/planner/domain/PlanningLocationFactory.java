@@ -30,7 +30,7 @@ public class PlanningLocationFactory {
     /**
      * Create planning location without a distance map. This location cannot be used for planning but can be used for
      * a problem fact change to remove a visit.
-     * 
+     *
      * @param location domain location
      * @return planning location without distance map
      */
@@ -40,7 +40,7 @@ public class PlanningLocationFactory {
 
     /**
      * Create planning location from a domain location and a distance map.
-     * 
+     *
      * @param location domain location
      * @param distanceMap distance map of this planning location
      * @return planning location
@@ -55,7 +55,7 @@ public class PlanningLocationFactory {
 
     /**
      * Create test location without distance map and coordinates. Coordinates will be initialized to zero.
-     * 
+     *
      * @param id location ID
      * @return planning location without distance map and coordinates
      */
@@ -65,7 +65,7 @@ public class PlanningLocationFactory {
 
     /**
      * Create test location with distance map and without coordinates. Coordinates will be initialized to zero.
-     * 
+     *
      * @param id location ID
      * @param distanceMap distance map
      * @return planning location with distance map and without coordinates

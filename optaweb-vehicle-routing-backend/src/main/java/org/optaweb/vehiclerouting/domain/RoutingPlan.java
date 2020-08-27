@@ -44,7 +44,7 @@ public class RoutingPlan {
 
     /**
      * Create a routing plan.
-     * 
+     *
      * @param distance the overall travel distance
      * @param vehicles all available vehicles
      * @param depot the depot (may be {@code null})
@@ -112,7 +112,7 @@ public class RoutingPlan {
 
     /**
      * Create an empty routing plan.
-     * 
+     *
      * @return empty routing plan
      */
     public static RoutingPlan empty() {
@@ -121,7 +121,7 @@ public class RoutingPlan {
 
     /**
      * Total distance traveled (sum of distances of all routes).
-     * 
+     *
      * @return travel distance
      */
     public Distance distance() {
@@ -130,7 +130,7 @@ public class RoutingPlan {
 
     /**
      * All available vehicles.
-     * 
+     *
      * @return all vehicles
      */
     public List<Vehicle> vehicles() {
@@ -139,7 +139,7 @@ public class RoutingPlan {
 
     /**
      * Routes of all vehicles in the depot. Includes empty routes of vehicles that stay in the depot.
-     * 
+     *
      * @return all routes (may be empty when there is no depot or no vehicles)
      */
     public List<RouteWithTrack> routes() {
@@ -148,7 +148,7 @@ public class RoutingPlan {
 
     /**
      * All visits that are part of the routing problem.
-     * 
+     *
      * @return all visits
      */
     public List<Location> visits() {
@@ -157,7 +157,7 @@ public class RoutingPlan {
 
     /**
      * The depot.
-     * 
+     *
      * @return depot (may be missing)
      */
     public Optional<Location> depot() {
@@ -166,7 +166,7 @@ public class RoutingPlan {
 
     /**
      * Routing plan is empty when there is no depot, no vehicles and no routes.
-     * 
+     *
      * @return {@code true} if the plan is empty
      */
     public boolean isEmpty() {

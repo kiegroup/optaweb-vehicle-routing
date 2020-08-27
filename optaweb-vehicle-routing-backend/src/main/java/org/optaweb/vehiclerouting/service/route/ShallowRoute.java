@@ -52,7 +52,7 @@ public class ShallowRoute {
 
     /**
      * Create shallow route.
-     * 
+     *
      * @param vehicleId vehicle ID
      * @param depotId depot ID
      * @param visitIds visit IDs

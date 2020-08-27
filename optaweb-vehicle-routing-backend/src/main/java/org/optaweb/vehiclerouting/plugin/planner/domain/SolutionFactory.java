@@ -32,7 +32,7 @@ public class SolutionFactory {
 
     /**
      * Create an empty solution. Empty solution has zero locations, depots, visits and vehicles and a zero score.
-     * 
+     *
      * @return empty solution
      */
     public static VehicleRoutingSolution emptySolution() {
@@ -52,7 +52,7 @@ public class SolutionFactory {
      * won't affect the collections given as arguments.
      * <p>
      * <strong><em>Elements of the argument collections are NOT cloned.</em></strong>
-     * 
+     *
      * @param vehicles vehicles
      * @param depot depot
      * @param visits visits

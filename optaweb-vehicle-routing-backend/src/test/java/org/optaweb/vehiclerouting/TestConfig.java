@@ -31,7 +31,7 @@ public class TestConfig {
 
     /**
      * Creates a GraphHopper mock that may be used when running a {@link SpringBootTest @SpringBootTest}.
-     * 
+     *
      * @return mock GraphHopper
      */
     @Bean
@@ -41,7 +41,7 @@ public class TestConfig {
 
     /**
      * Creates a mock route listener to avoid things like touching database and WebSocket.
-     * 
+     *
      * @return mock RouteListener
      */
     @Bean

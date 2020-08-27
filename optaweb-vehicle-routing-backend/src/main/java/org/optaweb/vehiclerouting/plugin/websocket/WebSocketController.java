@@ -42,7 +42,7 @@ import org.springframework.stereotype.Controller;
 
 /**
  * Handles WebSocket subscriptions and STOMP messages.
- * 
+ *
  * @see WebSocketConfig
  */
 @Controller
@@ -81,7 +81,7 @@ class WebSocketController {
 
     /**
      * Subscribe to server info topic.
-     * 
+     *
      * @return server info
      */
     @SubscribeMapping("/serverInfo")
@@ -100,7 +100,7 @@ class WebSocketController {
 
     /**
      * Subscribe for updates of the VRP route.
-     * 
+     *
      * @return route message
      */
     @SubscribeMapping("/route")
@@ -111,7 +111,7 @@ class WebSocketController {
 
     /**
      * Create new location.
-     * 
+     *
      * @param request new location description
      */
     @MessageMapping("/location")
@@ -123,7 +123,7 @@ class WebSocketController {
 
     /**
      * Delete location.
-     * 
+     *
      * @param id ID of the location to be deleted
      */
     @MessageMapping("/location/{id}/delete")
@@ -133,7 +133,7 @@ class WebSocketController {
 
     /**
      * Load a demo data set.
-     * 
+     *
      * @param name data set name
      */
     @MessageMapping("/demo/{name}")
@@ -155,7 +155,7 @@ class WebSocketController {
 
     /**
      * Delete vehicle.
-     * 
+     *
      * @param id ID of the vehicle to be deleted
      */
     @MessageMapping("/vehicle/{id}/delete")

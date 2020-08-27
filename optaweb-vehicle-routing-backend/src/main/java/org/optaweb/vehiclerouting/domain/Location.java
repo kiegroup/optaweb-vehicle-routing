@@ -35,7 +35,7 @@ public class Location extends LocationData {
 
     /**
      * Location's ID.
-     * 
+     *
      * @return unique ID
      */
     public long id() {

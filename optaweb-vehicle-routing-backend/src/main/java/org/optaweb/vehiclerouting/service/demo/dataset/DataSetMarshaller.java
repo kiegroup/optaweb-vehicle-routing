@@ -50,7 +50,7 @@ public class DataSetMarshaller {
 
     /**
      * Constructor for testing purposes.
-     * 
+     *
      * @param mapper usually a mock object mapper
      */
     DataSetMarshaller(ObjectMapper mapper) {
@@ -59,7 +59,7 @@ public class DataSetMarshaller {
 
     /**
      * Unmarshal routing problem from a reader.
-     * 
+     *
      * @param reader a reader
      * @return routing problem
      */
@@ -71,7 +71,7 @@ public class DataSetMarshaller {
 
     /**
      * Marshal routing problem to string.
-     * 
+     *
      * @param routingProblem routing problem
      * @return string containing the marshaled routing problem
      */

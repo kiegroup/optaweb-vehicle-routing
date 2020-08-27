@@ -40,7 +40,7 @@ public class Route {
 
     /**
      * Create a vehicle route.
-     * 
+     *
      * @param vehicle the vehicle assigned to this route (not {@code null})
      * @param depot vehicle's depot (not {@code null})
      * @param visits list of visits (not {@code null})
@@ -64,7 +64,7 @@ public class Route {
 
     /**
      * The vehicle assigned to this route.
-     * 
+     *
      * @return route's vehicle (never {@code null})
      */
     public Vehicle vehicle() {
@@ -73,7 +73,7 @@ public class Route {
 
     /**
      * Depot in which the route starts and ends.
-     * 
+     *
      * @return route's depot (never {@code null})
      */
     public Location depot() {
@@ -82,7 +82,7 @@ public class Route {
 
     /**
      * List of vehicle's visits (not including the depot).
-     * 
+     *
      * @return list of visits
      */
     public List<Location> visits() {

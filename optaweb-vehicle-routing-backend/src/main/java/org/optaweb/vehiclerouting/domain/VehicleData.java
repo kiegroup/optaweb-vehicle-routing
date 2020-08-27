@@ -33,7 +33,7 @@ public class VehicleData {
 
     /**
      * Vehicle's name (unique description).
-     * 
+     *
      * @return vehicle's name
      */
     public String name() {
@@ -42,7 +42,7 @@ public class VehicleData {
 
     /**
      * Vehicle's capacity.
-     * 
+     *
      * @return vehicle's capacity
      */
     public int capacity() {

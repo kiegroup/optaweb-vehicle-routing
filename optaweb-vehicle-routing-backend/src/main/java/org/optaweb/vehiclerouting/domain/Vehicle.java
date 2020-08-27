@@ -30,7 +30,7 @@ public class Vehicle extends VehicleData {
 
     /**
      * Vehicle's ID.
-     * 
+     *
      * @return unique ID
      */
     public long id() {

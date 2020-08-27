@@ -27,7 +27,7 @@ public class VehicleFactory {
 
     /**
      * Create vehicle data.
-     * 
+     *
      * @param name vehicle's name
      * @param capacity vehicle's capacity
      * @return vehicle data
@@ -38,7 +38,7 @@ public class VehicleFactory {
 
     /**
      * Create a new vehicle with the given ID, name and capacity.
-     * 
+     *
      * @param id vehicle's ID
      * @param name vehicle's name
      * @param capacity vehicle's capacity
@@ -50,7 +50,7 @@ public class VehicleFactory {
 
     /**
      * Create a vehicle with given ID and capacity of zero. The vehicle will have a non-empty name.
-     * 
+     *
      * @param id vehicle's ID
      * @return new testing vehicle instance
      */
