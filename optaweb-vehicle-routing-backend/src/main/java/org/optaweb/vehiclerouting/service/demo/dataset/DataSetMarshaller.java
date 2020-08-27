@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.Collections;
 import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
@@ -122,9 +123,15 @@ public class DataSetMarshaller {
     static RoutingProblem toDomain(DataSet dataSet) {
         return new RoutingProblem(
                 Optional.ofNullable(dataSet.getName()).orElse(""),
-                dataSet.getVehicles().stream().map(DataSetMarshaller::toDomain).collect(toList()),
+                Optional.ofNullable(dataSet.getVehicles()).orElse(Collections.emptyList())
+                        .stream()
+                        .map(DataSetMarshaller::toDomain)
+                        .collect(toList()),
                 Optional.ofNullable(dataSet.getDepot()).map(DataSetMarshaller::toDomain).orElse(null),
-                dataSet.getVisits().stream().map(DataSetMarshaller::toDomain).collect(toList()));
+                Optional.ofNullable(dataSet.getVisits()).orElse(Collections.emptyList())
+                        .stream()
+                        .map(DataSetMarshaller::toDomain)
+                        .collect(toList()));
     }
 
     static LocationData toDomain(DataSetLocation dataSetLocation) {
