@@ -69,9 +69,6 @@ public class VehicleData {
 
     @Override
     public String toString() {
-        return "VehicleData{" +
-                "name='" + name + '\'' +
-                ", capacity=" + capacity +
-                '}';
+        return name.isEmpty() ? "<noname>" : "'" + name + "'";
     }
 }

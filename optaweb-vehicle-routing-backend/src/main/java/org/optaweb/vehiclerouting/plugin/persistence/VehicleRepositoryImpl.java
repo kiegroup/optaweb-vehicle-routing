@@ -44,13 +44,17 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     public Vehicle createVehicle(int capacity) {
         long id = repository.save(new VehicleEntity(0, null, capacity)).getId();
         VehicleEntity vehicleEntity = repository.save(new VehicleEntity(id, "Vehicle " + id, capacity));
-        return toDomain(vehicleEntity);
+        Vehicle vehicle = toDomain(vehicleEntity);
+        logger.info("Created vehicle {}.", vehicle);
+        return vehicle;
     }
 
     @Override
     public Vehicle createVehicle(VehicleData vehicleData) {
         VehicleEntity vehicleEntity = repository.save(new VehicleEntity(0, vehicleData.name(), vehicleData.capacity()));
-        return toDomain(vehicleEntity);
+        Vehicle vehicle = toDomain(vehicleEntity);
+        logger.info("Created vehicle {}.", vehicle);
+        return vehicle;
     }
 
     @Override
@@ -67,7 +71,7 @@ public class VehicleRepositoryImpl implements VehicleRepository {
                 () -> new IllegalArgumentException("Vehicle{id=" + id + "} doesn't exist"));
         repository.deleteById(id);
         Vehicle vehicle = toDomain(vehicleEntity);
-        logger.info("Deleted {}", vehicle);
+        logger.info("Deleted vehicle {}.", vehicle);
         return vehicle;
     }
 

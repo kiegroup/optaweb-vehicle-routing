@@ -56,8 +56,6 @@ public class Vehicle extends VehicleData {
 
     @Override
     public String toString() {
-        return "Vehicle["
-                + id
-                + "]: '" + name() + "'";
+        return name().isEmpty() ? Long.toString(id) : (id + ": '" + name() + "'");
     }
 }
