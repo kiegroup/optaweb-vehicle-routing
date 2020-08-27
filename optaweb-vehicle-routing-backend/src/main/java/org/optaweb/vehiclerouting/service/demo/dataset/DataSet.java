@@ -16,7 +16,6 @@
 
 package org.optaweb.vehiclerouting.service.demo.dataset;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,23 +24,27 @@ import java.util.List;
 class DataSet {
 
     private String name;
-    private List<DataSetVehicle> vehicles = new ArrayList<>();
+    private List<DataSetVehicle> vehicles;
     private DataSetLocation depot;
-    private List<DataSetLocation> visits = new ArrayList<>();
+    private List<DataSetLocation> visits;
 
     /**
      * Data set name (a short description).
      *
-     * @return data set name
+     * @return data set name (may be {@code null})
      */
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     /**
      * Vehicles.
      *
-     * @return vehicles
+     * @return vehicles (may be {@code null})
      */
     public List<DataSetVehicle> getVehicles() {
         return vehicles;
@@ -51,14 +54,10 @@ class DataSet {
         this.vehicles = vehicles;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     /**
      * The depot.
      *
-     * @return the depot
+     * @return the depot (may be {@code null})
      */
     public DataSetLocation getDepot() {
         return depot;
@@ -71,7 +70,7 @@ class DataSet {
     /**
      * Visits.
      *
-     * @return visits
+     * @return visits (may be {@code null})
      */
     public List<DataSetLocation> getVisits() {
         return visits;
