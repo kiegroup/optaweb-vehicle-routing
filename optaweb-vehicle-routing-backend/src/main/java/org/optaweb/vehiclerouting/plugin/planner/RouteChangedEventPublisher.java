@@ -53,7 +53,7 @@ class RouteChangedEventPublisher {
 
     /**
      * Publish solution as a {@link RouteChangedEvent}.
-     * 
+     *
      * @param solution solution
      */
     void publishSolution(VehicleRoutingSolution solution) {
@@ -71,7 +71,7 @@ class RouteChangedEventPublisher {
 
     /**
      * Convert a planning domain solution to an event that can be published.
-     * 
+     *
      * @param solution solution
      * @param source source of the event
      * @return new event describing the solution
@@ -96,7 +96,7 @@ class RouteChangedEventPublisher {
 
     /**
      * Extract routes from the solution. Includes empty routes of vehicles that stay in the depot.
-     * 
+     *
      * @param solution solution
      * @return one route per vehicle
      */
@@ -126,7 +126,7 @@ class RouteChangedEventPublisher {
 
     /**
      * Get IDs of vehicles in the solution.
-     * 
+     *
      * @param solution the solution
      * @return vehicle IDs
      */
@@ -138,7 +138,7 @@ class RouteChangedEventPublisher {
 
     /**
      * Get solution's depot ID.
-     * 
+     *
      * @param solution the solution in which to look for the depot
      * @return first depot ID from the solution or {@code null} if there are no depots
      */

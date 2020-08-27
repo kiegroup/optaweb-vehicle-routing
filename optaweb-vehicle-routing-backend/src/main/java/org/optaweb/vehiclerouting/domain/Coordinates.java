@@ -34,7 +34,7 @@ public class Coordinates {
 
     /**
      * Create coordinates from the given latitude in longitude.
-     * 
+     *
      * @param latitude latitude
      * @param longitude longitude
      * @return coordinates with the given latitude and longitude
@@ -45,7 +45,7 @@ public class Coordinates {
 
     /**
      * Latitude.
-     * 
+     *
      * @return latitude (never {@code null})
      */
     public BigDecimal latitude() {
@@ -54,7 +54,7 @@ public class Coordinates {
 
     /**
      * Longitude.
-     * 
+     *
      * @return longitude (never {@code null})
      */
     public BigDecimal longitude() {

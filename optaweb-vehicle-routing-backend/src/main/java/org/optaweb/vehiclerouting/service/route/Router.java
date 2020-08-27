@@ -27,7 +27,7 @@ public interface Router {
 
     /**
      * Get path between two locations.
-     * 
+     *
      * @param from starting location
      * @param to destination
      * @return list of coordinates describing the path between given locations.

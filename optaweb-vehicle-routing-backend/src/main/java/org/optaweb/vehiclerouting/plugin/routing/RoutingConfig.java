@@ -65,7 +65,7 @@ class RoutingConfig {
 
     /**
      * Avoids creating real GraphHopper instance when running a @SpringBootTest.
-     * 
+     *
      * @return real GraphHopper
      */
     @Profile(Profiles.NOT_TEST)

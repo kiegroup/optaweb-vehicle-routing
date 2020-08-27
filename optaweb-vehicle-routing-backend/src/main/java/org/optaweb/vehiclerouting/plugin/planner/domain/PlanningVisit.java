@@ -105,7 +105,7 @@ public class PlanningVisit implements Standstill {
      * beginning with a vehicle (at a depot) and ending with the {@link #isLast() last} visit.
      * The chain ends with a visit, not a depot so the cost of returning from the last visit back to the depot
      * has to be added in a separate step using {@link #distanceToDepot()}.
-     * 
+     *
      * @return distance from previous standstill to this visit
      */
     public long distanceFromPreviousStandstill() {
@@ -118,7 +118,7 @@ public class PlanningVisit implements Standstill {
 
     /**
      * Distance from this visit back to the depot.
-     * 
+     *
      * @return distance from this visit back its vehicle's depot
      */
     public long distanceToDepot() {
@@ -127,7 +127,7 @@ public class PlanningVisit implements Standstill {
 
     /**
      * Whether this visit is the last in a chain.
-     * 
+     *
      * @return true, if this visit has no {@link #getNextVisit() next} visit
      */
     public boolean isLast() {

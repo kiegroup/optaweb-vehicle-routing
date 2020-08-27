@@ -29,7 +29,7 @@ public interface VehicleRepository {
 
     /**
      * Create a vehicle with a unique ID.
-     * 
+     *
      * @param capacity vehicle's capacity
      * @return a new vehicle
      */
@@ -37,7 +37,7 @@ public interface VehicleRepository {
 
     /**
      * Create a vehicle from the given data.
-     * 
+     *
      * @param vehicleData vehicle data
      * @return a new vehicle
      */
@@ -45,14 +45,14 @@ public interface VehicleRepository {
 
     /**
      * Get all vehicles.
-     * 
+     *
      * @return all vehicles
      */
     List<Vehicle> vehicles();
 
     /**
      * Remove a vehicle with the given ID.
-     * 
+     *
      * @param id vehicle's ID
      * @return the removed vehicle
      */
@@ -65,7 +65,7 @@ public interface VehicleRepository {
 
     /**
      * Find a vehicle by its ID.
-     * 
+     *
      * @param vehicleId vehicle's ID
      * @return an Optional containing vehicle with the given ID or empty Optional if there is no vehicle with such ID
      */

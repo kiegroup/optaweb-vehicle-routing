@@ -41,7 +41,7 @@ class DataSetLocation {
 
     /**
      * Location label.
-     * 
+     *
      * @return label
      */
     public String getLabel() {
@@ -54,7 +54,7 @@ class DataSetLocation {
 
     /**
      * Latitude.
-     * 
+     *
      * @return latitude
      */
     public double getLatitude() {
@@ -67,7 +67,7 @@ class DataSetLocation {
 
     /**
      * Longitude.
-     * 
+     *
      * @return longitude
      */
     public double getLongitude() {

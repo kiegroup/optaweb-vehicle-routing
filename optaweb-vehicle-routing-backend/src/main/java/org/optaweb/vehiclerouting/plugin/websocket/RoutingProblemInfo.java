@@ -35,7 +35,7 @@ class RoutingProblemInfo {
 
     /**
      * Routing problem instance name.
-     * 
+     *
      * @return name
      */
     public String getName() {
@@ -44,7 +44,7 @@ class RoutingProblemInfo {
 
     /**
      * Number of visits in the routing problem instance.
-     * 
+     *
      * @return number of visits
      */
     public int getVisits() {

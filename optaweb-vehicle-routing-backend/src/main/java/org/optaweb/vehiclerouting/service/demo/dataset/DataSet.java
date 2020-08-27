@@ -31,7 +31,7 @@ class DataSet {
 
     /**
      * Data set name (a short description).
-     * 
+     *
      * @return data set name
      */
     public String getName() {
@@ -40,7 +40,7 @@ class DataSet {
 
     /**
      * Vehicles.
-     * 
+     *
      * @return vehicles
      */
     public List<DataSetVehicle> getVehicles() {
@@ -57,7 +57,7 @@ class DataSet {
 
     /**
      * The depot.
-     * 
+     *
      * @return the depot
      */
     public DataSetLocation getDepot() {
@@ -70,7 +70,7 @@ class DataSet {
 
     /**
      * Visits.
-     * 
+     *
      * @return visits
      */
     public List<DataSetLocation> getVisits() {

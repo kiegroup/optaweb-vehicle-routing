@@ -39,7 +39,7 @@ public class CountryCodeValidator {
 
     /**
      * Validates the list of country codes and returns a normalized copy.
-     * 
+     *
      * @param countryCodes input list
      * @return normalized copy of the input list converted to upper case and without duplicates
      * @throws NullPointerException if the list is {@code null} or if any of its elements is {@code null}

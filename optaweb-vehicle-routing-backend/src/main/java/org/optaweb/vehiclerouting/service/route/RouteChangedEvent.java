@@ -38,7 +38,7 @@ public class RouteChangedEvent extends ApplicationEvent {
 
     /**
      * Create a new ApplicationEvent.
-     * 
+     *
      * @param source the object on which the event initially occurred (never {@code null})
      * @param distance total distance of all vehicle routes
      * @param vehicleIds vehicle IDs
@@ -63,7 +63,7 @@ public class RouteChangedEvent extends ApplicationEvent {
 
     /**
      * IDs of all vehicles.
-     * 
+     *
      * @return vehicle IDs
      */
     public List<Long> vehicleIds() {
@@ -72,7 +72,7 @@ public class RouteChangedEvent extends ApplicationEvent {
 
     /**
      * Routes of all vehicles.
-     * 
+     *
      * @return vehicle routes
      */
     public Collection<ShallowRoute> routes() {
@@ -81,7 +81,7 @@ public class RouteChangedEvent extends ApplicationEvent {
 
     /**
      * Routing plan distance.
-     * 
+     *
      * @return distance (never {@code null})
      */
     public Distance distance() {
@@ -90,7 +90,7 @@ public class RouteChangedEvent extends ApplicationEvent {
 
     /**
      * The depot ID.
-     * 
+     *
      * @return depot ID
      */
     public Optional<Long> depotId() {
