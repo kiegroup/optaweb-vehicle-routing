@@ -23,7 +23,7 @@ jobs:
           docker rmi $(docker image ls -aq)
       - name: Build Chain ${{ matrix.java-version }}
         id: build-chain
-        uses: kiegroup/github-action-build-chain@du_test
+        uses: kiegroup/github-action-build-chain@v1.4
         with:
           parent-dependencies: 'optaweb-employee-rostering'
           child-dependencies: 'kie-wb-distributions'
