@@ -145,6 +145,7 @@ exports[`Route Map should pan and zoom to show bounding box if viewport is not d
     color="deepskyblue"
     fill={false}
     key="0"
+    opacity={0.6666}
     positions={
       Array [
         Array [
@@ -157,6 +158,8 @@ exports[`Route Map should pan and zoom to show bounding box if viewport is not d
         ],
       ]
     }
+    smoothFactor={3}
+    weight={9}
   />
   <ForwardRef(Leaflet(Rectangle))
     bounds={
@@ -224,7 +227,10 @@ exports[`Route Map should show the whole world when bounding box is null 1`] = `
     color="deepskyblue"
     fill={false}
     key="0"
+    opacity={0.6666}
     positions={Array []}
+    smoothFactor={3}
+    weight={9}
   />
 </Map>
 `;
