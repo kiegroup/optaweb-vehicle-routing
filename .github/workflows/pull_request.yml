@@ -15,6 +15,12 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java-version }}
+      - name: free disk space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          docker rmi $(docker image ls -aq)
       - name: Build Chain ${{ matrix.java-version }}
         id: build-chain
         uses: kiegroup/github-action-build-chain@du_test
