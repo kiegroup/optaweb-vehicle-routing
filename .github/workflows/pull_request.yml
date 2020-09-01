@@ -15,6 +15,10 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.java-version }}
+      - name: get maven info
+        run: |
+          mvn --version
+          ls /home/runner/.m2/repository
       - name: free disk space
         run: |
           sudo swapoff -a
