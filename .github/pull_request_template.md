@@ -1,25 +1,34 @@
-**Thank you for submitting this pull request**
+<!--
+Thank you for submitting this pull request.
 
-**JIRA**: _(please edit the JIRA link if it exists)_ 
+Please provide all relevant information as outlined below. Feel free to delete
+a section if that type of information is not available.
+-->
 
-[link](https://www.example.com)
+### JIRA
 
-**referenced Pull Requests**: _(please edit the URLs of referenced pullrequests if they exist)_
+<!-- Add a JIRA ticket link if it exists. -->
+<!-- Example: https://issues.redhat.com/browse/PLANNER-1234 -->
 
-* paste the link(s) from GitHub here
-* link 2
-* link 3 etc.
+### Referenced pull requests
 
-<pre>
-How to retest a PR or trigger a specific build:
+<!-- Add URLs of all referenced pull requests if they exist. This is only required when making
+changes that span multiple kiegroup repositories and depend on each other. -->
+<!-- Example:
+* https://github.com/kiegroup/droolsjbpm-build-bootstrap/pull/1234
+* https://github.com/kiegroup/drools/pull/3000
+* https://github.com/kiegroup/optaplanner/pull/899
+* etc.
+-->
 
-* <b>a pull request</b> please add comment: <b>Jenkins retest this</b>
- 
-* <b>a full downstream build</b> please add comment: <b>Jenkins run fdb</b>
-  
-* <b>a compile downstream build</b> please  add comment: <b>Jenkins run cdb</b>
+<details>
+<summary>
+How to retest this PR or trigger a specific build:
+</summary>
 
-* <b>a full production downstream build</b> please add comment: <b>Jenkins execute product fdb</b>
-
-* <b>an upstream build</b> please add comment: <b>Jenkins run upstream</b>
-</pre>
+* for a <b>pull request build</b> please add comment: <b>Jenkins retest this</b>
+* for a <b>full downstream build</b> please add comment: <b>Jenkins run fdb</b>
+* for a <b>compile downstream build</b> please add comment: <b>Jenkins run cdb</b>
+* for a <b>full production downstream build</b> please add comment: <b>Jenkins execute product fdb</b>
+* for an <b>upstream build</b> please add comment: <b>Jenkins run upstream</b>
+</details>
