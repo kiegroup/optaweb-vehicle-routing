@@ -80,11 +80,11 @@ const mapStateToProps = ({ plan, demo, serverInfo, userViewport }: AppState): St
   routes: plan.routes,
   isDemoLoading: demo.isLoading,
   boundingBox: serverInfo.boundingBox,
-  userViewport,
   countryCodeSearchFilter: serverInfo.countryCodes,
   // TODO use selector
   // TODO sort demos alphabetically?
   demoNames: (serverInfo.demos && serverInfo.demos.map((value) => value.name)) || [],
+  userViewport,
 });
 
 const mapDispatchToProps: DispatchProps = {
