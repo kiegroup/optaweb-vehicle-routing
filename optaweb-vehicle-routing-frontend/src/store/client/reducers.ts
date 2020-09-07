@@ -25,7 +25,9 @@ export const initialViewportState: UserViewport = {
 export const clientReducer = (state = initialViewportState, action: ViewportAction): UserViewport => {
   switch (action.type) {
     case ActionType.UPDATE_VIEWPORT: {
-      if (!action.value || !action.value.zoom || !action.value.center) return state;
+      if (!action.value || !action.value.zoom || !action.value.center) {
+        return state;
+      }
       return { isDirty: true, zoom: action.value.zoom, center: action.value.center };
     }
     case ActionType.RESET_VIEWPORT: {
