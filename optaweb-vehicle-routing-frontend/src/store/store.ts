@@ -55,10 +55,6 @@ export function configureStore(
     userViewport: clientReducer,
   });
 
-  /* if (process.env.NODE_ENV !== 'production' && module.hot) {
-    module.hot.accept('./reducers', () => store.replaceReducer(rootReducer));
-  } */
-
   return createStore(
     rootReducer,
     preloadedState,
