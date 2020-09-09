@@ -63,7 +63,7 @@
     "@types/sockjs-client": "^1.1.1",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
-    "cypress": "^4.7.0",
+    "cypress": "^4.12.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.4.4",
