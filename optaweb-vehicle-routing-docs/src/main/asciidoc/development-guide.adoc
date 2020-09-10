@@ -88,7 +88,7 @@ See https://www.jetbrains.com/help/idea/compiling-applications.html[Compile and 
 
 . Run `org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication`.
 This will create a run configuration that you will edit in the next step.
-.. Open the `OptaWebVehicleRoutingApplication` class in the _Editor_ window.
+.. Open the `OptaWebVehicleRoutingApplication` class in the editor.
 .. Click the green symbol in the editor window gutter and select *Run 'OptaWebVehicleRoutingApplication'*.
 +
 // TODO remove this or change it to "if the run fails, set working directory to...", when the instructions to fill in application-local.properties are added.
