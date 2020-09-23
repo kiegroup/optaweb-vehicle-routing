@@ -31,7 +31,7 @@ jobs:
         uses: kiegroup/github-action-build-chain@v1.4
         with:
           parent-dependencies: 'optaweb-employee-rostering'
-          child-dependencies: 'kie-wb-distributions'
+          child-dependencies: 'kie-wb-distributions@7.x:master'
           build-command: |
             mvn -e -nsu -Dfull -Pwildfly install -Prun-code-coverage  -Dcontainer.profile=wildfly -Dcontainer=wildfly -Dintegration-tests=true -Dmaven.test.failure.ignore=true
           build-command-upstream: |
