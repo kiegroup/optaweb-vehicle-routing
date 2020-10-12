@@ -25,14 +25,8 @@ pipeline {
                 script {
                     mailer.buildLogScriptPR()
 
-                    checkoutRepo('optaplanner')
                     checkoutRepo('optaweb-vehicle-routing')
                 }
-            }
-        }
-        stage('Build OptaPlanner skipping tests') {
-            steps {
-                mavenCleanInstall("optaplanner", true, [])
             }
         }
         stage('Build Optaweb Vehicle Routing') {
