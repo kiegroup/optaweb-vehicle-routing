@@ -28,7 +28,7 @@ jobs:
           docker rmi $(docker image ls -aq)
       - name: Build Chain ${{ matrix.java-version }}
         id: build-chain
-        uses: kiegroup/github-action-build-chain@V2.1
+        uses: kiegroup/github-action-build-chain@v2.1
         with:
           definition-file: https://raw.githubusercontent.com/${GROUP}/droolsjbpm-build-bootstrap/${BRANCH}/.ci/pull-request-config.yaml
         env:
