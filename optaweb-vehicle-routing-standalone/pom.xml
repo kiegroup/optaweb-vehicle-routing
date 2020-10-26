@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.optaweb.vehiclerouting</groupId>
     <artifactId>optaweb-vehicle-routing</artifactId>
-    <version>7.44.0-SNAPSHOT</version>
+    <version>8.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>optaweb-vehicle-routing-standalone</artifactId>
@@ -59,6 +59,17 @@
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <configuration>
+            <skip>true</skip>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -71,6 +82,7 @@
               <goal>unpack</goal>
             </goals>
             <configuration>
+              <skip>false</skip>
               <artifactItems>
                 <artifactItem>
                   <groupId>org.optaweb.vehiclerouting</groupId>
@@ -87,6 +99,7 @@
               <goal>unpack</goal>
             </goals>
             <configuration>
+              <skip>false</skip>
               <artifactItems>
                 <artifactItem>
                   <groupId>org.optaweb.vehiclerouting</groupId>
