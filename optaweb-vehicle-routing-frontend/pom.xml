@@ -48,7 +48,6 @@
           <configuration>
             <nodeVersion>${version.node}</nodeVersion>
             <npmVersion>${version.npm}</npmVersion>
-            <yarnVersion>${version.yarn}</yarnVersion>
           </configuration>
         </plugin>
       </plugins>
