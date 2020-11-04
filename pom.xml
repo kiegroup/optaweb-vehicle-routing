@@ -50,6 +50,8 @@
     <impsort.goal>sort</impsort.goal>
     <!-- Define JaCoCo agent argLine property to avoid Surefire failure when JaCoCo is not enabled. -->
     <jacoco.agent.argLine/>
+    <!-- Override the projectKey inherited from the optaplanner-parent. -->
+    <sonar.projectKey>${groupId}:${artifactId}</sonar.projectKey>
     <version.frontend-maven-plugin>1.10.0</version.frontend-maven-plugin>
     <version.com.h2database>1.4.199</version.com.h2database>
     <version.com.graphhopper>0.13.0-pre13</version.com.graphhopper>
