@@ -285,11 +285,6 @@
       </build>
     </profile>
 
-    <!--
-      To move the coverage measurement from Travis to Jenkins, add the repository name to
-      SONARCLOUD_ENABLED_REPOSITORIES in
-      https://github.com/kiegroup/kie-jenkins-scripts/blob/master/job-dsls/jobs/pr_jobs.groovy.
-    -->
     <profile>
       <id>run-code-coverage</id> <!-- Do not change. This exact ID is used in Jenkins jobs. -->
       <build>
