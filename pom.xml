@@ -48,8 +48,6 @@
     <formatter.skip>false</formatter.skip>
     <formatter.goal>format</formatter.goal>
     <impsort.goal>sort</impsort.goal>
-    <!-- Define JaCoCo agent argLine property to avoid Surefire failure when JaCoCo is not enabled. -->
-    <jacoco.agent.argLine/>
     <version.frontend-maven-plugin>1.10.0</version.frontend-maven-plugin>
     <version.com.h2database>1.4.199</version.com.h2database>
     <version.com.graphhopper>0.13.0-pre13</version.com.graphhopper>
@@ -123,27 +121,6 @@
           <groupId>org.springframework.boot</groupId>
           <artifactId>spring-boot-maven-plugin</artifactId>
           <version>${version.org.springframework.boot}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.jacoco</groupId>
-          <artifactId>jacoco-maven-plugin</artifactId>
-          <executions>
-            <execution>
-              <id>jacoco-prepare-agent</id>
-              <goals>
-                <goal>prepare-agent</goal>
-              </goals>
-              <configuration>
-                <propertyName>jacoco.agent.argLine</propertyName>
-              </configuration>
-            </execution>
-            <execution>
-              <id>jacoco-generate-report</id>
-              <goals>
-                <goal>report</goal>
-              </goals>
-            </execution>
-          </executions>
         </plugin>
         <plugin>
           <groupId>net.revelc.code.formatter</groupId>
