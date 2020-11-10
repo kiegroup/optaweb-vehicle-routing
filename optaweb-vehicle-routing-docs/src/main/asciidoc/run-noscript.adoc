@@ -57,7 +57,7 @@ $HOME/{data-dir-name}
 .Prerequisites
 * Internet access is available.
 When OptaWeb Vehicle Routing runs it uses third-party public services such as link:https://www.openstreetmap.org/about[OpenStreetMap] to display map tiles and provide search results.
-* Java 8 or higher is installed.
+* Java 11 or higher is installed.
 * The data directory is created at `$HOME/{data-dir-name}`.
 * A subdirectory called `openstreetmap` with at least one OSM file exists.
 * A country code to use in search queries is identified.

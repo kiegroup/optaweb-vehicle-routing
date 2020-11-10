@@ -156,9 +156,8 @@
         <configuration>
           <compilerArgs>
             <!--
-              Visit https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javac.html
-              to learn more about javac warnings.
-             -->
+              Visit https://docs.oracle.com/en/java/javase/11/tools/javac.html to learn more about javac warnings.
+            -->
             <arg>-Xlint:all</arg>
             <arg>-Xlint:-processing</arg>
             <arg>-Xlint:-serial</arg>

@@ -20,7 +20,7 @@ To use the quickstart mode, run the script with no arguments.
 .Prerequisites
 * `optaweb-vehicle-routing` repository is cloned on your computer.
 * Internet access is available.
-* Java 8 or higher is installed.
+* Java 11 or higher is installed.
 
 .Procedure
 . Change directory to the project root.
