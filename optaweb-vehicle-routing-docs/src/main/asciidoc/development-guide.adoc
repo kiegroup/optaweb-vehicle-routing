@@ -57,7 +57,7 @@ To learn more about the back end code architecture, see <<appendix-backend-archi
 === Running the back end using Spring Boot Maven plugin
 
 .Prerequisites
-- Java 8 or higher is <<quickstart#install-java,installed>>.
+- Java 11 or higher is <<quickstart#install-java,installed>>.
 - The data directory is set up.
 - An OSM file is downloaded.
 // TODO application-local.properties
