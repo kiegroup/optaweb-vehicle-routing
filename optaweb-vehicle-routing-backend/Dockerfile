@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM adoptopenjdk/openjdk8:ubi-minimal-jre
+FROM docker.io/adoptopenjdk/openjdk15:ubi-minimal-jre
 ENV APP_ROUTING_ENGINE air
 COPY target/*-exec.jar /opt/app/optaweb-vehicle-routing.jar
 WORKDIR /opt/app
