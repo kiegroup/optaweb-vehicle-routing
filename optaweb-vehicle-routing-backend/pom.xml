@@ -90,13 +90,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
-      <exclusions>
-        <!-- Needed because kie-parent depends on hamcrest-core. -->
-        <exclusion>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -214,9 +207,9 @@
               </dependency>
             </dependencies>
             <!--
-              kie-parent contains Pitest configuration that doesn't work well for this project and it's not possible
-              to change it without a complete override (combine.self="override"), for example excludedClasses,
-              timeoutConstant.
+              optaplanner-build-parent contains Pitest configuration that doesn't work well for this project
+              and it's not possible to change it without a complete override (combine.self="override"),
+              for example excludedClasses, timeoutConstant.
             -->
             <configuration>
               <reportsDirectory>local/pit-reports</reportsDirectory>
