@@ -6,7 +6,7 @@ jobs:
   build-chain:
     strategy:
       matrix:
-        java-version: [11, 15]
+        java-version: [11]
       fail-fast: false
     runs-on: ubuntu-latest
     name: Maven Build
