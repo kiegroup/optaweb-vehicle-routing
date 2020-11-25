@@ -43,7 +43,6 @@
   </modules>
 
   <properties>
-    <maven.compiler.release>11</maven.compiler.release>
     <version.frontend-maven-plugin>1.10.0</version.frontend-maven-plugin>
     <version.com.h2database>1.4.199</version.com.h2database>
     <version.com.graphhopper>0.13.0-pre13</version.com.graphhopper>
