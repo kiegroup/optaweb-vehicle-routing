@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Abort script if any simple command outside an if, while, &&, ||, etc. exists with a nonzero code.
+# Abort the script if any simple command outside an if, while, &&, ||, etc. exits with a non-zero status.
 set -e
 # If dir is empty, dir/* will expand to "" instead of "dir/*". This is useful when reading regions in interactive() and
 # either openstreetmap or graphhopper dir is empty.
