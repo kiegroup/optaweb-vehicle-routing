@@ -39,7 +39,7 @@ to learn more about the `runLocally.sh` script.
 
 === Getting started video
 
-The following https://youtu.be/rEeAML74oWo?t=67[video] shows how to download the OptaPlanner Vehicle Routing distribution and run it using the `runLocally.sh` script.
+The following https://youtu.be/rEeAML74oWo?t=107[video] shows how to download the OptaPlanner Vehicle Routing distribution and run it using the `runLocally.sh` script.
 
 == Development
 
