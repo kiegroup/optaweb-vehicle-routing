@@ -120,64 +120,6 @@
     </pluginManagement>
   </build>
 
-  <profiles>
-    <!-- Skip Sonar plugin execution if SONARCLOUD_TOKEN is not set. -->
-    <profile>
-      <id>skipSonar</id>
-      <activation>
-        <property>
-          <name>!env.SONARCLOUD_TOKEN</name>
-        </property>
-      </activation>
-      <properties>
-        <sonar.skip>true</sonar.skip>
-      </properties>
-    </profile>
-    <profile>
-      <id>pullRequestAnalysis-Travis</id>
-      <!--
-        Only set sonar.pullrequest properties when the Travis build is triggered by a PR.
-        When the build is triggered by push to a branch or by cron, the consumed env.TRAVIS properties are empty,
-        resulting in invalid sonar.pullrequest properties and the Sonar plugin would fail.
-      -->
-      <activation>
-        <property>
-          <name>env.TRAVIS_EVENT_TYPE</name>
-          <value>pull_request</value>
-        </property>
-      </activation>
-      <!--
-        See https://docs.travis-ci.com/user/environment-variables/ for list of Travis environment variables.
-        See https://docs.sonarqube.org/latest/analysis/pull-request/ for properties required by Sonar for PR analysis.
-      -->
-      <properties>
-        <!--suppress UnresolvedMavenProperty -->
-        <sonar.pullrequest.branch>${env.TRAVIS_PULL_REQUEST_BRANCH}</sonar.pullrequest.branch>
-        <!--suppress UnresolvedMavenProperty -->
-        <sonar.pullrequest.key>${env.TRAVIS_PULL_REQUEST}</sonar.pullrequest.key>
-        <!--suppress UnresolvedMavenProperty -->
-        <sonar.pullrequest.base>${env.TRAVIS_BRANCH}</sonar.pullrequest.base>
-      </properties>
-    </profile>
-    <profile>
-      <id>branchAnalysis-Travis</id>
-      <activation>
-        <property>
-          <name>env.TRAVIS_EVENT_TYPE</name>
-          <value>!pull_request</value>
-        </property>
-      </activation>
-      <!--
-        See https://docs.travis-ci.com/user/environment-variables/ for list of Travis environment variables.
-        See https://docs.sonarqube.org/latest/branches/overview/ for properties required by Sonar for branch analysis.
-      -->
-      <properties>
-        <!--suppress UnresolvedMavenProperty -->
-        <sonar.branch.name>${env.TRAVIS_BRANCH}</sonar.branch.name>
-      </properties>
-    </profile>
-  </profiles>
-
   <repositories>
     <!-- Bootstrap repository to locate the parent POM when it has not been built locally. -->
     <repository>
