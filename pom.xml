@@ -82,6 +82,11 @@
       </dependency>
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
+        <artifactId>region</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>vehicle</artifactId>
         <version>${project.version}</version>
       </dependency>
