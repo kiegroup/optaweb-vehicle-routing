@@ -33,6 +33,7 @@
 
   <modules>
     <module>error</module>
+    <module>demo</module>
     <module>location</module>
     <module>vehicle</module>
   </modules>

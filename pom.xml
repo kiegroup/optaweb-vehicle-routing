@@ -62,6 +62,11 @@
       </dependency>
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
+        <artifactId>demo</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>error</artifactId>
         <version>${project.version}</version>
       </dependency>

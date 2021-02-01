@@ -45,6 +45,10 @@
     </dependency>
     <dependency>
       <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>demo</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>error</artifactId>
     </dependency>
     <dependency>
@@ -81,10 +85,6 @@
     <dependency>
       <groupId>com.graphhopper</groupId>
       <artifactId>graphhopper-reader-osm</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.fasterxml.jackson.dataformat</groupId>
-      <artifactId>jackson-dataformat-yaml</artifactId>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
