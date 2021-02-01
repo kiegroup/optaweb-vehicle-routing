@@ -38,6 +38,11 @@
   </properties>
 
   <dependencies>
+    <!-- Internal dependencies -->
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>domain</artifactId>
+    </dependency>
     <!-- Production dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -64,10 +69,6 @@
     <dependency>
       <groupId>com.graphhopper</groupId>
       <artifactId>graphhopper-reader-osm</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.neovisionaries</groupId>
-      <artifactId>nv-i18n</artifactId>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>

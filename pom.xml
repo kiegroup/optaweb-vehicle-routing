@@ -40,6 +40,7 @@
     <module>optaweb-vehicle-routing-standalone</module>
     <module>optaweb-vehicle-routing-docs</module>
     <module>optaweb-vehicle-routing-distribution</module>
+    <module>backend</module>
   </modules>
 
   <properties>
@@ -54,6 +55,11 @@
   <dependencyManagement>
     <dependencies>
       <!-- Internal dependencies -->
+      <dependency>
+        <groupId>org.optaweb.vehiclerouting</groupId>
+        <artifactId>domain</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>optaweb-vehicle-routing-backend</artifactId>
