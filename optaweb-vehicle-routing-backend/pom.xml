@@ -65,6 +65,10 @@
     </dependency>
     <dependency>
       <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>reload</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>vehicle</artifactId>
     </dependency>
     <!-- Production dependencies -->
