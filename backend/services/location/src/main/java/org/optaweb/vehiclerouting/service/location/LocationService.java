@@ -40,18 +40,18 @@ public class LocationService {
     private static final Logger logger = LoggerFactory.getLogger(LocationService.class);
 
     private final LocationRepository repository;
-    private final RouteOptimizer optimizer; // TODO move to RoutingPlanService (SRP)
+    private final LocationPlanner planner; // TODO move to RoutingPlanService (SRP)
     private final DistanceMatrix distanceMatrix;
     private final ApplicationEventPublisher eventPublisher;
 
     @Autowired
     LocationService(
             LocationRepository repository,
-            RouteOptimizer optimizer,
+            LocationPlanner planner,
             DistanceMatrix distanceMatrix,
             ApplicationEventPublisher eventPublisher) {
         this.repository = repository;
-        this.optimizer = optimizer;
+        this.planner = planner;
         this.distanceMatrix = distanceMatrix;
         this.eventPublisher = eventPublisher;
     }
@@ -70,7 +70,7 @@ public class LocationService {
     private boolean submitToPlanner(Location location) {
         try {
             DistanceMatrixRow distanceMatrixRow = distanceMatrix.addLocation(location);
-            optimizer.addLocation(location, distanceMatrixRow);
+            planner.addLocation(location, distanceMatrixRow);
         } catch (Exception e) {
             logger.error(
                     "Failed to calculate distances for location {}, it will be discarded",
@@ -80,7 +80,7 @@ public class LocationService {
                     "Failed to calculate distances for location " + location.fullDescription()
                             + ", it will be discarded.\n" + e.toString()));
             repository.removeLocation(location.id());
-            return false; // do not proceed to optimizer
+            return false; // do not proceed to planner
         }
         return true;
     }
@@ -106,13 +106,13 @@ public class LocationService {
             }
         }
 
-        optimizer.removeLocation(removedLocation);
+        planner.removeLocation(removedLocation);
         repository.removeLocation(id);
         distanceMatrix.removeLocation(removedLocation);
     }
 
     public synchronized void removeAll() {
-        optimizer.removeAllLocations();
+        planner.removeAllLocations();
         repository.removeAll();
         distanceMatrix.clear();
     }

@@ -35,7 +35,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.domain.VehicleData;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
-import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 
 @ExtendWith(MockitoExtension.class)
 class VehicleServiceTest {
@@ -43,7 +42,7 @@ class VehicleServiceTest {
     @Captor
     private ArgumentCaptor<Vehicle> vehicleArgumentCaptor;
     @Mock
-    private RouteOptimizer optimizer;
+    private VehiclePlanner planner;
     @Mock
     private VehicleRepository vehicleRepository;
     @InjectMocks
@@ -60,8 +59,8 @@ class VehicleServiceTest {
 
         vehicleService.createVehicle();
 
-        // verify that vehicle provided by repository is passed to optimizer
-        verify(optimizer).addVehicle(vehicleArgumentCaptor.capture());
+        // verify that vehicle provided by repository is passed to planner
+        verify(planner).addVehicle(vehicleArgumentCaptor.capture());
         Vehicle newVehicle = vehicleArgumentCaptor.getValue();
         assertThat(newVehicle.id()).isEqualTo(vehicleId);
         assertThat(newVehicle.name()).isEqualTo(name);
@@ -79,8 +78,8 @@ class VehicleServiceTest {
 
         vehicleService.createVehicle(vehicleData);
 
-        // verify that vehicle provided by repository is passed to optimizer
-        verify(optimizer).addVehicle(vehicle);
+        // verify that vehicle provided by repository is passed to planner
+        verify(planner).addVehicle(vehicle);
     }
 
     @Test
@@ -95,7 +94,7 @@ class VehicleServiceTest {
         vehicleService.addVehicle(vehicle);
 
         verifyNoInteractions(vehicleRepository);
-        verify(optimizer).addVehicle(vehicle);
+        verify(planner).addVehicle(vehicle);
     }
 
     @Test
@@ -107,7 +106,7 @@ class VehicleServiceTest {
         vehicleService.removeVehicle(vehicleId);
 
         verify(vehicleRepository).removeVehicle(vehicleId);
-        verify(optimizer).removeVehicle(vehicle);
+        verify(planner).removeVehicle(vehicle);
     }
 
     @Test
@@ -124,13 +123,13 @@ class VehicleServiceTest {
         vehicleService.removeAnyVehicle();
 
         verify(vehicleRepository).removeVehicle(vehicleId1);
-        verify(optimizer).removeVehicle(vehicle1);
+        verify(planner).removeVehicle(vehicle1);
     }
 
     @Test
     void removeAll() {
         vehicleService.removeAll();
-        verify(optimizer).removeAllVehicles();
+        verify(planner).removeAllVehicles();
         verify(vehicleRepository).removeAll();
     }
 
@@ -147,7 +146,7 @@ class VehicleServiceTest {
         assertThat(vehicleArgumentCaptor.getValue().id()).isEqualTo(vehicleId);
         assertThat(vehicleArgumentCaptor.getValue().capacity()).isEqualTo(capacity);
 
-        verify(optimizer).changeCapacity(vehicleArgumentCaptor.capture());
+        verify(planner).changeCapacity(vehicleArgumentCaptor.capture());
         assertThat(vehicleArgumentCaptor.getValue().capacity()).isEqualTo(capacity);
     }
 }

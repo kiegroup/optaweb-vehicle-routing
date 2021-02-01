@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.location;
+package org.optaweb.vehiclerouting.service.vehicle;
 
-import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 
 /**
  * Performs route optimization based on distances between locations.
  */
-public interface RouteOptimizer {
-
-    void addLocation(Location location, DistanceMatrixRow distanceMatrixRow);
-
-    void removeLocation(Location location);
-
-    void removeAllLocations();
+public interface VehiclePlanner {
 
     void addVehicle(Vehicle vehicle);
 

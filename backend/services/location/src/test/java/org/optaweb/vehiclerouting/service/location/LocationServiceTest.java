@@ -46,7 +46,7 @@ class LocationServiceTest {
     @Mock
     private LocationRepository repository;
     @Mock
-    private RouteOptimizer optimizer;
+    private LocationPlanner planner;
     @Mock
     private DistanceMatrix distanceMatrix;
     @Mock
@@ -73,7 +73,7 @@ class LocationServiceTest {
 
         verify(repository).createLocation(coordinates, description);
         verify(distanceMatrix).addLocation(location);
-        verify(optimizer).addLocation(location, matrixRow);
+        verify(planner).addLocation(location, matrixRow);
     }
 
     @Test
@@ -88,7 +88,7 @@ class LocationServiceTest {
 
         verifyNoInteractions(repository);
         verify(distanceMatrix).addLocation(location);
-        verify(optimizer).addLocation(location, matrixRow);
+        verify(planner).addLocation(location, matrixRow);
     }
 
     @Test
@@ -99,7 +99,7 @@ class LocationServiceTest {
         locationService.removeLocation(location.id());
 
         verify(repository).removeLocation(location.id());
-        verify(optimizer).removeLocation(location);
+        verify(planner).removeLocation(location);
         verifyNoInteractions(eventPublisher);
         // TODO remove location from distance matrix
     }
@@ -110,7 +110,7 @@ class LocationServiceTest {
 
         locationService.removeLocation(location.id());
 
-        verifyNoInteractions(optimizer);
+        verifyNoInteractions(planner);
         verify(repository, never()).removeLocation(anyLong());
         verify(eventPublisher).publishEvent(any(ErrorEvent.class));
     }
@@ -124,7 +124,7 @@ class LocationServiceTest {
 
         locationService.removeLocation(depot.id());
 
-        verifyNoInteractions(optimizer);
+        verifyNoInteractions(planner);
         verifyNoInteractions(distanceMatrix);
         verify(repository, never()).removeLocation(anyLong());
         verify(eventPublisher).publishEvent(any(ErrorEvent.class));
@@ -139,7 +139,7 @@ class LocationServiceTest {
 
         locationService.removeLocation(visit.id());
 
-        verify(optimizer).removeLocation(visit);
+        verify(planner).removeLocation(visit);
         verify(distanceMatrix).removeLocation(visit);
         verify(repository).removeLocation(visit.id());
         verifyNoInteractions(eventPublisher);
@@ -148,7 +148,7 @@ class LocationServiceTest {
     @Test
     void clear() {
         locationService.removeAll();
-        verify(optimizer).removeAllLocations();
+        verify(planner).removeAllLocations();
         verify(repository).removeAll();
         verify(distanceMatrix).clear();
     }
@@ -159,7 +159,7 @@ class LocationServiceTest {
         doThrow(new RuntimeException("test exception")).when(distanceMatrix).addLocation(location);
 
         assertThat(locationService.createLocation(coordinates, "")).isFalse();
-        verifyNoInteractions(optimizer);
+        verifyNoInteractions(planner);
         // publish error event
         verify(eventPublisher).publishEvent(any(ErrorEvent.class));
         // roll back

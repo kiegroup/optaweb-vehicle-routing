@@ -24,7 +24,6 @@ import java.util.Optional;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.domain.VehicleData;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
-import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,12 +32,12 @@ public class VehicleService {
 
     static final int DEFAULT_VEHICLE_CAPACITY = 10;
 
-    private final RouteOptimizer optimizer;
+    private final VehiclePlanner planner;
     private final VehicleRepository vehicleRepository;
 
     @Autowired
-    public VehicleService(RouteOptimizer optimizer, VehicleRepository vehicleRepository) {
-        this.optimizer = optimizer;
+    public VehicleService(VehiclePlanner planner, VehicleRepository vehicleRepository) {
+        this.planner = planner;
         this.vehicleRepository = vehicleRepository;
     }
 
@@ -53,24 +52,24 @@ public class VehicleService {
     }
 
     public void addVehicle(Vehicle vehicle) {
-        optimizer.addVehicle(Objects.requireNonNull(vehicle));
+        planner.addVehicle(Objects.requireNonNull(vehicle));
     }
 
     public void removeVehicle(long vehicleId) {
         Vehicle vehicle = vehicleRepository.removeVehicle(vehicleId);
-        optimizer.removeVehicle(vehicle);
+        planner.removeVehicle(vehicle);
     }
 
     public synchronized void removeAnyVehicle() {
         Optional<Vehicle> first = vehicleRepository.vehicles().stream().min(comparingLong(Vehicle::id));
         first.ifPresent(vehicle -> {
             Vehicle removed = vehicleRepository.removeVehicle(vehicle.id());
-            optimizer.removeVehicle(removed);
+            planner.removeVehicle(removed);
         });
     }
 
     public void removeAll() {
-        optimizer.removeAllVehicles();
+        planner.removeAllVehicles();
         vehicleRepository.removeAll();
     }
 
@@ -79,6 +78,6 @@ public class VehicleService {
                 "Can't remove Vehicle{id=" + vehicleId + "} because it doesn't exist"));
         Vehicle updatedVehicle = VehicleFactory.createVehicle(vehicle.id(), vehicle.name(), capacity);
         vehicleRepository.update(updatedVehicle);
-        optimizer.changeCapacity(updatedVehicle);
+        planner.changeCapacity(updatedVehicle);
     }
 }

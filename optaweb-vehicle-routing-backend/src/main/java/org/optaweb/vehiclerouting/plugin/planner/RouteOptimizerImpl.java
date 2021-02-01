@@ -30,7 +30,8 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
-import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
+import org.optaweb.vehiclerouting.service.location.LocationPlanner;
+import org.optaweb.vehiclerouting.service.vehicle.VehiclePlanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +41,7 @@ import org.springframework.stereotype.Component;
  * Stops solver when vehicles or visits are reduced to zero.
  */
 @Component
-class RouteOptimizerImpl implements RouteOptimizer {
+class RouteOptimizerImpl implements LocationPlanner, VehiclePlanner {
 
     private final SolverManager solverManager;
     private final RouteChangedEventPublisher routeChangedEventPublisher;
