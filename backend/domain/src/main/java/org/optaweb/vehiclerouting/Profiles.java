@@ -16,6 +16,7 @@
 
 package org.optaweb.vehiclerouting;
 
+// TODO move this to a new 'common' module (being in the domain is a quick hack).
 public class Profiles {
 
     public static final String TEST = "test";
