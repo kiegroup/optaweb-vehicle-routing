@@ -43,6 +43,10 @@
       <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>domain</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>error</artifactId>
+    </dependency>
     <!-- Production dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

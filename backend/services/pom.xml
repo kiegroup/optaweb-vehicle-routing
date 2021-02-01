@@ -22,20 +22,16 @@
 
   <parent>
     <groupId>org.optaweb.vehiclerouting</groupId>
-    <artifactId>optaweb-vehicle-routing</artifactId>
+    <artifactId>backend</artifactId>
     <version>8.3.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>backend</artifactId>
+  <artifactId>services</artifactId>
   <packaging>pom</packaging>
 
-  <modules>
-    <module>domain</module>
-    <module>services</module>
-  </modules>
+  <name>backend :: services</name>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-  </properties>
+  <modules>
+    <module>error</module>
+  </modules>
 </project>
