@@ -47,6 +47,10 @@
       <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>error</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>location</artifactId>
+    </dependency>
     <!-- Production dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
