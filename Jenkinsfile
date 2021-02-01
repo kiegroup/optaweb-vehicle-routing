@@ -29,19 +29,18 @@ pipeline {
                 }
             }
         }
-        stage('Build Optaweb Vehicle Routing') {
+        stage('Build OptaWeb Vehicle Routing') {
             steps {
                 mavenCleanInstall("optaweb-vehicle-routing", false, ["run-code-coverage", "integration-tests"])
             }
         }
-        /* Uncomment to switch SonarCloud analysis from Travis to this pipeline.
-        stage('Analyze Optaweb Vehicle Routing by SonarCloud') {
+        stage('Analyze OptaWeb Vehicle Routing by SonarCloud') {
             steps {
                 withCredentials([string(credentialsId: 'SONARCLOUD_TOKEN', variable: 'SONARCLOUD_TOKEN')]) {
-                    runMaven("sonar:sonar", "optaweb-vehicle-routing", true, ["sonarcloud-analysis"], "-e -nsu")
+                    runMaven("validate", "optaweb-vehicle-routing", true, ["sonarcloud-analysis"], "-e -nsu")
                 }
             }
-        */
+        }
     }
     post {
         always {

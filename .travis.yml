@@ -5,14 +5,10 @@ jobs:
   include:
     - jdk: openjdk11
     - jdk: openjdk15
-      env:
-        - SONAR_SKIP=true
 cache:
   directories:
     - "$HOME/.m2/repository"
     - "$HOME/.npm"
-    - "$HOME/.sonar/cache"
-    - "$HOME/.sonar/native-sonar-scanner"
     - "$HOME/optaweb-vehicle-routing/optaweb-vehicle-routing-frontend/node"
 before_install:
   - nvm install --lts
@@ -21,14 +17,12 @@ before_install:
 install: >
   mvn de.qaware.maven:go-offline-maven-plugin:1.2.7:resolve-dependencies
   -DfailOnErrors -DdownloadSources=false
-  -Prun-code-coverage,sonarcloud-analysis
   --quiet
 before_script:
   # Fail the build if the Red Hat package registry is referenced from package-lock.json.
   - '! grep "\"resolved\".*\.redhat\.com" optaweb-vehicle-routing-frontend/package-lock.json'
 script:
-  - mvn clean install -Prun-code-coverage,integration-tests --show-version
-  - mvn validate -Psonarcloud-analysis -Dsonar.skip=$SONAR_SKIP
+  - mvn clean install integration-tests --show-version
   # Check that Git working tree is clean after running npm install via a frontend-maven-plugin.
   # The `git` command returns 1 and fails the build if there are any uncommitted changes.
   - git diff HEAD --exit-code
