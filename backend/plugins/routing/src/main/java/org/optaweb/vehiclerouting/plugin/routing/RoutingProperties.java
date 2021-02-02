@@ -25,7 +25,7 @@ import org.springframework.validation.annotation.Validated;
 @Component
 @ConfigurationProperties("app.routing")
 @Validated
-class RoutingProperties {
+public class RoutingProperties {
 
     /**
      * Directory to read OSM files from.

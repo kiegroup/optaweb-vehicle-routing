@@ -85,6 +85,10 @@
       <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>planner</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>routing</artifactId>
+    </dependency>
     <!-- Production dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -103,10 +107,6 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-websocket</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.graphhopper</groupId>
-      <artifactId>graphhopper-reader-osm</artifactId>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
@@ -140,6 +140,11 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.graphhopper</groupId>
+      <artifactId>graphhopper-reader-osm</artifactId>
       <scope>test</scope>
     </dependency>
     <!-- Enable Spring Boot Automatic Restart, see Development Guide in Readme to learn how to use it. -->

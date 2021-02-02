@@ -114,6 +114,11 @@
       </dependency>
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
+        <artifactId>routing</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>optaweb-vehicle-routing-backend</artifactId>
         <version>${project.version}</version>
       </dependency>
