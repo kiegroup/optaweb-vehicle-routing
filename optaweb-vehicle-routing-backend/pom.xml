@@ -75,6 +75,10 @@
       <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>vehicle</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>persistence</artifactId>
+    </dependency>
     <!-- Production dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

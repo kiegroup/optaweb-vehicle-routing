@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Distance repository.
  */
-interface DistanceCrudRepository extends CrudRepository<DistanceEntity, DistanceKey> {
+public interface DistanceCrudRepository extends CrudRepository<DistanceEntity, DistanceKey> {
 
     @Modifying
     @Transactional

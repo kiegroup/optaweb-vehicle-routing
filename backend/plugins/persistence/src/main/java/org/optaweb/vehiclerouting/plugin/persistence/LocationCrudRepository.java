@@ -21,6 +21,6 @@ import org.springframework.data.repository.CrudRepository;
 /**
  * Location repository.
  */
-interface LocationCrudRepository extends CrudRepository<LocationEntity, Long> {
+public interface LocationCrudRepository extends CrudRepository<LocationEntity, Long> {
 
 }

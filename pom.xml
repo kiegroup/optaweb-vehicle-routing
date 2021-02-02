@@ -60,6 +60,7 @@
         <artifactId>domain</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <!-- Services -->
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>demo</artifactId>
@@ -98,6 +99,12 @@
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>vehicle</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <!-- Plugins -->
+      <dependency>
+        <groupId>org.optaweb.vehiclerouting</groupId>
+        <artifactId>persistence</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
