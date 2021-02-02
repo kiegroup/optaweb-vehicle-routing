@@ -33,5 +33,6 @@
 
   <modules>
     <module>persistence</module>
+    <module>planner</module>
   </modules>
 </project>
