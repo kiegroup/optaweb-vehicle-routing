@@ -35,5 +35,6 @@
     <module>persistence</module>
     <module>planner</module>
     <module>routing</module>
+    <module>websocket</module>
   </modules>
 </project>
