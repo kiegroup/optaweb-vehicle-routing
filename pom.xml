@@ -41,6 +41,7 @@
     <module>optaweb-vehicle-routing-docs</module>
     <module>optaweb-vehicle-routing-distribution</module>
     <module>backend</module>
+    <module>quarkus</module>
   </modules>
 
   <properties>
