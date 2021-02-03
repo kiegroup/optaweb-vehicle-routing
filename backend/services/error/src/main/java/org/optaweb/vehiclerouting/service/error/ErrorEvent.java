@@ -18,9 +18,7 @@ package org.optaweb.vehiclerouting.service.error;
 
 import java.util.Objects;
 
-import org.springframework.context.ApplicationEvent;
-
-public class ErrorEvent extends ApplicationEvent {
+public class ErrorEvent {
 
     public final String message;
 
@@ -32,7 +30,6 @@ public class ErrorEvent extends ApplicationEvent {
      * @param message error message (never {@code null})
      */
     public ErrorEvent(Object source, String message) {
-        super(source);
         this.message = Objects.requireNonNull(message);
     }
 }

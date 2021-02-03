@@ -18,23 +18,24 @@ package org.optaweb.vehiclerouting.service.error;
 
 import java.util.UUID;
 
-import org.springframework.context.ApplicationListener;
-import org.springframework.stereotype.Service;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 
 /**
  * Creates messages from error events and passes them to consumers.
  */
-@Service
-public class ErrorListener implements ApplicationListener<ErrorEvent> {
+@ApplicationScoped
+public class ErrorListener {
 
     private final ErrorMessageConsumer errorMessageConsumer;
 
+    @Inject
     public ErrorListener(ErrorMessageConsumer errorMessageConsumer) {
         this.errorMessageConsumer = errorMessageConsumer;
     }
 
-    @Override
-    public void onApplicationEvent(ErrorEvent event) {
+    public void onErrorEvent(@Observes ErrorEvent event) {
         errorMessageConsumer.consumeMessage(ErrorMessage.of(UUID.randomUUID().toString(), event.message));
     }
 }

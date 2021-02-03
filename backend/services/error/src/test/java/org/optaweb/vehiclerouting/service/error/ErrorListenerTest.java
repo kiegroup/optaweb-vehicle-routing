@@ -38,7 +38,7 @@ class ErrorListenerTest {
         String text = "error";
         ErrorListener errorListener = new ErrorListener(errorMessageConsumer);
         // act
-        errorListener.onApplicationEvent(new ErrorEvent(this, text));
+        errorListener.onErrorEvent(new ErrorEvent(this, text));
         // assert
         verify(errorMessageConsumer).consumeMessage(argumentCaptor.capture());
         ErrorMessage capturedMessage = argumentCaptor.getValue();

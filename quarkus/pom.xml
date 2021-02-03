@@ -52,6 +52,10 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>error</artifactId>
+    </dependency>
+    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
     </dependency>
