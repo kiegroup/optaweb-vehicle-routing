@@ -16,17 +16,18 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import javax.enterprise.context.ApplicationScoped;
 
-@Component
-@ConfigurationProperties("app.demo")
+import org.eclipse.microprofile.config.inject.ConfigProperty;
+
+@ApplicationScoped
 public class DemoProperties {
 
     /**
      * Directory with demo data sets.
      */
-    private String dataSetDir;
+    @ConfigProperty(name = "app.demo.data-set-dir")
+    String dataSetDir;
 
     public String getDataSetDir() {
         return dataSetDir;

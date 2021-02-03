@@ -34,28 +34,29 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
+
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+@ApplicationScoped
 class RoutingProblemConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutingProblemConfig.class);
     private final DemoProperties demoProperties;
     private final DataSetMarshaller dataSetMarshaller;
 
-    @Autowired
+    @Inject
     RoutingProblemConfig(DemoProperties demoProperties, DataSetMarshaller dataSetMarshaller) {
         this.demoProperties = demoProperties;
         this.dataSetMarshaller = dataSetMarshaller;
     }
 
-    @Bean
+    @Produces
     RoutingProblemList routingProblems() {
         ArrayList<RoutingProblem> problems = new ArrayList<>();
         problems.add(dataSetMarshaller.unmarshal(belgiumReader()));

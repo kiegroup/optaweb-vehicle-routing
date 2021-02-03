@@ -37,4 +37,12 @@ public class ErrorMessage {
         this.id = Objects.requireNonNull(id);
         this.text = Objects.requireNonNull(text);
     }
+
+    @Override
+    public String toString() {
+        return "ErrorMessage{" +
+                "id='" + id + '\'' +
+                ", text='" + text + '\'' +
+                '}';
+    }
 }

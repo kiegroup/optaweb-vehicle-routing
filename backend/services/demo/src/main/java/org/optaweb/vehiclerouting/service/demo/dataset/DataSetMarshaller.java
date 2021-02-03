@@ -23,12 +23,13 @@ import java.io.Reader;
 import java.util.Collections;
 import java.util.Optional;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.LocationData;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.domain.VehicleData;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
-import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,7 +38,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 /**
  * Data set marshaller using the YAML format.
  */
-@Component
+@ApplicationScoped
 public class DataSetMarshaller {
 
     private final ObjectMapper mapper;

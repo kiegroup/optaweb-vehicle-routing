@@ -30,6 +30,6 @@ public class ErrorLogger implements ErrorMessageConsumer {
 
     @Override
     public void consumeMessage(ErrorMessage message) {
-        logger.error("ErrorMessage: {}", message);
+        logger.error("{}", message);
     }
 }
