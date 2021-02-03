@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2021 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.demo;
+package org.acme.getting.started;
 
-import io.quarkus.arc.config.ConfigProperties;
+import javax.enterprise.context.ApplicationScoped;
 
-@ConfigProperties(prefix = "app.demo")
-public class DemoProperties {
+import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.service.region.BoundingBox;
+import org.optaweb.vehiclerouting.service.region.Region;
 
-    /**
-     * Directory with demo data sets.
-     */
-    private String dataSetDir;
+@ApplicationScoped
+public class RegionServiceDependency implements Region {
 
-    public String getDataSetDir() {
-        return dataSetDir;
-    }
-
-    public void setDataSetDir(String dataSetDir) {
-        this.dataSetDir = dataSetDir;
+    @Override
+    public BoundingBox getBounds() {
+        return new BoundingBox(Coordinates.valueOf(1, 1), Coordinates.valueOf(2, 2));
     }
 }

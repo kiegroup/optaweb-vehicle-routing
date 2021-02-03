@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2021 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.demo;
+package org.optaweb.vehiclerouting.service.region;
 
-import io.quarkus.arc.config.ConfigProperties;
+import javax.enterprise.context.ApplicationScoped;
 
-@ConfigProperties(prefix = "app.demo")
-public class DemoProperties {
+import io.quarkus.test.Mock;
 
-    /**
-     * Directory with demo data sets.
-     */
-    private String dataSetDir;
+@Mock
+@ApplicationScoped
+public class MockRegion implements Region {
 
-    public String getDataSetDir() {
-        return dataSetDir;
-    }
+    // TODO find a better way to mock this. Why @InjectMock doesn't work?
 
-    public void setDataSetDir(String dataSetDir) {
-        this.dataSetDir = dataSetDir;
+    @Override
+    public BoundingBox getBounds() {
+        return null;
     }
 }

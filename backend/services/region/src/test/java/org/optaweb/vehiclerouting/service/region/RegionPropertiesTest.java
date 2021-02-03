@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2021 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,23 +14,24 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.demo;
+package org.optaweb.vehiclerouting.service.region;
 
-import io.quarkus.arc.config.ConfigProperties;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@ConfigProperties(prefix = "app.demo")
-public class DemoProperties {
+import javax.inject.Inject;
 
-    /**
-     * Directory with demo data sets.
-     */
-    private String dataSetDir;
+import org.junit.jupiter.api.Test;
 
-    public String getDataSetDir() {
-        return dataSetDir;
-    }
+import io.quarkus.test.junit.QuarkusTest;
 
-    public void setDataSetDir(String dataSetDir) {
-        this.dataSetDir = dataSetDir;
+@QuarkusTest
+class RegionPropertiesTest {
+
+    @Inject
+    RegionProperties regionProperties;
+
+    @Test
+    void test() {
+        assertThat(regionProperties.getCountryCodes()).containsExactly("AT", "DE");
     }
 }

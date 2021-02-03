@@ -1,6 +1,7 @@
 package org.acme.getting.started;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ import org.optaweb.vehiclerouting.service.error.ErrorEvent;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 import org.optaweb.vehiclerouting.service.location.LocationService;
+import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
 @Path("/hello")
@@ -36,15 +38,22 @@ public class GreetingResource {
     DemoService demoService;
     @Inject
     DistanceMatrix distanceMatrix;
+    @Inject
+    RegionService regionService;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
         Collection<RoutingProblem> demos = demoService.demos();
         errorEventEvent.fire(new ErrorEvent(this, demos.stream().map(Objects::toString).collect(Collectors.joining(","))));
+
         DistanceMatrixRow row0 = distanceMatrix.addLocation(new Location(0, Coordinates.valueOf(1, 2)));
         DistanceMatrixRow row1 = distanceMatrix.addLocation(new Location(1, Coordinates.valueOf(1, 2)));
         errorEventEvent.fire(new ErrorEvent(this, row0.distanceTo(1L).toString()));
+
+        List<String> countryCodes = regionService.countryCodes();
+        errorEventEvent.fire(new ErrorEvent(this, countryCodes.toString()));
+
         vehicleService.createVehicle();
         locationService.addLocation(new Location(1, Coordinates.valueOf(1, 2)));
         return "Hello RESTEasy";

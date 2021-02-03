@@ -20,12 +20,11 @@ import java.util.Collections;
 import java.util.List;
 
 import org.optaweb.vehiclerouting.domain.CountryCodeValidator;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
-@Component
-@ConfigurationProperties("app.region")
-class RegionProperties {
+import io.quarkus.arc.config.ConfigProperties;
+
+@ConfigProperties(prefix = "app.region")
+public class RegionProperties {
 
     /**
      * List of ISO 3166-1 alpha-2 country code(s) matching the loaded OSM file.
