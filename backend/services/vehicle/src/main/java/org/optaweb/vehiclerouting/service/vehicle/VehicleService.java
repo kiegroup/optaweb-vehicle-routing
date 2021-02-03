@@ -21,13 +21,14 @@ import static java.util.Comparator.comparingLong;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.domain.VehicleData;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
+@ApplicationScoped
 public class VehicleService {
 
     static final int DEFAULT_VEHICLE_CAPACITY = 10;
@@ -35,7 +36,7 @@ public class VehicleService {
     private final VehiclePlanner planner;
     private final VehicleRepository vehicleRepository;
 
-    @Autowired
+    @Inject
     public VehicleService(VehiclePlanner planner, VehicleRepository vehicleRepository) {
         this.planner = planner;
         this.vehicleRepository = vehicleRepository;

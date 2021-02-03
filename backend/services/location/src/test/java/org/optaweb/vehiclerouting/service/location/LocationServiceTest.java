@@ -30,6 +30,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
+import javax.enterprise.event.Event;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -38,7 +40,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.error.ErrorEvent;
-import org.springframework.context.ApplicationEventPublisher;
 
 @ExtendWith(MockitoExtension.class)
 class LocationServiceTest {
@@ -50,7 +51,7 @@ class LocationServiceTest {
     @Mock
     private DistanceMatrix distanceMatrix;
     @Mock
-    private ApplicationEventPublisher eventPublisher;
+    private Event<ErrorEvent> errorEventEvent;
     @InjectMocks
     private LocationService locationService;
 
@@ -100,7 +101,7 @@ class LocationServiceTest {
 
         verify(repository).removeLocation(location.id());
         verify(planner).removeLocation(location);
-        verifyNoInteractions(eventPublisher);
+        verifyNoInteractions(errorEventEvent);
         // TODO remove location from distance matrix
     }
 
@@ -112,7 +113,7 @@ class LocationServiceTest {
 
         verifyNoInteractions(planner);
         verify(repository, never()).removeLocation(anyLong());
-        verify(eventPublisher).publishEvent(any(ErrorEvent.class));
+        verify(errorEventEvent).fire(any(ErrorEvent.class));
     }
 
     @Test
@@ -127,7 +128,7 @@ class LocationServiceTest {
         verifyNoInteractions(planner);
         verifyNoInteractions(distanceMatrix);
         verify(repository, never()).removeLocation(anyLong());
-        verify(eventPublisher).publishEvent(any(ErrorEvent.class));
+        verify(errorEventEvent).fire(any(ErrorEvent.class));
     }
 
     @Test
@@ -142,7 +143,7 @@ class LocationServiceTest {
         verify(planner).removeLocation(visit);
         verify(distanceMatrix).removeLocation(visit);
         verify(repository).removeLocation(visit.id());
-        verifyNoInteractions(eventPublisher);
+        verifyNoInteractions(errorEventEvent);
     }
 
     @Test
@@ -161,7 +162,7 @@ class LocationServiceTest {
         assertThat(locationService.createLocation(coordinates, "")).isFalse();
         verifyNoInteractions(planner);
         // publish error event
-        verify(eventPublisher).publishEvent(any(ErrorEvent.class));
+        verify(errorEventEvent).fire(any(ErrorEvent.class));
         // roll back
         verify(repository).removeLocation(location.id());
     }

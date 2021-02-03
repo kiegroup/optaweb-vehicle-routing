@@ -53,7 +53,15 @@
   <dependencies>
     <dependency>
       <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>location</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>error</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>vehicle</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
