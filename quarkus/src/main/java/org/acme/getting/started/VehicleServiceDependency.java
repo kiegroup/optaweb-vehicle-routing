@@ -77,7 +77,7 @@ public class VehicleServiceDependency implements VehicleRepository, VehiclePlann
 
     @Override
     public Optional<Vehicle> find(long vehicleId) {
-        return Optional.empty();
+        return Optional.of(VehicleFactory.createVehicle(vehicleId, "Fake vehicle", 99));
     }
 
     @Override

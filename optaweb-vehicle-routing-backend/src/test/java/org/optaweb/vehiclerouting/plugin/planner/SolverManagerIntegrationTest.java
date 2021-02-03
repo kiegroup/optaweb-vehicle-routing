@@ -23,6 +23,8 @@ import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.s
 
 import java.util.concurrent.Semaphore;
 
+import javax.enterprise.event.Observes;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.optaweb.vehiclerouting.Profiles;
@@ -40,9 +42,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ActiveProfiles;
+
+// FIXME Fix this test.
 
 @SpringBootTest(
         properties = {
@@ -87,13 +90,12 @@ class SolverManagerIntegrationTest {
         assertThatCode(() -> solverManager.changeCapacity(vehicle)).doesNotThrowAnyException();
     }
 
-    static class RouteChangedEventSemaphore implements ApplicationListener<RouteChangedEvent> {
+    static class RouteChangedEventSemaphore {
 
         private static final Logger logger = LoggerFactory.getLogger(RouteChangedEventSemaphore.class);
         private final Semaphore semaphore = new Semaphore(0);
 
-        @Override
-        public void onApplicationEvent(RouteChangedEvent event) {
+        public void onApplicationEvent(@Observes RouteChangedEvent event) {
             logger.info("DISTANCE: {}", event.distance());
             semaphore.release();
         }

@@ -18,12 +18,15 @@ package org.optaweb.vehiclerouting.service.route;
 
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static org.optaweb.vehiclerouting.Profiles.NOT_TEST;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
@@ -35,17 +38,14 @@ import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Service;
 
 /**
  * Handles route updates emitted by optimization plugin.
  */
-@Service
-@Profile(NOT_TEST)
-public class RouteListener implements ApplicationListener<RouteChangedEvent> {
+@ApplicationScoped
+// FIXME profile
+//@Profile(NOT_TEST)
+public class RouteListener {
 
     private static final Logger logger = LoggerFactory.getLogger(RouteListener.class);
 
@@ -57,7 +57,7 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
     // TODO maybe remove state from the service and get best route from a repository
     private RoutingPlan bestRoutingPlan;
 
-    @Autowired
+    @Inject
     RouteListener(
             Router router,
             RoutingPlanConsumer routingPlanConsumer,
@@ -70,8 +70,8 @@ public class RouteListener implements ApplicationListener<RouteChangedEvent> {
         bestRoutingPlan = RoutingPlan.empty();
     }
 
-    @Override
-    public void onApplicationEvent(RouteChangedEvent event) {
+    // TODO maybe @ObservesAsync?
+    public void onApplicationEvent(@Observes RouteChangedEvent event) {
         // TODO persist the best solution
         Location depot = event.depotId().flatMap(locationRepository::find).orElse(null);
         try {

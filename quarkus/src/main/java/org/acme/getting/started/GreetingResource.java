@@ -1,6 +1,7 @@
 package org.acme.getting.started;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
@@ -22,6 +24,8 @@ import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.RegionService;
+import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
+import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
 @Path("/hello")
@@ -40,6 +44,8 @@ public class GreetingResource {
     DistanceMatrix distanceMatrix;
     @Inject
     RegionService regionService;
+    @Inject
+    Event<RouteChangedEvent> routeChangedEventEvent;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -53,6 +59,14 @@ public class GreetingResource {
 
         List<String> countryCodes = regionService.countryCodes();
         errorEventEvent.fire(new ErrorEvent(this, countryCodes.toString()));
+
+        routeChangedEventEvent.fire(new RouteChangedEvent(
+                this,
+                Distance.ofMillis(30_000),
+                Collections.singletonList(1L),
+                0L,
+                Collections.singletonList(999L),
+                Collections.singletonList(new ShallowRoute(1L, 0L, Collections.singletonList(999L)))));
 
         vehicleService.createVehicle();
         locationService.addLocation(new Location(1, Coordinates.valueOf(1, 2)));

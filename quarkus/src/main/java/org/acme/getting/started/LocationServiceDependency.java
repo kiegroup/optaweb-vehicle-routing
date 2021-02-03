@@ -67,6 +67,6 @@ public class LocationServiceDependency implements LocationRepository, LocationPl
 
     @Override
     public Optional<Location> find(long locationId) {
-        return Optional.empty();
+        return Optional.of(new Location(locationId, Coordinates.valueOf(999, 999), "Fake location"));
     }
 }
