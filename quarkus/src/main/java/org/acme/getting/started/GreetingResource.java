@@ -17,6 +17,8 @@ import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.error.ErrorEvent;
+import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
+import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
@@ -32,12 +34,17 @@ public class GreetingResource {
     LocationService locationService;
     @Inject
     DemoService demoService;
+    @Inject
+    DistanceMatrix distanceMatrix;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
         Collection<RoutingProblem> demos = demoService.demos();
         errorEventEvent.fire(new ErrorEvent(this, demos.stream().map(Objects::toString).collect(Collectors.joining(","))));
+        DistanceMatrixRow row0 = distanceMatrix.addLocation(new Location(0, Coordinates.valueOf(1, 2)));
+        DistanceMatrixRow row1 = distanceMatrix.addLocation(new Location(1, Coordinates.valueOf(1, 2)));
+        errorEventEvent.fire(new ErrorEvent(this, row0.distanceTo(1L).toString()));
         vehicleService.createVehicle();
         locationService.addLocation(new Location(1, Coordinates.valueOf(1, 2)));
         return "Hello RESTEasy";

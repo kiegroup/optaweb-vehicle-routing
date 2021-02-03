@@ -16,57 +16,40 @@
 
 package org.acme.getting.started;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.Duration;
 
 import javax.enterprise.context.ApplicationScoped;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
-import org.optaweb.vehiclerouting.service.location.LocationPlanner;
-import org.optaweb.vehiclerouting.service.location.LocationRepository;
+import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
+import org.optaweb.vehiclerouting.service.distance.DistanceRepository;
 
 @ApplicationScoped
-public class LocationServiceDependency implements LocationRepository, LocationPlanner {
+public class DistanceMatrixDependency implements DistanceCalculator, DistanceRepository {
 
     @Override
-    public void addLocation(Location location, DistanceMatrixRow distanceMatrixRow) {
+    public long travelTimeMillis(Coordinates from, Coordinates to) {
+        return Duration.ofMinutes(2).toMillis();
+    }
+
+    @Override
+    public void saveDistance(Location from, Location to, long distance) {
 
     }
 
     @Override
-    public void removeLocation(Location location) {
+    public long getDistance(Location from, Location to) {
+        return -1;
+    }
+
+    @Override
+    public void deleteDistances(Location location) {
 
     }
 
     @Override
-    public void removeAllLocations() {
+    public void deleteAll() {
 
-    }
-
-    @Override
-    public Location createLocation(Coordinates coordinates, String description) {
-        return null;
-    }
-
-    @Override
-    public List<Location> locations() {
-        return null;
-    }
-
-    @Override
-    public Location removeLocation(long id) {
-        return null;
-    }
-
-    @Override
-    public void removeAll() {
-
-    }
-
-    @Override
-    public Optional<Location> find(long locationId) {
-        return Optional.empty();
     }
 }

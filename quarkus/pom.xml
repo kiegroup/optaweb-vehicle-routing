@@ -57,6 +57,10 @@
     </dependency>
     <dependency>
       <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>distance</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>error</artifactId>
     </dependency>
     <dependency>
