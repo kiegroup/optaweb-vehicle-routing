@@ -24,36 +24,40 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
+
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
 import org.optaweb.vehiclerouting.Profiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.routing.util.EncodingManager;
 import com.graphhopper.routing.util.FlagEncoderFactory;
 
+import io.quarkus.arc.DefaultBean;
+import io.quarkus.arc.profile.UnlessBuildProfile;
+import io.quarkus.arc.properties.IfBuildProperty;
+
 /**
  * Spring Bean producer that creates a GraphHopper instance and allows to configure the path to OSM file
  * through environment.
  */
-@Configuration
+@Dependent
 class RoutingConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutingConfig.class);
 
     private final Path osmDir;
     private final Path osmFile;
-    private final String osmDownloadUrl;
+    private final Optional<String> osmDownloadUrl;
     private final Path graphHopperDir;
     private final Path graphDir;
 
-    @Autowired
+    @Inject
     RoutingConfig(RoutingProperties routingProperties) {
         osmDir = Paths.get(routingProperties.getOsmDir()).toAbsolutePath();
         osmFile = osmDir.resolve(routingProperties.getOsmFile()).toAbsolutePath();
@@ -68,9 +72,10 @@ class RoutingConfig {
      *
      * @return real GraphHopper
      */
-    @Profile(Profiles.NOT_TEST)
-    @Bean
-    @ConditionalOnProperty(prefix = "app.routing", name = "engine", havingValue = "graphhopper", matchIfMissing = true)
+    @UnlessBuildProfile(Profiles.TEST)
+    @IfBuildProperty(name = "app.routing.engine", stringValue = "GRAPHHOPPER", enableIfMissing = true)
+    @Produces
+    @DefaultBean
     GraphHopperOSM graphHopper() {
         GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
         graphHopper.setGraphHopperLocation(graphDir.toString());
@@ -81,7 +86,7 @@ class RoutingConfig {
             if (!osmFile.toFile().exists()) {
                 initDirs();
 
-                if (osmDownloadUrl == null || osmDownloadUrl.trim().isEmpty()) {
+                if (!osmDownloadUrl.isPresent() || osmDownloadUrl.get().trim().isEmpty()) {
                     throw new IllegalStateException(
                             "The osmFile (" + osmFile + ") does not exist"
                                     + " and no download URL was provided.\n"
@@ -89,7 +94,7 @@ class RoutingConfig {
                                     + " or provide an OSM file URL"
                                     + " using the app.routing.osm-download-url property.");
                 }
-                downloadOsmFile(osmDownloadUrl, osmFile);
+                downloadOsmFile(osmDownloadUrl.get(), osmFile);
             }
             logger.info("Importing OSM file: {}", osmFile);
             graphHopper.setOSMFile(osmFile.toString());

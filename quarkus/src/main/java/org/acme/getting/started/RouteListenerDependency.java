@@ -16,27 +16,17 @@
 
 package org.acme.getting.started;
 
-import java.util.Collections;
-import java.util.List;
-
 import javax.enterprise.context.ApplicationScoped;
 
-import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
-import org.optaweb.vehiclerouting.service.route.Router;
 import org.optaweb.vehiclerouting.service.route.RoutingPlanConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
-public class RouteListenerDependency implements Router, RoutingPlanConsumer {
+public class RouteListenerDependency implements RoutingPlanConsumer {
 
     private static final Logger logger = LoggerFactory.getLogger(RouteListenerDependency.class);
-
-    @Override
-    public List<Coordinates> getPath(Coordinates from, Coordinates to) {
-        return Collections.emptyList();
-    }
 
     @Override
     public void consumePlan(RoutingPlan routingPlan) {

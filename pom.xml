@@ -53,10 +53,18 @@
     <version.npm>6.14.4</version.npm>
     <version.org.hibernate>5.4.27.Final</version.org.hibernate>
     <version.org.mockito>3.7.0</version.org.mockito>
+    <!-- Override protobuf version from Quarkus to make it compatible with GraphHopper. -->
+    <protobuf-java.version>3.6.1</protobuf-java.version>
+    <version.com.google.protobuf>3.6.1</version.com.google.protobuf>
   </properties>
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>com.google.protobuf</groupId>
+        <artifactId>protobuf-java</artifactId>
+        <version>${version.com.google.protobuf}</version>
+      </dependency>
       <!-- Internal dependencies -->
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
