@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+
 import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
@@ -31,23 +35,20 @@ import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Component;
 
 /**
  * Converts planning solution to a {@link RouteChangedEvent} and publishes it so that it can be processed by other
  * components that listen for this type of event.
  */
-@Component
+@ApplicationScoped
 class RouteChangedEventPublisher {
 
     private static final Logger logger = LoggerFactory.getLogger(RouteChangedEventPublisher.class);
 
-    private final ApplicationEventPublisher eventPublisher;
+    private final Event<RouteChangedEvent> eventPublisher;
 
-    @Autowired
-    RouteChangedEventPublisher(ApplicationEventPublisher eventPublisher) {
+    @Inject
+    RouteChangedEventPublisher(Event<RouteChangedEvent> eventPublisher) {
         this.eventPublisher = eventPublisher;
     }
 
@@ -66,7 +67,7 @@ class RouteChangedEventPublisher {
                 event.distance(),
                 solution.getScore());
         logger.debug("Routes: {}", event.routes());
-        eventPublisher.publishEvent(event);
+        eventPublisher.fire(event);
     }
 
     /**

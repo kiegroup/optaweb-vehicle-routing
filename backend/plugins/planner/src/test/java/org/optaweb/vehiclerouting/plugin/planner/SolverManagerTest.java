@@ -50,8 +50,9 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
-import org.springframework.core.task.AsyncListenableTaskExecutor;
-import org.springframework.util.concurrent.ListenableFuture;
+
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
 
 @ExtendWith(MockitoExtension.class)
 class SolverManagerTest {
@@ -70,7 +71,7 @@ class SolverManagerTest {
     @Mock
     private Solver<VehicleRoutingSolution> solver;
     @Mock
-    private AsyncListenableTaskExecutor executor;
+    private ListeningExecutorService executor;
     @Mock
     private RouteChangedEventPublisher routeChangedEventPublisher;
     @InjectMocks
@@ -79,7 +80,7 @@ class SolverManagerTest {
     private void returnSolverFutureWhenSolverIsStarted() {
         // always run the runnable submitted to executor (that's what every executor does)
         // we can then verify that solver.solve() has been called
-        when(executor.submitListenable(any(SolverManager.SolvingTask.class))).thenAnswer(
+        when(executor.submit(any(SolverManager.SolvingTask.class))).thenAnswer(
                 answer((Answer1<Future<VehicleRoutingSolution>, SolverManager.SolvingTask>) callable -> {
                     callable.call();
                     return solverFuture;

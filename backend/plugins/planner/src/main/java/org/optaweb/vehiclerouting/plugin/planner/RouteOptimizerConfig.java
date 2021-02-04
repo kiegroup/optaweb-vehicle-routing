@@ -16,18 +16,23 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Produces;
+
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.SolverFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.task.AsyncListenableTaskExecutor;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
+
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 
 /**
  * Spring configuration that creates {@link RouteOptimizerImpl route optimizer}'s dependencies.
  */
-@Configuration
+@Dependent
 class RouteOptimizerConfig {
 
     private final SolverFactory<VehicleRoutingSolution> solverFactory;
@@ -36,15 +41,14 @@ class RouteOptimizerConfig {
         this.solverFactory = solverFactory;
     }
 
-    @Bean
+    @Produces
     Solver<VehicleRoutingSolution> solver() {
         return solverFactory.buildSolver();
     }
 
-    @Bean
-    AsyncListenableTaskExecutor executor() {
-        SimpleAsyncTaskExecutor executor = new SimpleAsyncTaskExecutor();
-        executor.setConcurrencyLimit(1);
-        return executor;
+    @Produces
+    ListeningExecutorService executor() {
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        return MoreExecutors.listeningDecorator(executorService);
     }
 }

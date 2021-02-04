@@ -28,6 +28,8 @@ import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFa
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
 
+import javax.enterprise.event.Event;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -42,20 +44,19 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.optaweb.vehiclerouting.service.route.ShallowRoute;
-import org.springframework.context.ApplicationEventPublisher;
 
 @ExtendWith(MockitoExtension.class)
 class RouteChangedEventPublisherTest {
 
     @Mock
-    private ApplicationEventPublisher publisher;
+    private Event<RouteChangedEvent> publisher;
     @InjectMocks
     private RouteChangedEventPublisher routeChangedEventPublisher;
 
     @Test
     void should_covert_solution_to_event_and_publish_it() {
         routeChangedEventPublisher.publishSolution(SolutionFactory.emptySolution());
-        verify(publisher).publishEvent(any(RouteChangedEvent.class));
+        verify(publisher).fire(any(RouteChangedEvent.class));
     }
 
     @Test
