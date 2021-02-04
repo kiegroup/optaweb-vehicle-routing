@@ -20,11 +20,15 @@ import java.util.Objects;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.NamedQuery;
 
 /**
  * Distance between two locations that can be persisted.
  */
 @Entity
+@NamedQuery(
+        name = "Distance.delete",
+        query = "delete from DistanceEntity where from_id = :deletedLocationId or to_id = :deletedLocationId")
 class DistanceEntity {
 
     @EmbeddedId

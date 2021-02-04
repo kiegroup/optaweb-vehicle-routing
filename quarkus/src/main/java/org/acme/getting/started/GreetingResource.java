@@ -1,7 +1,6 @@
 package org.acme.getting.started;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -9,13 +8,13 @@ import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
@@ -24,8 +23,6 @@ import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.RegionService;
-import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
-import org.optaweb.vehiclerouting.service.route.ShallowRoute;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
 @Path("/hello")
@@ -44,32 +41,26 @@ public class GreetingResource {
     DistanceMatrix distanceMatrix;
     @Inject
     RegionService regionService;
-    @Inject
-    Event<RouteChangedEvent> routeChangedEventEvent;
 
+    @Transactional
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
         Collection<RoutingProblem> demos = demoService.demos();
         errorEventEvent.fire(new ErrorEvent(this, demos.stream().map(Objects::toString).collect(Collectors.joining(","))));
 
-        DistanceMatrixRow row0 = distanceMatrix.addLocation(new Location(0, Coordinates.valueOf(1, 2)));
-        DistanceMatrixRow row1 = distanceMatrix.addLocation(new Location(1, Coordinates.valueOf(1, 2)));
-        errorEventEvent.fire(new ErrorEvent(this, row0.distanceTo(1L).toString()));
-
         List<String> countryCodes = regionService.countryCodes();
         errorEventEvent.fire(new ErrorEvent(this, countryCodes.toString()));
 
-        routeChangedEventEvent.fire(new RouteChangedEvent(
-                this,
-                Distance.ofMillis(30_000),
-                Collections.singletonList(1L),
-                0L,
-                Collections.singletonList(999L),
-                Collections.singletonList(new ShallowRoute(1L, 0L, Collections.singletonList(999L)))));
-
         vehicleService.createVehicle();
-        locationService.addLocation(new Location(1, Coordinates.valueOf(1, 2)));
+        vehicleService.createVehicle();
+        vehicleService.createVehicle();
+        vehicleService.removeAll();
+
+        locationService.createLocation(Coordinates.valueOf(12.3, 88.8), "TEST");
+
+        DistanceMatrixRow row = distanceMatrix.addLocation(new Location(999999, Coordinates.valueOf(1, 1)));
+        errorEventEvent.fire(new ErrorEvent(this, "Distance: " + row.distanceTo(4)));
         return "Hello RESTEasy";
     }
 }

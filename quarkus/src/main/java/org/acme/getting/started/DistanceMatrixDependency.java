@@ -21,35 +21,13 @@ import java.time.Duration;
 import javax.enterprise.context.ApplicationScoped;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
-import org.optaweb.vehiclerouting.service.distance.DistanceRepository;
 
 @ApplicationScoped
-public class DistanceMatrixDependency implements DistanceCalculator, DistanceRepository {
+public class DistanceMatrixDependency implements DistanceCalculator {
 
     @Override
     public long travelTimeMillis(Coordinates from, Coordinates to) {
         return Duration.ofMinutes(2).toMillis();
-    }
-
-    @Override
-    public void saveDistance(Location from, Location to, long distance) {
-
-    }
-
-    @Override
-    public long getDistance(Location from, Location to) {
-        return -1;
-    }
-
-    @Override
-    public void deleteDistances(Location location) {
-
-    }
-
-    @Override
-    public void deleteAll() {
-
     }
 }

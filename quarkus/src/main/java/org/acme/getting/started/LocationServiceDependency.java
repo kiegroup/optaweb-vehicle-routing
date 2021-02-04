@@ -16,20 +16,14 @@
 
 package org.acme.getting.started;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
 import javax.enterprise.context.ApplicationScoped;
 
-import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 import org.optaweb.vehiclerouting.service.location.LocationPlanner;
-import org.optaweb.vehiclerouting.service.location.LocationRepository;
 
 @ApplicationScoped
-public class LocationServiceDependency implements LocationRepository, LocationPlanner {
+public class LocationServiceDependency implements LocationPlanner {
 
     @Override
     public void addLocation(Location location, DistanceMatrixRow distanceMatrixRow) {
@@ -44,30 +38,5 @@ public class LocationServiceDependency implements LocationRepository, LocationPl
     @Override
     public void removeAllLocations() {
 
-    }
-
-    @Override
-    public Location createLocation(Coordinates coordinates, String description) {
-        return null;
-    }
-
-    @Override
-    public List<Location> locations() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public Location removeLocation(long id) {
-        return null;
-    }
-
-    @Override
-    public void removeAll() {
-
-    }
-
-    @Override
-    public Optional<Location> find(long locationId) {
-        return Optional.of(new Location(locationId, Coordinates.valueOf(999, 999), "Fake location"));
     }
 }

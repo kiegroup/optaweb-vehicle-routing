@@ -16,11 +16,14 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
-import org.springframework.data.repository.CrudRepository;
+import javax.enterprise.context.ApplicationScoped;
+
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 /**
  * Location repository.
  */
-public interface LocationCrudRepository extends CrudRepository<LocationEntity, Long> {
+@ApplicationScoped
+public class LocationCrudRepository implements PanacheRepository<LocationEntity> {
 
 }

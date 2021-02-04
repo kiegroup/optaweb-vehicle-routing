@@ -16,20 +16,13 @@
 
 package org.acme.getting.started;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-
 import javax.enterprise.context.ApplicationScoped;
 
 import org.optaweb.vehiclerouting.domain.Vehicle;
-import org.optaweb.vehiclerouting.domain.VehicleData;
-import org.optaweb.vehiclerouting.domain.VehicleFactory;
 import org.optaweb.vehiclerouting.service.vehicle.VehiclePlanner;
-import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 
 @ApplicationScoped
-public class VehicleServiceDependency implements VehicleRepository, VehiclePlanner {
+public class VehicleServiceDependency implements VehiclePlanner {
 
     @Override
     public void addVehicle(Vehicle vehicle) {
@@ -48,41 +41,6 @@ public class VehicleServiceDependency implements VehicleRepository, VehiclePlann
 
     @Override
     public void changeCapacity(Vehicle vehicle) {
-
-    }
-
-    @Override
-    public Vehicle createVehicle(int capacity) {
-        return VehicleFactory.createVehicle(1, "Vehicle 1", capacity);
-    }
-
-    @Override
-    public Vehicle createVehicle(VehicleData vehicleData) {
-        return null;
-    }
-
-    @Override
-    public List<Vehicle> vehicles() {
-        return Collections.emptyList();
-    }
-
-    @Override
-    public Vehicle removeVehicle(long id) {
-        return null;
-    }
-
-    @Override
-    public void removeAll() {
-
-    }
-
-    @Override
-    public Optional<Vehicle> find(long vehicleId) {
-        return Optional.of(VehicleFactory.createVehicle(vehicleId, "Fake vehicle", 99));
-    }
-
-    @Override
-    public void update(Vehicle vehicle) {
 
     }
 }

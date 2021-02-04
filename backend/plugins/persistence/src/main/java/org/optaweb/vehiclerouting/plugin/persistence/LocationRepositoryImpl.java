@@ -20,31 +20,31 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
+
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+@ApplicationScoped
 class LocationRepositoryImpl implements LocationRepository {
 
     private static final Logger logger = LoggerFactory.getLogger(LocationRepositoryImpl.class);
     private final LocationCrudRepository repository;
 
-    @Autowired
+    @Inject
     LocationRepositoryImpl(LocationCrudRepository repository) {
         this.repository = repository;
     }
 
     @Override
     public Location createLocation(Coordinates coordinates, String description) {
-        LocationEntity locationEntity = repository.save(
-                new LocationEntity(0, coordinates.latitude(), coordinates.longitude(), description));
+        LocationEntity locationEntity = new LocationEntity(0, coordinates.latitude(), coordinates.longitude(), description);
+        repository.persist(locationEntity);
         Location location = toDomain(locationEntity);
         logger.info("Created location {}.", location.fullDescription());
         return location;
@@ -52,14 +52,14 @@ class LocationRepositoryImpl implements LocationRepository {
 
     @Override
     public List<Location> locations() {
-        return StreamSupport.stream(repository.findAll().spliterator(), false)
+        return repository.streamAll()
                 .map(LocationRepositoryImpl::toDomain)
                 .collect(toList());
     }
 
     @Override
     public Location removeLocation(long id) {
-        Optional<LocationEntity> maybeLocation = repository.findById(id);
+        Optional<LocationEntity> maybeLocation = repository.findByIdOptional(id);
         maybeLocation.ifPresent(locationEntity -> repository.deleteById(id));
         LocationEntity locationEntity = maybeLocation.orElseThrow(
                 () -> new IllegalArgumentException("Location{id=" + id + "} doesn't exist"));
@@ -75,7 +75,7 @@ class LocationRepositoryImpl implements LocationRepository {
 
     @Override
     public Optional<Location> find(long locationId) {
-        return repository.findById(locationId).map(LocationRepositoryImpl::toDomain);
+        return repository.findByIdOptional(locationId).map(LocationRepositoryImpl::toDomain);
     }
 
     private static Location toDomain(LocationEntity locationEntity) {
