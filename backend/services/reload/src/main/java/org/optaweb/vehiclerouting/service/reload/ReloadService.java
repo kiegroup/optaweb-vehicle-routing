@@ -16,19 +16,21 @@
 
 package org.optaweb.vehiclerouting.service.reload;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
+import javax.inject.Inject;
+
 import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
-import org.springframework.context.event.EventListener;
-import org.springframework.stereotype.Service;
+
+import io.quarkus.runtime.StartupEvent;
 
 /**
  * Reloads data from repositories when the application starts.
  */
-@Service
+@ApplicationScoped
 public class ReloadService {
 
     private final VehicleRepository vehicleRepository;
@@ -36,7 +38,7 @@ public class ReloadService {
     private final LocationRepository locationRepository;
     private final LocationService locationService;
 
-    @Autowired
+    @Inject
     ReloadService(
             VehicleRepository vehicleRepository,
             VehicleService vehicleService,
@@ -48,8 +50,7 @@ public class ReloadService {
         this.locationService = locationService;
     }
 
-    @EventListener
-    public synchronized void reload(ApplicationStartedEvent event) {
+    public void reload(@Observes StartupEvent startupEvent) {
         vehicleRepository.vehicles().forEach(vehicleService::addVehicle);
         locationRepository.locations().forEach(locationService::addLocation);
     }

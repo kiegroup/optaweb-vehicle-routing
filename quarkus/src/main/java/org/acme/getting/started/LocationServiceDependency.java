@@ -16,6 +16,7 @@
 
 package org.acme.getting.started;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,7 +53,7 @@ public class LocationServiceDependency implements LocationRepository, LocationPl
 
     @Override
     public List<Location> locations() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override

@@ -36,7 +36,8 @@ import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
-import org.springframework.boot.context.event.ApplicationStartedEvent;
+
+import io.quarkus.runtime.StartupEvent;
 
 @ExtendWith(MockitoExtension.class)
 class ReloadServiceTest {
@@ -53,7 +54,7 @@ class ReloadServiceTest {
     private ReloadService reloadService;
 
     @Mock
-    ApplicationStartedEvent event;
+    StartupEvent event;
 
     private final Vehicle vehicle = VehicleFactory.createVehicle(193, "Vehicle 193", 100);
     private final List<Vehicle> persistedVehicles = Arrays.asList(vehicle, vehicle);

@@ -16,6 +16,7 @@
 
 package org.acme.getting.started;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,7 +63,7 @@ public class VehicleServiceDependency implements VehicleRepository, VehiclePlann
 
     @Override
     public List<Vehicle> vehicles() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
