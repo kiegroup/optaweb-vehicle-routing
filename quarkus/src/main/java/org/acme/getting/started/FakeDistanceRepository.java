@@ -18,29 +18,37 @@ package org.acme.getting.started;
 
 import javax.enterprise.context.ApplicationScoped;
 
-import org.optaweb.vehiclerouting.domain.Vehicle;
-import org.optaweb.vehiclerouting.service.vehicle.VehiclePlanner;
+import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.service.distance.DistanceRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import io.quarkus.arc.AlternativePriority;
 
 @ApplicationScoped
-public class VehicleServiceDependency implements VehiclePlanner {
+@AlternativePriority(1)
+public class FakeDistanceRepository implements DistanceRepository {
+
+    private static final Logger logger = LoggerFactory.getLogger(FakeDistanceRepository.class);
 
     @Override
-    public void addVehicle(Vehicle vehicle) {
-
+    public void saveDistance(Location from, Location to, long distance) {
+        logger.info("SAVE");
     }
 
     @Override
-    public void removeVehicle(Vehicle vehicle) {
-
+    public long getDistance(Location from, Location to) {
+        logger.info("GET");
+        return -1;
     }
 
     @Override
-    public void removeAllVehicles() {
-
+    public void deleteDistances(Location location) {
+        logger.info("DELETE");
     }
 
     @Override
-    public void changeCapacity(Vehicle vehicle) {
-
+    public void deleteAll() {
+        logger.info("DELETE ALL");
     }
 }

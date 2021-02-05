@@ -1,9 +1,7 @@
 package org.acme.getting.started;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
@@ -40,8 +38,8 @@ public class GreetingResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
-        Collection<RoutingProblem> demos = demoService.demos();
-        errorEventEvent.fire(new ErrorEvent(this, demos.stream().map(Objects::toString).collect(Collectors.joining(","))));
+        ArrayList<RoutingProblem> demos = new ArrayList<>(demoService.demos());
+        errorEventEvent.fire(new ErrorEvent(this, demos.toString()));
 
         List<String> countryCodes = regionService.countryCodes();
         errorEventEvent.fire(new ErrorEvent(this, countryCodes.toString()));
@@ -49,7 +47,7 @@ public class GreetingResource {
         locationService.removeAll();
         vehicleService.removeAll();
 
-        demoService.loadDemo(demos.iterator().next().name());
+        demoService.loadDemo("Belgium cities");
 
         return "Hello RESTEasy";
     }
