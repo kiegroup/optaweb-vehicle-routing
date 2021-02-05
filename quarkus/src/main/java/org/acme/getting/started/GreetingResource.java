@@ -14,13 +14,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.error.ErrorEvent;
-import org.optaweb.vehiclerouting.service.location.DistanceMatrix;
-import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
@@ -38,8 +34,6 @@ public class GreetingResource {
     @Inject
     DemoService demoService;
     @Inject
-    DistanceMatrix distanceMatrix;
-    @Inject
     RegionService regionService;
 
     @Transactional
@@ -52,15 +46,11 @@ public class GreetingResource {
         List<String> countryCodes = regionService.countryCodes();
         errorEventEvent.fire(new ErrorEvent(this, countryCodes.toString()));
 
-        vehicleService.createVehicle();
-        vehicleService.createVehicle();
-        vehicleService.createVehicle();
+        locationService.removeAll();
         vehicleService.removeAll();
 
-        locationService.createLocation(Coordinates.valueOf(12.3, 88.8), "TEST");
+        demoService.loadDemo(demos.iterator().next().name());
 
-        DistanceMatrixRow row = distanceMatrix.addLocation(new Location(999999, Coordinates.valueOf(1, 1)));
-        errorEventEvent.fire(new ErrorEvent(this, "Distance: " + row.distanceTo(4)));
         return "Hello RESTEasy";
     }
 }

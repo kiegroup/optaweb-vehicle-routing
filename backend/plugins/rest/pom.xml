@@ -22,20 +22,36 @@
 
   <parent>
     <groupId>org.optaweb.vehiclerouting</groupId>
-    <artifactId>backend</artifactId>
+    <artifactId>plugins</artifactId>
     <version>8.3.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>plugins</artifactId>
-  <packaging>pom</packaging>
+  <artifactId>rest</artifactId>
+  <name>backend :: plugins :: rest</name>
 
-  <name>backend :: plugins</name>
-
-  <modules>
-    <module>persistence</module>
-    <module>planner</module>
-    <module>routing</module>
-    <module>websocket</module>
-    <module>rest</module>
-  </modules>
+  <dependencies>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>demo</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-jackson</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-junit5-mockito</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 </project>

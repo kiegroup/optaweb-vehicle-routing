@@ -14,29 +14,28 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.websocket;
+package org.optaweb.vehiclerouting.plugin.rest;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.optaweb.vehiclerouting.service.demo.DemoService;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.ContentDisposition;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Serves the current data set as a downloadable YAML file.
  */
-@Controller
-class DataSetDownloadController {
+@Path("/dataset/export")
+@Produces(MediaType.APPLICATION_JSON)
+public class DataSetDownloadController {
 
     private final DemoService demoService;
 
@@ -44,22 +43,17 @@ class DataSetDownloadController {
         this.demoService = demoService;
     }
 
-    @GetMapping(value = "/dataset/export")
-    @ResponseBody
-    public ResponseEntity<Resource> exportDataSet() throws IOException {
+    @GET
+    public Response exportDataSet() throws IOException {
         String dataSet = demoService.exportDataSet();
         byte[] dataSetBytes = dataSet.getBytes(StandardCharsets.UTF_8);
         try (InputStream is = new ByteArrayInputStream(dataSetBytes)) {
-            HttpHeaders headers = new HttpHeaders();
-            ContentDisposition attachment = ContentDisposition.builder("attachment")
-                    .filename("vrp_data_set.yaml")
+            return Response.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"vrp_data_set.yaml\"")
+                    .header(HttpHeaders.CONTENT_LENGTH, dataSetBytes.length)
+                    .type(new MediaType("text", "x-yaml", StandardCharsets.UTF_8.name()))
+                    .entity(is)
                     .build();
-            headers.setContentDisposition(attachment);
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(dataSetBytes.length)
-                    .contentType(new MediaType("text", "x-yaml", StandardCharsets.UTF_8))
-                    .body(new InputStreamResource(is));
         }
     }
 

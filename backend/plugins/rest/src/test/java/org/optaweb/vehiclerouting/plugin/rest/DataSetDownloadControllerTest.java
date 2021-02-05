@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.websocket;
+package org.optaweb.vehiclerouting.plugin.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,10 +31,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 @ExtendWith(MockitoExtension.class)
 class DataSetDownloadControllerTest {
@@ -47,17 +47,18 @@ class DataSetDownloadControllerTest {
         when(demoService.exportDataSet()).thenReturn(msg);
 
         // act
-        ResponseEntity<Resource> responseEntity = controller.exportDataSet();
+        Response responseEntity = controller.exportDataSet();
 
         // assert
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        HttpHeaders headers = responseEntity.getHeaders();
+        assertThat(responseEntity.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+        MultivaluedMap<String, Object> headers = responseEntity.getHeaders();
         // String.length() works here because the message is ASCII
-        assertThat(headers.getContentLength()).isEqualTo(msg.length());
-        assertThat(headers.getContentType()).isNotNull();
-        assertThat(headers.getContentType().toString()).isEqualToIgnoringWhitespace("text/x-yaml;charset=UTF-8");
-        assertThat(headers.getContentDisposition()).isNotNull();
-        String contentDisposition = headers.getContentDisposition().toString();
+        assertThat(headers.getFirst(HttpHeaders.CONTENT_LENGTH)).isEqualTo(msg.length());
+        assertThat(headers.getFirst(HttpHeaders.CONTENT_TYPE)).isNotNull();
+        assertThat(headers.getFirst(HttpHeaders.CONTENT_TYPE).toString())
+                .isEqualToIgnoringWhitespace("text/x-yaml;charset=UTF-8");
+        assertThat(headers.getFirst(HttpHeaders.CONTENT_DISPOSITION)).isNotNull();
+        String contentDisposition = headers.getFirst(HttpHeaders.CONTENT_DISPOSITION).toString();
         assertThat(contentDisposition)
                 .startsWith("attachment;")
                 .containsPattern("; *filename=\".*\\.yaml\"");
@@ -74,9 +75,9 @@ class DataSetDownloadControllerTest {
         when(demoService.exportDataSet()).thenReturn(msg);
 
         // act
-        ResponseEntity<Resource> responseEntity = controller.exportDataSet();
+        Response responseEntity = controller.exportDataSet();
 
         // assert
-        assertThat(responseEntity.getHeaders().getContentLength()).isEqualTo(3);
+        assertThat(responseEntity.getHeaderString(HttpHeaders.CONTENT_LENGTH)).isEqualTo("3");
     }
 }
