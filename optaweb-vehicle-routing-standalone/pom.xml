@@ -36,6 +36,7 @@
     <!-- Override to run with Podman. -->
     <container.runtime>docker</container.runtime>
     <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
+    <java.module.name>org.optaweb.vehiclerouting</java.module.name>
     <test.osm.file>planet_12.032,53.0171_12.1024,53.0491.osm.pbf</test.osm.file>
     <version.cypress.docker>4.12.1</version.cypress.docker>
   </properties>
