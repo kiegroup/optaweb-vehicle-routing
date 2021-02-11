@@ -27,6 +27,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.optaweb.vehiclerouting.plugin.rest.model.PortableCoordinates;
+import org.optaweb.vehiclerouting.plugin.rest.model.RoutingProblemInfo;
+import org.optaweb.vehiclerouting.plugin.rest.model.ServerInfo;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.RegionService;

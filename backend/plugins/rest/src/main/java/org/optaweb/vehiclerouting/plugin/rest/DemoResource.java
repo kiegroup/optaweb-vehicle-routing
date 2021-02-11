@@ -20,26 +20,20 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
-import org.optaweb.vehiclerouting.service.location.LocationService;
-import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
+import org.optaweb.vehiclerouting.service.demo.DemoService;
 
-@Path("clear")
-public class ClearResource {
-
-    private final LocationService locationService;
-    private final VehicleService vehicleService;
+@Path("demo/{name}")
+public class DemoResource {
 
     @Inject
-    public ClearResource(LocationService locationService, VehicleService vehicleService) {
-        this.locationService = locationService;
-        this.vehicleService = vehicleService;
-    }
+    DemoService demoService;
 
     @Transactional
     @POST
-    public void clear() {
-        vehicleService.removeAll();
-        locationService.removeAll();
+    public void loadDemo(@PathParam("name") String name) {
+        demoService.loadDemo(name);
     }
+
 }

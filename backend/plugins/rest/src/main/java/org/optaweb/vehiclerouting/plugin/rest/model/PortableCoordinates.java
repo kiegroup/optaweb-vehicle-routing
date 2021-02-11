@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.rest;
+package org.optaweb.vehiclerouting.plugin.rest.model;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * {@link Coordinates} representation optimized for network transport.
  */
-class PortableCoordinates {
+public class PortableCoordinates {
 
     /*
      * Five decimal places gives "metric" precision (±55 cm on equator). That's enough for visualising the track.
@@ -40,7 +40,7 @@ class PortableCoordinates {
     @JsonProperty(value = "lng")
     private final BigDecimal longitude;
 
-    static PortableCoordinates fromCoordinates(Coordinates coordinates) {
+    public static PortableCoordinates fromCoordinates(Coordinates coordinates) {
         Objects.requireNonNull(coordinates, "coordinates must not be null");
         return new PortableCoordinates(
                 coordinates.latitude(),

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.rest;
+package org.optaweb.vehiclerouting.plugin.rest.model;
 
 import java.util.List;
 import java.util.Objects;

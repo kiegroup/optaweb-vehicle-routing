@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.rest;
+package org.optaweb.vehiclerouting.plugin.rest.model;
 
 import java.util.Objects;
 
@@ -23,12 +23,12 @@ import org.optaweb.vehiclerouting.domain.RoutingProblem;
 /**
  * Information about a {@link RoutingProblem routing problem instance}.
  */
-class RoutingProblemInfo {
+public class RoutingProblemInfo {
 
     private final String name;
     private final int visits;
 
-    RoutingProblemInfo(String name, int visits) {
+    public RoutingProblemInfo(String name, int visits) {
         this.name = Objects.requireNonNull(name);
         this.visits = visits;
     }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.rest;
+package org.optaweb.vehiclerouting.plugin.rest.model;
 
 import static java.util.stream.Collectors.toList;
 
@@ -29,13 +29,13 @@ import org.optaweb.vehiclerouting.domain.Vehicle;
 /**
  * Creates instances of {@link PortableRoutingPlan}.
  */
-class PortableRoutingPlanFactory {
+public class PortableRoutingPlanFactory {
 
     private PortableRoutingPlanFactory() {
         throw new AssertionError("Utility class");
     }
 
-    static PortableRoutingPlan fromRoutingPlan(RoutingPlan routingPlan) {
+    public static PortableRoutingPlan fromRoutingPlan(RoutingPlan routingPlan) {
         PortableDistance distance = PortableDistance.fromDistance(routingPlan.distance());
         List<PortableVehicle> vehicles = portableVehicles(routingPlan.vehicles());
         PortableLocation depot = routingPlan.depot().map(PortableLocation::fromLocation).orElse(null);

@@ -31,6 +31,7 @@ import javax.ws.rs.sse.SseBroadcaster;
 import javax.ws.rs.sse.SseEventSink;
 
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
+import org.optaweb.vehiclerouting.plugin.rest.model.PortableRoutingPlanFactory;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 
 @ApplicationScoped

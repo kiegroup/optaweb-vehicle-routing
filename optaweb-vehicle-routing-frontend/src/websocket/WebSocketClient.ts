@@ -45,6 +45,7 @@ export default class WebSocketClient {
   }
 
   loadDemo(name: string): void {
+    fetch(`${this.backendUrl}/demo/${name}`, { method: 'POST' });
   }
 
   deleteLocation(locationId: number) {
