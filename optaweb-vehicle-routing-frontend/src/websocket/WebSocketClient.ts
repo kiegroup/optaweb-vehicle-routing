@@ -21,18 +21,18 @@ import { LatLngWithDescription, RoutingPlan } from 'store/route/types';
 import { ServerInfo } from 'store/server/types';
 
 export default class WebSocketClient {
-  readonly socketUrl: string;
+  readonly backendUrl: string;
 
   eventSource: EventSource | null;
 
-  constructor(socketUrl: string) {
-    this.socketUrl = socketUrl;
+  constructor(backendUrl: string) {
+    this.backendUrl = backendUrl;
     this.eventSource = null;
   }
 
   connect(successCallback: () => any, errorCallback: (err: Event) => any) {
     if (this.eventSource === null) {
-      const eventSource = new EventSource(`${this.socketUrl}/route`);
+      const eventSource = new EventSource(`${this.backendUrl}/events/route`);
       this.eventSource = eventSource;
       eventSource.onopen = successCallback();
       eventSource.onerror = (event) => {
@@ -68,6 +68,9 @@ export default class WebSocketClient {
   }
 
   subscribeToServerInfo(subscriptionCallback: (serverInfo: ServerInfo) => any): void {
+    fetch(`${this.backendUrl}/serverInfo`)
+      .then((response) => response.json())
+      .then((data) => subscriptionCallback(data));
   }
 
   subscribeToRoute(subscriptionCallback: (plan: RoutingPlan) => any): void {

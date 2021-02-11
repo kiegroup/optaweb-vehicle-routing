@@ -36,7 +36,7 @@ import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;
 
 @ApplicationScoped
-@Path("/vrp-websocket")
+@Path("/events")
 public class SseController implements RoutingPlanConsumer {
 
     // TODO repository, not listener (service)
