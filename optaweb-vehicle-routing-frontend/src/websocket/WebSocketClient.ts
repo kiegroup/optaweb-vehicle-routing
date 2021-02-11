@@ -32,14 +32,9 @@ export default class WebSocketClient {
 
   connect(successCallback: () => any, errorCallback: (err: Event) => any) {
     if (this.eventSource === null) {
-      const eventSource = new EventSource(`${this.backendUrl}/events/route`);
-      this.eventSource = eventSource;
-      eventSource.onopen = successCallback();
-      eventSource.onerror = (event) => {
-        console.error(event);
-        errorCallback(event);
-        this.eventSource = null;
-      };
+      this.eventSource = new EventSource(`${this.backendUrl}/events/route`);
+      this.eventSource.onopen = successCallback;
+      this.eventSource.onerror = errorCallback;
     }
   }
 
@@ -76,9 +71,9 @@ export default class WebSocketClient {
 
   subscribeToRoute(subscriptionCallback: (plan: RoutingPlan) => any): void {
     if (this.eventSource !== null) {
-      this.eventSource.onmessage = (message) => {
-        subscriptionCallback(JSON.parse(message.data));
-      };
+      this.eventSource.addEventListener('route', (event: MessageEvent) => {
+        subscriptionCallback(JSON.parse(event.data));
+      });
     }
   }
 

@@ -16,7 +16,9 @@
 
 package org.optaweb.vehiclerouting.plugin.rest;
 
+import javax.annotation.PreDestroy;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -25,64 +27,54 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.sse.OutboundSseEvent;
 import javax.ws.rs.sse.Sse;
+import javax.ws.rs.sse.SseBroadcaster;
 import javax.ws.rs.sse.SseEventSink;
 
-import org.jboss.resteasy.reactive.RestSseElementType;
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
-import org.optaweb.vehiclerouting.service.route.RoutingPlanConsumer;
-
-import io.smallrye.mutiny.Multi;
-import io.smallrye.mutiny.operators.multi.processors.BroadcastProcessor;
 
 @ApplicationScoped
 @Path("/events")
-public class SseController implements RoutingPlanConsumer {
+public class SseController {
 
     // TODO repository, not listener (service)
     @Inject
     RouteListener routeListener;
 
-    private final BroadcastProcessor<RoutingPlan> processor = BroadcastProcessor.create();
-    private final Multi<PortableRoutingPlan> multi = processor
-            .onItem().transform(PortableRoutingPlanFactory::fromRoutingPlan)
-            .onFailure().recoverWithItem(() -> {
-                throw new IllegalArgumentException("FIXME");
-            });
+    private SseBroadcaster sseBroadcaster;
+    private OutboundSseEvent.Builder eventBuilder;
 
-    @Override
-    public void consumePlan(RoutingPlan routingPlan) {
-        processor.onNext(routingPlan);
+    // Handy during development.
+    @PreDestroy
+    public void closeBroadcaster() {
+        sseBroadcaster.close();
+    }
+
+    public void observeRoute(@Observes RoutingPlan event) {
+        if (sseBroadcaster != null) {
+            sseBroadcaster.broadcast(eventBuilder
+                    .data(PortableRoutingPlanFactory.fromRoutingPlan(event))
+                    .comment("route update")
+                    .build());
+        }
     }
 
     @GET
     @Produces(MediaType.SERVER_SENT_EVENTS)
-    @RestSseElementType(MediaType.APPLICATION_JSON)
     @Path("route")
-    public Multi<PortableRoutingPlan> route() {
-        // TODO return current best plan immediately or let the client fetch the best plan upon a successful connection
-        return multi;
-    }
-
-    @GET
-    @Produces(MediaType.SERVER_SENT_EVENTS)
-    @Path("route2")
     public void sse(@Context Sse sse, @Context SseEventSink eventSink) {
-        OutboundSseEvent.Builder eventBuilder = sse.newEventBuilder();
+        if (sseBroadcaster == null) {
+            sseBroadcaster = sse.newBroadcaster();
+            eventBuilder = sse.newEventBuilder()
+                    .name("route")
+                    .mediaType(MediaType.APPLICATION_JSON_TYPE)
+                    .reconnectDelay(3000);
+        }
         OutboundSseEvent sseEvent = eventBuilder
-                .name("route")
-                .mediaType(MediaType.APPLICATION_JSON_TYPE)
-                .data(routeListener.getBestRoutingPlan())
-                .reconnectDelay(3000)
+                .data(PortableRoutingPlanFactory.fromRoutingPlan(routeListener.getBestRoutingPlan()))
                 .comment("best route")
                 .build();
         eventSink.send(sseEvent);
-        multi.subscribe().with(item -> eventSink.send(eventBuilder
-                .name("route")
-                .mediaType(MediaType.APPLICATION_JSON_TYPE)
-                .data(item)
-                .reconnectDelay(3000)
-                .comment("route update")
-                .build()), eventSink::close);
+        sseBroadcaster.register(eventSink);
     }
 }

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
@@ -50,9 +51,9 @@ public class RouteListener {
     private static final Logger logger = LoggerFactory.getLogger(RouteListener.class);
 
     private final Router router;
-    private final RoutingPlanConsumer routingPlanConsumer;
     private final VehicleRepository vehicleRepository;
     private final LocationRepository locationRepository;
+    private final Event<RoutingPlan> routingPlanEvent;
 
     // TODO maybe remove state from the service and get best route from a repository
     private RoutingPlan bestRoutingPlan;
@@ -60,13 +61,13 @@ public class RouteListener {
     @Inject
     RouteListener(
             Router router,
-            RoutingPlanConsumer routingPlanConsumer,
             VehicleRepository vehicleRepository,
-            LocationRepository locationRepository) {
+            LocationRepository locationRepository,
+            Event<RoutingPlan> routingPlanEvent) {
         this.router = router;
-        this.routingPlanConsumer = routingPlanConsumer;
         this.vehicleRepository = vehicleRepository;
         this.locationRepository = locationRepository;
+        this.routingPlanEvent = routingPlanEvent;
         bestRoutingPlan = RoutingPlan.empty();
     }
 
@@ -100,7 +101,7 @@ public class RouteListener {
                     depot,
                     new ArrayList<>(visitMap.values()),
                     routes);
-            routingPlanConsumer.consumePlan(bestRoutingPlan);
+            routingPlanEvent.fire(bestRoutingPlan);
         } catch (IllegalStateException e) {
             logger.warn("Discarding an outdated routing plan: {}", e.toString());
         }

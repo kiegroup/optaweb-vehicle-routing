@@ -27,8 +27,6 @@ import javax.ws.rs.core.MediaType;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
-import io.smallrye.common.annotation.Blocking;
-
 @Path("clear")
 public class ClearResource {
 
@@ -41,7 +39,6 @@ public class ClearResource {
         this.vehicleService = vehicleService;
     }
 
-    @Blocking
     @Transactional
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

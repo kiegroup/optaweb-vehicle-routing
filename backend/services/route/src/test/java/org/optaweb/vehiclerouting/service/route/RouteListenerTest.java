@@ -29,6 +29,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import javax.enterprise.event.Event;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -52,11 +54,11 @@ class RouteListenerTest {
     @Mock
     private Router router;
     @Mock
-    private RoutingPlanConsumer routingPlanConsumer;
-    @Mock
     private VehicleRepository vehicleRepository;
     @Mock
     private LocationRepository locationRepository;
+    @Mock
+    private Event<RoutingPlan> routingPlanEvent;
     @Captor
     private ArgumentCaptor<RoutingPlan> routeArgumentCaptor;
     @InjectMocks
@@ -193,7 +195,7 @@ class RouteListenerTest {
         routeListener.onApplicationEvent(event);
 
         verify(router, never()).getPath(any(), any());
-        verify(routingPlanConsumer, never()).consumePlan(any());
+        verify(routingPlanEvent, never()).fire(any());
 
         assertThat(routeListener.getBestRoutingPlan().isEmpty()).isTrue();
     }
@@ -222,13 +224,13 @@ class RouteListenerTest {
         routeListener.onApplicationEvent(event);
 
         verify(router, never()).getPath(any(), any());
-        verify(routingPlanConsumer, never()).consumePlan(any());
+        verify(routingPlanEvent, never()).fire(any());
 
         assertThat(routeListener.getBestRoutingPlan().isEmpty()).isTrue();
     }
 
     private RoutingPlan verifyAndCaptureConsumedPlan() {
-        verify(routingPlanConsumer).consumePlan(routeArgumentCaptor.capture());
+        verify(routingPlanEvent).fire(routeArgumentCaptor.capture());
         return routeArgumentCaptor.getValue();
     }
 }
