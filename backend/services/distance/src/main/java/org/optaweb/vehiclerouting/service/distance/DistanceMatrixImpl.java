@@ -56,8 +56,10 @@ class DistanceMatrixImpl implements DistanceMatrix {
         // distance to self is 0
         distancesToOthers.put(newLocation.id(), Distance.ZERO);
 
+        // FIXME cannot do parallel and access the distance repository at the same time because Context is not available
+        //  on the parallel thread (javax.enterprise.context.ContextNotActiveException).
         // For all entries (rows) in the matrix:
-        matrix.entrySet().stream().parallel().forEach(distanceRow -> {
+        matrix.entrySet().stream().sequential().forEach(distanceRow -> {
             // Entry key is the existing (other) location.
             Location other = distanceRow.getKey();
             // Entry value is the data (cells) in the row (distances from the entry key location to any other).
