@@ -58,14 +58,15 @@ public class SseController implements RoutingPlanConsumer {
     @GET
     @Produces(MediaType.SERVER_SENT_EVENTS)
     @RestSseElementType(MediaType.APPLICATION_JSON)
-    @Path("route2")
+    @Path("route")
     public Multi<PortableRoutingPlan> route() {
+        // TODO return current best plan immediately or let the client fetch the best plan upon a successful connection
         return multi;
     }
 
     @GET
     @Produces(MediaType.SERVER_SENT_EVENTS)
-    @Path("route")
+    @Path("route2")
     public void sse(@Context Sse sse, @Context SseEventSink eventSink) {
         OutboundSseEvent.Builder eventBuilder = sse.newEventBuilder();
         OutboundSseEvent sseEvent = eventBuilder

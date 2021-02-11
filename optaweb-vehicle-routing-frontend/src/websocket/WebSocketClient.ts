@@ -14,112 +14,70 @@
  * limitations under the License.
  */
 
-import SockJS from 'sockjs-client';
+/* eslint-disable class-methods-use-this,@typescript-eslint/no-unused-vars */
+
 import { MessagePayload } from 'store/message/types';
 import { LatLngWithDescription, RoutingPlan } from 'store/route/types';
 import { ServerInfo } from 'store/server/types';
-import { Client, Frame, over } from 'webstomp-client';
 
 export default class WebSocketClient {
   readonly socketUrl: string;
 
-  stompClient: Client | null;
+  eventSource: EventSource | null;
 
   constructor(socketUrl: string) {
     this.socketUrl = socketUrl;
-    this.stompClient = null;
+    this.eventSource = null;
   }
 
-  connect(successCallback: () => any, errorCallback: (err: CloseEvent | Frame) => any) {
-    const webSocket = new SockJS(this.socketUrl);
-    this.stompClient = over(webSocket, {
-      debug: true,
-      // Because webstomp first reads ws.protocol:
-      // https://github.com/JSteunou/webstomp-client/blob/1.2.6/src/client.js#L152
-      // but SockJS doesn't specify it:
-      // https://github.com/sockjs/sockjs-client/blob/v1.3.0/lib/main.js#L43
-      // so finally this will be used to set accept-version header to '1.2' (verify in browser console):
-      // (see also https://github.com/JSteunou/webstomp-client/issues/75)
-      protocols: ['v12.stomp'],
-    });
-    this.stompClient.connect(
-      {}, // no headers
-      successCallback,
-      errorCallback,
-    );
+  connect(successCallback: () => any, errorCallback: (err: Event) => any) {
+    if (this.eventSource === null) {
+      const eventSource = new EventSource(`${this.socketUrl}/route`);
+      this.eventSource = eventSource;
+      eventSource.onopen = successCallback();
+      eventSource.onerror = (event) => {
+        console.error(event);
+        errorCallback(event);
+        this.eventSource = null;
+      };
+    }
   }
 
   addLocation(latLng: LatLngWithDescription) {
-    if (this.stompClient) {
-      this.stompClient.send('/app/location', JSON.stringify(latLng));
-    }
   }
 
   addVehicle() {
-    if (this.stompClient) {
-      this.stompClient.send('/app/vehicle');
-    }
   }
 
   loadDemo(name: string): void {
-    if (this.stompClient) {
-      this.stompClient.send(`/app/demo/${name}`);
-    }
   }
 
   deleteLocation(locationId: number) {
-    if (this.stompClient) {
-      this.stompClient.send(`/app/location/${locationId}/delete`, JSON.stringify(locationId)); // TODO no body
-    }
   }
 
   deleteAnyVehicle() {
-    if (this.stompClient) {
-      this.stompClient.send('/app/vehicle/deleteAny');
-    }
   }
 
   deleteVehicle(vehicleId: number) {
-    if (this.stompClient) {
-      this.stompClient.send(`/app/vehicle/${vehicleId}/delete`, JSON.stringify(vehicleId)); // TODO no body
-    }
   }
 
   changeVehicleCapacity(vehicleId: number, capacity: number) {
-    if (this.stompClient) {
-      this.stompClient.send(`/app/vehicle/${vehicleId}/capacity`, JSON.stringify(capacity));
-    }
   }
 
   clear() {
-    if (this.stompClient) {
-      this.stompClient.send('/app/clear');
-    }
   }
 
   subscribeToServerInfo(subscriptionCallback: (serverInfo: ServerInfo) => any): void {
-    if (this.stompClient) {
-      this.stompClient.subscribe('/topic/serverInfo', (message) => {
-        const serverInfo = JSON.parse(message.body);
-        subscriptionCallback(serverInfo);
-      });
-    }
   }
 
   subscribeToRoute(subscriptionCallback: (plan: RoutingPlan) => any): void {
-    if (this.stompClient) {
-      this.stompClient.subscribe('/topic/route', (message) => {
-        const plan = JSON.parse(message.body);
-        subscriptionCallback(plan);
-      });
+    if (this.eventSource !== null) {
+      this.eventSource.onmessage = (message) => {
+        subscriptionCallback(JSON.parse(message.data));
+      };
     }
   }
 
   subscribeToErrorTopic(subscriptionCallback: (errorMessage: MessagePayload) => any): void {
-    if (this.stompClient) {
-      this.stompClient.subscribe('/topic/error', (message) => {
-        subscriptionCallback(JSON.parse(message.body));
-      });
-    }
   }
 }
