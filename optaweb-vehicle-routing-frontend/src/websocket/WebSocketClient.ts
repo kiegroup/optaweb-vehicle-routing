@@ -65,6 +65,7 @@ export default class WebSocketClient {
   }
 
   clear() {
+    fetch(`${this.backendUrl}/clear`, { method: 'POST' });
   }
 
   subscribeToServerInfo(subscriptionCallback: (serverInfo: ServerInfo) => any): void {
