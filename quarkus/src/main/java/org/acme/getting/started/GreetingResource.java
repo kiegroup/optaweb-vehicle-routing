@@ -19,6 +19,9 @@ import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.region.RegionService;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
+import io.smallrye.mutiny.Uni;
+import io.smallrye.mutiny.infrastructure.Infrastructure;
+
 @Path("/hello")
 @ApplicationScoped
 public class GreetingResource {
@@ -37,6 +40,12 @@ public class GreetingResource {
     @Transactional
     @GET
     @Produces(MediaType.TEXT_PLAIN)
+    public Uni<String> reactive() {
+        return Uni.createFrom()
+                .item(this::hello)
+                .runSubscriptionOn(Infrastructure.getDefaultWorkerPool());
+    }
+
     public String hello() {
         ArrayList<RoutingProblem> demos = new ArrayList<>(demoService.demos());
         errorEventEvent.fire(new ErrorEvent(this, demos.toString()));

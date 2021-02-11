@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.websocket;
+package org.optaweb.vehiclerouting.plugin.rest;
 
 import static java.util.stream.Collectors.toList;
 

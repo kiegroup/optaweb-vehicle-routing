@@ -35,8 +35,12 @@
       <artifactId>demo</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>route</artifactId>
+    </dependency>
+    <dependency>
       <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-resteasy-jackson</artifactId>
+      <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

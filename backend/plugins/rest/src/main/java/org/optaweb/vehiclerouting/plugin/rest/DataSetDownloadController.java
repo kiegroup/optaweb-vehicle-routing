@@ -30,6 +30,10 @@ import javax.ws.rs.core.Response;
 
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 
+import io.smallrye.mutiny.Uni;
+import io.smallrye.mutiny.infrastructure.Infrastructure;
+import io.smallrye.mutiny.unchecked.Unchecked;
+
 /**
  * Serves the current data set as a downloadable YAML file.
  */
@@ -44,7 +48,13 @@ public class DataSetDownloadController {
     }
 
     @GET
-    public Response exportDataSet() throws IOException {
+    public Uni<Response> reactive() {
+        return Uni.createFrom()
+                .item(Unchecked.supplier(this::exportDataSet))
+                .runSubscriptionOn(Infrastructure.getDefaultWorkerPool());
+    }
+
+    Response exportDataSet() throws IOException {
         String dataSet = demoService.exportDataSet();
         byte[] dataSetBytes = dataSet.getBytes(StandardCharsets.UTF_8);
         try (InputStream is = new ByteArrayInputStream(dataSetBytes)) {
