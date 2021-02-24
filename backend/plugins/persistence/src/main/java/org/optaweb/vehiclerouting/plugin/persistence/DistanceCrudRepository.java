@@ -19,6 +19,7 @@ package org.optaweb.vehiclerouting.plugin.persistence;
 import javax.enterprise.context.ApplicationScoped;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import io.quarkus.panache.common.Parameters;
 
 /**
  * Distance repository.
@@ -28,11 +29,7 @@ public class DistanceCrudRepository implements PanacheRepositoryBase<DistanceEnt
 
     void deleteByFromIdOrToId(long deletedLocationId) {
         delete(
-                "delete from DistanceEntity where from_id = :deletedLocationId or to_id = :deletedLocationId",
-                deletedLocationId);
-    }
-
-    void deleteByNQ(long deletedLocationId) {
-        delete("#Distance.delete", deletedLocationId);
+                "fromId = :deletedLocationId or toId = :deletedLocationId",
+                Parameters.with("deletedLocationId", deletedLocationId));
     }
 }
