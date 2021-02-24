@@ -30,6 +30,11 @@ public class DemoResource {
     @Inject
     DemoService demoService;
 
+    /**
+     * Load a demo data set.
+     *
+     * @param name data set name
+     */
     @Transactional
     @POST
     public void loadDemo(@PathParam("name") String name) {

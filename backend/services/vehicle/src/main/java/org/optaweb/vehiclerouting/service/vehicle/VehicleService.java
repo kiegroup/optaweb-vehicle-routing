@@ -26,7 +26,6 @@ import javax.inject.Inject;
 
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.domain.VehicleData;
-import org.optaweb.vehiclerouting.domain.VehicleFactory;
 
 @ApplicationScoped
 public class VehicleService {
@@ -75,10 +74,7 @@ public class VehicleService {
     }
 
     public void changeCapacity(long vehicleId, int capacity) {
-        Vehicle vehicle = vehicleRepository.find(vehicleId).orElseThrow(() -> new IllegalArgumentException(
-                "Can't remove Vehicle{id=" + vehicleId + "} because it doesn't exist"));
-        Vehicle updatedVehicle = VehicleFactory.createVehicle(vehicle.id(), vehicle.name(), capacity);
-        vehicleRepository.update(updatedVehicle);
+        Vehicle updatedVehicle = vehicleRepository.changeCapacity(vehicleId, capacity);
         planner.changeCapacity(updatedVehicle);
     }
 }

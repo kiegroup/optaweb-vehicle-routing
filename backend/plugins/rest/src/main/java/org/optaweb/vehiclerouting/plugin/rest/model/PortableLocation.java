@@ -27,7 +27,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * {@link Location} representation convenient for marshalling.
  */
-class PortableLocation {
+public class PortableLocation {
 
     private final long id;
 

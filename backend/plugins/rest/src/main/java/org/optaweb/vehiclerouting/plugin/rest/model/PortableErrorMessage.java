@@ -28,7 +28,7 @@ public class PortableErrorMessage {
     private final String id;
     private final String text;
 
-    static PortableErrorMessage fromMessage(ErrorMessage message) {
+    public static PortableErrorMessage fromMessage(ErrorMessage message) {
         return new PortableErrorMessage(message.id, message.text);
     }
 

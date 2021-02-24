@@ -39,9 +39,17 @@ export default class WebSocketClient {
   }
 
   addLocation(latLng: LatLngWithDescription) {
+    fetch(`${this.backendUrl}/location`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(latLng),
+    });
   }
 
   addVehicle() {
+    fetch(`${this.backendUrl}/vehicle`, { method: 'POST' });
   }
 
   loadDemo(name: string): void {
@@ -49,15 +57,23 @@ export default class WebSocketClient {
   }
 
   deleteLocation(locationId: number) {
+    // TODO error callback
+    fetch(`${this.backendUrl}/location/${locationId}`, { method: 'DELETE' });
   }
 
   deleteAnyVehicle() {
+    fetch(`${this.backendUrl}/vehicle/deleteAny`, { method: 'POST' });
   }
 
   deleteVehicle(vehicleId: number) {
+    fetch(`${this.backendUrl}/vehicle/${vehicleId}`, { method: 'DELETE' });
   }
 
   changeVehicleCapacity(vehicleId: number, capacity: number) {
+    fetch(`${this.backendUrl}/vehicle/${vehicleId}/capacity`, {
+      method: 'POST',
+      body: JSON.stringify(capacity),
+    });
   }
 
   clear() {
@@ -79,5 +95,10 @@ export default class WebSocketClient {
   }
 
   subscribeToErrorTopic(subscriptionCallback: (errorMessage: MessagePayload) => any): void {
+    if (this.eventSource !== null) {
+      this.eventSource.addEventListener('errorMessage', (event: MessageEvent) => {
+        subscriptionCallback(JSON.parse(event.data));
+      });
+    }
   }
 }

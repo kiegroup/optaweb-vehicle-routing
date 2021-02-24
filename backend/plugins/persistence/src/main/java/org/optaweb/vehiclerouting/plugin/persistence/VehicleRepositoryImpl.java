@@ -90,8 +90,11 @@ public class VehicleRepositoryImpl implements VehicleRepository {
     }
 
     @Override
-    public void update(Vehicle vehicle) {
-        repository.persist(new VehicleEntity(vehicle.id(), vehicle.name(), vehicle.capacity()));
+    public Vehicle changeCapacity(long vehicleId, int capacity) {
+        VehicleEntity vehicleEntity = repository.findByIdOptional(vehicleId).orElseThrow(() -> new IllegalArgumentException(
+                "Can't change Vehicle{id=" + vehicleId + "} because it doesn't exist"));
+        vehicleEntity.setCapacity(capacity);
+        return VehicleFactory.createVehicle(vehicleEntity.getId(), vehicleEntity.getName(), vehicleEntity.getCapacity());
     }
 
     private static Vehicle toDomain(VehicleEntity vehicleEntity) {

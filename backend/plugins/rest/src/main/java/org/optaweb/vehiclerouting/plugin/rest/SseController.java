@@ -31,7 +31,9 @@ import javax.ws.rs.sse.SseBroadcaster;
 import javax.ws.rs.sse.SseEventSink;
 
 import org.optaweb.vehiclerouting.domain.RoutingPlan;
+import org.optaweb.vehiclerouting.plugin.rest.model.PortableErrorMessage;
 import org.optaweb.vehiclerouting.plugin.rest.model.PortableRoutingPlanFactory;
+import org.optaweb.vehiclerouting.service.error.ErrorMessage;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 
 @ApplicationScoped
@@ -55,7 +57,18 @@ public class SseController {
         if (sseBroadcaster != null) {
             sseBroadcaster.broadcast(eventBuilder
                     .data(PortableRoutingPlanFactory.fromRoutingPlan(event))
+                    .name("route")
                     .comment("route update")
+                    .build());
+        }
+    }
+
+    public void observeError(@Observes ErrorMessage event) {
+        if (sseBroadcaster != null) {
+            sseBroadcaster.broadcast(eventBuilder
+                    .data(PortableErrorMessage.fromMessage(event))
+                    .name("errorMessage")
+                    .comment("error message")
                     .build());
         }
     }
@@ -67,7 +80,6 @@ public class SseController {
         if (sseBroadcaster == null) {
             sseBroadcaster = sse.newBroadcaster();
             eventBuilder = sse.newEventBuilder()
-                    .name("route")
                     .mediaType(MediaType.APPLICATION_JSON_TYPE)
                     .reconnectDelay(3000);
         }

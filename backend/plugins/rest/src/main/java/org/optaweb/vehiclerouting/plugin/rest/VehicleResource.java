@@ -18,29 +18,52 @@ package org.optaweb.vehiclerouting.plugin.rest;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 
-import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
-@Path("clear")
-public class ClearResource {
+@Path("vehicle")
+public class VehicleResource {
 
-    private final LocationService locationService;
     private final VehicleService vehicleService;
 
     @Inject
-    public ClearResource(LocationService locationService, VehicleService vehicleService) {
-        this.locationService = locationService;
+    public VehicleResource(VehicleService vehicleService) {
         this.vehicleService = vehicleService;
     }
 
     @Transactional
     @POST
-    public void clear() {
-        // TODO do this in one step (=> new RoutingPlanService)
-        vehicleService.removeAll();
-        locationService.removeAll();
+    public void addVehicle() {
+        vehicleService.createVehicle();
+    }
+
+    /**
+     * Delete vehicle.
+     *
+     * @param id ID of the vehicle to be deleted
+     */
+    @Transactional
+    @DELETE
+    @Path("{id}")
+    public void removeVehicle(@PathParam("id") long id) {
+        vehicleService.removeVehicle(id);
+    }
+
+    @Transactional
+    @POST
+    @Path("deleteAny")
+    public void removeAnyVehicle() {
+        vehicleService.removeAnyVehicle();
+    }
+
+    @Transactional
+    @POST
+    @Path("{id}/capacity")
+    public void changeCapacity(@PathParam("id") long id, int capacity) {
+        vehicleService.changeCapacity(id, capacity);
     }
 }

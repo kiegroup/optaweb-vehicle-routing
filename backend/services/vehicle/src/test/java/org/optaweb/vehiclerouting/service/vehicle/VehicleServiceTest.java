@@ -23,8 +23,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -137,14 +135,12 @@ class VehicleServiceTest {
     void changeCapacity() {
         final long vehicleId = 1;
         final int capacity = 123;
-        final Vehicle originalVehicle = VehicleFactory.createVehicle(vehicleId, "1", capacity - 10);
-        when(vehicleRepository.find(vehicleId)).thenReturn(Optional.of(originalVehicle));
+        final Vehicle vehicle = VehicleFactory.createVehicle(vehicleId, "1", capacity);
+        when(vehicleRepository.changeCapacity(vehicleId, capacity)).thenReturn(vehicle);
 
         vehicleService.changeCapacity(vehicleId, capacity);
 
-        verify(vehicleRepository).update(vehicleArgumentCaptor.capture());
-        assertThat(vehicleArgumentCaptor.getValue().id()).isEqualTo(vehicleId);
-        assertThat(vehicleArgumentCaptor.getValue().capacity()).isEqualTo(capacity);
+        verify(vehicleRepository).changeCapacity(vehicleId, capacity);
 
         verify(planner).changeCapacity(vehicleArgumentCaptor.capture());
         assertThat(vehicleArgumentCaptor.getValue().capacity()).isEqualTo(capacity);

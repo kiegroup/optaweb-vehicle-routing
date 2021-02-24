@@ -155,13 +155,19 @@ class VehicleRepositoryImplTest {
 
     @Test
     void update() {
-        repository.update(testVehicle);
+        long vehicleId = 123;
+        String name = "xy";
+        int capacity = 80;
 
-        verify(crudRepository).persist(vehicleEntityCaptor.capture());
+        VehicleEntity vehicleEntity = new VehicleEntity(vehicleId, name, capacity - 10);
+        when(crudRepository.findByIdOptional(vehicleId)).thenReturn(Optional.of(vehicleEntity));
 
-        VehicleEntity savedVehicle = vehicleEntityCaptor.getValue();
-        assertThat(savedVehicle.getId()).isEqualTo(testVehicle.id());
-        assertThat(savedVehicle.getName()).isEqualTo(testVehicle.name());
-        assertThat(savedVehicle.getCapacity()).isEqualTo(testVehicle.capacity());
+        Vehicle vehicle = repository.changeCapacity(vehicleId, capacity);
+
+        assertThat(vehicleEntity.getCapacity()).isEqualTo(capacity);
+
+        assertThat(vehicle.id()).isEqualTo(vehicleId);
+        assertThat(vehicle.name()).isEqualTo(name);
+        assertThat(vehicle.capacity()).isEqualTo(capacity);
     }
 }
