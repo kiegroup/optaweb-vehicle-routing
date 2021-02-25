@@ -96,10 +96,6 @@
       <artifactId>rest</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>routing</artifactId>
-    </dependency>
-    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-h2</artifactId>
     </dependency>
@@ -107,9 +103,20 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
     </dependency>
+    <!-- Routing -->
+    <dependency>
+      <groupId>com.graphhopper</groupId>
+      <artifactId>graphhopper-reader-osm</artifactId>
+    </dependency>
+    <!-- Testing -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5-mockito</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
