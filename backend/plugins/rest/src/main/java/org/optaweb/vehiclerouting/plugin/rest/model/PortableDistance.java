@@ -30,7 +30,7 @@ public class PortableDistance {
     @JsonValue
     private final String distance;
 
-    static PortableDistance fromDistance(Distance distance) {
+    public static PortableDistance fromDistance(Distance distance) {
         long seconds = (Objects.requireNonNull(distance).millis() + 500) / 1000;
         return new PortableDistance(String.format("%dh %dm %ds", seconds / 3600, seconds / 60 % 60, seconds % 60));
     }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.websocket;
+package org.optaweb.vehiclerouting.plugin.rest.model;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;

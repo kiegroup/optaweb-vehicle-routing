@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2021 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.websocket;
+package org.optaweb.vehiclerouting.plugin.rest;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
@@ -25,22 +23,23 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.optaweb.vehiclerouting.domain.RoutingPlan;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.optaweb.vehiclerouting.service.location.LocationService;
+import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
 @ExtendWith(MockitoExtension.class)
-class WebSocketRoutingPlanSenderTest {
+class ClearResourceTest {
 
     @Mock
-    private SimpMessagingTemplate webSocket;
+    private LocationService locationService;
+    @Mock
+    private VehicleService vehicleService;
     @InjectMocks
-    private WebSocketRoutingPlanSender routingPlanSender;
+    private ClearResource clearResource;
 
     @Test
-    void should_send_consumed_routing_plan_over_websocket() {
-        routingPlanSender.consumePlan(RoutingPlan.empty());
-        verify(webSocket).convertAndSend(
-                eq(WebSocketRoutingPlanSender.TOPIC_ROUTE),
-                any(PortableRoutingPlan.class));
+    void clear() {
+        clearResource.clear();
+        verify(locationService).removeAll();
+        verify(vehicleService).removeAll();
     }
 }

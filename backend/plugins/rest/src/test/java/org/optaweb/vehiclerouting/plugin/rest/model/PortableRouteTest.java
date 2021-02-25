@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.websocket;
+package org.optaweb.vehiclerouting.plugin.rest.model;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.optaweb.vehiclerouting.plugin.websocket.PortableCoordinates.fromCoordinates;
-import static org.optaweb.vehiclerouting.plugin.websocket.PortableLocation.fromLocation;
+import static org.optaweb.vehiclerouting.plugin.rest.model.PortableCoordinates.fromCoordinates;
+import static org.optaweb.vehiclerouting.plugin.rest.model.PortableLocation.fromLocation;
 
 import java.io.IOException;
 

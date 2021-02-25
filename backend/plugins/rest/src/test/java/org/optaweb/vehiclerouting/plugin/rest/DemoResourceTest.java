@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2021 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,26 +14,29 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.plugin.websocket;
+package org.optaweb.vehiclerouting.plugin.rest;
 
 import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.optaweb.vehiclerouting.service.error.ErrorMessage;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.optaweb.vehiclerouting.service.demo.DemoService;
 
 @ExtendWith(MockitoExtension.class)
-class WebSocketErrorMessageSenderTest {
+class DemoResourceTest {
+
+    @Mock
+    private DemoService demoService;
+    @InjectMocks
+    private DemoResource demoResource;
 
     @Test
-    void should_send_consumed_message_over_websocket(@Mock SimpMessagingTemplate webSocket) {
-        ErrorMessage message = ErrorMessage.of("id", "error");
-        new WebSocketErrorMessageSender(webSocket).consumeMessage(message);
-        verify(webSocket).convertAndSend(
-                WebSocketErrorMessageSender.TOPIC_ERROR,
-                PortableErrorMessage.fromMessage(message));
+    void demo() {
+        String problemName = "xy";
+        demoResource.loadDemo(problemName);
+        verify(demoService).loadDemo(problemName);
     }
 }

@@ -23,7 +23,7 @@ import org.optaweb.vehiclerouting.domain.RoutingPlan;
 /**
  * {@link RoutingPlan} representation convenient for marshalling.
  */
-class PortableRoutingPlan {
+public class PortableRoutingPlan {
 
     private final PortableDistance distance;
     private final List<PortableVehicle> vehicles;

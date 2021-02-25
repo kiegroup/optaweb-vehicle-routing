@@ -23,13 +23,13 @@ import org.optaweb.vehiclerouting.domain.Vehicle;
 /**
  * {@link Vehicle} representation suitable for network transport.
  */
-class PortableVehicle {
+public class PortableVehicle {
 
     private final long id;
     private final String name;
     private final int capacity;
 
-    static PortableVehicle fromVehicle(Vehicle vehicle) {
+    public static PortableVehicle fromVehicle(Vehicle vehicle) {
         Objects.requireNonNull(vehicle, "vehicle must not be null");
         return new PortableVehicle(vehicle.id(), vehicle.name(), vehicle.capacity());
     }
