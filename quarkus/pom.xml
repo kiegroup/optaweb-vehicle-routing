@@ -53,37 +53,13 @@
   <dependencies>
     <dependency>
       <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>demo</artifactId>
+      <artifactId>domain</artifactId>
     </dependency>
+    <!-- Dataset YAML -->
     <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>distance</artifactId>
+      <groupId>com.fasterxml.jackson.dataformat</groupId>
+      <artifactId>jackson-dataformat-yaml</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>error</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>location</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>region</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>reload</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>route</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>vehicle</artifactId>
-    </dependency>
-    <!-- Persistence -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-orm-panache</artifactId>

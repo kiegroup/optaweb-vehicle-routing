@@ -43,39 +43,6 @@
       <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>domain</artifactId>
     </dependency>
-    <!-- Services -->
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>demo</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>distance</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>error</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>location</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>region</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>reload</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>route</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>vehicle</artifactId>
-    </dependency>
     <!-- Production dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

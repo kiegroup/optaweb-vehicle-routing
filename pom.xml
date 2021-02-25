@@ -69,47 +69,6 @@
         <artifactId>domain</artifactId>
         <version>${project.version}</version>
       </dependency>
-      <!-- Services -->
-      <dependency>
-        <groupId>org.optaweb.vehiclerouting</groupId>
-        <artifactId>demo</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.optaweb.vehiclerouting</groupId>
-        <artifactId>distance</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.optaweb.vehiclerouting</groupId>
-        <artifactId>error</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.optaweb.vehiclerouting</groupId>
-        <artifactId>location</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.optaweb.vehiclerouting</groupId>
-        <artifactId>region</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.optaweb.vehiclerouting</groupId>
-        <artifactId>reload</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.optaweb.vehiclerouting</groupId>
-        <artifactId>route</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.optaweb.vehiclerouting</groupId>
-        <artifactId>vehicle</artifactId>
-        <version>${project.version}</version>
-      </dependency>
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>optaweb-vehicle-routing-backend</artifactId>
