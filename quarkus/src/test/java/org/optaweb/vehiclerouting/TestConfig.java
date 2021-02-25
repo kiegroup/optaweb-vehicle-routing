@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package org.acme.getting.started;
+package org.optaweb.vehiclerouting;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 
 import org.mockito.Mockito;
-import org.optaweb.vehiclerouting.Profiles;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
 import org.optaweb.vehiclerouting.service.region.Region;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
