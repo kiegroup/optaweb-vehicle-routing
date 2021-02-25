@@ -83,17 +83,14 @@
       <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>vehicle</artifactId>
     </dependency>
+    <!-- Persistence -->
     <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>persistence</artifactId>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-orm-panache</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-h2</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-arc</artifactId>
     </dependency>
     <!-- Planner -->
     <dependency>

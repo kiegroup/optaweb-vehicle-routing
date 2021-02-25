@@ -76,11 +76,6 @@
       <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>vehicle</artifactId>
     </dependency>
-    <!-- Plugins -->
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>persistence</artifactId>
-    </dependency>
     <!-- Production dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>

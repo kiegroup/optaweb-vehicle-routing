@@ -110,12 +110,6 @@
         <artifactId>vehicle</artifactId>
         <version>${project.version}</version>
       </dependency>
-      <!-- Plugins -->
-      <dependency>
-        <groupId>org.optaweb.vehiclerouting</groupId>
-        <artifactId>persistence</artifactId>
-        <version>${project.version}</version>
-      </dependency>
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>optaweb-vehicle-routing-backend</artifactId>

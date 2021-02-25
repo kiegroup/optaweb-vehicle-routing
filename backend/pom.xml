@@ -31,7 +31,6 @@
 
   <modules>
     <module>domain</module>
-    <module>plugins</module>
     <module>services</module>
   </modules>
 
