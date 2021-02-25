@@ -51,15 +51,12 @@
   </dependencyManagement>
 
   <dependencies>
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>domain</artifactId>
-    </dependency>
     <!-- Dataset YAML -->
     <dependency>
       <groupId>com.fasterxml.jackson.dataformat</groupId>
       <artifactId>jackson-dataformat-yaml</artifactId>
     </dependency>
+    <!-- Persistence -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-orm-panache</artifactId>
@@ -77,6 +74,11 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
+    </dependency>
+    <!-- Region -->
+    <dependency>
+      <groupId>com.neovisionaries</groupId>
+      <artifactId>nv-i18n</artifactId>
     </dependency>
     <!-- REST -->
     <dependency>

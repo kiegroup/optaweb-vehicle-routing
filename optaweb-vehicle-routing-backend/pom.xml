@@ -38,11 +38,6 @@
   </properties>
 
   <dependencies>
-    <!-- Internal dependencies -->
-    <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>domain</artifactId>
-    </dependency>
     <!-- Production dependencies -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
