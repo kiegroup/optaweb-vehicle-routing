@@ -34,6 +34,5 @@
   <modules>
     <module>persistence</module>
     <module>planner</module>
-    <module>rest</module>
   </modules>
 </project>
