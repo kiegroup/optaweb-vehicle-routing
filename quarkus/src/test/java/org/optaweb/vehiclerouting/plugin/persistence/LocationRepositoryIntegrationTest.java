@@ -21,18 +21,21 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 import java.math.BigDecimal;
 
+import javax.inject.Inject;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-@DataJpaTest
+import io.quarkus.test.TestTransaction;
+import io.quarkus.test.junit.QuarkusTest;
+
+@QuarkusTest
 class LocationRepositoryIntegrationTest {
 
-    @Autowired
-    private LocationCrudRepository crudRepository;
+    @Inject
+    LocationCrudRepository crudRepository;
     private LocationRepositoryImpl repository;
 
     @BeforeEach
@@ -41,6 +44,7 @@ class LocationRepositoryIntegrationTest {
     }
 
     @Test
+    @TestTransaction
     void db_schema() {
         // https://wiki.openstreetmap.org/wiki/Node#Structure
         final BigDecimal maxLatitude = new BigDecimal("90.0000000");
@@ -51,14 +55,17 @@ class LocationRepositoryIntegrationTest {
 
         LocationEntity minLocation = new LocationEntity(0, minLatitude, minLongitude, description);
         LocationEntity maxLocation = new LocationEntity(0, maxLatitude, maxLongitude, description);
-        assertThat(crudRepository.save(minLocation).getId()).isNotZero();
-        assertThat(crudRepository.save(maxLocation).getId()).isNotZero();
+        crudRepository.persist(minLocation);
+        crudRepository.persist(maxLocation);
+        assertThat(minLocation.getId()).isNotZero();
+        assertThat(maxLocation.getId()).isNotZero();
 
-        assertThat(crudRepository.findById(minLocation.getId())).get().isEqualTo(minLocation);
-        assertThat(crudRepository.findById(maxLocation.getId())).get().isEqualTo(maxLocation);
+        assertThat(crudRepository.findById(minLocation.getId())).isEqualTo(minLocation);
+        assertThat(crudRepository.findById(maxLocation.getId())).isEqualTo(maxLocation);
     }
 
     @Test
+    @TestTransaction
     void remove_created_location() {
         Coordinates coordinates = Coordinates.valueOf(0.00213, 32.777);
         assertThat(crudRepository.count()).isZero();
@@ -79,6 +86,7 @@ class LocationRepositoryIntegrationTest {
     }
 
     @Test
+    @TestTransaction
     void get_and_remove_all_locations() {
         int locationCount = 8;
         for (int i = 0; i < locationCount; i++) {
@@ -88,9 +96,8 @@ class LocationRepositoryIntegrationTest {
         assertThat(crudRepository.count()).isEqualTo(locationCount);
 
         // get a sample location entity from the repository
-        assertThat(crudRepository.existsById((long) locationCount)).isTrue();
         LocationEntity testEntity = crudRepository
-                .findById((long) locationCount)
+                .findByIdOptional((long) locationCount)
                 .orElseThrow(IllegalStateException::new);
         Location testLocation = new Location(
                 testEntity.getId(),

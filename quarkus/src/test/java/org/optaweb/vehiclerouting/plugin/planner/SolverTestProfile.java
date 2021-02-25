@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.optaweb.vehiclerouting.service.region;
+package org.optaweb.vehiclerouting.plugin.planner;
 
-import javax.enterprise.context.ApplicationScoped;
+import java.util.HashMap;
+import java.util.Map;
 
-import io.quarkus.test.Mock;
+import io.quarkus.test.junit.QuarkusTestProfile;
 
-@Mock
-@ApplicationScoped
-public class MockRegion implements Region {
-
-    // TODO find a better way to mock this. Why @InjectMock doesn't work?
+public class SolverTestProfile implements QuarkusTestProfile {
 
     @Override
-    public BoundingBox getBounds() {
-        return null;
+    public Map<String, String> getConfigOverrides() {
+        HashMap<String, String> config = new HashMap<>();
+        config.put("optaplanner.solver-config-xml", Constants.SOLVER_CONFIG);
+        config.put("optaplanner.solver.termination.best-score-limit", "-1hard/-120soft");
+        return config;
     }
 }

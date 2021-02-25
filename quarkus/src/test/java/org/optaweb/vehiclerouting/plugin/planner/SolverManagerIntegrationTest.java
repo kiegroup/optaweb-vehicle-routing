@@ -18,16 +18,16 @@ package org.optaweb.vehiclerouting.plugin.planner;
 
 import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThatCode;
-import static org.optaweb.vehiclerouting.plugin.planner.Constants.SOLVER_CONFIG;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory.solutionFromVisits;
 
 import java.util.concurrent.Semaphore;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
-import org.optaweb.vehiclerouting.Profiles;
 import org.optaweb.vehiclerouting.plugin.planner.domain.DistanceMap;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocation;
@@ -39,27 +39,18 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.service.route.RouteChangedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.ActiveProfiles;
 
-// FIXME Fix this test.
+import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.junit.TestProfile;
 
-@SpringBootTest(
-        properties = {
-                "optaplanner.solver-config-xml=" + SOLVER_CONFIG,
-                "optaplanner.solver.termination.best-score-limit=-1hard/-120soft"
-        },
-        webEnvironment = SpringBootTest.WebEnvironment.NONE)
-@ActiveProfiles(Profiles.TEST)
+@QuarkusTest
+@TestProfile(SolverTestProfile.class)
 class SolverManagerIntegrationTest {
 
-    @Autowired
-    private SolverManager solverManager;
-    @Autowired
-    private RouteChangedEventSemaphore routeChangedEventSemaphore;
+    @Inject
+    SolverManager solverManager;
+    @Inject
+    RouteChangedEventSemaphore routeChangedEventSemaphore;
 
     private static DistanceMap mockDistanceMap() {
         return location -> 60;
@@ -90,6 +81,7 @@ class SolverManagerIntegrationTest {
         assertThatCode(() -> solverManager.changeCapacity(vehicle)).doesNotThrowAnyException();
     }
 
+    @ApplicationScoped
     static class RouteChangedEventSemaphore {
 
         private static final Logger logger = LoggerFactory.getLogger(RouteChangedEventSemaphore.class);
@@ -107,15 +99,6 @@ class SolverManagerIntegrationTest {
                 throw new IllegalStateException(
                         "Only 1 RouteChangedEvent was expected but there were at least " + (remainingPermits + 1));
             }
-        }
-    }
-
-    @TestConfiguration
-    static class Config {
-
-        @Bean
-        RouteChangedEventSemaphore semaphore() {
-            return new RouteChangedEventSemaphore();
         }
     }
 }
