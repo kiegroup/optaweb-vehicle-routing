@@ -118,11 +118,6 @@
       </dependency>
       <dependency>
         <groupId>org.optaweb.vehiclerouting</groupId>
-        <artifactId>planner</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>optaweb-vehicle-routing-backend</artifactId>
         <version>${project.version}</version>
       </dependency>

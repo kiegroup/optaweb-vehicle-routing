@@ -88,10 +88,6 @@
       <artifactId>persistence</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.optaweb.vehiclerouting</groupId>
-      <artifactId>planner</artifactId>
-    </dependency>
-    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-h2</artifactId>
     </dependency>
@@ -99,6 +95,17 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
     </dependency>
+    <!-- Planner -->
+    <dependency>
+      <groupId>org.optaplanner</groupId>
+      <artifactId>optaplanner-quarkus</artifactId>
+    </dependency>
+    <!-- TODO avoid guava if possible. -->
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+    </dependency>
+    <!-- REST -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-resteasy-jackson</artifactId>
@@ -127,6 +134,11 @@
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.optaplanner</groupId>
+      <artifactId>optaplanner-test</artifactId>
+      <scope>test</scope>
     </dependency>
     <!-- Jackson testing -->
     <dependency>
