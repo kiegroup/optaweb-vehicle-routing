@@ -22,11 +22,9 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -54,13 +52,9 @@ class VehicleRepositoryImplTest {
         return new VehicleEntity(vehicle.id(), vehicle.name(), vehicle.capacity());
     }
 
-    @Disabled
     @Test
-    void should_create_vehicle_and_generate_id_and_name() {
+    void should_create_vehicle() {
         // arrange
-        VehicleEntity newEntity = vehicleEntity(testVehicle);
-        // FIXME
-        //when(crudRepository.save(vehicleEntityCaptor.capture())).thenReturn(newEntity);
         int savedCapacity = 1;
 
         // act
@@ -68,47 +62,29 @@ class VehicleRepositoryImplTest {
 
         // assert
         // -- the correct values were used to save the entity
-        List<VehicleEntity> savedVehicles = vehicleEntityCaptor.getAllValues();
-        assertThat(savedVehicles).hasSize(2);
+        verify(crudRepository).persist(vehicleEntityCaptor.capture());
+        VehicleEntity savedVehicle = vehicleEntityCaptor.getValue();
+        assertThat(savedVehicle.getName()).isNotNull();
+        assertThat(savedVehicle.getCapacity()).isEqualTo(savedCapacity);
 
-        assertThat(savedVehicles.get(0).getName()).isNull();
-        assertThat(savedVehicles.get(0).getCapacity()).isEqualTo(savedCapacity);
-        assertThat(savedVehicles.get(1).getName()).isEqualTo("Vehicle " + newEntity.getId());
-        assertThat(savedVehicles.get(1).getCapacity()).isEqualTo(savedCapacity);
-
-        // -- created domain vehicle is equal to the entity returned by repository.save()
-        // This may be confusing but that's the contract of Spring Repository API.
-        // The entity instance that is being saved is meant to be discarded. The returned instance should be used
-        // for further operations as the save() operation may update it (for example generate the ID).
-        assertThat(newVehicle.id()).isEqualTo(newEntity.getId());
-        assertThat(newVehicle.name()).isEqualTo(newEntity.getName());
-        assertThat(newVehicle.capacity()).isEqualTo(newEntity.getCapacity());
+        // -- created domain vehicle has the expected values
+        assertThat(newVehicle.name()).isNotNull();
+        assertThat(newVehicle.capacity()).isEqualTo(savedCapacity);
     }
 
-    @Disabled
     @Test
     void create_vehicle_from_given_data() {
         // arrange
-        VehicleEntity newEntity = vehicleEntity(testVehicle);
-        // FIXME
-        //when(crudRepository.save(vehicleEntityCaptor.capture())).thenReturn(newEntity);
-
-        VehicleData vehicleData = VehicleFactory.vehicleData("x", 1);
+        String name = "x";
+        int capacity = 111;
+        VehicleData vehicleData = VehicleFactory.vehicleData(name, capacity);
 
         // act
         Vehicle newVehicle = repository.createVehicle(vehicleData);
 
         // assert
-        // -- the correct values were used to save the entity
-        VehicleEntity savedVehicle = vehicleEntityCaptor.getValue();
-
-        assertThat(savedVehicle.getName()).isEqualTo(vehicleData.name());
-        assertThat(savedVehicle.getCapacity()).isEqualTo(vehicleData.capacity());
-
-        // -- created domain vehicle is equal to the entity returned by repository.save()
-        assertThat(newVehicle.id()).isEqualTo(newEntity.getId());
-        assertThat(newVehicle.name()).isEqualTo(newEntity.getName());
-        assertThat(newVehicle.capacity()).isEqualTo(newEntity.getCapacity());
+        assertThat(newVehicle.name()).isEqualTo(name);
+        assertThat(newVehicle.capacity()).isEqualTo(capacity);
     }
 
     @Test

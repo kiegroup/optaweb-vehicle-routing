@@ -25,7 +25,6 @@ import static org.mockito.Mockito.when;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -56,13 +55,9 @@ class LocationRepositoryImplTest {
                 location.description());
     }
 
-    @Disabled
     @Test
-    void should_create_location_and_generate_id() {
+    void should_create_location() {
         // arrange
-        LocationEntity newEntity = locationEntity(testLocation);
-        // FIXME
-        //when(crudRepository.save(locationEntityCaptor.capture())).thenReturn(newEntity);
         Coordinates savedCoordinates = Coordinates.valueOf(0.00213, 32.777);
         String savedDescription = "new location";
 
@@ -71,19 +66,15 @@ class LocationRepositoryImplTest {
 
         // assert
         // -- the correct values were used to save the entity
+        verify(crudRepository).persist(locationEntityCaptor.capture());
         LocationEntity savedLocation = locationEntityCaptor.getValue();
         assertThat(savedLocation.getLatitude()).isEqualTo(savedCoordinates.latitude());
         assertThat(savedLocation.getLongitude()).isEqualTo(savedCoordinates.longitude());
         assertThat(savedLocation.getDescription()).isEqualTo(savedDescription);
 
-        // -- created domain location is equal to the entity returned by repository.save()
-        // This may be confusing but that's the contract of Spring Repository API.
-        // The entity instance that is being saved is meant to be discarded. The returned instance should be used
-        // for further operations as the save() operation may update it (for example generate the ID).
-        assertThat(newLocation.id()).isEqualTo(newEntity.getId());
-        assertThat(newLocation.coordinates())
-                .isEqualTo(new Coordinates(newEntity.getLatitude(), newEntity.getLongitude()));
-        assertThat(newLocation.description()).isEqualTo(newEntity.getDescription());
+        // -- created domain location has the expected values
+        assertThat(newLocation.coordinates()).isEqualTo(savedCoordinates);
+        assertThat(newLocation.description()).isEqualTo(savedDescription);
     }
 
     @Test
