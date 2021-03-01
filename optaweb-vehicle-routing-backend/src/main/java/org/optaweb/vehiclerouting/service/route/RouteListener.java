@@ -29,6 +29,7 @@ import javax.enterprise.event.Event;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
+import org.optaweb.vehiclerouting.Profiles;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Route;
@@ -40,12 +41,13 @@ import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import io.quarkus.arc.profile.UnlessBuildProfile;
+
 /**
  * Handles route updates emitted by optimization plugin.
  */
 @ApplicationScoped
-// FIXME profile
-//@Profile(NOT_TEST)
+@UnlessBuildProfile(Profiles.TEST)
 public class RouteListener {
 
     private static final Logger logger = LoggerFactory.getLogger(RouteListener.class);
