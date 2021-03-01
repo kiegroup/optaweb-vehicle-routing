@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-/* eslint-disable class-methods-use-this,@typescript-eslint/no-unused-vars */
-
 import { MessagePayload } from 'store/message/types';
 import { LatLngWithDescription, RoutingPlan } from 'store/route/types';
 import { ServerInfo } from 'store/server/types';
