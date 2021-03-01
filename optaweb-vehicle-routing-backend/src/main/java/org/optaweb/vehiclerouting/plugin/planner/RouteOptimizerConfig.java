@@ -30,7 +30,7 @@ import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
 /**
- * Spring configuration that creates {@link RouteOptimizerImpl route optimizer}'s dependencies.
+ * Configuration bean that creates {@link RouteOptimizerImpl route optimizer}'s dependencies.
  */
 @Dependent
 class RouteOptimizerConfig {

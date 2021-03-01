@@ -43,7 +43,7 @@ import io.quarkus.arc.profile.UnlessBuildProfile;
 import io.quarkus.arc.properties.IfBuildProperty;
 
 /**
- * Spring Bean producer that creates a GraphHopper instance and allows to configure the path to OSM file
+ * Configuration bean that creates a GraphHopper instance and allows to configure the path to OSM file
  * through environment.
  */
 @Dependent
@@ -68,7 +68,7 @@ class RoutingConfig {
     }
 
     /**
-     * Avoids creating real GraphHopper instance when running a @SpringBootTest.
+     * Avoids creating a real GraphHopper instance when running a @QuarkusTest.
      *
      * @return real GraphHopper
      */
