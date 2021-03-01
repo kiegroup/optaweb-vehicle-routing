@@ -51,7 +51,6 @@ class DistanceRepositoryImpl implements DistanceRepository {
 
     @Override
     public void deleteDistances(Location location) {
-        // TODO try named query
         distanceRepository.deleteByFromIdOrToId(location.id());
     }
 
