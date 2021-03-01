@@ -29,7 +29,7 @@ public class PortableVehicle {
     private final String name;
     private final int capacity;
 
-    public static PortableVehicle fromVehicle(Vehicle vehicle) {
+    static PortableVehicle fromVehicle(Vehicle vehicle) {
         Objects.requireNonNull(vehicle, "vehicle must not be null");
         return new PortableVehicle(vehicle.id(), vehicle.name(), vehicle.capacity());
     }

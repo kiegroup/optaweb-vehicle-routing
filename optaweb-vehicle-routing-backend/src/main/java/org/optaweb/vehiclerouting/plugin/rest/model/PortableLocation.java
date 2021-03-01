@@ -38,7 +38,7 @@ public class PortableLocation {
 
     private final String description;
 
-    public static PortableLocation fromLocation(Location location) {
+    static PortableLocation fromLocation(Location location) {
         Objects.requireNonNull(location, "location must not be null");
         return new PortableLocation(
                 location.id(),
