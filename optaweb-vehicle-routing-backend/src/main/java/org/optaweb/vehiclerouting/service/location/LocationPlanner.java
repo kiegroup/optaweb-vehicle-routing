@@ -19,7 +19,7 @@ package org.optaweb.vehiclerouting.service.location;
 import org.optaweb.vehiclerouting.domain.Location;
 
 /**
- * Performs route optimization based on distances between locations.
+ * Optimizes the routing plan in response to location-related changes in the routing problem.
  */
 public interface LocationPlanner {
 
