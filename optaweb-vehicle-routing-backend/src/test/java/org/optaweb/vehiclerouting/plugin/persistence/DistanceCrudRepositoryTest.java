@@ -19,10 +19,10 @@ package org.optaweb.vehiclerouting.plugin.persistence;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 
 import org.junit.jupiter.api.Test;
 
+import io.quarkus.test.TestTransaction;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
@@ -32,7 +32,7 @@ class DistanceCrudRepositoryTest {
     DistanceCrudRepository distanceCrudRepository;
 
     @Test
-    @Transactional
+    @TestTransaction
     void panache_repository_should_persist_and_delete_distances() {
         DistanceEntity distanceEntity = new DistanceEntity(new DistanceKey(1, 2), 20L);
         distanceCrudRepository.persist(distanceEntity);
