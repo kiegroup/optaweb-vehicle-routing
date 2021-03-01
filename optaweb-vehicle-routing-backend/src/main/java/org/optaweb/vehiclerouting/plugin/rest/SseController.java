@@ -41,11 +41,15 @@ import org.optaweb.vehiclerouting.service.route.RouteListener;
 public class SseController {
 
     // TODO repository, not listener (service)
-    @Inject
-    RouteListener routeListener;
+    private final RouteListener routeListener;
 
     private SseBroadcaster sseBroadcaster;
     private OutboundSseEvent.Builder eventBuilder;
+
+    @Inject
+    public SseController(RouteListener routeListener) {
+        this.routeListener = routeListener;
+    }
 
     // Handy during development.
     @PreDestroy

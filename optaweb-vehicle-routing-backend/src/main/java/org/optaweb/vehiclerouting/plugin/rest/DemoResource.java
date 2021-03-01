@@ -27,8 +27,12 @@ import org.optaweb.vehiclerouting.service.demo.DemoService;
 @Path("demo/{name}")
 public class DemoResource {
 
+    private final DemoService demoService;
+
     @Inject
-    DemoService demoService;
+    public DemoResource(DemoService demoService) {
+        this.demoService = demoService;
+    }
 
     /**
      * Load a demo data set.
