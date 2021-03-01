@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
@@ -43,7 +43,10 @@ import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@ApplicationScoped
+/**
+ * Configuration bean that produces the list of available routing problem data sets.
+ */
+@Dependent
 class RoutingProblemConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutingProblemConfig.class);
