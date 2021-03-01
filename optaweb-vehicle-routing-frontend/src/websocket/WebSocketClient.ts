@@ -32,7 +32,7 @@ export default class WebSocketClient {
 
   connect(successCallback: () => any, errorCallback: (err: Event) => any): void {
     if (this.eventSource === null) {
-      this.eventSource = new EventSource(`${this.backendUrl}/events/route`);
+      this.eventSource = new EventSource(`${this.backendUrl}/events`);
       this.eventSource.onopen = successCallback;
       this.eventSource.onerror = errorCallback;
     }

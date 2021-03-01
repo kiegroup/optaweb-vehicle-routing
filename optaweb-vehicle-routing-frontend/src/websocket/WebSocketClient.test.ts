@@ -31,7 +31,7 @@ describe('WebSocketClient', () => {
   const onError = jest.fn();
 
   client.connect(onSuccess, onError);
-  const source = sources[`${url}/events/route`];
+  const source = sources[`${url}/events`];
   source.emitOpen();
 
   it('connect() should connect with success and error callbacks', () => {

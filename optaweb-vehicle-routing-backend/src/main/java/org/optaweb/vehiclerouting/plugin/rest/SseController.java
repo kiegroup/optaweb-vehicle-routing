@@ -79,7 +79,6 @@ public class SseController {
 
     @GET
     @Produces(MediaType.SERVER_SENT_EVENTS)
-    @Path("route")
     public void sse(@Context Sse sse, @Context SseEventSink eventSink) {
         if (sseBroadcaster == null) {
             sseBroadcaster = sse.newBroadcaster();
