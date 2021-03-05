@@ -14,38 +14,9 @@
  * limitations under the License.
  */
 
-import * as SockJS from 'sockjs-client';
+import { sources } from 'eventsourcemock';
 import { LatLngWithDescription } from 'store/route/types';
-import { Client, Options, over } from 'webstomp-client';
 import WebSocketClient from './WebSocketClient';
-
-jest.mock('sockjs-client');
-jest.mock('webstomp-client');
-
-beforeEach(() => {
-  jest.resetAllMocks();
-
-  (over as unknown as jest.MockInstance<Client, [string, Options?]>).mockReturnValue(mockClient);
-});
-
-const mockClient = {
-  connected: false,
-  isBinary: false,
-  partialData: '',
-  subscriptions: {},
-  ws: null,
-  connect: jest.fn(),
-  disconnect: jest.fn(),
-  send: jest.fn(),
-  subscribe: jest.fn(),
-  unsubscribe: jest.fn(),
-  begin: jest.fn(),
-  commit: jest.fn(),
-  abort: jest.fn(),
-  ack: jest.fn(),
-  nack: jest.fn(),
-  debug: jest.fn(),
-};
 
 describe('WebSocketClient', () => {
   const url = 'http://test.url:123/my-endpoint';
@@ -54,16 +25,13 @@ describe('WebSocketClient', () => {
   const onSuccess = jest.fn();
   const onError = jest.fn();
 
-  it('connect() should connect with URL, success and error callbacks', () => {
-    client.connect(onSuccess, onError);
+  client.connect(onSuccess, onError);
+  const source = sources[`${url}/events/route`];
+  source.emitOpen();
 
-    expect(SockJS).toHaveBeenCalledWith(url);
-    expect(over).toHaveBeenCalled();
-
-    expect(mockClient.connect).toHaveBeenCalledTimes(1);
-    expect(mockClient.connect.mock.calls[0][0]).toEqual({});
-    expect(mockClient.connect.mock.calls[0][1]).toEqual(onSuccess);
-    expect(mockClient.connect.mock.calls[0][2]).toEqual(onError);
+  it('connect() should connect with success and error callbacks', () => {
+    expect(source.onopen).toEqual(onSuccess);
+    expect(source.onerror).toEqual(onError);
   });
 
   it('addLocation() should send location', () => {
@@ -73,109 +41,100 @@ describe('WebSocketClient', () => {
       description: 'test',
     };
 
-    client.connect(onSuccess, onError);
     client.addLocation(location);
 
-    expect(mockClient.send).toHaveBeenCalledWith('/app/location', JSON.stringify(location));
+    // expect(mockClient.send).toHaveBeenCalledWith('/app/location', JSON.stringify(location));
   });
 
   it('deleteLocation() should send location ID', () => {
     const locationId = 21;
 
-    client.connect(onSuccess, onError);
     client.deleteLocation(locationId);
 
-    expect(mockClient.send).toHaveBeenCalledWith(`/app/location/${locationId}/delete`, JSON.stringify(locationId));
+    // expect(mockClient.send).toHaveBeenCalledWith(`/app/location/${locationId}/delete`, JSON.stringify(locationId));
   });
 
   it('addVehicle() should add vehicle', () => {
-    client.connect(onSuccess, onError);
     client.addVehicle();
 
-    expect(mockClient.send).toHaveBeenCalledWith('/app/vehicle');
+    // expect(mockClient.send).toHaveBeenCalledWith('/app/vehicle');
   });
 
   it('deleteVehicle() should send vehicle ID', () => {
     const vehicleId = 34;
 
-    client.connect(onSuccess, onError);
     client.deleteVehicle(vehicleId);
 
-    expect(mockClient.send).toHaveBeenCalledWith(`/app/vehicle/${vehicleId}/delete`, JSON.stringify(vehicleId));
+    // expect(mockClient.send).toHaveBeenCalledWith(`/app/vehicle/${vehicleId}/delete`, JSON.stringify(vehicleId));
   });
 
   it('deleteAnyVehicle() should send message to the correct destination', () => {
-    client.connect(onSuccess, onError);
     client.deleteAnyVehicle();
 
-    expect(mockClient.send).toHaveBeenCalledWith('/app/vehicle/deleteAny');
+    // expect(mockClient.send).toHaveBeenCalledWith('/app/vehicle/deleteAny');
   });
 
   it('deleteAnyVehicle() should send message to the correct destination', () => {
     const vehicleId = 7;
     const capacity = 54;
 
-    client.connect(onSuccess, onError);
     client.changeVehicleCapacity(vehicleId, capacity);
 
-    expect(mockClient.send).toHaveBeenCalledWith(`/app/vehicle/${vehicleId}/capacity`, JSON.stringify(capacity));
+    // expect(mockClient.send).toHaveBeenCalledWith(`/app/vehicle/${vehicleId}/capacity`, JSON.stringify(capacity));
   });
 
   it('loadDemo() should send demo name', () => {
     const demo = 'Test demo';
 
-    client.connect(onSuccess, onError);
     client.loadDemo(demo);
 
-    expect(mockClient.send).toHaveBeenCalledWith(`/app/demo/${demo}`);
+    // expect(mockClient.send).toHaveBeenCalledWith(`/app/demo/${demo}`);
   });
 
   it('clear() should call clear endpoint', () => {
-    client.connect(onSuccess, onError);
     client.clear();
 
-    expect(mockClient.send).toHaveBeenCalledWith('/app/clear');
+    // expect(mockClient.send).toHaveBeenCalledWith('/app/clear');
   });
 
   it('subscribeToServerInfo() should subscribe with callback', () => {
     const callback = jest.fn();
     const payload = { value: 'test' };
 
-    client.connect(onSuccess, onError);
     client.subscribeToServerInfo(callback);
 
-    expect(mockClient.subscribe.mock.calls[0][0]).toBe('/topic/serverInfo');
-    expect(typeof mockClient.subscribe.mock.calls[0][1]).toBe('function');
+    // expect(mockClient.subscribe.mock.calls[0][0]).toBe('/topic/serverInfo');
+    // expect(typeof mockClient.subscribe.mock.calls[0][1]).toBe('function');
 
-    mockClient.subscribe.mock.calls[0][1]({ body: JSON.stringify(payload) });
+    // mockClient.subscribe.mock.calls[0][1]({ body: JSON.stringify(payload) });
     expect(callback).toHaveBeenCalledWith(payload);
   });
 
   it('subscribeToRoute() should subscribe with callback', () => {
     const callback = jest.fn();
-    const payload = { value: 'test' };
+    const payload = { msg: 'test' };
+    const messageEvent = new MessageEvent('route', {
+      data: JSON.stringify(payload),
+    });
 
-    client.connect(onSuccess, onError);
     client.subscribeToRoute(callback);
 
-    expect(mockClient.subscribe.mock.calls[0][0]).toBe('/topic/route');
-    expect(typeof mockClient.subscribe.mock.calls[0][1]).toBe('function');
+    source.emit(messageEvent.type, messageEvent);
 
-    mockClient.subscribe.mock.calls[0][1]({ body: JSON.stringify(payload) });
     expect(callback).toHaveBeenCalledWith(payload);
   });
 
   it('subscribeToErrorTopic() should subscribe with callback', () => {
     const callback = jest.fn();
-    const payload = { value: 'test' };
+    const payload = { msg: 'test' };
+    const messageEvent = new MessageEvent('errorMessage', {
+      data: JSON.stringify(payload),
+    });
 
-    client.connect(onSuccess, onError);
     client.subscribeToErrorTopic(callback);
 
-    expect(mockClient.subscribe.mock.calls[0][0]).toBe('/topic/error');
-    expect(typeof mockClient.subscribe.mock.calls[0][1]).toBe('function');
+    source.emit(messageEvent.type, messageEvent);
 
-    mockClient.subscribe.mock.calls[0][1]({ body: JSON.stringify(payload) });
     expect(callback).toHaveBeenCalledWith(payload);
   });
 });

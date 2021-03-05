@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2021 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
-import EventSource from 'eventsourcemock';
+// See https://github.com/gcedo/eventsourcemock
 
-configure({ adapter: new Adapter() });
+declare module 'eventsourcemock' {
+  interface EventSource {
+    onopen: () => {};
+    onerror: () => {};
 
-Object.defineProperty(window, 'EventSource', {
-  value: EventSource,
-});
+    emit(eventName: string, messageEvent?: MessageEvent);
+
+    emitOpen();
+  }
+
+  let sources: { [key: string]: EventSource };
+}
