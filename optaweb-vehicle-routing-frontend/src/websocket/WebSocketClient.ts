@@ -30,7 +30,7 @@ export default class WebSocketClient {
     this.eventSource = null;
   }
 
-  connect(successCallback: () => any, errorCallback: (err: Event) => any) {
+  connect(successCallback: () => any, errorCallback: (err: Event) => any): void {
     if (this.eventSource === null) {
       this.eventSource = new EventSource(`${this.backendUrl}/events/route`);
       this.eventSource.onopen = successCallback;
@@ -38,8 +38,8 @@ export default class WebSocketClient {
     }
   }
 
-  addLocation(latLng: LatLngWithDescription) {
-    fetch(`${this.backendUrl}/location`, {
+  addLocation(latLng: LatLngWithDescription): Promise<Response> {
+    return fetch(`${this.backendUrl}/location`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -48,40 +48,40 @@ export default class WebSocketClient {
     });
   }
 
-  addVehicle() {
-    fetch(`${this.backendUrl}/vehicle`, { method: 'POST' });
+  addVehicle(): Promise<Response> {
+    return fetch(`${this.backendUrl}/vehicle`, { method: 'POST' });
   }
 
-  loadDemo(name: string): void {
-    fetch(`${this.backendUrl}/demo/${name}`, { method: 'POST' });
+  loadDemo(name: string): Promise<Response> {
+    return fetch(`${this.backendUrl}/demo/${name}`, { method: 'POST' });
   }
 
-  deleteLocation(locationId: number) {
+  deleteLocation(locationId: number): Promise<Response> {
     // TODO error callback
-    fetch(`${this.backendUrl}/location/${locationId}`, { method: 'DELETE' });
+    return fetch(`${this.backendUrl}/location/${locationId}`, { method: 'DELETE' });
   }
 
-  deleteAnyVehicle() {
-    fetch(`${this.backendUrl}/vehicle/deleteAny`, { method: 'POST' });
+  deleteAnyVehicle(): Promise<Response> {
+    return fetch(`${this.backendUrl}/vehicle/deleteAny`, { method: 'POST' });
   }
 
-  deleteVehicle(vehicleId: number) {
-    fetch(`${this.backendUrl}/vehicle/${vehicleId}`, { method: 'DELETE' });
+  deleteVehicle(vehicleId: number): Promise<Response> {
+    return fetch(`${this.backendUrl}/vehicle/${vehicleId}`, { method: 'DELETE' });
   }
 
-  changeVehicleCapacity(vehicleId: number, capacity: number) {
-    fetch(`${this.backendUrl}/vehicle/${vehicleId}/capacity`, {
+  changeVehicleCapacity(vehicleId: number, capacity: number): Promise<Response> {
+    return fetch(`${this.backendUrl}/vehicle/${vehicleId}/capacity`, {
       method: 'POST',
       body: JSON.stringify(capacity),
     });
   }
 
-  clear() {
-    fetch(`${this.backendUrl}/clear`, { method: 'POST' });
+  clear(): Promise<Response> {
+    return fetch(`${this.backendUrl}/clear`, { method: 'POST' });
   }
 
-  subscribeToServerInfo(subscriptionCallback: (serverInfo: ServerInfo) => any): void {
-    fetch(`${this.backendUrl}/serverInfo`)
+  subscribeToServerInfo(subscriptionCallback: (serverInfo: ServerInfo) => any): Promise<void> {
+    return fetch(`${this.backendUrl}/serverInfo`)
       .then((response) => response.json())
       .then((data) => subscriptionCallback(data));
   }

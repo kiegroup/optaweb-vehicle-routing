@@ -15,8 +15,13 @@
  */
 
 import { sources } from 'eventsourcemock';
+import fetchMock from 'fetch-mock-jest';
 import { LatLngWithDescription } from 'store/route/types';
 import WebSocketClient from './WebSocketClient';
+
+beforeEach(() => {
+  fetchMock.reset();
+});
 
 describe('WebSocketClient', () => {
   const url = 'http://test.url:123/my-endpoint';
@@ -40,73 +45,85 @@ describe('WebSocketClient', () => {
       lng: 2,
       description: 'test',
     };
+    fetchMock.postOnce('*', 200);
 
     client.addLocation(location);
 
-    // expect(mockClient.send).toHaveBeenCalledWith('/app/location', JSON.stringify(location));
+    expect(fetchMock).toHaveLastFetched(`${url}/location`, { body: location });
   });
 
   it('deleteLocation() should send location ID', () => {
     const locationId = 21;
+    fetchMock.deleteOnce('*', 200);
 
     client.deleteLocation(locationId);
 
-    // expect(mockClient.send).toHaveBeenCalledWith(`/app/location/${locationId}/delete`, JSON.stringify(locationId));
+    expect(fetchMock).toHaveLastFetched(`${url}/location/${locationId}`);
   });
 
   it('addVehicle() should add vehicle', () => {
+    fetchMock.postOnce('*', 200);
+
     client.addVehicle();
 
-    // expect(mockClient.send).toHaveBeenCalledWith('/app/vehicle');
+    expect(fetchMock).toHaveLastFetched(`${url}/vehicle`);
   });
 
   it('deleteVehicle() should send vehicle ID', () => {
     const vehicleId = 34;
+    fetchMock.deleteOnce('*', 200);
 
     client.deleteVehicle(vehicleId);
 
-    // expect(mockClient.send).toHaveBeenCalledWith(`/app/vehicle/${vehicleId}/delete`, JSON.stringify(vehicleId));
+    expect(fetchMock).toHaveLastFetched(`${url}/vehicle/${vehicleId}`);
   });
 
   it('deleteAnyVehicle() should send message to the correct destination', () => {
+    fetchMock.postOnce('*', 200);
+
     client.deleteAnyVehicle();
 
-    // expect(mockClient.send).toHaveBeenCalledWith('/app/vehicle/deleteAny');
+    expect(fetchMock).toHaveLastFetched(`${url}/vehicle/deleteAny`);
   });
 
-  it('deleteAnyVehicle() should send message to the correct destination', () => {
+  it('changeVehicleCapacity() should change capacity', () => {
     const vehicleId = 7;
     const capacity = 54;
+    fetchMock.postOnce('*', 200);
 
     client.changeVehicleCapacity(vehicleId, capacity);
 
-    // expect(mockClient.send).toHaveBeenCalledWith(`/app/vehicle/${vehicleId}/capacity`, JSON.stringify(capacity));
+    expect(fetchMock).toHaveLastFetched(`${url}/vehicle/${vehicleId}/capacity`, {
+      body: capacity as unknown as object,
+    });
   });
 
   it('loadDemo() should send demo name', () => {
     const demo = 'Test demo';
+    fetchMock.postOnce('*', 200);
 
     client.loadDemo(demo);
 
-    // expect(mockClient.send).toHaveBeenCalledWith(`/app/demo/${demo}`);
+    expect(fetchMock).toHaveLastFetched(`${url}/demo/${demo}`);
   });
 
   it('clear() should call clear endpoint', () => {
+    fetchMock.postOnce('*', 200);
     client.clear();
-
-    // expect(mockClient.send).toHaveBeenCalledWith('/app/clear');
+    expect(fetchMock).toHaveLastFetched(`${url}/clear`);
   });
 
-  it('subscribeToServerInfo() should subscribe with callback', () => {
+  it('subscribeToServerInfo() should subscribe with callback', async () => {
     const callback = jest.fn();
     const payload = { value: 'test' };
+    fetchMock.getOnce(`${url}/serverInfo`, {
+      status: 200,
+      body: JSON.stringify(payload),
+    });
 
-    client.subscribeToServerInfo(callback);
+    await client.subscribeToServerInfo(callback);
 
-    // expect(mockClient.subscribe.mock.calls[0][0]).toBe('/topic/serverInfo');
-    // expect(typeof mockClient.subscribe.mock.calls[0][1]).toBe('function');
-
-    // mockClient.subscribe.mock.calls[0][1]({ body: JSON.stringify(payload) });
+    expect(fetchMock).toBeDone();
     expect(callback).toHaveBeenCalledWith(payload);
   });
 
