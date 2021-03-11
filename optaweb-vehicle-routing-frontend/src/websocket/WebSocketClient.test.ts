@@ -20,6 +20,7 @@ import { LatLngWithDescription } from 'store/route/types';
 import WebSocketClient from './WebSocketClient';
 
 beforeEach(() => {
+  // Learn about fetch-mock: http://www.wheresrhys.co.uk/fetch-mock/.
   fetchMock.reset();
 });
 
