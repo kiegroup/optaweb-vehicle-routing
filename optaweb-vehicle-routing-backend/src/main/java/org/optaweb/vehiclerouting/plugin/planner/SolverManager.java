@@ -104,21 +104,27 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
         solverFuture = executor.submit((SolvingTask) () -> solver.solve(solution));
         solverFuture.addListener(
                 // IMPORTANT: This is happening on the solver thread.
-                // TODO in both cases restart or somehow recover?
+                // TODO maybe restart or somehow recover?
                 () -> {
                     if (!solver.isTerminateEarly()) {
-                        // This is impossible. Solver in daemon mode can't return from solve() unless it has been
-                        // terminated (see #stopSolver()) or throws an exception.
-                        logger.error("Solver stopped solving but that shouldn't happen in daemon mode.");
-                        errorEventEvent.fire(new ErrorEvent(this, "Solver stopped solving unexpectedly."));
+                        // Solver in daemon mode can't return from solve() unless it has been terminated early
+                        // (see #stopSolver()).
+                        // So this case is only possible when an exception is thrown during solver.solve().
+                        try {
+                            solverFuture.get();
+                            logger.error("This should be impossible. The solver has stopped without being terminated early"
+                                    + " so at this point it is expected to have crashed but there was no exception.");
+                            errorEventEvent.fire(new ErrorEvent(
+                                    this,
+                                    "Solver stopped without being terminated early and without throwing an exception."
+                                            + " This is a bug."));
+                        } catch (InterruptedException | ExecutionException exception) {
+                            logger.error("Solver failed", exception);
+                            errorEventEvent.fire(new ErrorEvent(this, exception.toString()));
+                        }
                     }
                 },
                 MoreExecutors.directExecutor());
-        // FIXME replace this.
-        //                exception -> {
-        //                    logger.error("Solver failed", exception);
-        //                    errorEventEvent.fire(new ErrorEvent(this, exception.toString()));
-        //                });
     }
 
     void stopSolver() {
