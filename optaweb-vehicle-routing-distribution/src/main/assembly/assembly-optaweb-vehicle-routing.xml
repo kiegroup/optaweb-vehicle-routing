@@ -39,8 +39,13 @@
       <directory>..</directory>
       <outputDirectory>sources</outputDirectory>
       <excludes>
+        <!-- Maven build output -->
         <exclude>**/target/**</exclude>
+        <!-- Local, Git-ignored files -->
         <exclude>**/local/**</exclude>
+        <!-- Maven profiler reports -->
+        <exclude>**/.profiler/**</exclude>
+        <!-- IDE configs -->
         <exclude>**/.project</exclude>
         <exclude>**/.idea/**</exclude>
         <exclude>**/*.ipr</exclude>
@@ -48,8 +53,11 @@
         <exclude>**/*.iml</exclude>
         <exclude>**/nbproject/**</exclude>
         <exclude>**/.vscode/**</exclude>
+        <!-- OS-specific garbage -->
         <exclude>**/.DS_Store</exclude>
+        <!-- Git repository -->
         <exclude>.git/**</exclude>
+        <!-- Front end module build output, dependencies, reports -->
         <exclude>optaweb-vehicle-routing-frontend/.scannerwork/**</exclude>
         <exclude>optaweb-vehicle-routing-frontend/build/**</exclude>
         <exclude>optaweb-vehicle-routing-frontend/coverage/**</exclude>

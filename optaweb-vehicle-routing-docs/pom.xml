@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.optaweb.vehiclerouting</groupId>
     <artifactId>optaweb-vehicle-routing</artifactId>
-    <version>7.44.0-SNAPSHOT</version>
+    <version>8.4.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>optaweb-vehicle-routing-docs</artifactId>
@@ -37,11 +37,11 @@
         <groupId>org.asciidoctor</groupId>
         <artifactId>asciidoctor-maven-plugin</artifactId>
         <configuration>
-          <imagesDir>.</imagesDir>
           <!-- Needs to be overridden to avoid rendering each adoc separately. -->
           <sourceDocumentName>index.adoc</sourceDocumentName>
           <attributes>
             <revnumber>${project.version}</revnumber>
+            <imagesDir>.</imagesDir>
           </attributes>
         </configuration>
         <executions>
@@ -53,7 +53,9 @@
             </goals>
             <configuration>
               <backend>html5</backend>
-              <sourceHighlighter>highlightjs</sourceHighlighter>
+              <attributes>
+                <source-highlighter>highlightjs</source-highlighter>
+              </attributes>
               <outputDirectory>${project.build.directory}/generated-docs/html_single</outputDirectory>
             </configuration>
           </execution>
@@ -65,7 +67,9 @@
             </goals>
             <configuration>
               <backend>pdf</backend>
-              <sourceHighlighter>coderay</sourceHighlighter><!-- highlightjs does not work in PDF. -->
+              <attributes>
+                <source-highlighter>coderay</source-highlighter><!-- highlightjs does not work in PDF. -->
+              </attributes>
               <outputDirectory>${project.build.directory}/generated-docs/pdf</outputDirectory>
               <outputFile>${project.artifactId}.pdf</outputFile>
             </configuration>

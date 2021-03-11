@@ -37,6 +37,10 @@ See the
 xref:optaweb-vehicle-routing-docs/src/main/asciidoc/run-locally.adoc[documentation]
 to learn more about the `runLocally.sh` script.
 
+=== Getting started video
+
+The following https://youtu.be/rEeAML74oWo?t=107[video] shows how to download the OptaPlanner Vehicle Routing distribution and run it using the `runLocally.sh` script.
+
 == Development
 
 Read the <<optaweb-vehicle-routing-docs/src/main/asciidoc/development-guide#development-guide,Development>> chapter in the documentation.

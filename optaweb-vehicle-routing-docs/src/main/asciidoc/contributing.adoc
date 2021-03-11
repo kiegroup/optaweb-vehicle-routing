@@ -1,0 +1,67 @@
+[[contributing]]
+= Contributing to OptaWeb Vehicle Routing
+
+== Formatting OptaWeb Vehicle Routing source code using Maven
+
+The OptaWeb Vehicle Routing back end has a strictly enforced code style.
+Code formatting is performed by the Eclipse code formatter, using configuration files from the OptaPlanner project.
+
+By default, when you execute the `./mvnw install` command, the code is formatted automatically.
+This is important because when you submit a pull request, the continuous integration (CI) build fails if running the formatter results in any code changes.
+Therefore, it is recommended that you always run a full Maven build before submitting a pull request.
+
+.Procedure
+. To run a full Maven build, enter the following command:
++
+[source]
+----
+./mvnw install
+----
++
+. Optional: To run the formatter without performing a full build, enter the following command:
++
+[source]
+----
+./mvnw process-sources
+----
+
+== Formatting OptaWeb Vehicle Routing source code using an IDE
+
+You can use Eclipse IDE or IntelliJ IDEA to format the source code without having to invoke the Maven build.
+This allows you to make small changes and commit often while making sure that the source code is formatted properly and the Maven build is successful after each commit.
+
+You must configure your IDE to use the Eclipse formatter plugin and select the formatter configuration used by the Maven plugin that formats the source code automatically during the Maven build.
+The formatter configuration files are stored in the `build/optaplanner-ide-config/src/main/resources` directory under the root of the OptaPlanner repository.
+
+=== Eclipse IDE setup
+
+.Prerequisites
+* The OptaPlanner repository is cloned on your computer.
+
+Complete the following steps to configure Eclipse IDE:
+
+.Procedure
+. Open menu:Window[Preferences] and then navigate to menu:Java[Code Style > Formatter].
+. Click *Import...* and select `optaplanner/build/optaplanner-ide-config/src/main/resources/eclipse-format.xml`.
+. Navigate to menu:Java[Code Style > Organize Imports].
+. Click *Import...* and select the `optaplanner/build/optaplanner-ide-config/src/main/resources/eclipse.importorder`.
+. Click *Apply and Close*.
+
+=== IntelliJ IDEA setup
+
+.Prerequisites
+* The OptaPlanner repository is cloned on your computer.
+
+Complete the following steps to configure IntelliJ IDEA:
+
+.Procedure
+. Open the *Settings* or *Preferences* window:
+* For Windows and Linux, select menu:File[Settings].
+* For macOS, select menu:IntelliJ IDEA[Preferences].
+. Navigate to *Plugins* and install the https://plugins.jetbrains.com/plugin/6546-eclipse-code-formatter[Eclipse Code Formatter Plugin] from the Marketplace.
+. Restart your IDE.
+. Open the *Settings* (or *Preferences*) window again and navigate to menu:Other Settings[Eclipse Code Formatter].
+. Configure the Eclipse Code Formatter:
+.. Select *Use the Eclipse Code Formatter* to enable the plugin.
+.. In the *Eclipse formatter config* section, select the *Eclipse workspace/project folder or config file* option, click *Browse...* and then select `optaplanner/build/optaplanner-ide-config/src/main/resources/eclipse-format.xml`.
+.. Make sure the *Optimize Imports* box is ticked, then select the *From file* option and browse for `optaplanner/build/optaplanner-ide-config/src/main/resources/eclipse.importorder`.

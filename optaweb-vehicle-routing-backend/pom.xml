@@ -23,7 +23,7 @@
   <parent>
     <groupId>org.optaweb.vehiclerouting</groupId>
     <artifactId>optaweb-vehicle-routing</artifactId>
-    <version>7.44.0-SNAPSHOT</version>
+    <version>8.4.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>optaweb-vehicle-routing-backend</artifactId>
@@ -32,7 +32,7 @@
   <name>OptaWeb Vehicle Routing Backend</name>
 
   <properties>
-    <java.version>1.8</java.version>
+    <java.module.name>org.optaweb.vehiclerouting.backend</java.module.name>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
   </properties>
@@ -91,13 +91,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
-      <exclusions>
-        <!-- Needed because kie-parent depends on hamcrest-core. -->
-        <exclusion>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -112,6 +105,7 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
     </dependency>
     <!-- Enable Spring Boot Automatic Restart, see Development Guide in Readme to learn how to use it. -->
     <dependency>
@@ -130,30 +124,23 @@
       <artifactId>optaplanner-test</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-checkstyle-plugin</artifactId>
-        <executions>
-          <execution>
-            <!-- Skip Checkstyle execution inherited from kie-parent. -->
-            <id>validate</id>
-            <phase>none</phase>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
           <compilerArgs>
             <!--
-              Visit https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javac.html
-              to learn more about javac warnings.
-             -->
+              Visit https://docs.oracle.com/en/java/javase/11/tools/javac.html to learn more about javac warnings.
+            -->
             <arg>-Xlint:all</arg>
             <arg>-Xlint:-processing</arg>
             <arg>-Xlint:-serial</arg>
@@ -180,14 +167,6 @@
         <configuration>
           <show>package</show>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>net.revelc.code.formatter</groupId>
-        <artifactId>formatter-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>net.revelc.code</groupId>
-        <artifactId>impsort-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.springframework.boot</groupId>
@@ -229,9 +208,9 @@
               </dependency>
             </dependencies>
             <!--
-              kie-parent contains Pitest configuration that doesn't work well for this project and it's not possible
-              to change it without a complete override (combine.self="override"), for example excludedClasses,
-              timeoutConstant.
+              optaplanner-build-parent contains Pitest configuration that doesn't work well for this project
+              and it's not possible to change it without a complete override (combine.self="override"),
+              for example excludedClasses, timeoutConstant.
             -->
             <configuration>
               <reportsDirectory>local/pit-reports</reportsDirectory>
@@ -275,31 +254,6 @@
                 </goals>
               </execution>
             </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <!--
-      To move the coverage measurement from Travis to Jenkins, add the repository name to
-      SONARCLOUD_ENABLED_REPOSITORIES in
-      https://github.com/kiegroup/kie-jenkins-scripts/blob/master/job-dsls/jobs/pr_jobs.groovy.
-    -->
-    <profile>
-      <id>run-code-coverage</id> <!-- Do not change. This exact ID is used in Jenkins jobs. -->
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.jacoco</groupId>
-            <artifactId>jacoco-maven-plugin</artifactId>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <configuration>
-              <!-- Append jacoco.agent.argLine property populated by JaCoCo's prepare-agent goal. -->
-              <argLine>@{jacoco.agent.argLine}</argLine>
-            </configuration>
           </plugin>
         </plugins>
       </build>

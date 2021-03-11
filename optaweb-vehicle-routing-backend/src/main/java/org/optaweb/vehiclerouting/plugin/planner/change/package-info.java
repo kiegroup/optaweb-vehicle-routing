@@ -15,7 +15,7 @@
  */
 
 /**
- * {@link org.optaplanner.core.impl.solver.ProblemFactChange} implementations.
+ * {@link org.optaplanner.core.api.solver.ProblemFactChange} implementations.
  * <p>
  * Problem fact changes are difficult to write correctly. To understand the code and when implementing new fact changes,
  * read <a href="https://docs.jboss.org/optaplanner/release/latest/optaplanner-docs/html_single/#problemFactChange">
