@@ -47,11 +47,11 @@ class DataSetDownloadControllerTest {
         when(demoService.exportDataSet()).thenReturn(msg);
 
         // act
-        Response responseEntity = controller.exportDataSet();
+        Response response = controller.exportDataSet();
 
         // assert
-        assertThat(responseEntity.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
-        MultivaluedMap<String, Object> headers = responseEntity.getHeaders();
+        assertThat(response.getStatus()).isEqualTo(Response.Status.OK.getStatusCode());
+        MultivaluedMap<String, Object> headers = response.getHeaders();
         // String.length() works here because the message is ASCII
         assertThat(headers.getFirst(HttpHeaders.CONTENT_LENGTH)).isEqualTo(msg.length());
         assertThat(headers.getFirst(HttpHeaders.CONTENT_TYPE)).isNotNull();
@@ -75,9 +75,9 @@ class DataSetDownloadControllerTest {
         when(demoService.exportDataSet()).thenReturn(msg);
 
         // act
-        Response responseEntity = controller.exportDataSet();
+        Response response = controller.exportDataSet();
 
         // assert
-        assertThat(responseEntity.getHeaderString(HttpHeaders.CONTENT_LENGTH)).isEqualTo("3");
+        assertThat(response.getHeaderString(HttpHeaders.CONTENT_LENGTH)).isEqualTo("3");
     }
 }
