@@ -20,14 +20,10 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
 
 import org.mockito.Mockito;
-import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
-import org.optaweb.vehiclerouting.service.region.Region;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
-import org.optaweb.vehiclerouting.service.route.Router;
 
 import com.graphhopper.reader.osm.GraphHopperOSM;
 
-import io.quarkus.arc.AlternativePriority;
 import io.quarkus.arc.profile.IfBuildProfile;
 import io.quarkus.test.junit.QuarkusTest;
 
@@ -51,31 +47,9 @@ public class TestConfig {
      * @return mock RouteListener
      */
     @IfBuildProfile(Profiles.TEST)
-    @AlternativePriority(1)
     @Produces
     public RouteListener routeListener() {
         return Mockito.mock(RouteListener.class);
-    }
-
-    @IfBuildProfile(Profiles.TEST)
-    @AlternativePriority(1)
-    @Produces
-    public Router router() {
-        return Mockito.mock(Router.class);
-    }
-
-    @IfBuildProfile(Profiles.TEST)
-    @AlternativePriority(1)
-    @Produces
-    public Region region() {
-        return Mockito.mock(Region.class);
-    }
-
-    @IfBuildProfile(Profiles.TEST)
-    @AlternativePriority(1)
-    @Produces
-    public DistanceCalculator distanceCalculator() {
-        return Mockito.mock(DistanceCalculator.class);
     }
 
 }
