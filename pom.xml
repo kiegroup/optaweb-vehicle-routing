@@ -35,6 +35,7 @@
 
   <!-- Modules are sorted in preferred build order. -->
   <modules>
+    <module>optaweb-vehicle-routing-backend</module>
     <module>optaweb-vehicle-routing-frontend</module>
     <module>optaweb-vehicle-routing-docs</module>
     <module>optaweb-vehicle-routing-distribution</module>
