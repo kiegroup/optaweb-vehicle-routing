@@ -282,23 +282,6 @@
     </profile>
 
     <profile>
-      <id>cypress</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-maven-plugin</artifactId>
-            <configuration>
-              <profiles>
-                <profile>dev-cypress</profile>
-              </profiles>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-
-    <profile>
       <id>native</id>
       <activation>
         <property>
