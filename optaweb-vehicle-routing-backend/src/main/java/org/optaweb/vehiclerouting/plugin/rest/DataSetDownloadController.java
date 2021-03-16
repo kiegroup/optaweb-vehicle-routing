@@ -33,7 +33,7 @@ import org.optaweb.vehiclerouting.service.demo.DemoService;
 /**
  * Serves the current data set as a downloadable YAML file.
  */
-@Path("/dataset/export")
+@Path("api/dataset/export")
 @Produces("text/x-yaml")
 public class DataSetDownloadController {
 

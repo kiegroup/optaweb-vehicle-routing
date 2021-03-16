@@ -26,7 +26,7 @@ import { configureStore } from './store';
 import App from './ui/App';
 
 const store = configureStore({
-  backendUrl: `${backendUrl}`,
+  backendUrl: `${backendUrl}/api`,
 });
 
 ReactDOM.render(

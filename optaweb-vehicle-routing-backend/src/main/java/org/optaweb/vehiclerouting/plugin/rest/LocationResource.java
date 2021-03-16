@@ -27,7 +27,7 @@ import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.plugin.rest.model.PortableLocation;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 
-@Path("location")
+@Path("api/location")
 public class LocationResource {
 
     private final LocationService locationService;

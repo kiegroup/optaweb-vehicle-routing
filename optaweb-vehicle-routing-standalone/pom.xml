@@ -32,12 +32,13 @@
   <name>OptaWeb Vehicle Routing Standalone</name>
 
   <properties>
+    <application.host>localhost</application.host>
     <application.port>8180</application.port>
+    <application.url>http://${application.host}:${application.port}</application.url>
     <!-- Override to run with Podman. -->
     <container.runtime>docker</container.runtime>
     <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
     <java.module.name>org.optaweb.vehiclerouting</java.module.name>
-    <test.osm.file>planet_12.032,53.0171_12.1024,53.0491.osm.pbf</test.osm.file>
     <version.cypress.docker>4.12.1</version.cypress.docker>
   </properties>
 
@@ -52,10 +53,17 @@
       <artifactId>optaweb-vehicle-routing-frontend</artifactId>
       <type>war</type>
     </dependency>
-    <!-- Used by WebConfig. -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-undertow</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-h2</artifactId>
     </dependency>
   </dependencies>
 
@@ -65,22 +73,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
-          <execution>
-            <id>unpack-backend</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.optaweb.vehiclerouting</groupId>
-                  <artifactId>optaweb-vehicle-routing-backend</artifactId>
-                  <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
           <execution>
             <id>unpack-frontend</id>
             <phase>prepare-package</phase>
@@ -93,7 +85,7 @@
                   <groupId>org.optaweb.vehiclerouting</groupId>
                   <artifactId>optaweb-vehicle-routing-frontend</artifactId>
                   <type>war</type>
-                  <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+                  <outputDirectory>${project.build.outputDirectory}/META-INF/resources</outputDirectory>
                 </artifactItem>
               </artifactItems>
               <excludes>META-INF/**,WEB-INF/**</excludes>
@@ -102,26 +94,15 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-maven-plugin</artifactId>
+        <version>${version.io.quarkus}</version>
+        <extensions>true</extensions>
         <executions>
           <execution>
             <goals>
-              <goal>repackage</goal>
+              <goal>build</goal>
             </goals>
-            <configuration>
-              <mainClass>org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication</mainClass>
-              <excludes>
-                <exclude>
-                  <groupId>org.optaweb.vehiclerouting</groupId>
-                  <artifactId>optaweb-vehicle-routing-backend</artifactId>
-                </exclude>
-                <exclude>
-                  <groupId>org.optaweb.vehiclerouting</groupId>
-                  <artifactId>optaweb-vehicle-routing-frontend</artifactId>
-                </exclude>
-              </excludes>
-            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -130,11 +111,19 @@
 
   <profiles>
     <profile>
-      <id>integration-tests</id>
+      <!--
+        We need to build for PostgreSQL and, at the same time, we need to use H2 when running integration tests.
+        But it seems to be impossible to change the database in runtime with Quarkus.
+
+        quarkus.datasource.db-kind is fixed at build time:
+        https://quarkus.io/guides/all-config#quarkus-datasource_quarkus.datasource.db-kind (notice the lock icon
+        and the explanation at the top of the page.
+      -->
+      <id>FIXME-integration-tests</id>
       <activation>
         <property>
           <name>integration-tests</name>
-          <value>true</value>
+          <value>FIXME_true</value>
         </property>
       </activation>
       <build>
@@ -167,20 +156,16 @@
                 </goals>
                 <configuration>
                   <name>Run application</name>
-                  <healthcheckUrl>http://localhost:${application.port}</healthcheckUrl>
+                  <healthcheckUrl>${application.url}</healthcheckUrl>
                   <workingDir>${project.basedir}</workingDir>
                   <processLogFile>${project.build.directory}/${project.artifactId}.log</processLogFile>
                   <arguments>
                     <argument>java</argument>
-                    <argument>-jar</argument>
-                    <argument>target/${project.build.finalName}.jar</argument>
-                    <argument>--server.port=${application.port}</argument>
+                    <argument>-Dquarkus.profile=cypress</argument>
                     <!--suppress UnresolvedMavenProperty -->
-                    <argument>--app.persistence.h2-dir=${project.build.directory}/db_${dbDirSuffix}</argument>
-                    <argument>--app.region.country-codes=DE</argument>
-                    <argument>--app.routing.gh-dir=target/graphhopper</argument>
-                    <argument>--app.routing.osm-dir=data/openstreetmap</argument>
-                    <argument>--app.routing.osm-file=${test.osm.file}</argument>
+                    <argument>-Dapp.persistence.h2-dir=${project.build.directory}/db_${dbDirSuffix}</argument>
+                    <argument>-jar</argument>
+                    <argument>target/quarkus-app/quarkus-run.jar</argument>
                   </arguments>
                 </configuration>
               </execution>
@@ -225,7 +210,7 @@
                     <argument>--project</argument>
                     <argument>.</argument>
                     <argument>--config</argument>
-                    <argument>baseUrl=http://localhost:${application.port}</argument>
+                    <argument>baseUrl=${application.url}</argument>
                   </arguments>
                 </configuration>
               </execution>

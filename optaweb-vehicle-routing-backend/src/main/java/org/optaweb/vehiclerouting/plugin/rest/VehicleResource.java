@@ -25,7 +25,7 @@ import javax.ws.rs.PathParam;
 
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
-@Path("vehicle")
+@Path("api/vehicle")
 public class VehicleResource {
 
     private final VehicleService vehicleService;

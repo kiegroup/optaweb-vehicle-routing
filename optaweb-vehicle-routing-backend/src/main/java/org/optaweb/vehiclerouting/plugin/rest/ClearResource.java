@@ -24,7 +24,7 @@ import javax.ws.rs.Path;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
 
-@Path("clear")
+@Path("api/clear")
 public class ClearResource {
 
     private final LocationService locationService;

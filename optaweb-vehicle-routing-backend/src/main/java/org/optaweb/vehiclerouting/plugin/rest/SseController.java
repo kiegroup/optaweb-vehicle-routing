@@ -37,7 +37,7 @@ import org.optaweb.vehiclerouting.service.error.ErrorMessage;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 
 @ApplicationScoped
-@Path("/events")
+@Path("api/events")
 public class SseController {
 
     // TODO repository, not listener (service)

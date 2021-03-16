@@ -34,7 +34,7 @@ import org.optaweb.vehiclerouting.service.demo.DemoService;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.RegionService;
 
-@Path("serverInfo")
+@Path("api/serverInfo")
 public class ServerInfoResource {
 
     private final DemoService demoService;

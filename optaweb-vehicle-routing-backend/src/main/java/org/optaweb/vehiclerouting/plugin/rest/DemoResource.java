@@ -24,7 +24,7 @@ import javax.ws.rs.PathParam;
 
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 
-@Path("demo/{name}")
+@Path("api/demo/{name}")
 public class DemoResource {
 
     private final DemoService demoService;
