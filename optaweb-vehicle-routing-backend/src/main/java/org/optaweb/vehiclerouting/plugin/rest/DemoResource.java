@@ -17,7 +17,6 @@
 package org.optaweb.vehiclerouting.plugin.rest;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -39,7 +38,6 @@ public class DemoResource {
      *
      * @param name data set name
      */
-    @Transactional
     @POST
     public void loadDemo(@PathParam("name") String name) {
         demoService.loadDemo(name);

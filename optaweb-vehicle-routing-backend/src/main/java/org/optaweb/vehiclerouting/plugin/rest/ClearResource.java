@@ -17,7 +17,6 @@
 package org.optaweb.vehiclerouting.plugin.rest;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
@@ -36,7 +35,6 @@ public class ClearResource {
         this.vehicleService = vehicleService;
     }
 
-    @Transactional
     @POST
     public void clear() {
         // TODO do this in one step (=> new RoutingPlanService)
