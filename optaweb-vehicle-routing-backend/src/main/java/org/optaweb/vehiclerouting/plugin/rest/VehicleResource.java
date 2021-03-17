@@ -17,7 +17,6 @@
 package org.optaweb.vehiclerouting.plugin.rest;
 
 import javax.inject.Inject;
-import javax.transaction.Transactional;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -35,7 +34,6 @@ public class VehicleResource {
         this.vehicleService = vehicleService;
     }
 
-    @Transactional
     @POST
     public void addVehicle() {
         vehicleService.createVehicle();
@@ -46,21 +44,18 @@ public class VehicleResource {
      *
      * @param id ID of the vehicle to be deleted
      */
-    @Transactional
     @DELETE
     @Path("{id}")
     public void removeVehicle(@PathParam("id") long id) {
         vehicleService.removeVehicle(id);
     }
 
-    @Transactional
     @POST
     @Path("deleteAny")
     public void removeAnyVehicle() {
         vehicleService.removeAnyVehicle();
     }
 
-    @Transactional
     @POST
     @Path("{id}/capacity")
     public void changeCapacity(@PathParam("id") long id, int capacity) {

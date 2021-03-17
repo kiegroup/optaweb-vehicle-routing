@@ -94,6 +94,7 @@ public class VehicleRepositoryImpl implements VehicleRepository {
         VehicleEntity vehicleEntity = repository.findByIdOptional(vehicleId).orElseThrow(() -> new IllegalArgumentException(
                 "Can't change Vehicle{id=" + vehicleId + "} because it doesn't exist"));
         vehicleEntity.setCapacity(capacity);
+        repository.flush();
         return VehicleFactory.createVehicle(vehicleEntity.getId(), vehicleEntity.getName(), vehicleEntity.getCapacity());
     }
 

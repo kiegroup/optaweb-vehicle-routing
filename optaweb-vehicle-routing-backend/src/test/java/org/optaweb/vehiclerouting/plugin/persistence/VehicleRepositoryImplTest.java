@@ -139,6 +139,7 @@ class VehicleRepositoryImplTest {
         when(crudRepository.findByIdOptional(vehicleId)).thenReturn(Optional.of(vehicleEntity));
 
         Vehicle vehicle = repository.changeCapacity(vehicleId, capacity);
+        verify(crudRepository).flush();
 
         assertThat(vehicleEntity.getCapacity()).isEqualTo(capacity);
 

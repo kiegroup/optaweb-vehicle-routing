@@ -55,7 +55,7 @@ class VehicleServiceTest {
         // verify that new vehicle is created with correct initial name and capacity
         when(vehicleRepository.createVehicle(VehicleService.DEFAULT_VEHICLE_CAPACITY)).thenReturn(vehicle);
 
-        vehicleService.createVehicle();
+        assertThat(vehicleService.createVehicle()).isEqualTo(vehicle);
 
         // verify that vehicle provided by repository is passed to planner
         verify(planner).addVehicle(vehicleArgumentCaptor.capture());
@@ -74,7 +74,7 @@ class VehicleServiceTest {
         final Vehicle vehicle = VehicleFactory.createVehicle(vehicleId, name, capacity);
         when(vehicleRepository.createVehicle(vehicleData)).thenReturn(vehicle);
 
-        vehicleService.createVehicle(vehicleData);
+        assertThat(vehicleService.createVehicle(vehicleData)).isEqualTo(vehicle);
 
         // verify that vehicle provided by repository is passed to planner
         verify(planner).addVehicle(vehicle);
