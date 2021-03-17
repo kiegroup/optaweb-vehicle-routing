@@ -80,7 +80,7 @@ public class DemoService {
 
     private void addWithRetry(Coordinates coordinates, String description) {
         int tries = 0;
-        while (tries < MAX_TRIES && !locationService.createLocation(coordinates, description)) {
+        while (tries < MAX_TRIES && !locationService.createLocation(coordinates, description).isPresent()) {
             tries++;
         }
         if (tries == MAX_TRIES) {

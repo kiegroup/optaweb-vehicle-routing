@@ -25,6 +25,7 @@ import java.util.Optional;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
@@ -57,21 +58,32 @@ public class LocationService {
         this.errorEventEvent = errorEventEvent;
     }
 
-    public synchronized boolean createLocation(Coordinates coordinates, String description) {
+    @Transactional
+    public synchronized Optional<Location> createLocation(Coordinates coordinates, String description) {
         Objects.requireNonNull(coordinates);
         Objects.requireNonNull(description);
         // TODO if (router.isLocationAvailable(coordinates))
         return submitToPlanner(repository.createLocation(coordinates, description));
     }
 
-    public synchronized boolean addLocation(Location location) {
+    public synchronized Optional<Location> addLocation(Location location) {
         return submitToPlanner(Objects.requireNonNull(location));
     }
 
-    private boolean submitToPlanner(Location location) {
+    private Optional<Location> submitToPlanner(Location location) {
+        Optional<DistanceMatrixRow> distanceMatrixRow = addToMatrix(location);
+        if (distanceMatrixRow.isPresent()) {
+            planner.addLocation(location, distanceMatrixRow.get());
+            return Optional.of(location);
+        } else {
+            repository.removeLocation(location.id());
+            return Optional.empty();
+        }
+    }
+
+    private Optional<DistanceMatrixRow> addToMatrix(Location location) {
         try {
-            DistanceMatrixRow distanceMatrixRow = distanceMatrix.addLocation(location);
-            planner.addLocation(location, distanceMatrixRow);
+            return Optional.of(distanceMatrix.addLocation(location));
         } catch (Exception e) {
             logger.error(
                     "Failed to calculate distances for location {}, it will be discarded",
@@ -80,12 +92,11 @@ public class LocationService {
                     this,
                     "Failed to calculate distances for location " + location.fullDescription()
                             + ", it will be discarded.\n" + e.toString()));
-            repository.removeLocation(location.id());
-            return false; // do not proceed to planner
+            return Optional.empty();
         }
-        return true;
     }
 
+    @Transactional
     public synchronized void removeLocation(long id) {
         Optional<Location> optionalLocation = repository.find(id);
         if (!optionalLocation.isPresent()) {
@@ -112,6 +123,7 @@ public class LocationService {
         distanceMatrix.removeLocation(removedLocation);
     }
 
+    @Transactional
     public synchronized void removeAll() {
         planner.removeAllLocations();
         repository.removeAll();

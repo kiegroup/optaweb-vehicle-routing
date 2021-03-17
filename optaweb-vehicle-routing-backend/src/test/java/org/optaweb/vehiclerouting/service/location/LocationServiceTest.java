@@ -70,7 +70,7 @@ class LocationServiceTest {
         when(repository.createLocation(coordinates, description)).thenReturn(location);
         when(distanceMatrix.addLocation(any())).thenReturn(matrixRow);
 
-        assertThat(locationService.createLocation(coordinates, description)).isTrue();
+        assertThat(locationService.createLocation(coordinates, description)).contains(location);
 
         verify(repository).createLocation(coordinates, description);
         verify(distanceMatrix).addLocation(location);
@@ -85,7 +85,7 @@ class LocationServiceTest {
     @Test
     void addLocation(@Mock DistanceMatrixRow matrixRow) {
         when(distanceMatrix.addLocation(any())).thenReturn(matrixRow);
-        assertThat(locationService.addLocation(location)).isTrue();
+        assertThat(locationService.addLocation(location)).contains(location);
 
         verifyNoInteractions(repository);
         verify(distanceMatrix).addLocation(location);
@@ -159,7 +159,7 @@ class LocationServiceTest {
         when(repository.createLocation(coordinates, "")).thenReturn(location);
         doThrow(new RuntimeException("test exception")).when(distanceMatrix).addLocation(location);
 
-        assertThat(locationService.createLocation(coordinates, "")).isFalse();
+        assertThat(locationService.createLocation(coordinates, "")).isEmpty();
         verifyNoInteractions(planner);
         // publish error event
         verify(errorEventEvent).fire(any(ErrorEvent.class));
