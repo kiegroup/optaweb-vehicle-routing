@@ -16,8 +16,6 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
-import java.util.Optional;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -42,11 +40,9 @@ class DistanceRepositoryImpl implements DistanceRepository {
 
     @Override
     public long getDistance(Location from, Location to) {
-        Optional<DistanceEntity> optional = distanceRepository.findByIdOptional(new DistanceKey(from.id(), to.id()));
-        if (optional.isPresent()) {
-            return optional.get().getDistance();
-        }
-        return -1;
+        return distanceRepository.findByIdOptional(new DistanceKey(from.id(), to.id()))
+                .map(DistanceEntity::getDistance)
+                .orElse(-1L);
     }
 
     @Override
