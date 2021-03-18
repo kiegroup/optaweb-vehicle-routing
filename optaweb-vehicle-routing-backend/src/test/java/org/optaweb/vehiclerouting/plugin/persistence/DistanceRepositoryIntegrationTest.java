@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 
 import io.quarkus.test.TestTransaction;
@@ -85,9 +86,9 @@ class DistanceRepositoryIntegrationTest {
         Location location1 = new Location(1, Coordinates.valueOf(7, -4.0));
         Location location2 = new Location(2, Coordinates.valueOf(5, 9.0));
 
-        long distance = 956766417;
+        Distance distance = Distance.ofMillis(956766417);
         repository.saveDistance(location1, location2, distance);
-        assertThat(repository.getDistance(location1, location2)).isEqualTo(distance);
+        assertThat(repository.getDistance(location1, location2)).contains(distance);
     }
 
     @Test
@@ -95,6 +96,6 @@ class DistanceRepositoryIntegrationTest {
         Location location1 = new Location(1, Coordinates.valueOf(7, -4.0));
         Location location2 = new Location(2, Coordinates.valueOf(5, 9.0));
 
-        assertThat(repository.getDistance(location1, location2)).isNegative();
+        assertThat(repository.getDistance(location1, location2)).isEmpty();
     }
 }

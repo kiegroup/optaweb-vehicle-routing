@@ -16,6 +16,9 @@
 
 package org.optaweb.vehiclerouting.service.distance;
 
+import java.util.Optional;
+
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 
 /**
@@ -23,9 +26,9 @@ import org.optaweb.vehiclerouting.domain.Location;
  */
 public interface DistanceRepository {
 
-    void saveDistance(Location from, Location to, long distance);
+    void saveDistance(Location from, Location to, Distance distance);
 
-    long getDistance(Location from, Location to);
+    Optional<Distance> getDistance(Location from, Location to);
 
     void deleteDistances(Location location);
 

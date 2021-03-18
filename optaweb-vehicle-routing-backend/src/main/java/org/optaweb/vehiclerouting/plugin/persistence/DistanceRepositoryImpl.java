@@ -16,9 +16,12 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
+import java.util.Optional;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.distance.DistanceRepository;
 
@@ -33,16 +36,16 @@ class DistanceRepositoryImpl implements DistanceRepository {
     }
 
     @Override
-    public void saveDistance(Location from, Location to, long distance) {
-        DistanceEntity distanceEntity = new DistanceEntity(new DistanceKey(from.id(), to.id()), distance);
+    public void saveDistance(Location from, Location to, Distance distance) {
+        DistanceEntity distanceEntity = new DistanceEntity(new DistanceKey(from.id(), to.id()), distance.millis());
         distanceRepository.persist(distanceEntity);
     }
 
     @Override
-    public long getDistance(Location from, Location to) {
+    public Optional<Distance> getDistance(Location from, Location to) {
         return distanceRepository.findByIdOptional(new DistanceKey(from.id(), to.id()))
                 .map(DistanceEntity::getDistance)
-                .orElse(-1L);
+                .map(Distance::ofMillis);
     }
 
     @Override

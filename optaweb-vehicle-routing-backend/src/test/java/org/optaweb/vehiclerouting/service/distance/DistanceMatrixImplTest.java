@@ -20,13 +20,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,7 +50,7 @@ class DistanceMatrixImplTest {
 
     @Test
     void should_calculate_distance_map() {
-        when(distanceRepository.getDistance(any(), any())).thenReturn(-1L); // empty repository
+        when(distanceRepository.getDistance(any(), any())).thenReturn(Optional.empty()); // empty repository
         DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockDistanceCalculator(), distanceRepository);
 
         Location l0 = location(100, 0);
@@ -98,7 +98,7 @@ class DistanceMatrixImplTest {
         Location l2 = location(111, 20);
         long dist12 = 12;
         long dist21 = 21;
-        when(distanceRepository.getDistance(any(), any())).thenReturn(-1L);
+        when(distanceRepository.getDistance(any(), any())).thenReturn(Optional.empty());
         when(distanceCalculator.travelTimeMillis(l1.coordinates(), l2.coordinates())).thenReturn(dist12);
         when(distanceCalculator.travelTimeMillis(l2.coordinates(), l1.coordinates())).thenReturn(dist21);
 
@@ -114,16 +114,16 @@ class DistanceMatrixImplTest {
         verify(distanceRepository).getDistance(l1, l2);
 
         // distances are calculated and persisted
-        verify(distanceRepository).saveDistance(l2, l1, dist21);
-        verify(distanceRepository).saveDistance(l1, l2, dist12);
+        verify(distanceRepository).saveDistance(l2, l1, Distance.ofMillis(dist21));
+        verify(distanceRepository).saveDistance(l1, l2, Distance.ofMillis(dist12));
     }
 
     @Test
     void should_not_call_router_when_repo_is_full() {
         Location l1 = location(1, 0);
         Location l2 = location(2, 0);
-        when(distanceRepository.getDistance(l1, l2)).thenReturn(0L);
-        when(distanceRepository.getDistance(l2, l1)).thenReturn(1L);
+        when(distanceRepository.getDistance(l1, l2)).thenReturn(Optional.of(Distance.ZERO));
+        when(distanceRepository.getDistance(l2, l1)).thenReturn(Optional.of(Distance.ZERO));
 
         // no calculation for the first location
         distanceMatrix.addLocation(l1);
@@ -137,7 +137,7 @@ class DistanceMatrixImplTest {
         verify(distanceRepository).getDistance(l1, l2);
 
         // nothing to persist
-        verify(distanceRepository, never()).saveDistance(any(Location.class), any(Location.class), anyLong());
+        verify(distanceRepository, never()).saveDistance(any(Location.class), any(Location.class), any(Distance.class));
         // no calculation
         verifyNoInteractions(distanceCalculator);
     }
@@ -147,7 +147,7 @@ class DistanceMatrixImplTest {
         // arrange
         Location l1 = location(1, 1);
         Location l2 = location(2, 2);
-        when(distanceRepository.getDistance(any(), any())).thenReturn(-1L);
+        when(distanceRepository.getDistance(any(), any())).thenReturn(Optional.empty());
         when(distanceCalculator.travelTimeMillis(l1.coordinates(), l2.coordinates()))
                 .thenThrow(new DistanceCalculationException("dummy"));
 

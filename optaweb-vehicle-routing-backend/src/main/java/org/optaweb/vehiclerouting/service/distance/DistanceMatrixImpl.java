@@ -86,12 +86,11 @@ class DistanceMatrixImpl implements DistanceMatrix {
     }
 
     private Distance calculateOrRestoreDistance(Location from, Location to) {
-        long distance = distanceRepository.getDistance(from, to);
-        if (distance < 0) {
-            distance = distanceCalculator.travelTimeMillis(from.coordinates(), to.coordinates());
+        return distanceRepository.getDistance(from, to).orElseGet(() -> {
+            Distance distance = Distance.ofMillis(distanceCalculator.travelTimeMillis(from.coordinates(), to.coordinates()));
             distanceRepository.saveDistance(from, to, distance);
-        }
-        return Distance.ofMillis(distance);
+            return distance;
+        });
     }
 
     @Override
