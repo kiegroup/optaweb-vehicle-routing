@@ -48,6 +48,7 @@ class LocationServiceIntegrationTest {
         locationService.createLocation(Coordinates.valueOf(12, -1), "location 1");
         Optional<Location> location = locationService.createLocation(Coordinates.valueOf(32, -5), "location 2");
         assertThat(location).isNotEmpty();
+        locationService.populateDistanceMatrix();
         locationService.removeLocation(location.get().id());
         locationService.removeAll();
     }

@@ -143,4 +143,13 @@ public class LocationService {
         distanceMatrix.clear();
         distanceRepository.deleteAll();
     }
+
+    public void populateDistanceMatrix() {
+        repository.locations()
+                .forEach(from -> repository.locations().stream()
+                        .filter(to -> !to.equals(from))
+                        .forEach(to -> distanceMatrix.put(from, to, distanceRepository.getDistance(from, to)
+                                .orElseThrow(() -> new IllegalStateException("Distance from: [" + from + "] to: [" + to
+                                        + "] is missing in the distance repository. This should not happen.")))));
+    }
 }

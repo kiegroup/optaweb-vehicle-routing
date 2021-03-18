@@ -107,6 +107,12 @@ class DistanceMatrixImpl implements DistanceMatrix {
     }
 
     @Override
+    public void put(Location from, Location to, Distance distance) {
+        matrix.computeIfAbsent(from, location -> new ConcurrentHashMap<>());
+        matrix.get(from).put(to.id(), distance);
+    }
+
+    @Override
     public void removeLocation(Location location) {
         // Remove the distance matrix row (distances from the removed location to others).
         matrix.remove(location);

@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -184,5 +185,19 @@ class LocationServiceTest {
         verify(errorEventEvent).fire(any(ErrorEvent.class));
         // roll back
         verify(repository).removeLocation(location.id());
+    }
+
+    @Test
+    void populate_matrix_should_read_all_distances() {
+        Location depot = new Location(1, coordinates);
+        Location visit1 = new Location(2, coordinates);
+        Location visit2 = new Location(3, coordinates);
+        when(repository.locations()).thenReturn(Arrays.asList(depot, visit1, visit2));
+        when(distanceRepository.getDistance(any(Location.class), any(Location.class))).thenReturn(Optional.of(Distance.ZERO));
+
+        locationService.populateDistanceMatrix();
+
+        verify(distanceRepository, times(6)).getDistance(any(Location.class), any(Location.class));
+        verify(distanceMatrix, times(6)).put(any(Location.class), any(Location.class), any(Distance.class));
     }
 }

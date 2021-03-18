@@ -31,4 +31,6 @@ public interface DistanceMatrix {
     void clear();
 
     Distance distance(Location from, Location to);
+
+    void put(Location from, Location to, Distance distance);
 }

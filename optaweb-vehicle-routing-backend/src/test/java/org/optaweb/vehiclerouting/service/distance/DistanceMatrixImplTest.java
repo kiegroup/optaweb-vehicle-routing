@@ -147,6 +147,16 @@ class DistanceMatrixImplTest {
         assertThat(distanceMatrix.dimension()).isEqualTo(1);
     }
 
+    @Test
+    void get_distance_after_put() {
+        Location from = location(1, 1);
+        Location to = location(2, 2);
+        Distance distance = Distance.ofMillis(2000);
+        distanceMatrix.put(from, to, distance);
+        assertThat(distanceMatrix.distance(from, to)).isEqualTo(distance);
+        verifyNoInteractions(distanceCalculator);
+    }
+
     private static Location location(long id, int longitude) {
         return new Location(id, new Coordinates(BigDecimal.ZERO, BigDecimal.valueOf(longitude)));
     }

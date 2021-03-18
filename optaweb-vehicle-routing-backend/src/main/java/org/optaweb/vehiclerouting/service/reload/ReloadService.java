@@ -52,6 +52,7 @@ public class ReloadService {
 
     public void reload(@Observes StartupEvent startupEvent) {
         vehicleRepository.vehicles().forEach(vehicleService::addVehicle);
+        locationService.populateDistanceMatrix();
         locationRepository.locations().forEach(locationService::addLocation);
     }
 }

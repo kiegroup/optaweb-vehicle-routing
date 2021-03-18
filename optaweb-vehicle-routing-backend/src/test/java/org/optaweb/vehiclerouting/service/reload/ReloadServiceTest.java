@@ -73,5 +73,6 @@ class ReloadServiceTest {
         verify(vehicleService, times(persistedVehicles.size())).addVehicle(vehicle);
         verify(locationRepository).locations();
         verify(locationService, times(persistedLocations.size())).addLocation(location);
+        verify(locationService).populateDistanceMatrix();
     }
 }
