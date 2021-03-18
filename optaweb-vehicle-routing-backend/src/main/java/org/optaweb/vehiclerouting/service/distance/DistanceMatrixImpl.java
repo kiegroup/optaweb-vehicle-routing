@@ -43,36 +43,7 @@ class DistanceMatrixImpl implements DistanceMatrix {
 
     @Override
     public DistanceMatrixRow addLocation(Location newLocation) {
-        // Matrix == distance rows.
-        // We're adding a whole new row with distances from the new location to existing ones.
-        // We're also creating a new column by "appending" a new cell to each existing row.
-        // This new column contains distances from each existing location to the new one.
-
-        // The map must be thread-safe because:
-        // - we're updating it from the parallel stream below
-        // - it is accessed from solver thread!
-        Map<Long, Distance> distancesToOthers = new ConcurrentHashMap<>(); // the new row
-
-        // distance to self is 0
-        distancesToOthers.put(newLocation.id(), Distance.ZERO);
-
-        // FIXME cannot do parallel and access the distance repository at the same time because Context is not available
-        //  on the parallel thread (javax.enterprise.context.ContextNotActiveException).
-        // For all entries (rows) in the matrix:
-        matrix.entrySet().stream().sequential().forEach(distanceRow -> {
-            // Entry key is the existing (other) location.
-            Location other = distanceRow.getKey();
-            // Entry value is the data (cells) in the row (distances from the entry key location to any other).
-            Map<Long, Distance> distancesFromOther = distanceRow.getValue();
-            // Add a new cell to the row with the distance from the entry key location to the new location
-            // (results in a new column at the end of the loop).
-            distancesFromOther.put(newLocation.id(), calculateOrRestoreDistance(other, newLocation));
-            // Add a cell to the new distance's row.
-            distancesToOthers.put(other.id(), calculateOrRestoreDistance(newLocation, other));
-        });
-
-        matrix.put(newLocation, distancesToOthers);
-
+        Map<Long, Distance> distancesToOthers = updateMatrixLazily(newLocation);
         return locationId -> {
             if (!distancesToOthers.containsKey(locationId)) {
                 throw new IllegalArgumentException(
@@ -85,12 +56,56 @@ class DistanceMatrixImpl implements DistanceMatrix {
         };
     }
 
-    private Distance calculateOrRestoreDistance(Location from, Location to) {
-        return distanceRepository.getDistance(from, to).orElseGet(() -> {
-            Distance distance = Distance.ofMillis(distanceCalculator.travelTimeMillis(from.coordinates(), to.coordinates()));
-            distanceRepository.saveDistance(from, to, distance);
-            return distance;
+    private Map<Long, Distance> updateMatrixLazily(Location newLocation) {
+        // Matrix == distance rows.
+        // We're adding a whole new row with distances from the new location to existing ones.
+        // We're also creating a new column by "appending" a new cell to each existing row.
+        // This new column contains distances from each existing location to the new one.
+
+        if (matrix.containsKey(newLocation)) {
+            return matrix.get(newLocation);
+        }
+
+        // The map must be thread-safe because:
+        // - we're updating it from the parallel stream below
+        // - it is accessed from solver thread!
+        Map<Long, Distance> distancesToOthers = new ConcurrentHashMap<>(); // the new row
+
+        // distance to self is 0
+        distancesToOthers.put(newLocation.id(), Distance.ZERO);
+
+        // For all entries (rows) in the matrix:
+        matrix.entrySet().stream().parallel().forEach(distanceRow -> {
+            // Entry key is the existing (other) location.
+            Location other = distanceRow.getKey();
+            // Entry value is the data (cells) in the row (distances from the entry key location to any other).
+            Map<Long, Distance> distancesFromOther = distanceRow.getValue();
+            // Add a new cell to the row with the distance from the entry key location to the new location
+            // (results in a new column at the end of the loop).
+            distancesFromOther.put(newLocation.id(), calculateDistance(other, newLocation));
+            // Add a cell to the new distance's row.
+            distancesToOthers.put(other.id(), calculateDistance(newLocation, other));
         });
+
+        matrix.put(newLocation, distancesToOthers);
+
+        return distancesToOthers;
+    }
+
+    private Distance calculateDistance(Location from, Location to) {
+        return Distance.ofMillis(distanceCalculator.travelTimeMillis(from.coordinates(), to.coordinates()));
+    }
+
+    @Override
+    public Distance distance(Location from, Location to) {
+        if (!matrix.containsKey(from)) {
+            throw new IllegalArgumentException("Unknown 'from' location (" + from + ")");
+        }
+        Map<Long, Distance> distanceRow = matrix.get(from);
+        if (!distanceRow.containsKey(to.id())) {
+            throw new IllegalArgumentException("Unknown 'to' location (" + to + ")");
+        }
+        return distanceRow.get(to.id());
     }
 
     @Override

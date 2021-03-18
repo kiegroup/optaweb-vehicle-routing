@@ -29,6 +29,7 @@ import javax.transaction.Transactional;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.service.distance.DistanceRepository;
 import org.optaweb.vehiclerouting.service.error.ErrorEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +43,7 @@ public class LocationService {
     private static final Logger logger = LoggerFactory.getLogger(LocationService.class);
 
     private final LocationRepository repository;
+    private final DistanceRepository distanceRepository;
     private final LocationPlanner planner; // TODO move to RoutingPlanService (SRP)
     private final DistanceMatrix distanceMatrix;
     private final Event<ErrorEvent> errorEventEvent;
@@ -49,13 +51,21 @@ public class LocationService {
     @Inject
     LocationService(
             LocationRepository repository,
+            DistanceRepository distanceRepository,
             LocationPlanner planner,
             DistanceMatrix distanceMatrix,
             Event<ErrorEvent> errorEventEvent) {
         this.repository = repository;
+        this.distanceRepository = distanceRepository;
         this.planner = planner;
         this.distanceMatrix = distanceMatrix;
         this.errorEventEvent = errorEventEvent;
+    }
+
+    public synchronized void addLocation(Location location) {
+        Objects.requireNonNull(location);
+        DistanceMatrixRow distanceMatrixRow = distanceMatrix.addLocation(location);
+        planner.addLocation(location, distanceMatrixRow);
     }
 
     @Transactional
@@ -63,14 +73,7 @@ public class LocationService {
         Objects.requireNonNull(coordinates);
         Objects.requireNonNull(description);
         // TODO if (router.isLocationAvailable(coordinates))
-        return submitToPlanner(repository.createLocation(coordinates, description));
-    }
-
-    public synchronized Optional<Location> addLocation(Location location) {
-        return submitToPlanner(Objects.requireNonNull(location));
-    }
-
-    private Optional<Location> submitToPlanner(Location location) {
+        Location location = repository.createLocation(coordinates, description);
         Optional<DistanceMatrixRow> distanceMatrixRow = addToMatrix(location);
         if (distanceMatrixRow.isPresent()) {
             planner.addLocation(location, distanceMatrixRow.get());
@@ -83,7 +86,16 @@ public class LocationService {
 
     private Optional<DistanceMatrixRow> addToMatrix(Location location) {
         try {
-            return Optional.of(distanceMatrix.addLocation(location));
+            DistanceMatrixRow distanceMatrixRow = distanceMatrix.addLocation(location);
+            repository.locations().stream()
+                    .filter(existingLocation -> !existingLocation.equals(location))
+                    .forEach(existingLocation -> {
+                        distanceRepository.saveDistance(location, existingLocation,
+                                distanceMatrixRow.distanceTo(existingLocation.id()));
+                        distanceRepository.saveDistance(existingLocation, location,
+                                distanceMatrix.distance(existingLocation, location));
+                    });
+            return Optional.of(distanceMatrixRow);
         } catch (Exception e) {
             logger.error(
                     "Failed to calculate distances for location {}, it will be discarded",

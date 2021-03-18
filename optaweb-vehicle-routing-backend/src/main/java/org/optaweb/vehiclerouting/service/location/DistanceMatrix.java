@@ -16,6 +16,7 @@
 
 package org.optaweb.vehiclerouting.service.location;
 
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 
 /**
@@ -28,4 +29,6 @@ public interface DistanceMatrix {
     void removeLocation(Location location);
 
     void clear();
+
+    Distance distance(Location from, Location to);
 }

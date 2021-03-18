@@ -19,14 +19,12 @@ package org.optaweb.vehiclerouting.service.distance;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -50,7 +48,6 @@ class DistanceMatrixImplTest {
 
     @Test
     void should_calculate_distance_map() {
-        when(distanceRepository.getDistance(any(), any())).thenReturn(Optional.empty()); // empty repository
         DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockDistanceCalculator(), distanceRepository);
 
         Location l0 = location(100, 0);
@@ -61,25 +58,36 @@ class DistanceMatrixImplTest {
 
         // distance to self
         assertThat(matrixRow0.distanceTo(l0.id())).isEqualTo(Distance.ZERO);
+        assertThat(distanceMatrix.distance(l0, l0)).isEqualTo(Distance.ZERO);
         // distance to not yet registered location
         assertThatIllegalArgumentException().isThrownBy(() -> matrixRow0.distanceTo(l1.id()));
+        assertThatIllegalArgumentException().isThrownBy(() -> distanceMatrix.distance(l0, l1));
+        assertThatIllegalArgumentException().isThrownBy(() -> distanceMatrix.distance(l1, l0));
+        assertThatIllegalArgumentException().isThrownBy(() -> distanceMatrix.distance(l1, l1));
 
         DistanceMatrixRow matrixRow1 = distanceMatrix.addLocation(l1);
         // distance to self
         assertThat(matrixRow1.distanceTo(l1.id())).isEqualTo(Distance.ZERO);
+        assertThat(distanceMatrix.distance(l1, l1)).isEqualTo(Distance.ZERO);
 
         // distance 0 <-> 1
         assertThat(matrixRow1.distanceTo(l0.id())).isEqualTo(Distance.ofMillis(1));
+        assertThat(distanceMatrix.distance(l0, l1)).isEqualTo(Distance.ofMillis(1));
         assertThat(matrixRow0.distanceTo(l1.id())).isEqualTo(Distance.ofMillis(1));
+        assertThat(distanceMatrix.distance(l1, l0)).isEqualTo(Distance.ofMillis(1));
 
         DistanceMatrixRow matrixRow9 = distanceMatrix.addLocation(l9neg);
 
         // distances -9 -> {0, 1}
         assertThat(matrixRow9.distanceTo(l0.id())).isEqualTo(Distance.ofMillis(9));
+        assertThat(distanceMatrix.distance(l9neg, l0)).isEqualTo(Distance.ofMillis(9));
         assertThat(matrixRow9.distanceTo(l1.id())).isEqualTo(Distance.ofMillis(10));
+        assertThat(distanceMatrix.distance(l9neg, l1)).isEqualTo(Distance.ofMillis(10));
         // distances {0, 1} -> -9
         assertThat(matrixRow0.distanceTo(l9neg.id())).isEqualTo(Distance.ofMillis(9));
+        assertThat(distanceMatrix.distance(l0, l9neg)).isEqualTo(Distance.ofMillis(9));
         assertThat(matrixRow1.distanceTo(l9neg.id())).isEqualTo(Distance.ofMillis(10));
+        assertThat(distanceMatrix.distance(l1, l9neg)).isEqualTo(Distance.ofMillis(10));
 
         // clear the map
         assertThat(distanceMatrix.dimension()).isEqualTo(3);
@@ -89,57 +97,37 @@ class DistanceMatrixImplTest {
         Location l500 = location(500, 500);
         DistanceMatrixRow matrixRow500 = distanceMatrix.addLocation(l500);
         assertThatIllegalArgumentException().isThrownBy(() -> matrixRow500.distanceTo(l0.id()));
+        assertThatIllegalArgumentException().isThrownBy(() -> distanceMatrix.distance(l500, l0));
         assertThatIllegalArgumentException().isThrownBy(() -> matrixRow9.distanceTo(l500.id()));
+        assertThatIllegalArgumentException().isThrownBy(() -> distanceMatrix.distance(l9neg, l500));
     }
 
     @Test
-    void should_call_router_and_persist_distances_when_repo_is_empty() {
+    void should_calculate_distance_only_once() {
         Location l1 = location(100, -1);
         Location l2 = location(111, 20);
         long dist12 = 12;
         long dist21 = 21;
-        when(distanceRepository.getDistance(any(), any())).thenReturn(Optional.empty());
         when(distanceCalculator.travelTimeMillis(l1.coordinates(), l2.coordinates())).thenReturn(dist12);
         when(distanceCalculator.travelTimeMillis(l2.coordinates(), l1.coordinates())).thenReturn(dist21);
 
-        // no calculation for the first location
+        // No calculation for the first location.
         distanceMatrix.addLocation(l1);
         verifyNoInteractions(distanceCalculator);
-        verifyNoInteractions(distanceRepository);
 
+        // Calculation happens for the first time.
         distanceMatrix.addLocation(l2);
+        verify(distanceCalculator).travelTimeMillis(l1.coordinates(), l2.coordinates());
+        verify(distanceCalculator).travelTimeMillis(l2.coordinates(), l1.coordinates());
 
-        // getting distances from the repository (unsuccessful)
-        verify(distanceRepository).getDistance(l2, l1);
-        verify(distanceRepository).getDistance(l1, l2);
+        // No calculation if the matrix is already populated.
+        DistanceMatrixRow row21 = distanceMatrix.addLocation(l2);
+        assertThat(row21.distanceTo(l1.id())).isEqualTo(Distance.ofMillis(dist21));
 
-        // distances are calculated and persisted
-        verify(distanceRepository).saveDistance(l2, l1, Distance.ofMillis(dist21));
-        verify(distanceRepository).saveDistance(l1, l2, Distance.ofMillis(dist12));
-    }
+        DistanceMatrixRow row12 = distanceMatrix.addLocation(l1);
+        assertThat(row12.distanceTo(l2.id())).isEqualTo(Distance.ofMillis(dist12));
 
-    @Test
-    void should_not_call_router_when_repo_is_full() {
-        Location l1 = location(1, 0);
-        Location l2 = location(2, 0);
-        when(distanceRepository.getDistance(l1, l2)).thenReturn(Optional.of(Distance.ZERO));
-        when(distanceRepository.getDistance(l2, l1)).thenReturn(Optional.of(Distance.ZERO));
-
-        // no calculation for the first location
-        distanceMatrix.addLocation(l1);
-        verifyNoInteractions(distanceCalculator);
-        verifyNoInteractions(distanceRepository);
-
-        distanceMatrix.addLocation(l2);
-
-        // get distances from the repository
-        verify(distanceRepository).getDistance(l2, l1);
-        verify(distanceRepository).getDistance(l1, l2);
-
-        // nothing to persist
-        verify(distanceRepository, never()).saveDistance(any(Location.class), any(Location.class), any(Distance.class));
-        // no calculation
-        verifyNoInteractions(distanceCalculator);
+        verifyNoMoreInteractions(distanceCalculator);
     }
 
     @Test
@@ -147,7 +135,6 @@ class DistanceMatrixImplTest {
         // arrange
         Location l1 = location(1, 1);
         Location l2 = location(2, 2);
-        when(distanceRepository.getDistance(any(), any())).thenReturn(Optional.empty());
         when(distanceCalculator.travelTimeMillis(l1.coordinates(), l2.coordinates()))
                 .thenThrow(new DistanceCalculationException("dummy"));
 

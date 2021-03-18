@@ -38,7 +38,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.service.distance.DistanceRepository;
 import org.optaweb.vehiclerouting.service.error.ErrorEvent;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,6 +48,8 @@ class LocationServiceTest {
 
     @Mock
     private LocationRepository repository;
+    @Mock
+    private DistanceRepository distanceRepository;
     @Mock
     private LocationPlanner planner;
     @Mock
@@ -66,14 +70,21 @@ class LocationServiceTest {
 
     @Test
     void createLocation(@Mock DistanceMatrixRow matrixRow) {
+        Distance distance = Distance.ofMillis(123);
+        Location existingLocation = new Location(2, coordinates);
+        when(repository.locations()).thenReturn(Arrays.asList(existingLocation));
         String description = "new location";
         when(repository.createLocation(coordinates, description)).thenReturn(location);
         when(distanceMatrix.addLocation(any())).thenReturn(matrixRow);
+        when(distanceMatrix.distance(any(), any())).thenReturn(distance);
+        when(matrixRow.distanceTo(anyLong())).thenReturn(distance);
 
         assertThat(locationService.createLocation(coordinates, description)).contains(location);
 
         verify(repository).createLocation(coordinates, description);
         verify(distanceMatrix).addLocation(location);
+        verify(distanceRepository).saveDistance(existingLocation, location, distance);
+        verify(distanceRepository).saveDistance(location, existingLocation, distance);
         verify(planner).addLocation(location, matrixRow);
     }
 
@@ -85,9 +96,11 @@ class LocationServiceTest {
     @Test
     void addLocation(@Mock DistanceMatrixRow matrixRow) {
         when(distanceMatrix.addLocation(any())).thenReturn(matrixRow);
-        assertThat(locationService.addLocation(location)).contains(location);
+
+        locationService.addLocation(location);
 
         verifyNoInteractions(repository);
+        verifyNoInteractions(distanceRepository);
         verify(distanceMatrix).addLocation(location);
         verify(planner).addLocation(location, matrixRow);
     }
