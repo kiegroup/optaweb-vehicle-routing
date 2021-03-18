@@ -41,14 +41,12 @@ class DistanceMatrixImplTest {
 
     @Mock
     private DistanceCalculator distanceCalculator;
-    @Mock
-    private DistanceRepository distanceRepository;
     @InjectMocks
     private DistanceMatrixImpl distanceMatrix;
 
     @Test
     void should_calculate_distance_map() {
-        DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockDistanceCalculator(), distanceRepository);
+        DistanceMatrixImpl distanceMatrix = new DistanceMatrixImpl(new MockDistanceCalculator());
 
         Location l0 = location(100, 0);
         Location l1 = location(111, 1);
@@ -93,7 +91,6 @@ class DistanceMatrixImplTest {
         assertThat(distanceMatrix.dimension()).isEqualTo(3);
         distanceMatrix.clear();
         assertThat(distanceMatrix.dimension()).isZero();
-        verify(distanceRepository).deleteAll();
         Location l500 = location(500, 500);
         DistanceMatrixRow matrixRow500 = distanceMatrix.addLocation(l500);
         assertThatIllegalArgumentException().isThrownBy(() -> matrixRow500.distanceTo(l0.id()));
@@ -145,7 +142,6 @@ class DistanceMatrixImplTest {
         // act & assert
         distanceMatrix.removeLocation(l1);
         assertThat(distanceMatrix.dimension()).isZero();
-        verify(distanceRepository).deleteDistances(l1);
 
         distanceMatrix.addLocation(l2);
         assertThat(distanceMatrix.dimension()).isEqualTo(1);

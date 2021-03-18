@@ -113,6 +113,7 @@ class LocationServiceTest {
         locationService.removeLocation(location.id());
 
         verify(repository).removeLocation(location.id());
+        verify(distanceRepository).deleteDistances(location);
         verify(planner).removeLocation(location);
         verifyNoInteractions(errorEventEvent);
         // TODO remove location from distance matrix
@@ -126,6 +127,7 @@ class LocationServiceTest {
 
         verifyNoInteractions(planner);
         verify(repository, never()).removeLocation(anyLong());
+        verify(distanceRepository, never()).deleteDistances(any(Location.class));
         verify(errorEventEvent).fire(any(ErrorEvent.class));
     }
 
@@ -141,6 +143,7 @@ class LocationServiceTest {
         verifyNoInteractions(planner);
         verifyNoInteractions(distanceMatrix);
         verify(repository, never()).removeLocation(anyLong());
+        verify(distanceRepository, never()).deleteDistances(any(Location.class));
         verify(errorEventEvent).fire(any(ErrorEvent.class));
     }
 
@@ -156,6 +159,7 @@ class LocationServiceTest {
         verify(planner).removeLocation(visit);
         verify(distanceMatrix).removeLocation(visit);
         verify(repository).removeLocation(visit.id());
+        verify(distanceRepository).deleteDistances(visit);
         verifyNoInteractions(errorEventEvent);
     }
 
@@ -164,6 +168,7 @@ class LocationServiceTest {
         locationService.removeAll();
         verify(planner).removeAllLocations();
         verify(repository).removeAll();
+        verify(distanceRepository).deleteAll();
         verify(distanceMatrix).clear();
     }
 
@@ -174,6 +179,7 @@ class LocationServiceTest {
 
         assertThat(locationService.createLocation(coordinates, "")).isEmpty();
         verifyNoInteractions(planner);
+        verifyNoInteractions(distanceRepository);
         // publish error event
         verify(errorEventEvent).fire(any(ErrorEvent.class));
         // roll back

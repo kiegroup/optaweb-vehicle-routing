@@ -133,6 +133,7 @@ public class LocationService {
         planner.removeLocation(removedLocation);
         repository.removeLocation(id);
         distanceMatrix.removeLocation(removedLocation);
+        distanceRepository.deleteDistances(removedLocation);
     }
 
     @Transactional
@@ -140,5 +141,6 @@ public class LocationService {
         planner.removeAllLocations();
         repository.removeAll();
         distanceMatrix.clear();
+        distanceRepository.deleteAll();
     }
 }

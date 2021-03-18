@@ -32,13 +32,11 @@ import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
 class DistanceMatrixImpl implements DistanceMatrix {
 
     private final DistanceCalculator distanceCalculator;
-    private final DistanceRepository distanceRepository;
     private final Map<Location, Map<Long, Distance>> matrix = new HashMap<>();
 
     @Inject
-    DistanceMatrixImpl(DistanceCalculator distanceCalculator, DistanceRepository distanceRepository) {
+    DistanceMatrixImpl(DistanceCalculator distanceCalculator) {
         this.distanceCalculator = distanceCalculator;
-        this.distanceRepository = distanceRepository;
     }
 
     @Override
@@ -116,13 +114,11 @@ class DistanceMatrixImpl implements DistanceMatrix {
         //  leak.
         //  But this probably requires making DistanceMatrixRow immutable (otherwise there's a risk of NPEs in solver)
         //  and update PlanningLocations' distance maps through problem fact changes.
-        distanceRepository.deleteDistances(location);
     }
 
     @Override
     public void clear() {
         matrix.clear();
-        distanceRepository.deleteAll();
     }
 
     /**
