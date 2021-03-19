@@ -35,10 +35,14 @@ import org.optaweb.vehiclerouting.plugin.rest.model.PortableErrorMessage;
 import org.optaweb.vehiclerouting.plugin.rest.model.PortableRoutingPlanFactory;
 import org.optaweb.vehiclerouting.service.error.ErrorMessage;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
 @Path("api/events")
 public class RouteEventResource {
+
+    private static final Logger logger = LoggerFactory.getLogger(RouteEventResource.class);
 
     // TODO repository, not listener (service)
     private final RouteListener routeListener;
@@ -54,6 +58,7 @@ public class RouteEventResource {
     // Handy during development.
     @PreDestroy
     public void closeBroadcaster() {
+        logger.debug("Closing Server-Sent Events broadcaster.");
         sseBroadcaster.close();
     }
 
