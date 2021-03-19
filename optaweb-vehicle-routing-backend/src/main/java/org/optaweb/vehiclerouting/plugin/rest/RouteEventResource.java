@@ -38,7 +38,7 @@ import org.optaweb.vehiclerouting.service.route.RouteListener;
 
 @ApplicationScoped
 @Path("api/events")
-public class SseController {
+public class RouteEventResource {
 
     // TODO repository, not listener (service)
     private final RouteListener routeListener;
@@ -47,7 +47,7 @@ public class SseController {
     private OutboundSseEvent.Builder eventBuilder;
 
     @Inject
-    public SseController(RouteListener routeListener) {
+    public RouteEventResource(RouteListener routeListener) {
         this.routeListener = routeListener;
     }
 
