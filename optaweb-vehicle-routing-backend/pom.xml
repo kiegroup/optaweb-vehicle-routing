@@ -56,6 +56,10 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-h2</artifactId>
     </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-postgresql</artifactId>
+    </dependency>
     <!-- Planner -->
     <dependency>
       <groupId>org.optaplanner</groupId>
@@ -80,16 +84,6 @@
     <dependency>
       <groupId>com.graphhopper</groupId>
       <artifactId>graphhopper-reader-osm</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.h2database</groupId>
-      <artifactId>h2</artifactId>
-      <scope>runtime</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.postgresql</groupId>
-      <artifactId>postgresql</artifactId>
-      <scope>runtime</scope>
     </dependency>
     <!--
       Add JAXB API dependency that's been deprecated in Java 9 and dropped in Java 11. See
