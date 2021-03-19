@@ -1,4 +1,6 @@
 !.mvn/wrapper/maven-wrapper.jar
 
+/.env
+
 /target
 /local
