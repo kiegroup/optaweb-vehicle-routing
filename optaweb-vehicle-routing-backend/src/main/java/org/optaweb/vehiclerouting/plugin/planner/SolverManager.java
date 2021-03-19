@@ -118,9 +118,12 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
                                     this,
                                     "Solver stopped without being terminated early and without throwing an exception."
                                             + " This is a bug."));
-                        } catch (InterruptedException | ExecutionException exception) {
-                            logger.error("Solver failed", exception);
-                            errorEventEvent.fire(new ErrorEvent(this, exception.toString()));
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                            throw new RuntimeException("Interrupted while retrieving the cause of solver failure", e);
+                        } catch (ExecutionException e) {
+                            logger.error("Solver failed", e);
+                            errorEventEvent.fire(new ErrorEvent(this, e.toString()));
                         }
                     }
                 },
