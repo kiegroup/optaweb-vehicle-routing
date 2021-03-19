@@ -28,7 +28,7 @@ export default class WebSocketClient {
     this.eventSource = null;
   }
 
-  connect(successCallback: () => any, errorCallback: (err: Event) => any): void {
+  connect(successCallback: () => void, errorCallback: (err: Event) => void): void {
     if (this.eventSource === null) {
       this.eventSource = new EventSource(`${this.backendUrl}/events`);
       this.eventSource.onopen = successCallback;
@@ -78,13 +78,13 @@ export default class WebSocketClient {
     return fetch(`${this.backendUrl}/clear`, { method: 'POST' });
   }
 
-  subscribeToServerInfo(subscriptionCallback: (serverInfo: ServerInfo) => any): Promise<void> {
+  subscribeToServerInfo(subscriptionCallback: (serverInfo: ServerInfo) => void): Promise<void> {
     return fetch(`${this.backendUrl}/serverInfo`)
       .then((response) => response.json())
       .then((data) => subscriptionCallback(data));
   }
 
-  subscribeToRoute(subscriptionCallback: (plan: RoutingPlan) => any): void {
+  subscribeToRoute(subscriptionCallback: (plan: RoutingPlan) => void): void {
     if (this.eventSource !== null) {
       this.eventSource.addEventListener('route', (event: MessageEvent) => {
         subscriptionCallback(JSON.parse(event.data));
@@ -92,7 +92,7 @@ export default class WebSocketClient {
     }
   }
 
-  subscribeToErrorTopic(subscriptionCallback: (errorMessage: MessagePayload) => any): void {
+  subscribeToErrorTopic(subscriptionCallback: (errorMessage: MessagePayload) => void): void {
     if (this.eventSource !== null) {
       this.eventSource.addEventListener('errorMessage', (event: MessageEvent) => {
         subscriptionCallback(JSON.parse(event.data));
