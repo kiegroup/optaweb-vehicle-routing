@@ -46,7 +46,7 @@ public class LocationService {
     private final DistanceRepository distanceRepository;
     private final LocationPlanner planner; // TODO move to RoutingPlanService (SRP)
     private final DistanceMatrix distanceMatrix;
-    private final Event<ErrorEvent> errorEventEvent;
+    private final Event<ErrorEvent> errorEvent;
 
     @Inject
     LocationService(
@@ -54,12 +54,12 @@ public class LocationService {
             DistanceRepository distanceRepository,
             LocationPlanner planner,
             DistanceMatrix distanceMatrix,
-            Event<ErrorEvent> errorEventEvent) {
+            Event<ErrorEvent> errorEvent) {
         this.repository = repository;
         this.distanceRepository = distanceRepository;
         this.planner = planner;
         this.distanceMatrix = distanceMatrix;
-        this.errorEventEvent = errorEventEvent;
+        this.errorEvent = errorEvent;
     }
 
     public synchronized void addLocation(Location location) {
@@ -100,7 +100,7 @@ public class LocationService {
             logger.error(
                     "Failed to calculate distances for location {}, it will be discarded",
                     location.fullDescription(), e);
-            errorEventEvent.fire(new ErrorEvent(
+            errorEvent.fire(new ErrorEvent(
                     this,
                     "Failed to calculate distances for location " + location.fullDescription()
                             + ", it will be discarded.\n" + e.toString()));
@@ -112,8 +112,7 @@ public class LocationService {
     public synchronized void removeLocation(long id) {
         Optional<Location> optionalLocation = repository.find(id);
         if (!optionalLocation.isPresent()) {
-            errorEventEvent.fire(
-                    new ErrorEvent(this, "Location [" + id + "] cannot be removed because it doesn't exist."));
+            errorEvent.fire(new ErrorEvent(this, "Location [" + id + "] cannot be removed because it doesn't exist."));
             return;
         }
         Location removedLocation = optionalLocation.get();
@@ -124,8 +123,7 @@ public class LocationService {
                     .orElseThrow(() -> new IllegalStateException(
                             "Impossible. Locations have size (" + locations.size() + ") but the stream is empty."));
             if (removedLocation.equals(depot)) {
-                errorEventEvent.fire(
-                        new ErrorEvent(this, "You can only remove depot if there are no visits."));
+                errorEvent.fire(new ErrorEvent(this, "You can only remove depot if there are no visits."));
                 return;
             }
         }

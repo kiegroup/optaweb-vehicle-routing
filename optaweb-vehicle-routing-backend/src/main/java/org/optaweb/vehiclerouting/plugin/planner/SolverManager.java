@@ -65,7 +65,7 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
     private final Solver<VehicleRoutingSolution> solver;
     private final ListeningExecutorService executor;
     private final RouteChangedEventPublisher routeChangedEventPublisher;
-    private final Event<ErrorEvent> errorEventEvent;
+    private final Event<ErrorEvent> errorEvent;
 
     private ListenableFuture<VehicleRoutingSolution> solverFuture;
 
@@ -74,11 +74,11 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
             Solver<VehicleRoutingSolution> solver,
             ListeningExecutorService executor,
             RouteChangedEventPublisher routeChangedEventPublisher,
-            Event<ErrorEvent> errorEventEvent) {
+            Event<ErrorEvent> errorEvent) {
         this.solver = solver;
         this.executor = executor;
         this.routeChangedEventPublisher = routeChangedEventPublisher;
-        this.errorEventEvent = errorEventEvent;
+        this.errorEvent = errorEvent;
         this.solver.addEventListener(this);
     }
 
@@ -114,7 +114,7 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
                             solverFuture.get();
                             logger.error("This should be impossible. The solver has stopped without being terminated early"
                                     + " so at this point it is expected to have crashed but there was no exception.");
-                            errorEventEvent.fire(new ErrorEvent(
+                            errorEvent.fire(new ErrorEvent(
                                     this,
                                     "Solver stopped without being terminated early and without throwing an exception."
                                             + " This is a bug."));
@@ -123,7 +123,7 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
                             throw new RuntimeException("Interrupted while retrieving the cause of solver failure", e);
                         } catch (ExecutionException e) {
                             logger.error("Solver failed", e);
-                            errorEventEvent.fire(new ErrorEvent(this, e.toString()));
+                            errorEvent.fire(new ErrorEvent(this, e.toString()));
                         }
                     }
                 },
