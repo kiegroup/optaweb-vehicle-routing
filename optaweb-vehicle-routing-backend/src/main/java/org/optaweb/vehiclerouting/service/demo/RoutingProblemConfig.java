@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import javax.enterprise.context.Dependent;
@@ -80,7 +81,12 @@ class RoutingProblemConfig {
 
     private List<RoutingProblem> localDataSets() {
         // TODO watch the dir (and make this a service that has local/data resource as a dependency -> is testable)
-        Path dataSetDirPath = Paths.get(demoProperties.getDataSetDir());
+        Optional<String> dataSetDirProperty = demoProperties.getDataSetDir();
+        if (!dataSetDirProperty.isPresent()) {
+            logger.info("Data set directory (app.demo.data-set-dir) is not set.");
+            return Collections.emptyList();
+        }
+        Path dataSetDirPath = Paths.get(dataSetDirProperty.get());
         if (!isReadableDir(dataSetDirPath)) {
             logger.warn(
                     "Data set directory '{}' doesn't exist or cannot be read. No external data sets will be loaded",
