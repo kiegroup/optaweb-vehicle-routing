@@ -35,11 +35,11 @@ import org.optaweb.vehiclerouting.service.demo.DemoService;
  */
 @Path("api/dataset/export")
 @Produces("text/x-yaml")
-public class DataSetDownloadController {
+public class DataSetDownloadResource {
 
     private final DemoService demoService;
 
-    DataSetDownloadController(DemoService demoService) {
+    DataSetDownloadResource(DemoService demoService) {
         this.demoService = demoService;
     }
 

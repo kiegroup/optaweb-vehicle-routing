@@ -33,12 +33,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.service.demo.DemoService;
 
 @ExtendWith(MockitoExtension.class)
-class DataSetDownloadControllerTest {
+class DataSetDownloadResourceTest {
 
     @Mock
     private DemoService demoService;
     @InjectMocks
-    private DataSetDownloadController controller;
+    private DataSetDownloadResource controller;
 
     @Test
     void export() throws IOException {
