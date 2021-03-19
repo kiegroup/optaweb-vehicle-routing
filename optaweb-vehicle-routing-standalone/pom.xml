@@ -32,14 +32,7 @@
   <name>OptaWeb Vehicle Routing Standalone</name>
 
   <properties>
-    <application.host>localhost</application.host>
-    <application.port>8180</application.port>
-    <application.url>http://${application.host}:${application.port}</application.url>
-    <!-- Override to run with Podman. -->
-    <container.runtime>docker</container.runtime>
-    <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
     <java.module.name>org.optaweb.vehiclerouting</java.module.name>
-    <version.cypress.docker>4.12.1</version.cypress.docker>
   </properties>
 
   <dependencies>
@@ -60,10 +53,6 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-postgresql</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-jdbc-h2</artifactId>
     </dependency>
   </dependencies>
 
@@ -108,116 +97,4 @@
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <!--
-        We need to build for PostgreSQL and, at the same time, we need to use H2 when running integration tests.
-        But it seems to be impossible to change the database in runtime with Quarkus.
-
-        quarkus.datasource.db-kind is fixed at build time:
-        https://quarkus.io/guides/all-config#quarkus-datasource_quarkus.datasource.db-kind (notice the lock icon
-        and the explanation at the top of the page.
-      -->
-      <id>FIXME-integration-tests</id>
-      <activation>
-        <property>
-          <name>integration-tests</name>
-          <value>FIXME_true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.soulwing</groupId>
-            <artifactId>uuid-maven-plugin</artifactId>
-            <version>1.0.0</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>uuid</goal>
-                </goals>
-                <configuration>
-                  <targetProperty>dbDirSuffix</targetProperty>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin> <!-- Start standalone JAR as a separate process. -->
-            <groupId>com.bazaarvoice.maven.plugins</groupId>
-            <artifactId>process-exec-maven-plugin</artifactId>
-            <version>0.9</version>
-            <executions>
-              <execution>
-                <id>start-application</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>start</goal>
-                </goals>
-                <configuration>
-                  <name>Run application</name>
-                  <healthcheckUrl>${application.url}</healthcheckUrl>
-                  <workingDir>${project.basedir}</workingDir>
-                  <processLogFile>${project.build.directory}/${project.artifactId}.log</processLogFile>
-                  <arguments>
-                    <argument>java</argument>
-                    <argument>-Dquarkus.profile=cypress</argument>
-                    <!--suppress UnresolvedMavenProperty -->
-                    <argument>-Dapp.persistence.h2-dir=${project.build.directory}/db_${dbDirSuffix}</argument>
-                    <argument>-jar</argument>
-                    <argument>target/quarkus-app/quarkus-run.jar</argument>
-                  </arguments>
-                </configuration>
-              </execution>
-              <!-- Kill all running processes. -->
-              <execution>
-                <id>stop-running-processes</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>stop-all</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!--
-            Run Cypress tests in a docker container.
-            See https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command.
-           -->
-          <plugin>
-            <artifactId>exec-maven-plugin</artifactId>
-            <groupId>org.codehaus.mojo</groupId>
-            <executions>
-              <execution>
-                <id>run-cypress-tests</id>
-                <phase>integration-test</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-                <configuration>
-                  <executable>${container.runtime}</executable>
-                  <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
-                  <arguments>
-                    <argument>run</argument>
-                    <argument>--network=host</argument> <!-- Cypress accesses UI running on the host. -->
-                    <argument>--volume</argument>
-                    <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
-                    <argument>--workdir</argument>
-                    <argument>/e2e</argument>
-                    <argument>--entrypoint</argument>
-                    <argument>cypress</argument>
-                    <argument>cypress/included:${version.cypress.docker}</argument>
-                    <argument>run</argument> <!-- Executing cypress:run. -->
-                    <argument>--project</argument>
-                    <argument>.</argument>
-                    <argument>--config</argument>
-                    <argument>baseUrl=${application.url}</argument>
-                  </arguments>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>

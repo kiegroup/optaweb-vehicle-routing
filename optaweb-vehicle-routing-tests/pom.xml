@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2021 Red Hat, Inc. and/or its affiliates.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>optaweb-vehicle-routing</artifactId>
+    <groupId>org.optaweb.vehiclerouting</groupId>
+    <version>8.4.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>optaweb-vehicle-routing-tests</artifactId>
+
+  <name>OptaWeb Vehicle Routing end-to-end Tests</name>
+
+  <properties>
+    <application.host>localhost</application.host>
+    <application.port>8180</application.port>
+    <application.url>http://${application.host}:${application.port}</application.url>
+    <!-- Override to run with Podman. -->
+    <container.runtime>docker</container.runtime>
+    <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
+    <java.module.name>org.optaweb.vehiclerouting</java.module.name>
+    <version.cypress.docker>4.12.1</version.cypress.docker>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.optaweb.vehiclerouting</groupId>
+      <artifactId>optaweb-vehicle-routing-standalone</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-h2</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-maven-plugin</artifactId>
+        <version>${version.io.quarkus}</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <goals>
+              <goal>build</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>integration-tests</id>
+      <activation>
+        <property>
+          <name>integration-tests</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.soulwing</groupId>
+            <artifactId>uuid-maven-plugin</artifactId>
+            <version>1.0.0</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>uuid</goal>
+                </goals>
+                <configuration>
+                  <targetProperty>dbDirSuffix</targetProperty>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin> <!-- Start standalone JAR as a separate process. -->
+            <groupId>com.bazaarvoice.maven.plugins</groupId>
+            <artifactId>process-exec-maven-plugin</artifactId>
+            <version>0.9</version>
+            <executions>
+              <execution>
+                <id>start-application</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+                <configuration>
+                  <name>Run application</name>
+                  <healthcheckUrl>${application.url}</healthcheckUrl>
+                  <workingDir>${project.basedir}</workingDir>
+                  <processLogFile>${project.build.directory}/${project.artifactId}.log</processLogFile>
+                  <arguments>
+                    <argument>java</argument>
+                    <argument>-Dquarkus.http.host=${application.host}</argument>
+                    <argument>-Dquarkus.http.port=${application.port}</argument>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <argument>-Dapp.persistence.h2-dir=${project.build.directory}/db_${dbDirSuffix}</argument>
+                    <argument>-jar</argument>
+                    <argument>target/quarkus-app/quarkus-run.jar</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <!-- Kill all running processes. -->
+              <execution>
+                <id>stop-running-processes</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop-all</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!--
+            Run Cypress tests in a docker container.
+            See https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command.
+          -->
+          <plugin>
+            <artifactId>exec-maven-plugin</artifactId>
+            <groupId>org.codehaus.mojo</groupId>
+            <executions>
+              <execution>
+                <id>run-cypress-tests</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>${container.runtime}</executable>
+                  <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
+                  <arguments>
+                    <argument>run</argument>
+                    <argument>--network=host</argument> <!-- Cypress accesses UI running on the host. -->
+                    <argument>--volume</argument>
+                    <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
+                    <argument>--workdir</argument>
+                    <argument>/e2e</argument>
+                    <argument>--entrypoint</argument>
+                    <argument>cypress</argument>
+                    <argument>cypress/included:${version.cypress.docker}</argument>
+                    <argument>run</argument> <!-- Executing cypress:run. -->
+                    <argument>--project</argument>
+                    <argument>.</argument>
+                    <argument>--config</argument>
+                    <argument>baseUrl=${application.url}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
