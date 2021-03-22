@@ -23,7 +23,7 @@
   <parent>
     <artifactId>optaweb-vehicle-routing</artifactId>
     <groupId>org.optaweb.vehiclerouting</groupId>
-    <version>8.4.0-SNAPSHOT</version>
+    <version>8.5.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>optaweb-vehicle-routing-tests</artifactId>
@@ -157,6 +157,8 @@
                     <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
                     <argument>--workdir</argument>
                     <argument>/e2e</argument>
+                    <argument>${user.flag}</argument>
+                    <argument>${user.name.group}</argument>
                     <argument>--entrypoint</argument>
                     <argument>cypress</argument>
                     <argument>cypress/included:${version.cypress.docker}</argument>
@@ -172,6 +174,19 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+    <profile>
+      <id>docker</id>
+      <activation>
+        <property>
+          <name>container.runtime</name>
+          <value>docker</value>
+        </property>
+      </activation>
+      <properties>
+        <user.flag>--user</user.flag>
+        <user.name.group>1000:1000</user.name.group>
+      </properties>
     </profile>
   </profiles>
 </project>
