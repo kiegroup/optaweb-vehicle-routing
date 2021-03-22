@@ -435,10 +435,12 @@ fi
 # Use air mode (no OSM file, no country codes).
 if [[ $1 == "--air" ]]
 then
-  routing_engine="air"
-  standalone_jar_or_maven
-  run_optaweb
-  exit 0
+  routing_engine="AIR"
+  echo >&2 "Air mode is currently not available. See https://github.com/kiegroup/optaweb-vehicle-routing/issues/455."
+  exit 1
+#  standalone_jar_or_maven
+#  run_optaweb
+#  exit 0
 fi
 
 case $1 in
