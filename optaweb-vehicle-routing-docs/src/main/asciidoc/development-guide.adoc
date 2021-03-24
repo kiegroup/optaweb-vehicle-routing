@@ -28,7 +28,7 @@ In the next sections you will learn how to run both back end and front end proje
 
 ////
 - OptaPlanner, GraphHopper
-- Spring Boot
+- Quarkus
 - Configuration (`application.properties`, `application-*.properties`)
 - Package structure
 - DevTools
@@ -53,8 +53,8 @@ Finally, the back end module implements additional supporting functionality, suc
 In the next sections you will learn how to configure and run the back end in development mode.
 To learn more about the back end code architecture, see <<appendix-backend-architecture#backend-architecture>>.
 
-[[run-spring-boot-maven-plugin]]
-=== Running the back end using Spring Boot Maven plugin
+[[run-quarkus-maven-plugin]]
+=== Running the back end using Quarkus Maven plugin
 
 .Prerequisites
 - Java 11 or higher is <<quickstart#install-java,installed>>.
@@ -69,91 +69,50 @@ To run the back end in development mode, enter the following command:
 
 [source,shell]
 ----
-mvn spring-boot:run
+mvn compile quarkus:dev
 ----
 
-=== Automatic restart
+=== Quarkus development mode
 
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#using-boot-devtools-restart[Automatic restart]
-is provided by Spring Boot DevTools and only works when the back end is running using <<run-spring-boot-maven-plugin, Spring Boot Maven Plugin>>.
-It scans files on the classpath, so you only need to recompile your changes to trigger application restart.
-No IDE configuration is needed.
+In development mode, the backend automatically restarts whenever you refresh the browser tab where the front end runs if there are any changes in the back-end source code or configuration.
 
-If your IDE has a compile-on-save feature (for example Eclipse or NetBeans), you just need to save the files that have changed since the last compilation.
+Learn more about https://quarkus.io/guides/maven-tooling#development-mode[Quarkus development mode].
 
-IntelliJ IDEA saves changes automatically and you need to select either menu:Build[Recompile], which recompiles the file in the active tab, or menu:Build[Build Project] which recompiles all changes.
-See https://www.jetbrains.com/help/idea/compiling-applications.html[Compile and build applications with IntelliJ IDEA].
+=== Running the back end from IntelliJ IDEA Ultimate
 
-=== Running the back end from IntelliJ IDEA
+IntelliJ IDEA Ultimate has a bundled Quarkus plugin that automatically creates run configurations for modules using the Quarkus framework.
+Use the *optaweb-vehicle-routing-backend* run configuration to run the back end.
 
-. Run `org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication`.
-This will create a run configuration that you will edit in the next step.
-.. Open the `OptaWebVehicleRoutingApplication` class in the editor.
-.. Click the green symbol in the editor window gutter and select *Run 'OptaWebVehicleRoutingApplication'*.
-+
-// TODO remove this or change it to "if the run fails, set working directory to...", when the instructions to fill in application-local.properties are added.
-NOTE: The run fails because the working directory is set to the root of the project, whereas the back end module directory is expected.
-You are going to change the working directory in the next step.
-+
-NOTE: See https://www.jetbrains.com/help/idea/running-applications.html[Run applications] to learn more about running applications in IntelliJ IDEA.
-
-. Select menu:Run[Edit Configurations...] and then select menu:Spring Boot[OptaWebVehicleRoutingApplication].
-
-. Set *Program arguments* to `--spring.profiles.active=local` to activate the Spring profile called `local`.
-This will make the application use configuration from `application-local.properties`.
-
-. Change *Working directory* to the back end module (`optaweb-vehicle-routing-backend`).
-
-. Optionally, set *On Update action* to *Hot swap classes and update trigger file if failed*.
-This will allow you to use the *Update* action to quickly restart the application.
-+
-See https://blog.jetbrains.com/idea/2018/04/spring-and-spring-boot-in-intellij-idea-2018-1/[Spring and Spring Boot in IntelliJ IDEA 2018.1]
-for more details.
+Learn more about https://www.jetbrains.com/help/idea/quarkus.html#run-app[running Quarkus applications] in IntelliJ IDEA Ultimate.
 
 [[backend-configuration]]
 === Configuration
 
-There are many ways that you can set configuration properties.
-If you are running locally, you will probably want to use one of these:
+==== The `application.properties` file
 
-* Set configuration properties in the `application.properties` file, under `/src/main/resources/`.
-* Use a command line argument when running the packaged application (for example `java -jar optaweb-vehicle-routing-backend.jar --app.my-property=value1`).
-* Use an environment variable when running the application with `spring-boot:run`.
-+
-For example: `app_my_property=value1 ./mvnw spring-boot:run` if the property name is `app.my-property` (this requires
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config-relaxed-binding[relaxed binding]
-which only works if the property is defined using `@ConfigurationProperties`).
+The base configuration is stored in the `application.properties` file, under `/src/main/resources/`.
+This file is under version control.
+Use it to permanently store the default configuration and to define Quarkus profiles.
 
-[NOTE]
-It is not possible to set properties by specifying `-D` when running the application using the Spring Boot Maven plugin (`./mvnw spring-boot:run -Dmy-property`).
-Any system properties that should be set by the plugin to the forked Java process in which the application runs need to be specified using `systemPropertiesVariables`
-https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/html/#run-example-system-properties[plugin configuration].
+==== System properties
 
-You can learn more about configuring a Spring Boot application on the
-https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#boot-features-external-config[Spring Boot Externalized Configuration] page.
+To override the default configuration temporarily, use system properties (`-Dproperty=value`).
 
-[TIP]
-Use `src/main/resources/application-local.properties` to store your personal configuration without affecting the Git working tree.
+==== The `.env` file
+
+To override the default configuration permanently, for example to store configuration that is specific for your development environment, use the `optaweb-vehicle-routing-backend/.env` file.
+This file is excluded from version control and so it does not exist when you clone the repository.
+Use `optaweb-vehicle-routing-backend/.env-example` to initialize your own `optaweb-vehicle-routing-backend/.env` file.
+You can make changes in the `.env` file without  affecting the Git working tree.
 
 See the complete list of <<appendix-backend-config#backend-configuration-properties>>.
 
-See also the complete list of
-https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html[common application properties]
-available in Spring Boot.
+See also the complete list of https://quarkus.io/guides/all-config[common application properties] available in Quarkus.
 
 === Logging
 
 OptaWeb uses the SLF4J API and Logback as the logging framework.
-The Spring environment enables you to configure most logging aspects including levels, patterns, and log files in the same way as any other <<backend-configuration>> (most often using `application.properties` or arguments `--property=value`).
-See the
-https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-features.html#boot-features-custom-log-levels[Spring Boot Logging]
-documentation for more information.
-
-Following are examples of properties you can use to control logging level of some parts of the application:
-
-- Use `logging.level.org.optaweb.vehiclerouting=debug` to enable debug level for the back end code.
-- Use `logging.level.org.optaplanner.core=warn` to reduce OptaPlanner logging.
-- Use `logging.level.org.springframework.web.socket=trace` to access more details when investigating problems with WebSocket connection.
+See https://quarkus.io/guides/logging[Quarkus - Configuring Logging] for more information.
 
 [[frontend]]
 == Front end

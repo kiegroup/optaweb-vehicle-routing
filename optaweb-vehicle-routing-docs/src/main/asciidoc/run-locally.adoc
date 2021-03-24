@@ -70,6 +70,7 @@ This is useful for switching between regions quickly or when doing a demo.
 .Procedure
 Run `./runLocally.sh <REGION>`.
 
+////
 == Air distance mode
 
 OptaWeb Vehicle Routing can work in air distance mode that calculates travel times based on the distance between two coordinates.
@@ -83,6 +84,7 @@ Run the `runLocally.sh` script with `--air` argument to start OptaWeb Vehicle Ro
 ----
 ./bin/run.sh --air
 ----
+////
 
 == Tweak the data directory
 
