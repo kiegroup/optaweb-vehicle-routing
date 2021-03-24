@@ -81,21 +81,6 @@
       </activation>
       <build>
         <plugins>
-          <plugin>
-            <groupId>org.soulwing</groupId>
-            <artifactId>uuid-maven-plugin</artifactId>
-            <version>1.0.0</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>uuid</goal>
-                </goals>
-                <configuration>
-                  <targetProperty>dbDirSuffix</targetProperty>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
           <plugin> <!-- Start standalone JAR as a separate process. -->
             <groupId>com.bazaarvoice.maven.plugins</groupId>
             <artifactId>process-exec-maven-plugin</artifactId>
@@ -116,8 +101,6 @@
                     <argument>java</argument>
                     <argument>-Dquarkus.http.host=${application.host}</argument>
                     <argument>-Dquarkus.http.port=${application.port}</argument>
-                    <!--suppress UnresolvedMavenProperty -->
-                    <argument>-Dapp.persistence.h2-dir=${project.build.directory}/db_${dbDirSuffix}</argument>
                     <argument>-jar</argument>
                     <argument>target/quarkus-app/quarkus-run.jar</argument>
                   </arguments>
