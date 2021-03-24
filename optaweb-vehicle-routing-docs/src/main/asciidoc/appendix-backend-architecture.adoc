@@ -49,7 +49,7 @@ The domain has no dependencies.
 
 Services only depend on the domain.
 If a service needs to send a result (for example to the database or to the client), it uses an output boundary interface.
-Its implementation is injected by the https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans[Inversion of Control] (IoC) container.
+Its implementation is injected by the https://quarkus.io/guides/cdi[CDI container].
 
 Plugins depend on services in two ways.
 Firstly, they invoke services based on events such as a user input or a route update coming from the optimization engine.
@@ -70,7 +70,7 @@ The business rules that govern use cases are expressed using the domain objects.
 Services often need to interact with plugins in the outer layer, such as persistence, web, and optimization.
 To satisfy the dependency rules between layers, the interaction between services and plugins is expressed in terms of interfaces that define the dependencies of a service.
 A plugin can satisfy a dependency of a service by providing a bean that implements the service's boundary interface.
-The Spring IoC container creates an instance of the plugin bean and injects it to the service at runtime.
+The CDI container creates an instance of the plugin bean and injects it to the service at runtime.
 This is an example of the inversion of control principle.
 
 == The `plugin` package

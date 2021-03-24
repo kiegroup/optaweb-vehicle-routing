@@ -68,10 +68,12 @@ Enter the following command:
 
 [source,subs="attributes+"]
 ----
-java -jar optaweb-vehicle-routing-standalone-{revnumber}.jar \
---app.persistence.h2-dir=$HOME/{data-dir-name}/db \
---app.routing.gh-dir=$HOME/{data-dir-name}/graphhopper
---app.routing.osm-dir=$HOME/{data-dir-name}/openstreetmap \
---app.routing.osm-file=belgium-latest.osm.pbf \
---app.region.country-codes=BE
+java \
+-Dapp.demo.data-set-dir=$HOME/{data-dir-name}/dataset \
+-Dapp.persistence.h2-dir=$HOME/{data-dir-name}/db \
+-Dapp.routing.gh-dir=$HOME/{data-dir-name}/graphhopper \
+-Dapp.routing.osm-dir=$HOME/{data-dir-name}/openstreetmap \
+-Dapp.routing.osm-file=belgium-latest.osm.pbf \
+-Dapp.region.country-codes=BE \
+-jar optaweb-vehicle-routing-tests/target/quarkus-app/quarkus-run.jar
 ----
