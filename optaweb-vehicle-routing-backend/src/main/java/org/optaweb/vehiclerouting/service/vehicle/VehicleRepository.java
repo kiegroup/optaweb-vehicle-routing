@@ -71,5 +71,5 @@ public interface VehicleRepository {
      */
     Optional<Vehicle> find(long vehicleId);
 
-    void update(Vehicle vehicle);
+    Vehicle changeCapacity(long vehicleId, int capacity);
 }

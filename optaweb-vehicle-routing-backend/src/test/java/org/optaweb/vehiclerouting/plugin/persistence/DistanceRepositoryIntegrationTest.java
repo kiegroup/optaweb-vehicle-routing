@@ -18,18 +18,23 @@ package org.optaweb.vehiclerouting.plugin.persistence;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import javax.inject.Inject;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-@DataJpaTest
+import io.quarkus.test.TestTransaction;
+import io.quarkus.test.junit.QuarkusTest;
+
+@QuarkusTest
 class DistanceRepositoryIntegrationTest {
 
-    @Autowired
-    private DistanceCrudRepository crudRepository;
+    @Inject
+    DistanceCrudRepository crudRepository;
+
     private DistanceRepositoryImpl repository;
 
     @BeforeEach
@@ -38,15 +43,15 @@ class DistanceRepositoryIntegrationTest {
     }
 
     @Test
-    void crudRepository() {
+    @TestTransaction
+    void panache_repository_should_persist_and_delete_distances() {
         DistanceKey key = new DistanceKey(1, 2);
         DistanceEntity entity = new DistanceEntity(key, 730107L);
 
-        DistanceEntity savedEntity = crudRepository.save(entity);
-        assertThat(savedEntity).isEqualTo(entity);
+        crudRepository.persist(entity);
 
         assertThat(crudRepository.count()).isOne();
-        assertThat(crudRepository.findById(key)).get().isEqualTo(entity);
+        assertThat(crudRepository.findById(key)).isEqualTo(entity);
 
         crudRepository.deleteById(key);
         assertThat(crudRepository.count()).isZero();
@@ -57,31 +62,33 @@ class DistanceRepositoryIntegrationTest {
     }
 
     @Test
+    @TestTransaction
     void delete_by_fromId_or_toId() {
         DistanceEntity distance23 = distance(2, 3);
         DistanceEntity distance32 = distance(3, 2);
 
-        crudRepository.save(distance(1, 2));
-        crudRepository.save(distance(2, 1));
-        crudRepository.save(distance23);
-        crudRepository.save(distance32);
-        crudRepository.save(distance(3, 1));
-        crudRepository.save(distance(1, 3));
+        crudRepository.persist(distance(1, 2));
+        crudRepository.persist(distance(2, 1));
+        crudRepository.persist(distance23);
+        crudRepository.persist(distance32);
+        crudRepository.persist(distance(3, 1));
+        crudRepository.persist(distance(1, 3));
 
         assertThat(crudRepository.count()).isEqualTo(6);
         crudRepository.deleteByFromIdOrToId(1L);
         assertThat(crudRepository.count()).isEqualTo(2);
-        assertThat(crudRepository.findAll()).containsExactly(distance23, distance32);
+        assertThat(crudRepository.findAll().stream()).containsExactly(distance23, distance32);
     }
 
     @Test
+    @TestTransaction
     void should_return_saved_distance() {
         Location location1 = new Location(1, Coordinates.valueOf(7, -4.0));
         Location location2 = new Location(2, Coordinates.valueOf(5, 9.0));
 
-        long distance = 956766417;
+        Distance distance = Distance.ofMillis(956766417);
         repository.saveDistance(location1, location2, distance);
-        assertThat(repository.getDistance(location1, location2)).isEqualTo(distance);
+        assertThat(repository.getDistance(location1, location2)).contains(distance);
     }
 
     @Test
@@ -89,6 +96,6 @@ class DistanceRepositoryIntegrationTest {
         Location location1 = new Location(1, Coordinates.valueOf(7, -4.0));
         Location location2 = new Location(2, Coordinates.valueOf(5, 9.0));
 
-        assertThat(repository.getDistance(location1, location2)).isNegative();
+        assertThat(repository.getDistance(location1, location2)).isEmpty();
     }
 }

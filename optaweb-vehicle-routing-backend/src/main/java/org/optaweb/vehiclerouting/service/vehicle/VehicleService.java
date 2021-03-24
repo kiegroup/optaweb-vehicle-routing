@@ -21,64 +21,65 @@ import static java.util.Comparator.comparingLong;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.domain.VehicleData;
-import org.optaweb.vehiclerouting.domain.VehicleFactory;
-import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-@Service
+@ApplicationScoped
 public class VehicleService {
 
     static final int DEFAULT_VEHICLE_CAPACITY = 10;
 
-    private final RouteOptimizer optimizer;
+    private final VehiclePlanner planner;
     private final VehicleRepository vehicleRepository;
 
-    @Autowired
-    public VehicleService(RouteOptimizer optimizer, VehicleRepository vehicleRepository) {
-        this.optimizer = optimizer;
+    @Inject
+    public VehicleService(VehiclePlanner planner, VehicleRepository vehicleRepository) {
+        this.planner = planner;
         this.vehicleRepository = vehicleRepository;
     }
 
-    public void createVehicle() {
+    @Transactional
+    public Vehicle createVehicle() {
         Vehicle vehicle = vehicleRepository.createVehicle(DEFAULT_VEHICLE_CAPACITY);
         addVehicle(vehicle);
+        return vehicle;
     }
 
-    public void createVehicle(VehicleData vehicleData) {
+    @Transactional
+    public Vehicle createVehicle(VehicleData vehicleData) {
         Vehicle vehicle = vehicleRepository.createVehicle(vehicleData);
         addVehicle(vehicle);
+        return vehicle;
     }
 
     public void addVehicle(Vehicle vehicle) {
-        optimizer.addVehicle(Objects.requireNonNull(vehicle));
+        planner.addVehicle(Objects.requireNonNull(vehicle));
     }
 
+    @Transactional
     public void removeVehicle(long vehicleId) {
         Vehicle vehicle = vehicleRepository.removeVehicle(vehicleId);
-        optimizer.removeVehicle(vehicle);
+        planner.removeVehicle(vehicle);
     }
 
     public synchronized void removeAnyVehicle() {
         Optional<Vehicle> first = vehicleRepository.vehicles().stream().min(comparingLong(Vehicle::id));
-        first.ifPresent(vehicle -> {
-            Vehicle removed = vehicleRepository.removeVehicle(vehicle.id());
-            optimizer.removeVehicle(removed);
-        });
+        first.map(Vehicle::id).ifPresent(this::removeVehicle);
     }
 
+    @Transactional
     public void removeAll() {
-        optimizer.removeAllVehicles();
+        planner.removeAllVehicles();
         vehicleRepository.removeAll();
     }
 
+    @Transactional
     public void changeCapacity(long vehicleId, int capacity) {
-        Vehicle vehicle = vehicleRepository.find(vehicleId).orElseThrow(() -> new IllegalArgumentException(
-                "Can't remove Vehicle{id=" + vehicleId + "} because it doesn't exist"));
-        Vehicle updatedVehicle = VehicleFactory.createVehicle(vehicle.id(), vehicle.name(), capacity);
-        vehicleRepository.update(updatedVehicle);
-        optimizer.changeCapacity(updatedVehicle);
+        Vehicle updatedVehicle = vehicleRepository.changeCapacity(vehicleId, capacity);
+        planner.changeCapacity(updatedVehicle);
     }
 }

@@ -30,14 +30,14 @@ import { AppState } from './types';
 import connectionReducer from './websocket';
 
 export interface StoreConfig {
-  readonly socketUrl: string;
+  readonly backendUrl: string;
 }
 
 export function configureStore(
-  { socketUrl }: StoreConfig,
+  { backendUrl }: StoreConfig,
   preloadedState?: AppState,
 ): Store<AppState> {
-  const webSocketClient = new WebSocketClient(socketUrl);
+  const webSocketClient = new WebSocketClient(backendUrl);
 
   const middlewares = [thunk.withExtraArgument(webSocketClient), createLogger()];
   const middlewareEnhancer = applyMiddleware(...middlewares);

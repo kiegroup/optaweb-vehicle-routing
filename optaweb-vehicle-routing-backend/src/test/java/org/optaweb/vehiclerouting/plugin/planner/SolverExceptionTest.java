@@ -16,15 +16,20 @@
 
 package org.optaweb.vehiclerouting.plugin.planner;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import javax.enterprise.event.Event;
+
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -36,9 +41,9 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.service.error.ErrorEvent;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.core.task.AsyncListenableTaskExecutor;
-import org.springframework.util.concurrent.ListenableFutureTask;
+
+import com.google.common.util.concurrent.ListenableFutureTask;
+import com.google.common.util.concurrent.ListeningExecutorService;
 
 @ExtendWith(MockitoExtension.class)
 class SolverExceptionTest {
@@ -46,9 +51,11 @@ class SolverExceptionTest {
     @Mock
     private Solver<VehicleRoutingSolution> solver;
     @Mock
-    private AsyncListenableTaskExecutor executor;
+    private ListeningExecutorService executor;
     @Mock
-    private ApplicationEventPublisher eventPublisher;
+    private Event<ErrorEvent> eventPublisher;
+    @Captor
+    ArgumentCaptor<ErrorEvent> errorEventArgumentCaptor;
     @InjectMocks
     private SolverManager solverManager;
 
@@ -56,8 +63,8 @@ class SolverExceptionTest {
     void should_publish_error_if_solver_stops_solving_without_being_terminated() {
         // arrange
         // Prepare a future that will be returned by mock executor
-        ListenableFutureTask<VehicleRoutingSolution> task = new ListenableFutureTask<>(SolutionFactory::emptySolution);
-        when(executor.submitListenable(any(SolverManager.SolvingTask.class))).thenReturn(task);
+        ListenableFutureTask<VehicleRoutingSolution> task = ListenableFutureTask.create(SolutionFactory::emptySolution);
+        when(executor.submit(any(SolverManager.SolvingTask.class))).thenReturn(task);
         // Run it synchronously (otherwise the test would be unreliable!)
         task.run();
 
@@ -65,15 +72,15 @@ class SolverExceptionTest {
         solverManager.startSolver(SolutionFactory.emptySolution());
 
         // assert
-        verify(eventPublisher).publishEvent(any(ErrorEvent.class));
+        verify(eventPublisher).fire(any(ErrorEvent.class));
     }
 
     @Test
     void should_not_publish_error_if_solver_is_terminated_early() {
         // arrange
         // Prepare a future that will be returned by mock executor
-        ListenableFutureTask<VehicleRoutingSolution> task = new ListenableFutureTask<>(SolutionFactory::emptySolution);
-        when(executor.submitListenable(any(SolverManager.SolvingTask.class))).thenReturn(task);
+        ListenableFutureTask<VehicleRoutingSolution> task = ListenableFutureTask.create(SolutionFactory::emptySolution);
+        when(executor.submit(any(SolverManager.SolvingTask.class))).thenReturn(task);
         // Pretend the solver has been terminated by stopSolver()...
         when(solver.isTerminateEarly()).thenReturn(true);
 
@@ -89,17 +96,21 @@ class SolverExceptionTest {
     void should_propagate_any_exception_from_solver() {
         // arrange
         // Prepare a future that will be returned by mock executor
-        ListenableFutureTask<VehicleRoutingSolution> task = new ListenableFutureTask<>(() -> {
-            throw new TestException();
+        String exceptionMessage = "msg 123";
+        ListenableFutureTask<VehicleRoutingSolution> task = ListenableFutureTask.create(() -> {
+            throw new TestException(exceptionMessage);
         });
-        when(executor.submitListenable(any(SolverManager.SolvingTask.class))).thenReturn(task);
+        when(executor.submit(any(SolverManager.SolvingTask.class))).thenReturn(task);
         // act (1)
         // Run it synchronously (otherwise the test would be unreliable!)
         task.run();
         solverManager.startSolver(SolutionFactory.emptySolution());
 
         // assert (1)
-        verify(eventPublisher).publishEvent(any(ErrorEvent.class));
+        verify(eventPublisher).fire(errorEventArgumentCaptor.capture());
+        assertThat(errorEventArgumentCaptor.getValue().message)
+                .contains(TestException.class.getName())
+                .contains(exceptionMessage);
 
         PlanningVisit planningVisit = PlanningVisitFactory.testVisit(1);
         PlanningVehicle planningVehicle = PlanningVehicleFactory.testVehicle(1);
@@ -130,5 +141,8 @@ class SolverExceptionTest {
 
     private static class TestException extends RuntimeException {
 
+        TestException(String message) {
+            super(message);
+        }
     }
 }

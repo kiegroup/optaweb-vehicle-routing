@@ -18,34 +18,34 @@ package org.optaweb.vehiclerouting.plugin.persistence;
 
 import java.util.Optional;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.service.distance.DistanceRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+@ApplicationScoped
 class DistanceRepositoryImpl implements DistanceRepository {
 
     private final DistanceCrudRepository distanceRepository;
 
-    @Autowired
+    @Inject
     DistanceRepositoryImpl(DistanceCrudRepository distanceRepository) {
         this.distanceRepository = distanceRepository;
     }
 
     @Override
-    public void saveDistance(Location from, Location to, long distance) {
-        DistanceEntity distanceEntity = new DistanceEntity(new DistanceKey(from.id(), to.id()), distance);
-        distanceRepository.save(distanceEntity);
+    public void saveDistance(Location from, Location to, Distance distance) {
+        DistanceEntity distanceEntity = new DistanceEntity(new DistanceKey(from.id(), to.id()), distance.millis());
+        distanceRepository.persist(distanceEntity);
     }
 
     @Override
-    public long getDistance(Location from, Location to) {
-        Optional<DistanceEntity> optional = distanceRepository.findById(new DistanceKey(from.id(), to.id()));
-        if (optional.isPresent()) {
-            return optional.get().getDistance();
-        }
-        return -1;
+    public Optional<Distance> getDistance(Location from, Location to) {
+        return distanceRepository.findByIdOptional(new DistanceKey(from.id(), to.id()))
+                .map(DistanceEntity::getDistance)
+                .map(Distance::ofMillis);
     }
 
     @Override

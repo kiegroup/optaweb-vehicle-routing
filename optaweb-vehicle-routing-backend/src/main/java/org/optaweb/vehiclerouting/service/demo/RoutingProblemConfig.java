@@ -32,30 +32,35 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Stream;
+
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Produces;
+import javax.inject.Inject;
 
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 import org.optaweb.vehiclerouting.service.demo.dataset.DataSetMarshaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
+/**
+ * Configuration bean that produces the list of available routing problem data sets.
+ */
+@Dependent
 class RoutingProblemConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(RoutingProblemConfig.class);
     private final DemoProperties demoProperties;
     private final DataSetMarshaller dataSetMarshaller;
 
-    @Autowired
+    @Inject
     RoutingProblemConfig(DemoProperties demoProperties, DataSetMarshaller dataSetMarshaller) {
         this.demoProperties = demoProperties;
         this.dataSetMarshaller = dataSetMarshaller;
     }
 
-    @Bean
+    @Produces
     RoutingProblemList routingProblems() {
         ArrayList<RoutingProblem> problems = new ArrayList<>();
         problems.add(dataSetMarshaller.unmarshal(belgiumReader()));
@@ -76,7 +81,12 @@ class RoutingProblemConfig {
 
     private List<RoutingProblem> localDataSets() {
         // TODO watch the dir (and make this a service that has local/data resource as a dependency -> is testable)
-        Path dataSetDirPath = Paths.get(demoProperties.getDataSetDir());
+        Optional<String> dataSetDirProperty = demoProperties.getDataSetDir();
+        if (!dataSetDirProperty.isPresent()) {
+            logger.info("Data set directory (app.demo.data-set-dir) is not set.");
+            return Collections.emptyList();
+        }
+        Path dataSetDirPath = Paths.get(dataSetDirProperty.get());
         if (!isReadableDir(dataSetDirPath)) {
             logger.warn(
                     "Data set directory '{}' doesn't exist or cannot be read. No external data sets will be loaded",

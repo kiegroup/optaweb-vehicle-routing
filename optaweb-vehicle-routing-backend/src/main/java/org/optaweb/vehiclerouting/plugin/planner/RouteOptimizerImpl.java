@@ -19,6 +19,9 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
@@ -30,17 +33,16 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.service.location.DistanceMatrixRow;
-import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.optaweb.vehiclerouting.service.location.LocationPlanner;
+import org.optaweb.vehiclerouting.service.vehicle.VehiclePlanner;
 
 /**
  * Accumulates vehicles, depots and visits until there's enough data to start the optimization.
  * Solutions are published even if solving hasn't started yet due to missing facts (e.g. no vehicles or no visits).
  * Stops solver when vehicles or visits are reduced to zero.
  */
-@Component
-class RouteOptimizerImpl implements RouteOptimizer {
+@ApplicationScoped
+class RouteOptimizerImpl implements LocationPlanner, VehiclePlanner {
 
     private final SolverManager solverManager;
     private final RouteChangedEventPublisher routeChangedEventPublisher;
@@ -49,7 +51,7 @@ class RouteOptimizerImpl implements RouteOptimizer {
     private final List<PlanningVisit> visits = new ArrayList<>();
     private PlanningDepot depot;
 
-    @Autowired
+    @Inject
     RouteOptimizerImpl(SolverManager solverManager, RouteChangedEventPublisher routeChangedEventPublisher) {
         this.solverManager = solverManager;
         this.routeChangedEventPublisher = routeChangedEventPublisher;

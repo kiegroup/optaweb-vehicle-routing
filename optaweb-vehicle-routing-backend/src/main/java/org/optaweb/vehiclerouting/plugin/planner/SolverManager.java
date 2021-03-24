@@ -19,6 +19,11 @@ package org.optaweb.vehiclerouting.plugin.planner;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.enterprise.inject.Default;
+import javax.inject.Inject;
+
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.api.solver.event.BestSolutionChangedEvent;
 import org.optaplanner.core.api.solver.event.SolverEventListener;
@@ -33,11 +38,10 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 import org.optaweb.vehiclerouting.service.error.ErrorEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.core.task.AsyncListenableTaskExecutor;
-import org.springframework.stereotype.Component;
-import org.springframework.util.concurrent.ListenableFuture;
+
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 
 /**
  * Manages a solver running in a different thread.
@@ -52,28 +56,29 @@ import org.springframework.util.concurrent.ListenableFuture;
  * <li>Listens for best solution changes and publishes new best solutions via {@link RouteChangedEventPublisher}.</li>
  * </ul>
  */
-@Component("optaweb-solver-manager")
+@ApplicationScoped
+@Default
 class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
 
     private static final Logger logger = LoggerFactory.getLogger(SolverManager.class);
 
     private final Solver<VehicleRoutingSolution> solver;
-    private final AsyncListenableTaskExecutor executor;
+    private final ListeningExecutorService executor;
     private final RouteChangedEventPublisher routeChangedEventPublisher;
-    private final ApplicationEventPublisher eventPublisher;
+    private final Event<ErrorEvent> errorEvent;
 
     private ListenableFuture<VehicleRoutingSolution> solverFuture;
 
-    @Autowired
+    @Inject
     SolverManager(
             Solver<VehicleRoutingSolution> solver,
-            AsyncListenableTaskExecutor executor,
+            ListeningExecutorService executor,
             RouteChangedEventPublisher routeChangedEventPublisher,
-            ApplicationEventPublisher eventPublisher) {
+            Event<ErrorEvent> errorEvent) {
         this.solver = solver;
         this.executor = executor;
         this.routeChangedEventPublisher = routeChangedEventPublisher;
-        this.eventPublisher = eventPublisher;
+        this.errorEvent = errorEvent;
         this.solver.addEventListener(this);
     }
 
@@ -96,22 +101,33 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
         if (solverFuture != null) {
             throw new IllegalStateException("Solver start has already been requested");
         }
-        solverFuture = executor.submitListenable((SolvingTask) () -> solver.solve(solution));
-        solverFuture.addCallback(
+        solverFuture = executor.submit((SolvingTask) () -> solver.solve(solution));
+        solverFuture.addListener(
                 // IMPORTANT: This is happening on the solver thread.
-                // TODO in both cases restart or somehow recover?
-                result -> {
+                // TODO maybe restart or somehow recover?
+                () -> {
                     if (!solver.isTerminateEarly()) {
-                        // This is impossible. Solver in daemon mode can't return from solve() unless it has been
-                        // terminated (see #stopSolver()) or throws an exception.
-                        logger.error("Solver stopped solving but that shouldn't happen in daemon mode.");
-                        eventPublisher.publishEvent(new ErrorEvent(this, "Solver stopped solving unexpectedly."));
+                        // Solver in daemon mode can't return from solve() unless it has been terminated early
+                        // (see #stopSolver()).
+                        // So this case is only possible when an exception is thrown during solver.solve().
+                        try {
+                            solverFuture.get();
+                            logger.error("This should be impossible. The solver has stopped without being terminated early"
+                                    + " so at this point it is expected to have crashed but there was no exception.");
+                            errorEvent.fire(new ErrorEvent(
+                                    this,
+                                    "Solver stopped without being terminated early and without throwing an exception."
+                                            + " This is a bug."));
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                            throw new RuntimeException("Interrupted while retrieving the cause of solver failure", e);
+                        } catch (ExecutionException e) {
+                            logger.error("Solver failed", e);
+                            errorEvent.fire(new ErrorEvent(this, e.toString()));
+                        }
                     }
                 },
-                exception -> {
-                    logger.error("Solver failed", exception);
-                    eventPublisher.publishEvent(new ErrorEvent(this, exception.toString()));
-                });
+                MoreExecutors.directExecutor());
     }
 
     void stopSolver() {

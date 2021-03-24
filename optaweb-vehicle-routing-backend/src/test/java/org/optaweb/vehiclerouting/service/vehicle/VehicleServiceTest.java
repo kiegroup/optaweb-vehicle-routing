@@ -23,8 +23,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -35,7 +33,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Vehicle;
 import org.optaweb.vehiclerouting.domain.VehicleData;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
-import org.optaweb.vehiclerouting.service.location.RouteOptimizer;
 
 @ExtendWith(MockitoExtension.class)
 class VehicleServiceTest {
@@ -43,7 +40,7 @@ class VehicleServiceTest {
     @Captor
     private ArgumentCaptor<Vehicle> vehicleArgumentCaptor;
     @Mock
-    private RouteOptimizer optimizer;
+    private VehiclePlanner planner;
     @Mock
     private VehicleRepository vehicleRepository;
     @InjectMocks
@@ -58,10 +55,10 @@ class VehicleServiceTest {
         // verify that new vehicle is created with correct initial name and capacity
         when(vehicleRepository.createVehicle(VehicleService.DEFAULT_VEHICLE_CAPACITY)).thenReturn(vehicle);
 
-        vehicleService.createVehicle();
+        assertThat(vehicleService.createVehicle()).isEqualTo(vehicle);
 
-        // verify that vehicle provided by repository is passed to optimizer
-        verify(optimizer).addVehicle(vehicleArgumentCaptor.capture());
+        // verify that vehicle provided by repository is passed to planner
+        verify(planner).addVehicle(vehicleArgumentCaptor.capture());
         Vehicle newVehicle = vehicleArgumentCaptor.getValue();
         assertThat(newVehicle.id()).isEqualTo(vehicleId);
         assertThat(newVehicle.name()).isEqualTo(name);
@@ -77,10 +74,10 @@ class VehicleServiceTest {
         final Vehicle vehicle = VehicleFactory.createVehicle(vehicleId, name, capacity);
         when(vehicleRepository.createVehicle(vehicleData)).thenReturn(vehicle);
 
-        vehicleService.createVehicle(vehicleData);
+        assertThat(vehicleService.createVehicle(vehicleData)).isEqualTo(vehicle);
 
-        // verify that vehicle provided by repository is passed to optimizer
-        verify(optimizer).addVehicle(vehicle);
+        // verify that vehicle provided by repository is passed to planner
+        verify(planner).addVehicle(vehicle);
     }
 
     @Test
@@ -95,7 +92,7 @@ class VehicleServiceTest {
         vehicleService.addVehicle(vehicle);
 
         verifyNoInteractions(vehicleRepository);
-        verify(optimizer).addVehicle(vehicle);
+        verify(planner).addVehicle(vehicle);
     }
 
     @Test
@@ -107,7 +104,7 @@ class VehicleServiceTest {
         vehicleService.removeVehicle(vehicleId);
 
         verify(vehicleRepository).removeVehicle(vehicleId);
-        verify(optimizer).removeVehicle(vehicle);
+        verify(planner).removeVehicle(vehicle);
     }
 
     @Test
@@ -124,13 +121,13 @@ class VehicleServiceTest {
         vehicleService.removeAnyVehicle();
 
         verify(vehicleRepository).removeVehicle(vehicleId1);
-        verify(optimizer).removeVehicle(vehicle1);
+        verify(planner).removeVehicle(vehicle1);
     }
 
     @Test
     void removeAll() {
         vehicleService.removeAll();
-        verify(optimizer).removeAllVehicles();
+        verify(planner).removeAllVehicles();
         verify(vehicleRepository).removeAll();
     }
 
@@ -138,16 +135,14 @@ class VehicleServiceTest {
     void changeCapacity() {
         final long vehicleId = 1;
         final int capacity = 123;
-        final Vehicle originalVehicle = VehicleFactory.createVehicle(vehicleId, "1", capacity - 10);
-        when(vehicleRepository.find(vehicleId)).thenReturn(Optional.of(originalVehicle));
+        final Vehicle vehicle = VehicleFactory.createVehicle(vehicleId, "1", capacity);
+        when(vehicleRepository.changeCapacity(vehicleId, capacity)).thenReturn(vehicle);
 
         vehicleService.changeCapacity(vehicleId, capacity);
 
-        verify(vehicleRepository).update(vehicleArgumentCaptor.capture());
-        assertThat(vehicleArgumentCaptor.getValue().id()).isEqualTo(vehicleId);
-        assertThat(vehicleArgumentCaptor.getValue().capacity()).isEqualTo(capacity);
+        verify(vehicleRepository).changeCapacity(vehicleId, capacity);
 
-        verify(optimizer).changeCapacity(vehicleArgumentCaptor.capture());
+        verify(planner).changeCapacity(vehicleArgumentCaptor.capture());
         assertThat(vehicleArgumentCaptor.getValue().capacity()).isEqualTo(capacity);
     }
 }

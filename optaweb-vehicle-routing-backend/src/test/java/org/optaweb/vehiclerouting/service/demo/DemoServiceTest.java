@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -90,8 +91,9 @@ class DemoServiceTest {
     @Test
     void loadDemo() {
         // arrange
+        Location location = new Location(10, Coordinates.valueOf(1, 2));
         when(routingProblems.byName(problemName)).thenReturn(routingProblem);
-        when(locationService.createLocation(any(Coordinates.class), anyString())).thenReturn(true);
+        when(locationService.createLocation(any(Coordinates.class), anyString())).thenReturn(Optional.of(location));
         // act
         demoService.loadDemo(problemName);
         // assert
@@ -104,7 +106,7 @@ class DemoServiceTest {
     @Test
     void retry_when_adding_location_fails() {
         when(routingProblems.byName(problemName)).thenReturn(routingProblem);
-        when(locationService.createLocation(any(Coordinates.class), anyString())).thenReturn(false);
+        when(locationService.createLocation(any(Coordinates.class), anyString())).thenReturn(Optional.empty());
         assertThatExceptionOfType(RuntimeException.class)
                 .isThrownBy(() -> demoService.loadDemo(problemName))
                 .withMessageContaining(depot.coordinates().toString());

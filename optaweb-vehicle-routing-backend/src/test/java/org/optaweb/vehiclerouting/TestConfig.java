@@ -16,25 +16,27 @@
 
 package org.optaweb.vehiclerouting;
 
+import javax.enterprise.context.Dependent;
+import javax.enterprise.inject.Produces;
+
 import org.mockito.Mockito;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 import com.graphhopper.reader.osm.GraphHopperOSM;
 
-@Configuration
-@Profile(Profiles.TEST)
+import io.quarkus.arc.profile.IfBuildProfile;
+import io.quarkus.test.junit.QuarkusTest;
+
+@Dependent
 public class TestConfig {
 
     /**
-     * Creates a GraphHopper mock that may be used when running a {@link SpringBootTest @SpringBootTest}.
+     * Creates a GraphHopper mock that may be used when running a {@link QuarkusTest @QuarkusTest}.
      *
      * @return mock GraphHopper
      */
-    @Bean
+    @IfBuildProfile(Profiles.TEST)
+    @Produces
     public GraphHopperOSM graphHopper() {
         return Mockito.mock(GraphHopperOSM.class);
     }
@@ -44,8 +46,10 @@ public class TestConfig {
      *
      * @return mock RouteListener
      */
-    @Bean
+    @IfBuildProfile(Profiles.TEST)
+    @Produces
     public RouteListener routeListener() {
         return Mockito.mock(RouteListener.class);
     }
+
 }

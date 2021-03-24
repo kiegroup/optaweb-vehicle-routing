@@ -18,19 +18,19 @@ package org.optaweb.vehiclerouting.service.region;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 /**
  * Provides information about the working region.
  */
-@Service
+@ApplicationScoped
 public class RegionService {
 
     private final RegionProperties regionProperties;
     private final Region region;
 
-    @Autowired
+    @Inject
     RegionService(RegionProperties regionProperties, Region region) {
         this.regionProperties = regionProperties;
         this.region = region;

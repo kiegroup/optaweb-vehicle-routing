@@ -21,15 +21,15 @@ import static java.util.stream.Collectors.toList;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculationException;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.Region;
 import org.optaweb.vehiclerouting.service.route.Router;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Component;
 
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
@@ -37,16 +37,18 @@ import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.BBox;
 
+import io.quarkus.arc.properties.IfBuildProperty;
+
 /**
  * Provides geographical information needed for route optimization.
  */
-@Component
-@ConditionalOnProperty(prefix = "app.routing", name = "engine", havingValue = "graphhopper", matchIfMissing = true)
+@ApplicationScoped
+@IfBuildProperty(name = "app.routing.engine", stringValue = "GRAPHHOPPER", enableIfMissing = true)
 class GraphHopperRouter implements Router, DistanceCalculator, Region {
 
     private final GraphHopperOSM graphHopper;
 
-    @Autowired
+    @Inject
     GraphHopperRouter(GraphHopperOSM graphHopper) {
         this.graphHopper = graphHopper;
     }

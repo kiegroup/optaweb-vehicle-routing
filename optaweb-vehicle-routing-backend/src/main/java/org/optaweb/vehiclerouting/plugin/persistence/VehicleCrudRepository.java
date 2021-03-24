@@ -16,11 +16,14 @@
 
 package org.optaweb.vehiclerouting.plugin.persistence;
 
-import org.springframework.data.repository.CrudRepository;
+import javax.enterprise.context.ApplicationScoped;
+
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 /**
  * Vehicle repository.
  */
-public interface VehicleCrudRepository extends CrudRepository<VehicleEntity, Long> {
+@ApplicationScoped
+public class VehicleCrudRepository implements PanacheRepository<VehicleEntity> {
 
 }

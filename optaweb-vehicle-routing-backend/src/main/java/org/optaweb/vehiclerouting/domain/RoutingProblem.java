@@ -85,4 +85,9 @@ public class RoutingProblem {
     public List<VehicleData> vehicles() {
         return vehicles;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

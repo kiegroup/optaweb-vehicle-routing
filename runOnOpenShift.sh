@@ -67,7 +67,6 @@ function wrong_args() {
 
 # Process arguments
 declare -a dc_backend_env
-dc_backend_env+=("SPRING_PROFILES_ACTIVE=production")
 case $# in
   0)
     print_help
@@ -76,7 +75,7 @@ case $# in
   1)
     if [[ $1 == --air ]]
     then
-      dc_backend_env+=("APP_ROUTING_ENGINE=air")
+      dc_backend_env+=("APP_ROUTING_ENGINE=AIR")
       summary="No routing config provided. The back end will start in air distance mode.\n\n\
 WARNING: Air distance mode does not give accurate values. \
 It is only useful for evaluation, debugging, or incremental setup purpose. \
@@ -86,14 +85,14 @@ You can run ‘$script_name --help’ to see other options."
     fi
     ;;
   2)
-    dc_backend_env+=("APP_ROUTING_ENGINE=air")
+    dc_backend_env+=("APP_ROUTING_ENGINE=AIR")
     dc_backend_env+=("APP_ROUTING_OSM_FILE=$1")
     dc_backend_env+=("APP_REGION_COUNTRY_CODES=$2")
     summary="The back end will start in air mode. Use the back end pod to upload a graph directory or an OSM file. \
 Then change routing mode to graphhopper. Run ‘$script_name --help’ for more info."
     ;;
   3)
-    dc_backend_env+=("APP_ROUTING_ENGINE=graphhopper")
+    dc_backend_env+=("APP_ROUTING_ENGINE=GRAPHHOPPER")
     dc_backend_env+=("APP_ROUTING_OSM_FILE=$1")
     dc_backend_env+=("APP_REGION_COUNTRY_CODES=$2")
     dc_backend_env+=("APP_ROUTING_OSM_DOWNLOAD_URL=$3")
@@ -177,6 +176,7 @@ oc new-app --name postgresql postgresql-persistent
 # Back end
 # -- binary build (upload local artifacts + Dockerfile)
 oc new-build --name backend --strategy=docker --binary
+oc patch bc backend -p '{"spec":{"strategy":{"dockerStrategy":{"dockerfilePath":"src/main/docker/Dockerfile.jvm"}}}}'
 oc start-build backend --from-dir=${dir_backend} --follow
 # -- new app
 oc new-app backend
@@ -184,9 +184,7 @@ oc new-app backend
 oc set env deployment/backend --from=secret/postgresql
 # -- set the rest of the configuration
 oc set env deployment/backend "${dc_backend_env[@]}"
-# Remove the default emptyDir volume
-oc set volumes deployment/backend --remove --name backend-volume-1
-# Replace it with a PVC
+# Add a PersistentVolumeClaim
 oc set volumes deployment/backend --add \
     --type pvc \
     --claim-size 1Gi \

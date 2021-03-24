@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
@@ -29,14 +32,11 @@ import org.optaweb.vehiclerouting.service.location.LocationRepository;
 import org.optaweb.vehiclerouting.service.location.LocationService;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleRepository;
 import org.optaweb.vehiclerouting.service.vehicle.VehicleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
 
 /**
  * Performs demo-related use cases.
  */
-@Service
+@ApplicationScoped
 public class DemoService {
 
     static final int MAX_TRIES = 10;
@@ -48,7 +48,7 @@ public class DemoService {
     private final VehicleRepository vehicleRepository;
     private final DataSetMarshaller dataSetMarshaller;
 
-    @Autowired
+    @Inject
     public DemoService(
             RoutingProblemList routingProblems,
             LocationService locationService,
@@ -68,7 +68,6 @@ public class DemoService {
         return routingProblems.all();
     }
 
-    @Async
     public void loadDemo(String name) {
         RoutingProblem routingProblem = routingProblems.byName(name);
         // Add depot
@@ -81,7 +80,7 @@ public class DemoService {
 
     private void addWithRetry(Coordinates coordinates, String description) {
         int tries = 0;
-        while (tries < MAX_TRIES && !locationService.createLocation(coordinates, description)) {
+        while (tries < MAX_TRIES && !locationService.createLocation(coordinates, description).isPresent()) {
             tries++;
         }
         if (tries == MAX_TRIES) {

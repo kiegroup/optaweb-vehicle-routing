@@ -16,23 +16,23 @@
 
 package org.optaweb.vehiclerouting.service.demo;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
+import java.util.Optional;
 
-@Component
-@ConfigurationProperties("app.demo")
+import io.quarkus.arc.config.ConfigProperties;
+
+@ConfigProperties(prefix = "app.demo")
 public class DemoProperties {
 
     /**
      * Directory with demo data sets.
      */
-    private String dataSetDir;
+    private Optional<String> dataSetDir;
 
-    public String getDataSetDir() {
+    public Optional<String> getDataSetDir() {
         return dataSetDir;
     }
 
-    public void setDataSetDir(String dataSetDir) {
+    public void setDataSetDir(Optional<String> dataSetDir) {
         this.dataSetDir = dataSetDir;
     }
 }

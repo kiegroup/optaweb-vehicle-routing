@@ -22,8 +22,8 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Collections;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,10 +56,8 @@ class LocationRepositoryImplTest {
     }
 
     @Test
-    void should_create_location_and_generate_id() {
+    void should_create_location() {
         // arrange
-        LocationEntity newEntity = locationEntity(testLocation);
-        when(crudRepository.save(locationEntityCaptor.capture())).thenReturn(newEntity);
         Coordinates savedCoordinates = Coordinates.valueOf(0.00213, 32.777);
         String savedDescription = "new location";
 
@@ -68,26 +66,22 @@ class LocationRepositoryImplTest {
 
         // assert
         // -- the correct values were used to save the entity
+        verify(crudRepository).persist(locationEntityCaptor.capture());
         LocationEntity savedLocation = locationEntityCaptor.getValue();
         assertThat(savedLocation.getLatitude()).isEqualTo(savedCoordinates.latitude());
         assertThat(savedLocation.getLongitude()).isEqualTo(savedCoordinates.longitude());
         assertThat(savedLocation.getDescription()).isEqualTo(savedDescription);
 
-        // -- created domain location is equal to the entity returned by repository.save()
-        // This may be confusing but that's the contract of Spring Repository API.
-        // The entity instance that is being saved is meant to be discarded. The returned instance should be used
-        // for further operations as the save() operation may update it (for example generate the ID).
-        assertThat(newLocation.id()).isEqualTo(newEntity.getId());
-        assertThat(newLocation.coordinates())
-                .isEqualTo(new Coordinates(newEntity.getLatitude(), newEntity.getLongitude()));
-        assertThat(newLocation.description()).isEqualTo(newEntity.getDescription());
+        // -- created domain location has the expected values
+        assertThat(newLocation.coordinates()).isEqualTo(savedCoordinates);
+        assertThat(newLocation.description()).isEqualTo(savedDescription);
     }
 
     @Test
     void remove_created_location_by_id() {
         LocationEntity locationEntity = locationEntity(testLocation);
         final long id = testLocation.id();
-        when(crudRepository.findById(id)).thenReturn(Optional.of(locationEntity));
+        when(crudRepository.findByIdOptional(id)).thenReturn(Optional.of(locationEntity));
 
         Location removed = repository.removeLocation(id);
         assertThat(removed).isEqualTo(testLocation);
@@ -96,7 +90,7 @@ class LocationRepositoryImplTest {
 
     @Test
     void removing_nonexistent_location_should_fail() {
-        when(crudRepository.findById(anyLong())).thenReturn(Optional.empty());
+        when(crudRepository.findByIdOptional(anyLong())).thenReturn(Optional.empty());
 
         // removing nonexistent location should fail and its ID should appear in the exception message
         int uniqueNonexistentId = 7173;
@@ -114,14 +108,14 @@ class LocationRepositoryImplTest {
     @Test
     void get_all_locations() {
         LocationEntity locationEntity = locationEntity(testLocation);
-        when(crudRepository.findAll()).thenReturn(Collections.singletonList(locationEntity));
+        when(crudRepository.streamAll()).thenReturn(Stream.of(locationEntity));
         assertThat(repository.locations()).containsExactly(testLocation);
     }
 
     @Test
     void find_by_id() {
         LocationEntity locationEntity = locationEntity(testLocation);
-        when(crudRepository.findById(testLocation.id())).thenReturn(Optional.of(locationEntity));
+        when(crudRepository.findByIdOptional(testLocation.id())).thenReturn(Optional.of(locationEntity));
         assertThat(repository.find(testLocation.id())).contains(testLocation);
     }
 }

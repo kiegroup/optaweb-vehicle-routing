@@ -32,7 +32,7 @@ function abort() {
 }
 
 function standalone_jar_or_maven() {
-  local -r standalone=optaweb-vehicle-routing-standalone
+  local -r standalone=optaweb-vehicle-routing-tests
 
   # BEGIN: Distribution use case
   #
@@ -43,7 +43,7 @@ function standalone_jar_or_maven() {
   # shellcheck disable=SC2154
   if [[ ! -f pom.xml && -f ${standalone}-${project.version}.jar ]]
   then
-    readonly jar=${standalone}-${project.version}.jar
+    readonly jar=${standalone}/target/quarkus-app/quarkus-run.jar
     return 0
   fi
   # END: Distribution use case
@@ -69,7 +69,7 @@ The script will grep pom.xml for project version, which is not as reliable as us
 
   echo "Project version: ${version}"
 
-  readonly jar=${standalone}/target/${standalone}-${version}.jar
+  readonly jar=${standalone}/target/quarkus-app/quarkus-run.jar
 
   if [[ ! -f ${jar} ]]
   then
@@ -90,25 +90,25 @@ function validate() {
 
 function run_optaweb() {
   declare -a args
-  args+=("--app.demo.data-set-dir=$dataset_dir")
-  args+=("--app.persistence.h2-dir=$vrp_dir/db")
-  args+=("--app.persistence.h2-filename=${osm_file%.osm.pbf}")
-  args+=("--app.routing.engine=$routing_engine")
-  if [[ ${routing_engine} == "graphhopper" ]]
+  args+=("-Dapp.demo.data-set-dir=$dataset_dir")
+  args+=("-Dapp.persistence.h2-dir=$vrp_dir/db")
+  args+=("-Dapp.persistence.h2-filename=${osm_file%.osm.pbf}")
+  args+=("-Dapp.routing.engine=$routing_engine")
+  if [[ ${routing_engine} == "GRAPHHOPPER" ]]
   then
-    args+=("--app.routing.osm-dir=$osm_dir")
-    args+=("--app.routing.gh-dir=$gh_dir")
-    args+=("--app.routing.osm-file=$osm_file")
+    args+=("-Dapp.routing.osm-dir=$osm_dir")
+    args+=("-Dapp.routing.gh-dir=$gh_dir")
+    args+=("-Dapp.routing.osm-file=$osm_file")
   fi
   # Avoid empty country-codes - that would be an invalid argument.
   if [[ -z ${cc_list} ]]
   then
     # This is the correct way to set a property to empty value. "--property=" is an invalid syntax in Spring Boot.
-    args+=("--app.region.country-codes")
+    args+=("-Dapp.region.country-codes")
   else
-    [[ ${cc_list} != "??" ]] && args+=("--app.region.country-codes=$cc_list")
+    [[ ${cc_list} != "??" ]] && args+=("-Dapp.region.country-codes=$cc_list")
   fi
-  java -jar "$jar" "${args[@]}"
+  java "${args[@]}" -jar "$jar"
 }
 
 function download() {
@@ -423,7 +423,7 @@ readonly cache_geofabrik=${cache_dir}/geofabrik
 [[ -d ${dataset_dir} ]] || mkdir "$dataset_dir"
 [[ -d ${cache_geofabrik} ]] || mkdir -p ${cache_geofabrik}
 
-declare routing_engine="graphhopper"
+declare routing_engine="GRAPHHOPPER"
 
 # Getting started (semi-interactive) - use OSM compatible with the built-in data set, download if not present.
 if [[ $# == 0 ]]
@@ -435,10 +435,12 @@ fi
 # Use air mode (no OSM file, no country codes).
 if [[ $1 == "--air" ]]
 then
-  routing_engine="air"
-  standalone_jar_or_maven
-  run_optaweb
-  exit 0
+  routing_engine="AIR"
+  echo >&2 "Air mode is currently not available. See https://github.com/kiegroup/optaweb-vehicle-routing/issues/455."
+  exit 1
+#  standalone_jar_or_maven
+#  run_optaweb
+#  exit 0
 fi
 
 case $1 in

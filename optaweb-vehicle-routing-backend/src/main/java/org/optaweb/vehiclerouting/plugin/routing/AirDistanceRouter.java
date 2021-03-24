@@ -21,16 +21,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.Region;
 import org.optaweb.vehiclerouting.service.route.Router;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.stereotype.Component;
 
-@Component
-@ConditionalOnProperty(prefix = "app.routing", name = "engine", havingValue = "air")
+import io.quarkus.arc.properties.IfBuildProperty;
+
+@ApplicationScoped
+@IfBuildProperty(name = "app.routing.engine", stringValue = "AIR")
 public class AirDistanceRouter implements Router, DistanceCalculator, Region {
 
     protected static final int TRAVEL_SPEED_KPH = 60;

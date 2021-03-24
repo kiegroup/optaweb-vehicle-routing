@@ -31,6 +31,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,8 +50,8 @@ class DistanceRepositoryImplTest {
     @Test
     void should_save_distance() {
         long distance = 956766417;
-        repository.saveDistance(from, to, distance);
-        verify(crudRepository).save(distanceEntityArgumentCaptor.capture());
+        repository.saveDistance(from, to, Distance.ofMillis(distance));
+        verify(crudRepository).persist(distanceEntityArgumentCaptor.capture());
         DistanceEntity distanceEntity = distanceEntityArgumentCaptor.getValue();
         assertThat(distanceEntity.getDistance()).isEqualTo(distance);
         assertThat(distanceEntity.getKey().getFromId()).isEqualTo(from.id());
@@ -62,18 +63,14 @@ class DistanceRepositoryImplTest {
         DistanceKey distanceKey = new DistanceKey(from.id(), to.id());
         long distance = 10305;
         DistanceEntity distanceEntity = new DistanceEntity(distanceKey, distance);
-        when(crudRepository.findById(distanceKey)).thenReturn(Optional.of(distanceEntity));
-        assertThat(repository.getDistance(from, to)).isEqualTo(distance);
+        when(crudRepository.findByIdOptional(distanceKey)).thenReturn(Optional.of(distanceEntity));
+        assertThat(repository.getDistance(from, to)).contains(Distance.ofMillis(distance));
     }
 
     @Test
     void should_return_negative_number_when_distance_not_found() {
-        when(crudRepository.findById(any(DistanceKey.class))).thenReturn(Optional.empty());
-        assertThat(repository.getDistance(from, to))
-                .isNegative()
-                // Shouldn't be necessary but improves mutation coverage report because Pitest does -(x + 1) mutation,
-                // which turns -1 into -0, so this test wouldn't kill that mutation without the following:
-                .isNotZero();
+        when(crudRepository.findByIdOptional(any(DistanceKey.class))).thenReturn(Optional.empty());
+        assertThat(repository.getDistance(from, to)).isEmpty();
     }
 
     @Test

@@ -22,13 +22,12 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.optaweb.vehiclerouting.domain.Distance;
-import org.springframework.context.ApplicationEvent;
 
 /**
  * Event published when the routing plan has been updated either by discovering a better route or by a change
  * in the problem specification (vehicles, visits).
  */
-public class RouteChangedEvent extends ApplicationEvent {
+public class RouteChangedEvent {
 
     private final Distance distance;
     private final List<Long> vehicleIds;
@@ -53,7 +52,6 @@ public class RouteChangedEvent extends ApplicationEvent {
             Long depotId,
             List<Long> visitIds,
             Collection<ShallowRoute> routes) {
-        super(source);
         this.distance = Objects.requireNonNull(distance);
         this.vehicleIds = Objects.requireNonNull(vehicleIds);
         this.depotId = depotId; // may be null (no depot)

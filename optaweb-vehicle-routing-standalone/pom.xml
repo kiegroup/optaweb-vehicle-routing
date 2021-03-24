@@ -32,13 +32,7 @@
   <name>OptaWeb Vehicle Routing Standalone</name>
 
   <properties>
-    <application.port>8180</application.port>
-    <!-- Override to run with Podman. -->
-    <container.runtime>docker</container.runtime>
-    <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
     <java.module.name>org.optaweb.vehiclerouting</java.module.name>
-    <test.osm.file>planet_12.032,53.0171_12.1024,53.0491.osm.pbf</test.osm.file>
-    <version.cypress.docker>4.12.1</version.cypress.docker>
   </properties>
 
   <dependencies>
@@ -52,10 +46,13 @@
       <artifactId>optaweb-vehicle-routing-frontend</artifactId>
       <type>war</type>
     </dependency>
-    <!-- Used by WebConfig. -->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-undertow</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-jdbc-postgresql</artifactId>
     </dependency>
   </dependencies>
 
@@ -65,22 +62,6 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
-          <execution>
-            <id>unpack-backend</id>
-            <phase>prepare-package</phase>
-            <goals>
-              <goal>unpack</goal>
-            </goals>
-            <configuration>
-              <artifactItems>
-                <artifactItem>
-                  <groupId>org.optaweb.vehiclerouting</groupId>
-                  <artifactId>optaweb-vehicle-routing-backend</artifactId>
-                  <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-                </artifactItem>
-              </artifactItems>
-            </configuration>
-          </execution>
           <execution>
             <id>unpack-frontend</id>
             <phase>prepare-package</phase>
@@ -93,7 +74,7 @@
                   <groupId>org.optaweb.vehiclerouting</groupId>
                   <artifactId>optaweb-vehicle-routing-frontend</artifactId>
                   <type>war</type>
-                  <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+                  <outputDirectory>${project.build.outputDirectory}/META-INF/resources</outputDirectory>
                 </artifactItem>
               </artifactItems>
               <excludes>META-INF/**,WEB-INF/**</excludes>
@@ -102,152 +83,18 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-maven-plugin</artifactId>
+        <version>${version.io.quarkus}</version>
+        <extensions>true</extensions>
         <executions>
           <execution>
             <goals>
-              <goal>repackage</goal>
+              <goal>build</goal>
             </goals>
-            <configuration>
-              <mainClass>org.optaweb.vehiclerouting.OptaWebVehicleRoutingApplication</mainClass>
-              <excludes>
-                <exclude>
-                  <groupId>org.optaweb.vehiclerouting</groupId>
-                  <artifactId>optaweb-vehicle-routing-backend</artifactId>
-                </exclude>
-                <exclude>
-                  <groupId>org.optaweb.vehiclerouting</groupId>
-                  <artifactId>optaweb-vehicle-routing-frontend</artifactId>
-                </exclude>
-              </excludes>
-            </configuration>
           </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
-
-  <profiles>
-    <profile>
-      <id>integration-tests</id>
-      <activation>
-        <property>
-          <name>integration-tests</name>
-          <value>true</value>
-        </property>
-      </activation>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.soulwing</groupId>
-            <artifactId>uuid-maven-plugin</artifactId>
-            <version>1.0.0</version>
-            <executions>
-              <execution>
-                <goals>
-                  <goal>uuid</goal>
-                </goals>
-                <configuration>
-                  <targetProperty>dbDirSuffix</targetProperty>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin> <!-- Start standalone JAR as a separate process. -->
-            <groupId>com.bazaarvoice.maven.plugins</groupId>
-            <artifactId>process-exec-maven-plugin</artifactId>
-            <version>0.9</version>
-            <executions>
-              <execution>
-                <id>start-application</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>start</goal>
-                </goals>
-                <configuration>
-                  <name>Run application</name>
-                  <healthcheckUrl>http://localhost:${application.port}</healthcheckUrl>
-                  <workingDir>${project.basedir}</workingDir>
-                  <processLogFile>${project.build.directory}/${project.artifactId}.log</processLogFile>
-                  <arguments>
-                    <argument>java</argument>
-                    <argument>-jar</argument>
-                    <argument>target/${project.build.finalName}.jar</argument>
-                    <argument>--server.port=${application.port}</argument>
-                    <!--suppress UnresolvedMavenProperty -->
-                    <argument>--app.persistence.h2-dir=${project.build.directory}/db_${dbDirSuffix}</argument>
-                    <argument>--app.region.country-codes=DE</argument>
-                    <argument>--app.routing.gh-dir=target/graphhopper</argument>
-                    <argument>--app.routing.osm-dir=data/openstreetmap</argument>
-                    <argument>--app.routing.osm-file=${test.osm.file}</argument>
-                  </arguments>
-                </configuration>
-              </execution>
-              <!-- Kill all running processes. -->
-              <execution>
-                <id>stop-running-processes</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>stop-all</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <!--
-            Run Cypress tests in a docker container.
-            See https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command.
-           -->
-          <plugin>
-            <artifactId>exec-maven-plugin</artifactId>
-            <groupId>org.codehaus.mojo</groupId>
-            <executions>
-              <execution>
-                <id>run-cypress-tests</id>
-                <phase>integration-test</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-                <configuration>
-                  <executable>${container.runtime}</executable>
-                  <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
-                  <arguments>
-                    <argument>run</argument>
-                    <argument>--network=host</argument> <!-- Cypress accesses UI running on the host. -->
-                    <argument>--volume</argument>
-                    <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
-                    <argument>--workdir</argument>
-                    <argument>/e2e</argument>
-                    <argument>${user.flag}</argument>
-                    <argument>${user.name.group}</argument>
-                    <argument>--entrypoint</argument>
-                    <argument>cypress</argument>
-                    <argument>cypress/included:${version.cypress.docker}</argument>
-                    <argument>run</argument> <!-- Executing cypress:run. -->
-                    <argument>--project</argument>
-                    <argument>.</argument>
-                    <argument>--config</argument>
-                    <argument>baseUrl=http://localhost:${application.port}</argument>
-                  </arguments>
-                </configuration>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>docker</id>
-      <activation>
-        <property>
-          <name>container.runtime</name>
-          <value>docker</value>
-        </property>
-      </activation>
-      <properties>
-        <user.flag>--user</user.flag>
-        <user.name.group>1000:1000</user.name.group>
-      </properties>
-    </profile>
-  </profiles>
 </project>

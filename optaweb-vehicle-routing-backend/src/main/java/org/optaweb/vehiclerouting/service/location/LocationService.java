@@ -22,74 +22,97 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.event.Event;
+import javax.inject.Inject;
+import javax.transaction.Transactional;
+
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.service.distance.DistanceRepository;
 import org.optaweb.vehiclerouting.service.error.ErrorEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.stereotype.Service;
 
 /**
  * Performs location-related use cases.
  */
-@Service
+@ApplicationScoped
 public class LocationService {
 
     private static final Logger logger = LoggerFactory.getLogger(LocationService.class);
 
     private final LocationRepository repository;
-    private final RouteOptimizer optimizer; // TODO move to RoutingPlanService (SRP)
+    private final DistanceRepository distanceRepository;
+    private final LocationPlanner planner; // TODO move to RoutingPlanService (SRP)
     private final DistanceMatrix distanceMatrix;
-    private final ApplicationEventPublisher eventPublisher;
+    private final Event<ErrorEvent> errorEvent;
 
-    @Autowired
+    @Inject
     LocationService(
             LocationRepository repository,
-            RouteOptimizer optimizer,
+            DistanceRepository distanceRepository,
+            LocationPlanner planner,
             DistanceMatrix distanceMatrix,
-            ApplicationEventPublisher eventPublisher) {
+            Event<ErrorEvent> errorEvent) {
         this.repository = repository;
-        this.optimizer = optimizer;
+        this.distanceRepository = distanceRepository;
+        this.planner = planner;
         this.distanceMatrix = distanceMatrix;
-        this.eventPublisher = eventPublisher;
+        this.errorEvent = errorEvent;
     }
 
-    public synchronized boolean createLocation(Coordinates coordinates, String description) {
+    public synchronized void addLocation(Location location) {
+        Objects.requireNonNull(location);
+        DistanceMatrixRow distanceMatrixRow = distanceMatrix.addLocation(location);
+        planner.addLocation(location, distanceMatrixRow);
+    }
+
+    @Transactional
+    public synchronized Optional<Location> createLocation(Coordinates coordinates, String description) {
         Objects.requireNonNull(coordinates);
         Objects.requireNonNull(description);
         // TODO if (router.isLocationAvailable(coordinates))
-        return submitToPlanner(repository.createLocation(coordinates, description));
+        Location location = repository.createLocation(coordinates, description);
+        Optional<DistanceMatrixRow> distanceMatrixRow = addToMatrix(location);
+        if (distanceMatrixRow.isPresent()) {
+            planner.addLocation(location, distanceMatrixRow.get());
+            return Optional.of(location);
+        } else {
+            repository.removeLocation(location.id());
+            return Optional.empty();
+        }
     }
 
-    public synchronized boolean addLocation(Location location) {
-        return submitToPlanner(Objects.requireNonNull(location));
-    }
-
-    private boolean submitToPlanner(Location location) {
+    private Optional<DistanceMatrixRow> addToMatrix(Location location) {
         try {
             DistanceMatrixRow distanceMatrixRow = distanceMatrix.addLocation(location);
-            optimizer.addLocation(location, distanceMatrixRow);
+            repository.locations().stream()
+                    .filter(existingLocation -> !existingLocation.equals(location))
+                    .forEach(existingLocation -> {
+                        distanceRepository.saveDistance(location, existingLocation,
+                                distanceMatrixRow.distanceTo(existingLocation.id()));
+                        distanceRepository.saveDistance(existingLocation, location,
+                                distanceMatrix.distance(existingLocation, location));
+                    });
+            return Optional.of(distanceMatrixRow);
         } catch (Exception e) {
             logger.error(
                     "Failed to calculate distances for location {}, it will be discarded",
                     location.fullDescription(), e);
-            eventPublisher.publishEvent(new ErrorEvent(
+            errorEvent.fire(new ErrorEvent(
                     this,
                     "Failed to calculate distances for location " + location.fullDescription()
                             + ", it will be discarded.\n" + e.toString()));
-            repository.removeLocation(location.id());
-            return false; // do not proceed to optimizer
+            return Optional.empty();
         }
-        return true;
     }
 
+    @Transactional
     public synchronized void removeLocation(long id) {
         Optional<Location> optionalLocation = repository.find(id);
         if (!optionalLocation.isPresent()) {
-            eventPublisher.publishEvent(
-                    new ErrorEvent(this, "Location [" + id + "] cannot be removed because it doesn't exist."));
+            errorEvent.fire(new ErrorEvent(this, "Location [" + id + "] cannot be removed because it doesn't exist."));
             return;
         }
         Location removedLocation = optionalLocation.get();
@@ -100,20 +123,31 @@ public class LocationService {
                     .orElseThrow(() -> new IllegalStateException(
                             "Impossible. Locations have size (" + locations.size() + ") but the stream is empty."));
             if (removedLocation.equals(depot)) {
-                eventPublisher.publishEvent(
-                        new ErrorEvent(this, "You can only remove depot if there are no visits."));
+                errorEvent.fire(new ErrorEvent(this, "You can only remove depot if there are no visits."));
                 return;
             }
         }
 
-        optimizer.removeLocation(removedLocation);
+        planner.removeLocation(removedLocation);
         repository.removeLocation(id);
         distanceMatrix.removeLocation(removedLocation);
+        distanceRepository.deleteDistances(removedLocation);
     }
 
+    @Transactional
     public synchronized void removeAll() {
-        optimizer.removeAllLocations();
+        planner.removeAllLocations();
         repository.removeAll();
         distanceMatrix.clear();
+        distanceRepository.deleteAll();
+    }
+
+    public void populateDistanceMatrix() {
+        repository.locations()
+                .forEach(from -> repository.locations().stream()
+                        .filter(to -> !to.equals(from))
+                        .forEach(to -> distanceMatrix.put(from, to, distanceRepository.getDistance(from, to)
+                                .orElseThrow(() -> new IllegalStateException("Distance from: [" + from + "] to: [" + to
+                                        + "] is missing in the distance repository. This should not happen.")))));
     }
 }

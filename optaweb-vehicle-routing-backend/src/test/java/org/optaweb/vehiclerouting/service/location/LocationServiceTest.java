@@ -22,6 +22,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -30,15 +31,18 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 
+import javax.enterprise.event.Event;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
+import org.optaweb.vehiclerouting.domain.Distance;
 import org.optaweb.vehiclerouting.domain.Location;
+import org.optaweb.vehiclerouting.service.distance.DistanceRepository;
 import org.optaweb.vehiclerouting.service.error.ErrorEvent;
-import org.springframework.context.ApplicationEventPublisher;
 
 @ExtendWith(MockitoExtension.class)
 class LocationServiceTest {
@@ -46,11 +50,13 @@ class LocationServiceTest {
     @Mock
     private LocationRepository repository;
     @Mock
-    private RouteOptimizer optimizer;
+    private DistanceRepository distanceRepository;
+    @Mock
+    private LocationPlanner planner;
     @Mock
     private DistanceMatrix distanceMatrix;
     @Mock
-    private ApplicationEventPublisher eventPublisher;
+    private Event<ErrorEvent> errorEvent;
     @InjectMocks
     private LocationService locationService;
 
@@ -65,15 +71,22 @@ class LocationServiceTest {
 
     @Test
     void createLocation(@Mock DistanceMatrixRow matrixRow) {
+        Distance distance = Distance.ofMillis(123);
+        Location existingLocation = new Location(2, coordinates);
+        when(repository.locations()).thenReturn(Arrays.asList(existingLocation));
         String description = "new location";
         when(repository.createLocation(coordinates, description)).thenReturn(location);
         when(distanceMatrix.addLocation(any())).thenReturn(matrixRow);
+        when(distanceMatrix.distance(any(), any())).thenReturn(distance);
+        when(matrixRow.distanceTo(anyLong())).thenReturn(distance);
 
-        assertThat(locationService.createLocation(coordinates, description)).isTrue();
+        assertThat(locationService.createLocation(coordinates, description)).contains(location);
 
         verify(repository).createLocation(coordinates, description);
         verify(distanceMatrix).addLocation(location);
-        verify(optimizer).addLocation(location, matrixRow);
+        verify(distanceRepository).saveDistance(existingLocation, location, distance);
+        verify(distanceRepository).saveDistance(location, existingLocation, distance);
+        verify(planner).addLocation(location, matrixRow);
     }
 
     @Test
@@ -84,11 +97,13 @@ class LocationServiceTest {
     @Test
     void addLocation(@Mock DistanceMatrixRow matrixRow) {
         when(distanceMatrix.addLocation(any())).thenReturn(matrixRow);
-        assertThat(locationService.addLocation(location)).isTrue();
+
+        locationService.addLocation(location);
 
         verifyNoInteractions(repository);
+        verifyNoInteractions(distanceRepository);
         verify(distanceMatrix).addLocation(location);
-        verify(optimizer).addLocation(location, matrixRow);
+        verify(planner).addLocation(location, matrixRow);
     }
 
     @Test
@@ -99,8 +114,9 @@ class LocationServiceTest {
         locationService.removeLocation(location.id());
 
         verify(repository).removeLocation(location.id());
-        verify(optimizer).removeLocation(location);
-        verifyNoInteractions(eventPublisher);
+        verify(distanceRepository).deleteDistances(location);
+        verify(planner).removeLocation(location);
+        verifyNoInteractions(errorEvent);
         // TODO remove location from distance matrix
     }
 
@@ -110,9 +126,10 @@ class LocationServiceTest {
 
         locationService.removeLocation(location.id());
 
-        verifyNoInteractions(optimizer);
+        verifyNoInteractions(planner);
         verify(repository, never()).removeLocation(anyLong());
-        verify(eventPublisher).publishEvent(any(ErrorEvent.class));
+        verify(distanceRepository, never()).deleteDistances(any(Location.class));
+        verify(errorEvent).fire(any(ErrorEvent.class));
     }
 
     @Test
@@ -124,10 +141,11 @@ class LocationServiceTest {
 
         locationService.removeLocation(depot.id());
 
-        verifyNoInteractions(optimizer);
+        verifyNoInteractions(planner);
         verifyNoInteractions(distanceMatrix);
         verify(repository, never()).removeLocation(anyLong());
-        verify(eventPublisher).publishEvent(any(ErrorEvent.class));
+        verify(distanceRepository, never()).deleteDistances(any(Location.class));
+        verify(errorEvent).fire(any(ErrorEvent.class));
     }
 
     @Test
@@ -139,17 +157,19 @@ class LocationServiceTest {
 
         locationService.removeLocation(visit.id());
 
-        verify(optimizer).removeLocation(visit);
+        verify(planner).removeLocation(visit);
         verify(distanceMatrix).removeLocation(visit);
         verify(repository).removeLocation(visit.id());
-        verifyNoInteractions(eventPublisher);
+        verify(distanceRepository).deleteDistances(visit);
+        verifyNoInteractions(errorEvent);
     }
 
     @Test
     void clear() {
         locationService.removeAll();
-        verify(optimizer).removeAllLocations();
+        verify(planner).removeAllLocations();
         verify(repository).removeAll();
+        verify(distanceRepository).deleteAll();
         verify(distanceMatrix).clear();
     }
 
@@ -158,11 +178,26 @@ class LocationServiceTest {
         when(repository.createLocation(coordinates, "")).thenReturn(location);
         doThrow(new RuntimeException("test exception")).when(distanceMatrix).addLocation(location);
 
-        assertThat(locationService.createLocation(coordinates, "")).isFalse();
-        verifyNoInteractions(optimizer);
+        assertThat(locationService.createLocation(coordinates, "")).isEmpty();
+        verifyNoInteractions(planner);
+        verifyNoInteractions(distanceRepository);
         // publish error event
-        verify(eventPublisher).publishEvent(any(ErrorEvent.class));
+        verify(errorEvent).fire(any(ErrorEvent.class));
         // roll back
         verify(repository).removeLocation(location.id());
+    }
+
+    @Test
+    void populate_matrix_should_read_all_distances() {
+        Location depot = new Location(1, coordinates);
+        Location visit1 = new Location(2, coordinates);
+        Location visit2 = new Location(3, coordinates);
+        when(repository.locations()).thenReturn(Arrays.asList(depot, visit1, visit2));
+        when(distanceRepository.getDistance(any(Location.class), any(Location.class))).thenReturn(Optional.of(Distance.ZERO));
+
+        locationService.populateDistanceMatrix();
+
+        verify(distanceRepository, times(6)).getDistance(any(Location.class), any(Location.class));
+        verify(distanceMatrix, times(6)).put(any(Location.class), any(Location.class), any(Distance.class));
     }
 }

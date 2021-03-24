@@ -16,16 +16,12 @@
 
 package org.optaweb.vehiclerouting.plugin.routing;
 
-import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
-import org.springframework.validation.annotation.Validated;
+import io.quarkus.arc.config.ConfigProperties;
 
-@Component
-@ConfigurationProperties("app.routing")
-@Validated
-class RoutingProperties {
+@ConfigProperties(prefix = "app.routing")
+public class RoutingProperties {
 
     /**
      * Directory to read OSM files from.
@@ -40,13 +36,12 @@ class RoutingProperties {
     /**
      * OpenStreetMap file name.
      */
-    @NotNull
     private String osmFile;
 
     /**
      * URL of an .osm.pbf file that will be downloaded in case the file doesn't exist on the file system.
      */
-    private String osmDownloadUrl;
+    private Optional<String> osmDownloadUrl;
 
     /**
      * Routing engine providing distances and paths.
@@ -77,11 +72,11 @@ class RoutingProperties {
         this.osmFile = osmFile;
     }
 
-    public String getOsmDownloadUrl() {
+    public Optional<String> getOsmDownloadUrl() {
         return osmDownloadUrl;
     }
 
-    public void setOsmDownloadUrl(String osmDownloadUrl) {
+    public void setOsmDownloadUrl(Optional<String> osmDownloadUrl) {
         this.osmDownloadUrl = osmDownloadUrl;
     }
 

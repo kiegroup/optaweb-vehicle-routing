@@ -153,7 +153,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
     } = this.props;
 
     const exportDataSet = () => {
-      window.open(`${backendUrl}/dataset/export`);
+      window.open(`${backendUrl}/api/dataset/export`);
     };
 
     return (
