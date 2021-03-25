@@ -78,9 +78,10 @@
   <dependencySets>
     <dependencySet>
       <includes>
-        <include>org.optaweb.vehiclerouting:optaweb-vehicle-routing-standalone</include>
+        <include>org.optaweb.vehiclerouting:optaweb-vehicle-routing-standalone:zip:quarkus-app</include>
       </includes>
       <outputDirectory>bin</outputDirectory>
+      <unpack>true</unpack>
       <useStrictFiltering>true</useStrictFiltering>
       <useProjectArtifact>false</useProjectArtifact>
     </dependencySet>
