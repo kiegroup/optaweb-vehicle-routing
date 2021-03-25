@@ -32,7 +32,7 @@ function abort() {
 }
 
 function standalone_jar_or_maven() {
-  local -r standalone=optaweb-vehicle-routing-tests
+  local -r standalone=optaweb-vehicle-routing-standalone
 
   # BEGIN: Distribution use case
   #
@@ -40,10 +40,10 @@ function standalone_jar_or_maven() {
   # distribution assembly. The only difference is that the standalone JAR is in the same directory as the script (bin)
   # and project.version is set using resource filtering during assembly.
 
-  # shellcheck disable=SC2154
-  if [[ ! -f pom.xml && -f ${standalone}-${project.version}.jar ]]
+  # shellcheck disable=SC2154 #(project.version variable is not declared)
+  if [[ ! -f pom.xml && -f ${standalone}-${project.version}/quarkus-run.jar ]]
   then
-    readonly jar=${standalone}/target/quarkus-app/quarkus-run.jar
+    readonly jar=${standalone}-${project.version}/quarkus-run.jar
     return 0
   fi
   # END: Distribution use case
