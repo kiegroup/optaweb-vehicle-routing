@@ -86,6 +86,8 @@
         <groupId>org.optaweb.vehiclerouting</groupId>
         <artifactId>optaweb-vehicle-routing-standalone</artifactId>
         <version>${project.version}</version>
+        <classifier>quarkus-app</classifier>
+        <type>zip</type>
       </dependency>
       <!-- BOM imports -->
       <dependency>

@@ -40,6 +40,8 @@
     <dependency>
       <groupId>org.optaweb.vehiclerouting</groupId>
       <artifactId>optaweb-vehicle-routing-standalone</artifactId>
+      <classifier>quarkus-app</classifier>
+      <type>zip</type>
     </dependency>
   </dependencies>
 
