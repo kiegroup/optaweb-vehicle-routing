@@ -106,7 +106,7 @@ esac
 
 # Change dir to the project root (where the script is located) to correctly resolve module paths.
 # This is needed in case the script was called from a different location than the project root.
-cd "$(dirname "$(readlink -f "$0")")"
+cd -P "$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 readonly dir_backend=optaweb-vehicle-routing-backend
 readonly dir_frontend=optaweb-vehicle-routing-frontend

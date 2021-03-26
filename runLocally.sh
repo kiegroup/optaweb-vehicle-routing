@@ -374,7 +374,7 @@ This script can download it for you from Geofabrik.de."
 # Change dir to the project root (where the script is located).
 # This is needed to correctly resolve .VRP_DIR_LAST, path to the standalone JAR, etc.
 # in case the script was called from a different location than the project root.
-cd "$(dirname "$(readlink -f "$0")")"
+cd -P "$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 readonly last_vrp_dir_file=.DATA_DIR_LAST
 
