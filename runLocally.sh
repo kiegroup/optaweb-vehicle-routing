@@ -48,27 +48,6 @@ function standalone_jar_or_maven() {
   fi
   # END: Distribution use case
 
-  echo
-  echo "Getting project version..."
-
-  local version
-  if command -v mvn > /dev/null 2>&1
-  then
-    # TODO fix mvnw's stdout handling and replace mvn with mvnw
-    local -r version=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-  else
-    echo >&2 "WARNING: Maven is not installed (mvn is not on \$PATH). \
-The script will grep pom.xml for project version, which is not as reliable as using Maven."
-    local -r version=$(grep '<parent> *$' pom.xml -A4 | grep version | sed 's;.*<version>\(.*\)</version>.*;\1;')
-  fi
-
-  [[ -n ${version} ]] || {
-    echo "ERROR: Invalid project version: '$version'."
-    exit 1
-  }
-
-  echo "Project version: ${version}"
-
   readonly jar=${standalone}/target/quarkus-app/quarkus-run.jar
 
   if [[ ! -f ${jar} ]]
