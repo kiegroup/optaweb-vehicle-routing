@@ -63,7 +63,7 @@ The script will grep pom.xml for project version, which is not as reliable as us
   fi
 
   [[ -n ${version} ]] || {
-    echo "ERROR: Invalid project version: ‘$version’."
+    echo "ERROR: Invalid project version: '$version'."
     exit 1
   }
 
@@ -73,7 +73,7 @@ The script will grep pom.xml for project version, which is not as reliable as us
 
   if [[ ! -f ${jar} ]]
   then
-    confirm "Jarfile ‘$jar’ does not exist. Run Maven build now?" || abort
+    confirm "Jarfile '$jar' does not exist. Run Maven build now?" || abort
     if ! ./mvnw clean install -DskipTests
     then
       echo >&2 "Maven build failed. Aborting the script."
@@ -220,14 +220,14 @@ function download_menu() {
 
     if [[ ${answer_region_id} != [0-9] && ${answer_region_id} != [1-9][0-9] || ${answer_region_id} -gt ${max} ]]
     then
-      echo "Wrong region ID ‘$answer_region_id’."
+      echo "Wrong region ID '$answer_region_id'."
       continue
     fi
 
     read -r -p "Download (d) or enter (e): " answer_action
     if [[ ${answer_action} != [de] ]]
     then
-      echo "Wrong action ‘$answer_action’."
+      echo "Wrong action '$answer_action'."
       continue
     fi
 
@@ -397,9 +397,9 @@ echo "VRP dir: $vrp_dir"
 
 if [[ ! -d ${vrp_dir} ]]
 then
-  confirm "VRP dir ‘$vrp_dir’ does not exist. Do you want to create it now?" || abort
+  confirm "VRP dir '$vrp_dir' does not exist. Do you want to create it now?" || abort
   mkdir ${vrp_dir} || {
-    echo >&2 "Cannot create VRP directory ‘$vrp_dir’."
+    echo >&2 "Cannot create VRP directory '$vrp_dir'."
     exit 1
   }
 fi
@@ -456,7 +456,7 @@ case $1 in
       region=${region}-latest
       osm_file=${region}.osm.pbf
       validate || {
-        echo >&2 "Wrong region ‘$1’. One of the following must exist:"
+        echo >&2 "Wrong region '$1'. One of the following must exist:"
         echo >&2 "- OSM file: $osm_dir/${1%.osm.pbf}.osm.pbf"
         echo >&2 "- GraphHopper graph: $gh_dir/${1%.osm.pbf}"
         exit 1
