@@ -163,7 +163,7 @@ echo
 echo -e "$summary"
 echo
 
-declare -l answer_continue # -l converts the value to lower case before it's assigned
+declare answer_continue
 read -r -p "Do you want to continue? [y/N]: " "answer_continue"
 [[ "$answer_continue" == "y" ]] || {
   echo "Aborted."
