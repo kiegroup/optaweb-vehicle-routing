@@ -79,7 +79,7 @@ case $# in
       summary="No routing config provided. The back end will start in air distance mode.\n\n\
 WARNING: Air distance mode does not give accurate values. \
 It is only useful for evaluation, debugging, or incremental setup purpose. \
-You can run ‘$script_name --help’ to see other options."
+You can run '$script_name --help' to see other options."
     else
       wrong_args
     fi
@@ -89,7 +89,7 @@ You can run ‘$script_name --help’ to see other options."
     dc_backend_env+=("APP_ROUTING_OSM_FILE=$1")
     dc_backend_env+=("APP_REGION_COUNTRY_CODES=$2")
     summary="The back end will start in air mode. Use the back end pod to upload a graph directory or an OSM file. \
-Then change routing mode to graphhopper. Run ‘$script_name --help’ for more info."
+Then change routing mode to graphhopper. Run '$script_name --help' for more info."
     ;;
   3)
     dc_backend_env+=("APP_ROUTING_ENGINE=GRAPHHOPPER")
@@ -130,7 +130,7 @@ command -v oc > /dev/null 2>&1 || {
 
 [[ -x $(command -v oc) ]] || {
   echo >&2 "ERROR: The oc client tool is not executable. Please make it executable by running \
-‘chmod u+x \$(command -v oc)’."
+'chmod u+x \$(command -v oc)'."
   exit 1
 }
 
@@ -138,7 +138,7 @@ command -v oc > /dev/null 2>&1 || {
 echo "Current user: $(oc whoami)"
 # Check that the current user has at least one project
 [[ -z "$(oc projects -q)" ]] && {
-  echo >&2 "You have no projects. Use ‘oc new-project <project-name>’ to create one."
+  echo >&2 "You have no projects. Use 'oc new-project <project-name>' to create one."
   exit 1
 }
 # Display info about the current project
