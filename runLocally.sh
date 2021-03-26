@@ -153,10 +153,10 @@ function download_menu() {
     exit 1
   }
 
-  readarray -t region_names <<< "$(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[1]/a/text()')"
-  readarray -t region_sub_hrefs <<< "$(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[1]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
-  readarray -t region_osm_hrefs <<< "$(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/')"
-  readarray -t region_sizes <<< "$(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[3]/text()' | sed 's/.*(\(.*\))/\1/')"
+  IFS=$'\n' region_names=($(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[1]/a/text()'))
+  IFS=$'\n' region_sub_hrefs=($(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[1]/a/@href' | sed 's/.*href="\(.*\)"/\1/'))
+  IFS=$'\n' region_osm_hrefs=($(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/'))
+  IFS=$'\n' region_sizes=($(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[3]/text()' | sed 's/.*(\(.*\))/\1/'))
 
 
   # Make the array empty if it contains just 1 empty element.
@@ -251,7 +251,7 @@ function download_menu() {
 function interactive() {
   while true
   do
-    readarray -t regions <<< "$(for r in "$osm_dir"/* "$gh_dir"/*; do basename "$r" | sed 's/.osm.pbf//'; done | sort | uniq)"
+    regions=($(for r in "$osm_dir"/* "$gh_dir"/*; do basename "$r" | sed 's/.osm.pbf//'; done | sort | uniq))
 
     # Make the array empty if it contains just 1 empty element.
     [[ ${#regions[*]} == 1 && -z ${regions[0]} ]] && regions=()
