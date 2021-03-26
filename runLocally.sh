@@ -21,7 +21,7 @@ set -e
 shopt -s nullglob
 
 function confirm() {
-  declare -l answer # -l converts the value to lower-case before it's assigned
+  declare answer
   read -r -p "$1 [y/N]: " answer
   [[ "$answer" == "y" ]]
 }
