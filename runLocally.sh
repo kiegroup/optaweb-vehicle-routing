@@ -296,7 +296,7 @@ function interactive() {
     [[ ${max} -ge 0 ]] && echo "0-$max: Select a region and run OptaWeb Vehicle Routing."
 
     echo
-    local -l command # -l converts to lower-case
+    local command
     read -r -p "Your choice: " command
     case "$command" in
       q)
