@@ -121,7 +121,7 @@ https://raw.githubusercontent.com/TakahikoKawasaki/nv-i18n/${cc_tag}/src/main/ja
   fi
 
   # If this loop instance doesn't have an error and cc_file doesn't exist yet or its content is "unknown".
-  if [[ $2 != ERROR && ((! -f ${cc_file}) || $(cat "$cc_file") == "??") ]]
+  if [[ $2 != ERROR && ( (! -f ${cc_file}) || $(cat "$cc_file") == "??" ) ]]
   then
     local region_search=${region%-latest}
     region_search=${region_search//-/ }
