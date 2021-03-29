@@ -54,7 +54,7 @@ In the next sections you will learn how to configure and run the back end in dev
 To learn more about the back end code architecture, see <<appendix-backend-architecture#backend-architecture>>.
 
 [[run-quarkus-maven-plugin]]
-=== Running the back end using Quarkus Maven plugin
+=== Running the back end using the Quarkus Maven plugin
 
 .Prerequisites
 - Java 11 or higher is <<quickstart#install-java,installed>>.
@@ -74,7 +74,7 @@ mvn compile quarkus:dev
 
 === Quarkus development mode
 
-In development mode, the backend automatically restarts whenever you refresh the browser tab where the front end runs if there are any changes in the back-end source code or configuration.
+In development mode, the back end automatically restarts whenever you refresh the browser tab where the front end runs if there are any changes in the back-end source code or configuration.
 
 Learn more about https://quarkus.io/guides/maven-tooling#development-mode[Quarkus development mode].
 
@@ -100,7 +100,7 @@ To override the default configuration temporarily, use system properties (`-Dpro
 
 ==== The `.env` file
 
-To override the default configuration permanently, for example to store configuration that is specific for your development environment, use the `optaweb-vehicle-routing-backend/.env` file.
+To override the default configuration permanently, for example to store a configuration that is specific to your development environment, use the `optaweb-vehicle-routing-backend/.env` file.
 This file is excluded from version control and so it does not exist when you clone the repository.
 Use `optaweb-vehicle-routing-backend/.env-example` to initialize your own `optaweb-vehicle-routing-backend/.env` file.
 You can make changes in the `.env` file without  affecting the Git working tree.
@@ -112,7 +112,7 @@ See also the complete list of https://quarkus.io/guides/all-config[common applic
 === Logging
 
 OptaWeb uses the SLF4J API and Logback as the logging framework.
-See https://quarkus.io/guides/logging[Quarkus - Configuring Logging] for more information.
+For more information, see https://quarkus.io/guides/logging[Quarkus - Configuring Logging].
 
 [[frontend]]
 == Front end
@@ -137,7 +137,7 @@ Create React App provides a number of scripts and dependencies that help with de
 sudo dnf install npm
 ----
 
-See https://docs.npmjs.com/downloading-and-installing-node-js-and-npm[Downloading and installing Node.js and npm] for more information about installing npm.
+For more information about installing npm, see https://docs.npmjs.com/downloading-and-installing-node-js-and-npm[Downloading and installing Node.js and npm].
 
 === Install npm dependencies
 
@@ -200,7 +200,7 @@ The development server process running in the terminal picks up the changes as w
 
 === Changing the back end location
 
-Use an environment variable called `REACT_APP_BACKEND_URL` to change the backend URL when running `npm start` or `npm run build`.
+Use an environment variable called `REACT_APP_BACKEND_URL` to change the back end URL when running `npm start` or `npm run build`.
 For example:
 
 [literal]
