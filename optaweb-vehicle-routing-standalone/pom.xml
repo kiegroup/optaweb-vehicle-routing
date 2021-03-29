@@ -121,11 +121,11 @@
 
   <profiles>
     <profile>
-      <id>integration-tests</id>
+      <id>FIXME-integration-tests</id>
       <activation>
         <property>
           <name>integration-tests</name>
-          <value>true</value>
+          <value>FIXME-true</value>
         </property>
       </activation>
       <build>
