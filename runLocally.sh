@@ -288,7 +288,7 @@ function download_menu() {
 function interactive() {
   while true
   do
-    regions=($(for r in "$osm_dir"/* "$gh_dir"/*; do basename "$r" | sed 's/.osm.pbf//'; done | sort | uniq))
+    IFS=$'\n' read -d '' -r -a regions <<< "$(for r in "$osm_dir"/* "$gh_dir"/*; do basename "$r" | sed 's/.osm.pbf//'; done | sort | uniq)" || true
 
     # Make the array empty if it contains just 1 empty element.
     [[ ${#regions[*]} == 1 && -z ${regions[0]} ]] && regions=()
@@ -414,14 +414,14 @@ echo "VRP dir: $vrp_dir"
 if [[ ! -d ${vrp_dir} ]]
 then
   confirm "VRP dir '$vrp_dir' does not exist. Do you want to create it now?" || abort
-  mkdir ${vrp_dir} || {
+  mkdir "${vrp_dir}" || {
     echo >&2 "Cannot create VRP directory '$vrp_dir'."
     exit 1
   }
 fi
 
 # Remember VRP dir
-echo ${vrp_dir} > ${last_vrp_dir_file}
+echo "${vrp_dir}" > ${last_vrp_dir_file}
 
 readonly error_log=${vrp_dir}/error.log
 rm -f ${error_log}
