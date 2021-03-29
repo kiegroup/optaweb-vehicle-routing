@@ -138,6 +138,7 @@ function download_menu() {
   local -r url_html=${url##*/} # index.html, europe.html, etc.
   local -r super_region_file="$cache_geofabrik/$url_html"
   local -r sub_region_osm_url=$2
+  local -r super_region_csv=${super_region_file/.html/.csv}
 
   # TODO refresh daily
   if [[ ! -f ${super_region_file} || ! -s ${super_region_file} ]]
@@ -148,16 +149,52 @@ function download_menu() {
     }
   fi
 
-  command -v xmllint > /dev/null 2>&1 || {
-    echo >&2 "ERROR: xmllint is not installed. Please install xmllint and retry."
-    exit 1
-  }
+  awk '
+    function href(element) {
+      match(element, /href="[^"]*"/)
+      return substr(element, RSTART+6, RLENGTH-7)
+    }
+    function text(element,    inner_text) {
+      match(element, />[^<]+</)
+      inner_text=substr(element, RSTART+1, RLENGTH-2)
+      sub(/&nbsp;/, " ", inner_text)
+      return inner_text
+    }
+    function join(array, sep,    result, i) {
+      for (i = 0; i < FNR; i++) {
+        if (array[i]) {
+          result = result ? result sep array[i] : array[i]
+        }
+      }
+      return result
+    }
+    BEGIN {
+      RS="<tr"
+      FS="<td"
+    }
+    /onMouseOver/ {
+      name[NR]=text($2)
+      sub_href[NR]=href($2)
+      osm_href[NR]=href($3)
+      size[NR]=text($4)
+      # Remove parentheses around the OSM size
+      sub(/^\(/, "", size[NR])
+      sub(/\)$/, "", size[NR])
+    }
+    END {
+      print join(name, ";")
+      print join(sub_href, ";")
+      print join(osm_href, ";")
+      print join(size, ";")
+    }
+' "$super_region_file" > "$super_region_csv"
 
-  IFS=$'\n' region_names=($(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[1]/a/text()'))
-  IFS=$'\n' region_sub_hrefs=($(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[1]/a/@href' | sed 's/.*href="\(.*\)"/\1/'))
-  IFS=$'\n' region_osm_hrefs=($(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[2]/a/@href' | sed 's/.*href="\(.*\)"/\1/'))
-  IFS=$'\n' region_sizes=($(xmllint 2>>"$error_log" "$super_region_file" --html --xpath '//tr[@onmouseover]/td[3]/text()' | sed 's/.*(\(.*\))/\1/'))
-
+  # read returns `false` here. Adding `|| true` allows the program to continue even with `set -e`.
+  IFS=$'\n' read -d '' -r -a csv_lines < "$super_region_csv" || true
+  IFS=';' read -r -a region_names <<< "${csv_lines[0]}"
+  IFS=';' read -r -a region_sub_hrefs <<< "${csv_lines[1]}"
+  IFS=';' read -r -a region_osm_hrefs <<< "${csv_lines[2]}"
+  IFS=';' read -r -a region_sizes <<< "${csv_lines[3]}"
 
   # Make the array empty if it contains just 1 empty element.
   [[ ${#region_names[*]} == 1 && -z ${region_names[0]} ]] && region_names=()
