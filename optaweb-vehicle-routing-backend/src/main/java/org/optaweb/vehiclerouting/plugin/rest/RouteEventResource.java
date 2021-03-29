@@ -58,8 +58,10 @@ public class RouteEventResource {
     // Handy during development.
     @PreDestroy
     public void closeBroadcaster() {
-        logger.debug("Closing Server-Sent Events broadcaster.");
-        sseBroadcaster.close();
+        if (sseBroadcaster != null) {
+            logger.debug("Closing Server-Sent Events broadcaster.");
+            sseBroadcaster.close();
+        }
     }
 
     public void observeRoute(@Observes RoutingPlan event) {
