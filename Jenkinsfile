@@ -48,7 +48,7 @@ pipeline {
             junit '**/target/surefire-reports/**/*.xml, **/target/failsafe-reports/**/*.xml'
 
             echo 'Archiving screenshots and videos ...'
-            archiveArtifacts artifacts: '**/cypress/screenshots/**, **/cypress/videos/**'
+            archiveArtifacts allowEmptyArchive: true, artifacts: '**/cypress/screenshots/**, **/cypress/videos/**'
 
             cleanWs()
         }
