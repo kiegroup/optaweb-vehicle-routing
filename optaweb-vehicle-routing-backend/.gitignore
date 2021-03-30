@@ -2,5 +2,7 @@
 
 /.env
 
+/panache-archive.marker
+
 /target
 /local
