@@ -137,7 +137,7 @@ function download_menu() {
   local -r url_parent=${url%/*} # remove shortest suffix matching "/*" => http://download.geofabrik.de/north-america/us
   local -r url_html=${url##*/} # index.html, europe.html, etc.
   local -r super_region_file="$cache_geofabrik/$url_html"
-  local -r sub_region_osm_url=$2
+  local -r subregion_osm_url=$2
   local -r super_region_csv=${super_region_file/.html/.csv}
 
   # TODO refresh daily
@@ -222,9 +222,9 @@ function download_menu() {
   if [[ ${max} -lt 0 ]]
   then
     echo
-    echo "This region has no sub-regions to choose from."
+    echo "This region has no subregions to choose from."
     echo
-    confirm "Do you want to download $sub_region_osm_url?" && download "$sub_region_osm_url" "$osm_dir/${sub_region_osm_url##*/}"
+    confirm "Do you want to download $subregion_osm_url?" && download "$subregion_osm_url" "$osm_dir/${subregion_osm_url##*/}"
     return 0
   fi
 
@@ -271,13 +271,13 @@ function download_menu() {
   [[ -z ${answer_region_id} ]] && return 0
 
   # osm_url is used either to download an OSM in the d) case or to pass it to next download_menu level
-  # to make it possible to download it if there are no sub-regions to choose from in the next step.
+  # to make it possible to download it if there are no subregions to choose from in the next step.
   local -r osm_url=${url_parent}/${region_osm_hrefs[answer_region_id]}
-  local -r sub_region_html_url=${url_parent}/${region_sub_hrefs[answer_region_id]}
+  local -r subregion_html_url=${url_parent}/${region_sub_hrefs[answer_region_id]}
 
   case ${answer_action} in
     e)
-      download_menu "$sub_region_html_url" "$osm_url"
+      download_menu "$subregion_html_url" "$osm_url"
     ;;
     d)
       # Remove region prefix (e.g. europe/) from href to get the OSM file name.
