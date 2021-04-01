@@ -135,15 +135,15 @@ https://raw.githubusercontent.com/TakahikoKawasaki/nv-i18n/${cc_tag}/src/main/ja
 function download_menu() {
   local -r url=$1
   local -r url_parent=${url%/*} # remove shortest suffix matching "/*" => http://download.geofabrik.de/north-america/us
-  local -r url_html=${url##*/} # index.html, europe.html, etc.
-  local -r super_region_file="$cache_geofabrik/$url_html"
-  local -r subregion_osm_url=$2
-  local -r super_region_csv=${super_region_file/.html/.csv}
+  local -r region_filename=${url##*/} # index.html, europe.html, etc.
+  local -r region_file_html="$cache_geofabrik/$region_filename"
+  local -r region_file_csv=${region_file_html/.html/.csv}
+  local -r region_osm_url=$2
 
   # TODO refresh daily
-  if [[ ! -f ${super_region_file} || ! -s ${super_region_file} ]]
+  if [[ ! -f ${region_file_html} || ! -s ${region_file_html} ]]
   then
-    curl --silent --show-error 2>>"$cache_geofabrik/error.log" "$url" > "$super_region_file" || {
+    curl --silent --show-error 2>>"$cache_geofabrik/error.log" "$url" > "$region_file_html" || {
       echo "ERROR: Cannot download from Geofabrik. Are you offline?"
       exit 1
     }
@@ -205,10 +205,10 @@ function download_menu() {
       print join(osm_href, ";")
       print join(size, ";")
     }
-' "$super_region_file" > "$super_region_csv"
+' "$region_file_html" > "$region_file_csv"
 
   # read returns `false` here. Adding `|| true` allows the program to continue even with `set -e`.
-  IFS=$'\n' read -d '' -r -a csv_lines < "$super_region_csv" || true
+  IFS=$'\n' read -d '' -r -a csv_lines < "$region_file_csv" || true
   IFS=';' read -r -a region_names <<< "${csv_lines[0]}"
   IFS=';' read -r -a region_sub_hrefs <<< "${csv_lines[1]}"
   IFS=';' read -r -a region_osm_hrefs <<< "${csv_lines[2]}"
@@ -224,7 +224,7 @@ function download_menu() {
     echo
     echo "This region has no subregions to choose from."
     echo
-    confirm "Do you want to download $subregion_osm_url?" && download "$subregion_osm_url" "$osm_dir/${subregion_osm_url##*/}"
+    confirm "Do you want to download $region_osm_url?" && download "$region_osm_url" "$osm_dir/${region_osm_url##*/}"
     return 0
   fi
 
