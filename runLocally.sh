@@ -149,6 +149,24 @@ function download_menu() {
     }
   fi
 
+  # The following AWK program subregion information from a Geofabrik region HTML page.
+  #
+  # If Geofabrik offers subregions for the current region, the region HTML page contains a subregion table. The program
+  # goes over all subregion rows and extracts the following data:
+  # 1. subregion name (example: Europe),
+  # 2. subregion page link (example: europe.html),
+  # 3. subregion OSM link (example: europe-latest.osm.pbf),
+  # 4. subregion OSM size (example: 23.1 GB).
+  # Finally, the program prints the data in a format that makes it possible to read the data into a Bash array
+  # for further manipulation by the run script.
+  #
+  # Maintenance notes:
+  # An important requirement for the following implementation is that it works on macOS as well as on Linux.
+  # Use https://www.gnu.org/software/gawk/manual/gawk.html as a reference for the AWK language but note
+  # that it is a documentation for the GNU Awk (gawk) implementation that has some extra features (for example gensub())
+  # that are not available in awk found on macOS.
+  #
+  # DO NOT MODIFY OR SIMPLIFY THIS WITHOUT VERIFYING IT WORKS ON MACOS!
   awk '
     function href(element) {
       match(element, /href="[^"]*"/)
@@ -160,8 +178,8 @@ function download_menu() {
       sub(/&nbsp;/, " ", inner_text)
       return inner_text
     }
-    function join(array, sep,    result, i) {
-      for (i = 0; i < FNR; i++) {
+    function join(array, sep,    i, result) {
+      for (i = 0; i < NR; i++) {
         if (array[i]) {
           result = result ? result sep array[i] : array[i]
         }
@@ -169,15 +187,15 @@ function download_menu() {
       return result
     }
     BEGIN {
-      RS="<tr"
-      FS="<td"
+      RS="<tr" # Set record delimiter.
+      FS="<td" # Set field delimiter.
     }
     /onMouseOver/ {
       name[NR]=text($2)
       sub_href[NR]=href($2)
       osm_href[NR]=href($3)
       size[NR]=text($4)
-      # Remove parentheses around the OSM size
+      # Remove parentheses around the OSM size.
       sub(/^\(/, "", size[NR])
       sub(/\)$/, "", size[NR])
     }
