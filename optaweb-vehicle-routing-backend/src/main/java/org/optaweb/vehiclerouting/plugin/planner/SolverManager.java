@@ -112,8 +112,9 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
                         // So this case is only possible when an exception is thrown during solver.solve().
                         try {
                             solverFuture.get();
-                            logger.error("This should be impossible. The solver has stopped without being terminated early"
-                                    + " so at this point it is expected to have crashed but there was no exception.");
+                            logger.error("The solver has stopped without being terminated early so at this point"
+                                    + " it is expected to have crashed but there was no exception.\n"
+                                    + "If you see this other than during test execution it is probably a bug.");
                             errorEvent.fire(new ErrorEvent(
                                     this,
                                     "Solver stopped without being terminated early and without throwing an exception."
