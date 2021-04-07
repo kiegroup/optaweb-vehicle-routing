@@ -72,7 +72,8 @@ class SolverExceptionTest {
         solverManager.startSolver(SolutionFactory.emptySolution());
 
         // assert
-        verify(eventPublisher).fire(any(ErrorEvent.class));
+        verify(eventPublisher).fire(errorEventArgumentCaptor.capture());
+        assertThat(errorEventArgumentCaptor.getValue().message).contains("This is a bug.");
     }
 
     @Test
