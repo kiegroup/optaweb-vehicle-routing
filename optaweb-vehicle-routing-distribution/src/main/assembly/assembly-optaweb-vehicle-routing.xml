@@ -27,6 +27,14 @@
 
   <files>
     <file>
+      <source>../LICENSE-Apache-2.0.txt</source>
+      <outputDirectory/>
+    </file>
+    <file>
+      <source>src/main/resources/README.adoc</source>
+      <outputDirectory/>
+    </file>
+    <file>
       <source>../runLocally.sh</source>
       <outputDirectory>bin</outputDirectory>
       <filtered>true</filtered>
