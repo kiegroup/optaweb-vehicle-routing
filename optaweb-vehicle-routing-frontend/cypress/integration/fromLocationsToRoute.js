@@ -32,6 +32,7 @@ describe('Locations can be added and route is computed', () => {
     // Add one city to make sure there is a location in the list and the clear button shows up
     addCity('Garz');
     cy.get('[data-cy=demo-clear-button]').click({ force: true });
+    cy.wait('@postClear');
   };
 
   /**
@@ -43,6 +44,7 @@ describe('Locations can be added and route is computed', () => {
   };
 
   before(() => {
+    cy.intercept('POST', '**/api/clear').as('postClear');
     visitDemo();
     clearLocations();
   });

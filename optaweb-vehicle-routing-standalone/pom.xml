@@ -39,7 +39,7 @@
     <container.runtime>docker</container.runtime>
     <frontend.project.name>optaweb-vehicle-routing-frontend</frontend.project.name>
     <java.module.name>org.optaweb.vehiclerouting</java.module.name>
-    <version.cypress.docker>4.12.1</version.cypress.docker>
+    <version.cypress.docker>7.0.1</version.cypress.docker>
   </properties>
 
   <dependencies>
@@ -121,11 +121,11 @@
 
   <profiles>
     <profile>
-      <id>FIXME-integration-tests</id>
+      <id>integration-tests</id>
       <activation>
         <property>
           <name>integration-tests</name>
-          <value>FIXME-true</value>
+          <value>true</value>
         </property>
       </activation>
       <build>
