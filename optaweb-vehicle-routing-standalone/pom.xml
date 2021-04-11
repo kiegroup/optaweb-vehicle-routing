@@ -116,92 +116,157 @@
           </execution>
         </executions>
       </plugin>
+      <plugin> <!-- Start standalone JAR as a separate process. -->
+        <groupId>com.bazaarvoice.maven.plugins</groupId>
+        <artifactId>process-exec-maven-plugin</artifactId>
+        <version>0.9</version>
+        <executions>
+          <execution>
+            <id>start-application</id>
+            <phase>pre-integration-test</phase>
+            <goals>
+              <goal>start</goal>
+            </goals>
+            <configuration>
+              <name>Run application</name>
+              <healthcheckUrl>${application.url}</healthcheckUrl>
+              <workingDir>${project.basedir}</workingDir>
+              <processLogFile>${project.build.directory}/${project.artifactId}.log</processLogFile>
+              <arguments>
+                <argument>java</argument>
+                <argument>-Dquarkus.profile=cypress</argument>
+                <argument>-Dquarkus.http.host=${application.host}</argument>
+                <argument>-Dquarkus.http.port=${application.port}</argument>
+                <argument>-jar</argument>
+                <argument>target/quarkus-app/quarkus-run.jar</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <!-- Kill all running processes. -->
+          <execution>
+            <id>stop-running-processes</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>stop-all</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!--
+        Run Cypress tests in a docker container.
+        See https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command.
+      -->
+      <plugin>
+        <artifactId>exec-maven-plugin</artifactId>
+        <groupId>org.codehaus.mojo</groupId>
+        <executions>
+          <execution>
+            <id>run-cypress-tests</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>${container.runtime}</executable>
+              <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
+              <arguments>
+                <argument>run</argument>
+                <argument>--network=host</argument> <!-- Cypress accesses UI running on the host. -->
+                <argument>--volume</argument>
+                <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
+                <argument>--workdir</argument>
+                <argument>/e2e</argument>
+                <argument>${user.flag}</argument>
+                <argument>${user.name.group}</argument>
+                <argument>--entrypoint</argument>
+                <argument>cypress</argument>
+                <argument>cypress/included:${version.cypress.docker}</argument>
+                <argument>run</argument> <!-- Executing cypress:run. -->
+                <argument>--project</argument>
+                <argument>.</argument>
+                <argument>--config</argument>
+                <argument>baseUrl=${application.url}</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
   <profiles>
     <profile>
-      <id>integration-tests</id>
+      <!--
+        Turn off integration tests unless -Dintegration-tests=true.
+        Goal: do not run integration tests by default but be able to turn them on.
+      -->
+      <id>skip-integration-tests</id>
       <activation>
         <property>
           <name>integration-tests</name>
-          <value>true</value>
+          <value>!true</value>
         </property>
       </activation>
       <build>
         <plugins>
-          <plugin> <!-- Start standalone JAR as a separate process. -->
+          <plugin>
             <groupId>com.bazaarvoice.maven.plugins</groupId>
             <artifactId>process-exec-maven-plugin</artifactId>
-            <version>0.9</version>
             <executions>
               <execution>
                 <id>start-application</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>start</goal>
-                </goals>
-                <configuration>
-                  <name>Run application</name>
-                  <healthcheckUrl>${application.url}</healthcheckUrl>
-                  <workingDir>${project.basedir}</workingDir>
-                  <processLogFile>${project.build.directory}/${project.artifactId}.log</processLogFile>
-                  <arguments>
-                    <argument>java</argument>
-                    <argument>-Dquarkus.profile=cypress</argument>
-                    <argument>-Dquarkus.http.host=${application.host}</argument>
-                    <argument>-Dquarkus.http.port=${application.port}</argument>
-                    <argument>-jar</argument>
-                    <argument>target/quarkus-app/quarkus-run.jar</argument>
-                  </arguments>
-                </configuration>
-              </execution>
-              <!-- Kill all running processes. -->
-              <execution>
-                <id>stop-running-processes</id>
-                <phase>post-integration-test</phase>
-                <goals>
-                  <goal>stop-all</goal>
-                </goals>
+                <phase>none</phase>
               </execution>
             </executions>
           </plugin>
-          <!--
-            Run Cypress tests in a docker container.
-            See https://www.cypress.io/blog/2019/05/02/run-cypress-with-a-single-docker-command.
-          -->
           <plugin>
             <artifactId>exec-maven-plugin</artifactId>
             <groupId>org.codehaus.mojo</groupId>
             <executions>
               <execution>
                 <id>run-cypress-tests</id>
-                <phase>integration-test</phase>
-                <goals>
-                  <goal>exec</goal>
-                </goals>
-                <configuration>
-                  <executable>${container.runtime}</executable>
-                  <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
-                  <arguments>
-                    <argument>run</argument>
-                    <argument>--network=host</argument> <!-- Cypress accesses UI running on the host. -->
-                    <argument>--volume</argument>
-                    <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
-                    <argument>--workdir</argument>
-                    <argument>/e2e</argument>
-                    <argument>${user.flag}</argument>
-                    <argument>${user.name.group}</argument>
-                    <argument>--entrypoint</argument>
-                    <argument>cypress</argument>
-                    <argument>cypress/included:${version.cypress.docker}</argument>
-                    <argument>run</argument> <!-- Executing cypress:run. -->
-                    <argument>--project</argument>
-                    <argument>.</argument>
-                    <argument>--config</argument>
-                    <argument>baseUrl=${application.url}</argument>
-                  </arguments>
-                </configuration>
+                <phase>none</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!--
+        Skip integration tests execution when the build runs on GitHub Actions and uses a Windows runner.
+        See https://github.community/t/github-actions-windows-runtime-linux-container-mode-docker/135874/4.
+        This profile allows to skip integration tests even if -Dintegration-tests=true.
+      -->
+      <id>no-docker</id>
+      <activation>
+        <property>
+          <name>env.GITHUB_ACTIONS</name>
+          <value>true</value>
+        </property>
+        <os>
+          <family>Windows</family>
+        </os>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.bazaarvoice.maven.plugins</groupId>
+            <artifactId>process-exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>start-application</id>
+                <phase>none</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>exec-maven-plugin</artifactId>
+            <groupId>org.codehaus.mojo</groupId>
+            <executions>
+              <execution>
+                <id>run-cypress-tests</id>
+                <phase>none</phase>
               </execution>
             </executions>
           </plugin>
