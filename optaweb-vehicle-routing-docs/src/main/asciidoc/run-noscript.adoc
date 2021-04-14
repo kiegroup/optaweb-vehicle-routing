@@ -75,5 +75,5 @@ java \
 -Dapp.routing.osm-dir=$HOME/{data-dir-name}/openstreetmap \
 -Dapp.routing.osm-file=belgium-latest.osm.pbf \
 -Dapp.region.country-codes=BE \
--jar optaweb-vehicle-routing-tests/target/quarkus-app/quarkus-run.jar
+-jar optaweb-vehicle-routing-standalone/target/quarkus-app/quarkus-run.jar
 ----
