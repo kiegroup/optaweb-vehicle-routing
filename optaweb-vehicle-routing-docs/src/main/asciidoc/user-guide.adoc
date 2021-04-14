@@ -13,8 +13,6 @@ The current version has certain limitations:
 * Every delivery to a location is supposed to take 1 point of vehicle capacity.
 For example, a vehicle with a capacity of 10 can visit up to 10 locations before returning to the depot.
 * Setting custom names of vehicles and locations is not supported.
-* Error information is not supported in the user interface.
-You must view the terminal output of the back end to see detailed error messages.
 
 == Creating a route
 
