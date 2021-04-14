@@ -16,7 +16,7 @@ NOTE: The OSM data files are typically between 100 MB to 1 GB and take time to d
 .Procedure
 . Open http://download.geofabrik.de/ in a web browser.
 . Click a region in the *Sub Region* list, for example *Europe*.
-The sub region's page opens.
+The subregion's page opens.
 . In the *Sub Regions* table, download the OSM file (`.osm.pbf`) for a country, for example Belgium.
 
 [[data-dir-setup]]
