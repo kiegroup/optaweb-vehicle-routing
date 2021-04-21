@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.Produces;
@@ -80,10 +81,10 @@ class RoutingConfig {
         GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
         graphHopper.setGraphHopperLocation(graphDir.toString());
 
-        if (graphDir.toFile().exists()) {
+        if (graphDirIsNotEmpty()) {
             logger.info("Loading existing GraphHopper graph from: {}", graphDir);
         } else {
-            if (!osmFile.toFile().exists()) {
+            if (Files.notExists(osmFile)) {
                 initDirs();
 
                 if (!osmDownloadUrl.isPresent() || osmDownloadUrl.get().trim().isEmpty()) {
@@ -104,6 +105,24 @@ class RoutingConfig {
         graphHopper.importOrLoad();
         logger.info("GraphHopper graph loaded");
         return graphHopper;
+    }
+
+    /**
+     * Decide whether the graph can be loaded.
+     *
+     * @return true if the graph directory exists and is not empty
+     */
+    private boolean graphDirIsNotEmpty() {
+        if (Files.notExists(graphDir)) {
+            return false;
+        }
+        try (Stream<Path> graphDirFiles = Files.list(graphDir)) {
+            // Defensive programming. Check if the graph dir is empty. That happens if the import fails for example
+            // for example due to OutOfMemoryError.
+            return graphDirFiles.findAny().isPresent();
+        } catch (IOException e) {
+            throw new RoutingEngineException("Cannot read contents of the graph directory (" + graphDir + ")", e);
+        }
     }
 
     private void initDirs() {
