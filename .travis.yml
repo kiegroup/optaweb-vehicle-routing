@@ -22,7 +22,7 @@ before_script:
   # Fail the build if the Red Hat package registry is referenced from package-lock.json.
   - '! grep "\"resolved\".*\.redhat\.com" optaweb-vehicle-routing-frontend/package-lock.json'
 script:
-  - mvn clean install integration-tests --show-version
+  - mvn clean install -Pintegration-tests --show-version
   # Check that Git working tree is clean after running npm install via a frontend-maven-plugin.
   # The `git` command returns 1 and fails the build if there are any uncommitted changes.
   - git diff HEAD --exit-code
