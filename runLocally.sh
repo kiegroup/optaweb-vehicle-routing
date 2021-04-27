@@ -87,7 +87,7 @@ function run_optaweb() {
   else
     [[ ${cc_list} != "??" ]] && args+=("-Dapp.region.country-codes=$cc_list")
   fi
-  java "${args[@]}" -jar "$jar"
+  java "${args[@]}" "$@" -jar "$jar"
 }
 
 function download() {
@@ -381,10 +381,10 @@ function interactive() {
   echo "Region: $osm_file"
   echo "Country code list: $cc_list"
   echo
-  confirm "Do you want launch OptaWeb Vehicle Routing?" || abort
+  confirm "Do you want to launch OptaWeb Vehicle Routing?" || abort
 
   standalone_jar_or_maven
-  run_optaweb
+  run_optaweb "$@"
 }
 
 function quickstart() {
@@ -402,7 +402,7 @@ This script can download it for you from Geofabrik.de."
     echo "$cc_list" > "$cc_dir/${osm_file%.osm.pbf}"
   fi
   standalone_jar_or_maven
-  run_optaweb
+  run_optaweb "$@"
 }
 
 # Change dir to the project root (where the script is located).
@@ -470,16 +470,21 @@ fi
 if [[ $1 == "--air" ]]
 then
   routing_engine="AIR"
+  shift
   echo >&2 "Air mode is currently not available. See https://github.com/kiegroup/optaweb-vehicle-routing/issues/455."
   exit 1
 #  standalone_jar_or_maven
-#  run_optaweb
+#  run_optaweb "$@"
 #  exit 0
 fi
 
 case $1 in
   -i | --interactive)
-    interactive
+    shift
+    interactive "$@"
+  ;;
+  -*)
+    quickstart "$@"
   ;;
   # Demo use case (non-interactive) - start with existing data.
   [a-z]*)
@@ -491,15 +496,16 @@ case $1 in
       osm_file=${region}.osm.pbf
       validate || {
         echo >&2 "Wrong region '$1'. One of the following must exist:"
-        echo >&2 "- OSM file: $osm_dir/${1%.osm.pbf}.osm.pbf"
-        echo >&2 "- GraphHopper graph: $gh_dir/${1%.osm.pbf}"
+        echo >&2 "- OSM file: $osm_dir/${region}.osm.pbf"
+        echo >&2 "- GraphHopper graph: $gh_dir/$region"
         exit 1
       }
     fi
 
     cc_list=$(cat "$cc_dir/$region")
+    shift
     standalone_jar_or_maven
-    run_optaweb
+    run_optaweb "$@"
   ;;
   *)
     echo >&2 "Wrong argument."
