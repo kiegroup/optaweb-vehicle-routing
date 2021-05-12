@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Red Hat, Inc. and/or its affiliates.
+ * Copyright 2021 Red Hat, Inc. and/or its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-import * as routeOperations from './operations';
-import { routeReducer } from './reducers';
-import * as routeSelectors from './selectors';
+import { RoutingPlan } from 'store/route/types';
 
-export { routeOperations, routeSelectors };
+export const totalCapacity = (plan: RoutingPlan) => plan.vehicles
+  .map((vehicle) => vehicle.capacity)
+  .reduce((a, b) => a + b, 0);
 
-export default routeReducer;
+export const totalDemand = (plan: RoutingPlan) => plan.visits.length;

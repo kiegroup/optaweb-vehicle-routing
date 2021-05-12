@@ -1,10 +1,28 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Info block snapshots: capacity 1`] = `
+<InfoBlock
+  color=""
+  data="20/100"
+  icon={[Function]}
+  tooltip="Capacity usage: total demand / total capacity"
+/>
+`;
+
+exports[`Info block snapshots: capacity 2`] = `
+<InfoBlock
+  color="var(--pf-global--danger-color--200)"
+  data="20/10"
+  icon={[Function]}
+  tooltip="Capacity usage: total demand / total capacity"
+/>
+`;
+
 exports[`Info block snapshots: distance 1`] = `
 <InfoBlock
   data="3h 56m 11s"
   icon={[Function]}
-  tooltip="Total travel time"
+  tooltip="Total driving travel time spent by all vehicles"
 />
 `;
 

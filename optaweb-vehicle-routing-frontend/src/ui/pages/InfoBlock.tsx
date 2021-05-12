@@ -15,23 +15,30 @@
  */
 
 import { Flex, FlexItem, FlexModifiers, Tooltip } from '@patternfly/react-core';
-import { ClockIcon, IconSize, MessagesIcon, TruckIcon } from '@patternfly/react-icons';
+import {
+  ClockIcon as DistanceIcon,
+  IconSize,
+  MapMarkerIcon as VisitIcon,
+  TruckIcon,
+  WeightHangingIcon as CapacityIcon,
+} from '@patternfly/react-icons';
 import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
 import * as React from 'react';
 
 interface InfoBlockProps {
   icon: IconType;
   data?: string | number;
+  color?: string;
   tooltip: string;
 }
 
-export const InfoBlock = ({ icon, data, tooltip }: InfoBlockProps) => {
+export const InfoBlock = ({ icon, data, tooltip, color }: InfoBlockProps) => {
   const Icon = icon;
   return (
     <Tooltip content={tooltip} position="bottom">
       <Flex breakpointMods={[{ modifier: FlexModifiers['space-items-sm'] }]}>
         <FlexItem>
-          <Icon size={IconSize.md} />
+          <Icon size={IconSize.md} color={color} />
         </FlexItem>
         {data && (
           <FlexItem>
@@ -43,6 +50,31 @@ export const InfoBlock = ({ icon, data, tooltip }: InfoBlockProps) => {
   );
 };
 
+interface CapacityInfoProps {
+  totalDemand: number;
+  totalCapacity: number;
+}
+
+export const CapacityInfo = ({
+  totalDemand,
+  totalCapacity,
+}: CapacityInfoProps) => (
+  <InfoBlock
+    icon={CapacityIcon}
+    data={`${totalDemand}/${totalCapacity}`}
+    color={totalDemand > totalCapacity ? 'var(--pf-global--danger-color--200)' : ''}
+    tooltip="Capacity usage: total demand / total capacity"
+  />
+);
+
+interface DistanceInfoProps {
+  distance: string;
+}
+
+export const DistanceInfo = ({ distance }: DistanceInfoProps) => (
+  <InfoBlock icon={DistanceIcon} data={distance} tooltip="Total driving travel time spent by all vehicles" />
+);
+
 export const VehiclesInfo = () => (
   <InfoBlock icon={TruckIcon} tooltip="Vehicles" />
 );
@@ -52,13 +84,5 @@ interface VisitInfoProps {
 }
 
 export const VisitsInfo = ({ visitCount }: VisitInfoProps) => (
-  <InfoBlock icon={MessagesIcon} data={visitCount} tooltip="Number of visits" />
-);
-
-interface DistanceInfoProps {
-  distance: string;
-}
-
-export const DistanceInfo = ({ distance }: DistanceInfoProps) => (
-  <InfoBlock icon={ClockIcon} data={distance} tooltip="Total travel time" />
+  <InfoBlock icon={VisitIcon} data={visitCount} tooltip="Number of visits" />
 );

@@ -18,12 +18,22 @@ import { PlusIcon } from '@patternfly/react-icons';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import { DistanceInfo, InfoBlock, VehiclesInfo, VisitsInfo } from 'ui/pages/InfoBlock';
+import { CapacityInfo, DistanceInfo, InfoBlock, VehiclesInfo, VisitsInfo } from 'ui/pages/InfoBlock';
 
 describe('Info block snapshots:', () => {
   it('generic', () => {
     const infoBlock = shallow(<InfoBlock icon={PlusIcon} data="test content" tooltip="test tooltip" />);
     expect(toJson(infoBlock)).toMatchSnapshot();
+  });
+  it('capacity', () => {
+    const capacityInfoOK = shallow(<CapacityInfo totalDemand={20} totalCapacity={100} />);
+    expect(toJson(capacityInfoOK)).toMatchSnapshot();
+    const capacityInfoError = shallow(<CapacityInfo totalDemand={20} totalCapacity={10} />);
+    expect(toJson(capacityInfoError)).toMatchSnapshot();
+  });
+  it('distance', () => {
+    const distanceInfo = shallow(<DistanceInfo distance="3h 56m 11s" />);
+    expect(toJson(distanceInfo)).toMatchSnapshot();
   });
   it('vehicles', () => {
     const vehiclesInfo = shallow(<VehiclesInfo />);
@@ -32,9 +42,5 @@ describe('Info block snapshots:', () => {
   it('visits', () => {
     const visitsInfo = shallow(<VisitsInfo visitCount={300} />);
     expect(toJson(visitsInfo)).toMatchSnapshot();
-  });
-  it('distance', () => {
-    const distanceInfo = shallow(<DistanceInfo distance="3h 56m 11s" />);
-    expect(toJson(distanceInfo)).toMatchSnapshot();
   });
 });

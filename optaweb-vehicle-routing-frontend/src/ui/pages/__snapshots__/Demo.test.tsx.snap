@@ -81,7 +81,21 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
       }
     >
       <FlexItem>
+        <VisitsInfo
+          visitCount={2}
+        />
+      </FlexItem>
+      <FlexItem>
+        <CapacityInfo
+          totalCapacity={5}
+          totalDemand={2}
+        />
+      </FlexItem>
+      <FlexItem>
         <Flex>
+          <FlexItem>
+            <VehiclesInfo />
+          </FlexItem>
           <FlexItem>
             <InputGroup>
               <Component
@@ -115,15 +129,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
               </Component>
             </InputGroup>
           </FlexItem>
-          <FlexItem>
-            <VehiclesInfo />
-          </FlexItem>
         </Flex>
-      </FlexItem>
-      <FlexItem>
-        <VisitsInfo
-          visitCount={2}
-        />
       </FlexItem>
       <FlexItem>
         <DistanceInfo
@@ -296,7 +302,21 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
       }
     >
       <FlexItem>
+        <VisitsInfo
+          visitCount={0}
+        />
+      </FlexItem>
+      <FlexItem>
+        <CapacityInfo
+          totalCapacity={0}
+          totalDemand={0}
+        />
+      </FlexItem>
+      <FlexItem>
         <Flex>
+          <FlexItem>
+            <VehiclesInfo />
+          </FlexItem>
           <FlexItem>
             <InputGroup>
               <Component
@@ -330,15 +350,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
               </Component>
             </InputGroup>
           </FlexItem>
-          <FlexItem>
-            <VehiclesInfo />
-          </FlexItem>
         </Flex>
-      </FlexItem>
-      <FlexItem>
-        <VisitsInfo
-          visitCount={0}
-        />
       </FlexItem>
       <FlexItem>
         <DistanceInfo
@@ -487,7 +499,21 @@ exports[`Demo page should render correctly with a few routes 1`] = `
       }
     >
       <FlexItem>
+        <VisitsInfo
+          visitCount={2}
+        />
+      </FlexItem>
+      <FlexItem>
+        <CapacityInfo
+          totalCapacity={5}
+          totalDemand={2}
+        />
+      </FlexItem>
+      <FlexItem>
         <Flex>
+          <FlexItem>
+            <VehiclesInfo />
+          </FlexItem>
           <FlexItem>
             <InputGroup>
               <Component
@@ -521,15 +547,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
               </Component>
             </InputGroup>
           </FlexItem>
-          <FlexItem>
-            <VehiclesInfo />
-          </FlexItem>
         </Flex>
-      </FlexItem>
-      <FlexItem>
-        <VisitsInfo
-          visitCount={2}
-        />
       </FlexItem>
       <FlexItem>
         <DistanceInfo
@@ -695,7 +713,21 @@ exports[`Demo page should render correctly with no routes 1`] = `
       }
     >
       <FlexItem>
+        <VisitsInfo
+          visitCount={0}
+        />
+      </FlexItem>
+      <FlexItem>
+        <CapacityInfo
+          totalCapacity={0}
+          totalDemand={0}
+        />
+      </FlexItem>
+      <FlexItem>
         <Flex>
+          <FlexItem>
+            <VehiclesInfo />
+          </FlexItem>
           <FlexItem>
             <InputGroup>
               <Component
@@ -729,15 +761,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
               </Component>
             </InputGroup>
           </FlexItem>
-          <FlexItem>
-            <VehiclesInfo />
-          </FlexItem>
         </Flex>
-      </FlexItem>
-      <FlexItem>
-        <VisitsInfo
-          visitCount={0}
-        />
       </FlexItem>
       <FlexItem>
         <DistanceInfo
