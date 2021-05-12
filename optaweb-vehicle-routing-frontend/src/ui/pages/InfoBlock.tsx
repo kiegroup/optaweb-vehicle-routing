@@ -27,12 +27,15 @@ import * as React from 'react';
 
 interface InfoBlockProps {
   icon: IconType;
-  data?: string | number;
+  content?: {
+    data: string | number;
+    minWidth: string;
+  };
   color?: string;
   tooltip: string;
 }
 
-export const InfoBlock = ({ icon, data, tooltip, color }: InfoBlockProps) => {
+export const InfoBlock = ({ icon, content, tooltip, color }: InfoBlockProps) => {
   const Icon = icon;
   return (
     <Tooltip content={tooltip} position="bottom">
@@ -40,9 +43,9 @@ export const InfoBlock = ({ icon, data, tooltip, color }: InfoBlockProps) => {
         <FlexItem>
           <Icon size={IconSize.md} color={color} />
         </FlexItem>
-        {data && (
-          <FlexItem>
-            {data}
+        {content && (
+          <FlexItem style={{ minWidth: content.minWidth, textAlign: 'right' }}>
+            {content.data}
           </FlexItem>
         )}
       </Flex>
@@ -61,7 +64,7 @@ export const CapacityInfo = ({
 }: CapacityInfoProps) => (
   <InfoBlock
     icon={CapacityIcon}
-    data={`${totalDemand}/${totalCapacity}`}
+    content={{ data: `${totalDemand}/${totalCapacity}`, minWidth: '4em' }}
     color={totalDemand > totalCapacity ? 'var(--pf-global--danger-color--200)' : ''}
     tooltip="Capacity usage: total demand / total capacity"
   />
@@ -72,7 +75,11 @@ interface DistanceInfoProps {
 }
 
 export const DistanceInfo = ({ distance }: DistanceInfoProps) => (
-  <InfoBlock icon={DistanceIcon} data={distance} tooltip="Total driving travel time spent by all vehicles" />
+  <InfoBlock
+    icon={DistanceIcon}
+    content={{ data: distance, minWidth: '6.8em' }}
+    tooltip="Total driving travel time spent by all vehicles"
+  />
 );
 
 export const VehiclesInfo = () => (
@@ -84,5 +91,9 @@ interface VisitInfoProps {
 }
 
 export const VisitsInfo = ({ visitCount }: VisitInfoProps) => (
-  <InfoBlock icon={VisitIcon} data={visitCount} tooltip="Number of visits" />
+  <InfoBlock
+    icon={VisitIcon}
+    content={{ data: visitCount, minWidth: '2em' }}
+    tooltip="Number of visits"
+  />
 );

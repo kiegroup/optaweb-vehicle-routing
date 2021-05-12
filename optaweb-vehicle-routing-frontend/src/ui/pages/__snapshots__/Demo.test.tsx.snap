@@ -112,6 +112,11 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
               </Component>
               <InputGroupText
                 readOnly={true}
+                style={
+                  Object {
+                    "minWidth": "2.5em",
+                  }
+                }
               >
                 8
               </InputGroupText>
@@ -333,6 +338,11 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
               </Component>
               <InputGroupText
                 readOnly={true}
+                style={
+                  Object {
+                    "minWidth": "2.5em",
+                  }
+                }
               >
                 0
               </InputGroupText>
@@ -530,6 +540,11 @@ exports[`Demo page should render correctly with a few routes 1`] = `
               </Component>
               <InputGroupText
                 readOnly={true}
+                style={
+                  Object {
+                    "minWidth": "2.5em",
+                  }
+                }
               >
                 8
               </InputGroupText>
@@ -744,6 +759,11 @@ exports[`Demo page should render correctly with no routes 1`] = `
               </Component>
               <InputGroupText
                 readOnly={true}
+                style={
+                  Object {
+                    "minWidth": "2.5em",
+                  }
+                }
               >
                 0
               </InputGroupText>
