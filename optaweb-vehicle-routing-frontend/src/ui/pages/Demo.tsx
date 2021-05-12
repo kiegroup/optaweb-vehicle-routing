@@ -210,7 +210,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
                     >
                       <MinusIcon />
                     </Button>
-                    <InputGroupText readOnly>
+                    <InputGroupText readOnly style={{ minWidth: '2.5em' }}>
                       {vehicleCount}
                     </InputGroupText>
                     <Button

@@ -22,7 +22,15 @@ import { CapacityInfo, DistanceInfo, InfoBlock, VehiclesInfo, VisitsInfo } from 
 
 describe('Info block snapshots:', () => {
   it('generic', () => {
-    const infoBlock = shallow(<InfoBlock icon={PlusIcon} data="test content" tooltip="test tooltip" />);
+    const infoBlock = shallow(
+      <InfoBlock
+        icon={PlusIcon}
+        content={{
+          data: 'test content', minWidth: '10',
+        }}
+        tooltip="test tooltip"
+      />,
+    );
     expect(toJson(infoBlock)).toMatchSnapshot();
   });
   it('capacity', () => {
