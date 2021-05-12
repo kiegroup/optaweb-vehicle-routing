@@ -18,7 +18,7 @@ import { mockStore } from '../mockStore';
 import { AppState } from '../types';
 import { WebSocketConnectionStatus } from '../websocket/types';
 import * as actions from './actions';
-import reducer, { routeOperations } from './index';
+import reducer, { routeOperations, routeSelectors } from './index';
 import { initialRouteState } from './reducers';
 import { LatLngWithDescription, Vehicle, VehicleCapacity } from './types';
 
@@ -134,6 +134,20 @@ describe('Route reducers', () => {
     expect(
       reducer(initialRouteState, actions.updateRoute(state.plan)),
     ).toEqual(state.plan);
+  });
+});
+
+describe('Route selectors', () => {
+  it('select total capacity', () => {
+    expect(
+      routeSelectors.totalCapacity(state.plan),
+    ).toEqual(vehicle1.capacity + vehicle2.capacity);
+  });
+  it('select total demand', () => {
+    expect(
+      routeSelectors.totalDemand(state.plan),
+      // Currently the default demand is 1 per visit.
+    ).toEqual(state.plan.visits.length);
   });
 });
 

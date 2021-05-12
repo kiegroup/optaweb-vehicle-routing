@@ -93,6 +93,8 @@ const emptyRouteProps: DemoProps = {
 
   distance: '0',
   vehicleCount: 0,
+  totalCapacity: 0,
+  totalDemand: 0,
   demoNames: ['demo'],
   isDemoLoading: false,
   boundingBox: null,
@@ -115,6 +117,8 @@ const threeLocationsProps: DemoProps = {
 
   distance: '10',
   vehicleCount: 8,
+  totalCapacity: 5,
+  totalDemand: 2,
   demoNames: ['demo'],
   isDemoLoading: false,
   boundingBox: null,

@@ -36,7 +36,7 @@ import { connect } from 'react-redux';
 import { clientOperations } from 'store/client';
 import { UserViewport } from 'store/client/types';
 import { demoOperations } from 'store/demo';
-import { routeOperations } from 'store/route';
+import { routeOperations, routeSelectors } from 'store/route';
 import { LatLng, Location, RouteWithTrack } from 'store/route/types';
 import { AppState } from 'store/types';
 import { DemoDropdown } from 'ui/components/DemoDropdown';
@@ -44,7 +44,7 @@ import LocationList from 'ui/components/LocationList';
 import RouteMap from 'ui/components/RouteMap';
 import SearchBox, { Result } from 'ui/components/SearchBox';
 import { sideBarStyle } from 'ui/pages/common';
-import { DistanceInfo, VehiclesInfo, VisitsInfo } from 'ui/pages/InfoBlock';
+import { CapacityInfo, DistanceInfo, VehiclesInfo, VisitsInfo } from 'ui/pages/InfoBlock';
 
 export const ID_CLEAR_BUTTON = 'clear-button';
 export const ID_EXPORT_BUTTON = 'export-button';
@@ -53,6 +53,8 @@ export interface StateProps {
   distance: string;
   depot: Location | null;
   vehicleCount: number;
+  totalCapacity: number;
+  totalDemand: number;
   visits: Location[];
   routes: RouteWithTrack[];
   isDemoLoading: boolean;
@@ -75,6 +77,8 @@ export interface DispatchProps {
 const mapStateToProps = ({ plan, demo, serverInfo, userViewport }: AppState): StateProps => ({
   distance: plan.distance,
   vehicleCount: plan.vehicles.length,
+  totalCapacity: routeSelectors.totalCapacity(plan),
+  totalDemand: routeSelectors.totalDemand(plan),
   depot: plan.depot,
   visits: plan.visits,
   routes: plan.routes,
@@ -138,6 +142,8 @@ export class Demo extends React.Component<DemoProps, DemoState> {
       distance,
       depot,
       vehicleCount,
+      totalCapacity,
+      totalDemand,
       visits,
       routes,
       demoNames,
@@ -185,7 +191,16 @@ export class Demo extends React.Component<DemoProps, DemoState> {
         >
           <Flex breakpointMods={[{ modifier: FlexModifiers['justify-content-space-between'] }]}>
             <FlexItem>
+              <VisitsInfo visitCount={visits.length} />
+            </FlexItem>
+            <FlexItem>
+              <CapacityInfo totalDemand={totalDemand} totalCapacity={totalCapacity} />
+            </FlexItem>
+            <FlexItem>
               <Flex>
+                <FlexItem>
+                  <VehiclesInfo />
+                </FlexItem>
                 <FlexItem>
                   <InputGroup>
                     <Button
@@ -207,13 +222,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
                     </Button>
                   </InputGroup>
                 </FlexItem>
-                <FlexItem>
-                  <VehiclesInfo />
-                </FlexItem>
               </Flex>
-            </FlexItem>
-            <FlexItem>
-              <VisitsInfo visitCount={visits.length} />
             </FlexItem>
             <FlexItem>
               <DistanceInfo distance={distance} />
