@@ -55,6 +55,8 @@ import org.slf4j.LoggerFactory;
 class SolverIntegrationTest {
 
     private static final Logger logger = LoggerFactory.getLogger(SolverIntegrationTest.class);
+    // Set a benevolent timeout to avoid issues in the CI environment.
+    private static final int PFC_PROPAGATION_TIMEOUT_MILLIS = 10_000;
 
     private SolverConfig solverConfig;
     private ExecutorService executor;
@@ -85,7 +87,6 @@ class SolverIntegrationTest {
 
     // TODO remove vehicle, change capacity, change demand...
 
-    @Disabled("Flaky test")
     @Test
     void removing_visits_should_not_fail() {
         long distance = 1;
@@ -104,8 +105,7 @@ class SolverIntegrationTest {
             logger.info("Add visit ({})", id);
             monitor.beforeProblemFactChange();
             solver.addProblemFactChange(new AddVisit(fromLocation(testLocation(id, location -> distance))));
-            // This started failing after migration from Spring Boot to Quarkus
-            assertThat(monitor.awaitAllProblemFactChanges(1000)).isTrue();
+            assertThat(monitor.awaitAllProblemFactChanges(PFC_PROPAGATION_TIMEOUT_MILLIS)).isTrue();
         }
 
         List<Integer> visitIds = Arrays.asList(5, 2, 3);
@@ -118,7 +118,7 @@ class SolverIntegrationTest {
             // Notice that it's not possible to check individual problem fact changes completion.
             // When we receive a BestSolutionChangedEvent with unprocessed PFCs,
             // we don't know how many of them there are.
-            if (!monitor.awaitAllProblemFactChanges(1000)) {
+            if (!monitor.awaitAllProblemFactChanges(PFC_PROPAGATION_TIMEOUT_MILLIS)) {
                 assertThat(terminateSolver(solver)).isNotNull();
                 fail("Problem fact change hasn't been completed");
             }
