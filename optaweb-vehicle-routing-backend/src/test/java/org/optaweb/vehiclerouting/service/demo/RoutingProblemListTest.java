@@ -20,9 +20,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
@@ -44,7 +44,7 @@ class RoutingProblemListTest {
         List<Location> visits = Collections.emptyList();
         String name1 = "Problem A";
         String name2 = "Problem B";
-        RoutingProblemList routingProblemList = new RoutingProblemList(Arrays.asList(
+        RoutingProblemList routingProblemList = new RoutingProblemList(Stream.of(
                 new RoutingProblem(name1, vehicles, depot, visits),
                 new RoutingProblem(name2, vehicles, depot, visits)));
 

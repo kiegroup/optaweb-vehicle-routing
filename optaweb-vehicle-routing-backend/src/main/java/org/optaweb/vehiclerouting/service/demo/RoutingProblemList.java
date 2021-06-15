@@ -20,9 +20,9 @@ import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 import org.optaweb.vehiclerouting.domain.RoutingProblem;
 
@@ -33,8 +33,8 @@ class RoutingProblemList {
 
     private final Map<String, RoutingProblem> routingProblems;
 
-    RoutingProblemList(List<RoutingProblem> routingProblems) {
-        this.routingProblems = Objects.requireNonNull(routingProblems).stream()
+    RoutingProblemList(Stream<RoutingProblem> routingProblems) {
+        this.routingProblems = Objects.requireNonNull(routingProblems)
                 // TODO use file name as the key (that's more likely to be unique than data set name)
                 .collect(toMap(RoutingProblem::name, identity()));
     }

@@ -28,8 +28,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -62,38 +60,19 @@ class RoutingProblemConfig {
 
     @Produces
     RoutingProblemList routingProblems() {
-        ArrayList<RoutingProblem> problems = new ArrayList<>();
-        problems.add(dataSetMarshaller.unmarshal(belgiumReader()));
-        problems.addAll(localDataSets());
-        return new RoutingProblemList(problems);
+        Stream<RoutingProblem> allProblems = Stream.concat(classPathProblems(), dataSetDirProblems());
+        return new RoutingProblemList(allProblems);
     }
 
-    private static Reader belgiumReader() {
-        return new InputStreamReader(
-                DemoService.class.getResourceAsStream("belgium-cities.yaml"),
-                StandardCharsets.UTF_8);
+    private Stream<RoutingProblem> classPathProblems() {
+        return Stream.of(belgiumReader()).map(dataSetMarshaller::unmarshal);
     }
 
-    private static boolean isReadableDir(Path path) {
-        File file = path.toFile();
-        return file.exists() && file.canRead() && file.isDirectory();
+    private Stream<RoutingProblem> dataSetDirProblems() {
+        return dataSetDir().map(dir -> collectProblems(dir).stream()).orElse(Stream.empty());
     }
 
-    private List<RoutingProblem> localDataSets() {
-        // TODO watch the dir (and make this a service that has local/data resource as a dependency -> is testable)
-        Optional<String> dataSetDirProperty = demoProperties.getDataSetDir();
-        if (!dataSetDirProperty.isPresent()) {
-            logger.info("Data set directory (app.demo.data-set-dir) is not set.");
-            return Collections.emptyList();
-        }
-        Path dataSetDirPath = Paths.get(dataSetDirProperty.get());
-        if (!isReadableDir(dataSetDirPath)) {
-            logger.warn(
-                    "Data set directory '{}' doesn't exist or cannot be read. No external data sets will be loaded",
-                    dataSetDirPath.toAbsolutePath());
-            return Collections.emptyList();
-        }
-
+    private List<RoutingProblem> collectProblems(Path dataSetDirPath) {
         try (Stream<Path> dataSetPaths = Files.list(dataSetDirPath)) {
             return dataSetPaths
                     .map(Path::toFile)
@@ -109,9 +88,38 @@ class RoutingProblemConfig {
                     .filter(Objects::nonNull)
                     // TODO make unmarshalling exception checked, catch it and ignore broken files
                     .map(dataSetMarshaller::unmarshal)
+                    // Returning the stream here has no point because the stream is always closed by the try-with-resources.
                     .collect(toList());
         } catch (IOException e) {
             throw new IllegalStateException("Cannot list directory " + dataSetDirPath, e);
         }
+    }
+
+    private Optional<Path> dataSetDir() {
+        // TODO watch the dir (and make this a service that has local/data resource as a dependency -> is testable)
+        Optional<String> dataSetDirProperty = demoProperties.getDataSetDir();
+        if (!dataSetDirProperty.isPresent()) {
+            logger.info("Data set directory (app.demo.data-set-dir) is not set.");
+            return Optional.empty();
+        }
+        Path dataSetDirPath = Paths.get(dataSetDirProperty.get());
+        if (!isReadableDir(dataSetDirPath)) {
+            logger.warn(
+                    "Data set directory '{}' doesn't exist or cannot be read. No external data sets will be loaded.",
+                    dataSetDirPath.toAbsolutePath());
+            return Optional.empty();
+        }
+        return Optional.of(dataSetDirPath);
+    }
+
+    private static Reader belgiumReader() {
+        return new InputStreamReader(
+                DemoService.class.getResourceAsStream("belgium-cities.yaml"),
+                StandardCharsets.UTF_8);
+    }
+
+    private static boolean isReadableDir(Path path) {
+        File file = path.toFile();
+        return file.exists() && file.canRead() && file.isDirectory();
     }
 }
