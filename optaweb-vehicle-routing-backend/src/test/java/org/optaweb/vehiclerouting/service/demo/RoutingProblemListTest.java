@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.service.demo;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
 import java.util.Collections;
@@ -35,6 +36,16 @@ class RoutingProblemListTest {
     @Test
     void should_validate_constructor_arguments() {
         assertThatNullPointerException().isThrownBy(() -> new RoutingProblemList(null));
+    }
+
+    @Test
+    void should_fail_on_duplicate_problem_names() {
+        String name = "DUPLICATE_NAME";
+        RoutingProblem p1 = new RoutingProblem(name, Collections.emptyList(), null, Collections.emptyList());
+        RoutingProblem p2 = new RoutingProblem(name, Collections.emptyList(), null, Collections.emptyList());
+        assertThatIllegalStateException()
+                .isThrownBy(() -> new RoutingProblemList(Stream.of(p1, p2)))
+                .withMessageContaining(name);
     }
 
     @Test
