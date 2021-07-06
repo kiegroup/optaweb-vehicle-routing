@@ -60,11 +60,11 @@ class RoutingConfig {
 
     @Inject
     RoutingConfig(RoutingProperties routingProperties) {
-        osmDir = Paths.get(routingProperties.getOsmDir()).toAbsolutePath();
-        osmFile = osmDir.resolve(routingProperties.getOsmFile()).toAbsolutePath();
-        osmDownloadUrl = routingProperties.getOsmDownloadUrl();
-        graphHopperDir = Paths.get(routingProperties.getGhDir());
-        String regionName = routingProperties.getOsmFile().replaceFirst("\\.osm\\.pbf$", "");
+        osmDir = Paths.get(routingProperties.osmDir()).toAbsolutePath();
+        osmFile = osmDir.resolve(routingProperties.osmFile()).toAbsolutePath();
+        osmDownloadUrl = routingProperties.osmDownloadUrl();
+        graphHopperDir = Paths.get(routingProperties.ghDir());
+        String regionName = routingProperties.osmFile().replaceFirst("\\.osm\\.pbf$", "");
         graphDir = graphHopperDir.resolve(regionName).toAbsolutePath();
     }
 

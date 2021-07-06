@@ -32,6 +32,6 @@ class RegionPropertiesTest {
 
     @Test
     void test() {
-        assertThat(regionProperties.getCountryCodes()).containsExactly("AT", "DE");
+        assertThat(regionProperties.countryCodes()).containsExactly("AT", "DE");
     }
 }

@@ -18,21 +18,13 @@ package org.optaweb.vehiclerouting.service.demo;
 
 import java.util.Optional;
 
-import io.quarkus.arc.config.ConfigProperties;
+import io.smallrye.config.ConfigMapping;
 
-@ConfigProperties(prefix = "app.demo")
-public class DemoProperties {
+@ConfigMapping(prefix = "app.demo")
+interface DemoProperties {
 
     /**
      * Directory with demo data sets.
      */
-    private Optional<String> dataSetDir;
-
-    public Optional<String> getDataSetDir() {
-        return dataSetDir;
-    }
-
-    public void setDataSetDir(Optional<String> dataSetDir) {
-        this.dataSetDir = dataSetDir;
-    }
+    Optional<String> dataSetDir();
 }

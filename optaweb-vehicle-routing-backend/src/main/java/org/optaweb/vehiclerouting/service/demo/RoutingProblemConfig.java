@@ -97,7 +97,7 @@ class RoutingProblemConfig {
 
     private Optional<Path> dataSetDir() {
         // TODO watch the dir (and make this a service that has local/data resource as a dependency -> is testable)
-        Optional<String> dataSetDirProperty = demoProperties.getDataSetDir();
+        Optional<String> dataSetDirProperty = demoProperties.dataSetDir();
         if (!dataSetDirProperty.isPresent()) {
             logger.info("Data set directory (app.demo.data-set-dir) is not set.");
             return Optional.empty();
