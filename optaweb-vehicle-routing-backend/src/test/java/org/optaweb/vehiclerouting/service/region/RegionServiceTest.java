@@ -42,7 +42,7 @@ class RegionServiceTest {
     @Test
     void should_return_country_codes_from_properties() {
         List<String> countryCodes = Arrays.asList("XY", "WZ");
-        when(regionProperties.getCountryCodes()).thenReturn(countryCodes);
+        when(regionProperties.countryCodes()).thenReturn(countryCodes);
 
         assertThat(regionService.countryCodes()).isEqualTo(countryCodes);
     }

@@ -42,7 +42,7 @@ public class RegionService {
      * @return country codes (never {@code null})
      */
     public List<String> countryCodes() {
-        return regionProperties.getCountryCodes();
+        return regionProperties.countryCodes();
     }
 
     /**

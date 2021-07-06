@@ -16,31 +16,18 @@
 
 package org.optaweb.vehiclerouting.service.region;
 
-import java.util.Collections;
 import java.util.List;
 
-import org.optaweb.vehiclerouting.domain.CountryCodeValidator;
+import io.smallrye.config.ConfigMapping;
 
-import io.quarkus.arc.config.ConfigProperties;
-
-@ConfigProperties(prefix = "app.region")
-public class RegionProperties {
+@ConfigMapping(prefix = "app.region")
+interface RegionProperties {
 
     /**
-     * List of ISO 3166-1 alpha-2 country code(s) matching the loaded OSM file.
-     */
-    private List<String> countryCodes = Collections.emptyList();
-
-    /**
-     * Get country codes matching the loaded OSM file (working region).
+     * Get country codes specified for the loaded OSM file (working region).
+     * The codes are expected to be in the ISO 3166-1 alpha-2 format.
      *
      * @return list of country codes (never {@code null})
      */
-    public List<String> getCountryCodes() {
-        return Collections.unmodifiableList(countryCodes);
-    }
-
-    public void setCountryCodes(List<String> countryCodes) {
-        this.countryCodes = CountryCodeValidator.validate(countryCodes);
-    }
+    List<String> countryCodes();
 }

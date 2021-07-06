@@ -18,77 +18,37 @@ package org.optaweb.vehiclerouting.plugin.routing;
 
 import java.util.Optional;
 
-import io.quarkus.arc.config.ConfigProperties;
+import io.smallrye.config.ConfigMapping;
 
-@ConfigProperties(prefix = "app.routing")
-public class RoutingProperties {
+@ConfigMapping(prefix = "app.routing")
+interface RoutingProperties {
 
     /**
      * Directory to read OSM files from.
      */
-    private String osmDir = "local/openstreetmap";
+    String osmDir();
 
     /**
      * Directory where GraphHopper graphs are stored.
      */
-    private String ghDir = "local/graphhopper";
+    String ghDir();
 
     /**
      * OpenStreetMap file name.
      */
-    private String osmFile;
+    String osmFile();
 
     /**
      * URL of an .osm.pbf file that will be downloaded in case the file doesn't exist on the file system.
      */
-    private Optional<String> osmDownloadUrl;
+    Optional<String> osmDownloadUrl();
 
     /**
      * Routing engine providing distances and paths.
      */
-    private RoutingEngine engine;
+    RoutingEngine engine();
 
-    public String getOsmDir() {
-        return osmDir;
-    }
-
-    public void setOsmDir(String osmDir) {
-        this.osmDir = osmDir;
-    }
-
-    public String getGhDir() {
-        return ghDir;
-    }
-
-    public void setGhDir(String ghDir) {
-        this.ghDir = ghDir;
-    }
-
-    public String getOsmFile() {
-        return osmFile;
-    }
-
-    public void setOsmFile(String osmFile) {
-        this.osmFile = osmFile;
-    }
-
-    public Optional<String> getOsmDownloadUrl() {
-        return osmDownloadUrl;
-    }
-
-    public void setOsmDownloadUrl(Optional<String> osmDownloadUrl) {
-        this.osmDownloadUrl = osmDownloadUrl;
-    }
-
-    public RoutingEngine getEngine() {
-        return engine;
-    }
-
-    public void setEngine(RoutingEngine engine) {
-        this.engine = engine;
-    }
-
-    public enum RoutingEngine {
+    enum RoutingEngine {
         AIR,
         GRAPHHOPPER
     }
