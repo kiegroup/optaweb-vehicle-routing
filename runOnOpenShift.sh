@@ -43,7 +43,7 @@ during back end startup and saved as /deployments/local/OSM_FILE_NAME."
   echo
   echo
   echo "Example 1"
-  echo "  $script_name belgium-latest.osm.pbf BE http://download.geofabrik.de/europe/belgium-latest.osm.pbf"
+  echo "  $script_name belgium-latest.osm.pbf BE https://download.geofabrik.de/europe/belgium-latest.osm.pbf"
   echo
   echo "  Configures the application to filter geosearch results to Belgium and download the latest Belgium \
 OSM extract from Geofabrik."

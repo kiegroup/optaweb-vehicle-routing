@@ -14,7 +14,7 @@ You must download and store OSM (OpenStreetMap) data files on the local file sys
 NOTE: The OSM data files are typically between 100 MB to 1 GB and take time to download so it is a good idea to download the files before building or starting the OptaWeb Vehicle Routing application.
 
 .Procedure
-. Open http://download.geofabrik.de/ in a web browser.
+. Open https://download.geofabrik.de/ in a web browser.
 . Click a region in the *Sub Region* list, for example *Europe*.
 The subregion's page opens.
 . In the *Sub Regions* table, download the OSM file (`.osm.pbf`) for a country, for example Belgium.

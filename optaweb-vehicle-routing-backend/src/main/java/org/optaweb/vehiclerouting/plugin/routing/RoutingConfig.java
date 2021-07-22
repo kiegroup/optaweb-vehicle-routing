@@ -91,7 +91,7 @@ class RoutingConfig {
                     throw new IllegalStateException(
                             "The osmFile (" + osmFile + ") does not exist"
                                     + " and no download URL was provided.\n"
-                                    + "Download the OSM file from http://download.geofabrik.de/ first"
+                                    + "Download the OSM file from https://download.geofabrik.de/ first"
                                     + " or provide an OSM file URL"
                                     + " using the app.routing.osm-download-url property.");
                 }
