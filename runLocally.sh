@@ -134,7 +134,7 @@ https://raw.githubusercontent.com/TakahikoKawasaki/nv-i18n/${cc_tag}/src/main/ja
 
 function download_menu() {
   local -r url=$1
-  local -r url_parent=${url%/*} # remove shortest suffix matching "/*" => http://download.geofabrik.de/north-america/us
+  local -r url_parent=${url%/*} # remove shortest suffix matching "/*" => https://download.geofabrik.de/north-america/us
   local -r region_filename=${url##*/} # index.html, europe.html, etc.
   local -r region_file_html="$cache_geofabrik/$region_filename"
   local -r region_file_csv=${region_file_html/.html/.csv}
@@ -358,7 +358,7 @@ function interactive() {
         exit 0
       ;;
       d)
-        download_menu "http://download.geofabrik.de/index.html"
+        download_menu "https://download.geofabrik.de/index.html"
         continue
       ;;
       [0-9] | [1-9][0-9])
@@ -388,7 +388,7 @@ function interactive() {
 }
 
 function quickstart() {
-  local url=http://download.geofabrik.de/europe/belgium-latest.osm.pbf
+  local url=https://download.geofabrik.de/europe/belgium-latest.osm.pbf
   osm_file="belgium-latest.osm.pbf"
   cc_list="BE"
   local -r osm_target=${osm_dir}/${osm_file}
