@@ -40,9 +40,9 @@ jobs:
         id: build-chain
         uses: kiegroup/github-action-build-chain@v2.6.4
         with:
-          # OptaWeb has a different branching model than the rest of KIE. Every OptaWeb 8.x branch maps to master branch
-          # in KIE, therefore "master" is hard-coded in the URL below. Once the branching model is unified and there is
-          # a matching branch in KIE for each 8.x (or higher) branch in OptaWeb, replace "master" with "${BRANCH}".
-          definition-file: https://raw.githubusercontent.com/${GROUP}/droolsjbpm-build-bootstrap/master/.ci/pull-request-config.yaml
+          # OptaWeb has a different branching model than the rest of KIE. Every OptaWeb 8.x branch maps to main branch
+          # in KIE, therefore "main" is hard-coded in the URL below. Once the branching model is unified and there is
+          # a matching branch in KIE for each 8.x (or higher) branch in OptaWeb, replace "main" with "${BRANCH}".
+          definition-file: https://raw.githubusercontent.com/${GROUP}/droolsjbpm-build-bootstrap/main/.ci/pull-request-config.yaml
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
