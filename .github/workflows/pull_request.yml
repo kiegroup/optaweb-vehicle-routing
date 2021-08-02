@@ -1,6 +1,20 @@
 name: Build Chain
 
-on: [pull_request]
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - 'LICENSE*'
+      - 'CODEOWNERS'
+      - '.gitignore'
+      - '.gitattributes'
+      - '.travis.yml'
+      - '*.md'
+      - '*.adoc'
+      - '*.txt'
+      - 'runOnOpenShift.sh'
+      - 'runLocally.sh'
+      - 'ide-configuration/**'
 
 jobs:
   build-chain:
@@ -37,7 +51,7 @@ jobs:
         id: build-chain
         uses: kiegroup/github-action-build-chain@v2.6.4
         with:
-          definition-file: https://raw.githubusercontent.com/${GROUP}/droolsjbpm-build-bootstrap/master/.ci/pull-request-config.yaml
+          definition-file: https://raw.githubusercontent.com/${GROUP}/droolsjbpm-build-bootstrap/main/.ci/pull-request-config.yaml
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
       - name: Check Surefire Report
