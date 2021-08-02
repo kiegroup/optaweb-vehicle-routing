@@ -1,6 +1,19 @@
 name: Build Chain
 
-on: [pull_request]
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      - 'LICENSE*'
+      - 'CODEOWNERS'
+      - '.gitignore'
+      - '.gitattributes'
+      - '.travis.yml'
+      - '*.md'
+      - '*.adoc'
+      - '*.txt'
+      - 'runOnOpenShift.sh'
+      - 'runLocally.sh'
 
 jobs:
   build-chain:
