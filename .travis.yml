@@ -1,5 +1,5 @@
 git:
-  depth: false
+  depth: 3
 language: java
 jobs:
   include:
