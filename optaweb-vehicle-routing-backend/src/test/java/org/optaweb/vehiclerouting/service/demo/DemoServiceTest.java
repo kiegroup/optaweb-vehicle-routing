@@ -74,8 +74,8 @@ class DemoServiceTest {
     private final List<VehicleData> vehicles = Arrays.asList(
             VehicleFactory.vehicleData("v1", 10),
             VehicleFactory.vehicleData("v2", 10));
-    private final Location depot = new Location(1, Coordinates.valueOf(1.0, 7), "Depot");
-    private final List<Location> visits = Arrays.asList(new Location(2, Coordinates.valueOf(2.0, 9), "Visit"));
+    private final Location depot = new Location(1, Coordinates.of(1.0, 7), "Depot");
+    private final List<Location> visits = Arrays.asList(new Location(2, Coordinates.of(2.0, 9), "Visit"));
     private final RoutingProblem routingProblem = new RoutingProblem(problemName, vehicles, depot, visits);
 
     @Test
@@ -91,7 +91,7 @@ class DemoServiceTest {
     @Test
     void loadDemo() {
         // arrange
-        Location location = new Location(10, Coordinates.valueOf(1, 2));
+        Location location = new Location(10, Coordinates.of(1, 2));
         when(routingProblems.byName(problemName)).thenReturn(routingProblem);
         when(locationService.createLocation(any(Coordinates.class), anyString())).thenReturn(Optional.of(location));
         // act
@@ -115,9 +115,9 @@ class DemoServiceTest {
 
     @Test
     void export_should_marshal_routing_plans_with_locations_and_vehicles_from_repository() {
-        Location depot = new Location(0, Coordinates.valueOf(1.0, 2.0), "Depot");
-        Location visit1 = new Location(1, Coordinates.valueOf(11.0, 22.0), "Visit 1");
-        Location visit2 = new Location(2, Coordinates.valueOf(22.0, 33.0), "Visit 2");
+        Location depot = new Location(0, Coordinates.of(1.0, 2.0), "Depot");
+        Location visit1 = new Location(1, Coordinates.of(11.0, 22.0), "Visit 1");
+        Location visit2 = new Location(2, Coordinates.of(22.0, 33.0), "Visit 2");
         Vehicle vehicle1 = VehicleFactory.createVehicle(11, "Vehicle 1", 100);
         Vehicle vehicle2 = VehicleFactory.createVehicle(12, "Vehicle 2", 200);
         when(locationRepository.locations()).thenReturn(Arrays.asList(depot, visit1, visit2));

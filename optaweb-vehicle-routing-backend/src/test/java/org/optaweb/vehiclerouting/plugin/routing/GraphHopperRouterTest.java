@@ -43,8 +43,8 @@ import com.graphhopper.util.shapes.BBox;
 class GraphHopperRouterTest {
 
     private final PointList pointList = new PointList();
-    private final Coordinates from = Coordinates.valueOf(-Double.MIN_VALUE, Double.MIN_VALUE);
-    private final Coordinates to = Coordinates.valueOf(Double.MAX_VALUE, -Double.MAX_VALUE);
+    private final Coordinates from = Coordinates.of(-Double.MIN_VALUE, Double.MIN_VALUE);
+    private final Coordinates to = Coordinates.of(Double.MAX_VALUE, -Double.MAX_VALUE);
     @Mock
     private GraphHopperOSM graphHopper;
     @Mock
@@ -96,9 +96,9 @@ class GraphHopperRouterTest {
         whenBestReturnPath();
         when(pathWrapper.getPoints()).thenReturn(pointList);
 
-        Coordinates coordinates1 = Coordinates.valueOf(1, 1);
-        Coordinates coordinates2 = Coordinates.valueOf(Math.E, Math.PI);
-        Coordinates coordinates3 = Coordinates.valueOf(0.1, 1.0 / 3.0);
+        Coordinates coordinates1 = Coordinates.of(1, 1);
+        Coordinates coordinates2 = Coordinates.of(Math.E, Math.PI);
+        Coordinates coordinates3 = Coordinates.of(0.1, 1.0 / 3.0);
 
         pointList.add(coordinates1.latitude().doubleValue(), coordinates1.longitude().doubleValue());
         pointList.add(coordinates2.latitude().doubleValue(), coordinates2.longitude().doubleValue());
@@ -124,7 +124,7 @@ class GraphHopperRouterTest {
 
         BoundingBox boundingBox = new GraphHopperRouter(graphHopper).getBounds();
 
-        assertThat(boundingBox.getSouthWest()).isEqualTo(Coordinates.valueOf(minLat_Y, minLon_X));
-        assertThat(boundingBox.getNorthEast()).isEqualTo(Coordinates.valueOf(maxLat_Y, maxLon_X));
+        assertThat(boundingBox.getSouthWest()).isEqualTo(Coordinates.of(minLat_Y, minLon_X));
+        assertThat(boundingBox.getNorthEast()).isEqualTo(Coordinates.of(maxLat_Y, maxLon_X));
     }
 }

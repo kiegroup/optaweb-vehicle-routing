@@ -28,7 +28,7 @@ class LocationTest {
     @Test
     void constructor_params_must_not_be_null() {
         assertThatNullPointerException().isThrownBy(() -> new Location(0, null, ""));
-        assertThatNullPointerException().isThrownBy(() -> new Location(0, Coordinates.valueOf(1, 1), null));
+        assertThatNullPointerException().isThrownBy(() -> new Location(0, Coordinates.of(1, 1), null));
     }
 
     @Test
@@ -60,12 +60,12 @@ class LocationTest {
     @Test
     void equal_locations_must_have_same_hashcode() {
         long id = 1;
-        assertThat(new Location(id, Coordinates.valueOf(1, 1), "description 1"))
-                .hasSameHashCodeAs(new Location(id, Coordinates.valueOf(2, 2), "description 2"));
+        assertThat(new Location(id, Coordinates.of(1, 1), "description 1"))
+                .hasSameHashCodeAs(new Location(id, Coordinates.of(2, 2), "description 2"));
     }
 
     @Test
     void constructor_without_description_should_create_empty_description() {
-        assertThat(new Location(7, Coordinates.valueOf(3.14, 4.13)).description()).isEmpty();
+        assertThat(new Location(7, Coordinates.of(3.14, 4.13)).description()).isEmpty();
     }
 }

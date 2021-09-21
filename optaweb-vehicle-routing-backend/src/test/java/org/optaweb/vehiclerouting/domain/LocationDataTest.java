@@ -28,7 +28,7 @@ class LocationDataTest {
     @Test
     void constructor_params_must_not_be_null() {
         assertThatNullPointerException().isThrownBy(() -> new LocationData(null, ""));
-        assertThatNullPointerException().isThrownBy(() -> new LocationData(Coordinates.valueOf(1, 1), null));
+        assertThatNullPointerException().isThrownBy(() -> new LocationData(Coordinates.of(1, 1), null));
     }
 
     @Test

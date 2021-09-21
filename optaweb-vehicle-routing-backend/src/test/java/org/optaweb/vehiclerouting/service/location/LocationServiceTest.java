@@ -60,7 +60,7 @@ class LocationServiceTest {
     @InjectMocks
     private LocationService locationService;
 
-    private final Coordinates coordinates = Coordinates.valueOf(0.0, 1.0);
+    private final Coordinates coordinates = Coordinates.of(0.0, 1.0);
     private final Location location = new Location(1, coordinates);
 
     @Test

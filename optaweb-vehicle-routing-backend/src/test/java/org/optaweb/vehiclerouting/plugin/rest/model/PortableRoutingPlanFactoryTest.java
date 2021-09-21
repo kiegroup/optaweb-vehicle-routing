@@ -46,13 +46,13 @@ class PortableRoutingPlanFactoryTest {
     @Test
     void portable_routing_plan_with_two_routes() {
         // arrange
-        final Coordinates coordinates1 = Coordinates.valueOf(0.0, 0.1);
-        final Coordinates coordinates2 = Coordinates.valueOf(2.0, -0.2);
-        final Coordinates coordinates3 = Coordinates.valueOf(3.3, -3.3);
-        final Coordinates checkpoint12 = Coordinates.valueOf(12, 12);
-        final Coordinates checkpoint21 = Coordinates.valueOf(21, 21);
-        final Coordinates checkpoint13 = Coordinates.valueOf(13, 13);
-        final Coordinates checkpoint31 = Coordinates.valueOf(31, 31);
+        final Coordinates coordinates1 = Coordinates.of(0.0, 0.1);
+        final Coordinates coordinates2 = Coordinates.of(2.0, -0.2);
+        final Coordinates coordinates3 = Coordinates.of(3.3, -3.3);
+        final Coordinates checkpoint12 = Coordinates.of(12, 12);
+        final Coordinates checkpoint21 = Coordinates.of(21, 21);
+        final Coordinates checkpoint13 = Coordinates.of(13, 13);
+        final Coordinates checkpoint31 = Coordinates.of(31, 31);
         List<Coordinates> segment12 = asList(coordinates1, checkpoint12, coordinates2);
         List<Coordinates> segment21 = asList(coordinates2, checkpoint21, coordinates1);
         List<Coordinates> segment13 = asList(coordinates1, checkpoint13, coordinates3);

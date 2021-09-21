@@ -50,7 +50,7 @@ class PortableCoordinatesTest {
 
     @Test
     void conversion_from_domain() {
-        Coordinates coordinates = Coordinates.valueOf(0.04687, -88.8889);
+        Coordinates coordinates = Coordinates.of(0.04687, -88.8889);
         PortableCoordinates portableCoordinates = PortableCoordinates.fromCoordinates(coordinates);
         assertThat(portableCoordinates.getLatitude()).isEqualTo(coordinates.latitude());
         assertThat(portableCoordinates.getLongitude()).isEqualTo(coordinates.longitude());
@@ -62,8 +62,8 @@ class PortableCoordinatesTest {
 
     @Test
     void should_reduce_scale_if_needed() {
-        Coordinates coordinates = Coordinates.valueOf(0.123450001, -88.999999999);
-        Coordinates scaledDown = Coordinates.valueOf(0.12345, -89);
+        Coordinates coordinates = Coordinates.of(0.123450001, -88.999999999);
+        Coordinates scaledDown = Coordinates.of(0.12345, -89);
         PortableCoordinates portableCoordinates = PortableCoordinates.fromCoordinates(coordinates);
         assertThat(portableCoordinates.getLatitude()).isEqualTo(scaledDown.latitude());
         assertThat(portableCoordinates.getLongitude()).isEqualByComparingTo(scaledDown.longitude());

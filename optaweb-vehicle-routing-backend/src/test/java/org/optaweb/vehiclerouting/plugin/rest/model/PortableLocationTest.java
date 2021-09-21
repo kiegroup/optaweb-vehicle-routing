@@ -67,7 +67,7 @@ class PortableLocationTest {
 
     @Test
     void fromLocation() {
-        Location location = new Location(17, Coordinates.valueOf(5.1, -0.0007), "Hello, world!");
+        Location location = new Location(17, Coordinates.of(5.1, -0.0007), "Hello, world!");
         PortableLocation portableLocation = PortableLocation.fromLocation(location);
         assertThat(portableLocation.getId()).isEqualTo(location.id());
         assertThat(portableLocation.getLatitude()).isEqualTo(location.coordinates().latitude());

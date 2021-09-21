@@ -31,7 +31,7 @@ class PlanningLocationFactoryTest {
         double latitude = -20.5;
         double longitude = 11.7;
         long distance = 11234;
-        Location location = new Location(id, Coordinates.valueOf(latitude, longitude));
+        Location location = new Location(id, Coordinates.of(latitude, longitude));
         PlanningLocation planningLocation = PlanningLocationFactory.fromDomain(location, otherLocation -> distance);
         assertThat(planningLocation.getId()).isEqualTo(id);
 
