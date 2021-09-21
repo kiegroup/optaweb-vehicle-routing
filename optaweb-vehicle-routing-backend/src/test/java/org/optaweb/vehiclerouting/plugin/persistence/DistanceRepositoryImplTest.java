@@ -44,8 +44,8 @@ class DistanceRepositoryImplTest {
     @Captor
     private ArgumentCaptor<DistanceEntity> distanceEntityArgumentCaptor;
 
-    private final Location from = new Location(1, Coordinates.valueOf(7, -4.0));
-    private final Location to = new Location(2, Coordinates.valueOf(5, 9.0));
+    private final Location from = new Location(1, Coordinates.of(7, -4.0));
+    private final Location to = new Location(2, Coordinates.of(5, 9.0));
 
     @Test
     void should_save_distance() {

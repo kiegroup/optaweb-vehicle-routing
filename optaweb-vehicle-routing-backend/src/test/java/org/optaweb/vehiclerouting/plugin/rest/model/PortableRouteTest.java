@@ -63,10 +63,10 @@ class PortableRouteTest {
     }
 
     private static PortableLocation visit(long id, double latitude, double longitude, String description) {
-        return fromLocation(new Location(id, Coordinates.valueOf(latitude, longitude), description));
+        return fromLocation(new Location(id, Coordinates.of(latitude, longitude), description));
     }
 
     private static PortableCoordinates coordinates(double latitude, double longitude) {
-        return fromCoordinates(Coordinates.valueOf(latitude, longitude));
+        return fromCoordinates(Coordinates.of(latitude, longitude));
     }
 }

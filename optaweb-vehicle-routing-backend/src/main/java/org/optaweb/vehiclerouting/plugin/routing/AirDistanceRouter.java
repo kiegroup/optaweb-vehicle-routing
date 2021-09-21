@@ -56,6 +56,6 @@ public class AirDistanceRouter implements Router, DistanceCalculator, Region {
 
     @Override
     public BoundingBox getBounds() {
-        return new BoundingBox(Coordinates.valueOf(-90, -180), Coordinates.valueOf(90, 180));
+        return new BoundingBox(Coordinates.of(-90, -180), Coordinates.of(90, 180));
     }
 }

@@ -49,7 +49,7 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
     private final DepotAngleVisitDifficultyWeightFactory weightFactory = new DepotAngleVisitDifficultyWeightFactory();
 
     DepotAngleVisitDifficultyWeightFactoryTest() {
-        Location depotLocation = new Location(0, Coordinates.valueOf(depotY, depotX));
+        Location depotLocation = new Location(0, Coordinates.of(depotY, depotX));
         depot = fromDomain(depotLocation, new DistanceMapImpl(depotDistanceMap::get));
         solution.getDepotList().add(new PlanningDepot(depot));
     }
@@ -67,7 +67,7 @@ class DepotAngleVisitDifficultyWeightFactoryTest {
         depotDistanceMap.put(id, Distance.ofMillis(depotToLocation));
         Map<Long, Distance> locationDistanceMap = new HashMap<>();
         locationDistanceMap.put(depot.getId(), Distance.ofMillis(locationToDepot));
-        Location domainLocation = new Location(id, Coordinates.valueOf(latitude, longitude));
+        Location domainLocation = new Location(id, Coordinates.of(latitude, longitude));
         return fromDomain(domainLocation, new DistanceMapImpl(locationDistanceMap::get));
     }
 

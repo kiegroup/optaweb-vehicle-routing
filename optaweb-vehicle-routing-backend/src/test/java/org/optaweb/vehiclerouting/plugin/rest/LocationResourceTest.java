@@ -37,7 +37,7 @@ class LocationResourceTest {
 
     @Test
     void addLocation() {
-        Coordinates coords = Coordinates.valueOf(0.0, 1.0);
+        Coordinates coords = Coordinates.of(0.0, 1.0);
         String description = "new location";
         PortableLocation request = new PortableLocation(321, coords.latitude(), coords.longitude(), description);
         locationResource.addLocation(request);

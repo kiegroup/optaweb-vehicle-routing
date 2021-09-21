@@ -56,13 +56,13 @@ class ServerInfoResourceTest {
         List<String> countryCodes = Arrays.asList("XY", "WZ");
         when(regionService.countryCodes()).thenReturn(countryCodes);
 
-        Coordinates southWest = Coordinates.valueOf(-1.0, -2.0);
-        Coordinates northEast = Coordinates.valueOf(1.0, 2.0);
+        Coordinates southWest = Coordinates.of(-1.0, -2.0);
+        Coordinates northEast = Coordinates.of(1.0, 2.0);
         BoundingBox boundingBox = new BoundingBox(southWest, northEast);
         when(regionService.boundingBox()).thenReturn(boundingBox);
 
-        Location depot = new Location(1, Coordinates.valueOf(1.0, 7), "Depot");
-        List<Location> visits = Arrays.asList(new Location(2, Coordinates.valueOf(2.0, 9), "Visit"));
+        Location depot = new Location(1, Coordinates.of(1.0, 7), "Depot");
+        List<Location> visits = Arrays.asList(new Location(2, Coordinates.of(2.0, 9), "Visit"));
         List<Vehicle> vehicles = Arrays.asList(VehicleFactory.testVehicle(1));
         String demoName = "Testing problem";
         RoutingProblem routingProblem = new RoutingProblem(demoName, vehicles, depot, visits);

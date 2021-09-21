@@ -58,8 +58,7 @@ class ReloadServiceTest {
 
     private final Vehicle vehicle = VehicleFactory.createVehicle(193, "Vehicle 193", 100);
     private final List<Vehicle> persistedVehicles = Arrays.asList(vehicle, vehicle);
-    private final Coordinates coordinates = Coordinates.valueOf(0.0, 1.0);
-    private final Location location = new Location(1, coordinates);
+    private final Location location = new Location(1, Coordinates.of(0.0, 1.0));
     private final List<Location> persistedLocations = Arrays.asList(location, location, location);
 
     @Test

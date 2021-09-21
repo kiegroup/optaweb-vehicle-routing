@@ -45,7 +45,7 @@ class LocationRepositoryImplTest {
     @Captor
     private ArgumentCaptor<LocationEntity> locationEntityCaptor;
 
-    private final Location testLocation = new Location(76, Coordinates.valueOf(1.2, 3.4), "description");
+    private final Location testLocation = new Location(76, Coordinates.of(1.2, 3.4), "description");
 
     private static LocationEntity locationEntity(Location location) {
         return new LocationEntity(
@@ -58,7 +58,7 @@ class LocationRepositoryImplTest {
     @Test
     void should_create_location() {
         // arrange
-        Coordinates savedCoordinates = Coordinates.valueOf(0.00213, 32.777);
+        Coordinates savedCoordinates = Coordinates.of(0.00213, 32.777);
         String savedDescription = "new location";
 
         // act

@@ -63,7 +63,7 @@ class CoordinatesTest {
     void valueOf_and_getters() {
         double latitude = Math.E;
         double longitude = Math.PI;
-        Coordinates coordinates = Coordinates.valueOf(latitude, longitude);
+        Coordinates coordinates = Coordinates.of(latitude, longitude);
         assertThat(coordinates.latitude()).isEqualTo(BigDecimal.valueOf(latitude));
         assertThat(coordinates.longitude()).isEqualTo(BigDecimal.valueOf(longitude));
     }

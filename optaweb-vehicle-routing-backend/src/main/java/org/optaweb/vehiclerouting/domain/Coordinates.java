@@ -33,13 +33,13 @@ public class Coordinates {
     }
 
     /**
-     * Create coordinates from the given latitude in longitude.
+     * Create coordinates with the given latitude and longitude.
      *
      * @param latitude latitude
      * @param longitude longitude
      * @return coordinates with the given latitude and longitude
      */
-    public static Coordinates valueOf(double latitude, double longitude) {
+    public static Coordinates of(double latitude, double longitude) {
         return new Coordinates(BigDecimal.valueOf(latitude), BigDecimal.valueOf(longitude));
     }
 

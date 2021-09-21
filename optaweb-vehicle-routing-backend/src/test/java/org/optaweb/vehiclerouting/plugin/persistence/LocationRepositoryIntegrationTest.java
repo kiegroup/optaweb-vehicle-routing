@@ -67,7 +67,7 @@ class LocationRepositoryIntegrationTest {
     @Test
     @TestTransaction
     void remove_created_location() {
-        Coordinates coordinates = Coordinates.valueOf(0.00213, 32.777);
+        Coordinates coordinates = Coordinates.of(0.00213, 32.777);
         assertThat(crudRepository.count()).isZero();
         Location location = repository.createLocation(coordinates, "");
         assertThat(location.coordinates()).isEqualTo(coordinates);
@@ -90,7 +90,7 @@ class LocationRepositoryIntegrationTest {
     void get_and_remove_all_locations() {
         int locationCount = 8;
         for (int i = 0; i < locationCount; i++) {
-            repository.createLocation(Coordinates.valueOf(1.0, i / 100.0), "");
+            repository.createLocation(Coordinates.of(1.0, i / 100.0), "");
         }
 
         assertThat(crudRepository.count()).isEqualTo(locationCount);

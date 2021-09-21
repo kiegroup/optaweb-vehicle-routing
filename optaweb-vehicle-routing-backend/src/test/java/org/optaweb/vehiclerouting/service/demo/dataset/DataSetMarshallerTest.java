@@ -119,22 +119,22 @@ class DataSetMarshallerTest {
         String description = "some location";
 
         // domain -> data set
-        DataSetLocation dataSetLocation = toDataSet(new LocationData(Coordinates.valueOf(lat, lng), description));
+        DataSetLocation dataSetLocation = toDataSet(new LocationData(Coordinates.of(lat, lng), description));
         assertThat(dataSetLocation.getLatitude()).isEqualTo(lat);
         assertThat(dataSetLocation.getLongitude()).isEqualTo(lng);
         assertThat(dataSetLocation.getLabel()).isEqualTo(description);
 
         // data set -> domain
         LocationData location = toDomain(dataSetLocation);
-        assertThat(location).isEqualTo(new LocationData(Coordinates.valueOf(lat, lng), description));
+        assertThat(location).isEqualTo(new LocationData(Coordinates.of(lat, lng), description));
     }
 
     @Test
     void routing_problem_conversion() {
         VehicleData vehicle = VehicleFactory.vehicleData("vehicle", 10);
         List<VehicleData> vehicles = Arrays.asList(vehicle);
-        LocationData depot = new LocationData(Coordinates.valueOf(60.1, 5.78), "Depot");
-        LocationData visit = new LocationData(Coordinates.valueOf(1.06, 8.75), "Visit");
+        LocationData depot = new LocationData(Coordinates.of(60.1, 5.78), "Depot");
+        LocationData visit = new LocationData(Coordinates.of(1.06, 8.75), "Visit");
         List<LocationData> visits = Arrays.asList(visit);
         String name = "some data set";
 

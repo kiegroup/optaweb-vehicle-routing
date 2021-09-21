@@ -37,7 +37,7 @@ class PlanningLocationTest {
         long otherId = 321;
         long millis = 777777;
         distanceMap.put(otherId, Distance.ofMillis(millis));
-        Location domainLocation = new Location(1, Coordinates.valueOf(0, 0));
+        Location domainLocation = new Location(1, Coordinates.of(0, 0));
 
         PlanningLocation planningLocation = new PlanningLocation(
                 domainLocation.id(),

@@ -93,7 +93,7 @@ class RouteListenerTest {
 
     @Test
     void event_with_no_visits_and_a_depot_should_be_consumed_as_plan_with_empty_routes() {
-        final Coordinates depotCoordinates = Coordinates.valueOf(0.0, 0.1);
+        final Coordinates depotCoordinates = Coordinates.of(0.0, 0.1);
         final Location depot = new Location(1, depotCoordinates);
         final long vehicleId = 448;
         final Vehicle vehicle = VehicleFactory.testVehicle(vehicleId);
@@ -126,10 +126,10 @@ class RouteListenerTest {
 
     @Test
     void listener_should_pass_routing_plan_to_consumer_when_an_update_event_occurs() {
-        final Coordinates depotCoordinates = Coordinates.valueOf(0.0, 0.1);
-        final Coordinates visitCoordinates = Coordinates.valueOf(2.0, -0.2);
-        final Coordinates checkpoint1 = Coordinates.valueOf(12, 12);
-        final Coordinates checkpoint2 = Coordinates.valueOf(21, 21);
+        final Coordinates depotCoordinates = Coordinates.of(0.0, 0.1);
+        final Coordinates visitCoordinates = Coordinates.of(2.0, -0.2);
+        final Coordinates checkpoint1 = Coordinates.of(12, 12);
+        final Coordinates checkpoint2 = Coordinates.of(21, 21);
         List<Coordinates> path1 = Arrays.asList(depotCoordinates, checkpoint1, checkpoint2, visitCoordinates);
         List<Coordinates> path2 = Arrays.asList(visitCoordinates, checkpoint2, checkpoint1, depotCoordinates);
         when(router.getPath(depotCoordinates, visitCoordinates)).thenReturn(path1);
@@ -173,8 +173,8 @@ class RouteListenerTest {
     @Test
     void should_discard_update_gracefully_if_one_of_the_locations_no_longer_exist() {
         final Vehicle vehicle = VehicleFactory.testVehicle(3);
-        final Location depot = new Location(1, Coordinates.valueOf(1.0, 2.0));
-        final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
+        final Location depot = new Location(1, Coordinates.of(1.0, 2.0));
+        final Location visit = new Location(2, Coordinates.of(-1.0, -2.0));
         when(vehicleRepository.find(vehicle.id())).thenReturn(Optional.of(vehicle));
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
         when(locationRepository.find(visit.id())).thenReturn(Optional.empty());
@@ -203,8 +203,8 @@ class RouteListenerTest {
     @Test
     void should_discard_update_gracefully_if_one_of_the_vehicles_no_longer_exist() {
         final Vehicle vehicle = VehicleFactory.testVehicle(3);
-        final Location depot = new Location(1, Coordinates.valueOf(1.0, 2.0));
-        final Location visit = new Location(2, Coordinates.valueOf(-1.0, -2.0));
+        final Location depot = new Location(1, Coordinates.of(1.0, 2.0));
+        final Location visit = new Location(2, Coordinates.of(-1.0, -2.0));
         when(vehicleRepository.find(vehicle.id())).thenReturn(Optional.empty());
         when(locationRepository.find(depot.id())).thenReturn(Optional.of(depot));
 

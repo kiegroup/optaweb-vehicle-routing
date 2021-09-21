@@ -31,22 +31,22 @@ class BoundingBoxTest {
         // │ ↘ │
         // └───2
         assertThatIllegalArgumentException().isThrownBy(() -> new BoundingBox(
-                Coordinates.valueOf(9.9, -1.0), // NW
-                Coordinates.valueOf(1.0, 1.01) // SE
+                Coordinates.of(9.9, -1.0), // NW
+                Coordinates.of(1.0, 1.01) // SE
         )).withMessageMatching(".*\\(9\\.9N.*\\(1\\.0N.*");
         // 2───┐
         // │ ↖ │
         // └───1
         assertThatIllegalArgumentException().isThrownBy(() -> new BoundingBox(
-                Coordinates.valueOf(-1.0, 9.9), // SE
-                Coordinates.valueOf(1.01, 1.0) // NW
+                Coordinates.of(-1.0, 9.9), // SE
+                Coordinates.of(1.01, 1.0) // NW
         )).withMessageMatching(".*\\(9\\.9E.*\\(1\\.0E.*");
         // ┌───1
         // │ ↙ │
         // 2───┘
         assertThatIllegalArgumentException().isThrownBy(() -> new BoundingBox(
-                Coordinates.valueOf(9.9, 9.9), // NE
-                Coordinates.valueOf(1.0, 1.0) // SW
+                Coordinates.of(9.9, 9.9), // NE
+                Coordinates.of(1.0, 1.0) // SW
         )).withMessageMatching(".*\\(9\\.9N.*\\(1\\.0N.*");
     }
 
@@ -56,20 +56,20 @@ class BoundingBoxTest {
         // ╶───╴
         //
         assertThatIllegalArgumentException().isThrownBy(() -> new BoundingBox(
-                Coordinates.valueOf(0.0, 1.0),
-                Coordinates.valueOf(0.0, 2.0))).withMessageMatching(".*\\(0\\.0N.*\\(0\\.0N.*");
+                Coordinates.of(0.0, 1.0),
+                Coordinates.of(0.0, 2.0))).withMessageMatching(".*\\(0\\.0N.*\\(0\\.0N.*");
         //   ╷
         //   │
         //   ╵
         assertThatIllegalArgumentException().isThrownBy(() -> new BoundingBox(
-                Coordinates.valueOf(0.0, 10.0),
-                Coordinates.valueOf(1.0, 10.0))).withMessageMatching(".*\\(10\\.0E.*\\(10\\.0E.*");
+                Coordinates.of(0.0, 10.0),
+                Coordinates.of(1.0, 10.0))).withMessageMatching(".*\\(10\\.0E.*\\(10\\.0E.*");
     }
 
     @Test
     void constructor_args_not_null() {
-        assertThatNullPointerException().isThrownBy(() -> new BoundingBox(null, Coordinates.valueOf(1.0, 1.0)));
-        assertThatNullPointerException().isThrownBy(() -> new BoundingBox(Coordinates.valueOf(1.0, 1.0), null));
+        assertThatNullPointerException().isThrownBy(() -> new BoundingBox(null, Coordinates.of(1.0, 1.0)));
+        assertThatNullPointerException().isThrownBy(() -> new BoundingBox(Coordinates.of(1.0, 1.0), null));
     }
 
     @Test
@@ -77,8 +77,8 @@ class BoundingBoxTest {
         // ┌───2
         // │ ↗ │
         // 1───┘
-        Coordinates sw = Coordinates.valueOf(-10.0, -100.0);
-        Coordinates ne = Coordinates.valueOf(20.0, -2.0);
+        Coordinates sw = Coordinates.of(-10.0, -100.0);
+        Coordinates ne = Coordinates.of(20.0, -2.0);
         BoundingBox boundingBox = new BoundingBox(sw, ne);
         assertThat(boundingBox.getSouthWest()).isEqualTo(sw);
         assertThat(boundingBox.getNorthEast()).isEqualTo(ne);

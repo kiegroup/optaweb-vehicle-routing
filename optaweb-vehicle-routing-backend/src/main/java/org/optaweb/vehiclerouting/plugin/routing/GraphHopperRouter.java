@@ -62,7 +62,7 @@ class GraphHopperRouter implements Router, DistanceCalculator, Region {
                 to.longitude().doubleValue());
         PointList points = graphHopper.route(ghRequest).getBest().getPoints();
         return StreamSupport.stream(points.spliterator(), false)
-                .map(ghPoint3D -> Coordinates.valueOf(ghPoint3D.lat, ghPoint3D.lon))
+                .map(ghPoint3D -> Coordinates.of(ghPoint3D.lat, ghPoint3D.lon))
                 .collect(toList());
     }
 
@@ -85,7 +85,7 @@ class GraphHopperRouter implements Router, DistanceCalculator, Region {
     public BoundingBox getBounds() {
         BBox bounds = graphHopper.getGraphHopperStorage().getBounds();
         return new BoundingBox(
-                Coordinates.valueOf(bounds.minLat, bounds.minLon),
-                Coordinates.valueOf(bounds.maxLat, bounds.maxLon));
+                Coordinates.of(bounds.minLat, bounds.minLon),
+                Coordinates.of(bounds.maxLat, bounds.maxLon));
     }
 }
