@@ -26,7 +26,6 @@ public class SolverTestProfile implements QuarkusTestProfile {
     @Override
     public Map<String, String> getConfigOverrides() {
         HashMap<String, String> config = new HashMap<>();
-        config.put("quarkus.optaplanner.solver-config-xml", Constants.SOLVER_CONFIG);
         config.put("quarkus.optaplanner.solver.termination.best-score-limit", "-1hard/-120soft");
         return config;
     }
