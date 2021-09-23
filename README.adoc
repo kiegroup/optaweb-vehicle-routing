@@ -4,8 +4,6 @@
 
 = OptaWeb Vehicle Routing
 
-image:https://travis-ci.com/kiegroup/optaweb-vehicle-routing.svg?branch=main[
-"Build Status",link="https://travis-ci.com/kiegroup/optaweb-vehicle-routing"]
 image:https://img.shields.io/badge/stackoverflow-ask_question-orange.svg?logo=stackoverflow[
 "Ask question on Stack Overflow",link="https://stackoverflow.com/questions/tagged/optaplanner"]
 image:https://img.shields.io/badge/zulip-join_chat-brightgreen.svg?logo=zulip[
