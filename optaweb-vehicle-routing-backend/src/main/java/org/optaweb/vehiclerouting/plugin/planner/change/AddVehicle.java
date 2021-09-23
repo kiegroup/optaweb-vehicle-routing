@@ -34,7 +34,7 @@ public class AddVehicle implements ProblemFactChange<VehicleRoutingSolution> {
     @Override
     public void doChange(ScoreDirector<VehicleRoutingSolution> scoreDirector) {
         scoreDirector.beforeProblemFactAdded(vehicle);
-        scoreDirector.getWorkingSolution().getVehicleList().add(vehicle);
+        scoreDirector.getWorkingSolution().getVehicleList().add(this);
         scoreDirector.afterProblemFactAdded(vehicle);
 
         scoreDirector.triggerVariableListeners();
