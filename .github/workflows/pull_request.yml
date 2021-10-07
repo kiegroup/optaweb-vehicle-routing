@@ -40,7 +40,7 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ matrix.java-version }}-maven${{ matrix.maven-version }}-m2
       - name: Build Chain ${{ matrix.java-version }}. Maven ${{ matrix.maven-version }}
         id: build-chain
-        uses: kiegroup/github-action-build-chain@v2.6.10
+        uses: kiegroup/github-action-build-chain@v2.6.11
         with:
           # OptaWeb has a different branching model than the rest of KIE. Every OptaWeb 8.x branch maps to main branch
           # in KIE, therefore "main" is hard-coded in the URL below. Once the branching model is unified and there is
