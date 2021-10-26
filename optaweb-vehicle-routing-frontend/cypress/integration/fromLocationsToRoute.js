@@ -15,6 +15,8 @@
  */
 
 describe('Locations can be added and route is computed', () => {
+  const cities = ['Garz', 'Hoppenrade'];
+
   /**
    * Adds a location by searching for a city of a given name.
    * @param { string } name - city name
@@ -45,13 +47,16 @@ describe('Locations can be added and route is computed', () => {
 
   before(() => {
     cy.intercept('POST', '**/api/clear').as('postClear');
+    cities.forEach((city) => cy.intercept(
+      'GET',
+      `https://nominatim.openstreetmap.org/search?*q=${city}`,
+      { fixture: `response-${city.toLowerCase()}.json` },
+    ));
     visitDemo();
     clearLocations();
   });
 
   it('Locations added via clicking on a map are added to a route', () => {
-    const cities = ['Garz', 'Hoppenrade'];
-
     cities.forEach((city) => {
       addCity(city);
     });
