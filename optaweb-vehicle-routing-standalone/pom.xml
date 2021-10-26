@@ -129,10 +129,10 @@
 
   <profiles>
     <profile>
-      <id>integration-tests</id>
+      <id>DISABLED-integration-tests</id>
       <activation>
         <property>
-          <name>integration-tests</name>
+          <name>DISABLED-integration-tests</name>
           <value>true</value>
         </property>
       </activation>
