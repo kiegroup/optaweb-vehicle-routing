@@ -1,0 +1,40 @@
+[
+  {
+    "place_id": 283087710,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
+    "osm_type": "relation",
+    "osm_id": 9656282,
+    "boundingbox": [
+      "53.0147994",
+      "53.0556191",
+      "12.0157931",
+      "12.1143161"
+    ],
+    "lat": "53.03502605",
+    "lon": "12.069659320997278",
+    "display_name": "Hoppenrade, Plattenburg, Prignitz, Brandenburg, Germany",
+    "class": "boundary",
+    "type": "administrative",
+    "importance": 0.4,
+    "icon": "https://nominatim.openstreetmap.org/ui/mapicons//poi_boundary_administrative.p.20.png"
+  },
+  {
+    "place_id": 536362,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
+    "osm_type": "node",
+    "osm_id": 240025900,
+    "boundingbox": [
+      "53.019054",
+      "53.059054",
+      "12.042413",
+      "12.082413"
+    ],
+    "lat": "53.039054",
+    "lon": "12.062413",
+    "display_name": "Hoppenrade, Plattenburg, Prignitz, Brandenburg, 19339, Germany",
+    "class": "place",
+    "type": "hamlet",
+    "importance": 0.35,
+    "icon": "https://nominatim.openstreetmap.org/ui/mapicons//poi_place_village.p.20.png"
+  }
+]
