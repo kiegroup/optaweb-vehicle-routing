@@ -1,0 +1,21 @@
+[
+  {
+    "place_id": 1243027,
+    "licence": "Data © OpenStreetMap contributors, ODbL 1.0. https://osm.org/copyright",
+    "osm_type": "node",
+    "osm_id": 311384628,
+    "boundingbox": [
+      "53.0183353",
+      "53.0583353",
+      "12.0651506",
+      "12.1051506"
+    ],
+    "lat": "53.0383353",
+    "lon": "12.0851506",
+    "display_name": "Garz, Hoppenrade, Plattenburg, Prignitz, Brandenburg, Germany",
+    "class": "place",
+    "type": "hamlet",
+    "importance": 0.35,
+    "icon": "https://nominatim.openstreetmap.org/ui/mapicons//poi_place_village.p.20.png"
+  }
+]
