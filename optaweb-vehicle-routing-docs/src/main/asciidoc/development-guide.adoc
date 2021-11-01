@@ -208,7 +208,7 @@ For example:
 REACT_APP_BACKEND_URL=http://10.0.0.123:8081
 ....
 
-Note that environment variables will be "baked" inside the JavaScript bundle during the npm build, so you need to know the back end location before you build and deploy the front end.
+Note that environment variables will be "`baked`" inside the JavaScript bundle during the npm build, so you need to know the back end location before you build and deploy the front end.
 
 Learn more about the React environment variables in https://create-react-app.dev/docs/adding-custom-environment-variables/[Adding Custom Environment Variables].
 

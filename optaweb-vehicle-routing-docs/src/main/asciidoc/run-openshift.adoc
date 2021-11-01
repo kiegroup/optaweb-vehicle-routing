@@ -23,7 +23,7 @@ You have successfully built the project with Maven.
 eval $(crc oc-env)
 ----
 
-.. Log in as "developer":
+.. Log in as `developer`:
 +
 [source,shell]
 ----
