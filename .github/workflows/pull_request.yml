@@ -42,9 +42,7 @@ jobs:
         id: build-chain
         uses: kiegroup/github-action-build-chain@v2.6.18
         with:
-          # OptaWeb has a different branching model than the rest of KIE. Every OptaWeb 8.x branch maps to main branch
-          # in KIE, therefore "main" is hard-coded in the URL below. Once the branching model is unified and there is
-          # a matching branch in KIE for each 8.x (or higher) branch in OptaWeb, replace "main" with "${BRANCH}".
+          # Opta* and drools* projects have a different branching model than kogito projects. Every Opta* and drools* X.Y.Z branch maps to X-7.Y.Z branch
           definition-file: https://raw.githubusercontent.com/kiegroup/kogito-pipelines/%{process.env.GITHUB_BASE_REF.replace(/(\d*)\.(.*)\.(.*)/g, (m, n1, n2, n3) => `${+n1-7}.${n2}.${n3}`)}/.ci/pull-request-config.yaml
           annotations-prefix: ${{ runner.os }}-${{ matrix.java-version }}/${{ matrix.maven-version }}
         env:
