@@ -1,5 +1,7 @@
 import org.kie.jenkins.jobdsl.templates.KogitoJobTemplate
 
+BUILDCHAIN_CONFIG_BRANCH = '%{process.env.GITHUB_BASE_REF.replace(/(\\d*)\\.(.*)\\.(.*)/g, (m, n1, n2, n3) => `\\${+n1-7}.\\${n2}.\\${n3}`)}'
+
 def getDefaultJobParams(String repoName = 'optaweb-vehicle-routing') {
     return KogitoJobTemplate.getDefaultJobParams(this, repoName)
 }
@@ -12,6 +14,9 @@ Map getMultijobPRConfig() {
             [
                 id: 'optaweb-vehicle-routing',
                 primary: true,
+                env : [
+                    BUILDCHAIN_CONFIG_BRANCH: BUILDCHAIN_CONFIG_BRANCH
+                ]
             ]
         ],
     ]
