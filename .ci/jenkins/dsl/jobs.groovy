@@ -18,7 +18,7 @@ Map getMultijobPRConfig() {
 }
 
 setupMultijobPrDefaultChecks()
-setupMultijobPrNativeChecks()
+// setupMultijobPrNativeChecks() // There is no requirement for Native support.
 setupMultijobPrLTSChecks()
 
 /////////////////////////////////////////////////////////////////
