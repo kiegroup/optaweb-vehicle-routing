@@ -47,7 +47,7 @@
     <version.com.neovisionaries>1.27</version.com.neovisionaries>
     <version.frontend-maven-plugin>1.10.0</version.frontend-maven-plugin>
     <version.node>v12.16.2</version.node>
-    <version.npm>6.14.4</version.npm>
+    <version.npm>7.15.1</version.npm>
     <!-- Override protobuf version from Quarkus to make it compatible with GraphHopper. -->
     <protobuf-java.version>3.6.1</protobuf-java.version>
     <version.com.google.protobuf>3.6.1</version.com.google.protobuf>
