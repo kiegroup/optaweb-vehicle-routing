@@ -44,6 +44,8 @@ How to retest this PR or trigger a specific build:
 * for an <b>upstream build</b> please add comment: <b>Jenkins run upstream</b>
 * for a <b>Quarkus LTS check</b> please add comment: <b>Jenkins run LTS</b>
 * for a <b>specific Quarkus LTS check</b> please add comment: <b>Jenkins (re)run [optaweb-vehicle-routing] LTS</b>
+<!--
 * for a <b>Native check</b> please add comment: <b>Jenkins run native</b>
 * for a <b>specific Native LTS check</b> please add comment: <b>Jenkins (re)run [optaweb-vehicle-routing] native</b>
+-->
 </details>
