@@ -52,28 +52,8 @@
             </goals>
           </execution>
           <execution>
-            <id>npm install lock-treatment-tool and run-node</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>install lock-treatment-tool --global-style --no-package-lock --no-save</arguments>
-            </configuration>
-          </execution>
-          <execution>
-            <id>lock-treatment-tool execution</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>run locktt -- </arguments>
-            </configuration>
-          </execution>
-          <execution>
             <id>npm install</id>
-            <phase>initialize</phase>
+            <phase>compile</phase>
             <goals>
               <goal>npm</goal>
             </goals>
@@ -188,13 +168,23 @@
             <artifactId>frontend-maven-plugin</artifactId>
             <executions>
               <execution>
-                <id>locktt final cleanup</id>
+                <id>lock-treatment-tool execution</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>exec @kie/lock-treatment-tool --</arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>lock-treatment-tool final cleanup</id>
                 <phase>prepare-package</phase>
                 <goals>
                   <goal>npm</goal>
                 </goals>
                 <configuration>
-                  <arguments>run locktt</arguments>
+                  <arguments>exec @kie/lock-treatment-tool --</arguments>
                 </configuration>
               </execution>
             </executions>
