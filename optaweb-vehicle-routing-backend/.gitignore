@@ -1,4 +1,8 @@
 !.mvn/wrapper/maven-wrapper.jar
 
+/.env
+
+/panache-archive.marker
+
 /target
 /local
