@@ -5,7 +5,7 @@ on: [pull_request]
 jobs:
   build-chain:
     concurrency:
-      group: pull_request-${{ github.event_name }}-${{ github.head_ref }}-${{ matrix.os }}-${{ matrix.java-version }}      
+      group: pull_request-${{ github.event_name }}-${{ github.head_ref }}-${{ matrix.os }}-${{ matrix.java-version }}
       cancel-in-progress: true
     strategy:
       matrix:
@@ -37,3 +37,9 @@ jobs:
       - name: Surefire Report
         uses: kiegroup/kogito-pipelines/.ci/actions/surefire-report@main
         if: ${{ always() }}
+      - name: Check uncommitted changes
+        if: ${{ always() }}
+        # Check that Git working tree is clean after running `npm install` via the frontend-maven-plugin.
+        # The `git` command exits with 1 and fails the build if there are any uncommitted changes.
+        run: git diff HEAD --exit-code
+        working-directory: kiegroup_optaweb_vehicle_routing/optaweb-vehicle-routing
