@@ -1,7 +1,11 @@
+import org.kie.jenkins.jobdsl.model.Folder
 import org.kie.jenkins.jobdsl.templates.KogitoJobTemplate
+import org.kie.jenkins.jobdsl.KogitoJobUtils
 
-def getDefaultJobParams(String repoName = 'optaweb-vehicle-routing') {
-    return KogitoJobTemplate.getDefaultJobParams(this, repoName)
+OPTAWEB_VEHICLE_ROUTING = 'optaweb-vehicle-routing'
+
+def getDefaultJobParams() {
+    return KogitoJobUtils.getDefaultJobParams(this, OPTAWEB_VEHICLE_ROUTING)
 }
 
 Map getMultijobPRConfig() {
@@ -10,29 +14,14 @@ Map getMultijobPRConfig() {
         buildchain: true,
         jobs : [
             [
-                id: 'optaweb-vehicle-routing',
+                id: OPTAWEB_VEHICLE_ROUTING,
                 primary: true,
             ]
         ],
     ]
 }
 
-setupMultijobPrDefaultChecks()
-// setupMultijobPrNativeChecks() // There is no requirement for Native support.
-setupMultijobPrLTSChecks()
+KogitoJobUtils.createAllEnvsPerRepoPRJobs(this, { jobFolder -> getMultijobPRConfig() }, { return getDefaultJobParams() })
 
-/////////////////////////////////////////////////////////////////
-// Methods
-/////////////////////////////////////////////////////////////////
-
-void setupMultijobPrDefaultChecks() {
-    KogitoJobTemplate.createMultijobPRJobs(this, getMultijobPRConfig()) { return getDefaultJobParams() }
-}
-
-void setupMultijobPrNativeChecks() {
-    KogitoJobTemplate.createMultijobNativePRJobs(this, getMultijobPRConfig()) { return getDefaultJobParams() }
-}
-
-void setupMultijobPrLTSChecks() {
-    KogitoJobTemplate.createMultijobLTSPRJobs(this, getMultijobPRConfig()) { return getDefaultJobParams() }
-}
+// Nightly
+KogitoJobUtils.createAllJobsForArtifactsRepository(this, OPTAWEB_VEHICLE_ROUTING, ['optaplanner'])
