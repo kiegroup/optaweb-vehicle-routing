@@ -15,10 +15,10 @@
  */
 
 /**
- * {@link org.optaplanner.core.api.solver.ProblemFactChange} implementations.
+ * {@link org.optaplanner.core.api.solver.change.ProblemChange} implementations.
  * <p>
  * Problem fact changes are difficult to write correctly. To understand the code and when implementing new fact changes,
- * read <a href="https://docs.jboss.org/optaplanner/release/latest/optaplanner-docs/html_single/#problemFactChange">
- * ProblemFactChange documentation</a>.
+ * read <a href="https://www.optaplanner.org/docs/optaplanner/latest/repeated-planning/repeated-planning.html#problemChange">
+ * ProblemChange documentation</a>.
  */
 package org.optaweb.vehiclerouting.plugin.planner.change;

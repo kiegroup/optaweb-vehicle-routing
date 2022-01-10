@@ -21,9 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.mockito.AdditionalAnswers.answer;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 
 import java.util.concurrent.ExecutionException;
@@ -95,7 +93,7 @@ class SolverManagerTest {
     @Test
     void ignore_new_best_solutions_when_unprocessed_fact_changes() {
         // arrange
-        when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(false);
+        when(bestSolutionChangedEvent.isEveryProblemChangeProcessed()).thenReturn(false);
 
         // act
         solverManager.bestSolutionChanged(bestSolutionChangedEvent);
@@ -108,7 +106,7 @@ class SolverManagerTest {
     @Test
     void publish_new_best_solution_if_all_fact_changes_processed() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
-        when(bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()).thenReturn(true);
+        when(bestSolutionChangedEvent.isEveryProblemChangeProcessed()).thenReturn(true);
         when(bestSolutionChangedEvent.getNewBestSolution()).thenReturn(solution);
 
         solverManager.bestSolutionChanged(bestSolutionChangedEvent);
@@ -211,18 +209,18 @@ class SolverManagerTest {
         when(solverFuture.isDone()).thenReturn(false);
 
         solverManager.addVehicle(testVehicle);
-        verify(solver).addProblemFactChange(any(AddVehicle.class));
+        verify(solver).addProblemChange(any(AddVehicle.class));
 
         solverManager.removeVehicle(testVehicle);
-        verify(solver).addProblemFactChange(any(RemoveVehicle.class));
+        verify(solver).addProblemChange(any(RemoveVehicle.class));
 
         solverManager.changeCapacity(testVehicle);
-        verify(solver).addProblemFactChange(any(ChangeVehicleCapacity.class));
+        verify(solver).addProblemChange(any(ChangeVehicleCapacity.class));
 
         solverManager.addVisit(testVisit);
-        verify(solver).addProblemFactChange(any(AddVisit.class));
+        verify(solver).addProblemChange(any(AddVisit.class));
 
         solverManager.removeVisit(testVisit);
-        verify(solver).addProblemFactChange(any(RemoveVisit.class));
+        verify(solver).addProblemChange(any(RemoveVisit.class));
     }
 }

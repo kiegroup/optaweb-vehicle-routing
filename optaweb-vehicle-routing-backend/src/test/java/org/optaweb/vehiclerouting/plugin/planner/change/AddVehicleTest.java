@@ -17,38 +17,28 @@
 package org.optaweb.vehiclerouting.plugin.planner.change;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.optaplanner.core.api.score.director.ScoreDirector;
+import org.optaplanner.test.api.solver.change.MockProblemChangeDirector;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
-@ExtendWith(MockitoExtension.class)
 class AddVehicleTest {
-
-    @Mock
-    private ScoreDirector<VehicleRoutingSolution> scoreDirector;
 
     @Test
     void add_vehicle_should_add_vehicle() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
-        when(scoreDirector.getWorkingSolution()).thenReturn(solution);
+        MockProblemChangeDirector mockProblemChangeDirector = spy(new MockProblemChangeDirector());
 
         PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1);
         AddVehicle addVehicle = new AddVehicle(vehicle);
-        addVehicle.doChange(scoreDirector);
+        addVehicle.doChange(solution, mockProblemChangeDirector);
 
         assertThat(solution.getVehicleList()).containsExactly(vehicle);
 
-        verify(scoreDirector).beforeProblemFactAdded(vehicle);
-        verify(scoreDirector).afterProblemFactAdded(vehicle);
-        verify(scoreDirector).triggerVariableListeners();
+        verify(mockProblemChangeDirector).addProblemFact(same(vehicle), any());
     }
 }

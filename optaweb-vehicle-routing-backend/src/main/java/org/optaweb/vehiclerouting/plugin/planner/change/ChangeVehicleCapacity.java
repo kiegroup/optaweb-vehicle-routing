@@ -18,12 +18,12 @@ package org.optaweb.vehiclerouting.plugin.planner.change;
 
 import java.util.Objects;
 
-import org.optaplanner.core.api.score.director.ScoreDirector;
-import org.optaplanner.core.api.solver.ProblemFactChange;
+import org.optaplanner.core.api.solver.change.ProblemChange;
+import org.optaplanner.core.api.solver.change.ProblemChangeDirector;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
-public class ChangeVehicleCapacity implements ProblemFactChange<VehicleRoutingSolution> {
+public class ChangeVehicleCapacity implements ProblemChange<VehicleRoutingSolution> {
 
     private final PlanningVehicle vehicle;
 
@@ -32,20 +32,11 @@ public class ChangeVehicleCapacity implements ProblemFactChange<VehicleRoutingSo
     }
 
     @Override
-    public void doChange(ScoreDirector<VehicleRoutingSolution> scoreDirector) {
-        PlanningVehicle workingVehicle = scoreDirector.lookUpWorkingObject(vehicle);
-        if (workingVehicle == null) {
-            throw new IllegalStateException("Can't look up a working copy of " + vehicle);
-        }
-
+    public void doChange(VehicleRoutingSolution workingSolution, ProblemChangeDirector problemChangeDirector) {
         // No need to clone the workingVehicle because it is a planning entity, so it is already planning-cloned.
         // To learn more about problem fact changes, see:
-        // https://docs.jboss.org/optaplanner/release/latest/optaplanner-docs/html_single/#problemFactChangeExample
-
-        scoreDirector.beforeProblemPropertyChanged(workingVehicle);
-        workingVehicle.setCapacity(vehicle.getCapacity());
-        scoreDirector.afterProblemPropertyChanged(workingVehicle);
-
-        scoreDirector.triggerVariableListeners();
+        // https://www.optaplanner.org/docs/optaplanner/latest/repeated-planning/repeated-planning.html#problemChangeExample
+        problemChangeDirector.changeProblemProperty(vehicle,
+                workingVehicle -> workingVehicle.setCapacity(vehicle.getCapacity()));
     }
 }

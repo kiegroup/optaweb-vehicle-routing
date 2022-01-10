@@ -18,12 +18,12 @@ package org.optaweb.vehiclerouting.plugin.planner.change;
 
 import java.util.Objects;
 
-import org.optaplanner.core.api.score.director.ScoreDirector;
-import org.optaplanner.core.api.solver.ProblemFactChange;
+import org.optaplanner.core.api.solver.change.ProblemChange;
+import org.optaplanner.core.api.solver.change.ProblemChangeDirector;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
-public class AddVisit implements ProblemFactChange<VehicleRoutingSolution> {
+public class AddVisit implements ProblemChange<VehicleRoutingSolution> {
 
     private final PlanningVisit visit;
 
@@ -32,11 +32,7 @@ public class AddVisit implements ProblemFactChange<VehicleRoutingSolution> {
     }
 
     @Override
-    public void doChange(ScoreDirector<VehicleRoutingSolution> scoreDirector) {
-        scoreDirector.beforeEntityAdded(visit);
-        scoreDirector.getWorkingSolution().getVisitList().add(visit);
-        scoreDirector.afterEntityAdded(visit);
-
-        scoreDirector.triggerVariableListeners();
+    public void doChange(VehicleRoutingSolution workingSolution, ProblemChangeDirector problemChangeDirector) {
+        problemChangeDirector.addEntity(visit, workingSolution.getVisitList()::add);
     }
 }

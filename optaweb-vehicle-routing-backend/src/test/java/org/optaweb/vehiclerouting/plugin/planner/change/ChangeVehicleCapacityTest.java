@@ -17,51 +17,33 @@
 package org.optaweb.vehiclerouting.plugin.planner.change;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.optaplanner.core.api.score.director.ScoreDirector;
+import org.optaplanner.test.api.solver.change.MockProblemChangeDirector;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
-import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
+import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 
-@ExtendWith(MockitoExtension.class)
 class ChangeVehicleCapacityTest {
-
-    @Mock
-    private ScoreDirector<VehicleRoutingSolution> scoreDirector;
 
     @Test
     void change_vehicle_capacity() {
         int oldCapacity = 100;
         int newCapacity = 50;
+        MockProblemChangeDirector mockProblemChangeDirector = spy(new MockProblemChangeDirector());
 
         PlanningVehicle workingVehicle = PlanningVehicleFactory.testVehicle(1, oldCapacity);
         PlanningVehicle changeVehicle = PlanningVehicleFactory.testVehicle(2, newCapacity);
 
-        when(scoreDirector.lookUpWorkingObject(changeVehicle)).thenReturn(workingVehicle);
+        mockProblemChangeDirector.whenLookingUp(changeVehicle).thenReturn(workingVehicle);
 
         // do change
         ChangeVehicleCapacity changeVehicleCapacity = new ChangeVehicleCapacity(changeVehicle);
-        changeVehicleCapacity.doChange(scoreDirector);
+        changeVehicleCapacity.doChange(SolutionFactory.emptySolution(), mockProblemChangeDirector);
 
         assertThat(workingVehicle.getCapacity()).isEqualTo(newCapacity);
-
-        verify(scoreDirector).beforeProblemPropertyChanged(workingVehicle);
-        verify(scoreDirector).afterProblemPropertyChanged(workingVehicle);
-        verify(scoreDirector).triggerVariableListeners();
-    }
-
-    @Test
-    void fail_fast_if_working_object_is_null() {
-        ChangeVehicleCapacity changeVehicleCapacity = new ChangeVehicleCapacity(PlanningVehicleFactory.testVehicle(1));
-        assertThatIllegalStateException()
-                .isThrownBy(() -> changeVehicleCapacity.doChange(scoreDirector))
-                .withMessageContaining("working copy of");
+        verify(mockProblemChangeDirector).changeProblemProperty(same(changeVehicle), any());
     }
 }
