@@ -33,7 +33,7 @@ import org.optaweb.vehiclerouting.service.region.BoundingBox;
 
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
-import com.graphhopper.PathWrapper;
+import com.graphhopper.ResponsePath;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.storage.GraphHopperStorage;
 import com.graphhopper.util.PointList;
@@ -50,7 +50,7 @@ class GraphHopperRouterTest {
     @Mock
     private GHResponse ghResponse;
     @Mock
-    private PathWrapper pathWrapper;
+    private ResponsePath responsePath;
     @Mock
     private GraphHopperStorage graphHopperStorage;
 
@@ -59,7 +59,7 @@ class GraphHopperRouterTest {
     }
 
     private void whenBestReturnPath() {
-        when(ghResponse.getBest()).thenReturn(pathWrapper);
+        when(ghResponse.getBest()).thenReturn(responsePath);
     }
 
     @Test
@@ -68,7 +68,7 @@ class GraphHopperRouterTest {
         whenRouteReturnResponse();
         whenBestReturnPath();
         long travelTimeMillis = 135 * 60 * 60 * 1000;
-        when(pathWrapper.getTime()).thenReturn(travelTimeMillis);
+        when(responsePath.getTime()).thenReturn(travelTimeMillis);
 
         // act & assert
         assertThat(new GraphHopperRouter(graphHopper).travelTimeMillis(from, to)).isEqualTo(travelTimeMillis);
@@ -94,7 +94,7 @@ class GraphHopperRouterTest {
         // arrange
         whenRouteReturnResponse();
         whenBestReturnPath();
-        when(pathWrapper.getPoints()).thenReturn(pointList);
+        when(responsePath.getPoints()).thenReturn(pointList);
 
         Coordinates coordinates1 = Coordinates.valueOf(1, 1);
         Coordinates coordinates2 = Coordinates.valueOf(Math.E, Math.PI);
