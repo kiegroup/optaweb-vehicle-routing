@@ -17,10 +17,9 @@
 package org.optaweb.vehiclerouting.plugin.planner.change;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Test;
-import org.optaplanner.test.api.solver.change.MockProblemChangeDirector;
+import org.optaweb.vehiclerouting.plugin.planner.MockSolver;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
@@ -31,13 +30,12 @@ class AddVisitTest {
     @Test
     void add_visit_should_add_location_and_create_visit() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
-        MockProblemChangeDirector mockProblemChangeDirector = spy(new MockProblemChangeDirector());
+        MockSolver<VehicleRoutingSolution> mockSolver = MockSolver.build(solution);
 
         PlanningVisit visit = PlanningVisitFactory.testVisit(1);
-        AddVisit addVisit = new AddVisit(visit);
-        addVisit.doChange(solution, mockProblemChangeDirector);
+        mockSolver.addProblemChange(new AddVisit(visit));
 
-        verify(mockProblemChangeDirector).addEntity(same(visit), any());
+        mockSolver.verifyEntityAdded(visit);
         assertThat(solution.getVisitList()).containsExactly(visit);
     }
 }
