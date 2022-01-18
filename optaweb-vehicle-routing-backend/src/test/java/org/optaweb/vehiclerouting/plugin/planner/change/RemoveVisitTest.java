@@ -18,12 +18,12 @@ package org.optaweb.vehiclerouting.plugin.planner.change;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.mockito.Mockito.*;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory.testVehicle;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 
 import org.junit.jupiter.api.Test;
 import org.optaplanner.test.api.solver.change.MockProblemChangeDirector;
+import org.optaweb.vehiclerouting.plugin.planner.MockSolver;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
@@ -44,14 +44,13 @@ class RemoveVisitTest {
         otherVisit.setNextVisit(removedVisit);
         removedVisit.setPreviousStandstill(otherVisit);
 
-        MockProblemChangeDirector mockProblemChangeDirector = spy(new MockProblemChangeDirector());
-        mockProblemChangeDirector.whenLookingUp(removedVisit).thenReturn(removedVisit);
+        MockSolver<VehicleRoutingSolution> mockSolver = MockSolver.build(solution);
+        mockSolver.whenLookingUp(removedVisit).thenReturn(removedVisit);
 
         // do change
-        RemoveVisit removeVisit = new RemoveVisit(removedVisit);
-        removeVisit.doChange(solution, mockProblemChangeDirector);
+        mockSolver.addProblemChange(new RemoveVisit(removedVisit));
 
-        verify(mockProblemChangeDirector).removeEntity(same(removedVisit), any());
+        mockSolver.verifyEntityRemoved(removedVisit);
         assertThat(solution.getVisitList()).containsExactly(otherVisit);
     }
 
@@ -75,15 +74,14 @@ class RemoveVisitTest {
 
         PlanningVisit removedVisit = testVisit(2);
 
-        MockProblemChangeDirector mockProblemChangeDirector = spy(new MockProblemChangeDirector());
-        mockProblemChangeDirector.whenLookingUp(removedVisit).thenReturn(middleVisit);
+        MockSolver<VehicleRoutingSolution> mockSolver = MockSolver.build(solution);
+        mockSolver.whenLookingUp(removedVisit).thenReturn(middleVisit);
 
         // do change
-        RemoveVisit removeVisit = new RemoveVisit(removedVisit);
-        removeVisit.doChange(solution, mockProblemChangeDirector);
+        mockSolver.addProblemChange(new RemoveVisit(removedVisit));
 
-        verify(mockProblemChangeDirector).changeVariable(same(lastVisit), eq("previousStandstill"), any());
-        verify(mockProblemChangeDirector).removeEntity(same(removedVisit), any());
+        mockSolver.verifyVariableChanged(lastVisit, "previousStandstill");
+        mockSolver.verifyEntityRemoved(removedVisit);
 
         assertThat(solution.getVisitList())
                 .hasSize(2)
@@ -105,13 +103,10 @@ class RemoveVisitTest {
         removedVisit.setNextVisit(wrongVisit);
         solution.getVisitList().add(wrongVisit);
 
-        MockProblemChangeDirector mockProblemChangeDirector = spy(new MockProblemChangeDirector());
-        mockProblemChangeDirector.whenLookingUp(removedVisit).thenReturn(removedVisit);
-
         // do change
         RemoveVisit removeVisit = new RemoveVisit(removedVisit);
         assertThatIllegalStateException()
-                .isThrownBy(() -> removeVisit.doChange(solution, mockProblemChangeDirector))
+                .isThrownBy(() -> removeVisit.doChange(solution, new MockProblemChangeDirector()))
                 .withMessageMatching(".*List .*" + wrongId + ".* doesn't contain the working.*" + removedId + ".*");
     }
 }
