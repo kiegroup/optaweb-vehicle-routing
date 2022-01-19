@@ -34,7 +34,7 @@ public class RemoveVisit implements ProblemChange<VehicleRoutingSolution> {
     @Override
     public void doChange(VehicleRoutingSolution workingSolution, ProblemChangeDirector problemChangeDirector) {
         // Look up a working copy of the visit
-        PlanningVisit workingVisit = problemChangeDirector.lookUpWorkingObject(planningVisit);
+        PlanningVisit workingVisit = problemChangeDirector.lookUpWorkingObjectOrFail(planningVisit);
 
         // Fix the next visit and set its previousStandstill to the removed visit's previousStandstill
         PlanningVisit nextVisit = workingVisit.getNextVisit();

@@ -35,7 +35,7 @@ public class RemoveVehicle implements ProblemChange<VehicleRoutingSolution> {
     @Override
     public void doChange(VehicleRoutingSolution workingSolution, ProblemChangeDirector problemChangeDirector) {
         // Look up a working copy of the vehicle
-        PlanningVehicle workingVehicle = problemChangeDirector.lookUpWorkingObject(removedVehicle);
+        PlanningVehicle workingVehicle = problemChangeDirector.lookUpWorkingObjectOrFail(removedVehicle);
 
         // Un-initialize all visits of this vehicle
         for (PlanningVisit visit : workingVehicle.getFutureVisits()) {
