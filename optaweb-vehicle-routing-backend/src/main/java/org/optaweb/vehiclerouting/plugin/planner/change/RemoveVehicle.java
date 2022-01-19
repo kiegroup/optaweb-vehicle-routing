@@ -36,9 +36,6 @@ public class RemoveVehicle implements ProblemChange<VehicleRoutingSolution> {
     public void doChange(VehicleRoutingSolution workingSolution, ProblemChangeDirector problemChangeDirector) {
         // Look up a working copy of the vehicle
         PlanningVehicle workingVehicle = problemChangeDirector.lookUpWorkingObject(removedVehicle);
-        if (workingVehicle == null) {
-            throw new IllegalStateException("Can't look up a working copy of " + removedVehicle);
-        }
 
         // Un-initialize all visits of this vehicle
         for (PlanningVisit visit : workingVehicle.getFutureVisits()) {
