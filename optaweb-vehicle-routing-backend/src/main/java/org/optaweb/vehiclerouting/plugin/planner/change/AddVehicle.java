@@ -18,12 +18,12 @@ package org.optaweb.vehiclerouting.plugin.planner.change;
 
 import java.util.Objects;
 
-import org.optaplanner.core.api.score.director.ScoreDirector;
-import org.optaplanner.core.api.solver.ProblemFactChange;
+import org.optaplanner.core.api.solver.change.ProblemChange;
+import org.optaplanner.core.api.solver.change.ProblemChangeDirector;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
-public class AddVehicle implements ProblemFactChange<VehicleRoutingSolution> {
+public class AddVehicle implements ProblemChange<VehicleRoutingSolution> {
 
     private final PlanningVehicle vehicle;
 
@@ -32,11 +32,7 @@ public class AddVehicle implements ProblemFactChange<VehicleRoutingSolution> {
     }
 
     @Override
-    public void doChange(ScoreDirector<VehicleRoutingSolution> scoreDirector) {
-        scoreDirector.beforeProblemFactAdded(vehicle);
-        scoreDirector.getWorkingSolution().getVehicleList().add(vehicle);
-        scoreDirector.afterProblemFactAdded(vehicle);
-
-        scoreDirector.triggerVariableListeners();
+    public void doChange(VehicleRoutingSolution workingSolution, ProblemChangeDirector problemChangeDirector) {
+        problemChangeDirector.addProblemFact(vehicle, workingSolution.getVehicleList()::add);
     }
 }

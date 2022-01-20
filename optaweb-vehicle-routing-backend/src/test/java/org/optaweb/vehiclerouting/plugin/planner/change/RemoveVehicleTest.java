@@ -18,18 +18,14 @@ package org.optaweb.vehiclerouting.plugin.planner.change;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.optaplanner.core.api.score.director.ScoreDirector;
+import org.optaplanner.test.api.solver.change.MockProblemChangeDirector;
+import org.optaweb.vehiclerouting.plugin.planner.MockSolver;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningDepot;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningLocationFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
@@ -38,11 +34,7 @@ import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
-@ExtendWith(MockitoExtension.class)
 class RemoveVehicleTest {
-
-    @Mock
-    private ScoreDirector<VehicleRoutingSolution> scoreDirector;
 
     @Test
     void remove_vehicle() {
@@ -59,8 +51,7 @@ class RemoveVehicleTest {
                 depot,
                 Arrays.asList(firstVisit, lastVisit));
 
-        when(scoreDirector.getWorkingSolution()).thenReturn(solution);
-        when(scoreDirector.lookUpWorkingObject(removedVehicle)).thenReturn(removedVehicle);
+        MockSolver<VehicleRoutingSolution> mockSolver = MockSolver.build(solution);
 
         // V -> first -> last
         removedVehicle.setNextVisit(firstVisit);
@@ -71,20 +62,15 @@ class RemoveVehicleTest {
         lastVisit.setVehicle(removedVehicle);
 
         // do change
-        RemoveVehicle removeVehicle = new RemoveVehicle(removedVehicle);
-        removeVehicle.doChange(scoreDirector);
+        mockSolver.addProblemChange(new RemoveVehicle(removedVehicle));
 
         assertThat(firstVisit.getPreviousStandstill()).isNull();
         assertThat(lastVisit.getPreviousStandstill()).isNull();
         assertThat(solution.getVehicleList()).containsExactly(otherVehicle);
 
-        verify(scoreDirector).beforeVariableChanged(firstVisit, "previousStandstill");
-        verify(scoreDirector).afterVariableChanged(firstVisit, "previousStandstill");
-        verify(scoreDirector).beforeVariableChanged(lastVisit, "previousStandstill");
-        verify(scoreDirector).afterVariableChanged(lastVisit, "previousStandstill");
-        verify(scoreDirector).beforeProblemFactRemoved(removedVehicle);
-        verify(scoreDirector).afterProblemFactRemoved(removedVehicle);
-        verify(scoreDirector).triggerVariableListeners();
+        mockSolver.verifyVariableChanged(firstVisit, "previousStandstill");
+        mockSolver.verifyVariableChanged(lastVisit, "previousStandstill");
+        mockSolver.verifyProblemFactRemoved(removedVehicle);
     }
 
     @Test
@@ -101,22 +87,11 @@ class RemoveVehicleTest {
                 depot,
                 Collections.emptyList());
 
-        when(scoreDirector.getWorkingSolution()).thenReturn(solution);
-        when(scoreDirector.lookUpWorkingObject(removedVehicle)).thenReturn(removedVehicle);
-
         // do change
         RemoveVehicle removeVehicle = new RemoveVehicle(removedVehicle);
         assertThatIllegalStateException()
-                .isThrownBy(() -> removeVehicle.doChange(scoreDirector))
+                .isThrownBy(() -> removeVehicle.doChange(solution, new MockProblemChangeDirector()))
                 .withMessageMatching(".*List .*" + wrongId + ".* doesn't contain the working.*" + removedId + ".*");
     }
 
-    @Test
-    void fail_fast_if_working_object_is_null() {
-        when(scoreDirector.getWorkingSolution()).thenReturn(SolutionFactory.emptySolution());
-
-        assertThatIllegalStateException()
-                .isThrownBy(() -> new RemoveVehicle(PlanningVehicleFactory.testVehicle(1)).doChange(scoreDirector))
-                .withMessageContaining("working copy of");
-    }
 }

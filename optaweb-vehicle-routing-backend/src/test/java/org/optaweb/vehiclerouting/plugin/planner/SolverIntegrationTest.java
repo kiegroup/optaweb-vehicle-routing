@@ -60,7 +60,7 @@ class SolverIntegrationTest {
 
     private SolverConfig solverConfig;
     private ExecutorService executor;
-    private ProblemFactChangeProcessingMonitor monitor;
+    private ProblemChangeProcessingMonitor monitor;
     private Future<VehicleRoutingSolution> futureSolution;
 
     @BeforeEach
@@ -68,7 +68,7 @@ class SolverIntegrationTest {
         solverConfig = SolverConfig.createFromXmlResource(Constants.SOLVER_CONFIG);
         solverConfig.setDaemon(true);
         executor = Executors.newSingleThreadExecutor();
-        monitor = new ProblemFactChangeProcessingMonitor();
+        monitor = new ProblemChangeProcessingMonitor();
     }
 
     @AfterEach
@@ -103,22 +103,22 @@ class SolverIntegrationTest {
 
         for (int id = 3; id < 6; id++) {
             logger.info("Add visit ({})", id);
-            monitor.beforeProblemFactChange();
-            solver.addProblemFactChange(new AddVisit(fromLocation(testLocation(id, location -> distance))));
-            assertThat(monitor.awaitAllProblemFactChanges(PFC_PROPAGATION_TIMEOUT_MILLIS)).isTrue();
+            monitor.beforeProblemChange();
+            solver.addProblemChange(new AddVisit(fromLocation(testLocation(id, location -> distance))));
+            assertThat(monitor.awaitAllProblemChanges(PFC_PROPAGATION_TIMEOUT_MILLIS)).isTrue();
         }
 
         List<Integer> visitIds = Arrays.asList(5, 2, 3);
         for (int id : visitIds) {
             logger.info("Remove visit ({})", id);
-            assertThat(solver.isEveryProblemFactChangeProcessed()).isTrue();
-            monitor.beforeProblemFactChange();
-            solver.addProblemFactChange(new RemoveVisit(testVisit(id)));
-            assertThat(solver.isEveryProblemFactChangeProcessed()).isFalse(); // probably not 100% safe
+            assertThat(solver.isEveryProblemChangeProcessed()).isTrue();
+            monitor.beforeProblemChange();
+            solver.addProblemChange(new RemoveVisit(testVisit(id)));
+            assertThat(solver.isEveryProblemChangeProcessed()).isFalse(); // probably not 100% safe
             // Notice that it's not possible to check individual problem fact changes completion.
             // When we receive a BestSolutionChangedEvent with unprocessed PFCs,
             // we don't know how many of them there are.
-            if (!monitor.awaitAllProblemFactChanges(PFC_PROPAGATION_TIMEOUT_MILLIS)) {
+            if (!monitor.awaitAllProblemChanges(PFC_PROPAGATION_TIMEOUT_MILLIS)) {
                 assertThat(terminateSolver(solver)).isNotNull();
                 fail("Problem fact change hasn't been completed");
             }
@@ -144,23 +144,23 @@ class SolverIntegrationTest {
         throw new AssertionError();
     }
 
-    static class ProblemFactChangeProcessingMonitor implements SolverEventListener<VehicleRoutingSolution> {
+    static class ProblemChangeProcessingMonitor implements SolverEventListener<VehicleRoutingSolution> {
 
-        private static final Logger logger = LoggerFactory.getLogger(ProblemFactChangeProcessingMonitor.class);
+        private static final Logger logger = LoggerFactory.getLogger(ProblemChangeProcessingMonitor.class);
 
-        private final Semaphore problemFactChanges = new Semaphore(0);
+        private final Semaphore problemChanges = new Semaphore(0);
 
-        void beforeProblemFactChange() {
-            int permitsDrained = problemFactChanges.drainPermits();
+        void beforeProblemChange() {
+            int permitsDrained = problemChanges.drainPermits();
             logger.debug("Before PFC (permits drained: {})", permitsDrained);
         }
 
-        boolean awaitAllProblemFactChanges(int milliseconds) {
+        boolean awaitAllProblemChanges(int milliseconds) {
             // Available permits may rarely be > 0 if the PFC completes before we start waiting,
             // or if the solution has improved since we called beforePFC() => the test is not completely reliable.
-            logger.debug("WAIT (completed PFCs: {})", problemFactChanges.availablePermits());
+            logger.debug("WAIT (completed PFCs: {})", problemChanges.availablePermits());
             try {
-                if (problemFactChanges.tryAcquire(milliseconds, TimeUnit.MILLISECONDS)) {
+                if (problemChanges.tryAcquire(milliseconds, TimeUnit.MILLISECONDS)) {
                     logger.info("Problem Fact Change DONE");
                     return true;
                 }
@@ -174,13 +174,13 @@ class SolverIntegrationTest {
         @Override
         public void bestSolutionChanged(BestSolutionChangedEvent<VehicleRoutingSolution> event) {
             // This happens on solver thread
-            if (!event.isEveryProblemFactChangeProcessed()) {
+            if (!event.isEveryProblemChangeProcessed()) {
                 logger.debug("UNPROCESSED");
             } else if (!event.getNewBestScore().isSolutionInitialized()) {
                 logger.debug("UNINITIALIZED ({})", event.getNewBestScore());
             } else {
                 logger.debug("New best solution (COMPLETE)");
-                problemFactChanges.release();
+                problemChanges.release();
             }
         }
     }

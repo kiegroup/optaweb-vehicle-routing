@@ -18,30 +18,21 @@ package org.optaweb.vehiclerouting.plugin.planner.change;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory.testVehicle;
 import static org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisitFactory.testVisit;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.optaplanner.core.api.score.director.ScoreDirector;
+import org.optaplanner.test.api.solver.change.MockProblemChangeDirector;
+import org.optaweb.vehiclerouting.plugin.planner.MockSolver;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVisit;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
-@ExtendWith(MockitoExtension.class)
 class RemoveVisitTest {
-
-    @Mock
-    private ScoreDirector<VehicleRoutingSolution> scoreDirector;
 
     @Test
     void remove_last_visit() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
-        when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         PlanningVisit removedVisit = testVisit(1);
         PlanningVisit otherVisit = testVisit(2);
@@ -53,23 +44,19 @@ class RemoveVisitTest {
         otherVisit.setNextVisit(removedVisit);
         removedVisit.setPreviousStandstill(otherVisit);
 
-        when(scoreDirector.lookUpWorkingObject(removedVisit)).thenReturn(removedVisit);
+        MockSolver<VehicleRoutingSolution> mockSolver = MockSolver.build(solution);
+        mockSolver.whenLookingUp(removedVisit).thenReturn(removedVisit);
 
         // do change
-        RemoveVisit removeVisit = new RemoveVisit(removedVisit);
-        removeVisit.doChange(scoreDirector);
+        mockSolver.addProblemChange(new RemoveVisit(removedVisit));
 
-        verify(scoreDirector).beforeEntityRemoved(removedVisit);
-        verify(scoreDirector).afterEntityRemoved(removedVisit);
+        mockSolver.verifyEntityRemoved(removedVisit);
         assertThat(solution.getVisitList()).containsExactly(otherVisit);
-
-        verify(scoreDirector).triggerVariableListeners();
     }
 
     @Test
     void remove_middle_visit() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
-        when(scoreDirector.getWorkingSolution()).thenReturn(solution);
 
         PlanningVisit firstVisit = testVisit(1);
         PlanningVisit middleVisit = testVisit(2);
@@ -86,24 +73,22 @@ class RemoveVisitTest {
         lastVisit.setPreviousStandstill(middleVisit);
 
         PlanningVisit removedVisit = testVisit(2);
-        when(scoreDirector.lookUpWorkingObject(removedVisit)).thenReturn(middleVisit);
+
+        MockSolver<VehicleRoutingSolution> mockSolver = MockSolver.build(solution);
+        mockSolver.whenLookingUp(removedVisit).thenReturn(middleVisit);
 
         // do change
-        RemoveVisit removeVisit = new RemoveVisit(removedVisit);
-        removeVisit.doChange(scoreDirector);
+        mockSolver.addProblemChange(new RemoveVisit(removedVisit));
 
-        verify(scoreDirector).beforeVariableChanged(lastVisit, "previousStandstill");
-        verify(scoreDirector).afterVariableChanged(lastVisit, "previousStandstill");
-        verify(scoreDirector).beforeEntityRemoved(middleVisit);
-        verify(scoreDirector).afterEntityRemoved(middleVisit);
+        mockSolver.verifyVariableChanged(lastVisit, "previousStandstill");
+        mockSolver.verifyEntityRemoved(removedVisit);
+
         assertThat(solution.getVisitList())
                 .hasSize(2)
                 .containsOnly(firstVisit, lastVisit);
 
         // V -> first -> removed -> last
         assertThat(lastVisit.getPreviousStandstill()).isEqualTo(firstVisit);
-
-        verify(scoreDirector).triggerVariableListeners();
     }
 
     @Test
@@ -118,22 +103,10 @@ class RemoveVisitTest {
         removedVisit.setNextVisit(wrongVisit);
         solution.getVisitList().add(wrongVisit);
 
-        when(scoreDirector.getWorkingSolution()).thenReturn(solution);
-        when(scoreDirector.lookUpWorkingObject(removedVisit)).thenReturn(removedVisit);
-
         // do change
         RemoveVisit removeVisit = new RemoveVisit(removedVisit);
         assertThatIllegalStateException()
-                .isThrownBy(() -> removeVisit.doChange(scoreDirector))
+                .isThrownBy(() -> removeVisit.doChange(solution, new MockProblemChangeDirector()))
                 .withMessageMatching(".*List .*" + wrongId + ".* doesn't contain the working.*" + removedId + ".*");
-    }
-
-    @Test
-    void fail_fast_if_working_object_is_null() {
-        when(scoreDirector.getWorkingSolution()).thenReturn(SolutionFactory.emptySolution());
-
-        assertThatIllegalStateException()
-                .isThrownBy(() -> new RemoveVisit(testVisit(0)).doChange(scoreDirector))
-                .withMessageContaining("working copy of");
     }
 }

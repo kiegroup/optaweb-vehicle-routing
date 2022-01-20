@@ -87,7 +87,7 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
         // CAUTION! This runs on the solver thread. Implications:
         // 1. The method should be as quick as possible to avoid blocking solver unnecessarily.
         // 2. This place is a potential source of race conditions.
-        if (!bestSolutionChangedEvent.isEveryProblemFactChangeProcessed()) {
+        if (!bestSolutionChangedEvent.isEveryProblemChangeProcessed()) {
             logger.info("Ignoring a new best solution that has some problem facts missing");
             return;
         }
@@ -171,27 +171,27 @@ class SolverManager implements SolverEventListener<VehicleRoutingSolution> {
 
     void addVisit(PlanningVisit visit) {
         assertSolverIsAlive();
-        solver.addProblemFactChange(new AddVisit(visit));
+        solver.addProblemChange(new AddVisit(visit));
     }
 
     void removeVisit(PlanningVisit visit) {
         assertSolverIsAlive();
-        solver.addProblemFactChange(new RemoveVisit(visit));
+        solver.addProblemChange(new RemoveVisit(visit));
     }
 
     void addVehicle(PlanningVehicle vehicle) {
         assertSolverIsAlive();
-        solver.addProblemFactChange(new AddVehicle(vehicle));
+        solver.addProblemChange(new AddVehicle(vehicle));
     }
 
     void removeVehicle(PlanningVehicle vehicle) {
         assertSolverIsAlive();
-        solver.addProblemFactChange(new RemoveVehicle(vehicle));
+        solver.addProblemChange(new RemoveVehicle(vehicle));
     }
 
     void changeCapacity(PlanningVehicle vehicle) {
         assertSolverIsAlive();
-        solver.addProblemFactChange(new ChangeVehicleCapacity(vehicle));
+        solver.addProblemChange(new ChangeVehicleCapacity(vehicle));
     }
 
     /**
