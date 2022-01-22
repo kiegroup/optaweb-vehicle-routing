@@ -49,7 +49,8 @@
     <!-- Define JaCoCo agent argLine property to avoid Surefire failure when JaCoCo is not enabled. -->
     <jacoco.agent.argLine/>
     <version.com.h2database>1.4.199</version.com.h2database>
-    <version.org.mockito>3.1.0</version.org.mockito>
+    <version.org.junit>5.7.2</version.org.junit>
+    <version.org.mockito>3.6.28</version.org.mockito>
     <!-- Override protobuf version from Quarkus to make it compatible with GraphHopper. -->
     <version.com.google.protobuf>3.6.1</version.com.google.protobuf>
   </properties>
