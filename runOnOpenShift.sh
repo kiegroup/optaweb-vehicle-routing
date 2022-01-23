@@ -175,7 +175,7 @@ oc new-app --name postgresql postgresql-persistent
 
 # Back end
 # -- binary build (upload local artifacts + Dockerfile)
-oc new-build --name backend --strategy=docker --binary
+oc new-build --name backend --strategy=docker --binary --build-arg QUARKUS_APP_BUILD_QUALIFIER=postgresql
 oc patch bc backend -p '{"spec":{"strategy":{"dockerStrategy":{"dockerfilePath":"src/main/docker/Dockerfile.jvm"}}}}'
 oc start-build backend --from-dir=${dir_backend} --follow
 # -- new app
