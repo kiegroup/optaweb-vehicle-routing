@@ -18,6 +18,7 @@ package org.optaweb.vehiclerouting.plugin.websocket;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -39,7 +40,7 @@ class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         // for the WebSocket handshake.
         registry
                 .addEndpoint("/vrp-websocket")
-                .setAllowedOrigins("*")
+                .setAllowedOriginPatterns(CorsConfiguration.ALL)
                 .withSockJS();
     }
 
