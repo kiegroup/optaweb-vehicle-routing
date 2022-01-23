@@ -57,8 +57,18 @@
       <artifactId>quarkus-jdbc-h2</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-jdbc-postgresql</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <optional>true</optional>
     </dependency>
     <!-- Planner -->
     <dependency>
@@ -171,6 +181,27 @@
               <goal>generate-code</goal>
               <goal>generate-code-tests</goal>
             </goals>
+            <configuration>
+              <properties>
+                <quarkus.package.output-directory>quarkus-app-h2</quarkus.package.output-directory>
+                <quarkus.package.filter-optional-dependencies>true</quarkus.package.filter-optional-dependencies>
+                <quarkus.package.included-optional-dependencies>com.h2database:h2::jar</quarkus.package.included-optional-dependencies>
+              </properties>
+            </configuration>
+          </execution>
+          <execution>
+            <id>postgresql</id>
+            <goals>
+              <goal>build</goal>
+            </goals>
+            <configuration>
+              <properties>
+                <quarkus.profile>postgresql</quarkus.profile>
+                <quarkus.package.output-directory>quarkus-app-postgresql</quarkus.package.output-directory>
+                <quarkus.package.filter-optional-dependencies>true</quarkus.package.filter-optional-dependencies>
+                <quarkus.package.included-optional-dependencies>org.postgresql:postgresql::jar</quarkus.package.included-optional-dependencies>
+              </properties>
+            </configuration>
           </execution>
         </executions>
       </plugin>
