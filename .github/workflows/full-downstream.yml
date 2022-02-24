@@ -2,6 +2,7 @@ name: Build Chain
 
 on:
   pull_request:
+    types: [labeled]
     branches:
       - main
       - 8.*
@@ -17,19 +18,21 @@ on:
       - 'runOnOpenShift.sh'
       - 'runLocally.sh'
       - 'ide-configuration/**'
+
 jobs:
   build-chain:
+    if: contains(github.event.pull_request.labels.*.name, 'run_fdb')
     concurrency:
-      group: pull_request-${{ github.event_name }}-${{ github.head_ref }}-${{ matrix.os }}-${{ matrix.java-version }}
+      group: fdb-${{ github.head_ref }}
       cancel-in-progress: true
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
-        java-version: [11, 17]
+        os: [ubuntu-latest]
+        java-version: [11]
         maven-version: ['3.8.1']
       fail-fast: false
     runs-on: ${{ matrix.os }}
-    name: ${{ matrix.os }} - Java ${{ matrix.java-version }} - Maven
+    name: Full downstream build
     steps:
       - name: Clean Disk Space
         uses: kiegroup/kogito-pipelines/.ci/actions/ubuntu-disk-space@1.13.x
@@ -46,15 +49,9 @@ jobs:
       - name: Build Chain
         uses: kiegroup/kogito-pipelines/.ci/actions/build-chain@1.13.x
         with:
-          definition-file: https://raw.githubusercontent.com/kiegroup/kogito-pipelines/%{process.env.GITHUB_BASE_REF.replace(/(\d*)\.(.*)\.(.*)/g, (m, n1, n2, n3) => `${+n1-7}.${n2}.${n3}`)}/.ci/pull-request-config.yaml
           annotations-prefix: ${{ runner.os }}-${{ matrix.java-version }}/${{ matrix.maven-version }}
           github-token: "${{ secrets.GITHUB_TOKEN }}"
+          flow-type: full-downstream
       - name: Surefire Report
         uses: kiegroup/kogito-pipelines/.ci/actions/surefire-report@1.13.x
         if: ${{ always() }}
-      - name: Check uncommitted changes
-        if: ${{ always() }}
-        # Check that Git working tree is clean after running `npm install` via the frontend-maven-plugin.
-        # The `git` command exits with 1 and fails the build if there are any uncommitted changes.
-        run: git diff HEAD --exit-code
-        working-directory: kiegroup_optaweb_vehicle_routing/optaweb-vehicle-routing
