@@ -19,29 +19,17 @@ package org.optaweb.vehiclerouting.plugin.rest.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-import java.io.IOException;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Distance;
-import org.springframework.boot.test.json.JacksonTester;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.optaweb.vehiclerouting.util.jackson.JacksonAssertions;
 
 class PortableDistanceTest {
 
-    private JacksonTester<PortableDistance> json;
-
-    @BeforeEach
-    void setUp() {
-        // This initializes the json field
-        JacksonTester.initFields(this, new ObjectMapper());
-    }
-
     @Test
-    void marshal_to_json() throws IOException {
+    void marshal_to_json() {
         Distance distance = Distance.ofMillis(3_661_987);
-        assertThat(json.write(PortableDistance.fromDistance(distance)).getJson()).isEqualTo("\"1h 1m 2s\"");
+        PortableDistance portableDistance = PortableDistance.fromDistance(distance);
+        JacksonAssertions.assertThat(portableDistance).serializedIsEqualToJson("\"1h 1m 2s\"");
     }
 
     @Test

@@ -19,33 +19,21 @@ package org.optaweb.vehiclerouting.plugin.rest.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-import java.io.IOException;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.VehicleFactory;
-import org.springframework.boot.test.json.JacksonTester;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.optaweb.vehiclerouting.util.jackson.JacksonAssertions;
 
 class PortableVehicleTest {
 
-    private JacksonTester<PortableVehicle> json;
-
-    @BeforeEach
-    void setUp() {
-        JacksonTester.initFields(this, new ObjectMapper());
-    }
-
     @Test
-    void marshall_to_json() throws IOException {
+    void marshall_to_json() {
         long id = 321;
         String name = "Pink: {XY-123} \"B\"";
         int capacity = 78;
         PortableVehicle portableVehicle = new PortableVehicle(id, name, capacity);
         String jsonTemplate = "{\"id\":%d,\"name\":\"%s\",\"capacity\":%d}";
-        assertThat(json.write(portableVehicle)).isEqualToJson(
-                String.format(jsonTemplate, id, name.replaceAll("\"", "\\\\\""), capacity));
+        String expected = String.format(jsonTemplate, id, name.replaceAll("\"", "\\\\\""), capacity);
+        JacksonAssertions.assertThat(portableVehicle).serializedIsEqualToJson(expected);
     }
 
     @Test
