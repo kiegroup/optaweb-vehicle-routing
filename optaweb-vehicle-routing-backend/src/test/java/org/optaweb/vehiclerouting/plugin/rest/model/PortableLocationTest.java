@@ -19,16 +19,13 @@ package org.optaweb.vehiclerouting.plugin.rest.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.springframework.boot.test.json.JacksonTester;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.optaweb.vehiclerouting.util.jackson.JacksonAssertions;
+import org.optaweb.vehiclerouting.util.junit.FileContent;
 
 class PortableLocationTest {
 
@@ -37,22 +34,15 @@ class PortableLocationTest {
             BigDecimal.ONE,
             BigDecimal.TEN,
             "Some Location");
-    private JacksonTester<PortableLocation> json;
 
-    @BeforeEach
-    void setUp() {
-        // This initializes the json field
-        JacksonTester.initFields(this, new ObjectMapper());
+    @Test
+    void marshal_to_json(@FileContent("portable-location.json") String json) {
+        JacksonAssertions.assertThat(portableLocation).serializedIsEqualToJson(json);
     }
 
     @Test
-    void marshal_to_json() throws IOException {
-        assertThat(json.write(portableLocation)).isEqualToJson("portable-location.json");
-    }
-
-    @Test
-    void unmarshal_from_json() throws IOException {
-        assertThat(json.read("portable-location.json")).isEqualTo(portableLocation);
+    void unmarshal_from_json(@FileContent("portable-location.json") String json) {
+        JacksonAssertions.assertThat(json).deserializedIsEqualTo(portableLocation);
     }
 
     @Test

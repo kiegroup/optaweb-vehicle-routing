@@ -17,32 +17,19 @@
 package org.optaweb.vehiclerouting.plugin.rest.model;
 
 import static java.util.Arrays.asList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.optaweb.vehiclerouting.plugin.rest.model.PortableCoordinates.fromCoordinates;
 import static org.optaweb.vehiclerouting.plugin.rest.model.PortableLocation.fromLocation;
 
-import java.io.IOException;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
-import org.springframework.boot.test.json.JacksonTester;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.optaweb.vehiclerouting.util.jackson.JacksonAssertions;
+import org.optaweb.vehiclerouting.util.junit.FileContent;
 
 class PortableRouteTest {
 
-    private JacksonTester<PortableRoute> json;
-
-    @BeforeEach
-    void setUp() {
-        // This initializes the json field
-        JacksonTester.initFields(this, new ObjectMapper());
-    }
-
     @Test
-    void marshal_to_json() throws IOException {
+    void marshal_to_json(@FileContent("portable-route.json") String expectedJson) {
         PortableVehicle vehicle = new PortableVehicle(13, "Vehicle", 45317);
         PortableLocation depot = visit(8, 42.6501218, -71.8835449, "Test depot");
         PortableLocation visit1 = visit(100, 42.7066596, -72.4934873, "Visit 1");
@@ -59,7 +46,7 @@ class PortableRouteTest {
                         asList(
                                 coordinates(42.64994, -71.88537),
                                 coordinates(42.64994, -71.88542))));
-        assertThat(json.write(portableRoute)).isStrictlyEqualToJson("portable-route.json");
+        JacksonAssertions.assertThat(portableRoute).serializedIsEqualToJson(expectedJson);
     }
 
     private static PortableLocation visit(long id, double latitude, double longitude, String description) {

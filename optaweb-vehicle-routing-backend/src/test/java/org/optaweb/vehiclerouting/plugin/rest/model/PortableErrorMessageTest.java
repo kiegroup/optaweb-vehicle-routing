@@ -18,31 +18,19 @@ package org.optaweb.vehiclerouting.plugin.rest.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.IOException;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.service.error.ErrorMessage;
-import org.springframework.boot.test.json.JacksonTester;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.optaweb.vehiclerouting.util.jackson.JacksonAssertions;
+import org.optaweb.vehiclerouting.util.junit.FileContent;
 
 class PortableErrorMessageTest {
 
-    private JacksonTester<PortableErrorMessage> json;
-
-    @BeforeEach
-    void setUp() {
-        // This initializes the json field
-        JacksonTester.initFields(this, new ObjectMapper());
-    }
-
     @Test
-    void marshal_to_json() throws IOException {
+    void marshal_to_json(@FileContent("portable-error-message.json") String expectedJson) {
         String id = "c670dd37-62fb-4e86-95ed-c1f4953aaeaa";
         String text = "Error message.\nDetails.";
         PortableErrorMessage portableErrorMessage = PortableErrorMessage.fromMessage(ErrorMessage.of(id, text));
-        assertThat(json.write(portableErrorMessage)).isStrictlyEqualToJson("portable-error-message.json");
+        JacksonAssertions.assertThat(portableErrorMessage).serializedIsEqualToJson(expectedJson);
     }
 
     @Test

@@ -19,33 +19,21 @@ package org.optaweb.vehiclerouting.plugin.rest.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.springframework.boot.test.json.JacksonTester;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.optaweb.vehiclerouting.util.jackson.JacksonAssertions;
 
 class PortableCoordinatesTest {
 
-    private JacksonTester<PortableCoordinates> json;
-
-    @BeforeEach
-    void setUp() {
-        // This initializes the json field
-        JacksonTester.initFields(this, new ObjectMapper());
-    }
-
     @Test
-    void marshal_to_json() throws IOException {
+    void marshal_to_json() {
         // values are tweaked to enforce rounding to 5 decimal places
         PortableCoordinates portableCoordinates = new PortableCoordinates(
                 BigDecimal.valueOf(0.123454321),
                 BigDecimal.valueOf(-44.444445111));
-        assertThat(json.write(portableCoordinates).getJson()).isEqualTo("{\"lat\":0.12345,\"lng\":-44.44445}");
+        JacksonAssertions.assertThat(portableCoordinates).serializedIsEqualToJson("{\"lat\":0.12345,\"lng\":-44.44445}");
     }
 
     @Test
