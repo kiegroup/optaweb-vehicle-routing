@@ -51,3 +51,7 @@ How to retest this PR or trigger a specific build:
 * for a <b>specific Native LTS check</b> please add comment: <b>Jenkins (re)run [optaweb-vehicle-routing] native</b>
 -->
 </details>
+
+### CI Status
+
+ You can check Optaplanner organization repositories CI status from [Chain Status webpage](https://kiegroup.github.io/optaplanner/)
