@@ -39,8 +39,7 @@ public class RemoveVehicle implements ProblemChange<VehicleRoutingSolution> {
 
         // Un-initialize all visits of this vehicle
         for (PlanningVisit visit : workingVehicle.getFutureVisits()) {
-            problemChangeDirector.changeVariable(visit, "previousStandstill",
-                    planningVisit -> planningVisit.setPreviousStandstill(null));
+            visit.setPreviousStandstill(null);
         }
 
         // No need to clone the vehicleList because it is a planning entity collection, so it is already
@@ -49,15 +48,13 @@ public class RemoveVehicle implements ProblemChange<VehicleRoutingSolution> {
         // https://www.optaplanner.org/docs/optaplanner/latest/repeated-planning/repeated-planning.html#problemChangeExample
 
         // Remove the vehicle
-        problemChangeDirector.removeProblemFact(workingVehicle, planningVehicle -> {
-            if (!workingSolution.getVehicleList().remove(planningVehicle)) {
-                throw new IllegalStateException(
-                        "Working solution's vehicleList "
-                                + workingSolution.getVehicleList()
-                                + " doesn't contain the workingVehicle ("
-                                + planningVehicle
-                                + "). This is a bug!");
-            }
-        });
+        if (!workingSolution.getVehicleList().remove(workingVehicle)) {
+            throw new IllegalStateException(
+                    "Working solution's vehicleList "
+                            + workingSolution.getVehicleList()
+                            + " doesn't contain the workingVehicle ("
+                            + workingVehicle
+                            + "). This is a bug!");
+        }
     }
 }

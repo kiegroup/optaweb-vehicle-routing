@@ -33,6 +33,6 @@ public class AddVisit implements ProblemChange<VehicleRoutingSolution> {
 
     @Override
     public void doChange(VehicleRoutingSolution workingSolution, ProblemChangeDirector problemChangeDirector) {
-        problemChangeDirector.addEntity(visit, workingSolution.getVisitList()::add);
+        workingSolution.getVisitList().add(visit);
     }
 }

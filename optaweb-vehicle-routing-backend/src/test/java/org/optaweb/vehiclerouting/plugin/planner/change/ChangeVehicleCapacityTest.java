@@ -17,32 +17,34 @@
 package org.optaweb.vehiclerouting.plugin.planner.change;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.plugin.planner.MockSolver;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.optaplanner.core.api.solver.change.ProblemChangeDirector;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
-import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
+@ExtendWith(MockitoExtension.class)
 class ChangeVehicleCapacityTest {
+
+    @Mock
+    private ProblemChangeDirector problemChangeDirector;
 
     @Test
     void change_vehicle_capacity() {
         int oldCapacity = 100;
         int newCapacity = 50;
 
-        MockSolver<VehicleRoutingSolution> mockSolver = MockSolver.build(SolutionFactory.emptySolution());
-
         PlanningVehicle workingVehicle = PlanningVehicleFactory.testVehicle(1, oldCapacity);
         PlanningVehicle changeVehicle = PlanningVehicleFactory.testVehicle(2, newCapacity);
-
-        mockSolver.whenLookingUp(changeVehicle).thenReturn(workingVehicle);
+        when(problemChangeDirector.lookUpWorkingObjectOrFail(changeVehicle)).thenReturn(workingVehicle);
 
         // do change
-        mockSolver.addProblemChange(new ChangeVehicleCapacity(changeVehicle));
-
+        new ChangeVehicleCapacity(changeVehicle).doChange(SolutionFactory.emptySolution(), problemChangeDirector);
         assertThat(workingVehicle.getCapacity()).isEqualTo(newCapacity);
-        mockSolver.verifyProblemPropertyChanged(changeVehicle);
     }
 }

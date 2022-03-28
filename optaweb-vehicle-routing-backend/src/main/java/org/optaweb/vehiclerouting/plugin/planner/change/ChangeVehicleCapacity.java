@@ -36,7 +36,6 @@ public class ChangeVehicleCapacity implements ProblemChange<VehicleRoutingSoluti
         // No need to clone the workingVehicle because it is a planning entity, so it is already planning-cloned.
         // To learn more about problem fact changes, see:
         // https://www.optaplanner.org/docs/optaplanner/latest/repeated-planning/repeated-planning.html#problemChangeExample
-        problemChangeDirector.changeProblemProperty(vehicle,
-                workingVehicle -> workingVehicle.setCapacity(vehicle.getCapacity()));
+        problemChangeDirector.lookUpWorkingObjectOrFail(vehicle).setCapacity(vehicle.getCapacity());
     }
 }

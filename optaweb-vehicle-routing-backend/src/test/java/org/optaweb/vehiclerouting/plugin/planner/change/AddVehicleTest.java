@@ -19,24 +19,28 @@ package org.optaweb.vehiclerouting.plugin.planner.change;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.optaweb.vehiclerouting.plugin.planner.MockSolver;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.optaplanner.core.api.solver.change.ProblemChangeDirector;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicle;
 import org.optaweb.vehiclerouting.plugin.planner.domain.PlanningVehicleFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.SolutionFactory;
 import org.optaweb.vehiclerouting.plugin.planner.domain.VehicleRoutingSolution;
 
+@ExtendWith(MockitoExtension.class)
 class AddVehicleTest {
+
+    @Mock
+    private ProblemChangeDirector problemChangeDirector;
 
     @Test
     void add_vehicle_should_add_vehicle() {
         VehicleRoutingSolution solution = SolutionFactory.emptySolution();
 
-        MockSolver<VehicleRoutingSolution> mockSolver = MockSolver.build(solution);
-
         PlanningVehicle vehicle = PlanningVehicleFactory.testVehicle(1);
-        mockSolver.addProblemChange(new AddVehicle(vehicle));
+        new AddVehicle(vehicle).doChange(solution, problemChangeDirector);
 
         assertThat(solution.getVehicleList()).containsExactly(vehicle);
-        mockSolver.verifyProblemFactAdded(vehicle);
     }
 }
