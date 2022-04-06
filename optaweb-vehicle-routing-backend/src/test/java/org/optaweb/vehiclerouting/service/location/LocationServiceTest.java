@@ -20,11 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.domain.Coordinates;
 import org.optaweb.vehiclerouting.domain.Location;
@@ -64,7 +61,8 @@ class LocationServiceTest {
     }
 
     @Test
-    void createLocation(@Mock DistanceMatrixRow matrixRow) {
+    void createLocation() {
+        DistanceMatrixRow matrixRow = Mockito.mock(DistanceMatrixRow.class);
         String description = "new location";
         when(repository.createLocation(coordinates, description)).thenReturn(location);
         when(distanceMatrix.addLocation(any())).thenReturn(matrixRow);
@@ -82,7 +80,8 @@ class LocationServiceTest {
     }
 
     @Test
-    void addLocation(@Mock DistanceMatrixRow matrixRow) {
+    void addLocation() {
+        DistanceMatrixRow matrixRow = Mockito.mock(DistanceMatrixRow.class);
         when(distanceMatrix.addLocation(any())).thenReturn(matrixRow);
         assertThat(locationService.addLocation(location)).isTrue();
 
