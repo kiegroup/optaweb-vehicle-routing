@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.optaweb.vehiclerouting.service.error.ErrorMessage;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -29,7 +29,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 class WebSocketErrorMessageSenderTest {
 
     @Test
-    void should_send_consumed_message_over_websocket(@Mock SimpMessagingTemplate webSocket) {
+    void should_send_consumed_message_over_websocket() {
+        SimpMessagingTemplate webSocket = Mockito.mock(SimpMessagingTemplate.class);
         ErrorMessage message = ErrorMessage.of("id", "error");
         new WebSocketErrorMessageSender(webSocket).consumeMessage(message);
         verify(webSocket).convertAndSend(

@@ -23,7 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
-import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,8 +33,9 @@ class ErrorListenerTest {
     private ArgumentCaptor<ErrorMessage> argumentCaptor;
 
     @Test
-    void should_pass_error_message_to_consumer(@Mock ErrorMessageConsumer errorMessageConsumer) {
+    void should_pass_error_message_to_consumer() {
         // arrange
+        ErrorMessageConsumer errorMessageConsumer = Mockito.mock(ErrorMessageConsumer.class);
         String text = "error";
         ErrorListener errorListener = new ErrorListener(errorMessageConsumer);
         // act
