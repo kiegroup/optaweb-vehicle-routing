@@ -167,25 +167,12 @@
               <goal>exec</goal>
             </goals>
             <configuration>
-              <executable>${container.runtime}</executable>
-              <workingDirectory>${project.parent.basedir}/${frontend.project.name}</workingDirectory>
+              <executable>${project.basedir}/run_cypress_tests.sh</executable>
               <arguments>
-                <argument>run</argument>
-                <argument>--network=host</argument> <!-- Cypress accesses UI running on the host. -->
-                <argument>--volume</argument>
-                <argument>${project.parent.basedir}/${frontend.project.name}:/e2e:Z</argument>
-                <argument>--workdir</argument>
-                <argument>/e2e</argument>
-                <argument>${user.flag}</argument>
-                <argument>${user.name.group}</argument>
-                <argument>--entrypoint</argument>
-                <argument>cypress</argument>
-                <argument>cypress/included:${version.cypress.docker}</argument>
-                <argument>run</argument> <!-- Executing cypress:run. -->
-                <argument>--project</argument>
-                <argument>.</argument>
-                <argument>--config</argument>
-                <argument>baseUrl=${application.url}</argument>
+                <argument>${container.runtime}</argument>
+                <argument>${maven.multiModuleProjectDirectory}${file.separator}${frontend.project.name}</argument>
+                <argument>${version.cypress.docker}</argument>
+                <argument>${application.port}</argument>
               </arguments>
             </configuration>
           </execution>
@@ -272,19 +259,6 @@
           </plugin>
         </plugins>
       </build>
-    </profile>
-    <profile>
-      <id>docker</id>
-      <activation>
-        <property>
-          <name>container.runtime</name>
-          <value>docker</value>
-        </property>
-      </activation>
-      <properties>
-        <user.flag>--user</user.flag>
-        <user.name.group>1000:1000</user.name.group>
-      </properties>
     </profile>
   </profiles>
 </project>
