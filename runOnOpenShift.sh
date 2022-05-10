@@ -181,11 +181,11 @@ oc start-build backend --from-dir=${dir_backend} --follow
 # -- new app
 oc new-app backend
 # -- use PostgreSQL secret
-oc set env deployment/backend --from=secret/postgresql
+oc set env dc/backend --from=secret/postgresql
 # -- set the rest of the configuration
-oc set env deployment/backend "${dc_backend_env[@]}"
+oc set env dc/backend "${dc_backend_env[@]}"
 # Add a PersistentVolumeClaim
-oc set volumes deployment/backend --add \
+oc set volumes dc/backend --add \
     --type pvc \
     --claim-size 1Gi \
     --claim-mode ReadWriteOnce \
