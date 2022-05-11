@@ -16,6 +16,7 @@
 
 # Abort the script if any simple command outside an if, while, &&, ||, etc. exits with a non-zero status.
 set -e
+
 # If dir is empty, dir/* will expand to "" instead of "dir/*". This is useful when reading regions in interactive() and
 # either openstreetmap or graphhopper dir is empty.
 shopt -s nullglob
