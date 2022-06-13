@@ -1,2 +1,2 @@
-/* eslint-disable header/header,spaced-comment */
+/* eslint-disable spaced-comment */
 /// <reference types="react-scripts" />
