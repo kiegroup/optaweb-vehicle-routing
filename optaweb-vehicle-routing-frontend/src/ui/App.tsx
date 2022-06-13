@@ -2,7 +2,6 @@ import { Page, PageSection } from '@patternfly/react-core';
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Alerts from 'ui/components/Alerts';
-import './App.css';
 import Background from './components/Background';
 import { ConnectionManager } from './connection';
 import Header from './header/Header';
