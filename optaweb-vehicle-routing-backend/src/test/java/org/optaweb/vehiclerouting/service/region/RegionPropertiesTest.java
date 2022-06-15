@@ -2,6 +2,8 @@ package org.optaweb.vehiclerouting.service.region;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.Test;
@@ -16,6 +18,6 @@ class RegionPropertiesTest {
 
     @Test
     void test() {
-        assertThat(regionProperties.countryCodes()).containsExactly("AT", "DE");
+        assertThat(regionProperties.countryCodes()).contains(List.of("AT", "DE"));
     }
 }

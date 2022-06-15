@@ -1,6 +1,7 @@
 package org.optaweb.vehiclerouting.service.region;
 
 import java.util.List;
+import java.util.Optional;
 
 import io.smallrye.config.ConfigMapping;
 
@@ -13,5 +14,5 @@ interface RegionProperties {
      *
      * @return list of country codes (never {@code null})
      */
-    List<String> countryCodes();
+    Optional<List<String>> countryCodes();
 }
