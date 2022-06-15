@@ -101,7 +101,7 @@ class RoutingConfig {
             return false;
         }
         try (Stream<Path> graphDirFiles = Files.list(graphDir)) {
-            // Defensive programming. Check if the graph dir is empty. That happens if the import fails for example
+            // Defensive programming. Check if the graph dir is empty. That happens if the import fails
             // for example due to OutOfMemoryError.
             return graphDirFiles.findAny().isPresent();
         } catch (IOException e) {
