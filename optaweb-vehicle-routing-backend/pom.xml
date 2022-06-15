@@ -184,20 +184,6 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-failsafe-plugin</artifactId>
-        <configuration>
-          <!--
-            Required due to the "repackage" goal of spring-boot-maven-plugin, as the maven-failsafe-plugin cannot
-            find classes in the fat jar. For more details see:
-            https://sandor-nemeth.github.io/2017/10/16/integration-tests-with-spring-boot-classnotfoundexception.html.
-          -->
-          <additionalClasspathElements>
-            <additionalClasspathElement>${project.build.outputDirectory}</additionalClasspathElement>
-          </additionalClasspathElements>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <show>package</show>
@@ -249,7 +235,6 @@
                 -->
                 <avoidCallsTo>java.lang.StringBuilder</avoidCallsTo>
                 <avoidCallsTo>org.slf4j</avoidCallsTo>
-                <avoidCallsTo>org.springframework.boot.SpringApplication</avoidCallsTo>
               </avoidCallsTo>
               <excludedClasses>
                 <excludedClass>*Config</excludedClass>
