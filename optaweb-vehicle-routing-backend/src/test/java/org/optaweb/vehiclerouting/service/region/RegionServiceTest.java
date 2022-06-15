@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,7 +27,7 @@ class RegionServiceTest {
     @Test
     void should_return_country_codes_from_properties() {
         List<String> countryCodes = Arrays.asList("XY", "WZ");
-        when(regionProperties.countryCodes()).thenReturn(countryCodes);
+        when(regionProperties.countryCodes()).thenReturn(Optional.of(countryCodes));
 
         assertThat(regionService.countryCodes()).isEqualTo(countryCodes);
     }

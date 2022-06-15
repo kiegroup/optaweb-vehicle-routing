@@ -26,7 +26,7 @@ public class RegionService {
      * @return country codes (never {@code null})
      */
     public List<String> countryCodes() {
-        return regionProperties.countryCodes();
+        return regionProperties.countryCodes().orElse(List.of());
     }
 
     /**
