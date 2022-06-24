@@ -164,7 +164,7 @@
                 <argument>${user.name.group}</argument>
                 <argument>--entrypoint</argument>
                 <argument>cypress</argument>
-                <argument>cypress/included:${version.cypress.docker}</argument>
+                <argument>docker.io/cypress/included:${version.cypress.docker}</argument>
                 <argument>run</argument> <!-- Executing cypress:run. -->
                 <argument>--project</argument>
                 <argument>.</argument>
