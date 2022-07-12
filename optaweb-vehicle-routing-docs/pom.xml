@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.optaweb.vehiclerouting</groupId>
     <artifactId>optaweb-vehicle-routing</artifactId>
-    <version>8.24.1.Final</version>
+    <version>8.24.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>optaweb-vehicle-routing-docs</artifactId>
