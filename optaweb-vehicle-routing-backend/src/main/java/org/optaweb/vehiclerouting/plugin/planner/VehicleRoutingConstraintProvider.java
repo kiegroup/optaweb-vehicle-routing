@@ -23,26 +23,26 @@ public class VehicleRoutingConstraintProvider implements ConstraintProvider {
         return constraintFactory.forEach(PlanningVisit.class)
                 .groupBy(PlanningVisit::getVehicle, sum(PlanningVisit::getDemand))
                 .filter((vehicle, demand) -> demand > vehicle.getCapacity())
-                .penalizeLong(
-                        "vehicle capacity",
-                        HardSoftLongScore.ONE_HARD,
-                        (vehicle, demand) -> demand - vehicle.getCapacity());
+                .penalizeLong(HardSoftLongScore.ONE_HARD,
+                        (vehicle, demand) -> demand - vehicle.getCapacity())
+                .asConstraint("vehicle capacity");
     }
 
     Constraint distanceFromPreviousStandstill(ConstraintFactory constraintFactory) {
         return constraintFactory.forEach(PlanningVisit.class)
                 .penalizeLong(
-                        "distance from previous standstill",
                         HardSoftLongScore.ONE_SOFT,
-                        PlanningVisit::distanceFromPreviousStandstill);
+                        PlanningVisit::distanceFromPreviousStandstill)
+                .asConstraint("distance from previous standstill");
     }
 
     Constraint distanceFromLastVisitToDepot(ConstraintFactory constraintFactory) {
         return constraintFactory.forEach(PlanningVisit.class)
                 .filter(PlanningVisit::isLast)
                 .penalizeLong(
-                        "distance from last visit to depot",
                         HardSoftLongScore.ONE_SOFT,
-                        PlanningVisit::distanceToDepot);
+                        PlanningVisit::distanceToDepot)
+                .asConstraint("distance from last visit to depot");
     }
+
 }
