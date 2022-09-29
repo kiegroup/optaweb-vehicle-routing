@@ -31,6 +31,7 @@ Map getMultijobPRConfig() {
 List environments = Environment.getActiveEnvironments(this)
 environments.retainAll { it != Environment.NATIVE } // There is no requirement for Native support.
 environments.retainAll { it != Environment.MANDREL } // There is no requirement for Native Mandrel support.
+environments.retainAll { it != Environment.MANDREL_LTS } // There is no requirement for Native Mandrel LTS support.
 KogitoJobUtils.createPerEnvPerRepoPRJobs(this, environments) { jobFolder -> getMultijobPRConfig() }
 
 // Init branch

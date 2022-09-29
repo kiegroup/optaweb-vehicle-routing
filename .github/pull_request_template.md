@@ -72,22 +72,6 @@ How to retest this PR or trigger a specific build:
 - for a <b>specific quarkus main check</b>  
   Run checks against Quarkus main branch  
   Please add comment: <b>Jenkins (re)run [optaweb-vehicle-routing] quarkus-branch</b>
-
-<!-- - for <b>native checks</b>  
-  Run native checks  
-  Please add comment: <b>Jenkins run native</b>
-
-- for a <b>specific native check</b>  
-  Run native checks 
-  Please add comment: <b>Jenkins (re)run [optaweb-vehicle-routing] native</b>
-
-- for <b>mandrel checks</b>  
-  Run native checks against Mandrel image
-  Please add comment: <b>Jenkins run mandrel</b>
-
-- for a <b>specific mandrel check</b>  
-  Run native checks against Mandrel image  
-  Please add comment: <b>Jenkins (re)run [optaweb-vehicle-routing] mandrel</b> -->
 </details>
 
 ### CI Status
