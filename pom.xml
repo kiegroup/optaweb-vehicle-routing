@@ -34,7 +34,7 @@
     <version.npm>7.15.1</version.npm>
     <!-- Override protobuf version from Quarkus to make it compatible with GraphHopper. -->
     <protobuf-java.version>3.6.1</protobuf-java.version>
-    <version.com.google.protobuf>3.6.1</version.com.google.protobuf>
+    <version.com.google.protobuf>3.16.3</version.com.google.protobuf>
   </properties>
 
   <dependencyManagement>
