@@ -8,8 +8,8 @@
 * https://github.com/kiegroup/kogito-pipelines/tree/main/dsl/seed/src/main/groovy/org/kie/jenkins/jobdsl.
 */
 
-import org.kie.jenkins.jobdsl.model.Environment
-import org.kie.jenkins.jobdsl.model.Folder
+import org.kie.jenkins.jobdsl.model.JobType
+import org.kie.jenkins.jobdsl.utils.EnvUtils
 import org.kie.jenkins.jobdsl.KogitoJobTemplate
 import org.kie.jenkins.jobdsl.KogitoJobUtils
 import org.kie.jenkins.jobdsl.Utils
@@ -29,10 +29,7 @@ Map getMultijobPRConfig() {
     ]
 }
 
-List environments = Environment.getActiveEnvironments(this)
-environments.retainAll { it != Environment.NATIVE } // There is no requirement for Native support.
-environments.retainAll { it != Environment.MANDREL } // There is no requirement for Native Mandrel support.
-environments.retainAll { it != Environment.MANDREL_LTS } // There is no requirement for Native Mandrel LTS support.
+List environments = EnvUtils.getAllEnabledEnvironmentsForIds(this, [], [ 'native' ]) // There is no requirement for native support.
 KogitoJobUtils.createPerEnvPerRepoPRJobs(this, environments) { jobFolder -> getMultijobPRConfig() }
 
 // Init branch
@@ -40,7 +37,7 @@ createSetupBranchJob()
 
 
 void createSetupBranchJob() {
-    def jobParams = KogitoJobUtils.getBasicJobParams(this, 'optaweb-vehicle-routing', Folder.SETUP_BRANCH, "${jenkins_path}/Jenkinsfile.setup-branch", 'Optaweb Vehicle Routing Setup Branch')
+    def jobParams = KogitoJobUtils.getBasicJobParams(this, 'optaweb-vehicle-routing', JobType.SETUP_BRANCH, "${jenkins_path}/Jenkinsfile.setup-branch", 'Optaweb Vehicle Routing Setup Branch')
     KogitoJobUtils.setupJobParamsDefaultMavenConfiguration(this, jobParams)
     jobParams.env.putAll([
         REPO_NAME: 'optaweb-vehicle-routing',
