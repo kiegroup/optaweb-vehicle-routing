@@ -93,7 +93,7 @@ pipeline {
     }
     post {
         unsuccessful {
-            sendNotification()
+            sendErrorNotification()
         }
         cleanup {
             script {
@@ -103,9 +103,10 @@ pipeline {
     }
 }
 
-void sendNotification() {
+void sendErrorNotification() {
     if (params.SEND_NOTIFICATION) {
-        mailer.sendMarkdownTestSummaryNotification('Init', "[${getBuildBranch()}] Optaweb Vehicle Routing", [env.OPTAPLANNER_CI_EMAIL_TO])
+        String additionalInfo = "**[${getBuildBranch()}] Optaweb Vehicle Routing - Setup branch**"
+        mailer.sendMarkdownTestSummaryNotification("CI failures", [env.OPTAPLANNER_CI_EMAIL_TO], additionalInfo)
     } else {
         echo 'No notification sent per configuration'
     }
