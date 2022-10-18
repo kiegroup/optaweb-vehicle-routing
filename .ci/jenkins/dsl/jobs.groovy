@@ -12,6 +12,7 @@ import org.kie.jenkins.jobdsl.model.Environment
 import org.kie.jenkins.jobdsl.model.Folder
 import org.kie.jenkins.jobdsl.KogitoJobTemplate
 import org.kie.jenkins.jobdsl.KogitoJobUtils
+import org.kie.jenkins.jobdsl.Utils
 
 jenkins_path = '.ci/jenkins'
 
@@ -35,11 +36,11 @@ environments.retainAll { it != Environment.MANDREL_LTS } // There is no requirem
 KogitoJobUtils.createPerEnvPerRepoPRJobs(this, environments) { jobFolder -> getMultijobPRConfig() }
 
 // Init branch
-setupInitBranchJob()
+createSetupBranchJob()
 
 
-void setupInitBranchJob() {
-    def jobParams = KogitoJobUtils.getBasicJobParams(this, 'optaweb-vehicle-routing', Folder.INIT_BRANCH, "${jenkins_path}/Jenkinsfile.init-branch", 'Optaweb Vehicle Routing Init Branch')
+void createSetupBranchJob() {
+    def jobParams = KogitoJobUtils.getBasicJobParams(this, 'optaweb-vehicle-routing', Folder.SETUP_BRANCH, "${jenkins_path}/Jenkinsfile.setup-branch", 'Optaweb Vehicle Routing Setup Branch')
     KogitoJobUtils.setupJobParamsDefaultMavenConfiguration(this, jobParams)
     jobParams.env.putAll([
         REPO_NAME: 'optaweb-vehicle-routing',
@@ -51,6 +52,8 @@ void setupInitBranchJob() {
         MAVEN_SETTINGS_CONFIG_FILE_ID: "${MAVEN_SETTINGS_FILE_ID}",
         MAVEN_DEPENDENCIES_REPOSITORY: "${MAVEN_ARTIFACTS_REPOSITORY}",
         MAVEN_DEPLOY_REPOSITORY: "${MAVEN_ARTIFACTS_REPOSITORY}",
+
+        IS_MAIN_BRANCH: "${Utils.isMainBranch(this)}"
     ])
     KogitoJobTemplate.createPipelineJob(this, jobParams)?.with {
         parameters {
