@@ -33,8 +33,7 @@
     "lint": "eslint --ext .js,.ts,.tsx src/ cypress/",
     "lint:fix": "npm run lint -- --fix",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
-    "locktt": "locktt"
+    "cypress:run": "cypress run"
   },
   "jest-junit": {
     "outputDirectory": "./target/test-reports",
@@ -46,7 +45,6 @@
     "ancestorSeparator": "."
   },
   "devDependencies": {
-    "@kie/lock-treatment-tool": "^0.1.0",
     "@types/enzyme": "^3.10.5",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/jest": "^25.2.1",
