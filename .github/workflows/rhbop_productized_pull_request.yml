@@ -9,11 +9,16 @@ on:
       - 8.*
     paths-ignore:
       - 'LICENSE*'
+      - 'CODEOWNERS'
       - '.gitignore'
-      - '**.md'
-      - '**.adoc'
+      - '.gitattributes'
+      - '.travis.yml'
+      - '*.md'
+      - '*.adoc'
       - '*.txt'
-      - '.ci/jenkins/**'
+      - 'runOnOpenShift.sh'
+      - 'runLocally.sh'
+      - 'ide-configuration/**'
 
 defaults:
   run:
