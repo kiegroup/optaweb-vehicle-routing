@@ -14,7 +14,8 @@ import { connect } from 'react-redux';
 import { clientOperations } from 'store/client';
 import { UserViewport } from 'store/client/types';
 import { routeOperations } from 'store/route';
-import { LatLng, Location, RouteWithTrack } from 'store/route/types';
+import { Location, RouteWithTrack } from 'store/route/types';
+import { BoundingBox } from 'store/server/types';
 import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
 import RouteMap from 'ui/components/RouteMap';
@@ -24,7 +25,7 @@ export interface StateProps {
   depot: Location | null;
   visits: Location[];
   routes: RouteWithTrack[];
-  boundingBox: [LatLng, LatLng] | null;
+  boundingBox: BoundingBox | null;
   userViewport: UserViewport;
 }
 

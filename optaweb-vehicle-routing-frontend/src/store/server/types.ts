@@ -14,8 +14,10 @@ export interface Demo {
   visits: number;
 }
 
+export type BoundingBox = [LatLng, LatLng];
+
 export interface ServerInfo {
-  boundingBox: [LatLng, LatLng] | null;
+  boundingBox: BoundingBox | null;
   countryCodes: string[];
   demos: Demo[];
 }

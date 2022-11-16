@@ -1,7 +1,9 @@
 import { Button, TextInput } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import { OpenStreetMapProvider, SearchResult } from 'leaflet-geosearch';
+import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import { RawResult } from 'leaflet-geosearch/lib/providers/openStreetMapProvider';
+import { SearchResult } from 'leaflet-geosearch/lib/providers/provider';
 import * as React from 'react';
 import SearchBox, { Props, State } from './SearchBox';
 
@@ -111,28 +113,36 @@ describe('Search box', () => {
 
 const licenses = ['License 1', 'License 2'];
 
-const results: SearchResult[] = [{
+const results: SearchResult<RawResult>[] = [{
   label: 'London, ON, Canada',
   x: 101,
   y: 102,
   bounds: [[1, 2], [3, 4]],
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
   raw: { licence: licenses[0] },
 }, {
   label: 'London, OH, USA',
   x: 201,
   y: 202,
   bounds: [[1, 2], [3, 4]],
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
   raw: { licence: licenses[1] },
 }, {
   label: 'London, KY, USA',
   x: 301,
   y: 302,
   bounds: [[1, 2], [3, 4]],
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
   raw: { licence: licenses[1] },
 }, {
   label: 'London, UK',
   x: 401,
   y: 402,
   bounds: [[1, 2], [3, 4]],
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
   raw: { licence: licenses[0] },
 }];

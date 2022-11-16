@@ -2,7 +2,8 @@ import * as L from 'leaflet';
 import * as React from 'react';
 import { Map, Polyline, Rectangle, TileLayer, ZoomControl } from 'react-leaflet';
 import { UserViewport } from 'store/client/types';
-import { LatLng, Location, RouteWithTrack } from 'store/route/types';
+import { Location, RouteWithTrack } from 'store/route/types';
+import { BoundingBox } from 'store/server/types';
 import LocationMarker from './LocationMarker';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
@@ -14,7 +15,7 @@ export interface Props {
   depot: Location | null;
   visits: Location[];
   routes: Omit<RouteWithTrack, 'vehicle'>[];
-  boundingBox: [LatLng, LatLng] | null;
+  boundingBox: BoundingBox | null;
   userViewport: UserViewport;
   updateViewport: (viewport: UserViewport) => void;
 }

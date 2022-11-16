@@ -21,7 +21,8 @@ import { clientOperations } from 'store/client';
 import { UserViewport } from 'store/client/types';
 import { demoOperations } from 'store/demo';
 import { routeOperations, routeSelectors } from 'store/route';
-import { LatLng, Location, RouteWithTrack } from 'store/route/types';
+import { Location, RouteWithTrack } from 'store/route/types';
+import { BoundingBox } from 'store/server/types';
 import { AppState } from 'store/types';
 import { DemoDropdown } from 'ui/components/DemoDropdown';
 import LocationList from 'ui/components/LocationList';
@@ -42,7 +43,7 @@ export interface StateProps {
   visits: Location[];
   routes: RouteWithTrack[];
   isDemoLoading: boolean;
-  boundingBox: [LatLng, LatLng] | null;
+  boundingBox: BoundingBox | null;
   userViewport: UserViewport;
   countryCodeSearchFilter: string[];
   demoNames: string[];
