@@ -2,7 +2,6 @@ import { Alert } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import * as React from 'react';
-import { ReactElement } from 'react';
 import { Alerts, Props } from 'ui/components/Alerts';
 
 describe('Alerts', () => {
@@ -17,7 +16,7 @@ describe('Alerts', () => {
     const alerts = shallow(<Alerts {...props} />);
     expect(toJson(alerts)).toMatchSnapshot();
 
-    (alerts.find(Alert).at(1).prop('action') as ReactElement).props.onClose();
+    (alerts.find(Alert).at(1).prop('action') as React.ReactElement).props.onClose();
 
     expect(props.readMessage).toHaveBeenCalledWith('2');
   });

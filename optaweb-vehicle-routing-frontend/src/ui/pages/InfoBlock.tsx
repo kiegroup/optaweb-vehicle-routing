@@ -19,7 +19,7 @@ interface InfoBlockProps {
   tooltip: string;
 }
 
-export const InfoBlock = ({ icon, content, tooltip, color }: InfoBlockProps): JSX.Element => {
+export const InfoBlock = ({ icon, content, tooltip, color }: InfoBlockProps): React.ReactElement => {
   const Icon = icon;
   return (
     <Tooltip content={tooltip} position="bottom">
@@ -45,7 +45,7 @@ interface CapacityInfoProps {
 export const CapacityInfo = ({
   totalDemand,
   totalCapacity,
-}: CapacityInfoProps): JSX.Element => (
+}: CapacityInfoProps): React.ReactElement => (
   <InfoBlock
     icon={CapacityIcon}
     content={{ data: `${totalDemand}/${totalCapacity}`, minWidth: '4em' }}
@@ -58,7 +58,7 @@ interface DistanceInfoProps {
   distance: string;
 }
 
-export const DistanceInfo = ({ distance }: DistanceInfoProps): JSX.Element => (
+export const DistanceInfo = ({ distance }: DistanceInfoProps): React.ReactElement => (
   <InfoBlock
     icon={DistanceIcon}
     content={{ data: distance, minWidth: '6.8em' }}
@@ -66,7 +66,7 @@ export const DistanceInfo = ({ distance }: DistanceInfoProps): JSX.Element => (
   />
 );
 
-export const VehiclesInfo = (): JSX.Element => (
+export const VehiclesInfo = (): React.ReactElement => (
   <InfoBlock icon={TruckIcon} tooltip="Vehicles" />
 );
 
@@ -74,7 +74,7 @@ interface VisitInfoProps {
   visitCount: number;
 }
 
-export const VisitsInfo = ({ visitCount }: VisitInfoProps): JSX.Element => (
+export const VisitsInfo = ({ visitCount }: VisitInfoProps): React.ReactElement => (
   <InfoBlock
     icon={VisitIcon}
     content={{ data: visitCount, minWidth: '2em' }}

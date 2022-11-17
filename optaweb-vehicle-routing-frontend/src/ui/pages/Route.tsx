@@ -9,6 +9,7 @@ import {
   TextContent,
   TextVariants,
 } from '@patternfly/react-core';
+import { LeafletMouseEvent } from 'leaflet';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { clientOperations } from 'store/client';
@@ -68,7 +69,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
     this.handleMapClick = this.handleMapClick.bind(this);
   }
 
-  handleMapClick(e: L.LeafletMouseEvent): void {
+  handleMapClick(e: LeafletMouseEvent): void {
     this.props.addHandler({ ...e.latlng, description: '' });
   }
 
