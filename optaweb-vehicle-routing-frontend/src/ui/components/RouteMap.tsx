@@ -10,7 +10,7 @@ type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export interface Props {
   selectedId: number;
-  clickHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
+  clickHandler: (event: L.LeafletMouseEvent) => void;
   removeHandler: (id: number) => void;
   depot: Location | null;
   visits: Location[];
@@ -42,8 +42,7 @@ const RouteMap: React.FC<Props> = ({
   // do not use bounds if user's viewport is dirty
   const mapBounds = userViewport.isDirty ? undefined : bounds;
   // TODO make TileLayer URL configurable
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
+  // @ts-expect-error Cypress exists on window during Cypress test runs
   const tileLayerUrl = window.Cypress ? 'test-mode-empty-url' : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   return (
     <Map

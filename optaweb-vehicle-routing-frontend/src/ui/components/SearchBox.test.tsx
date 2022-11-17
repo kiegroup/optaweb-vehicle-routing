@@ -118,31 +118,27 @@ const results: SearchResult<RawResult>[] = [{
   x: 101,
   y: 102,
   bounds: [[1, 2], [3, 4]],
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
+  // @ts-expect-error discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
   raw: { licence: licenses[0] },
 }, {
   label: 'London, OH, USA',
   x: 201,
   y: 202,
   bounds: [[1, 2], [3, 4]],
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
+  // @ts-expect-error discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
   raw: { licence: licenses[1] },
 }, {
   label: 'London, KY, USA',
   x: 301,
   y: 302,
   bounds: [[1, 2], [3, 4]],
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
+  // @ts-expect-error discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
   raw: { licence: licenses[1] },
 }, {
   label: 'London, UK',
   x: 401,
   y: 402,
   bounds: [[1, 2], [3, 4]],
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
+  // @ts-expect-error discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
   raw: { licence: licenses[0] },
 }];

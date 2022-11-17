@@ -15,6 +15,7 @@ import {
 } from '@patternfly/react-core';
 import { MinusIcon, PlusIcon } from '@patternfly/react-icons';
 import { backendUrl } from 'common';
+import { LeafletMouseEvent } from 'leaflet';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { clientOperations } from 'store/client';
@@ -105,23 +106,23 @@ export class Demo extends React.Component<DemoProps, DemoState> {
     this.onSelectLocation = this.onSelectLocation.bind(this);
   }
 
-  handleMapClick(e: any) {
+  handleMapClick(e: LeafletMouseEvent): void {
     this.props.addLocationHandler({ ...e.latlng, description: '' }); // TODO use reverse geocoding to find address
   }
 
-  handleSearchResultClick(result: Result) {
+  handleSearchResultClick(result: Result): void {
     this.props.addLocationHandler({ ...result.latLng, description: result.address });
   }
 
-  handleDemoLoadClick(demoName: string) {
+  handleDemoLoadClick(demoName: string): void {
     this.props.loadHandler(demoName);
   }
 
-  onSelectLocation(id: number) {
+  onSelectLocation(id: number): void {
     this.setState({ selectedId: id });
   }
 
-  render() {
+  render(): React.ReactNode {
     const { selectedId } = this.state;
     const {
       distance,

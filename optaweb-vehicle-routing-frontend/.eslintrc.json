@@ -30,6 +30,7 @@
     "airbnb-typescript"
   ],
   "rules": {
+    "@typescript-eslint/ban-ts-comment": ["error", {"ts-expect-error": "allow-with-description"}],
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-member-accessibility": ["error", {"accessibility": "no-public"}],
     "@typescript-eslint/indent": ["error", 2],

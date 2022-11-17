@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { ThunkAction } from 'redux-thunk';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { Message } from 'store/message/types';
 import WebSocketClient from 'websocket/WebSocketClient';
 import { UserViewport } from './client/types';
@@ -16,6 +16,8 @@ import { WebSocketConnectionStatus } from './websocket/types';
  * @template A Type of action(s) allowed to be dispatched.
  */
 export type ThunkCommand<A extends Action> = ThunkAction<void, AppState, WebSocketClient, A>;
+
+export type Dispatch<A extends Action> = ThunkDispatch<AppState, WebSocketClient, A>;
 
 /**
  * Factory method that takes a value and creates an @type {Action}.

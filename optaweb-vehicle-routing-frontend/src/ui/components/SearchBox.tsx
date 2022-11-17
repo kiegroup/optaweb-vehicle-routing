@@ -67,11 +67,11 @@ class SearchBox extends React.Component<Props, State> {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(): void {
     this.searchProvider = new OpenStreetMapProvider(providerOptions(this.props));
   }
 
-  componentWillUnmount() {
+  componentWillUnmount(): void {
     if (this.timeoutId) {
       window.clearTimeout(this.timeoutId);
     }
@@ -95,8 +95,8 @@ class SearchBox extends React.Component<Props, State> {
                 latLng: { lat: result.y, lng: result.x },
               })),
             attributions: searchResults
-              // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-              // @ts-ignore discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
+              // eslint-disable-next-line max-len
+              // @ts-expect-error discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
               .map((result) => result.raw.licence)
               // filter out duplicate elements
               .filter((value, index, array) => array.indexOf(value) === index),
@@ -110,7 +110,7 @@ class SearchBox extends React.Component<Props, State> {
     }
   }
 
-  handleClick(index: number) {
+  handleClick(index: number): void {
     this.props.addHandler(this.state.results[index]);
     this.setState({
       query: '',
@@ -120,7 +120,7 @@ class SearchBox extends React.Component<Props, State> {
     // TODO focus text input
   }
 
-  render() {
+  render(): React.ReactNode {
     const { attributions, query, results } = this.state;
     return (
       <>

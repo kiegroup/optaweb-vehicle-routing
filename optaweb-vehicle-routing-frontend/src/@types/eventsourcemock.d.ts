@@ -2,8 +2,8 @@
 
 declare module 'eventsourcemock' {
   interface EventSource {
-    onopen: () => {};
-    onerror: () => {};
+    onopen: () => unknown;
+    onerror: () => unknown;
 
     emit(eventName: string, messageEvent?: MessageEvent);
 

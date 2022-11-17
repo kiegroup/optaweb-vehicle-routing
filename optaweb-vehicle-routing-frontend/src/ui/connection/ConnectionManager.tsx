@@ -4,6 +4,7 @@ import { AppState } from 'store/types';
 import { websocketOperations } from 'store/websocket';
 import { WebSocketConnectionStatus } from 'store/websocket/types';
 import ConnectionError from 'ui/connection/ConnectionError';
+import { ReactNode } from 'react';
 
 interface StateProps {
   connectionStatus: WebSocketConnectionStatus;
@@ -24,11 +25,11 @@ const mapDispatchToProps: DispatchProps = {
 };
 
 export class ConnectionManager extends React.Component<Props> {
-  componentDidMount() {
+  componentDidMount(): void {
     this.props.connectClient();
   }
 
-  render() {
+  render(): ReactNode {
     return (
       <ConnectionError isOpen={this.props.connectionStatus === WebSocketConnectionStatus.ERROR} />
     );

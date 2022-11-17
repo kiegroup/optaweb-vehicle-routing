@@ -1,4 +1,4 @@
-import { ThunkCommandFactory } from '../types';
+import { AppState, Dispatch, ThunkCommandFactory } from '../types';
 import * as actions from './actions';
 import {
   AddLocationAction,
@@ -9,45 +9,49 @@ import {
   LatLngWithDescription,
   VehicleCapacity,
 } from './types';
+import WebSocketClient from '../../websocket/WebSocketClient';
 
 export const { updateRoute } = actions;
 
 export const addLocation: ThunkCommandFactory<LatLngWithDescription, AddLocationAction> = (
-  (location) => (dispatch, _getState, client) => {
+  (location) => (dispatch: Dispatch<AddLocationAction>, _getState: () => AppState, client: WebSocketClient): void => {
     dispatch(actions.addLocation(location));
     client.addLocation(location);
   });
 
 export const deleteLocation: ThunkCommandFactory<number, DeleteLocationAction> = (
-  (locationId) => (dispatch, _getState, client) => {
-    dispatch(actions.deleteLocation(locationId));
-    client.deleteLocation(locationId);
-  });
+  (locationId) => (
+    (dispatch: Dispatch<DeleteLocationAction>, _getState: () => AppState, client: WebSocketClient): void => {
+      dispatch(actions.deleteLocation(locationId));
+      client.deleteLocation(locationId);
+    }));
 
 export const addVehicle: ThunkCommandFactory<void, AddVehicleAction> = (
-  () => (dispatch, _getState, client) => {
+  () => (dispatch: Dispatch<AddVehicleAction>, _getState: () => AppState, client: WebSocketClient): void => {
     dispatch(actions.addVehicle());
     client.addVehicle();
   });
 
 export const deleteVehicle: ThunkCommandFactory<number, DeleteVehicleAction> = (
-  (vehicleId) => (dispatch, _getState, client) => {
-    dispatch(actions.deleteVehicle(vehicleId));
-    client.deleteVehicle(vehicleId);
-  });
+  (vehicleId) => (
+    (dispatch: Dispatch<DeleteVehicleAction>, _getState: () => AppState, client: WebSocketClient): void => {
+      dispatch(actions.deleteVehicle(vehicleId));
+      client.deleteVehicle(vehicleId);
+    }));
 
 export const deleteAnyVehicle: ThunkCommandFactory<void, never> = (
-  () => (_dispatch, _getState, client) => {
+  () => (_dispatch: Dispatch<never>, _getState: () => AppState, client: WebSocketClient): void => {
     client.deleteAnyVehicle();
   });
 
 export const changeVehicleCapacity: ThunkCommandFactory<VehicleCapacity, never> = (
-  ({ vehicleId, capacity }: VehicleCapacity) => (_dispatch, _getState, client) => {
-    client.changeVehicleCapacity(vehicleId, capacity);
-  });
+  ({ vehicleId, capacity }: VehicleCapacity) => (
+    (_dispatch: Dispatch<never>, _getState: () => AppState, client: WebSocketClient): void => {
+      client.changeVehicleCapacity(vehicleId, capacity);
+    }));
 
 export const clearRoute: ThunkCommandFactory<void, ClearRouteAction> = (
-  () => (dispatch, _getState, client) => {
+  () => (dispatch: Dispatch<ClearRouteAction>, _getState: () => AppState, client: WebSocketClient): void => {
     dispatch(actions.clearRoute());
     client.clear();
   });
