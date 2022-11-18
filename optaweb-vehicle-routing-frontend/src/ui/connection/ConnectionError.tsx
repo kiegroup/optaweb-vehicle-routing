@@ -1,6 +1,6 @@
 import {
   BaseSizes,
-  Expandable,
+  ExpandableSection,
   Flex,
   FlexItem,
   List,
@@ -10,7 +10,6 @@ import {
   TextContent,
   TextVariants,
   Title,
-  TitleLevel,
 } from '@patternfly/react-core';
 import { UnpluggedIcon } from '@patternfly/react-icons';
 import { backendUrl } from 'common';
@@ -28,7 +27,7 @@ const header = (
       <UnpluggedIcon size="md" />
     </FlexItem>
     <FlexItem>
-      <Title headingLevel={TitleLevel.h1} size={BaseSizes['2xl']}>
+      <Title headingLevel="h1" size={BaseSizes['2xl']}>
         {title}
       </Title>
     </FlexItem>
@@ -36,12 +35,12 @@ const header = (
 );
 
 const ConnectionError: React.FC<ConnectionErrorProps> = ({ isOpen }) => (
-  <Modal title={title} header={header} isOpen={isOpen} isSmall>
+  <Modal title={title} header={header} isOpen={isOpen} variant="small" showClose={false}>
     <TextContent>
       <Text component={TextVariants.p}>
         Cannot connect to server.
       </Text>
-      <Expandable toggleText="Show more">
+      <ExpandableSection toggleText="Show more">
         <Text component={TextVariants.p}>
           The server is expected to be running at
           {' '}
@@ -60,7 +59,7 @@ const ConnectionError: React.FC<ConnectionErrorProps> = ({ isOpen }) => (
         <Text>
           The application will reconnect as soon as the server is available again.
         </Text>
-      </Expandable>
+      </ExpandableSection>
     </TextContent>
   </Modal>
 );

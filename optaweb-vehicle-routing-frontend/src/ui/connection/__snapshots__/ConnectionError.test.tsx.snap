@@ -4,8 +4,11 @@ exports[`Connection Error Component should render correctly 1`] = `
 <Modal
   actions={Array []}
   appendTo={<body />}
-  ariaDescribedById=""
+  aria-describedby=""
+  aria-label=""
+  aria-labelledby=""
   className=""
+  hasNoBodyWrapper={false}
   header={
     <Flex>
       <FlexItem>
@@ -13,7 +16,6 @@ exports[`Connection Error Component should render correctly 1`] = `
           color="currentColor"
           noVerticalAlign={false}
           size="md"
-          title={null}
         />
       </FlexItem>
       <FlexItem>
@@ -26,14 +28,11 @@ exports[`Connection Error Component should render correctly 1`] = `
       </FlexItem>
     </Flex>
   }
-  hideTitle={false}
-  isFooterLeftAligned={false}
-  isLarge={false}
   isOpen={true}
-  isSmall={true}
   onClose={[Function]}
-  showClose={true}
+  showClose={false}
   title="Connection error"
+  variant="small"
 >
   <TextContent>
     <Text
@@ -41,11 +40,9 @@ exports[`Connection Error Component should render correctly 1`] = `
     >
       Cannot connect to server.
     </Text>
-    <Expandable
+    <ExpandableSection
       className=""
       isActive={false}
-      isFocused={false}
-      isHovered={false}
       onToggle={[Function]}
       toggleText="Show more"
       toggleTextCollapsed=""
@@ -83,7 +80,7 @@ exports[`Connection Error Component should render correctly 1`] = `
       <Text>
         The application will reconnect as soon as the server is available again.
       </Text>
-    </Expandable>
+    </ExpandableSection>
   </TextContent>
 </Modal>
 `;

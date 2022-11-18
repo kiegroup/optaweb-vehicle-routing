@@ -2,7 +2,6 @@ import {
   Form,
   FormSelect,
   FormSelectOption,
-  GutterSize,
   Split,
   SplitItem,
   Text,
@@ -99,7 +98,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
         <TextContent>
           <Text component={TextVariants.h1}>Route</Text>
         </TextContent>
-        <Split gutter={GutterSize.md}>
+        <Split hasGutter>
           <SplitItem
             isFilled={false}
             style={sideBarStyle}

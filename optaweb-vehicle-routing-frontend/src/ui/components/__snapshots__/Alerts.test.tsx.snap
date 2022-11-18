@@ -4,9 +4,9 @@ exports[`Alerts should call readMessage() when alert is closed 1`] = `
 <AlertGroup
   isToast={true}
 >
-  <Component
-    action={
-      <AlertActionCloseButton
+  <Alert
+    actionClose={
+      <Unknown
         onClose={[Function]}
         title="Close alert"
       />
@@ -17,10 +17,10 @@ exports[`Alerts should call readMessage() when alert is closed 1`] = `
     variant="danger"
   >
     msg 1
-  </Component>
-  <Component
-    action={
-      <AlertActionCloseButton
+  </Alert>
+  <Alert
+    actionClose={
+      <Unknown
         onClose={[Function]}
         title="Close alert"
       />
@@ -31,7 +31,7 @@ exports[`Alerts should call readMessage() when alert is closed 1`] = `
     variant="danger"
   >
     msg 2
-  </Component>
+  </Alert>
 </AlertGroup>
 `;
 

@@ -3,8 +3,6 @@ import {
   ButtonVariant,
   Flex,
   FlexItem,
-  FlexModifiers,
-  GutterSize,
   InputGroup,
   InputGroupText,
   Split,
@@ -150,7 +148,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
 
     return (
       // FIXME find a way to avoid these style customizations
-      <Split gutter={GutterSize.md} style={{ overflowY: 'auto' }}>
+      <Split hasGutter style={{ overflowY: 'auto' }}>
         <SplitItem
           isFilled={false}
           style={sideBarStyle}
@@ -175,7 +173,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
           isFilled
           style={{ display: 'flex', flexDirection: 'column' }}
         >
-          <Flex breakpointMods={[{ modifier: FlexModifiers['justify-content-space-between'] }]}>
+          <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
             <FlexItem>
               <VisitsInfo visitCount={visits.length} />
             </FlexItem>

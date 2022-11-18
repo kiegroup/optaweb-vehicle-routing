@@ -74,12 +74,10 @@ exports[`Info block snapshots: generic 1`] = `
   zIndex={9999}
 >
   <Flex
-    breakpointMods={
-      Array [
-        Object {
-          "modifier": "space-items-sm",
-        },
-      ]
+    spaceItems={
+      Object {
+        "default": "spaceItemsSm",
+      }
     }
   >
     <FlexItem>
@@ -87,7 +85,6 @@ exports[`Info block snapshots: generic 1`] = `
         color="currentColor"
         noVerticalAlign={false}
         size="md"
-        title={null}
       />
     </FlexItem>
     <FlexItem

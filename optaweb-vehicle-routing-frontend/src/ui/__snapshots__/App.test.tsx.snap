@@ -5,15 +5,11 @@ exports[`App should render correctly 1`] = `
   <Connect(ConnectionManager) />
   <Connect(Alerts) />
   <Page
-    breadcrumb={null}
-    className=""
     defaultManagedSidebarIsOpen={true}
     header={<Header />}
     isManagedSidebar={false}
-    mainContainerId={null}
+    mainTabIndex={-1}
     onPageResize={[Function]}
-    sidebar={null}
-    skipToContent={null}
   >
     <Background />
     <PageSection

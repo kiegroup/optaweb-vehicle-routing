@@ -51,7 +51,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           className="pf-c-options-menu__menu-item"
         >
           Address 1
-          <Component
+          <Button
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-0"
             onClick={[Function]}
@@ -62,9 +62,8 @@ exports[`Search box should invoke add handler with the selected result and clear
               color="currentColor"
               noVerticalAlign={false}
               size="sm"
-              title={null}
             />
-          </Component>
+          </Button>
         </div>
       </li>
       <li
@@ -74,7 +73,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           className="pf-c-options-menu__menu-item"
         >
           Address 2
-          <Component
+          <Button
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-1"
             onClick={[Function]}
@@ -85,9 +84,8 @@ exports[`Search box should invoke add handler with the selected result and clear
               color="currentColor"
               noVerticalAlign={false}
               size="sm"
-              title={null}
             />
-          </Component>
+          </Button>
         </div>
       </li>
       <li
@@ -97,7 +95,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           className="pf-c-options-menu__menu-item"
         >
           Address 3
-          <Component
+          <Button
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-2"
             onClick={[Function]}
@@ -108,9 +106,8 @@ exports[`Search box should invoke add handler with the selected result and clear
               color="currentColor"
               noVerticalAlign={false}
               size="sm"
-              title={null}
             />
-          </Component>
+          </Button>
         </div>
       </li>
       <li
@@ -120,7 +117,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           className="pf-c-options-menu__menu-item"
         >
           Address 4
-          <Component
+          <Button
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-3"
             onClick={[Function]}
@@ -131,9 +128,8 @@ exports[`Search box should invoke add handler with the selected result and clear
               color="currentColor"
               noVerticalAlign={false}
               size="sm"
-              title={null}
             />
-          </Component>
+          </Button>
         </div>
       </li>
       <li
@@ -143,7 +139,7 @@ exports[`Search box should invoke add handler with the selected result and clear
           className="pf-c-options-menu__menu-item"
         >
           Address 5
-          <Component
+          <Button
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-4"
             onClick={[Function]}
@@ -154,9 +150,8 @@ exports[`Search box should invoke add handler with the selected result and clear
               color="currentColor"
               noVerticalAlign={false}
               size="sm"
-              title={null}
             />
-          </Component>
+          </Button>
         </div>
       </li>
       <li
@@ -243,7 +238,7 @@ exports[`Search box should show results when query is entered 1`] = `
           className="pf-c-options-menu__menu-item"
         >
           London, ON, Canada
-          <Component
+          <Button
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-0"
             onClick={[Function]}
@@ -254,9 +249,8 @@ exports[`Search box should show results when query is entered 1`] = `
               color="currentColor"
               noVerticalAlign={false}
               size="sm"
-              title={null}
             />
-          </Component>
+          </Button>
         </div>
       </li>
       <li
@@ -266,7 +260,7 @@ exports[`Search box should show results when query is entered 1`] = `
           className="pf-c-options-menu__menu-item"
         >
           London, OH, USA
-          <Component
+          <Button
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-1"
             onClick={[Function]}
@@ -277,9 +271,8 @@ exports[`Search box should show results when query is entered 1`] = `
               color="currentColor"
               noVerticalAlign={false}
               size="sm"
-              title={null}
             />
-          </Component>
+          </Button>
         </div>
       </li>
       <li
@@ -289,7 +282,7 @@ exports[`Search box should show results when query is entered 1`] = `
           className="pf-c-options-menu__menu-item"
         >
           London, KY, USA
-          <Component
+          <Button
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-2"
             onClick={[Function]}
@@ -300,9 +293,8 @@ exports[`Search box should show results when query is entered 1`] = `
               color="currentColor"
               noVerticalAlign={false}
               size="sm"
-              title={null}
             />
-          </Component>
+          </Button>
         </div>
       </li>
       <li
@@ -312,7 +304,7 @@ exports[`Search box should show results when query is entered 1`] = `
           className="pf-c-options-menu__menu-item"
         >
           London, UK
-          <Component
+          <Button
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-3"
             onClick={[Function]}
@@ -323,9 +315,8 @@ exports[`Search box should show results when query is entered 1`] = `
               color="currentColor"
               noVerticalAlign={false}
               size="sm"
-              title={null}
             />
-          </Component>
+          </Button>
         </div>
       </li>
       <li

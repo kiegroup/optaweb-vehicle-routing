@@ -2,7 +2,7 @@
 
 exports[`Demo page clear and export buttons should be disabled when demo is loading 1`] = `
 <Split
-  gutter="md"
+  hasGutter={true}
   style={
     Object {
       "overflowY": "auto",
@@ -72,12 +72,10 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
     }
   >
     <Flex
-      breakpointMods={
-        Array [
-          Object {
-            "modifier": "justify-content-space-between",
-          },
-        ]
+      justifyContent={
+        Object {
+          "default": "justifyContentSpaceBetween",
+        }
       }
     >
       <FlexItem>
@@ -98,7 +96,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
           </FlexItem>
           <FlexItem>
             <InputGroup>
-              <Component
+              <Button
                 isDisabled={false}
                 onClick={[Function]}
                 variant="primary"
@@ -107,9 +105,8 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
                   color="currentColor"
                   noVerticalAlign={false}
                   size="sm"
-                  title={null}
                 />
-              </Component>
+              </Button>
               <InputGroupText
                 readOnly={true}
                 style={
@@ -120,7 +117,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
               >
                 8
               </InputGroupText>
-              <Component
+              <Button
                 data-cy="demo-add-vehicle"
                 onClick={[Function]}
                 variant="primary"
@@ -129,9 +126,8 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
                   color="currentColor"
                   noVerticalAlign={false}
                   size="sm"
-                  title={null}
                 />
-              </Component>
+              </Button>
             </InputGroup>
           </FlexItem>
         </Flex>
@@ -142,7 +138,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
         />
       </FlexItem>
       <FlexItem>
-        <Component
+        <Button
           id="export-button"
           isDisabled={true}
           onClick={[Function]}
@@ -154,8 +150,8 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
           }
         >
           Export
-        </Component>
-        <Component
+        </Button>
+        <Button
           data-cy="demo-clear-button"
           id="clear-button"
           isDisabled={true}
@@ -168,7 +164,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
           }
         >
           Clear
-        </Component>
+        </Button>
       </FlexItem>
     </Flex>
     <RouteMap
@@ -244,7 +240,7 @@ exports[`Demo page clear and export buttons should be disabled when demo is load
 
 exports[`Demo page clear button should replace demo dropdown as soon as there is a depot 1`] = `
 <Split
-  gutter="md"
+  hasGutter={true}
   style={
     Object {
       "overflowY": "auto",
@@ -298,12 +294,10 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
     }
   >
     <Flex
-      breakpointMods={
-        Array [
-          Object {
-            "modifier": "justify-content-space-between",
-          },
-        ]
+      justifyContent={
+        Object {
+          "default": "justifyContentSpaceBetween",
+        }
       }
     >
       <FlexItem>
@@ -324,7 +318,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
           </FlexItem>
           <FlexItem>
             <InputGroup>
-              <Component
+              <Button
                 isDisabled={true}
                 onClick={[Function]}
                 variant="primary"
@@ -333,9 +327,8 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
                   color="currentColor"
                   noVerticalAlign={false}
                   size="sm"
-                  title={null}
                 />
-              </Component>
+              </Button>
               <InputGroupText
                 readOnly={true}
                 style={
@@ -346,7 +339,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
               >
                 0
               </InputGroupText>
-              <Component
+              <Button
                 data-cy="demo-add-vehicle"
                 onClick={[Function]}
                 variant="primary"
@@ -355,9 +348,8 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
                   color="currentColor"
                   noVerticalAlign={false}
                   size="sm"
-                  title={null}
                 />
-              </Component>
+              </Button>
             </InputGroup>
           </FlexItem>
         </Flex>
@@ -368,7 +360,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
         />
       </FlexItem>
       <FlexItem>
-        <Component
+        <Button
           id="export-button"
           isDisabled={false}
           onClick={[Function]}
@@ -380,8 +372,8 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
           }
         >
           Export
-        </Component>
-        <Component
+        </Button>
+        <Button
           data-cy="demo-clear-button"
           id="clear-button"
           isDisabled={false}
@@ -394,7 +386,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
           }
         >
           Clear
-        </Component>
+        </Button>
       </FlexItem>
     </Flex>
     <RouteMap
@@ -430,7 +422,7 @@ exports[`Demo page clear button should replace demo dropdown as soon as there is
 
 exports[`Demo page should render correctly with a few routes 1`] = `
 <Split
-  gutter="md"
+  hasGutter={true}
   style={
     Object {
       "overflowY": "auto",
@@ -500,12 +492,10 @@ exports[`Demo page should render correctly with a few routes 1`] = `
     }
   >
     <Flex
-      breakpointMods={
-        Array [
-          Object {
-            "modifier": "justify-content-space-between",
-          },
-        ]
+      justifyContent={
+        Object {
+          "default": "justifyContentSpaceBetween",
+        }
       }
     >
       <FlexItem>
@@ -526,7 +516,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
           </FlexItem>
           <FlexItem>
             <InputGroup>
-              <Component
+              <Button
                 isDisabled={false}
                 onClick={[Function]}
                 variant="primary"
@@ -535,9 +525,8 @@ exports[`Demo page should render correctly with a few routes 1`] = `
                   color="currentColor"
                   noVerticalAlign={false}
                   size="sm"
-                  title={null}
                 />
-              </Component>
+              </Button>
               <InputGroupText
                 readOnly={true}
                 style={
@@ -548,7 +537,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
               >
                 8
               </InputGroupText>
-              <Component
+              <Button
                 data-cy="demo-add-vehicle"
                 onClick={[Function]}
                 variant="primary"
@@ -557,9 +546,8 @@ exports[`Demo page should render correctly with a few routes 1`] = `
                   color="currentColor"
                   noVerticalAlign={false}
                   size="sm"
-                  title={null}
                 />
-              </Component>
+              </Button>
             </InputGroup>
           </FlexItem>
         </Flex>
@@ -570,7 +558,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
         />
       </FlexItem>
       <FlexItem>
-        <Component
+        <Button
           id="export-button"
           isDisabled={false}
           onClick={[Function]}
@@ -582,8 +570,8 @@ exports[`Demo page should render correctly with a few routes 1`] = `
           }
         >
           Export
-        </Component>
-        <Component
+        </Button>
+        <Button
           data-cy="demo-clear-button"
           id="clear-button"
           isDisabled={false}
@@ -596,7 +584,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
           }
         >
           Clear
-        </Component>
+        </Button>
       </FlexItem>
     </Flex>
     <RouteMap
@@ -672,7 +660,7 @@ exports[`Demo page should render correctly with a few routes 1`] = `
 
 exports[`Demo page should render correctly with no routes 1`] = `
 <Split
-  gutter="md"
+  hasGutter={true}
   style={
     Object {
       "overflowY": "auto",
@@ -719,12 +707,10 @@ exports[`Demo page should render correctly with no routes 1`] = `
     }
   >
     <Flex
-      breakpointMods={
-        Array [
-          Object {
-            "modifier": "justify-content-space-between",
-          },
-        ]
+      justifyContent={
+        Object {
+          "default": "justifyContentSpaceBetween",
+        }
       }
     >
       <FlexItem>
@@ -745,7 +731,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
           </FlexItem>
           <FlexItem>
             <InputGroup>
-              <Component
+              <Button
                 isDisabled={true}
                 onClick={[Function]}
                 variant="primary"
@@ -754,9 +740,8 @@ exports[`Demo page should render correctly with no routes 1`] = `
                   color="currentColor"
                   noVerticalAlign={false}
                   size="sm"
-                  title={null}
                 />
-              </Component>
+              </Button>
               <InputGroupText
                 readOnly={true}
                 style={
@@ -767,7 +752,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
               >
                 0
               </InputGroupText>
-              <Component
+              <Button
                 data-cy="demo-add-vehicle"
                 onClick={[Function]}
                 variant="primary"
@@ -776,9 +761,8 @@ exports[`Demo page should render correctly with no routes 1`] = `
                   color="currentColor"
                   noVerticalAlign={false}
                   size="sm"
-                  title={null}
                 />
-              </Component>
+              </Button>
             </InputGroup>
           </FlexItem>
         </Flex>
@@ -789,7 +773,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
         />
       </FlexItem>
       <FlexItem>
-        <Component
+        <Button
           id="export-button"
           isDisabled={true}
           onClick={[Function]}
@@ -801,7 +785,7 @@ exports[`Demo page should render correctly with no routes 1`] = `
           }
         >
           Export
-        </Component>
+        </Button>
         <DemoDropdown
           demos={
             Array [

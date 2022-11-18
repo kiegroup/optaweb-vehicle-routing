@@ -3,7 +3,7 @@
 exports[`Vehicles page should render correctly 1`] = `
 <Fragment>
   <Split
-    gutter="md"
+    hasGutter={true}
     style={
       Object {
         "overflowY": "auto",
@@ -24,7 +24,7 @@ exports[`Vehicles page should render correctly 1`] = `
     <SplitItem
       isFilled={false}
     >
-      <Component
+      <Button
         onClick={[MockFunction]}
         style={
           Object {
@@ -34,7 +34,7 @@ exports[`Vehicles page should render correctly 1`] = `
         }
       >
         Add
-      </Component>
+      </Button>
     </SplitItem>
   </Split>
   <div

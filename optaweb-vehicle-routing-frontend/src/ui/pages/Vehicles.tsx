@@ -1,7 +1,6 @@
 import {
   Button,
   DataList,
-  GutterSize,
   Split,
   SplitItem,
   Text,
@@ -41,7 +40,7 @@ export const Vehicles: React.FC<Props> = ({
   vehicles, addVehicleHandler, removeVehicleHandler, changeVehicleCapacityHandler,
 }) => (
   <>
-    <Split gutter={GutterSize.md} style={{ overflowY: 'auto' }}>
+    <Split hasGutter style={{ overflowY: 'auto' }}>
       <SplitItem isFilled>
         <TextContent>
           <Text component={TextVariants.h1}>{`Vehicles (${vehicles.length})`}</Text>

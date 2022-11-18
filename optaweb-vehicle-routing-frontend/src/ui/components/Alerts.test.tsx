@@ -16,7 +16,7 @@ describe('Alerts', () => {
     const alerts = shallow(<Alerts {...props} />);
     expect(toJson(alerts)).toMatchSnapshot();
 
-    (alerts.find(Alert).at(1).prop('action') as React.ReactElement).props.onClose();
+    (alerts.find(Alert).at(1).prop('actionClose') as React.ReactElement).props.onClose();
 
     expect(props.readMessage).toHaveBeenCalledWith('2');
   });

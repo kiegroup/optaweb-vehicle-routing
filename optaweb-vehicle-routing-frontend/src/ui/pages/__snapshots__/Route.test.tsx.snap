@@ -10,7 +10,7 @@ exports[`Route page should render correctly with a few routes 1`] = `
     </Text>
   </TextContent>
   <Split
-    gutter="md"
+    hasGutter={true}
   >
     <SplitItem
       isFilled={false}
@@ -28,7 +28,6 @@ exports[`Route page should render correctly with a few routes 1`] = `
           className=""
           isDisabled={false}
           isRequired={false}
-          isValid={true}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
@@ -185,7 +184,7 @@ exports[`Route page should render correctly with no routes 1`] = `
     </Text>
   </TextContent>
   <Split
-    gutter="md"
+    hasGutter={true}
   >
     <SplitItem
       isFilled={false}
@@ -203,7 +202,6 @@ exports[`Route page should render correctly with no routes 1`] = `
           className=""
           isDisabled={true}
           isRequired={false}
-          isValid={true}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
