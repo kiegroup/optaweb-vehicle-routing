@@ -1,4 +1,4 @@
-import { Button, TextInput } from '@patternfly/react-core';
+import { Button, SearchInput } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
@@ -42,7 +42,7 @@ describe('Search box', () => {
     const searchBox = shallow(<SearchBox {...props} />);
     expect(searchProviderMock().instances).toHaveLength(1);
     // text input change triggers a component update
-    searchBox.find(TextInput).simulate('change', 'London');
+    searchBox.find(SearchInput).simulate('change', 'London');
     // which in turn creates a new searchProvider instance
     expect(searchProviderMock().instances).toHaveLength(2);
     // so we can't provide the mock implementation earlier than here
@@ -74,7 +74,7 @@ describe('Search box', () => {
 
     // and an empty query is issued
     const emptyQuery = ' ';
-    searchBox.find(TextInput).simulate('change', emptyQuery);
+    searchBox.find(SearchInput).simulate('change', emptyQuery);
     expect(searchProviderMock().instances).toHaveLength(3);
     expect(toJson(searchBox)).toMatchSnapshot();
 

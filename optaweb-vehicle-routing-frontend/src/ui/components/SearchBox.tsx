@@ -1,5 +1,5 @@
 import '@patternfly/patternfly/patternfly.css';
-import { Button, Text, TextContent, TextInput, TextVariants } from '@patternfly/react-core';
+import { Button, SearchInput, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { PlusSquareIcon } from '@patternfly/react-icons';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { OpenStreetMapProviderOptions } from 'leaflet-geosearch/lib/providers/openStreetMapProvider';
@@ -126,10 +126,9 @@ class SearchBox extends React.Component<Props, State> {
     const { attributions, query, results } = this.state;
     return (
       <>
-        <TextInput
+        <SearchInput
           style={{ marginBottom: 10 }}
           value={query}
-          type="search"
           placeholder="Search to add a location..."
           aria-label="geosearch text input"
           onChange={this.handleTextInputChange}
