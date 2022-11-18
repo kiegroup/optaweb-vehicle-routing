@@ -34,7 +34,6 @@ exports[`App should render correctly 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(Demo)",
               "type": [Function],
             }
           }
@@ -48,7 +47,6 @@ exports[`App should render correctly 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(Demo)",
               "type": [Function],
             }
           }
@@ -62,7 +60,6 @@ exports[`App should render correctly 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(Vehicles)",
               "type": [Function],
             }
           }
@@ -76,7 +73,6 @@ exports[`App should render correctly 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(Visits)",
               "type": [Function],
             }
           }
@@ -90,7 +86,6 @@ exports[`App should render correctly 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(Route)",
               "type": [Function],
             }
           }

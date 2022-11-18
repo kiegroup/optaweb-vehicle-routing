@@ -8,11 +8,11 @@ import * as React from 'react';
 import SearchBox, { Props, State, Result } from './SearchBox';
 
 jest.mock('leaflet-geosearch');
-jest.useFakeTimers();
 
 beforeEach(() => {
   // Clear all instances and calls to constructor and all methods:
   (OpenStreetMapProvider as unknown as jest.MockInstance<OpenStreetMapProvider, []>).mockClear();
+  jest.useFakeTimers();
 });
 
 const searchProviderMock = (
