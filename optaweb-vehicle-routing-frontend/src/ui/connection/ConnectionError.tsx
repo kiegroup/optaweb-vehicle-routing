@@ -35,7 +35,7 @@ const header = (
 );
 
 const ConnectionError: React.FC<ConnectionErrorProps> = ({ isOpen }) => (
-  <Modal title={title} header={header} isOpen={isOpen} variant="small" showClose={false}>
+  <Modal title={title} header={header} isOpen={isOpen} variant="small" showClose={false} aria-label="Connection error">
     <TextContent>
       <Text component={TextVariants.p}>
         Cannot connect to server.
