@@ -59,7 +59,7 @@
     "cypress": "^7.0.1",
     "enzyme": "^3.11.0",
     "enzyme-to-json": "^3.4.4",
-    "eslint-config-airbnb-typescript": "~11.4.0",
+    "eslint-config-airbnb-typescript": "~14.0.2",
     "eslint-plugin-cypress": "^2.12.1",
     "eventsourcemock": "^2.0.0",
     "fetch-mock-jest": "^1.5.1",
