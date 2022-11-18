@@ -8,9 +8,9 @@ import { LatLng } from 'store/route/types';
 import { BoundingBox } from 'store/server/types';
 
 export interface Props {
-  searchDelay: number;
-  boundingBox: BoundingBox | null;
-  countryCodeSearchFilter: string[];
+  searchDelay?: number;
+  boundingBox: BoundingBox | null; // eslint-disable-line react/no-unused-prop-types
+  countryCodeSearchFilter: string[]; // eslint-disable-line react/no-unused-prop-types
   addHandler: (result: Result) => void;
 }
 

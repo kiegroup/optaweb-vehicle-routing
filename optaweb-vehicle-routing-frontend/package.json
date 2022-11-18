@@ -69,7 +69,7 @@
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jest": "^23.10.0",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react": "~7.31.10",
     "eventsourcemock": "^2.0.0",
     "fetch-mock-jest": "^1.5.1",
     "history": "^4.10.1",

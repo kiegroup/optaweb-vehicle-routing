@@ -17,12 +17,10 @@ const mapStateToProps = ({ plan }: AppState): StateProps => ({
 });
 
 export interface DispatchProps {
-  addHandler: typeof routeOperations.addLocation;
   removeHandler: typeof routeOperations.deleteLocation;
 }
 
 const mapDispatchToProps: DispatchProps = {
-  addHandler: routeOperations.addLocation,
   removeHandler: routeOperations.deleteLocation,
 };
 

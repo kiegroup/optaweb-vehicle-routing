@@ -16,7 +16,6 @@ describe('Visits page', () => {
 });
 
 const noVisits: Props = {
-  addHandler: jest.fn(),
   removeHandler: jest.fn(),
 
   depot: null,
@@ -24,7 +23,6 @@ const noVisits: Props = {
 };
 
 const twoVisits: Props = {
-  addHandler: jest.fn(),
   removeHandler: jest.fn(),
 
   depot: {

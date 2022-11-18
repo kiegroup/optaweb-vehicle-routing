@@ -11,11 +11,11 @@ import * as React from 'react';
 
 interface InfoBlockProps {
   icon: IconType;
-  content?: {
+  content?: { // eslint-disable-line react/require-default-props
     data: string | number;
     minWidth: string;
   };
-  color?: string;
+  color?: string; // eslint-disable-line react/require-default-props
   tooltip: string;
 }
 
