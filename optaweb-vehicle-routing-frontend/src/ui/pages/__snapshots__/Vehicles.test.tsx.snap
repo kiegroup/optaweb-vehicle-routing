@@ -46,6 +46,11 @@ exports[`Vehicles page should render correctly 1`] = `
   >
     <DataList
       aria-label="List of vehicles"
+      className=""
+      gridBreakpoint="md"
+      isCompact={false}
+      selectedDataListItemId=""
+      wrapModifier={null}
     >
       <Vehicle
         capacity={5}

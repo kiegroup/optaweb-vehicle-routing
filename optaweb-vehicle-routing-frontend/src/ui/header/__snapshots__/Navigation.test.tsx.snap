@@ -5,6 +5,7 @@ exports[`Navigation should activate a navigation link matching the current path 
   aria-label="Nav"
   onSelect={[Function]}
   onToggle={[Function]}
+  ouiaSafe={true}
   theme="dark"
   variant="horizontal"
 >

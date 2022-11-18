@@ -6,9 +6,14 @@ exports[`App should render correctly 1`] = `
   <Connect(Alerts) />
   <Page
     defaultManagedSidebarIsOpen={true}
+    getBreakpoint={[Function]}
+    getVerticalBreakpoint={[Function]}
     header={<Header />}
+    isBreadcrumbWidthLimited={false}
     isManagedSidebar={false}
+    isNotificationDrawerExpanded={false}
     mainTabIndex={-1}
+    onNotificationDrawerExpand={[Function]}
     onPageResize={[Function]}
   >
     <Background />

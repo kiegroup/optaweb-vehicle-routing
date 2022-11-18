@@ -3,6 +3,8 @@
 exports[`Vehicle Component should render correctly 1`] = `
 <DataListItem
   aria-labelledby="vehicle-10"
+  className=""
+  id=""
   isExpanded={false}
 >
   <DataListItemRow>

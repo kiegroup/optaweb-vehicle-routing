@@ -3,7 +3,7 @@
 exports[`Connection Error Component should render correctly 1`] = `
 <Modal
   actions={Array []}
-  appendTo={<body />}
+  appendTo={[Function]}
   aria-describedby=""
   aria-label=""
   aria-labelledby=""
@@ -30,8 +30,11 @@ exports[`Connection Error Component should render correctly 1`] = `
   }
   isOpen={true}
   onClose={[Function]}
+  ouiaSafe={true}
   showClose={false}
   title="Connection error"
+  titleIconVariant={null}
+  titleLabel=""
   variant="small"
 >
   <TextContent>
@@ -42,11 +45,17 @@ exports[`Connection Error Component should render correctly 1`] = `
     </Text>
     <ExpandableSection
       className=""
+      contentId=""
+      displaySize="default"
       isActive={false}
+      isDetached={false}
+      isIndented={false}
+      isWidthLimited={false}
       onToggle={[Function]}
       toggleText="Show more"
       toggleTextCollapsed=""
       toggleTextExpanded=""
+      variant="default"
     >
       <Text
         component="p"

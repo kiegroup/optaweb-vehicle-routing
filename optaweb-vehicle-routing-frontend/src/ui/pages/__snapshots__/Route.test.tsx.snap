@@ -27,10 +27,12 @@ exports[`Route page should render correctly with a few routes 1`] = `
           aria-label="FormSelect Input"
           className=""
           isDisabled={false}
+          isIconSprite={false}
           isRequired={false}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
+          ouiaSafe={true}
           style={
             Object {
               "backgroundColor": "white",
@@ -201,10 +203,12 @@ exports[`Route page should render correctly with no routes 1`] = `
           aria-label="FormSelect Input"
           className=""
           isDisabled={true}
+          isIconSprite={false}
           isRequired={false}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
+          ouiaSafe={true}
           style={
             Object {
               "backgroundColor": "white",

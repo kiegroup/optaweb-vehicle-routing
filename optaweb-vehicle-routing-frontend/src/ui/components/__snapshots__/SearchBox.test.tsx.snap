@@ -2,7 +2,7 @@
 
 exports[`Search box should hide results when query is empty 1`] = `
 <Fragment>
-  <ForwardRef
+  <TextInput
     aria-label="geosearch text input"
     data-cy="geosearch-text-input"
     onChange={[Function]}
@@ -20,7 +20,7 @@ exports[`Search box should hide results when query is empty 1`] = `
 
 exports[`Search box should invoke add handler with the selected result and clear results 1`] = `
 <Fragment>
-  <ForwardRef
+  <TextInput
     aria-label="geosearch text input"
     data-cy="geosearch-text-input"
     onChange={[Function]}
@@ -189,7 +189,7 @@ exports[`Search box should invoke add handler with the selected result and clear
 
 exports[`Search box should render text input initially 1`] = `
 <Fragment>
-  <ForwardRef
+  <TextInput
     aria-label="geosearch text input"
     data-cy="geosearch-text-input"
     onChange={[Function]}
@@ -207,7 +207,7 @@ exports[`Search box should render text input initially 1`] = `
 
 exports[`Search box should show results when query is entered 1`] = `
 <Fragment>
-  <ForwardRef
+  <TextInput
     aria-label="geosearch text input"
     data-cy="geosearch-text-input"
     onChange={[Function]}

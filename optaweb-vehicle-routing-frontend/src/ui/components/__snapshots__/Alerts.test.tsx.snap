@@ -6,7 +6,7 @@ exports[`Alerts should call readMessage() when alert is closed 1`] = `
 >
   <Alert
     actionClose={
-      <Unknown
+      <AlertActionCloseButton
         onClose={[Function]}
         title="Close alert"
       />
@@ -20,7 +20,7 @@ exports[`Alerts should call readMessage() when alert is closed 1`] = `
   </Alert>
   <Alert
     actionClose={
-      <Unknown
+      <AlertActionCloseButton
         onClose={[Function]}
         title="Close alert"
       />
