@@ -9,30 +9,12 @@ exports[`Connection Error Component should render correctly 1`] = `
   aria-labelledby=""
   className=""
   hasNoBodyWrapper={false}
-  header={
-    <Flex>
-      <FlexItem>
-        <UnpluggedIcon
-          color="currentColor"
-          noVerticalAlign={false}
-          size="md"
-        />
-      </FlexItem>
-      <FlexItem>
-        <Title
-          headingLevel="h1"
-        >
-          Connection error
-        </Title>
-      </FlexItem>
-    </Flex>
-  }
   isOpen={true}
   onClose={[Function]}
   ouiaSafe={true}
   showClose={false}
   title="Connection error"
-  titleIconVariant={null}
+  titleIconVariant="danger"
   titleLabel=""
   variant="small"
 >
@@ -40,7 +22,7 @@ exports[`Connection Error Component should render correctly 1`] = `
     <Text
       component="p"
     >
-      Cannot connect to server.
+      The server is unreachable. Trying to reconnect.
     </Text>
     <ExpandableSection
       className=""
