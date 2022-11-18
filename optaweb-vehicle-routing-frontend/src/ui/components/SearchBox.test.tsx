@@ -4,7 +4,6 @@ import toJson from 'enzyme-to-json';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { RawResult } from 'leaflet-geosearch/lib/providers/openStreetMapProvider';
 import { SearchResult } from 'leaflet-geosearch/lib/providers/provider';
-import * as React from 'react';
 import SearchBox, { Props, State, Result } from './SearchBox';
 
 jest.mock('leaflet-geosearch');

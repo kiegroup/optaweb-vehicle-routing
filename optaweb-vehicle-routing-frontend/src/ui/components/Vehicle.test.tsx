@@ -1,7 +1,6 @@
 import { Button } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import * as React from 'react';
 import { VehicleCapacity } from 'store/route/types';
 import Vehicle, { VehicleProps } from './Vehicle';
 

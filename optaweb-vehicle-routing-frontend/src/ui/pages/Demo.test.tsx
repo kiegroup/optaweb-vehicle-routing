@@ -1,7 +1,6 @@
 import { Button, Dropdown } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import * as React from 'react';
 import { UserViewport } from 'store/client/types';
 import { Demo, DemoProps, ID_CLEAR_BUTTON, ID_EXPORT_BUTTON } from './Demo';
 

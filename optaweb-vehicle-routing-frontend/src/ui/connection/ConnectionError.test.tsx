@@ -1,6 +1,5 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import * as React from 'react';
 import ConnectionError, { ConnectionErrorProps } from './ConnectionError';
 
 describe('Connection Error Component', () => {

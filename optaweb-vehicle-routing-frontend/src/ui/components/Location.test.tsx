@@ -1,7 +1,6 @@
 import { Button, DataListItem } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import * as React from 'react';
 import Location, { LocationProps } from './Location';
 
 describe('Location Component', () => {

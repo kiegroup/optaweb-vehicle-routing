@@ -2,7 +2,6 @@ import { NavItem } from '@patternfly/react-core';
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import { Location } from 'history';
-import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Navigation } from './Navigation';
 

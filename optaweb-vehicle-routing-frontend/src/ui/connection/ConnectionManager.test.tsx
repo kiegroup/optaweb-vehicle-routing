@@ -1,6 +1,5 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import * as React from 'react';
 import { WebSocketConnectionStatus } from 'store/websocket/types';
 import { ConnectionManager, Props } from './ConnectionManager';
 

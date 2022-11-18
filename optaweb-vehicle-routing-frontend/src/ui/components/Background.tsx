@@ -4,7 +4,7 @@ import pfBackground576 from '@patternfly/react-core/dist/styles/assets/images/pf
 import pfBackground1152 from '@patternfly/react-core/dist/styles/assets/images/pfbg_576@2x.jpg';
 import pfBackground768 from '@patternfly/react-core/dist/styles/assets/images/pfbg_768.jpg';
 import pfBackground1536 from '@patternfly/react-core/dist/styles/assets/images/pfbg_768@2x.jpg';
-import React from 'react';
+import * as React from 'react';
 
 const images = {
   xs: pfBackground576,

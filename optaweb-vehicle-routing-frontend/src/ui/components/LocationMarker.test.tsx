@@ -1,6 +1,5 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import * as React from 'react';
 import { Marker } from 'react-leaflet';
 import { Location } from 'store/route/types';
 import LocationMarker, { Props } from './LocationMarker';

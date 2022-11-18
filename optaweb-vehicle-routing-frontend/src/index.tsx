@@ -1,6 +1,5 @@
 import '@patternfly/react-core/dist/styles/base.css';
 import { backendUrl } from 'common';
-import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';

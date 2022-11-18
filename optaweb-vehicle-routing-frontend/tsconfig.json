@@ -14,7 +14,7 @@
       "dom.iterable",
       "esnext"
     ],
-    "jsx": "react",
+    "jsx": "react-jsx",
     "allowJs": true,
     "strict": true,
     "strictFunctionTypes": false,

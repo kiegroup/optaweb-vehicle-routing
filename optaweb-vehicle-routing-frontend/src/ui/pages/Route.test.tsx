@@ -1,6 +1,5 @@
 import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
-import * as React from 'react';
 import { UserViewport } from 'store/client/types';
 import { Route, RouteProps } from './Route';
 

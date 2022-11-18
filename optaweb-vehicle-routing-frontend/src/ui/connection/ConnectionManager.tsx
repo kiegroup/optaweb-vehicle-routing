@@ -1,10 +1,9 @@
-import * as React from 'react';
+import { Component, ReactNode } from 'react';
 import { connect } from 'react-redux';
 import { AppState } from 'store/types';
 import { websocketOperations } from 'store/websocket';
 import { WebSocketConnectionStatus } from 'store/websocket/types';
 import ConnectionError from 'ui/connection/ConnectionError';
-import { ReactNode } from 'react';
 
 interface StateProps {
   connectionStatus: WebSocketConnectionStatus;
@@ -24,7 +23,7 @@ const mapDispatchToProps: DispatchProps = {
   connectClient: websocketOperations.connectClient,
 };
 
-export class ConnectionManager extends React.Component<Props> {
+export class ConnectionManager extends Component<Props> {
   componentDidMount(): void {
     this.props.connectClient();
   }
