@@ -7,6 +7,12 @@ import * as React from 'react';
 import { LatLng } from 'store/route/types';
 import { BoundingBox } from 'store/server/types';
 
+export interface Result {
+  id: string;
+  address: string;
+  latLng: LatLng;
+}
+
 export interface Props {
   searchDelay?: number;
   boundingBox: BoundingBox | null; // eslint-disable-line react/no-unused-prop-types
@@ -18,11 +24,6 @@ export interface State {
   query: string;
   results: Result[];
   attributions: string[];
-}
-
-export interface Result {
-  address: string;
-  latLng: LatLng;
 }
 
 // Nominatim API: viewbox=<x1>,<y1>,<x2>,<y2> (x is longitude, y is latitude).
@@ -91,6 +92,7 @@ class SearchBox extends React.Component<Props, State> {
           this.setState({
             results: searchResults
               .map((result) => ({
+                id: result.raw.place_id,
                 address: result.label,
                 latLng: { lat: result.y, lng: result.x },
               })),
@@ -137,7 +139,7 @@ class SearchBox extends React.Component<Props, State> {
           <div className="pf-c-options-menu pf-m-expanded" style={{ zIndex: 1100 }}>
             <ul className="pf-c-options-menu__menu">
               {results.map((result, index) => (
-                <li key={`result: ${result}`}>
+                <li key={result.id}>
                   <div className="pf-c-options-menu__menu-item">
                     {result.address}
                     <Button

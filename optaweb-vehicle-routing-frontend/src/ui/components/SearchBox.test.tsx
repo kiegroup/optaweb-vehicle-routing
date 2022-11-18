@@ -5,7 +5,7 @@ import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { RawResult } from 'leaflet-geosearch/lib/providers/openStreetMapProvider';
 import { SearchResult } from 'leaflet-geosearch/lib/providers/provider';
 import * as React from 'react';
-import SearchBox, { Props, State } from './SearchBox';
+import SearchBox, { Props, State, Result } from './SearchBox';
 
 jest.mock('leaflet-geosearch');
 jest.useFakeTimers();
@@ -46,10 +46,11 @@ describe('Search box', () => {
     // which in turn creates a new searchProvider instance
     expect(searchProviderMock().instances).toHaveLength(2);
     // so we can't provide the mock implementation earlier than here
-    searchProviderMock().instances[1].search = jest.fn().mockImplementation(() => results);
+    searchProviderMock().instances[1].search = jest.fn().mockImplementation(() => searchResults);
     await jest.runAllTimers();
     expect(searchProviderMock().instances[1].search).toHaveBeenCalledTimes(1);
-    expect((searchBox.state() as State).results).toHaveLength(results.length);
+    expect((searchBox.state() as State).results).toHaveLength(searchResults.length);
+    expect((searchBox.state() as State).results[0].id).toEqual(searchResults[0].raw.place_id);
     expect((searchBox.state() as State).attributions).toEqual(licenses);
     expect(toJson(searchBox)).toMatchSnapshot();
   });
@@ -66,9 +67,9 @@ describe('Search box', () => {
     expect(searchProviderMock().instances).toHaveLength(1);
 
     // when there are non-empty results
-    searchBox.setState({ results, attributions: licenses });
+    searchBox.setState({ results: stateResults, attributions: licenses });
     expect(searchProviderMock().instances).toHaveLength(2);
-    expect((searchBox.state() as State).results).toEqual(results);
+    expect((searchBox.state() as State).results).toEqual(stateResults);
     expect((searchBox.state() as State).attributions).toEqual(licenses);
 
     // and an empty query is issued
@@ -95,17 +96,17 @@ describe('Search box', () => {
     const searchBox = shallow(<SearchBox {...props} />);
 
     // when there are non-empty results
-    searchBox.setState({ results, attributions: licenses });
+    searchBox.setState({ results: stateResults, attributions: licenses });
     expect(toJson(searchBox)).toMatchSnapshot();
 
     const resultItems = searchBox.findWhere(
-      (node) => node.key() !== null && node.key().startsWith('result'),
+      (node) => node.key() !== null && node.key().startsWith('place-id-'),
     );
-    expect(resultItems).toHaveLength(results.length);
+    expect(resultItems).toHaveLength(stateResults.length);
 
-    const selection = results.length / 2;
+    const selection = Math.floor(stateResults.length / 2);
     resultItems.at(selection).find(Button).simulate('click');
-    expect(props.addHandler).toHaveBeenLastCalledWith(results[selection]);
+    expect(props.addHandler).toHaveBeenLastCalledWith(stateResults[selection]);
 
     expect(searchBox.state()).toEqual({ query: '', results: [], attributions: [] });
   });
@@ -113,32 +114,54 @@ describe('Search box', () => {
 
 const licenses = ['License 1', 'License 2'];
 
-const results: SearchResult<RawResult>[] = [{
+const searchResults: SearchResult<RawResult>[] = [{
   label: 'London, ON, Canada',
   x: 101,
   y: 102,
   bounds: [[1, 2], [3, 4]],
   // @ts-expect-error discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
-  raw: { licence: licenses[0] },
+  raw: { place_id: 'raw-place-id-1', licence: licenses[0] },
 }, {
   label: 'London, OH, USA',
   x: 201,
   y: 202,
   bounds: [[1, 2], [3, 4]],
   // @ts-expect-error discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
-  raw: { licence: licenses[1] },
+  raw: { place_id: 'raw-place-id-2', licence: licenses[1] },
 }, {
   label: 'London, KY, USA',
   x: 301,
   y: 302,
   bounds: [[1, 2], [3, 4]],
   // @ts-expect-error discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
-  raw: { licence: licenses[1] },
+  raw: { place_id: 'raw-place-id-3', licence: licenses[1] },
 }, {
   label: 'London, UK',
   x: 401,
   y: 402,
   bounds: [[1, 2], [3, 4]],
   // @ts-expect-error discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
-  raw: { licence: licenses[0] },
+  raw: { place_id: 'raw-place-id-4', licence: licenses[0] },
+}];
+
+const stateResults: Result[] = [{
+  id: 'place-id-1A',
+  address: 'Address 1',
+  latLng: { lat: 11, lng: 12 },
+}, {
+  id: 'place-id-2B',
+  address: 'Address 2',
+  latLng: { lat: 21, lng: 22 },
+}, {
+  id: 'place-id-3C',
+  address: 'Address 3',
+  latLng: { lat: 31, lng: 32 },
+}, {
+  id: 'place-id-4D',
+  address: 'Address 4',
+  latLng: { lat: 41, lng: 42 },
+}, {
+  id: 'place-id-5E',
+  address: 'Address 5',
+  latLng: { lat: 51, lng: 52 },
 }];

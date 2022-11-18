@@ -45,11 +45,12 @@ exports[`Search box should invoke add handler with the selected result and clear
       className="pf-c-options-menu__menu"
     >
       <li
-        key="result: [object Object]"
+        key="place-id-1A"
       >
         <div
           className="pf-c-options-menu__menu-item"
         >
+          Address 1
           <Component
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-0"
@@ -67,11 +68,12 @@ exports[`Search box should invoke add handler with the selected result and clear
         </div>
       </li>
       <li
-        key="result: [object Object]"
+        key="place-id-2B"
       >
         <div
           className="pf-c-options-menu__menu-item"
         >
+          Address 2
           <Component
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-1"
@@ -89,11 +91,12 @@ exports[`Search box should invoke add handler with the selected result and clear
         </div>
       </li>
       <li
-        key="result: [object Object]"
+        key="place-id-3C"
       >
         <div
           className="pf-c-options-menu__menu-item"
         >
+          Address 3
           <Component
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-2"
@@ -111,14 +114,38 @@ exports[`Search box should invoke add handler with the selected result and clear
         </div>
       </li>
       <li
-        key="result: [object Object]"
+        key="place-id-4D"
       >
         <div
           className="pf-c-options-menu__menu-item"
         >
+          Address 4
           <Component
             className="pf-c-options-menu__menu-item-icon"
             data-cy="geosearch-location-item-button-3"
+            onClick={[Function]}
+            type="button"
+            variant="link"
+          >
+            <PlusSquareIcon
+              color="currentColor"
+              noVerticalAlign={false}
+              size="sm"
+              title={null}
+            />
+          </Component>
+        </div>
+      </li>
+      <li
+        key="place-id-5E"
+      >
+        <div
+          className="pf-c-options-menu__menu-item"
+        >
+          Address 5
+          <Component
+            className="pf-c-options-menu__menu-item-icon"
+            data-cy="geosearch-location-item-button-4"
             onClick={[Function]}
             type="button"
             variant="link"
@@ -210,7 +237,7 @@ exports[`Search box should show results when query is entered 1`] = `
       className="pf-c-options-menu__menu"
     >
       <li
-        key="result: [object Object]"
+        key="raw-place-id-1"
       >
         <div
           className="pf-c-options-menu__menu-item"
@@ -233,7 +260,7 @@ exports[`Search box should show results when query is entered 1`] = `
         </div>
       </li>
       <li
-        key="result: [object Object]"
+        key="raw-place-id-2"
       >
         <div
           className="pf-c-options-menu__menu-item"
@@ -256,7 +283,7 @@ exports[`Search box should show results when query is entered 1`] = `
         </div>
       </li>
       <li
-        key="result: [object Object]"
+        key="raw-place-id-3"
       >
         <div
           className="pf-c-options-menu__menu-item"
@@ -279,7 +306,7 @@ exports[`Search box should show results when query is entered 1`] = `
         </div>
       </li>
       <li
-        key="result: [object Object]"
+        key="raw-place-id-4"
       >
         <div
           className="pf-c-options-menu__menu-item"
