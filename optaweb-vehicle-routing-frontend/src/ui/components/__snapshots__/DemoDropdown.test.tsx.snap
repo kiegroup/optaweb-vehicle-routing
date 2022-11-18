@@ -15,9 +15,10 @@ exports[`Demo dropdown button should be disabled with empty demos 1`] = `
   toggle={
     <DropdownToggle
       disabled={true}
+      isPrimary={true}
       onToggle={[Function]}
     >
-      Load demo...
+      Load demo
     </DropdownToggle>
   }
 />
@@ -47,9 +48,10 @@ exports[`Demo dropdown button should render correctly with a couple of demos 1`]
   toggle={
     <DropdownToggle
       disabled={false}
+      isPrimary={true}
       onToggle={[Function]}
     >
-      Load demo...
+      Load demo
     </DropdownToggle>
   }
 />
