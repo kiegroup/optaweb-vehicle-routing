@@ -1,5 +1,4 @@
 import {
-  BaseSizes,
   ExpandableSection,
   Flex,
   FlexItem,
@@ -27,9 +26,7 @@ const header = (
       <UnpluggedIcon size="md" />
     </FlexItem>
     <FlexItem>
-      <Title headingLevel="h1" size={BaseSizes['2xl']}>
-        {title}
-      </Title>
+      <Title headingLevel="h1">{title}</Title>
     </FlexItem>
   </Flex>
 );

@@ -2,13 +2,11 @@
 
 exports[`Visits page should render correctly with a few visits 1`] = `
 <Fragment>
-  <TextContent>
-    <Text
-      component="h1"
-    >
-      Visits (2)
-    </Text>
-  </TextContent>
+  <Title
+    headingLevel="h1"
+  >
+    Visits (2)
+  </Title>
   <LocationList
     depot={
       Object {
@@ -39,13 +37,11 @@ exports[`Visits page should render correctly with a few visits 1`] = `
 
 exports[`Visits page should render correctly with no visits 1`] = `
 <Fragment>
-  <TextContent>
-    <Text
-      component="h1"
-    >
-      Visits (0)
-    </Text>
-  </TextContent>
+  <Title
+    headingLevel="h1"
+  >
+    Visits (0)
+  </Title>
   <LocationList
     depot={null}
     removeHandler={[MockFunction]}

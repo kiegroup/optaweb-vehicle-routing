@@ -4,9 +4,7 @@ import {
   FormSelectOption,
   Split,
   SplitItem,
-  Text,
-  TextContent,
-  TextVariants,
+  Title,
 } from '@patternfly/react-core';
 import { LeafletMouseEvent } from 'leaflet';
 import * as React from 'react';
@@ -95,9 +93,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
     const filteredVisits: Location[] = routes.length > 0 ? routes[selectedRouteId].visits : [];
     return (
       <>
-        <TextContent>
-          <Text component={TextVariants.h1}>Route</Text>
-        </TextContent>
+        <Title headingLevel="h1">Route</Title>
         <Split hasGutter>
           <SplitItem
             isFilled={false}

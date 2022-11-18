@@ -7,9 +7,7 @@ import {
   InputGroupText,
   Split,
   SplitItem,
-  Text,
-  TextContent,
-  TextVariants,
+  Title,
 } from '@patternfly/react-core';
 import { MinusIcon, PlusIcon } from '@patternfly/react-icons';
 import { backendUrl } from 'common';
@@ -153,9 +151,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
           isFilled={false}
           style={sideBarStyle}
         >
-          <TextContent>
-            <Text component={TextVariants.h1}>Demo</Text>
-          </TextContent>
+          <Title headingLevel="h1">Demo</Title>
           <SearchBox
             boundingBox={boundingBox}
             countryCodeSearchFilter={countryCodeSearchFilter}

@@ -13,13 +13,11 @@ exports[`Vehicles page should render correctly 1`] = `
     <SplitItem
       isFilled={true}
     >
-      <TextContent>
-        <Text
-          component="h1"
-        >
-          Vehicles (2)
-        </Text>
-      </TextContent>
+      <Title
+        headingLevel="h1"
+      >
+        Vehicles (2)
+      </Title>
     </SplitItem>
     <SplitItem
       isFilled={false}

@@ -21,7 +21,6 @@ exports[`Connection Error Component should render correctly 1`] = `
       <FlexItem>
         <Title
           headingLevel="h1"
-          size="2xl"
         >
           Connection error
         </Title>
