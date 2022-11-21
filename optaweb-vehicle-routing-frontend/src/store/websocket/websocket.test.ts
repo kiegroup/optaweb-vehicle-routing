@@ -25,6 +25,7 @@ const userViewport: UserViewport = {
 
 beforeEach(() => {
   jest.useFakeTimers();
+  jest.spyOn(global, 'setTimeout');
 });
 
 describe('WebSocket client operations', () => {

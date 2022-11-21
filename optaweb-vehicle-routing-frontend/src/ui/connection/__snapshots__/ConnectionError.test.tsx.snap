@@ -47,7 +47,9 @@ exports[`Connection Error Component should render correctly 1`] = `
           href=""
           rel="noopener noreferrer"
           target="_blank"
-        />
+        >
+          
+        </a>
          
         but the connection failed.
       </Text>

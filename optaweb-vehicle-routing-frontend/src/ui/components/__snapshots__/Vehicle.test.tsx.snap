@@ -22,7 +22,7 @@ exports[`Vehicle Component should render correctly 1`] = `
     >
       <InputGroup>
         <Button
-          data-test-key="capacity-decrease-10"
+          data-testid="capacity-decrease-10"
           isDisabled={false}
           onClick={[Function]}
           variant="primary"
@@ -39,7 +39,7 @@ exports[`Vehicle Component should render correctly 1`] = `
           7
         </InputGroupText>
         <Button
-          data-test-key="capacity-increase-10"
+          data-testid="capacity-increase-10"
           onClick={[Function]}
           variant="primary"
         >
@@ -55,7 +55,7 @@ exports[`Vehicle Component should render correctly 1`] = `
       isFilled={false}
     >
       <Button
-        data-test-key="remove-10"
+        data-testid="remove-10"
         isDisabled={false}
         onClick={[Function]}
         type="button"

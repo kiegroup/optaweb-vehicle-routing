@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Vehicles page should render correctly 1`] = `
-<Fragment>
+<React.Fragment>
   <Split
     hasGutter={true}
     style={
@@ -55,7 +55,6 @@ exports[`Vehicles page should render correctly 1`] = `
         capacityChangeHandler={[Function]}
         description="Vehicle 1"
         id={1}
-        key="1"
         removeHandler={[MockFunction]}
       />
       <Vehicle
@@ -63,10 +62,9 @@ exports[`Vehicles page should render correctly 1`] = `
         capacityChangeHandler={[Function]}
         description="Vehicle 2"
         id={2}
-        key="2"
         removeHandler={[MockFunction]}
       />
     </DataList>
   </div>
-</Fragment>
+</React.Fragment>
 `;

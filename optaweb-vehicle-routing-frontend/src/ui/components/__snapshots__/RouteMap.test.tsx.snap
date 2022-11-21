@@ -118,7 +118,6 @@ exports[`Route Map should pan and zoom to show bounding box if viewport is not d
   <LocationMarker
     isDepot={false}
     isSelected={false}
-    key="2"
     location={
       Object {
         "id": 2,
@@ -131,7 +130,6 @@ exports[`Route Map should pan and zoom to show bounding box if viewport is not d
   <LocationMarker
     isDepot={false}
     isSelected={false}
-    key="3"
     location={
       Object {
         "id": 3,
@@ -144,7 +142,6 @@ exports[`Route Map should pan and zoom to show bounding box if viewport is not d
   <ForwardRef(Leaflet(Polyline))
     color="deepskyblue"
     fill={false}
-    key="0"
     opacity={0.6666}
     positions={
       Array [
@@ -226,7 +223,6 @@ exports[`Route Map should show the whole world when bounding box is null 1`] = `
   <ForwardRef(Leaflet(Polyline))
     color="deepskyblue"
     fill={false}
-    key="0"
     opacity={0.6666}
     positions={Array []}
     smoothFactor={3}

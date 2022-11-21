@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Visits page should render correctly with a few visits 1`] = `
-<Fragment>
+<React.Fragment>
   <Title
     headingLevel="h1"
   >
@@ -32,11 +32,11 @@ exports[`Visits page should render correctly with a few visits 1`] = `
       ]
     }
   />
-</Fragment>
+</React.Fragment>
 `;
 
 exports[`Visits page should render correctly with no visits 1`] = `
-<Fragment>
+<React.Fragment>
   <Title
     headingLevel="h1"
   >
@@ -48,5 +48,5 @@ exports[`Visits page should render correctly with no visits 1`] = `
     selectHandler={[Function]}
     visits={Array []}
   />
-</Fragment>
+</React.Fragment>
 `;

@@ -1,5 +1,4 @@
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { shallow, toJson } from 'ui/shallow-test-util';
 import { DemoDropdown, Props } from './DemoDropdown';
 
 describe('Demo dropdown button', () => {

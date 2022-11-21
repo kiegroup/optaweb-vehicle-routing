@@ -5,6 +5,7 @@ const initialState: Demo = {
   demoName: null,
 };
 
+// eslint-disable-next-line @typescript-eslint/default-param-last
 export const demoReducer = (state = initialState, action: DemoAction): Demo => {
   switch (action.type) {
     case ActionType.REQUEST_DEMO: {

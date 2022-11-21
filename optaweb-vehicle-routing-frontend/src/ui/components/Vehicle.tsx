@@ -42,7 +42,7 @@ const Vehicle: React.FC<VehicleProps> = ({
             <Button
               variant={ButtonVariant.primary}
               isDisabled={capacity === 0}
-              data-test-key={`capacity-decrease-${id}`}
+              data-testid={`capacity-decrease-${id}`}
               onClick={() => capacityChangeHandler({ vehicleId: id, capacity: capacity - 1 })}
             >
               <MinusIcon />
@@ -52,7 +52,7 @@ const Vehicle: React.FC<VehicleProps> = ({
             </InputGroupText>
             <Button
               variant={ButtonVariant.primary}
-              data-test-key={`capacity-increase-${id}`}
+              data-testid={`capacity-increase-${id}`}
               onClick={() => capacityChangeHandler({ vehicleId: id, capacity: capacity + 1 })}
             >
               <PlusIcon />
@@ -63,7 +63,7 @@ const Vehicle: React.FC<VehicleProps> = ({
           <Button
             type="button"
             variant="link"
-            data-test-key={`remove-${id}`}
+            data-testid={`remove-${id}`}
             isDisabled={clicked}
             onClick={() => {
               setClicked(true);

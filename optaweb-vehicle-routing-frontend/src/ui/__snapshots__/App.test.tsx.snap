@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`App should render correctly 1`] = `
-<Fragment>
-  <Connect(ConnectionManager) />
-  <Connect(Alerts) />
+<React.Fragment>
+  <Memo(Connect(ConnectionManager)) />
+  <Memo(Connect(Alerts)) />
   <Page
     defaultManagedSidebarIsOpen={true}
     getBreakpoint={[Function]}
@@ -38,7 +38,6 @@ exports[`App should render correctly 1`] = `
             }
           }
           exact={true}
-          key="/demo"
           path="/demo"
         />
         <Route
@@ -51,7 +50,6 @@ exports[`App should render correctly 1`] = `
             }
           }
           exact={true}
-          key="/"
           path="/"
         />
         <Route
@@ -64,7 +62,6 @@ exports[`App should render correctly 1`] = `
             }
           }
           exact={true}
-          key="/vehicles"
           path="/vehicles"
         />
         <Route
@@ -77,7 +74,6 @@ exports[`App should render correctly 1`] = `
             }
           }
           exact={true}
-          key="/visits"
           path="/visits"
         />
         <Route
@@ -90,11 +86,10 @@ exports[`App should render correctly 1`] = `
             }
           }
           exact={true}
-          key="/routes"
           path="/routes"
         />
       </Switch>
     </PageSection>
   </Page>
-</Fragment>
+</React.Fragment>
 `;
