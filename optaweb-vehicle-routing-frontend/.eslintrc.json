@@ -5,7 +5,8 @@
   },
   "plugins": [
     "@typescript-eslint",
-    "jest"
+    "jest",
+    "jest-dom"
   ],
   "env": {
     "browser": true,
@@ -26,6 +27,7 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:jest-dom/recommended",
     "react-app",
     "airbnb-typescript"
   ],

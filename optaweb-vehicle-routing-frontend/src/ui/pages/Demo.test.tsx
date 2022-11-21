@@ -57,12 +57,12 @@ describe('Demo page', () => {
     render(<Demo {...props} />);
 
     const clearButton = screen.getByText('Clear');
-    expect(clearButton).not.toBeDisabled();
+    expect(clearButton).toBeEnabled();
 
     const exportButton = screen.getByText('Export');
-    expect(exportButton).not.toBeDisabled();
+    expect(exportButton).toBeEnabled();
 
-    expect(screen.queryAllByText('Load demo')).toHaveLength(0);
+    expect(screen.queryByText('Load demo')).not.toBeInTheDocument();
   });
 });
 
