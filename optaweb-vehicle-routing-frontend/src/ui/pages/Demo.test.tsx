@@ -33,14 +33,14 @@ describe('Demo page', () => {
     const user = userEvent.setup();
     render(<Demo {...props} />);
 
-    const clearButton = screen.getByText('Clear');
+    const clearButton = screen.getByRole('button', { name: 'Clear' });
     expect(clearButton).toBeDisabled();
 
     await user.click(clearButton);
     // Doesn't work, probably due to https://github.com/airbnb/enzyme/issues/386
     expect(props.clearHandler).not.toHaveBeenCalled();
 
-    const exportButton = screen.getByText('Export');
+    const exportButton = screen.getByRole('button', { name: 'Export' });
     expect(exportButton).toBeDisabled();
   });
 
@@ -56,13 +56,13 @@ describe('Demo page', () => {
     };
     render(<Demo {...props} />);
 
-    const clearButton = screen.getByText('Clear');
+    const clearButton = screen.getByRole('button', { name: 'Clear' });
     expect(clearButton).toBeEnabled();
 
-    const exportButton = screen.getByText('Export');
+    const exportButton = screen.getByRole('button', { name: 'Export' });
     expect(exportButton).toBeEnabled();
 
-    expect(screen.queryByText('Load demo')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Load demo' })).not.toBeInTheDocument();
   });
 });
 

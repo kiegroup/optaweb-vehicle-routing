@@ -28,9 +28,6 @@ import SearchBox, { Result } from 'ui/components/SearchBox';
 import { sideBarStyle } from 'ui/pages/common';
 import { CapacityInfo, DistanceInfo, VehiclesInfo, VisitsInfo } from 'ui/pages/InfoBlock';
 
-export const ID_CLEAR_BUTTON = 'clear-button';
-export const ID_EXPORT_BUTTON = 'export-button';
-
 export interface StateProps {
   distance: string;
   depot: Location | null;
@@ -209,7 +206,6 @@ export class Demo extends React.Component<DemoProps, DemoState> {
             </FlexItem>
             <FlexItem>
               <Button
-                id={ID_EXPORT_BUTTON}
                 isDisabled={!depot || isDemoLoading}
                 style={{ marginBottom: 16, marginLeft: 16 }}
                 onClick={exportDataSet}
@@ -223,7 +219,6 @@ export class Demo extends React.Component<DemoProps, DemoState> {
                 />
               )) || (
                 <Button
-                  id={ID_CLEAR_BUTTON}
                   isDisabled={isDemoLoading}
                   style={{ marginBottom: 16, marginLeft: 16 }}
                   onClick={clearHandler}
