@@ -56,13 +56,11 @@ describe('Demo page', () => {
     };
     render(<Demo {...props} />);
 
-    screen.getByText('Clear');
-    // FIXME expect(...).not.toBeDisabled is not a function
-    // expect(clearButton).not.toBeDisabled();
+    const clearButton = screen.getByText('Clear');
+    expect(clearButton).not.toBeDisabled();
 
-    screen.getByText('Export');
-    // FIXME expect(...).not.toBeDisabled is not a function
-    // expect(exportButton).not.toBeDisabled();
+    const exportButton = screen.getByText('Export');
+    expect(exportButton).not.toBeDisabled();
 
     expect(screen.queryAllByText('Load demo')).toHaveLength(0);
   });
