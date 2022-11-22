@@ -1,4 +1,4 @@
-import { Text, TextContent, TextVariants } from '@patternfly/react-core';
+import { Title } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { routeOperations } from 'store/route';
@@ -17,12 +17,10 @@ const mapStateToProps = ({ plan }: AppState): StateProps => ({
 });
 
 export interface DispatchProps {
-  addHandler: typeof routeOperations.addLocation;
   removeHandler: typeof routeOperations.deleteLocation;
 }
 
 const mapDispatchToProps: DispatchProps = {
-  addHandler: routeOperations.addLocation,
   removeHandler: routeOperations.deleteLocation,
 };
 
@@ -34,9 +32,7 @@ export const Visits: React.FC<Props> = ({
   removeHandler,
 }: Props) => (
   <>
-    <TextContent>
-      <Text component={TextVariants.h1}>{`Visits (${visits.length})`}</Text>
-    </TextContent>
+    <Title headingLevel="h1">{`Visits (${visits.length})`}</Title>
     {/* TODO do not show depots */}
     <LocationList
       removeHandler={removeHandler}

@@ -3,25 +3,23 @@ import {
   ButtonVariant,
   Flex,
   FlexItem,
-  FlexModifiers,
-  GutterSize,
   InputGroup,
   InputGroupText,
   Split,
   SplitItem,
-  Text,
-  TextContent,
-  TextVariants,
+  Title,
 } from '@patternfly/react-core';
 import { MinusIcon, PlusIcon } from '@patternfly/react-icons';
 import { backendUrl } from 'common';
+import { LeafletMouseEvent } from 'leaflet';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { clientOperations } from 'store/client';
 import { UserViewport } from 'store/client/types';
 import { demoOperations } from 'store/demo';
 import { routeOperations, routeSelectors } from 'store/route';
-import { LatLng, Location, RouteWithTrack } from 'store/route/types';
+import { Location, RouteWithTrack } from 'store/route/types';
+import { BoundingBox } from 'store/server/types';
 import { AppState } from 'store/types';
 import { DemoDropdown } from 'ui/components/DemoDropdown';
 import LocationList from 'ui/components/LocationList';
@@ -29,9 +27,6 @@ import RouteMap from 'ui/components/RouteMap';
 import SearchBox, { Result } from 'ui/components/SearchBox';
 import { sideBarStyle } from 'ui/pages/common';
 import { CapacityInfo, DistanceInfo, VehiclesInfo, VisitsInfo } from 'ui/pages/InfoBlock';
-
-export const ID_CLEAR_BUTTON = 'clear-button';
-export const ID_EXPORT_BUTTON = 'export-button';
 
 export interface StateProps {
   distance: string;
@@ -42,7 +37,7 @@ export interface StateProps {
   visits: Location[];
   routes: RouteWithTrack[];
   isDemoLoading: boolean;
-  boundingBox: [LatLng, LatLng] | null;
+  boundingBox: BoundingBox | null;
   userViewport: UserViewport;
   countryCodeSearchFilter: string[];
   demoNames: string[];
@@ -104,7 +99,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
     this.onSelectLocation = this.onSelectLocation.bind(this);
   }
 
-  handleMapClick(e: any) {
+  handleMapClick(e: LeafletMouseEvent) {
     this.props.addLocationHandler({ ...e.latlng, description: '' }); // TODO use reverse geocoding to find address
   }
 
@@ -148,14 +143,12 @@ export class Demo extends React.Component<DemoProps, DemoState> {
 
     return (
       // FIXME find a way to avoid these style customizations
-      <Split gutter={GutterSize.md} style={{ overflowY: 'auto' }}>
+      <Split hasGutter style={{ overflowY: 'auto' }}>
         <SplitItem
           isFilled={false}
           style={sideBarStyle}
         >
-          <TextContent>
-            <Text component={TextVariants.h1}>Demo</Text>
-          </TextContent>
+          <Title headingLevel="h1">Demo</Title>
           <SearchBox
             boundingBox={boundingBox}
             countryCodeSearchFilter={countryCodeSearchFilter}
@@ -173,7 +166,7 @@ export class Demo extends React.Component<DemoProps, DemoState> {
           isFilled
           style={{ display: 'flex', flexDirection: 'column' }}
         >
-          <Flex breakpointMods={[{ modifier: FlexModifiers['justify-content-space-between'] }]}>
+          <Flex justifyContent={{ default: 'justifyContentSpaceBetween' }}>
             <FlexItem>
               <VisitsInfo visitCount={visits.length} />
             </FlexItem>
@@ -213,7 +206,6 @@ export class Demo extends React.Component<DemoProps, DemoState> {
             </FlexItem>
             <FlexItem>
               <Button
-                id={ID_EXPORT_BUTTON}
                 isDisabled={!depot || isDemoLoading}
                 style={{ marginBottom: 16, marginLeft: 16 }}
                 onClick={exportDataSet}
@@ -227,7 +219,6 @@ export class Demo extends React.Component<DemoProps, DemoState> {
                 />
               )) || (
                 <Button
-                  id={ID_CLEAR_BUTTON}
                   isDisabled={isDemoLoading}
                   style={{ marginBottom: 16, marginLeft: 16 }}
                   onClick={clearHandler}

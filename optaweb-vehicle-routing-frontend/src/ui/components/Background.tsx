@@ -1,23 +1,19 @@
-import { BackgroundImage, BackgroundImageSrc } from '@patternfly/react-core';
-import filter from '@patternfly/react-core/dist/styles/assets/images/background-filter.svg';
+import { BackgroundImage } from '@patternfly/react-core';
 import pfBackground1200 from '@patternfly/react-core/dist/styles/assets/images/pfbg_1200.jpg';
 import pfBackground576 from '@patternfly/react-core/dist/styles/assets/images/pfbg_576.jpg';
 import pfBackground1152 from '@patternfly/react-core/dist/styles/assets/images/pfbg_576@2x.jpg';
 import pfBackground768 from '@patternfly/react-core/dist/styles/assets/images/pfbg_768.jpg';
 import pfBackground1536 from '@patternfly/react-core/dist/styles/assets/images/pfbg_768@2x.jpg';
-import React from 'react';
+import * as React from 'react';
 
-const bgImages = {
-  [BackgroundImageSrc.xs]: pfBackground576,
-  [BackgroundImageSrc.sm]: pfBackground768,
-  [BackgroundImageSrc.xs2x]: pfBackground1152,
-  [BackgroundImageSrc.lg]: pfBackground1200,
-  [BackgroundImageSrc.sm2x]: pfBackground1536,
-  [BackgroundImageSrc.filter]: `${filter}#image_overlay`,
+const images = {
+  xs: pfBackground576,
+  sm: pfBackground768,
+  xs2x: pfBackground1152,
+  lg: pfBackground1200,
+  sm2x: pfBackground1536,
 };
 
-const Background: React.FC = () => (
-  <BackgroundImage src={bgImages} />
-);
+const Background: React.FC = () => <BackgroundImage src={images} />;
 
 export default Background;

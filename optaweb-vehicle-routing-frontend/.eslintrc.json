@@ -5,7 +5,8 @@
   },
   "plugins": [
     "@typescript-eslint",
-    "jest"
+    "jest",
+    "jest-dom"
   ],
   "env": {
     "browser": true,
@@ -26,11 +27,11 @@
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
+    "plugin:jest-dom/recommended",
     "react-app",
     "airbnb-typescript"
   ],
   "rules": {
-    "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-member-accessibility": ["error", {"accessibility": "no-public"}],
     "@typescript-eslint/indent": ["error", 2],
     "@typescript-eslint/no-empty-interface": "off",
@@ -59,6 +60,7 @@
     "react/destructuring-assignment": "off",
     "react/jsx-props-no-spreading": "off",
     "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
     "react/sort-comp": "off"
   }
 }

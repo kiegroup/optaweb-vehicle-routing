@@ -3,6 +3,8 @@
 exports[`Location Component should render correctly 1`] = `
 <DataListItem
   aria-labelledby="location-10"
+  className=""
+  id=""
   isExpanded={false}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
@@ -12,35 +14,7 @@ exports[`Location Component should render correctly 1`] = `
       isFilled={true}
     >
       <Tooltip
-        appendTo={[Function]}
-        aria="describedby"
-        boundary="window"
-        className=""
         content="x"
-        distance={15}
-        enableFlip={true}
-        entryDelay={500}
-        exitDelay={500}
-        flipBehavior={
-          Array [
-            "top",
-            "right",
-            "bottom",
-            "left",
-            "top",
-            "right",
-            "bottom",
-          ]
-        }
-        id=""
-        isAppLauncher={false}
-        isContentLeftAligned={false}
-        isVisible={false}
-        maxWidth="18.75rem"
-        position="top"
-        tippyProps={Object {}}
-        trigger="mouseenter focus"
-        zIndex={9999}
       >
         <span
           id="location-10"
@@ -52,7 +26,7 @@ exports[`Location Component should render correctly 1`] = `
     <DataListCell
       isFilled={false}
     >
-      <Component
+      <Button
         isDisabled={false}
         onClick={[Function]}
         type="button"
@@ -62,9 +36,8 @@ exports[`Location Component should render correctly 1`] = `
           color="currentColor"
           noVerticalAlign={false}
           size="sm"
-          title={null}
         />
-      </Component>
+      </Button>
     </DataListCell>
   </DataListItemRow>
 </DataListItem>
@@ -73,6 +46,8 @@ exports[`Location Component should render correctly 1`] = `
 exports[`Location Component should render correctly when description is missing 1`] = `
 <DataListItem
   aria-labelledby="location-11"
+  className=""
+  id=""
   isExpanded={false}
   onMouseEnter={[Function]}
   onMouseLeave={[Function]}
@@ -90,7 +65,7 @@ exports[`Location Component should render correctly when description is missing 
     <DataListCell
       isFilled={false}
     >
-      <Component
+      <Button
         isDisabled={false}
         onClick={[Function]}
         type="button"
@@ -100,9 +75,8 @@ exports[`Location Component should render correctly when description is missing 
           color="currentColor"
           noVerticalAlign={false}
           size="sm"
-          title={null}
         />
-      </Component>
+      </Button>
     </DataListCell>
   </DataListItemRow>
 </DataListItem>

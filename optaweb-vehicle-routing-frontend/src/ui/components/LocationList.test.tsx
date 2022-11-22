@@ -1,7 +1,4 @@
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import * as React from 'react';
-import Location from './Location';
+import { shallow, toJson } from 'ui/shallow-test-util';
 import LocationList, { LocationListProps } from './LocationList';
 
 describe('Location List Component', () => {
@@ -43,7 +40,5 @@ describe('Location List Component', () => {
     };
     const locationList = shallow(<LocationList {...props} />);
     expect(toJson(locationList)).toMatchSnapshot();
-
-    expect(locationList.find(Location)).toHaveLength(props.visits.length + 1);
   });
 });

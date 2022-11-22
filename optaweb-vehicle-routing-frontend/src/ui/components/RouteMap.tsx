@@ -2,19 +2,20 @@ import * as L from 'leaflet';
 import * as React from 'react';
 import { Map, Polyline, Rectangle, TileLayer, ZoomControl } from 'react-leaflet';
 import { UserViewport } from 'store/client/types';
-import { LatLng, Location, RouteWithTrack } from 'store/route/types';
+import { Location, RouteWithTrack } from 'store/route/types';
+import { BoundingBox } from 'store/server/types';
 import LocationMarker from './LocationMarker';
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
 export interface Props {
   selectedId: number;
-  clickHandler: (e: React.SyntheticEvent<HTMLElement>) => void;
+  clickHandler: (event: L.LeafletMouseEvent) => void;
   removeHandler: (id: number) => void;
   depot: Location | null;
   visits: Location[];
   routes: Omit<RouteWithTrack, 'vehicle'>[];
-  boundingBox: [LatLng, LatLng] | null;
+  boundingBox: BoundingBox | null;
   userViewport: UserViewport;
   updateViewport: (viewport: UserViewport) => void;
 }
@@ -41,8 +42,7 @@ const RouteMap: React.FC<Props> = ({
   // do not use bounds if user's viewport is dirty
   const mapBounds = userViewport.isDirty ? undefined : bounds;
   // TODO make TileLayer URL configurable
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
+  // @ts-expect-error Cypress exists on window during Cypress test runs
   const tileLayerUrl = window.Cypress ? 'test-mode-empty-url' : 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   return (
     <Map

@@ -1,13 +1,21 @@
 import '@patternfly/patternfly/patternfly.css';
-import { Button, Text, TextContent, TextInput, TextVariants } from '@patternfly/react-core';
+import { Button, SearchInput, Text, TextContent, TextVariants } from '@patternfly/react-core';
 import { PlusSquareIcon } from '@patternfly/react-icons';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
+import { OpenStreetMapProviderOptions } from 'leaflet-geosearch/lib/providers/openStreetMapProvider';
 import * as React from 'react';
 import { LatLng } from 'store/route/types';
+import { BoundingBox } from 'store/server/types';
+
+export interface Result {
+  id: string;
+  address: string;
+  latLng: LatLng;
+}
 
 export interface Props {
   searchDelay: number;
-  boundingBox: [LatLng, LatLng] | null;
+  boundingBox: BoundingBox | null;
   countryCodeSearchFilter: string[];
   addHandler: (result: Result) => void;
 }
@@ -18,17 +26,17 @@ export interface State {
   attributions: string[];
 }
 
-export interface Result {
-  address: string;
-  latLng: LatLng;
-}
+// Nominatim API: viewbox=<x1>,<y1>,<x2>,<y2> (x is longitude, y is latitude).
+type ViewBox = [number, number, number, number];
 
-const searchParams = (props: Props) => ({
-  countrycodes: props.countryCodeSearchFilter,
-  viewbox: props.boundingBox
-    ? [props.boundingBox[0].lng, props.boundingBox[0].lat, props.boundingBox[1].lng, props.boundingBox[1].lat]
-    : undefined,
-  bounded: !!props.boundingBox,
+const viewBox: (bb: BoundingBox) => ViewBox = (bb: BoundingBox) => [bb[0].lng, bb[0].lat, bb[1].lng, bb[1].lat];
+
+const providerOptions = (props: Props): OpenStreetMapProviderOptions => ({
+  params: {
+    countrycodes: props.countryCodeSearchFilter.toString(),
+    viewbox: props.boundingBox ? viewBox(props.boundingBox).toString() : '',
+    bounded: !!props.boundingBox,
+  },
 });
 
 class SearchBox extends React.Component<Props, State> {
@@ -53,7 +61,7 @@ class SearchBox extends React.Component<Props, State> {
       attributions: [],
     };
 
-    this.searchProvider = new OpenStreetMapProvider({ params: searchParams(props) });
+    this.searchProvider = new OpenStreetMapProvider(providerOptions(props));
     this.timeoutId = null;
 
     this.handleTextInputChange = this.handleTextInputChange.bind(this);
@@ -61,7 +69,7 @@ class SearchBox extends React.Component<Props, State> {
   }
 
   componentDidUpdate() {
-    this.searchProvider = new OpenStreetMapProvider({ params: searchParams(this.props) });
+    this.searchProvider = new OpenStreetMapProvider(providerOptions(this.props));
   }
 
   componentWillUnmount() {
@@ -70,7 +78,7 @@ class SearchBox extends React.Component<Props, State> {
     }
   }
 
-  handleTextInputChange(query: string): void {
+  handleTextInputChange(query: string) {
     if (this.timeoutId) {
       window.clearTimeout(this.timeoutId);
     }
@@ -84,10 +92,13 @@ class SearchBox extends React.Component<Props, State> {
           this.setState({
             results: searchResults
               .map((result) => ({
+                id: result.raw.place_id,
                 address: result.label,
                 latLng: { lat: result.y, lng: result.x },
               })),
             attributions: searchResults
+              // eslint-disable-next-line max-len
+              // @ts-expect-error discrepancy between leaflet-geosearch API (expects license) and the actual Nominatim data
               .map((result) => result.raw.licence)
               // filter out duplicate elements
               .filter((value, index, array) => array.indexOf(value) === index),
@@ -115,10 +126,9 @@ class SearchBox extends React.Component<Props, State> {
     const { attributions, query, results } = this.state;
     return (
       <>
-        <TextInput
+        <SearchInput
           style={{ marginBottom: 10 }}
           value={query}
-          type="search"
           placeholder="Search to add a location..."
           aria-label="geosearch text input"
           onChange={this.handleTextInputChange}
@@ -128,7 +138,7 @@ class SearchBox extends React.Component<Props, State> {
           <div className="pf-c-options-menu pf-m-expanded" style={{ zIndex: 1100 }}>
             <ul className="pf-c-options-menu__menu">
               {results.map((result, index) => (
-                <li key={`result: ${result}`}>
+                <li key={result.id}>
                   <div className="pf-c-options-menu__menu-item">
                     {result.address}
                     <Button

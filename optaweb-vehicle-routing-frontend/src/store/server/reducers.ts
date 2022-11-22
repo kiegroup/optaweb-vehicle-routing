@@ -6,6 +6,7 @@ export const initialServerState: ServerInfo = {
   demos: [],
 };
 
+// eslint-disable-next-line @typescript-eslint/default-param-last
 export const routeReducer = (state = initialServerState, action: ServerInfoAction): ServerInfo => {
   switch (action.type) {
     case ActionType.SERVER_INFO: {

@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Connection Manager should connect the WebSocket client when mounted 1`] = `
-<ConnectionError
-  isOpen={false}
-/>
-`;
-
 exports[`Connection Manager should display error when connection fails 1`] = `
 <ConnectionError
   isOpen={true}
+/>
+`;
+
+exports[`Connection Manager should not display error when connection is closed 1`] = `
+<ConnectionError
+  isOpen={false}
 />
 `;
 

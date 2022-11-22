@@ -1,4 +1,4 @@
-import { Flex, FlexItem, FlexModifiers, Tooltip } from '@patternfly/react-core';
+import { Flex, FlexItem, Tooltip } from '@patternfly/react-core';
 import {
   ClockIcon as DistanceIcon,
   IconSize,
@@ -6,11 +6,11 @@ import {
   TruckIcon,
   WeightHangingIcon as CapacityIcon,
 } from '@patternfly/react-icons';
-import { IconType } from '@patternfly/react-icons/dist/js/createIcon';
+import { SVGIconProps } from '@patternfly/react-icons/dist/js/createIcon';
 import * as React from 'react';
 
 interface InfoBlockProps {
-  icon: IconType;
+  icon: React.ComponentClass<SVGIconProps>;
   content?: {
     data: string | number;
     minWidth: string;
@@ -23,7 +23,7 @@ export const InfoBlock = ({ icon, content, tooltip, color }: InfoBlockProps) => 
   const Icon = icon;
   return (
     <Tooltip content={tooltip} position="bottom">
-      <Flex breakpointMods={[{ modifier: FlexModifiers['space-items-sm'] }]}>
+      <Flex spaceItems={{ default: 'spaceItemsSm' }}>
         <FlexItem>
           <Icon size={IconSize.md} color={color} />
         </FlexItem>

@@ -1,5 +1,6 @@
 import { ActionType, Message, MessageAction } from './types';
 
+// eslint-disable-next-line @typescript-eslint/default-param-last
 export const messageReducer = (state: Message[] = [], action: MessageAction): Message[] => {
   switch (action.type) {
     case ActionType.RECEIVE_MESSAGE: {

@@ -29,10 +29,11 @@ export const DemoDropdown: React.FC<Props> = ({ demos, onSelect }) => {
       }}
       toggle={(
         <DropdownToggle
+          isPrimary
           disabled={demos.length === 0}
           onToggle={() => setOpen(!isOpen)}
         >
-          Load demo...
+          Load demo
         </DropdownToggle>
       )}
     />

@@ -1,19 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`App should render correctly 1`] = `
-<Fragment>
-  <Connect(ConnectionManager) />
-  <Connect(Alerts) />
+<React.Fragment>
+  <Memo(Connect(ConnectionManager)) />
+  <Memo(Connect(Alerts)) />
   <Page
-    breadcrumb={null}
-    className=""
     defaultManagedSidebarIsOpen={true}
+    getBreakpoint={[Function]}
+    getVerticalBreakpoint={[Function]}
     header={<Header />}
+    isBreadcrumbWidthLimited={false}
     isManagedSidebar={false}
-    mainContainerId={null}
+    isNotificationDrawerExpanded={false}
+    mainTabIndex={-1}
+    onNotificationDrawerExpand={[Function]}
     onPageResize={[Function]}
-    sidebar={null}
-    skipToContent={null}
   >
     <Background />
     <PageSection
@@ -33,12 +34,10 @@ exports[`App should render correctly 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(Demo)",
               "type": [Function],
             }
           }
           exact={true}
-          key="/demo"
           path="/demo"
         />
         <Route
@@ -47,12 +46,10 @@ exports[`App should render correctly 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(Demo)",
               "type": [Function],
             }
           }
           exact={true}
-          key="/"
           path="/"
         />
         <Route
@@ -61,12 +58,10 @@ exports[`App should render correctly 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(Vehicles)",
               "type": [Function],
             }
           }
           exact={true}
-          key="/vehicles"
           path="/vehicles"
         />
         <Route
@@ -75,12 +70,10 @@ exports[`App should render correctly 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(Visits)",
               "type": [Function],
             }
           }
           exact={true}
-          key="/visits"
           path="/visits"
         />
         <Route
@@ -89,16 +82,14 @@ exports[`App should render correctly 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(Route)",
               "type": [Function],
             }
           }
           exact={true}
-          key="/routes"
           path="/routes"
         />
       </Switch>
     </PageSection>
   </Page>
-</Fragment>
+</React.Fragment>
 `;

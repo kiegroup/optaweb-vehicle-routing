@@ -1,16 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Route page should render correctly with a few routes 1`] = `
-<Fragment>
-  <TextContent>
-    <Text
-      component="h1"
-    >
-      Route
-    </Text>
-  </TextContent>
+<React.Fragment>
+  <Title
+    headingLevel="h1"
+  >
+    Route
+  </Title>
   <Split
-    gutter="md"
+    hasGutter={true}
   >
     <SplitItem
       isFilled={false}
@@ -27,11 +25,12 @@ exports[`Route page should render correctly with a few routes 1`] = `
           aria-label="FormSelect Input"
           className=""
           isDisabled={false}
+          isIconSprite={false}
           isRequired={false}
-          isValid={true}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
+          ouiaSafe={true}
           style={
             Object {
               "backgroundColor": "white",
@@ -43,13 +42,11 @@ exports[`Route page should render correctly with a few routes 1`] = `
         >
           <FormSelectOption
             isDisabled={false}
-            key="0"
             label="v1"
             value={0}
           />
           <FormSelectOption
             isDisabled={false}
-            key="1"
             label="v2"
             value={1}
           />
@@ -172,20 +169,18 @@ exports[`Route page should render correctly with a few routes 1`] = `
       />
     </SplitItem>
   </Split>
-</Fragment>
+</React.Fragment>
 `;
 
 exports[`Route page should render correctly with no routes 1`] = `
-<Fragment>
-  <TextContent>
-    <Text
-      component="h1"
-    >
-      Route
-    </Text>
-  </TextContent>
+<React.Fragment>
+  <Title
+    headingLevel="h1"
+  >
+    Route
+  </Title>
   <Split
-    gutter="md"
+    hasGutter={true}
   >
     <SplitItem
       isFilled={false}
@@ -202,11 +197,12 @@ exports[`Route page should render correctly with no routes 1`] = `
           aria-label="FormSelect Input"
           className=""
           isDisabled={true}
+          isIconSprite={false}
           isRequired={false}
-          isValid={true}
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
+          ouiaSafe={true}
           style={
             Object {
               "backgroundColor": "white",
@@ -249,5 +245,5 @@ exports[`Route page should render correctly with no routes 1`] = `
       />
     </SplitItem>
   </Split>
-</Fragment>
+</React.Fragment>
 `;

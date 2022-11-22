@@ -31,7 +31,6 @@ exports[`Location Marker render depot 1`] = `
       },
     }
   }
-  key="1"
   onClick={[Function]}
   position={
     Object {
@@ -42,7 +41,6 @@ exports[`Location Marker render depot 1`] = `
   }
 >
   <ForwardRef(Leaflet(Tooltip))
-    key=""
     permanent={false}
   >
     Location 1 [Lat=1.345678, Lng=1.345678]
@@ -58,7 +56,6 @@ exports[`Location Marker render visit 1`] = `
       "options": Object {},
     }
   }
-  key="1"
   onClick={[Function]}
   position={
     Object {
@@ -69,7 +66,6 @@ exports[`Location Marker render visit 1`] = `
   }
 >
   <ForwardRef(Leaflet(Tooltip))
-    key=""
     permanent={false}
   >
     Location 1 [Lat=1.345678, Lng=1.345678]
@@ -85,7 +81,6 @@ exports[`Location Marker selected visit should show a tooltip 1`] = `
       "options": Object {},
     }
   }
-  key="1"
   onClick={[Function]}
   position={
     Object {
@@ -96,7 +91,6 @@ exports[`Location Marker selected visit should show a tooltip 1`] = `
   }
 >
   <ForwardRef(Leaflet(Tooltip))
-    key="selected"
     permanent={true}
   >
     Location 1 [Lat=1.345678, Lng=1.345678]

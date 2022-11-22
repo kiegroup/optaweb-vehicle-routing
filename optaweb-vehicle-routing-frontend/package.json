@@ -4,22 +4,22 @@
   "private": true,
   "license": "Apache-2.0",
   "dependencies": {
-    "@patternfly/patternfly": "^2.71.6",
-    "@patternfly/react-core": "^3.153.13",
-    "@patternfly/react-icons": "^3.15.16",
+    "@patternfly/patternfly": "~4.219.2",
+    "@patternfly/react-core": "~4.250.1",
+    "@patternfly/react-icons": "~4.92.10",
     "leaflet": "^1.6.0",
-    "leaflet-geosearch": "^2.7.0",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "leaflet-geosearch": "^3.7.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "react-leaflet": "^2.7.0",
-    "react-redux": "^7.2.0",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.3",
-    "redux": "^4.0.5",
+    "react-redux": "^8.0.5",
+    "react-router": "^5.3.4",
+    "react-router-dom": "^5.3.4",
+    "react-scripts": "^5.0.1",
+    "redux": "^4.2.0",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -45,40 +45,34 @@
     "ancestorSeparator": "."
   },
   "devDependencies": {
-    "@types/enzyme": "^3.10.5",
-    "@types/enzyme-adapter-react-16": "^1.0.6",
-    "@types/jest": "^25.2.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/jest": "^27.5.2",
     "@types/leaflet": "^1.5.12",
     "@types/node": "^13.13.5",
-    "@types/react": "^16.9.35",
-    "@types/react-dom": "^16.9.8",
+    "@types/react": "~18.0.25",
+    "@types/react-dom": "^18.0.9",
     "@types/react-leaflet": "^2.5.1",
-    "@types/react-redux": "^7.1.8",
-    "@types/react-router-dom": "^5.1.5",
-    "@types/redux-logger": "^3.0.7",
-    "@types/redux-mock-store": "^1.0.2",
-    "@typescript-eslint/eslint-plugin": "^2.31.0",
-    "@typescript-eslint/parser": "^2.31.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/react-test-renderer": "^18.0.0",
+    "@types/redux-logger": "^3.0.9",
+    "@types/redux-mock-store": "^1.0.3",
     "cypress": "^7.0.1",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
-    "enzyme-to-json": "^3.4.4",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-typescript": "^7.2.1",
-    "eslint-plugin-cypress": "^2.11.2",
-    "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-jest": "^23.10.0",
-    "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-react": "^7.19.0",
+    "eslint-config-airbnb-typescript": "~17.0.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-jest-dom": "^4.0.3",
     "eventsourcemock": "^2.0.0",
     "fetch-mock-jest": "^1.5.1",
     "history": "^4.10.1",
     "jest-junit": "^10.0.0",
     "node-fetch": "^2.6.1",
-    "react-test-renderer": "^16.13.1",
+    "react-test-renderer": "^18.2.0",
     "redux-mock-store": "^1.5.4",
-    "shx": "^0.3.2",
-    "typescript": "~3.8.3"
+    "shx": "^0.3.4",
+    "typescript": "~4.1",
+    "use-sync-external-store": "^1.2.0"
   },
   "browserslist": {
     "production": [
@@ -90,11 +84,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
     ]
   }
 }

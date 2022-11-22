@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Vehicles page should render correctly 1`] = `
-<Fragment>
+<React.Fragment>
   <Split
-    gutter="md"
+    hasGutter={true}
     style={
       Object {
         "overflowY": "auto",
@@ -13,18 +13,16 @@ exports[`Vehicles page should render correctly 1`] = `
     <SplitItem
       isFilled={true}
     >
-      <TextContent>
-        <Text
-          component="h1"
-        >
-          Vehicles (2)
-        </Text>
-      </TextContent>
+      <Title
+        headingLevel="h1"
+      >
+        Vehicles (2)
+      </Title>
     </SplitItem>
     <SplitItem
       isFilled={false}
     >
-      <Component
+      <Button
         onClick={[MockFunction]}
         style={
           Object {
@@ -34,7 +32,7 @@ exports[`Vehicles page should render correctly 1`] = `
         }
       >
         Add
-      </Component>
+      </Button>
     </SplitItem>
   </Split>
   <div
@@ -46,13 +44,17 @@ exports[`Vehicles page should render correctly 1`] = `
   >
     <DataList
       aria-label="List of vehicles"
+      className=""
+      gridBreakpoint="md"
+      isCompact={false}
+      selectedDataListItemId=""
+      wrapModifier={null}
     >
       <Vehicle
         capacity={5}
         capacityChangeHandler={[Function]}
         description="Vehicle 1"
         id={1}
-        key="1"
         removeHandler={[MockFunction]}
       />
       <Vehicle
@@ -60,10 +62,9 @@ exports[`Vehicles page should render correctly 1`] = `
         capacityChangeHandler={[Function]}
         description="Vehicle 2"
         id={2}
-        key="2"
         removeHandler={[MockFunction]}
       />
     </DataList>
   </div>
-</Fragment>
+</React.Fragment>
 `;

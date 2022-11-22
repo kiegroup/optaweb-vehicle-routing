@@ -3,6 +3,8 @@
 exports[`Vehicle Component should render correctly 1`] = `
 <DataListItem
   aria-labelledby="vehicle-10"
+  className=""
+  id=""
   isExpanded={false}
 >
   <DataListItemRow>
@@ -19,8 +21,8 @@ exports[`Vehicle Component should render correctly 1`] = `
       isFilled={true}
     >
       <InputGroup>
-        <Component
-          data-test-key="capacity-decrease-10"
+        <Button
+          data-testid="capacity-decrease-10"
           isDisabled={false}
           onClick={[Function]}
           variant="primary"
@@ -29,16 +31,15 @@ exports[`Vehicle Component should render correctly 1`] = `
             color="currentColor"
             noVerticalAlign={false}
             size="sm"
-            title={null}
           />
-        </Component>
+        </Button>
         <InputGroupText
           readOnly={true}
         >
           7
         </InputGroupText>
-        <Component
-          data-test-key="capacity-increase-10"
+        <Button
+          data-testid="capacity-increase-10"
           onClick={[Function]}
           variant="primary"
         >
@@ -46,16 +47,15 @@ exports[`Vehicle Component should render correctly 1`] = `
             color="currentColor"
             noVerticalAlign={false}
             size="sm"
-            title={null}
           />
-        </Component>
+        </Button>
       </InputGroup>
     </DataListCell>
     <DataListCell
       isFilled={false}
     >
-      <Component
-        data-test-key="remove-10"
+      <Button
+        data-testid="remove-10"
         isDisabled={false}
         onClick={[Function]}
         type="button"
@@ -65,9 +65,8 @@ exports[`Vehicle Component should render correctly 1`] = `
           color="currentColor"
           noVerticalAlign={false}
           size="sm"
-          title={null}
         />
-      </Component>
+      </Button>
     </DataListCell>
   </DataListItemRow>
 </DataListItem>

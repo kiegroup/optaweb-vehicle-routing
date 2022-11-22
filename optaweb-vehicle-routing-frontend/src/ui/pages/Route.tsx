@@ -2,19 +2,18 @@ import {
   Form,
   FormSelect,
   FormSelectOption,
-  GutterSize,
   Split,
   SplitItem,
-  Text,
-  TextContent,
-  TextVariants,
+  Title,
 } from '@patternfly/react-core';
+import { LeafletMouseEvent } from 'leaflet';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { clientOperations } from 'store/client';
 import { UserViewport } from 'store/client/types';
 import { routeOperations } from 'store/route';
-import { LatLng, Location, RouteWithTrack } from 'store/route/types';
+import { Location, RouteWithTrack } from 'store/route/types';
+import { BoundingBox } from 'store/server/types';
 import { AppState } from 'store/types';
 import LocationList from 'ui/components/LocationList';
 import RouteMap from 'ui/components/RouteMap';
@@ -24,7 +23,7 @@ export interface StateProps {
   depot: Location | null;
   visits: Location[];
   routes: RouteWithTrack[];
-  boundingBox: [LatLng, LatLng] | null;
+  boundingBox: BoundingBox | null;
   userViewport: UserViewport;
 }
 
@@ -67,7 +66,7 @@ export class Route extends React.Component<RouteProps, RouteState> {
     this.handleMapClick = this.handleMapClick.bind(this);
   }
 
-  handleMapClick(e: any) {
+  handleMapClick(e: LeafletMouseEvent) {
     this.props.addHandler({ ...e.latlng, description: '' });
   }
 
@@ -94,10 +93,8 @@ export class Route extends React.Component<RouteProps, RouteState> {
     const filteredVisits: Location[] = routes.length > 0 ? routes[selectedRouteId].visits : [];
     return (
       <>
-        <TextContent>
-          <Text component={TextVariants.h1}>Route</Text>
-        </TextContent>
-        <Split gutter={GutterSize.md}>
+        <Title headingLevel="h1">Route</Title>
+        <Split hasGutter>
           <SplitItem
             isFilled={false}
             style={sideBarStyle}

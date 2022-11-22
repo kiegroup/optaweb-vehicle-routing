@@ -1,18 +1,12 @@
 import {
-  BaseSizes,
-  Expandable,
-  Flex,
-  FlexItem,
+  ExpandableSection,
   List,
   ListItem,
   Modal,
   Text,
   TextContent,
   TextVariants,
-  Title,
-  TitleLevel,
 } from '@patternfly/react-core';
-import { UnpluggedIcon } from '@patternfly/react-icons';
 import { backendUrl } from 'common';
 import * as React from 'react';
 
@@ -22,26 +16,20 @@ export interface ConnectionErrorProps {
 
 const title = 'Connection error';
 
-const header = (
-  <Flex>
-    <FlexItem>
-      <UnpluggedIcon size="md" />
-    </FlexItem>
-    <FlexItem>
-      <Title headingLevel={TitleLevel.h1} size={BaseSizes['2xl']}>
-        {title}
-      </Title>
-    </FlexItem>
-  </Flex>
-);
-
 const ConnectionError: React.FC<ConnectionErrorProps> = ({ isOpen }) => (
-  <Modal title={title} header={header} isOpen={isOpen} isSmall>
+  <Modal
+    title={title}
+    titleIconVariant="danger"
+    isOpen={isOpen}
+    variant="small"
+    showClose={false}
+    aria-label={title}
+  >
     <TextContent>
       <Text component={TextVariants.p}>
-        Cannot connect to server.
+        The server is unreachable. Trying to reconnect.
       </Text>
-      <Expandable toggleText="Show more">
+      <ExpandableSection toggleText="Show more">
         <Text component={TextVariants.p}>
           The server is expected to be running at
           {' '}
@@ -60,7 +48,7 @@ const ConnectionError: React.FC<ConnectionErrorProps> = ({ isOpen }) => (
         <Text>
           The application will reconnect as soon as the server is available again.
         </Text>
-      </Expandable>
+      </ExpandableSection>
     </TextContent>
   </Modal>
 );

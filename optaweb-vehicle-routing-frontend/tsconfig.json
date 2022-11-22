@@ -9,14 +9,19 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "jsx": "preserve",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "jsx": "react-jsx",
     "allowJs": true,
     "strict": true,
     "strictFunctionTypes": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noFallthroughCasesInSwitch": true
   },
   "include": [
     "cypress",

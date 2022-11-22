@@ -1,6 +1,4 @@
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import * as React from 'react';
+import { shallow, toJson } from 'ui/shallow-test-util';
 import { Props, Visits } from './Visits';
 
 describe('Visits page', () => {
@@ -16,7 +14,6 @@ describe('Visits page', () => {
 });
 
 const noVisits: Props = {
-  addHandler: jest.fn(),
   removeHandler: jest.fn(),
 
   depot: null,
@@ -24,7 +21,6 @@ const noVisits: Props = {
 };
 
 const twoVisits: Props = {
-  addHandler: jest.fn(),
   removeHandler: jest.fn(),
 
   depot: {

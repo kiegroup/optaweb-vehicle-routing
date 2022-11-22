@@ -13,8 +13,6 @@ import * as actions from './actions';
 import reducer, { websocketOperations } from './index';
 import { WebSocketConnectionStatus } from './types';
 
-jest.useFakeTimers();
-
 const uninitializedCallbackCapture = () => {
   throw new Error('Error callback is uninitialized');
 };
@@ -24,6 +22,11 @@ const userViewport: UserViewport = {
   zoom: 1,
   center: [0, 0],
 };
+
+beforeEach(() => {
+  jest.useFakeTimers();
+  jest.spyOn(global, 'setTimeout');
+});
 
 describe('WebSocket client operations', () => {
   it('should fail connection and reconnect when client crashes', () => {

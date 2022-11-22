@@ -1,12 +1,12 @@
-import { Nav, NavItem, NavList, NavVariants } from '@patternfly/react-core';
+import { Nav, NavItem, NavList } from '@patternfly/react-core';
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link, withRouter } from 'react-router-dom';
 import { pagesByPath } from 'ui/App';
 
 export const Navigation = ({ location }: RouteComponentProps) => (
-  <Nav aria-label="Nav">
-    <NavList variant={NavVariants.horizontal}>
+  <Nav variant="horizontal" aria-label="Nav">
+    <NavList>
       {pagesByPath.map(({ path, label }) => (
         <NavItem
           key={path.canonical}

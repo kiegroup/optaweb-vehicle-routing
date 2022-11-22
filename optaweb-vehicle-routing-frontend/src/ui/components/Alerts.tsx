@@ -33,7 +33,7 @@ export const Alerts: React.FC<Props> = ({ messages, readMessage }: Props) => (
             variant="danger"
             title="Error"
             isLiveRegion
-            action={(
+            actionClose={(
               <AlertActionCloseButton
                 title="Close alert"
                 onClose={() => readMessage(id)}

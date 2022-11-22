@@ -1,7 +1,5 @@
+import { shallow, toJson } from 'ui/shallow-test-util';
 import { PlusIcon } from '@patternfly/react-icons';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import * as React from 'react';
 import { CapacityInfo, DistanceInfo, InfoBlock, VehiclesInfo, VisitsInfo } from 'ui/pages/InfoBlock';
 
 describe('Info block snapshots:', () => {

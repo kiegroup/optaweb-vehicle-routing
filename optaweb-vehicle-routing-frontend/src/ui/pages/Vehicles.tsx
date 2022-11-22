@@ -1,12 +1,9 @@
 import {
   Button,
   DataList,
-  GutterSize,
   Split,
   SplitItem,
-  Text,
-  TextContent,
-  TextVariants,
+  Title,
 } from '@patternfly/react-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
@@ -41,11 +38,9 @@ export const Vehicles: React.FC<Props> = ({
   vehicles, addVehicleHandler, removeVehicleHandler, changeVehicleCapacityHandler,
 }) => (
   <>
-    <Split gutter={GutterSize.md} style={{ overflowY: 'auto' }}>
+    <Split hasGutter style={{ overflowY: 'auto' }}>
       <SplitItem isFilled>
-        <TextContent>
-          <Text component={TextVariants.h1}>{`Vehicles (${vehicles.length})`}</Text>
-        </TextContent>
+        <Title headingLevel="h1">{`Vehicles (${vehicles.length})`}</Title>
       </SplitItem>
       <SplitItem isFilled={false}>
         <Button

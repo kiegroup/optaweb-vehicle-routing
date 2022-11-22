@@ -6,6 +6,7 @@ export const initialViewportState: UserViewport = {
   zoom: 2,
 };
 
+// eslint-disable-next-line @typescript-eslint/default-param-last
 export const clientReducer = (state = initialViewportState, action: ViewportAction): UserViewport => {
   switch (action.type) {
     case ActionType.UPDATE_VIEWPORT: {

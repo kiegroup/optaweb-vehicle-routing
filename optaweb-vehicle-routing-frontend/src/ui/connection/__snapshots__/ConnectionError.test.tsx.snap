@@ -3,53 +3,40 @@
 exports[`Connection Error Component should render correctly 1`] = `
 <Modal
   actions={Array []}
-  appendTo={<body />}
-  ariaDescribedById=""
+  appendTo={[Function]}
+  aria-describedby=""
+  aria-label="Connection error"
+  aria-labelledby=""
   className=""
-  header={
-    <Flex>
-      <FlexItem>
-        <UnpluggedIcon
-          color="currentColor"
-          noVerticalAlign={false}
-          size="md"
-          title={null}
-        />
-      </FlexItem>
-      <FlexItem>
-        <Title
-          headingLevel="h1"
-          size="2xl"
-        >
-          Connection error
-        </Title>
-      </FlexItem>
-    </Flex>
-  }
-  hideTitle={false}
-  isFooterLeftAligned={false}
-  isLarge={false}
+  hasNoBodyWrapper={false}
   isOpen={true}
-  isSmall={true}
   onClose={[Function]}
-  showClose={true}
+  ouiaSafe={true}
+  showClose={false}
   title="Connection error"
+  titleIconVariant="danger"
+  titleLabel=""
+  variant="small"
 >
   <TextContent>
     <Text
       component="p"
     >
-      Cannot connect to server.
+      The server is unreachable. Trying to reconnect.
     </Text>
-    <Expandable
+    <ExpandableSection
       className=""
+      contentId=""
+      displaySize="default"
       isActive={false}
-      isFocused={false}
-      isHovered={false}
+      isDetached={false}
+      isIndented={false}
+      isWidthLimited={false}
       onToggle={[Function]}
       toggleText="Show more"
       toggleTextCollapsed=""
       toggleTextExpanded=""
+      variant="default"
     >
       <Text
         component="p"
@@ -60,7 +47,9 @@ exports[`Connection Error Component should render correctly 1`] = `
           href=""
           rel="noopener noreferrer"
           target="_blank"
-        />
+        >
+          
+        </a>
          
         but the connection failed.
       </Text>
@@ -83,7 +72,7 @@ exports[`Connection Error Component should render correctly 1`] = `
       <Text>
         The application will reconnect as soon as the server is available again.
       </Text>
-    </Expandable>
+    </ExpandableSection>
   </TextContent>
 </Modal>
 `;

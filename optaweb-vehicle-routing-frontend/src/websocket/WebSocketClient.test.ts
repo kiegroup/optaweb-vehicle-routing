@@ -79,7 +79,7 @@ describe('WebSocketClient', () => {
     client.changeVehicleCapacity(vehicleId, capacity);
 
     expect(fetchMock).toHaveLastFetched(`${url}/vehicle/${vehicleId}/capacity`, {
-      body: capacity as unknown as object,
+      body: capacity as unknown as undefined,
     });
   });
 
