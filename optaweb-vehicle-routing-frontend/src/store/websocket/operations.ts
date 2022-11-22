@@ -6,10 +6,9 @@ import { routeOperations } from '../route';
 import { UpdateRouteAction } from '../route/types';
 import { serverOperations } from '../server';
 import { ServerInfoAction } from '../server/types';
-import { AppState, Dispatch, ThunkCommandFactory } from '../types';
+import { ThunkCommandFactory } from '../types';
 import * as actions from './actions';
 import { WebSocketAction } from './types';
-import WebSocketClient from '../../websocket/WebSocketClient';
 
 type ConnectClientThunkAction =
   | WebSocketAction
@@ -22,7 +21,7 @@ type ConnectClientThunkAction =
  * Connect the client to WebSocket.
  */
 export const connectClient: ThunkCommandFactory<void, ConnectClientThunkAction> = (
-  () => (dispatch: Dispatch<ConnectClientThunkAction>, getState: () => AppState, client: WebSocketClient): void => {
+  () => (dispatch, getState, client) => {
     // dispatch WS connection initializing
     dispatch(actions.initWsConnection());
     client.connect(

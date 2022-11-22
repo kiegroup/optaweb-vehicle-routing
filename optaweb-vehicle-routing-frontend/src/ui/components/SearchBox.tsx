@@ -14,9 +14,9 @@ export interface Result {
 }
 
 export interface Props {
-  searchDelay?: number;
-  boundingBox: BoundingBox | null; // eslint-disable-line react/no-unused-prop-types
-  countryCodeSearchFilter: string[]; // eslint-disable-line react/no-unused-prop-types
+  searchDelay: number;
+  boundingBox: BoundingBox | null;
+  countryCodeSearchFilter: string[];
   addHandler: (result: Result) => void;
 }
 
@@ -68,17 +68,17 @@ class SearchBox extends React.Component<Props, State> {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  componentDidUpdate(): void {
+  componentDidUpdate() {
     this.searchProvider = new OpenStreetMapProvider(providerOptions(this.props));
   }
 
-  componentWillUnmount(): void {
+  componentWillUnmount() {
     if (this.timeoutId) {
       window.clearTimeout(this.timeoutId);
     }
   }
 
-  handleTextInputChange(query: string): void {
+  handleTextInputChange(query: string) {
     if (this.timeoutId) {
       window.clearTimeout(this.timeoutId);
     }
@@ -112,7 +112,7 @@ class SearchBox extends React.Component<Props, State> {
     }
   }
 
-  handleClick(index: number): void {
+  handleClick(index: number) {
     this.props.addHandler(this.state.results[index]);
     this.setState({
       query: '',
@@ -122,7 +122,7 @@ class SearchBox extends React.Component<Props, State> {
     // TODO focus text input
   }
 
-  render(): React.ReactNode {
+  render() {
     const { attributions, query, results } = this.state;
     return (
       <>

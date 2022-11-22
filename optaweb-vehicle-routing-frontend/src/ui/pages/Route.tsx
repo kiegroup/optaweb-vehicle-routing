@@ -66,15 +66,15 @@ export class Route extends React.Component<RouteProps, RouteState> {
     this.handleMapClick = this.handleMapClick.bind(this);
   }
 
-  handleMapClick(e: LeafletMouseEvent): void {
+  handleMapClick(e: LeafletMouseEvent) {
     this.props.addHandler({ ...e.latlng, description: '' });
   }
 
-  onSelectLocation(id: number): void {
+  onSelectLocation(id: number) {
     this.setState({ selectedId: id });
   }
 
-  render(): React.ReactNode {
+  render() {
     const { selectedId, selectedRouteId } = this.state;
     const {
       boundingBox,

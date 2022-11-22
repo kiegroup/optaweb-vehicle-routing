@@ -99,23 +99,23 @@ export class Demo extends React.Component<DemoProps, DemoState> {
     this.onSelectLocation = this.onSelectLocation.bind(this);
   }
 
-  handleMapClick(e: LeafletMouseEvent): void {
+  handleMapClick(e: LeafletMouseEvent) {
     this.props.addLocationHandler({ ...e.latlng, description: '' }); // TODO use reverse geocoding to find address
   }
 
-  handleSearchResultClick(result: Result): void {
+  handleSearchResultClick(result: Result) {
     this.props.addLocationHandler({ ...result.latLng, description: result.address });
   }
 
-  handleDemoLoadClick(demoName: string): void {
+  handleDemoLoadClick(demoName: string) {
     this.props.loadHandler(demoName);
   }
 
-  onSelectLocation(id: number): void {
+  onSelectLocation(id: number) {
     this.setState({ selectedId: id });
   }
 
-  render(): React.ReactNode {
+  render() {
     const { selectedId } = this.state;
     const {
       distance,

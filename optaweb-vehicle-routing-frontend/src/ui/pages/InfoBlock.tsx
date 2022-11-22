@@ -11,15 +11,15 @@ import * as React from 'react';
 
 interface InfoBlockProps {
   icon: React.ComponentClass<SVGIconProps>;
-  content?: { // eslint-disable-line react/require-default-props
+  content?: {
     data: string | number;
     minWidth: string;
   };
-  color?: string; // eslint-disable-line react/require-default-props
+  color?: string;
   tooltip: string;
 }
 
-export const InfoBlock = ({ icon, content, tooltip, color }: InfoBlockProps): React.ReactElement => {
+export const InfoBlock = ({ icon, content, tooltip, color }: InfoBlockProps) => {
   const Icon = icon;
   return (
     <Tooltip content={tooltip} position="bottom">
@@ -45,7 +45,7 @@ interface CapacityInfoProps {
 export const CapacityInfo = ({
   totalDemand,
   totalCapacity,
-}: CapacityInfoProps): React.ReactElement => (
+}: CapacityInfoProps) => (
   <InfoBlock
     icon={CapacityIcon}
     content={{ data: `${totalDemand}/${totalCapacity}`, minWidth: '4em' }}
@@ -58,7 +58,7 @@ interface DistanceInfoProps {
   distance: string;
 }
 
-export const DistanceInfo = ({ distance }: DistanceInfoProps): React.ReactElement => (
+export const DistanceInfo = ({ distance }: DistanceInfoProps) => (
   <InfoBlock
     icon={DistanceIcon}
     content={{ data: distance, minWidth: '6.8em' }}
@@ -66,7 +66,7 @@ export const DistanceInfo = ({ distance }: DistanceInfoProps): React.ReactElemen
   />
 );
 
-export const VehiclesInfo = (): React.ReactElement => (
+export const VehiclesInfo = () => (
   <InfoBlock icon={TruckIcon} tooltip="Vehicles" />
 );
 
@@ -74,7 +74,7 @@ interface VisitInfoProps {
   visitCount: number;
 }
 
-export const VisitsInfo = ({ visitCount }: VisitInfoProps): React.ReactElement => (
+export const VisitsInfo = ({ visitCount }: VisitInfoProps) => (
   <InfoBlock
     icon={VisitIcon}
     content={{ data: visitCount, minWidth: '2em' }}

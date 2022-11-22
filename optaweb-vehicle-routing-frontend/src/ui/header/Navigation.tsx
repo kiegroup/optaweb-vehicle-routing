@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import { Link, withRouter } from 'react-router-dom';
 import { pagesByPath } from 'ui/App';
 
-export const Navigation = ({ location }: RouteComponentProps): React.ReactElement => (
+export const Navigation = ({ location }: RouteComponentProps) => (
   <Nav variant="horizontal" aria-label="Nav">
     <NavList>
       {pagesByPath.map(({ path, label }) => (
