@@ -44,7 +44,7 @@
 
   <properties>
     <version.com.graphhopper>0.13.0-pre13</version.com.graphhopper>
-    <version.com.neovisionaries>1.27</version.com.neovisionaries>
+    <version.com.neovisionaries>1.29</version.com.neovisionaries>
     <version.frontend-maven-plugin>1.11.3</version.frontend-maven-plugin>
     <version.node>v12.16.2</version.node>
     <version.npm>6.14.4</version.npm>
