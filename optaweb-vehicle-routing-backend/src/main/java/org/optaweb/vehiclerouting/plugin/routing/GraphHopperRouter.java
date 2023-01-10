@@ -9,14 +9,15 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 import org.optaweb.vehiclerouting.domain.Coordinates;
-import org.optaweb.vehiclerouting.service.distance.DistanceCalculationException;
 import org.optaweb.vehiclerouting.service.distance.DistanceCalculator;
+import org.optaweb.vehiclerouting.service.distance.RoutingException;
 import org.optaweb.vehiclerouting.service.region.BoundingBox;
 import org.optaweb.vehiclerouting.service.region.Region;
 import org.optaweb.vehiclerouting.service.route.Router;
 
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
+import com.graphhopper.ResponsePath;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.BBox;
@@ -39,12 +40,7 @@ class GraphHopperRouter implements Router, DistanceCalculator, Region {
 
     @Override
     public List<Coordinates> getPath(Coordinates from, Coordinates to) {
-        GHRequest ghRequest = new GHRequest(
-                from.latitude().doubleValue(),
-                from.longitude().doubleValue(),
-                to.latitude().doubleValue(),
-                to.longitude().doubleValue());
-        PointList points = graphHopper.route(ghRequest).getBest().getPoints();
+        PointList points = getBestRoute(from, to).getPoints();
         return StreamSupport.stream(points.spliterator(), false)
                 .map(ghPoint3D -> Coordinates.of(ghPoint3D.lat, ghPoint3D.lon))
                 .collect(toList());
@@ -52,17 +48,21 @@ class GraphHopperRouter implements Router, DistanceCalculator, Region {
 
     @Override
     public long travelTimeMillis(Coordinates from, Coordinates to) {
-        GHRequest ghRequest = new GHRequest(
+        return getBestRoute(from, to).getTime();
+    }
+
+    private ResponsePath getBestRoute(Coordinates from, Coordinates to) {
+        GHRequest request = new GHRequest(
                 from.latitude().doubleValue(),
                 from.longitude().doubleValue(),
                 to.latitude().doubleValue(),
-                to.longitude().doubleValue());
-        GHResponse ghResponse = graphHopper.route(ghRequest);
+                to.longitude().doubleValue()).setProfile(Constants.GRAPHHOPPER_PROFILE);
+        GHResponse response = graphHopper.route(request);
         // TODO return wrapper that can hold both the result and error explanation instead of throwing exception
-        if (ghResponse.hasErrors()) {
-            throw new DistanceCalculationException("No route from " + from + " to " + to, ghResponse.getErrors().get(0));
+        if (response.hasErrors()) {
+            throw new RoutingException("No route from (" + from + ") to (" + to + ")", response.getErrors().get(0));
         }
-        return ghResponse.getBest().getTime();
+        return response.getBest();
     }
 
     @Override

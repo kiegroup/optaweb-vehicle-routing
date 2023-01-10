@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
 import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.routing.util.CarFlagEncoder;
 import com.graphhopper.routing.util.EncodingManager;
-import com.graphhopper.routing.util.FlagEncoderFactory;
 
 class GraphHopperIntegrationTest {
 
@@ -21,7 +21,7 @@ class GraphHopperIntegrationTest {
         GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
         graphHopper.setGraphHopperLocation(graphhopperDir.toString());
         graphHopper.setOSMFile(GraphHopperIntegrationTest.class.getResource(OSM_PBF).getFile());
-        graphHopper.setEncodingManager(EncodingManager.create(FlagEncoderFactory.CAR));
+        graphHopper.setEncodingManager(EncodingManager.start().add(new CarFlagEncoder()).build());
         assertThatCode(graphHopper::importOrLoad).doesNotThrowAnyException();
     }
 }

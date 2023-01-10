@@ -17,7 +17,7 @@ import org.optaweb.vehiclerouting.service.region.BoundingBox;
 
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
-import com.graphhopper.PathWrapper;
+import com.graphhopper.ResponsePath;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.storage.GraphHopperStorage;
 import com.graphhopper.util.PointList;
@@ -34,7 +34,7 @@ class GraphHopperRouterTest {
     @Mock
     private GHResponse ghResponse;
     @Mock
-    private PathWrapper pathWrapper;
+    private ResponsePath pathWrapper;
     @Mock
     private GraphHopperStorage graphHopperStorage;
 
