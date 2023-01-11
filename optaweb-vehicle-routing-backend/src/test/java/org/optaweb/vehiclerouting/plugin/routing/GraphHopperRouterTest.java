@@ -19,7 +19,7 @@ import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
 import com.graphhopper.GraphHopper;
 import com.graphhopper.ResponsePath;
-import com.graphhopper.storage.GraphHopperStorage;
+import com.graphhopper.storage.BaseGraph;
 import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.BBox;
 
@@ -36,7 +36,7 @@ class GraphHopperRouterTest {
     @Mock
     private ResponsePath pathWrapper;
     @Mock
-    private GraphHopperStorage graphHopperStorage;
+    private BaseGraph baseGraph;
 
     private void whenRouteReturnResponse() {
         when(graphHopper.route(any(GHRequest.class))).thenReturn(ghResponse);
@@ -98,13 +98,13 @@ class GraphHopperRouterTest {
 
     @Test
     void should_return_graphHopper_bounds() {
-        when(graphHopper.getGraphHopperStorage()).thenReturn(graphHopperStorage);
+        when(graphHopper.getBaseGraph()).thenReturn(baseGraph);
         double minLat_Y = -90;
         double minLon_X = -180;
         double maxLat_Y = 90;
         double maxLon_X = 180;
         BBox bbox = new BBox(minLon_X, maxLon_X, minLat_Y, maxLat_Y);
-        when(graphHopperStorage.getBounds()).thenReturn(bbox);
+        when(baseGraph.getBounds()).thenReturn(bbox);
 
         BoundingBox boundingBox = new GraphHopperRouter(graphHopper).getBounds();
 

@@ -67,7 +67,7 @@ class GraphHopperRouter implements Router, DistanceCalculator, Region {
 
     @Override
     public BoundingBox getBounds() {
-        BBox bounds = graphHopper.getGraphHopperStorage().getBounds();
+        BBox bounds = graphHopper.getBaseGraph().getBounds();
         return new BoundingBox(
                 Coordinates.of(bounds.minLat, bounds.minLon),
                 Coordinates.of(bounds.maxLat, bounds.maxLon));
