@@ -6,7 +6,7 @@ import javax.enterprise.inject.Produces;
 import org.mockito.Mockito;
 import org.optaweb.vehiclerouting.service.route.RouteListener;
 
-import com.graphhopper.reader.osm.GraphHopperOSM;
+import com.graphhopper.GraphHopper;
 
 import io.quarkus.arc.profile.IfBuildProfile;
 import io.quarkus.test.junit.QuarkusTest;
@@ -21,8 +21,8 @@ public class TestConfig {
      */
     @IfBuildProfile(Profiles.TEST)
     @Produces
-    public GraphHopperOSM graphHopper() {
-        return Mockito.mock(GraphHopperOSM.class);
+    public GraphHopper graphHopper() {
+        return Mockito.mock(GraphHopper.class);
     }
 
     /**

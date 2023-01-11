@@ -27,7 +27,7 @@
   </modules>
 
   <properties>
-    <version.com.graphhopper>2.0</version.com.graphhopper>
+    <version.com.graphhopper>3.0</version.com.graphhopper>
     <version.com.neovisionaries>1.27</version.com.neovisionaries>
     <version.frontend-maven-plugin>1.12.1</version.frontend-maven-plugin>
     <version.node>v16.2.0</version.node>
@@ -72,7 +72,7 @@
       <!-- Dependencies not managed by optaplanner-build-parent and version overrides -->
       <dependency>
         <groupId>com.graphhopper</groupId>
-        <artifactId>graphhopper-reader-osm</artifactId>
+        <artifactId>graphhopper-core</artifactId>
         <version>${version.com.graphhopper}</version>
       </dependency>
       <dependency>

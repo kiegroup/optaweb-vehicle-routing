@@ -17,8 +17,8 @@ import org.optaweb.vehiclerouting.service.region.BoundingBox;
 
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
+import com.graphhopper.GraphHopper;
 import com.graphhopper.ResponsePath;
-import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.storage.GraphHopperStorage;
 import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.BBox;
@@ -30,7 +30,7 @@ class GraphHopperRouterTest {
     private final Coordinates from = Coordinates.of(-Double.MIN_VALUE, Double.MIN_VALUE);
     private final Coordinates to = Coordinates.of(Double.MAX_VALUE, -Double.MAX_VALUE);
     @Mock
-    private GraphHopperOSM graphHopper;
+    private GraphHopper graphHopper;
     @Mock
     private GHResponse ghResponse;
     @Mock

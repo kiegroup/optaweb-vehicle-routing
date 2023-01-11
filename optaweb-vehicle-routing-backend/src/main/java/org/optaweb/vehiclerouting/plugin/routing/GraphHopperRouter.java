@@ -17,8 +17,8 @@ import org.optaweb.vehiclerouting.service.route.Router;
 
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
+import com.graphhopper.GraphHopper;
 import com.graphhopper.ResponsePath;
-import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.BBox;
 
@@ -31,10 +31,10 @@ import io.quarkus.arc.properties.IfBuildProperty;
 @IfBuildProperty(name = "app.routing.engine", stringValue = "GRAPHHOPPER", enableIfMissing = true)
 class GraphHopperRouter implements Router, DistanceCalculator, Region {
 
-    private final GraphHopperOSM graphHopper;
+    private final GraphHopper graphHopper;
 
     @Inject
-    GraphHopperRouter(GraphHopperOSM graphHopper) {
+    GraphHopperRouter(GraphHopper graphHopper) {
         this.graphHopper = graphHopper;
     }
 

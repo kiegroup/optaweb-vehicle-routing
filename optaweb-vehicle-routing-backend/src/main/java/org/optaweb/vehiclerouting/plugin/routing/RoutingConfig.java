@@ -19,11 +19,9 @@ import org.optaweb.vehiclerouting.Profiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.graphhopper.GraphHopper;
 import com.graphhopper.config.CHProfile;
 import com.graphhopper.config.Profile;
-import com.graphhopper.reader.osm.GraphHopperOSM;
-import com.graphhopper.routing.util.CarFlagEncoder;
-import com.graphhopper.routing.util.EncodingManager;
 
 import io.quarkus.arc.DefaultBean;
 import io.quarkus.arc.profile.UnlessBuildProfile;
@@ -63,8 +61,8 @@ class RoutingConfig {
     @IfBuildProperty(name = "app.routing.engine", stringValue = "GRAPHHOPPER", enableIfMissing = true)
     @Produces
     @DefaultBean
-    GraphHopperOSM graphHopper() {
-        GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
+    GraphHopper graphHopper() {
+        GraphHopper graphHopper = new GraphHopper();
         graphHopper.setGraphHopperLocation(graphDir.toString());
 
         if (graphDirIsNotEmpty()) {
@@ -87,14 +85,6 @@ class RoutingConfig {
             graphHopper.setOSMFile(osmFile.toString());
         }
 
-        /*
-         * FlagEncoder defines how a value (like speed or direction) converts to a flag, which is stored in an edge of the
-         * graph. This is vehicle-specific, so we need to register one encoder for each vehicle type we're going to use.
-         *
-         * Assuming all the vehicles delivering packages to customers are cars, we're only going to need the CarFlagEncoder.
-         */
-        EncodingManager encodingManager = EncodingManager.start().add(new CarFlagEncoder()).build();
-        graphHopper.setEncodingManager(encodingManager);
         /*
          * Define a profile for each type of request that's going to be made at runtime. We're only going to ask for the fastest
          * route for a car, so we only need one profile.
