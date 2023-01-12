@@ -22,10 +22,10 @@ type ConnectClientThunkAction =
  */
 export const connectClient: ThunkCommandFactory<void, ConnectClientThunkAction> = (
   () => (dispatch, getState, client) => {
-    // dispatch WS connection initializing
+    // Dispatch the WS connection initializing event.
     dispatch(actions.initWsConnection());
     client.connect(
-      // on connection, subscribe to the route topic
+      // On connection, subscribe to the route topic.
       () => {
         dispatch(actions.wsConnectionSuccess());
         client.subscribeToServerInfo((serverInfo) => {
@@ -46,7 +46,7 @@ export const connectClient: ThunkCommandFactory<void, ConnectClientThunkAction> 
           }
         });
       },
-      // on error, schedule a reconnection attempt
+      // On error, schedule a one-time reconnection attempt.
       (err) => {
         // TODO try to pass the original err object or test it here and
         //      dispatch different actions based on its properties (Frame vs. CloseEvent, reason etc.)
