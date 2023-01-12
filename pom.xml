@@ -28,7 +28,7 @@
 
   <properties>
     <version.com.graphhopper>6.0</version.com.graphhopper>
-    <version.com.neovisionaries>1.27</version.com.neovisionaries>
+    <version.com.neovisionaries>1.29</version.com.neovisionaries>
     <version.frontend-maven-plugin>1.12.1</version.frontend-maven-plugin>
     <version.node>v16.2.0</version.node>
     <version.npm>7.15.1</version.npm>
