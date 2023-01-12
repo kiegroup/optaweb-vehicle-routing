@@ -77,7 +77,7 @@
     <!-- Routing -->
     <dependency>
       <groupId>com.graphhopper</groupId>
-      <artifactId>graphhopper-reader-osm</artifactId>
+      <artifactId>graphhopper-core</artifactId>
     </dependency>
     <!--
       Add JAXB API dependency that's been deprecated in Java 9 and dropped in Java 11. See

@@ -116,11 +116,10 @@ class DistanceMatrixImplTest {
         // arrange
         Location l1 = location(1, 1);
         Location l2 = location(2, 2);
-        when(distanceCalculator.travelTimeMillis(l1.coordinates(), l2.coordinates()))
-                .thenThrow(new DistanceCalculationException("dummy"));
+        when(distanceCalculator.travelTimeMillis(l1.coordinates(), l2.coordinates())).thenThrow(new RoutingException("dummy"));
 
         distanceMatrix.addLocation(l1);
-        assertThatExceptionOfType(DistanceCalculationException.class).isThrownBy(() -> distanceMatrix.addLocation(l2));
+        assertThatExceptionOfType(RoutingException.class).isThrownBy(() -> distanceMatrix.addLocation(l2));
         assertThat(distanceMatrix.dimension()).isEqualTo(1);
 
         // act & assert
