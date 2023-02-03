@@ -16,7 +16,17 @@ export default class WebSocketClient {
     if (this.eventSource === null) {
       this.eventSource = new EventSource(`${this.backendUrl}/events`);
       this.eventSource.onopen = successCallback;
-      this.eventSource.onerror = errorCallback;
+      this.eventSource.onerror = (event) => {
+        // Each time a connection error happens...
+        if (this.eventSource) {
+          // ...close the eventSource...
+          this.eventSource.close();
+          this.eventSource = null;
+        }
+        // ...and invoke the errorCallback, which dispatches a single connectClient thunk action.
+        // That forms an infinite loop, so the connection will be re-attempted until it succeeds.
+        errorCallback((event));
+      };
     }
   }
 
