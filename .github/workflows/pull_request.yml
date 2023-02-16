@@ -56,4 +56,4 @@ jobs:
         # Check that Git working tree is clean after running `npm install` via the frontend-maven-plugin.
         # The `git` command exits with 1 and fails the build if there are any uncommitted changes.
         run: git diff HEAD --exit-code
-        working-directory: kiegroup_optaweb-vehicle-routing/optaweb-vehicle-routing
+        working-directory: kiegroup_optaweb-vehicle-routing
