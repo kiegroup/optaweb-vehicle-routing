@@ -10,18 +10,28 @@ beforeEach(() => {
 
 describe('WebSocketClient', () => {
   const url = 'http://test.url:123/my-endpoint';
-  const client = new WebSocketClient(url);
-
   const onSuccess = jest.fn();
   const onError = jest.fn();
 
-  client.connect(onSuccess, onError);
-  const source = sources[`${url}/events`];
-  source.emitOpen();
+  const connectClient = () => {
+    const client = new WebSocketClient(url);
+    client.connect(onSuccess, onError);
+    const source = sources[`${url}/events`];
+    source.emitOpen();
+    return { client, source };
+  };
 
-  it('connect() should connect with success and error callbacks', () => {
-    expect(source.onopen).toEqual(onSuccess);
-    expect(source.onerror).toEqual(onError);
+  it('Error callback should be called on EventSource error event', () => {
+    const { source } = connectClient();
+    source.onerror();
+    expect(onError).toBeCalled();
+    expect(source);
+  });
+
+  it('Success callback should be called on EventSource open event', () => {
+    const { source } = connectClient();
+    source.onopen();
+    expect(onSuccess).toBeCalled();
   });
 
   it('addLocation() should send location', () => {
@@ -31,6 +41,7 @@ describe('WebSocketClient', () => {
       description: 'test',
     };
     fetchMock.postOnce('*', 200);
+    const { client } = connectClient();
 
     client.addLocation(location);
 
@@ -40,6 +51,7 @@ describe('WebSocketClient', () => {
   it('deleteLocation() should send location ID', () => {
     const locationId = 21;
     fetchMock.deleteOnce('*', 200);
+    const { client } = connectClient();
 
     client.deleteLocation(locationId);
 
@@ -48,6 +60,7 @@ describe('WebSocketClient', () => {
 
   it('addVehicle() should add vehicle', () => {
     fetchMock.postOnce('*', 200);
+    const { client } = connectClient();
 
     client.addVehicle();
 
@@ -57,6 +70,7 @@ describe('WebSocketClient', () => {
   it('deleteVehicle() should send vehicle ID', () => {
     const vehicleId = 34;
     fetchMock.deleteOnce('*', 200);
+    const { client } = connectClient();
 
     client.deleteVehicle(vehicleId);
 
@@ -65,6 +79,7 @@ describe('WebSocketClient', () => {
 
   it('deleteAnyVehicle() should send message to the correct destination', () => {
     fetchMock.postOnce('*', 200);
+    const { client } = connectClient();
 
     client.deleteAnyVehicle();
 
@@ -75,6 +90,7 @@ describe('WebSocketClient', () => {
     const vehicleId = 7;
     const capacity = 54;
     fetchMock.postOnce('*', 200);
+    const { client } = connectClient();
 
     client.changeVehicleCapacity(vehicleId, capacity);
 
@@ -86,6 +102,7 @@ describe('WebSocketClient', () => {
   it('loadDemo() should send demo name', () => {
     const demo = 'Test demo';
     fetchMock.postOnce('*', 200);
+    const { client } = connectClient();
 
     client.loadDemo(demo);
 
@@ -94,6 +111,7 @@ describe('WebSocketClient', () => {
 
   it('clear() should call clear endpoint', () => {
     fetchMock.postOnce('*', 200);
+    const { client } = connectClient();
     client.clear();
     expect(fetchMock).toHaveLastFetched(`${url}/clear`);
   });
@@ -105,6 +123,7 @@ describe('WebSocketClient', () => {
       status: 200,
       body: JSON.stringify(payload),
     });
+    const { client } = connectClient();
 
     await client.subscribeToServerInfo(callback);
 
@@ -118,6 +137,7 @@ describe('WebSocketClient', () => {
     const messageEvent = new MessageEvent('route', {
       data: JSON.stringify(payload),
     });
+    const { client, source } = connectClient();
 
     client.subscribeToRoute(callback);
 
@@ -132,6 +152,7 @@ describe('WebSocketClient', () => {
     const messageEvent = new MessageEvent('errorMessage', {
       data: JSON.stringify(payload),
     });
+    const { client, source } = connectClient();
 
     client.subscribeToErrorTopic(callback);
 

@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.optaweb.vehiclerouting</groupId>
     <artifactId>optaweb-vehicle-routing</artifactId>
-    <version>8.33.0-SNAPSHOT</version>
+    <version>8.35.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>optaweb-vehicle-routing-backend</artifactId>
@@ -186,7 +186,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <show>package</show>
+          <skip>true</skip>
         </configuration>
       </plugin>
     </plugins>
