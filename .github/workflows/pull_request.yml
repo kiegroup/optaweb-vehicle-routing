@@ -9,13 +9,13 @@ on:
       - 'CODEOWNERS'
       - '.gitignore'
       - '.gitattributes'
-      - '.travis.yml'
-      - '*.md'
-      - '*.adoc'
-      - '*.txt'
+      - '**.md'
+      - '**.adoc'
+      - '**.txt'
       - 'runOnOpenShift.sh'
       - 'runLocally.sh'
-      - 'ide-configuration/**'
+      - '.ci/**'
+
 jobs:
   build-chain:
     concurrency:
@@ -25,7 +25,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         java-version: [11, 17, 19]
-        maven-version: ['3.8.6']
+        maven-version: ['3.8.7']
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} - Java ${{ matrix.java-version }} - Maven
@@ -45,7 +45,7 @@ jobs:
       - name: Build Chain
         uses: kiegroup/kogito-pipelines/.ci/actions/build-chain@main
         with:
-          definition-file: https://raw.githubusercontent.com/kiegroup/kogito-pipelines/%{process.env.GITHUB_BASE_REF.replace(/(\d*)\.(.*)\.(.*)/g, (m, n1, n2, n3) => `${+n1-7}.${n2}.${n3}`)}/.ci/pull-request-config.yaml
+          definition-file: https://raw.githubusercontent.com/${GROUP:kiegroup}/optaplanner/${BRANCH:main}/.ci/buildchain-config.yaml
           annotations-prefix: ${{ runner.os }}-${{ matrix.java-version }}/${{ matrix.maven-version }}
           github-token: "${{ secrets.GITHUB_TOKEN }}"
       - name: Surefire Report
@@ -56,4 +56,4 @@ jobs:
         # Check that Git working tree is clean after running `npm install` via the frontend-maven-plugin.
         # The `git` command exits with 1 and fails the build if there are any uncommitted changes.
         run: git diff HEAD --exit-code
-        working-directory: kiegroup_optaweb_vehicle_routing/optaweb-vehicle-routing
+        working-directory: kiegroup_optaweb-vehicle-routing

@@ -7,9 +7,8 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import com.graphhopper.reader.osm.GraphHopperOSM;
-import com.graphhopper.routing.util.EncodingManager;
-import com.graphhopper.routing.util.FlagEncoderFactory;
+import com.graphhopper.GraphHopper;
+import com.graphhopper.config.Profile;
 
 class GraphHopperIntegrationTest {
 
@@ -18,10 +17,10 @@ class GraphHopperIntegrationTest {
     @Test
     void graphhopper_should_import_and_load_osm_file_successfully(@TempDir Path tempDir) {
         Path graphhopperDir = tempDir.resolve("graphhopper");
-        GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
+        GraphHopper graphHopper = new GraphHopper();
         graphHopper.setGraphHopperLocation(graphhopperDir.toString());
         graphHopper.setOSMFile(GraphHopperIntegrationTest.class.getResource(OSM_PBF).getFile());
-        graphHopper.setEncodingManager(EncodingManager.create(FlagEncoderFactory.CAR));
+        graphHopper.setProfiles(new Profile(Constants.GRAPHHOPPER_PROFILE).setVehicle("car").setWeighting("fastest"));
         assertThatCode(graphHopper::importOrLoad).doesNotThrowAnyException();
     }
 }

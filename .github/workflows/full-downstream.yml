@@ -10,13 +10,12 @@ on:
       - 'CODEOWNERS'
       - '.gitignore'
       - '.gitattributes'
-      - '.travis.yml'
-      - '*.md'
-      - '*.adoc'
-      - '*.txt'
+      - '**.md'
+      - '**.adoc'
+      - '**.txt'
       - 'runOnOpenShift.sh'
       - 'runLocally.sh'
-      - 'ide-configuration/**'
+      - '.ci/**'
 
 jobs:
   build-chain:
@@ -28,7 +27,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         java-version: [11]
-        maven-version: ['3.8.6']
+        maven-version: ['3.8.7']
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: Full downstream build
@@ -48,6 +47,7 @@ jobs:
       - name: Build Chain
         uses: kiegroup/kogito-pipelines/.ci/actions/build-chain@main
         with:
+          definition-file: https://raw.githubusercontent.com/${GROUP:kiegroup}/optaplanner/${BRANCH:main}/.ci/buildchain-config.yaml
           annotations-prefix: ${{ runner.os }}-${{ matrix.java-version }}/${{ matrix.maven-version }}
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           flow-type: full-downstream

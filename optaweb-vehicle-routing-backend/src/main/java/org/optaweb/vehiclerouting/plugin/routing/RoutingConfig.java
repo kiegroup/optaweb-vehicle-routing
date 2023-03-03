@@ -19,9 +19,9 @@ import org.optaweb.vehiclerouting.Profiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.graphhopper.reader.osm.GraphHopperOSM;
-import com.graphhopper.routing.util.EncodingManager;
-import com.graphhopper.routing.util.FlagEncoderFactory;
+import com.graphhopper.GraphHopper;
+import com.graphhopper.config.CHProfile;
+import com.graphhopper.config.Profile;
 
 import io.quarkus.arc.DefaultBean;
 import io.quarkus.arc.profile.UnlessBuildProfile;
@@ -61,8 +61,8 @@ class RoutingConfig {
     @IfBuildProperty(name = "app.routing.engine", stringValue = "GRAPHHOPPER", enableIfMissing = true)
     @Produces
     @DefaultBean
-    GraphHopperOSM graphHopper() {
-        GraphHopperOSM graphHopper = ((GraphHopperOSM) new GraphHopperOSM().forServer());
+    GraphHopper graphHopper() {
+        GraphHopper graphHopper = new GraphHopper();
         graphHopper.setGraphHopperLocation(graphDir.toString());
 
         if (graphDirIsNotEmpty()) {
@@ -85,7 +85,33 @@ class RoutingConfig {
             graphHopper.setOSMFile(osmFile.toString());
         }
 
-        graphHopper.setEncodingManager(EncodingManager.create(FlagEncoderFactory.CAR));
+        /*
+         * Define a profile for each type of request that's going to be made at runtime. We're only going to ask for the fastest
+         * route for a car, so we only need one profile.
+         *
+         * Change the weighting to "shortest" (and delete the graph directory to re-import it) to optimize for shortest routes.
+         *
+         * Add a second profile with "shortest" weighting (and delete the graph directory) to be able to change travel cost
+         * optimization goal at runtime.
+         */
+        graphHopper.setProfiles(new Profile(Constants.GRAPHHOPPER_PROFILE).setVehicle("car").setWeighting("fastest"));
+        /*
+         * Quick overview of routing modes:
+         *
+         * Flexible mode:
+         * - Dijkstra or A*
+         * - able to change requirements per request
+         * Speed mode:
+         * - "Contraction Hierarchies" algorithm (CH)
+         * - still Dijkstra but on a "shortcut graph"
+         * Hybrid mode
+         * - landmark algorithm
+         * - flexible and fast
+         *
+         * See https://www.graphhopper.com/blog/2017/08/14/flexible-routing-15-times-faster/.
+         */
+        // Use CH for the only profile we have.
+        graphHopper.getCHPreparationHandler().setCHProfiles(new CHProfile(Constants.GRAPHHOPPER_PROFILE));
         graphHopper.importOrLoad();
         logger.info("GraphHopper graph loaded");
         return graphHopper;

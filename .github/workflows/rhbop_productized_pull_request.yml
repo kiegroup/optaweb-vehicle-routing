@@ -12,13 +12,12 @@ on:
       - 'CODEOWNERS'
       - '.gitignore'
       - '.gitattributes'
-      - '.travis.yml'
-      - '*.md'
-      - '*.adoc'
-      - '*.txt'
+      - '**.md'
+      - '**.adoc'
+      - '**.txt'
       - 'runOnOpenShift.sh'
       - 'runLocally.sh'
-      - 'ide-configuration/**'
+      - '.ci/**'
 
 defaults:
   run:
@@ -34,7 +33,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         java-version: [11]
-        maven-version: ['3.8.6']
+        maven-version: ['3.8.7']
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} - Java ${{ matrix.java-version }} - Maven
