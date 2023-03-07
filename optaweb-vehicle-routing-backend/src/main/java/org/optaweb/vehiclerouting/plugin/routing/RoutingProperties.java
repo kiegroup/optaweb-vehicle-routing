@@ -5,7 +5,7 @@ import java.util.Optional;
 import io.smallrye.config.ConfigMapping;
 
 @ConfigMapping(prefix = "app.routing")
-interface RoutingProperties {
+public interface RoutingProperties {
 
     /**
      * Directory to read OSM files from.
