@@ -52,4 +52,12 @@ class LocationTest {
     void constructor_without_description_should_create_empty_description() {
         assertThat(new Location(7, Coordinates.of(3.14, 4.13)).description()).isEmpty();
     }
+
+    @Test
+    void toString_should_contain_id_and_description() {
+        Coordinates coordinates = Coordinates.of(1, 1);
+
+        assertThat(new Location(7, coordinates, "")).hasToString("7");
+        assertThat(new Location(5, coordinates, "home")).hasToString("5: 'home'");
+    }
 }

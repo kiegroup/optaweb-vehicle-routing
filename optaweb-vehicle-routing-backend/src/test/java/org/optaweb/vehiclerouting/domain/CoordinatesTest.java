@@ -51,4 +51,10 @@ class CoordinatesTest {
         assertThat(coordinates.latitude()).isEqualTo(BigDecimal.valueOf(latitude));
         assertThat(coordinates.longitude()).isEqualTo(BigDecimal.valueOf(longitude));
     }
+
+    @Test
+    void toString_should_contain_latitude_and_longitude() {
+        String pi = "3.14159265358979323846";
+        assertThat(new Coordinates(BigDecimal.ONE, new BigDecimal(pi))).hasToString("[1, " + pi + "]");
+    }
 }

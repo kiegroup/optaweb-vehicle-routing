@@ -118,10 +118,12 @@ class DemoServiceTest {
 
     @Test
     void export_should_marshal_empty_routing_plan_when_repositories_empty() {
+        String result = "empty routing plan";
         when(locationRepository.locations()).thenReturn(Collections.emptyList());
         when(vehicleRepository.vehicles()).thenReturn(Collections.emptyList());
+        when(dataSetMarshaller.marshal(any())).thenReturn(result);
 
-        demoService.exportDataSet();
+        assertThat(demoService.exportDataSet()).isEqualTo(result);
 
         RoutingProblem routingProblem = verifyAndCaptureMarshalledProblem();
         assertThat(routingProblem.name()).isNotNull();
