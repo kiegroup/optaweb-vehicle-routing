@@ -6,7 +6,7 @@ import java.util.Optional;
 import io.smallrye.config.ConfigMapping;
 
 @ConfigMapping(prefix = "app.region")
-interface RegionProperties {
+public interface RegionProperties {
 
     /**
      * Get country codes specified for the loaded OSM file (working region).
