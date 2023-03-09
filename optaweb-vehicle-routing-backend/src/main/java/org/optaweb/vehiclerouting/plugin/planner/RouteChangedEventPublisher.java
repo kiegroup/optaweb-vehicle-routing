@@ -66,7 +66,7 @@ class RouteChangedEventPublisher {
         return new RouteChangedEvent(
                 source,
                 // Turn negative soft score into a positive amount of time.
-                Distance.ofMillis(-solution.getScore().getSoftScore()),
+                Distance.ofMillis(-solution.getScore().softScore()),
                 vehicleIds(solution),
                 depotId(solution),
                 visitIds(solution),
