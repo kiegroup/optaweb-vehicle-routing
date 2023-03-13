@@ -1,6 +1,7 @@
 :projectKey: org.optaweb.vehiclerouting:optaweb-vehicle-routing
-:sonarBadge: image:https://sonarcloud.io/api/project_badges/measure?project={projectKey}
-:sonarLink: link="https://sonarcloud.io/dashboard?id={projectKey}"
+
+*This project is no longer maintained.*
+Visit https://github.com/kiegroup/optaplanner-quickstarts/tree/stable/use-cases/vehicle-routing[OptaPlanner Vehicle Routing Quickstart] to see how to integrate https://www.optaplanner.org/[OptaPlanner] in your application.
 
 = OptaWeb Vehicle Routing
 
@@ -8,13 +9,6 @@ image:https://img.shields.io/badge/stackoverflow-ask_question-orange.svg?logo=st
 "Ask question on Stack Overflow",link="https://stackoverflow.com/questions/tagged/optaplanner"]
 image:https://img.shields.io/badge/zulip-join_chat-brightgreen.svg?logo=zulip[
 "Join Zulip Chat",link="https://kie.zulipchat.com/#narrow/stream/232679-optaplanner"]
-
-{sonarBadge}&metric=alert_status["Quality Gate Status", {sonarLink}]
-{sonarBadge}&metric=reliability_rating["Reliability Rating", {sonarLink}]
-{sonarBadge}&metric=security_rating["Security Rating", {sonarLink}]
-{sonarBadge}&metric=sqale_rating["Maintainability Rating", {sonarLink}]
-{sonarBadge}&metric=ncloc["Lines of Code", {sonarLink}]
-{sonarBadge}&metric=coverage["Coverage", {sonarLink}]
 
 Web application for solving the https://www.optaplanner.org/learn/useCases/vehicleRoutingProblem.html[Vehicle Routing Problem]
 using https://www.optaplanner.org/[OptaPlanner].
