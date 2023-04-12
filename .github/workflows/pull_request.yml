@@ -26,7 +26,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         java-version: [11, 17]
-        maven-version: ['3.8.1']
+        maven-version: ['3.8.6']
       fail-fast: false
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.os }} - Java ${{ matrix.java-version }} - Maven
@@ -57,4 +57,4 @@ jobs:
         # Check that Git working tree is clean after running `npm install` via the frontend-maven-plugin.
         # The `git` command exits with 1 and fails the build if there are any uncommitted changes.
         run: git diff HEAD --exit-code
-        working-directory: kiegroup_optaweb_vehicle_routing/optaweb-vehicle-routing
+        working-directory: kiegroup_optaweb-vehicle-routing/optaweb-vehicle-routing
