@@ -33,6 +33,7 @@ import org.optaweb.vehiclerouting.service.route.Router;
 
 import com.graphhopper.GHRequest;
 import com.graphhopper.GHResponse;
+import com.graphhopper.config.Profile;
 import com.graphhopper.reader.osm.GraphHopperOSM;
 import com.graphhopper.util.PointList;
 import com.graphhopper.util.shapes.BBox;
@@ -46,11 +47,14 @@ import io.quarkus.arc.properties.IfBuildProperty;
 @IfBuildProperty(name = "app.routing.engine", stringValue = "GRAPHHOPPER", enableIfMissing = true)
 class GraphHopperRouter implements Router, DistanceCalculator, Region {
 
+    private static final String CAR_PROFILE = "car";
+
     private final GraphHopperOSM graphHopper;
 
     @Inject
     GraphHopperRouter(GraphHopperOSM graphHopper) {
         this.graphHopper = graphHopper;
+        this.graphHopper.setProfiles(new Profile(CAR_PROFILE));
     }
 
     @Override
@@ -60,6 +64,7 @@ class GraphHopperRouter implements Router, DistanceCalculator, Region {
                 from.longitude().doubleValue(),
                 to.latitude().doubleValue(),
                 to.longitude().doubleValue());
+        ghRequest.setProfile(CAR_PROFILE);
         PointList points = graphHopper.route(ghRequest).getBest().getPoints();
         return StreamSupport.stream(points.spliterator(), false)
                 .map(ghPoint3D -> Coordinates.of(ghPoint3D.lat, ghPoint3D.lon))
@@ -73,6 +78,7 @@ class GraphHopperRouter implements Router, DistanceCalculator, Region {
                 from.longitude().doubleValue(),
                 to.latitude().doubleValue(),
                 to.longitude().doubleValue());
+        ghRequest.setProfile(CAR_PROFILE);
         GHResponse ghResponse = graphHopper.route(ghRequest);
         // TODO return wrapper that can hold both the result and error explanation instead of throwing exception
         if (ghResponse.hasErrors()) {
