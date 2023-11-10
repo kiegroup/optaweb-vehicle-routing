@@ -48,6 +48,8 @@
     <version.frontend-maven-plugin>1.11.3</version.frontend-maven-plugin>
     <version.node>v12.16.2</version.node>
     <version.npm>6.14.18</version.npm>
+    <!-- Override protobuf version from Quarkus to make it compatible with SnakeYAML 2.0. -->
+    <version.com.fasterxml.jackson>2.15.2</version.com.fasterxml.jackson>
     <!-- Override protobuf version from Quarkus to make it compatible with GraphHopper. -->
     <protobuf-java.version>3.19.6</protobuf-java.version>
     <version.com.google.protobuf>3.19.6</version.com.google.protobuf>
@@ -86,6 +88,13 @@
         <type>zip</type>
       </dependency>
       <!-- BOM imports -->
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${version.com.fasterxml.jackson}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
       <dependency>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-bom</artifactId>
