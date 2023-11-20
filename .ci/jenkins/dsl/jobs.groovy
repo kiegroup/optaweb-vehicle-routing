@@ -14,7 +14,7 @@ Map getMultijobPRConfig() {
                 primary: true,
                 env : [
                     // Disable Sonarcloud analysis.
-                    ENABLE_SONARCLOUD: false,
+                    DISABLE_SONARCLOUD: true                    
                 ]
             ]
         ],
