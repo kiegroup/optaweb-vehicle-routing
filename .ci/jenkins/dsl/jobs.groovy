@@ -12,6 +12,10 @@ Map getMultijobPRConfig() {
             [
                 id: 'optaweb-vehicle-routing',
                 primary: true,
+                env : [
+                    // Disable Sonarcloud analysis.
+                    DISABLE_SONARCLOUD: true
+                ]
             ]
         ],
     ]
